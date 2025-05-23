@@ -6,11 +6,12 @@ from typing import List, Dict, Optional
 from llama_index.core.postprocessor.types import BaseNodePostprocessor
 from llama_index.core.schema import NodeWithScore, QueryBundle, TextNode
 
+
 class BedrockContextFormat(BaseNodePostprocessor):
-    """
-    Handles the formatting and processing of nodes into an XML-structured context for better organization
-    and parsing. This class is designed to group nodes by their source, incorporate metadata, and create
-    a structured output format.
+    """Handles the formatting and processing of nodes into an XML-structured
+    context for better organization and parsing. This class is designed to
+    group nodes by their source, incorporate metadata, and create a structured
+    output format.
 
     Provides utility to manage nodes' details and format information in a hierarchical XML style, useful
     for structured data contexts.
@@ -18,10 +19,10 @@ class BedrockContextFormat(BaseNodePostprocessor):
     Attributes:
         inherit_from (type): BaseNodePostprocessor: Indicates this class extends the BaseNodePostprocessor.
     """
+
     @classmethod
     def class_name(cls) -> str:
-        """
-        Returns the name of the class in string format.
+        """Returns the name of the class in string format.
 
         This method provides a way to retrieve the name of the class, which can be
         useful for context identification or debugging purposes. It is implemented
@@ -32,10 +33,10 @@ class BedrockContextFormat(BaseNodePostprocessor):
             str: The name of the class as a string.
         """
         return 'BedrockContextFormat'
-    
+
     def _format_statement(self, node: NodeWithScore) -> str:
-        """
-        Formats a statement from a given node by including its text and optional details.
+        """Formats a statement from a given node by including its text and
+        optional details.
 
         The method retrieves the text associated with the `NodeWithScore` instance and
         formats it together with additional details if available. If the node contains
@@ -56,16 +57,15 @@ class BedrockContextFormat(BaseNodePostprocessor):
             details = details.strip().replace('\n', ', ')
             return f"{text} (details: {details})"
         return text
-    
+
     def _postprocess_nodes(
         self,
         nodes: List[NodeWithScore],
         query_bundle: Optional[QueryBundle] = None,
     ) -> List[NodeWithScore]:
-
-        """
-        Processes a list of nodes by grouping them based on their source, formatting
-        them into an XML structure, and returning the processed nodes.
+        """Processes a list of nodes by grouping them based on their source,
+        formatting them into an XML structure, and returning the processed
+        nodes.
 
         If the input list of nodes is empty, a default node with placeholder text is
         returned. Otherwise, the nodes are grouped by their source identifier, and the
@@ -100,10 +100,10 @@ class BedrockContextFormat(BaseNodePostprocessor):
         formatted_sources = []
         for source_count, (source_id, source_nodes) in enumerate(sources.items(), 1):
             source_output = []
-            
+
             # Start source tag
             source_output.append(f"<source_{source_count}>")
-            
+
             # Add source metadata
             if source_nodes:
                 source_output.append(f"<source_{source_count}_metadata>")
@@ -111,16 +111,19 @@ class BedrockContextFormat(BaseNodePostprocessor):
                 for key, value in sorted(metadata.items()):
                     source_output.append(f"\t<{key}>{value}</{key}>")
                 source_output.append(f"</source_{source_count}_metadata>")
-            
+
             # Add statements
             for statement_count, node in enumerate(source_nodes, 1):
                 statement_text = self._format_statement(node)
                 source_output.append(
                     f"<statement_{source_count}.{statement_count}>{statement_text}</statement_{source_count}.{statement_count}>"
                 )
-            
+
             # Close source tag
             source_output.append(f"</source_{source_count}>")
             formatted_sources.append("\n".join(source_output))
-        
-        return [NodeWithScore(node=TextNode(text=formatted_source)) for formatted_source in formatted_sources]
+
+        return [
+            NodeWithScore(node=TextNode(text=formatted_source))
+            for formatted_source in formatted_sources
+        ]

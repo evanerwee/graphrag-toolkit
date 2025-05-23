@@ -5,9 +5,10 @@ import abc
 
 from graphrag_toolkit.lexical_graph.storage.graph.graph_store import GraphStore
 
-class GraphStoreFactoryMethod():
-    """
-    GraphStoreFactoryMethod provides an abstraction for creating GraphStore objects.
+
+class GraphStoreFactoryMethod:
+    """GraphStoreFactoryMethod provides an abstraction for creating GraphStore
+    objects.
 
     This class defines a factory method pattern that serves as the template for creating
     instances of `GraphStore`. It provides a contract that must be implemented by
@@ -19,10 +20,11 @@ class GraphStoreFactoryMethod():
             of a `GraphStore` instance based on provided graph configuration
             and optional parameters.
     """
+
     @abc.abstractmethod
-    def try_create(self, graph_info:str, **kwargs) -> GraphStore:
-        """
-        Abstract base class for creating a graph store from provided graph information.
+    def try_create(self, graph_info: str, **kwargs) -> GraphStore:
+        """Abstract base class for creating a graph store from provided graph
+        information.
 
         This class represents the structure that any concrete implementation must adhere
         to, ensuring that essential methods related to graph creation are defined.

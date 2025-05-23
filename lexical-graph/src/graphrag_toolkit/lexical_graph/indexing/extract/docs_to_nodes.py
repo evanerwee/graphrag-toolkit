@@ -12,6 +12,7 @@ from llama_index.core.node_parser.node_utils import build_nodes_from_splits
 
 logger = logging.getLogger(__name__)
 
+
 class DocsToNodes(NodeParser, DoNotCheckpoint):
     """Parses documents into nodes.
 
@@ -23,16 +24,17 @@ class DocsToNodes(NodeParser, DoNotCheckpoint):
     Attributes:
         None
     """
+
     def _parse_nodes(
         self,
         nodes: Sequence[BaseNode],
         show_progress: bool = False,
         **kwargs: Any,
     ) -> List[BaseNode]:
-        """
-        Parses a sequence of nodes into a list of `BaseNode` objects. If a node is of type
-        `Document`, it converts the node into `BaseNode` by splitting the text and
-        reconstructing the node. For other node types, it retains the original node.
+        """Parses a sequence of nodes into a list of `BaseNode` objects. If a
+        node is of type `Document`, it converts the node into `BaseNode` by
+        splitting the text and reconstructing the node. For other node types,
+        it retains the original node.
 
         Args:
             nodes (Sequence[BaseNode]): A sequence of nodes to be parsed.
@@ -43,9 +45,10 @@ class DocsToNodes(NodeParser, DoNotCheckpoint):
         Returns:
             List[BaseNode]: A list of parsed `BaseNode` objects.
         """
+
         def to_node(node):
-            """
-            Parses a sequence of nodes and converts documents to nodes where applicable.
+            """Parses a sequence of nodes and converts documents to nodes where
+            applicable.
 
             This method processes a given sequence of nodes. If a node is of type Document,
             it converts the node into one or more BaseNode instances based on text splits.
@@ -65,5 +68,5 @@ class DocsToNodes(NodeParser, DoNotCheckpoint):
                 return build_nodes_from_splits([node.text], node)[0]
             else:
                 return node
-    
+
         return [to_node(n) for n in nodes]

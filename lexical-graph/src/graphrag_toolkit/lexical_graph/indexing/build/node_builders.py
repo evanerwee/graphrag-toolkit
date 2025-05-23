@@ -18,22 +18,28 @@ logger = logging.getLogger(__name__)
 
 class NodeBuilders():
     """
-    Manages the creation, processing, and filtering of nodes using specified builders
-    and configuration options.
+    Represents a utility class for building or transforming nodes.
 
-    NodeBuilders is a class designed to build nodes derived from input metadata, using
-    a series of configurable `NodeBuilder` instances and processing operations. The
-    class also handles input node cleaning, ID rewriting for specific tenants, and
-    the filtering of input metadata.
+    The `NodeBuilders` class is designed to handle the creation, transformation, and
+    filtering of nodes based on metadata. This is achieved through various configurations
+    like node builders, filtering mechanisms, metadata formatting, and an ID generator.
+    It facilitates the processing of custom metadata and ensures nodes are correctly structured.
 
-    Attributes:
-        build_filters (BuildFilters): An instance of BuildFilters for filtering
-            input metadata.
-        id_generator (IdGenerator): An instance of IdGenerator for managing and
-            rewriting node IDs.
-        builders (List[NodeBuilder]): A list of `NodeBuilder` instances used to
-            generate derived nodes. Defaults to a set of default builders if not
-            provided.
+    :ivar builders: A list of configured node builder instances, each specializing in
+        creating nodes based on specific logic or rules.
+    :vartype builders: List[NodeBuilder]
+
+    :ivar build_filters: The filter instance defined to control the criteria for filtering
+        nodes during their processing.
+    :vartype build_filters: BuildFilters
+
+    :ivar source_metadata_formatter: A formatter to process metadata into a specific structure
+        during node handling.
+    :vartype source_metadata_formatter: SourceMetadataFormatter
+
+    :ivar id_generator: An instance responsible for generating unique IDs for the nodes,
+        or rewriting node IDs to conform to specific conventions.
+    :vartype id_generator: IdGenerator
     """
     def __init__(
             self, 
@@ -43,26 +49,28 @@ class NodeBuilders():
             id_generator:IdGenerator=None
         ):
         """
-        Initializes the class with the provided builders, build filters, source metadata
-        formatter, and id generator. If not explicitly provided, default instances are
-        created for build filters, source metadata formatter, and id generator. This
-        ensures the necessary components are properly initialized and serves as the
-        entry-point for managing builders and their dependencies.
+        Initializes an instance of the class with configured node builders, build filters,
+        a custom source metadata formatter, and an ID generator. These configurations dictate
+        the behavior of the instance, including how nodes are built, filtered, formatted,
+        and uniquely identified.
 
-        Args:
-            builders (List[NodeBuilder], optional): A list of NodeBuilder instances
-                responsible for constructing nodes. If not provided, default builders
-                are initialized using the id generator, build filters, and source
-                metadata formatter.
-            build_filters (BuildFilters, optional): Instance of BuildFilters used to
-                determine which nodes should be built. Defaults to a new instance of
-                BuildFilters if not provided.
-            source_metadata_formatter (Optional[SourceMetadataFormatter], optional):
-                Formatter responsible for processing source metadata. Defaults to
-                DefaultSourceMetadataFormatter if not provided.
-            id_generator (IdGenerator, optional): Instance of IdGenerator used to
-                generate unique identifiers. Defaults to a new IdGenerator instance if
-                not provided.
+        :param builders: A list of NodeBuilder instances. Every builder is used to create
+            nodes based on specific logic and rules. If not provided, default builders
+            are used.
+        :type builders: List[NodeBuilder]
+
+        :param build_filters: An instance of BuildFilters to control the filtering of nodes
+            during the building process. Defaults to a new BuildFilters instance if not provided.
+        :type build_filters: BuildFilters
+
+        :param source_metadata_formatter: A source metadata formatter to shape metadata
+            of source nodes. If not provided, a DefaultSourceMetadataFormatter instance
+            will be used.
+        :type source_metadata_formatter: Optional[SourceMetadataFormatter]
+
+        :param id_generator: An instance of IdGenerator to produce unique identifiers
+            for nodes. Will default to a newly created IdGenerator if one is not supplied.
+        :type id_generator: IdGenerator
         """
         id_generator = id_generator or IdGenerator()
         build_filters = build_filters or BuildFilters()
@@ -76,22 +84,23 @@ class NodeBuilders():
     
     def default_builders(self, id_generator:IdGenerator, build_filters:BuildFilters, source_metadata_formatter:SourceMetadataFormatter):
         """
-        Generates a list of default node builders with provided dependencies.
+        Builds a list of node builders using the provided generator, filters, and formatter.
 
-        This function constructs a list of node builders, passing the required
-        dependencies to each builder. The dependencies include an ID generator,
-        filter builder, and metadata formatter required for node creation.
-        The node builders include SourceNodeBuilder, ChunkNodeBuilder,
-        TopicNodeBuilder, and StatementNodeBuilder.
+        This method initializes a list of node builders by iterating over predefined node
+        builder classes. Each builder is instantiated with the provided id generator, filter,
+        and formatter, which are essential for creating structured and uniquely identified
+        nodes in a processing pipeline. The configuration passed to the builders ensures
+        consistency and compatibility across different node builders.
 
-        Args:
-            id_generator: Generates unique identifiers for the nodes.
-            build_filters: Provides filter criteria used during node construction.
-            source_metadata_formatter: Formats metadata for nodes during their
-                creation.
-
-        Returns:
-            List[NodeBuilder]: A list of initialized node builder instances.
+        :param id_generator: An instance of IdGenerator used to generate unique identifiers
+            for nodes.
+        :param build_filters: An instance of BuildFilters used to filter or conditionally
+            process nodes during their building process.
+        :param source_metadata_formatter: An instance of SourceMetadataFormatter used to
+            format metadata for the built nodes.
+        :return: A list of instantiated node builders, each configured with the provided
+            id generator, filter, and formatter.
+        :rtype: list
         """
         return [
             node_builder(
@@ -105,44 +114,35 @@ class NodeBuilders():
     @classmethod
     def class_name(cls) -> str:
         """
-        Returns the name of the class.
+        Provides a class method to retrieve the name of the class. This method can be used
+        to dynamically access the class name at runtime without directly referencing it.
 
-        This method is used to retrieve the name of the current class as a
-        string. It ensures consistency when identifying the class, especially
-        useful in scenarios where the class name needs to be dynamically accessed.
-
-        Returns:
-            str: The name of the class.
+        :returns: The name of the class as a string
+        :rtype: str
         """
         return 'NodeBuilders'
     
     def get_nodes_from_metadata(self, input_nodes: List[BaseNode], **kwargs: Any) -> List[BaseNode]:
         """
-        Processes input nodes based on specific metadata, applies tenant-specific adjustments,
-        cleans text data, and builds a collection of nodes using defined builders. The function
-        filters and processes nodes before aggregating results to include both original and new
-        nodes derived from input nodes.
+        Processes a list of input nodes to apply tenant-specific identifier rewrites,
+        clean textual data, filter, and prepare node structures based on provided
+        metadata and provided builders. It returns a refined list of nodes combining
+        both original and derived nodes.
 
-        Args:
-            input_nodes: List of BaseNode instances to process and build upon.
-            **kwargs: Arbitrary keyword arguments that may be required for processing.
-
-        Returns:
-            List[BaseNode]: A list containing processed nodes, both original and derived.
+        :param input_nodes: List of input nodes to be processed
+        :type input_nodes: List[BaseNode]
+        :param kwargs: Additional keyword arguments for optional configurations
+        :type kwargs: Any
+        :return: A list of nodes that have been filtered, rewritten, cleaned,
+            pre-processed, and processed by builder logic
+        :rtype: List[BaseNode]
         """
         def apply_tenant_rewrites(node):
             """
-            Class responsible for building and managing node structures based on provided metadata.
-            It provides a mechanism to apply tenant-specific transformations to nodes and their
-            relationships through an internal rewriting process.
+            Represents a utility class for building or transforming nodes.
 
             Attributes:
-                id_generator (IdGenerator): An object responsible for generating or rewriting
-                    identifiers for nodes, tailored to the specific tenant context.
-
-            Methods:
-                get_nodes_from_metadata: Processes a list of input nodes to apply tenant-specific
-                    rewrites to node identifiers and their relationships.
+                id_generator: An instance used for rewriting node IDs according to a tenant's context.
             """
             node.id_ =  self.id_generator.rewrite_id_for_tenant(node.id_)
 
@@ -163,17 +163,22 @@ class NodeBuilders():
         
         def clean_text(node):
             """
-            A utility class that provides methods for processing and retrieving nodes
-            based on metadata and additional processing requirements. This class focuses
-            on cleaning and manipulating input nodes to generate a refined output list
-            of nodes.
+            Represents a utility class for building and manipulating nodes.
+
+            This class provides methods used to process and refine nodes, specifically
+            deriving node data from provided metadata and cleaning text fields within
+            the nodes.
             """
             node.text = node.text.replace('\x00', '')
             return node
         
         def pre_process(node):
             """
-            Provides functionality to process and retrieve nodes from metadata.
+            Handles operations related to node processing and construction.
+
+            This class is responsible for managing and building nodes from metadata by
+            applying preprocessing operations as defined. It allows for customization
+            using additional keyword arguments during node processing.
             """
             node = clean_text(node)
             node = apply_tenant_rewrites(node)
@@ -212,6 +217,20 @@ class NodeBuilders():
 
         return results
         
-    def __call__(self, nodes: List[BaseNode], **kwargs: Any) -> List[BaseNode]:    
+    def __call__(self, nodes: List[BaseNode], **kwargs: Any) -> List[BaseNode]:
+        """
+        This method is responsible for processing a list of nodes and returning a filtered or modified
+        list based on specified metadata criteria. It uses the `get_nodes_from_metadata` method to
+        apply the operations. Additional parameters can be passed to customize the processing behavior.
+
+        :param nodes: A list of `BaseNode` objects that need to be processed.
+        :type nodes: List[BaseNode]
+        :param kwargs: Additional arguments that control the behavior of metadata filtering or processing.
+                       These arguments are passed directly to the `get_nodes_from_metadata` method.
+        :type kwargs: Any
+        :return: A list of `BaseNode` objects that have been processed based on the given
+                 metadata criteria and additional `kwargs`.
+        :rtype: List[BaseNode]
+        """
         return self.get_nodes_from_metadata(nodes, **kwargs)
                     

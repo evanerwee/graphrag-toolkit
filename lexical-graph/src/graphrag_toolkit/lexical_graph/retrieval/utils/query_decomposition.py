@@ -6,7 +6,10 @@ from typing import List
 
 from graphrag_toolkit.lexical_graph.config import GraphRAGConfig
 from graphrag_toolkit.lexical_graph.utils import LLMCache, LLMCacheType
-from graphrag_toolkit.lexical_graph.retrieval.prompts import EXTRACT_SUBQUERIES_PROMPT, IDENTIFY_MULTIPART_QUESTION_PROMPT
+from graphrag_toolkit.lexical_graph.retrieval.prompts import (
+    EXTRACT_SUBQUERIES_PROMPT,
+    IDENTIFY_MULTIPART_QUESTION_PROMPT,
+)
 
 from llama_index.core.prompts import PromptTemplate
 from llama_index.core.schema import QueryBundle
@@ -15,9 +18,10 @@ logger = logging.getLogger(__name__)
 
 SINGLE_QUESTION_THRESHOLD = 25
 
-class QueryDecomposition():
-    """
-    Handles query decomposition for identifying and extracting subqueries from a primary query.
+
+class QueryDecomposition:
+    """Handles query decomposition for identifying and extracting subqueries
+    from a primary query.
 
     This class is responsible for breaking down a complex query into simpler subqueries using
     a language model (LLM). It aims to identify multipart questions and decompose them when necessary.
@@ -34,22 +38,28 @@ class QueryDecomposition():
         max_subqueries (int): Maximum number of subqueries that can be extracted
             from a single query. Defaults to 2.
     """
-    def __init__(self,
-                 llm:LLMCacheType=None, 
-                 identify_multipart_question_template=IDENTIFY_MULTIPART_QUESTION_PROMPT,
-                 extract_subqueries_template=EXTRACT_SUBQUERIES_PROMPT,
-                 max_subqueries=2):
-        self.llm = llm if llm and isinstance(llm, LLMCache) else LLMCache(
-            llm=llm or GraphRAGConfig.response_llm,
-            enable_cache=GraphRAGConfig.enable_cache
+
+    def __init__(
+        self,
+        llm: LLMCacheType = None,
+        identify_multipart_question_template=IDENTIFY_MULTIPART_QUESTION_PROMPT,
+        extract_subqueries_template=EXTRACT_SUBQUERIES_PROMPT,
+        max_subqueries=2,
+    ):
+        self.llm = (
+            llm
+            if llm and isinstance(llm, LLMCache)
+            else LLMCache(
+                llm=llm or GraphRAGConfig.response_llm,
+                enable_cache=GraphRAGConfig.enable_cache,
+            )
         )
         self.identify_multipart_question_template = identify_multipart_question_template
         self.extract_subqueries_template = extract_subqueries_template
         self.max_subqueries = max_subqueries
 
-    def _extract_subqueries(self, s:str) -> List[QueryBundle]:
-        """
-        Extracts subqueries from a given string using a language model.
+    def _extract_subqueries(self, s: str) -> List[QueryBundle]:
+        """Extracts subqueries from a given string using a language model.
 
         The method takes a string input and utilizes a language model (LLM) to predict
         and generate subqueries based on a predefined template. The result is returned
@@ -66,17 +76,16 @@ class QueryDecomposition():
                 an extracted subquery.
         """
         response = self.llm.predict(
-                PromptTemplate(template=self.extract_subqueries_template),
-                question=s,
-                max_subqueries=self.max_subqueries
-            )
+            PromptTemplate(template=self.extract_subqueries_template),
+            question=s,
+            max_subqueries=self.max_subqueries,
+        )
 
         return [QueryBundle(query_str=s) for s in response.split('\n') if s]
-    
-    def _is_multipart_question(self, s:str):
-        """
-        Identifies whether a given question is a multipart question
-        or not by using a language model's prediction.
+
+    def _is_multipart_question(self, s: str):
+        """Identifies whether a given question is a multipart question or not
+        by using a language model's prediction.
 
         Args:
             s: The question string to be evaluated.
@@ -86,16 +95,15 @@ class QueryDecomposition():
             multipart, otherwise False.
         """
         response = self.llm.predict(
-                PromptTemplate(template=self.identify_multipart_question_template),
-                question=s
-            )
+            PromptTemplate(template=self.identify_multipart_question_template),
+            question=s,
+        )
 
         return response.lower().startswith('no')
 
-
     def decompose_query(self, query_bundle: QueryBundle) -> List[QueryBundle]:
-        """
-        Decomposes a query into subqueries if it is identified as a multipart question.
+        """Decomposes a query into subqueries if it is identified as a
+        multipart question.
 
         This method takes a query encapsulated in a QueryBundle object and decomposes
         it into smaller subqueries if the original query exceeds the single question
@@ -115,7 +123,7 @@ class QueryDecomposition():
             None
         """
         subqueries = [query_bundle]
-        
+
         original_query = query_bundle.query_str
 
         if len(original_query.split()) > SINGLE_QUESTION_THRESHOLD:
@@ -123,5 +131,5 @@ class QueryDecomposition():
                 subqueries = self._extract_subqueries(original_query)
 
         logger.debug(f'Subqueries: {subqueries}')
-                 
+
         return subqueries

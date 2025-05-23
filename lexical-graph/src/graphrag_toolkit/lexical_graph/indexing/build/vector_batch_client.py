@@ -6,8 +6,7 @@ from graphrag_toolkit.lexical_graph.storage.vector import VectorStore, VectorInd
 from graphrag_toolkit.lexical_graph.storage.constants import ALL_EMBEDDING_INDEXES
 
 class BatchVectorIndex():
-    """
-    Represents a batch processing wrapper for a VectorIndex to facilitate
+    """Represents a batch processing wrapper for a VectorIndex to facilitate
     adding embeddings in batches.
 
     This class is designed to handle batch management and processing of
@@ -24,9 +23,8 @@ class BatchVectorIndex():
         nodes (list): A list storing nodes to be added to the vector index.
     """
     def __init__(self, idx:VectorIndex, batch_write_size:int):
-        """
-        Initializes an instance of the class with given index, batch write size, and initializes an empty
-        list to store nodes.
+        """Initializes an instance of the class with given index, batch write
+        size, and initializes an empty list to store nodes.
 
         Args:
             idx (VectorIndex): The vector index instance associated with this object.
@@ -38,9 +36,8 @@ class BatchVectorIndex():
         self.nodes = []
 
     def add_embeddings(self, nodes:List):
-        """
-        Adds embeddings to the current object by extending the existing nodes with the
-        given list of nodes.
+        """Adds embeddings to the current object by extending the existing
+        nodes with the given list of nodes.
 
         Args:
             nodes (List): A list of nodes to be added to the existing nodes.
@@ -48,8 +45,7 @@ class BatchVectorIndex():
         self.nodes.extend(nodes)
 
     def write_embeddings_to_index(self):
-        """
-        Writes embeddings to the index in batches for improved performance.
+        """Writes embeddings to the index in batches for improved performance.
 
         This method processes a list of nodes in smaller chunks defined by the
         batch_write_size attribute and writes embeddings to the index for each
@@ -89,8 +85,8 @@ class VectorBatchClient():
         all_nodes (list): Stores nodes that are deferred for batch operations.
     """
     def __init__(self, vector_store:VectorStore, batch_writes_enabled:bool, batch_write_size:int):
-        """
-        Initializes a new instance of the class with the given vector store, batch write settings, and size.
+        """Initializes a new instance of the class with the given vector store,
+        batch write settings, and size.
 
         Args:
             vector_store: The vector store containing all indexes for creating batch vector indexes.
@@ -102,10 +98,9 @@ class VectorBatchClient():
         self.all_nodes = []
 
     def get_index(self, index_name):
-        """
-        Retrieves the index object for the given index name. If the index is not valid,
-        an exception is raised. If the index does not exist in the current context,
-        it provides a dummy index as a fallback.
+        """Retrieves the index object for the given index name. If the index is
+        not valid, an exception is raised. If the index does not exist in the
+        current context, it provides a dummy index as a fallback.
 
         Args:
             index_name: The name of the index to retrieve.
@@ -130,9 +125,8 @@ class VectorBatchClient():
             return self.indexes[index_name]
 
     def allow_yield(self, node):
-        """
-        Determines whether a node should be yielded or added to the internal list based on
-        the batch writes configuration.
+        """Determines whether a node should be yielded or added to the internal
+        list based on the batch writes configuration.
 
         If batch writes are enabled, the given node is appended to the internal list of
         nodes and the function returns False, disallowing further yielding. If batch
@@ -153,8 +147,8 @@ class VectorBatchClient():
             return True
 
     def apply_batch_operations(self):
-        """
-        Executes batch operations for embedding indexes and returns all nodes.
+        """Executes batch operations for embedding indexes and returns all
+        nodes.
 
         This method iterates through the dictionary of indexes and writes embeddings to
         each index. After completing the operations for all indexes, it returns all
@@ -174,4 +168,3 @@ class VectorBatchClient():
         pass
 
 
-    

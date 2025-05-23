@@ -13,8 +13,8 @@ from llama_index.core.schema import NodeRelationship
 logger = logging.getLogger(__name__)
 
 class ChunkGraphBuilder(GraphBuilder):
-    """Class responsible for building and managing a graph representation
-    for chunks.
+    """Class responsible for building and managing a graph representation for
+    chunks.
 
     The ChunkGraphBuilder class specializes in generating graph structures
     that represent "chunks" from input nodes. It retrieves metadata,
@@ -27,12 +27,11 @@ class ChunkGraphBuilder(GraphBuilder):
     Attributes:
         _some_attribute (type): Description of an attribute (if any). Replace
         or expand this list with specific attributes used by the class.
-
     """
     @classmethod
     def index_key(cls) -> str:
-        """
-        Returns a string key that identifies the index used within a given context.
+        """Returns a string key that identifies the index used within a given
+        context.
 
         Returns:
             str: A string representing the index key 'chunk'.
@@ -40,10 +39,10 @@ class ChunkGraphBuilder(GraphBuilder):
         return 'chunk'
     
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
-        """
-        Builds and inserts a chunk node along with its relationships into a graph database. Handles the
-        insertion of child, parent, previous, next, and source relationships. If a chunk ID or required
-        relationship information is missing, the function logs warnings.
+        """Builds and inserts a chunk node along with its relationships into a
+        graph database. Handles the insertion of child, parent, previous, next,
+        and source relationships. If a chunk ID or required relationship
+        information is missing, the function logs warnings.
 
         Args:
             node: The node object containing chunk data and its relationships.

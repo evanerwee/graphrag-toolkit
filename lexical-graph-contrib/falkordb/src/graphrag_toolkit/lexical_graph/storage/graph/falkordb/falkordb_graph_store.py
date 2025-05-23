@@ -30,7 +30,24 @@ DEFAULT_DATABASE_NAME = 'graphrag'
 QUERY_RESULT_TYPE = Union[List[List[Node]], List[List[List[Path]]], List[List[Edge]]]
 
 class FalkorDBDatabaseClient(GraphStore):
-    
+    """
+    Client for interacting with a FalkorDB database.
+
+    Provides methods to connect to a FalkorDB instance, execute queries, and handle authentication.
+
+    :ivar endpoint_url: The URL of the database endpoint.
+    :type endpoint_url: str
+    :ivar database: The name of the database to connect to.
+    :type database: str
+    :ivar username: The username for database authentication. Defaults to None.
+    :type username: Optional[str]
+    :ivar password: The password corresponding to the username. Defaults to None.
+    :type password: Optional[str]
+    :ivar ssl: Whether SSL should be used for the connection. Defaults to False.
+    :type ssl: Optional[bool]
+    :ivar _client: Internal attribute to cache the FalkorDB client instance. Defaults to None.
+    :type _client: Optional[Any]
+    """
     endpoint_url:str
     database:str
     username:Optional[str] = None
@@ -53,14 +70,24 @@ class FalkorDBDatabaseClient(GraphStore):
                  **kwargs
                  ) -> None:
         """
-        Initialize the FalkorDB database client.
+        Initializes the configuration with parameters for connecting to a database or an
+        external service. The constructor validates the provided inputs to ensure proper
+        values are passed for mandatory fields and other optional settings.
 
-        :param endpoint_url: URL of the FalkorDB instance.
-        :param database: Name of the database to connect to.
-        :param username: Username for authentication.
-        :param password: Password for authentication.
-        :param ssl: Whether to use SSL for the connection.
-        :param _client: Optional existing client instance.
+        :param endpoint_url: The URL endpoint to connect to. Default is None.
+        :param database: The database name to connect. Must be alphanumeric and not empty.
+                         Default is defined by DEFAULT_DATABASE_NAME.
+        :param username: The username for authentication. If provided, `password`
+                         is required. Default is None.
+        :param password: The password for authentication. Required if `username` is provided.
+                         Default is None.
+        :param ssl: A boolean indicating if SSL should be used for the connection.
+                    Default is False.
+        :param kwargs: Additional keyword arguments to be passed for extended configurations.
+
+        :raises ValueError: If `username` is provided without a `password`.
+        :raises ValueError: If `endpoint_url` is present but is not a string.
+        :raises ValueError: If `database` is not alphanumeric or is empty.
         """
         if username and not password:
             raise ValueError("Password is required when username is provided")
@@ -81,16 +108,33 @@ class FalkorDBDatabaseClient(GraphStore):
         )
 
     def __getstate__(self):
+        """
+        Handles the serialization of the instance state by omitting non-serializable
+        attributes. This ensures that the instance can be safely pickled and unpickled
+        without issues caused by attributes that cannot be serialized, such as
+        socket or client connections.
+
+        :return: A dictionary containing the serializable state of the instance.
+        :rtype: dict
+        """
         self._client = None
         return super().__getstate__()
     
     @property
     def client(self) -> Graph:
         """
-        Establish and return a FalkorDB client instance.
+        This property provides access to a Graph database client. If the `endpoint_url` is provided, it attempts to
+        parse the URL to extract the host and port information. If parsing fails or the format is invalid, it raises
+        an error. If no `endpoint_url` is defined, it defaults to using "localhost" and a default port of 6379. It
+        establishes a connection to the database using the FalkorDB library, provided the attributes `username`,
+        `password`, `ssl`, and `database` are properly configured. If connecting to the database fails due to
+        connection, authentication, or unexpected errors, they are logged and re-raised with additional context.
 
-        :return: A FalkorDB Graph instance.
-        :raises ConnectionError: If the connection to FalkorDB fails.
+        :raises ValueError: Raised when the `endpoint_url` cannot be parsed or is in an invalid format.
+        :raises ConnectionError: Raised for issues during the database connection process including
+            connection, authentication, or unexpected errors.
+        :return: Returns a FalkorDB `Graph` object representing the selected database connection.
+        :rtype: Graph
         """
         if self.endpoint_url:
             try:
@@ -130,10 +174,16 @@ class FalkorDBDatabaseClient(GraphStore):
     
     def node_id(self, id_name: str) -> NodeId:
         """
-        Format a node identifier.
+        Formats the given identifier name into a NodeId.
 
-        :param id_name: Name of the node.
-        :return: Formatted node identifier.
+        The function takes an identifier name as input and formats it into
+        a standardized NodeId object to be used within other processes.
+
+        :param id_name: The identifier name to be formatted.
+        :type id_name: str
+
+        :return: The formatted NodeId object.
+        :rtype: NodeId
         """
         return format_id(id_name)
 
@@ -142,13 +192,20 @@ class FalkorDBDatabaseClient(GraphStore):
                       parameters: Optional[dict] = None, 
                       correlation_id: Any = None) -> QUERY_RESULT_TYPE:
         """
-        Execute a Cypher query on the FalkorDB instance.
+        Executes a database query using the provided Cypher query string and parameters. The query is executed via the
+        defined client, and logs are generated for the query request and response. If the execution fails due to a
+        response error or unexpected error, appropriate exceptions are raised.
 
-        :param cypher: The Cypher query to execute.
-        :param parameters: Query parameters.
-        :param correlation_id: Optional correlation ID for logging.
-        :return: Query results as a list of nodes or paths.
-        :raises ResponseError: If query execution fails.
+        The method also measures and logs the execution time of the query in milliseconds. Query results are returned
+        as a list of dictionaries, where each dictionary represents a single result row.
+
+        :param cypher: A Cypher query string that specifies the database operations to execute.
+        :param parameters: (Optional) A dictionary containing query parameters to be substituted into the Cypher query.
+                           Defaults to None, meaning no parameters are provided.
+        :param correlation_id: A unique identifier to correlate this query with other operations, or None if such
+                               correlation is not required.
+        :return: A list of dictionaries, where each dictionary represents a row of the result set. Each row maps
+                 the column names to their corresponding values.
         """
         if parameters is None:
             parameters = {}

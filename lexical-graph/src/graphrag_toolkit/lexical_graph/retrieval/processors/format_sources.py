@@ -6,8 +6,15 @@ from typing import Dict, Callable, Union, List, Any
 from string import Template
 
 from graphrag_toolkit.lexical_graph.metadata import FilterConfig
-from graphrag_toolkit.lexical_graph.retrieval.processors import ProcessorBase, ProcessorArgs
-from graphrag_toolkit.lexical_graph.retrieval.model import SearchResultCollection, SearchResult, Source
+from graphrag_toolkit.lexical_graph.retrieval.processors import (
+    ProcessorBase,
+    ProcessorArgs,
+)
+from graphrag_toolkit.lexical_graph.retrieval.model import (
+    SearchResultCollection,
+    SearchResult,
+    Source,
+)
 
 from llama_index.core.schema import QueryBundle
 
@@ -15,9 +22,9 @@ logger = logging.getLogger(__name__)
 
 SourceInfoTemplateType = Union[str, Template]
 
-def default_source_formatter_fn(source:Source):
-    """
-    Formats the source into a readable string representation.
+
+def default_source_formatter_fn(source: Source):
+    """Formats the source into a readable string representation.
 
     The function examines the metadata of the given `Source` object and formats
     its content into a string. If metadata exists, it processes the metadata
@@ -42,9 +49,12 @@ def default_source_formatter_fn(source:Source):
     else:
         return source.sourceId
 
-def source_info_template(template:SourceInfoTemplateType) -> Callable[[Dict[str, Any]], str]:
-    """
-    Generates a function to apply a string template to the metadata of a source.
+
+def source_info_template(
+    template: SourceInfoTemplateType,
+) -> Callable[[Dict[str, Any]], str]:
+    """Generates a function to apply a string template to the metadata of a
+    source.
 
     This function takes a template, which can be either a string or an instance of
     the Template class, and produces a function that formats a source's metadata
@@ -62,14 +72,16 @@ def source_info_template(template:SourceInfoTemplateType) -> Callable[[Dict[str,
         using the provided template.
     """
     t = template if isinstance(template, Template) else Template(template)
-    def source_info_template_fn(source:Source) -> str:
+
+    def source_info_template_fn(source: Source) -> str:
         return t.safe_substitute(source.metadata)
+
     return source_info_template_fn
 
-def source_info_keys(keys:List[str]) -> Callable[[Dict[str, Any]], str]:
-    """
-    Generates a function that retrieves the value of the first matching key from
-    the metadata of a given source.
+
+def source_info_keys(keys: List[str]) -> Callable[[Dict[str, Any]], str]:
+    """Generates a function that retrieves the value of the first matching key
+    from the metadata of a given source.
 
     This function factory takes a list of keys and creates a function that, when
     provided with a source object, searches through the source's metadata for those
@@ -85,10 +97,10 @@ def source_info_keys(keys:List[str]) -> Callable[[Dict[str, Any]], str]:
             object, retrieves the value of the first matching key found in the
             metadata.
     """
-    def source_info_keys_fn(source:Source) -> str:
-        """
-        Creates a function that retrieves the value of the first available key from
-        a list of keys in the metadata of a given source.
+
+    def source_info_keys_fn(source: Source) -> str:
+        """Creates a function that retrieves the value of the first available
+        key from a list of keys in the metadata of a given source.
 
         This function returns a callable that, when executed with a given source,
         iterates through the specified keys and retrieves the value associated with
@@ -107,12 +119,13 @@ def source_info_keys(keys:List[str]) -> Callable[[Dict[str, Any]], str]:
             if key in source.metadata:
                 return source.metadata[key]
         return None
+
     return source_info_keys_fn
 
+
 class FormatSources(ProcessorBase):
-    """
-    Handles formatting of search result sources based on the specified formatting
-    logic.
+    """Handles formatting of search result sources based on the specified
+    formatting logic.
 
     This class provides functionality to format the source field of search results
     using a customizable formatter. The formatter can be a string, list, callable,
@@ -125,13 +138,14 @@ class FormatSources(ProcessorBase):
             formatting the sources of search results. Initialized based on the
             provided formatter configuration.
     """
-    def __init__(self, args:ProcessorArgs, filter_config:FilterConfig):
-        """
-        Initializes a new instance of the class responsible for handling source
-        formatter logic. The initialization process determines the proper formatter
-        function based on the provided arguments and configurations. This function
-        sets up the formatter logic, ensuring that the correct format handling for
-        various input configurations is achieved.
+
+    def __init__(self, args: ProcessorArgs, filter_config: FilterConfig):
+        """Initializes a new instance of the class responsible for handling
+        source formatter logic. The initialization process determines the
+        proper formatter function based on the provided arguments and
+        configurations. This function sets up the formatter logic, ensuring
+        that the correct format handling for various input configurations is
+        achieved.
 
         Args:
             args (ProcessorArgs): Object containing the processor arguments. The
@@ -148,7 +162,11 @@ class FormatSources(ProcessorBase):
         fn = None
 
         if isinstance(formatter, str):
-            fn = source_info_template(formatter) if '$' in formatter else source_info_keys([formatter])
+            fn = (
+                source_info_template(formatter)
+                if '$' in formatter
+                else source_info_keys([formatter])
+            )
         elif isinstance(formatter, list):
             fn = source_info_keys(formatter)
         elif isinstance(formatter, Template):
@@ -160,13 +178,14 @@ class FormatSources(ProcessorBase):
 
         self.formatter_fn = fn
 
-    def _process_results(self, search_results:SearchResultCollection, query:QueryBundle) -> SearchResultCollection:
-        """
-        Processes and formats the sources in the given search results using a specified
-        formatter function. The function iterates through the search results, applies
-        the formatting function to each result's source attribute, and handles any
-        exceptions that may occur during formatting. The modified search results are
-        then returned.
+    def _process_results(
+        self, search_results: SearchResultCollection, query: QueryBundle
+    ) -> SearchResultCollection:
+        """Processes and formats the sources in the given search results using
+        a specified formatter function. The function iterates through the
+        search results, applies the formatting function to each result's source
+        attribute, and handles any exceptions that may occur during formatting.
+        The modified search results are then returned.
 
         Args:
             search_results: Collection of search results to be processed.
@@ -176,13 +195,12 @@ class FormatSources(ProcessorBase):
         Returns:
             SearchResultCollection: The processed search results with formatted sources.
         """
-        def format_source(index:int, search_result:SearchResult):
+
+        def format_source(index: int, search_result: SearchResult):
             try:
                 search_result.source = self.formatter_fn(search_result.source)
             except Exception as e:
                 logger.error(f'Error while formatting source: {str(e)}')
             return search_result
-        
+
         return self._apply_to_search_results(search_results, format_source)
-
-

@@ -9,14 +9,23 @@ from pgvector.psycopg2 import register_vector
 from typing import List, Sequence, Dict, Any, Optional, Callable
 from urllib.parse import urlparse
 
-from graphrag_toolkit.lexical_graph.metadata import FilterConfig, type_name_for_key_value, format_datetime
+from graphrag_toolkit.lexical_graph.metadata import (
+    FilterConfig,
+    type_name_for_key_value,
+    format_datetime,
+)
 from graphrag_toolkit.lexical_graph.config import GraphRAGConfig, EmbeddingType
 from graphrag_toolkit.lexical_graph.storage.vector import VectorIndex, to_embedded_query
 from graphrag_toolkit.lexical_graph.storage.constants import INDEX_KEY
 
 from llama_index.core.schema import BaseNode, QueryBundle
 from llama_index.core.indices.utils import embed_nodes
-from llama_index.core.vector_stores.types import FilterCondition, FilterOperator, MetadataFilter, MetadataFilters
+from llama_index.core.vector_stores.types import (
+    FilterCondition,
+    FilterOperator,
+    MetadataFilter,
+    MetadataFilters,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -29,11 +38,11 @@ except ImportError as e:
     raise ImportError(
         "psycopg2 and/or pgvector packages not found, install with 'pip install psycopg2-binary pgvector'"
     ) from e
-    
+
 
 def to_sql_operator(operator: FilterOperator) -> tuple[str, Callable[[Any], str]]:
-    """
-    Converts a filter operator into an SQL operator and its respective value formatter.
+    """Converts a filter operator into an SQL operator and its respective value
+    formatter.
 
     This function maps a `FilterOperator` enum value to a tuple that contains the SQL
     representation of the operator and a callable function to format the value for use
@@ -52,35 +61,38 @@ def to_sql_operator(operator: FilterOperator) -> tuple[str, Callable[[Any], str]
         ValueError: If the provided `operator` is not supported.
     """
     default_value_formatter = lambda x: x
-    
+
     operator_map = {
-        FilterOperator.EQ: ('=', default_value_formatter), 
-        FilterOperator.GT: ('>', default_value_formatter), 
-        FilterOperator.LT: ('<', default_value_formatter), 
-        FilterOperator.NE: ('<>', default_value_formatter), 
-        FilterOperator.GTE: ('>=', default_value_formatter), 
-        FilterOperator.LTE: ('<=', default_value_formatter), 
-        #FilterOperator.IN: ('in', default_value_formatter),  # In array (string or number)
-        #FilterOperator.NIN: ('nin', default_value_formatter),  # Not in array (string or number)
-        #FilterOperator.ANY: ('any', default_value_formatter),  # Contains any (array of strings)
-        #FilterOperator.ALL: ('all', default_value_formatter),  # Contains all (array of strings)
+        FilterOperator.EQ: ('=', default_value_formatter),
+        FilterOperator.GT: ('>', default_value_formatter),
+        FilterOperator.LT: ('<', default_value_formatter),
+        FilterOperator.NE: ('<>', default_value_formatter),
+        FilterOperator.GTE: ('>=', default_value_formatter),
+        FilterOperator.LTE: ('<=', default_value_formatter),
+        # FilterOperator.IN: ('in', default_value_formatter),  # In array (string or number)
+        # FilterOperator.NIN: ('nin', default_value_formatter),  # Not in array (string or number)
+        # FilterOperator.ANY: ('any', default_value_formatter),  # Contains any (array of strings)
+        # FilterOperator.ALL: ('all', default_value_formatter),  # Contains all (array of strings)
         FilterOperator.TEXT_MATCH: ('LIKE', lambda x: f"%%{x}%%"),
         FilterOperator.TEXT_MATCH_INSENSITIVE: ('~*', default_value_formatter),
-        #FilterOperator.CONTAINS: ('contains', default_value_formatter),  # metadata array contains value (string or number)
-        FilterOperator.IS_EMPTY: ('IS NULL', default_value_formatter),  # the field is not exist or empty (null or empty array)
+        # FilterOperator.CONTAINS: ('contains', default_value_formatter),  # metadata array contains value (string or number)
+        FilterOperator.IS_EMPTY: (
+            'IS NULL',
+            default_value_formatter,
+        ),  # the field is not exist or empty (null or empty array)
     }
 
     if operator not in operator_map:
         raise ValueError(f'Unsupported filter operator: {operator}')
-    
+
     return operator_map[operator]
 
-def formatter_for_type(type_name:str) -> Callable[[Any], str]:
-    """
-    Returns a formatter function corresponding to the given type name. The formatter
-    function takes a value as input and returns the value formatted appropriately
-    for the specified type. The supported types include 'text', 'timestamp', 'int',
-    and 'float'.
+
+def formatter_for_type(type_name: str) -> Callable[[Any], str]:
+    """Returns a formatter function corresponding to the given type name. The
+    formatter function takes a value as input and returns the value formatted
+    appropriately for the specified type. The supported types include 'text',
+    'timestamp', 'int', and 'float'.
 
     Args:
         type_name (str): The name of the type for which the formatter function is
@@ -98,14 +110,14 @@ def formatter_for_type(type_name:str) -> Callable[[Any], str]:
     elif type_name == 'timestamp':
         return lambda x: f"'{format_datetime(x)}'"
     elif type_name in ['int', 'float']:
-        return lambda x:x
+        return lambda x: x
     else:
         raise ValueError(f'Unsupported type name: {type_name}')
 
 
-def parse_metadata_filters_recursive(metadata_filters:MetadataFilters) -> str:
-    """
-    Parses metadata filters recursively into a SQL-compatible string representation.
+def parse_metadata_filters_recursive(metadata_filters: MetadataFilters) -> str:
+    """Parses metadata filters recursively into a SQL-compatible string
+    representation.
 
     This function takes a `MetadataFilters` object, traverses its hierarchical
     structure, and converts it into SQL-like conditions. It handles different
@@ -125,10 +137,10 @@ def parse_metadata_filters_recursive(metadata_filters:MetadataFilters) -> str:
             `metadata_filters` structure, or if an unsupported filter condition
             is provided.
     """
+
     def to_key(key: str) -> str:
-        """
-        Parses metadata filters recursively into a string representation suitable for
-        a database query.
+        """Parses metadata filters recursively into a string representation
+        suitable for a database query.
 
         The function takes metadata filters and processes them recursively to generate
         a string representation that can be incorporated into database queries. It
@@ -144,10 +156,10 @@ def parse_metadata_filters_recursive(metadata_filters:MetadataFilters) -> str:
                 queries.
         """
         return f"metadata->'source'->'metadata'->>'{key}'"
-    
+
     def to_sql_filter(f: MetadataFilter) -> str:
-        """
-        Parses metadata filters recursively to generate an SQL-compatible filter string.
+        """Parses metadata filters recursively to generate an SQL-compatible
+        filter string.
 
         This function processes a collection of metadata filters, converting them step
         by step into a valid SQL-like filter expression. It makes use of helper
@@ -171,7 +183,7 @@ def parse_metadata_filters_recursive(metadata_filters:MetadataFilters) -> str:
             type_name = type_name_for_key_value(f.key, f.value)
             type_formatter = formatter_for_type(type_name)
             return f"(({key})::{type_name} {operator} {type_formatter(operator_formatter(str(f.value)))})"
-    
+
     condition = metadata_filters.condition.value
 
     filter_strs = []
@@ -179,25 +191,30 @@ def parse_metadata_filters_recursive(metadata_filters:MetadataFilters) -> str:
     for metadata_filter in metadata_filters.filters:
         if isinstance(metadata_filter, MetadataFilter):
             if metadata_filters.condition == FilterCondition.NOT:
-                raise ValueError(f'Expected MetadataFilters for FilterCondition.NOT, but found MetadataFilter')
+                raise ValueError(
+                    f'Expected MetadataFilters for FilterCondition.NOT, but found MetadataFilter'
+                )
             filter_strs.append(to_sql_filter(metadata_filter))
         elif isinstance(metadata_filter, MetadataFilters):
             filter_strs.append(parse_metadata_filters_recursive(metadata_filter))
         else:
             raise ValueError(f'Invalid metadata filter type: {type(metadata_filter)}')
-        
+
     if metadata_filters.condition == FilterCondition.NOT:
         return f"(NOT {' '.join(filter_strs)})"
-    elif metadata_filters.condition == FilterCondition.AND or metadata_filters.condition == FilterCondition.OR:
+    elif (
+        metadata_filters.condition == FilterCondition.AND
+        or metadata_filters.condition == FilterCondition.OR
+    ):
         condition = f' {metadata_filters.condition.value.upper()} '
         return f"({condition.join(filter_strs)})"
     else:
         raise ValueError(f'Unsupported filters condition: {metadata_filters.condition}')
 
 
-def filter_config_to_sql_filters(filter_config:FilterConfig) -> str:
-    """
-    Converts a given FilterConfig object into an SQL WHERE clause-like filter string.
+def filter_config_to_sql_filters(filter_config: FilterConfig) -> str:
+    """Converts a given FilterConfig object into an SQL WHERE clause-like
+    filter string.
 
     This function translates the source filters provided in the FilterConfig
     into a SQL-compatible filter representation. If the provided filter_config
@@ -214,24 +231,28 @@ def filter_config_to_sql_filters(filter_config:FilterConfig) -> str:
         return ''
     return parse_metadata_filters_recursive(filter_config.source_filters)
 
+
 class PGIndex(VectorIndex):
 
     @staticmethod
-    def for_index(index_name:str,
-                  connection_string:str,
-                  database='postgres',
-                  schema_name='graphrag',
-                  host:str='localhost',
-                  port:int=5432,
-                  username:str=None,
-                  password:str=None,
-                  embed_model:EmbeddingType=None,
-                  dimensions:int=None,
-                  enable_iam_db_auth=False):
-        """
-        Creates an instance of the `PGIndex` class based on the provided database connection
-        information, index name, and embedding configuration. It parses the `connection_string`
-        to extract overriding parameters and defaults any missing values to the provided or preset defaults.
+    def for_index(
+        index_name: str,
+        connection_string: str,
+        database='postgres',
+        schema_name='graphrag',
+        host: str = 'localhost',
+        port: int = 5432,
+        username: str = None,
+        password: str = None,
+        embed_model: EmbeddingType = None,
+        dimensions: int = None,
+        enable_iam_db_auth=False,
+    ):
+        """Creates an instance of the `PGIndex` class based on the provided
+        database connection information, index name, and embedding
+        configuration. It parses the `connection_string` to extract overriding
+        parameters and defaults any missing values to the provided or preset
+        defaults.
 
         Args:
             index_name (str): The name of the index to create or reference.
@@ -253,18 +274,22 @@ class PGIndex(VectorIndex):
             PGIndex: An instance of the `PGIndex` class properly configured with the provided
             or inferred parameters.
         """
+
         def compute_enable_iam_db_auth(s, default):
-            """Representation of a PostgreSQL-based vector index for efficient querying and
-            storage of vectors in a database. This class provides functionality to interface
-            with a PostgreSQL database and manage operations such as indexing, storing, and
-            querying vector data. It supports various configurations like schema, host, port,
-            and authentication settings to offer flexible and secure database connections.
+            """Representation of a PostgreSQL-based vector index for efficient
+            querying and storage of vectors in a database.
+
+            This class provides functionality to interface with a
+            PostgreSQL database and manage operations such as indexing,
+            storing, and querying vector data. It supports various
+            configurations like schema, host, port, and authentication
+            settings to offer flexible and secure database connections.
             """
             if 'enable_iam_db_auth' in s.lower():
                 return 'enable_iam_db_auth=true' in s.lower()
             else:
                 return default
-        
+
         parsed = urlparse(connection_string)
 
         database = parsed.path[1:] if parsed.path else database
@@ -272,40 +297,46 @@ class PGIndex(VectorIndex):
         port = parsed.port or port
         username = parsed.username or username
         password = parsed.password or password
-        enable_iam_db_auth = compute_enable_iam_db_auth(parsed.query, enable_iam_db_auth)
-        
+        enable_iam_db_auth = compute_enable_iam_db_auth(
+            parsed.query, enable_iam_db_auth
+        )
+
         embed_model = embed_model or GraphRAGConfig.embed_model
         dimensions = dimensions or GraphRAGConfig.embed_dimensions
 
-        return PGIndex(index_name=index_name, 
-                       database=database, 
-                       schema_name=schema_name,
-                       host=host, 
-                       port=port, 
-                       username=username, 
-                       password=password, 
-                       dimensions=dimensions, 
-                       embed_model=embed_model, 
-                       enable_iam_db_auth=enable_iam_db_auth)
+        return PGIndex(
+            index_name=index_name,
+            database=database,
+            schema_name=schema_name,
+            host=host,
+            port=port,
+            username=username,
+            password=password,
+            dimensions=dimensions,
+            embed_model=embed_model,
+            enable_iam_db_auth=enable_iam_db_auth,
+        )
 
-    index_name:str
-    database:str
-    schema_name:str
-    host:str
-    port:int
-    username:str
-    password:Optional[str]
-    dimensions:int
-    embed_model:EmbeddingType
-    enable_iam_db_auth:bool=False
-    initialized:bool=False
+    index_name: str
+    database: str
+    schema_name: str
+    host: str
+    port: int
+    username: str
+    password: Optional[str]
+    dimensions: int
+    embed_model: EmbeddingType
+    enable_iam_db_auth: bool = False
+    initialized: bool = False
 
     def _get_connection(self):
-        """
-        Establishes a connection to the database, configures it, and optionally initializes the schema and
-        indexes required for the application. The method supports IAM-based authentication for Amazon RDS if
-        enabled. It also ensures that the schema is initialized exactly once during the lifecycle of the object,
-        creating necessary tables and indexes if they do not exist. Logs warnings for existing database objects.
+        """Establishes a connection to the database, configures it, and
+        optionally initializes the schema and indexes required for the
+        application. The method supports IAM-based authentication for Amazon
+        RDS if enabled. It also ensures that the schema is initialized exactly
+        once during the lifecycle of the object, creating necessary tables and
+        indexes if they do not exist. Logs warnings for existing database
+        objects.
 
         Raises:
             psycopg2.Error: Raised if there is an issue with establishing the database connection or executing
@@ -336,18 +367,18 @@ class PGIndex(VectorIndex):
                 DBHostname=self.host,
                 Port=self.port,
                 DBUsername=self.username,
-                Region=region
+                Region=region,
             )
 
         password = token or self.password
 
         dbconn = psycopg2.connect(
             host=self.host,
-            user=self.username, 
+            user=self.username,
             password=password,
-            port=self.port, 
+            port=self.port,
             database=self.database,
-            connect_timeout=30
+            connect_timeout=30,
         )
 
         dbconn.set_session(autocommit=True)
@@ -363,7 +394,8 @@ class PGIndex(VectorIndex):
                 if self.writeable:
 
                     try:
-                        cur.execute(f'''CREATE TABLE IF NOT EXISTS {self.schema_name}.{self.underlying_index_name()}(
+                        cur.execute(
+                            f'''CREATE TABLE IF NOT EXISTS {self.schema_name}.{self.underlying_index_name()}(
                             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                             {self.index_name}Id VARCHAR(255) unique,
                             value text,
@@ -373,28 +405,46 @@ class PGIndex(VectorIndex):
                         )
                     except UniqueViolation:
                         # For alt approaches, see: https://stackoverflow.com/questions/29900845/create-schema-if-not-exists-raises-duplicate-key-error
-                        logger.warning(f"Table already exists, so ignoring CREATE: {self.underlying_index_name()}")
+                        logger.warning(
+                            f"Table already exists, so ignoring CREATE: {self.underlying_index_name()}"
+                        )
                         pass
 
-                    index_name = f'{self.underlying_index_name()}_{self.index_name}Id_idx'
+                    index_name = (
+                        f'{self.underlying_index_name()}_{self.index_name}Id_idx'
+                    )
                     try:
-                        cur.execute(f'CREATE INDEX IF NOT EXISTS {index_name} ON {self.schema_name}.{self.underlying_index_name()} USING hash ({self.index_name}Id);')
+                        cur.execute(
+                            f'CREATE INDEX IF NOT EXISTS {index_name} ON {self.schema_name}.{self.underlying_index_name()} USING hash ({self.index_name}Id);'
+                        )
                     except UniqueViolation:
-                        logger.warning(f"Index already exists, so ignoring CREATE: {index_name}")
+                        logger.warning(
+                            f"Index already exists, so ignoring CREATE: {index_name}"
+                        )
                         pass
 
                     index_name = f'{self.underlying_index_name()}_{self.index_name}Id_embedding_idx'
                     try:
-                        cur.execute(f'CREATE INDEX IF NOT EXISTS {index_name} ON {self.schema_name}.{self.underlying_index_name()} USING hnsw (embedding vector_l2_ops)')
+                        cur.execute(
+                            f'CREATE INDEX IF NOT EXISTS {index_name} ON {self.schema_name}.{self.underlying_index_name()} USING hnsw (embedding vector_l2_ops)'
+                        )
                     except UniqueViolation:
-                        logger.warning(f"Index already exists, so ignoring CREATE: {index_name}")
+                        logger.warning(
+                            f"Index already exists, so ignoring CREATE: {index_name}"
+                        )
                         pass
-                    
-                    index_name = f'{self.underlying_index_name()}_{self.index_name}Id_gin_idx'
+
+                    index_name = (
+                        f'{self.underlying_index_name()}_{self.index_name}Id_gin_idx'
+                    )
                     try:
-                        cur.execute(f'CREATE INDEX IF NOT EXISTS {index_name} ON {self.schema_name}.{self.underlying_index_name()} USING GIN (metadata)')
+                        cur.execute(
+                            f'CREATE INDEX IF NOT EXISTS {index_name} ON {self.schema_name}.{self.underlying_index_name()} USING GIN (metadata)'
+                        )
                     except UniqueViolation:
-                        logger.warning(f"Index already exists, so ignoring CREATE: {index_name}")
+                        logger.warning(
+                            f"Index already exists, so ignoring CREATE: {index_name}"
+                        )
                         pass
 
             finally:
@@ -404,15 +454,14 @@ class PGIndex(VectorIndex):
 
         return dbconn
 
-
-    def add_embeddings(self, nodes:Sequence[BaseNode]) -> Sequence[BaseNode]:
-        """
-        Adds embeddings for a sequence of nodes into the database. This method processes
-        each node by generating embeddings using the specified embedding model and
-        inserts or updates these nodes in the underlying indexed database table. The method
-        ensures write authorization before proceeding and handles exceptions related to
-        undefined tables. Nodes for a specific tenant that references non-existent tables
-        are logged as warnings without causing the entire operation to fail.
+    def add_embeddings(self, nodes: Sequence[BaseNode]) -> Sequence[BaseNode]:
+        """Adds embeddings for a sequence of nodes into the database. This
+        method processes each node by generating embeddings using the specified
+        embedding model and inserts or updates these nodes in the underlying
+        indexed database table. The method ensures write authorization before
+        proceeding and handles exceptions related to undefined tables. Nodes
+        for a specific tenant that references non-existent tables are logged as
+        warnings without causing the entire operation to fail.
 
         Args:
             nodes (Sequence[BaseNode]): A sequence of nodes for which embeddings are to be
@@ -431,20 +480,26 @@ class PGIndex(VectorIndex):
 
         try:
 
-            id_to_embed_map = embed_nodes(
-                nodes, self.embed_model
-            )
+            id_to_embed_map = embed_nodes(nodes, self.embed_model)
             for node in nodes:
                 cur.execute(
                     f'INSERT INTO {self.schema_name}.{self.underlying_index_name()} ({self.index_name}Id, value, metadata, embedding) SELECT %s, %s, %s, %s WHERE NOT EXISTS (SELECT * FROM {self.schema_name}.{self.underlying_index_name()} c WHERE c.{self.index_name}Id = %s);',
-                    (node.id_, node.text,  json.dumps(node.metadata), id_to_embed_map[node.id_], node.id_)
+                    (
+                        node.id_,
+                        node.text,
+                        json.dumps(node.metadata),
+                        id_to_embed_map[node.id_],
+                        node.id_,
+                    ),
                 )
 
         except UndefinedTable as e:
             if self.tenant_id.is_default_tenant():
                 raise e
             else:
-                logger.warning(f'Multi-tenant index {self.underlying_index_name()} does not exist')
+                logger.warning(
+                    f'Multi-tenant index {self.underlying_index_name()} does not exist'
+                )
 
         finally:
 
@@ -452,10 +507,9 @@ class PGIndex(VectorIndex):
             dbconn.close()
 
         return nodes
-    
+
     def _to_top_k_result(self, r):
-        """
-        Converts a raw result into a structured Top K result dictionary.
+        """Converts a raw result into a structured Top K result dictionary.
 
         The method processes the given input `r` to construct a dictionary containing
         details like score, metadata, and specific index-related information. The
@@ -473,9 +527,7 @@ class PGIndex(VectorIndex):
                   score, associated metadata fields, and key-value pairs if index-related
                   information is present within the metadata.
         """
-        result = {
-            'score': round(r[2], 7)
-        }
+        result = {'score': round(r[2], 7)}
 
         metadata_payload = r[1]
         if isinstance(metadata_payload, dict):
@@ -489,14 +541,14 @@ class PGIndex(VectorIndex):
             if 'source' in metadata:
                 result['source'] = metadata['source']
         else:
-            for k,v in metadata.items():
+            for k, v in metadata.items():
                 result[k] = v
-            
+
         return result
-    
+
     def _to_get_embedding_result(self, r):
-        """
-        Converts and processes the result from an embedding query into a formatted dictionary.
+        """Converts and processes the result from an embedding query into a
+        formatted dictionary.
 
         The function processes the input result tuple, extracting the ID, value, embedding,
         and metadata while ensuring proper type conversion and dictionary formatting.
@@ -524,25 +576,25 @@ class PGIndex(VectorIndex):
             metadata = metadata_payload
         else:
             metadata = json.loads(metadata_payload)
- 
+
         embedding = np.array(r[3], dtype=object).tolist()
 
-        result = {
-            'id': id,
-            'value': value,
-            'embedding': embedding
-        }
+        result = {'id': id, 'value': value, 'embedding': embedding}
 
-        for k,v in metadata.items():
+        for k, v in metadata.items():
             if k != INDEX_KEY:
                 result[k] = v
-            
+
         return result
-    
-    def top_k(self, query_bundle:QueryBundle, top_k:int=5, filter_config:Optional[FilterConfig]=None) -> Sequence[Dict[str, Any]]:
-        """
-        Retrieves the top K results from the database based on the provided query
-        and optional filter configuration.
+
+    def top_k(
+        self,
+        query_bundle: QueryBundle,
+        top_k: int = 5,
+        filter_config: Optional[FilterConfig] = None,
+    ) -> Sequence[Dict[str, Any]]:
+        """Retrieves the top K results from the database based on the provided
+        query and optional filter configuration.
 
         This method interacts with a database to obtain the top K matching entries
         that align with the user's query. It supports additional filtering through
@@ -569,7 +621,7 @@ class PGIndex(VectorIndex):
 
         try:
 
-            where_clause =  filter_config_to_sql_filters(filter_config)
+            where_clause = filter_config_to_sql_filters(filter_config)
             where_clause = f'WHERE {where_clause}' if where_clause else ''
 
             logger.debug(f'filter: {where_clause}')
@@ -580,16 +632,14 @@ class PGIndex(VectorIndex):
                 FROM {self.schema_name}.{self.underlying_index_name()}
                 {where_clause}
                 ORDER BY score ASC LIMIT %s;'''
-            
+
             logger.debug(f'sql: {sql}')
-        
+
             cur.execute(sql, (np.array(query_bundle.embedding), top_k))
 
             results = cur.fetchall()
 
-            top_k_results.extend(
-                [self._to_top_k_result(result) for result in results]
-            )
+            top_k_results.extend([self._to_top_k_result(result) for result in results])
 
         except UndefinedTable as e:
             logger.warning(f'Index {self.underlying_index_name()} does not exist')
@@ -600,12 +650,12 @@ class PGIndex(VectorIndex):
 
         return top_k_results
 
-    def get_embeddings(self, ids:List[str]=[]) -> Sequence[Dict[str, Any]]:
-        """
-        Retrieves embeddings from the database for the given list of IDs. This method
-        queries the underlying database table to fetch the corresponding embeddings,
-        metadata, and other data associated with the specified IDs. The results are
-        formatted into a list of embedding dictionaries.
+    def get_embeddings(self, ids: List[str] = []) -> Sequence[Dict[str, Any]]:
+        """Retrieves embeddings from the database for the given list of IDs.
+        This method queries the underlying database table to fetch the
+        corresponding embeddings, metadata, and other data associated with the
+        specified IDs. The results are formatted into a list of embedding
+        dictionaries.
 
         Args:
             ids (List[str], optional): A list of string IDs for which embeddings need
@@ -619,19 +669,19 @@ class PGIndex(VectorIndex):
         Raises:
             UndefinedTable: Raised when the underlying table does not exist in the
                 database.
-
         """
         dbconn = self._get_connection()
         cur = dbconn.cursor()
 
         def format_ids(ids):
             return ','.join([f"'{id}'" for id in set(ids)])
-        
+
         get_embeddings_results = []
 
         try:
 
-            cur.execute(f'''SELECT {self.index_name}Id, value, metadata, embedding
+            cur.execute(
+                f'''SELECT {self.index_name}Id, value, metadata, embedding
                 FROM {self.schema_name}.{self.underlying_index_name()}
                 WHERE {self.index_name}Id IN ({format_ids(ids)});'''
             )

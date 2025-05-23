@@ -5,16 +5,23 @@ import statistics
 from typing import List, Dict
 
 from graphrag_toolkit.lexical_graph.metadata import FilterConfig
-from graphrag_toolkit.lexical_graph.retrieval.processors import ProcessorBase, ProcessorArgs
-from graphrag_toolkit.lexical_graph.retrieval.model import SearchResultCollection, SearchResult
+from graphrag_toolkit.lexical_graph.retrieval.processors import (
+    ProcessorBase,
+    ProcessorArgs,
+)
+from graphrag_toolkit.lexical_graph.retrieval.model import (
+    SearchResultCollection,
+    SearchResult,
+)
 
 from llama_index.core.schema import QueryBundle
 
+
 class RescoreResults(ProcessorBase):
-    """
-    Represents a processor for rescoring search results by recalculating scores based on
-    topic-level analysis. This class adjusts the overall score of each search result
-    by averaging the highest statement scores within its associated topics.
+    """Represents a processor for rescoring search results by recalculating
+    scores based on topic-level analysis. This class adjusts the overall score
+    of each search result by averaging the highest statement scores within its
+    associated topics.
 
     This class is designed to refine search result rankings by promoting results with
     higher relevance as indicated by topic-level scoring. It leverages an internal
@@ -24,10 +31,10 @@ class RescoreResults(ProcessorBase):
         args (ProcessorArgs): Configuration arguments for the processor, including runtime-specific details.
         filter_config (FilterConfig): Configuration for filtering criteria applied during result processing.
     """
-    def __init__(self, args:ProcessorArgs, filter_config:FilterConfig):
-        """
-        Initializes the class with provided arguments and configuration for processing
-        and filtering tasks.
+
+    def __init__(self, args: ProcessorArgs, filter_config: FilterConfig):
+        """Initializes the class with provided arguments and configuration for
+        processing and filtering tasks.
 
         Args:
             args: ProcessorArgs
@@ -37,12 +44,13 @@ class RescoreResults(ProcessorBase):
         """
         super().__init__(args, filter_config)
 
-    def _process_results(self, search_results:SearchResultCollection, query:QueryBundle) -> SearchResultCollection:
-        """
-        Processes and rescales the scores of search results by calculating the mean score
-        of topics associated with each search result. The logic uses the statements within
-        each topic to compute a per-topic score and updates the overall score for each
-        search result accordingly.
+    def _process_results(
+        self, search_results: SearchResultCollection, query: QueryBundle
+    ) -> SearchResultCollection:
+        """Processes and rescales the scores of search results by calculating
+        the mean score of topics associated with each search result. The logic
+        uses the statements within each topic to compute a per-topic score and
+        updates the overall score for each search result accordingly.
 
         Args:
             search_results (SearchResultCollection): A collection of search results to process.
@@ -51,10 +59,11 @@ class RescoreResults(ProcessorBase):
         Returns:
             SearchResultCollection: The updated search results with recalculated scores.
         """
-        def rescore_search_result(index:int, search_result:SearchResult):
-            """
-            Processes and modifies search results by rescoring them based on the highest statement
-            scores within each topic of the search results.
+
+        def rescore_search_result(index: int, search_result: SearchResult):
+            """Processes and modifies search results by rescoring them based on
+            the highest statement scores within each topic of the search
+            results.
 
             This class inherits from `ProcessorBase` and provides an implementation of result
             processing that updates the final score of a search result by calculating the mean
@@ -76,12 +85,9 @@ class RescoreResults(ProcessorBase):
                 max([s.score for s in topic.statements])
                 for topic in search_result.topics
             ]
-            
+
             search_result.score = statistics.mean(topic_scores)
-            
+
             return search_result
-        
+
         return self._apply_to_search_results(search_results, rescore_search_result)
-        
-
-

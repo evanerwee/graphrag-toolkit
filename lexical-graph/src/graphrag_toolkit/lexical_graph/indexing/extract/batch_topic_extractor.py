@@ -11,14 +11,36 @@ from datetime import datetime
 
 from graphrag_toolkit.lexical_graph import GraphRAGConfig, BatchJobError
 from graphrag_toolkit.lexical_graph.utils import LLMCache, LLMCacheType
-from graphrag_toolkit.lexical_graph.indexing.utils.topic_utils import parse_extracted_topics, format_list, format_text
-from graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils import create_inference_inputs, create_inference_inputs_for_messages, create_and_run_batch_job, download_output_files, process_batch_output, split_nodes
-from graphrag_toolkit.lexical_graph.indexing.constants import TOPICS_KEY, DEFAULT_ENTITY_CLASSIFICATIONS
+from graphrag_toolkit.lexical_graph.indexing.utils.topic_utils import (
+    parse_extracted_topics,
+    format_list,
+    format_text,
+)
+from graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils import (
+    create_inference_inputs,
+    create_inference_inputs_for_messages,
+    create_and_run_batch_job,
+    download_output_files,
+    process_batch_output,
+    split_nodes,
+)
+from graphrag_toolkit.lexical_graph.indexing.constants import (
+    TOPICS_KEY,
+    DEFAULT_ENTITY_CLASSIFICATIONS,
+)
 from graphrag_toolkit.lexical_graph.indexing.prompts import EXTRACT_TOPICS_PROMPT
-from graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor import TopicExtractor
+from graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor import (
+    TopicExtractor,
+)
 from graphrag_toolkit.lexical_graph.indexing.extract.batch_config import BatchConfig
-from graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider import ScopedValueProvider, FixedScopedValueProvider, DEFAULT_SCOPE
-from graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils import BEDROCK_MIN_BATCH_SIZE
+from graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider import (
+    ScopedValueProvider,
+    FixedScopedValueProvider,
+    DEFAULT_SCOPE,
+)
+from graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils import (
+    BEDROCK_MIN_BATCH_SIZE,
+)
 
 from llama_index.core.extractors.interface import BaseExtractor
 from llama_index.core.bridge.pydantic import Field
@@ -27,88 +49,130 @@ from llama_index.core.prompts import PromptTemplate
 
 logger = logging.getLogger(__name__)
 
+
 class BatchTopicExtractor(BaseExtractor):
     """
-    Handles batch topic extraction processes, utilizing LLMs and external services for generating
-    and processing topic-related data for text inputs in batches.
+    Extracts topics in batch mode using a prompt-based large language model (LLM)
+    system. This class handles the preparation, creation, and management of
+    batch-level topic extraction workflows. It facilitates entities and topics
+    classification, generates prompts, invokes batch LLM jobs, and integrates
+    output processing seamlessly.
 
-    This class is primarily designed to facilitate the efficient processing of large datasets by
-    splitting input data into manageable batches, generating topic extraction prompts, and
-    managing asynchronous tasks for data upload, batch processing, and output handling. It
-    employs LLM (Language Model) inference and integrates with external systems like S3
-    and Bedrock for input handling, batch processing, and result retrieval.
+    The primary purpose of this class is to support scalable, efficient, and
+    flexible topic extraction from input data in a batch mode. The configuration
+    can be adapted for varied batch setups, metadata sources, and external systems.
 
-    Attributes:
-        batch_config (BatchConfig): Configuration object containing batch inference settings.
-        llm (Optional[LLMCache]): An instance of LLMCache to manage caching and interaction
-            with the specified language model.
-        prompt_template (str): A template to define the format of prompts for topic extraction.
-        source_metadata_field (Optional[str]): Metadata field used as input for topic
-            extraction, if specified.
-        batch_inference_dir (str): Directory path where batch input and result files are stored.
-        entity_classification_provider (ScopedValueProvider): Provider for retrieving entity
-            classifications in the current scope.
-        topic_provider (ScopedValueProvider): Provider for retrieving topics in the current
-            scope.
+    :ivar batch_config: Configuration object for batch inference, including any
+        details related to the batch's operational behavior and constraints.
+    :type batch_config: BatchConfig
+    :ivar llm: Optional language model (LLM) cache configuration used to
+        facilitate prompts and model interactions.
+    :type llm: Optional[LLMCache]
+    :ivar prompt_template: String template to format extraction prompts. This
+        attribute defines how prompts are generated for LLM processing.
+    :type prompt_template: str
+    :ivar source_metadata_field: Metadata field in the input data associated with
+        propositions to extract. If None, defaults to the main text content.
+    :type source_metadata_field: Optional[str]
+    :ivar batch_inference_dir: Path to a directory where batch inputs and outputs
+        are stored. Used as a base directory for managing job files.
+    :type batch_inference_dir: str
+    :ivar entity_classification_provider: Scoped value provider supplying
+        classification-related information for input entities.
+    :type entity_classification_provider: ScopedValueProvider
+    :ivar topic_provider: Scoped value provider supplying information about topics,
+        scoped to specific contexts for flexibility.
+    :type topic_provider: ScopedValueProvider
     """
-    batch_config:BatchConfig = Field('Batch inference config')
-    llm:Optional[LLMCache] = Field(
-        description='The LLM to use for extraction'
+
+    batch_config: BatchConfig = Field('Batch inference config')
+    llm: Optional[LLMCache] = Field(description='The LLM to use for extraction')
+    prompt_template: str = Field(description='Prompt template')
+    source_metadata_field: Optional[str] = Field(
+        description='Metadata field from which to extract propositions'
     )
-    prompt_template:str = Field(description='Prompt template')
-    source_metadata_field:Optional[str] = Field(description='Metadata field from which to extract propositions')
-    batch_inference_dir:str = Field(description='Directory for batch inputs and results results')
-    entity_classification_provider:ScopedValueProvider = Field( description='Entity classification provider')
-    topic_provider:ScopedValueProvider = Field(description='Topic provider')
+    batch_inference_dir: str = Field(
+        description='Directory for batch inputs and results results'
+    )
+    entity_classification_provider: ScopedValueProvider = Field(
+        description='Entity classification provider'
+    )
+    topic_provider: ScopedValueProvider = Field(description='Topic provider')
 
     @classmethod
     def class_name(cls) -> str:
         """
-        Returns the class name of the batch topic extractor.
+        Returns the name of the class.
 
-        This method is a class method and provides the name of the class as a string.
+        This method is used to retrieve the name of the class as a string. It is
+        a class-level method and does not require an instance of the class to be
+        called.
 
-        Returns:
-            str: The name of the class, which is 'BatchTopicExtractor'.
+        :return: The name of the class.
+        :rtype: str
         """
         return 'BatchTopicExtractor'
-    
-    def __init__(self, 
-                 batch_config:BatchConfig,
-                 llm:LLMCacheType=None,
-                 prompt_template:str = None,
-                 source_metadata_field:Optional[str] = None,
-                 batch_inference_dir:str = None,
-                 entity_classification_provider:Optional[ScopedValueProvider]=None,
-                 topic_provider:Optional[ScopedValueProvider]=None):
+
+    def __init__(
+        self,
+        batch_config: BatchConfig,
+        llm: LLMCacheType = None,
+        prompt_template: str = None,
+        source_metadata_field: Optional[str] = None,
+        batch_inference_dir: str = None,
+        entity_classification_provider: Optional[ScopedValueProvider] = None,
+        topic_provider: Optional[ScopedValueProvider] = None,
+    ):
         """
-        Initializes an instance of the class with configuration details for batch processing,
-        language model, prompt templates, metadata fields, directory for batch inference,
-        entity classification provider, and topic provider.
+        Initializes the class instance with configuration and components required for batch
+        processing and topic extraction. It sets up configuration, directories, and functional
+        dependencies like prompt templates and classification providers.
 
-        Args:
-            batch_config: Configuration object specifying batch processing details.
-            llm: Instance of a language model cache or a language model, defining the desired
-                behavior for processing.
-            prompt_template: Template string used to create prompts for processing.
-            source_metadata_field: Optional metadata field in the source data to be considered
-                during processing.
-            batch_inference_dir: Directory path where batch inference outputs will be stored.
-            entity_classification_provider: Scoped value provider for entity classification settings.
-            topic_provider: Scoped value provider for topic settings based on the given scope.
+        :param batch_config: The configuration object defining batch processing parameters,
+            detailing paths, limits, and rules that guide how the batch operations are conducted.
+        :type batch_config: BatchConfig
 
+        :param llm: An instance of the language model or a cache-enabled wrapper around it,
+            used for leveraging language processing tasks within batch operations. Defaults to None.
+
+        :param prompt_template: The textual template used to guide topic extraction or classification.
+            If not provided explicitly, a default value is applied.
+
+        :param source_metadata_field: The source metadata field from which additional
+            information is extracted during processing. Defaults to None.
+
+        :param batch_inference_dir: The directory path where batch inference results are
+            stored, including any intermediate outputs. If not provided, defaults to
+            'output/batch-topics'.
+
+        :param entity_classification_provider: The provider object responsible for classifying
+            entities during processing. Defaults to a fixed scoped value provider with default
+            entity classifications if not explicitly specified.
+
+        :param topic_provider: The provider object used for supplying topics during batch
+            operations or extractions. A fixed scoped value provider is configured with an
+            empty default scope if undefined.
         """
         super().__init__(
-            batch_config = batch_config,
-            llm = llm if llm and isinstance(llm, LLMCache) else LLMCache(
-                llm=llm or GraphRAGConfig.extraction_llm,
-                enable_cache=GraphRAGConfig.enable_cache
+            batch_config=batch_config,
+            llm=(
+                llm
+                if llm and isinstance(llm, LLMCache)
+                else LLMCache(
+                    llm=llm or GraphRAGConfig.extraction_llm,
+                    enable_cache=GraphRAGConfig.enable_cache,
+                )
             ),
             prompt_template=prompt_template or EXTRACT_TOPICS_PROMPT,
             source_metadata_field=source_metadata_field,
-            batch_inference_dir=batch_inference_dir or os.path.join('output', 'batch-topics'),
-            entity_classification_provider=entity_classification_provider or FixedScopedValueProvider(scoped_values={DEFAULT_SCOPE: DEFAULT_ENTITY_CLASSIFICATIONS}),
-            topic_provider=topic_provider or FixedScopedValueProvider(scoped_values={DEFAULT_SCOPE: []})
+            batch_inference_dir=batch_inference_dir
+            or os.path.join('output', 'batch-topics'),
+            entity_classification_provider=entity_classification_provider
+            or FixedScopedValueProvider(
+                scoped_values={DEFAULT_SCOPE: DEFAULT_ENTITY_CLASSIFICATIONS}
+            ),
+            topic_provider=topic_provider
+            or FixedScopedValueProvider(scoped_values={DEFAULT_SCOPE: []}),
         )
 
         logger.debug(f'Prompt template: {self.prompt_template}')
@@ -117,69 +181,59 @@ class BatchTopicExtractor(BaseExtractor):
 
     def _prepare_directory(self, dir):
         """
-        Prepares a directory by creating it if it does not already exist.
+        Prepares a directory by ensuring it exists. If the directory does not exist,
+        it will be created with all intermediate directories as needed.
 
-        This function ensures that the specified directory exists. If the directory
-        does not exist, it is created with the specified permissions.
-
-        Args:
-            dir (str): The path of the directory to prepare.
-
-        Returns:
-            str: The path to the prepared directory.
+        :param dir: The directory path to prepare.
+        :type dir: str
+        :return: The prepared directory path, which is guaranteed to exist.
+        :rtype: str
         """
         if not os.path.exists(dir):
             os.makedirs(dir, exist_ok=True)
         return dir
-    
+
     def _get_metadata_or_default(self, metadata, key, default):
         """
-        Retrieve the value associated with a given key from the metadata
-        dictionary. If the key does not exist, return the provided default.
-        The function ensures that if the retrieved value is falsy, the
-        default value is returned instead.
+        Retrieves a value from the metadata dictionary using a specified key. If the key is not present or the value associated
+        with the key evaluates to a falsy value, the provided default value is returned.
 
-        Args:
-            metadata (dict): The metadata dictionary to search.
-            key (Any): The key whose value needs to be retrieved.
-            default (Any): The default value to return if the key is not
-                found or its value is falsy.
-
-        Returns:
-            Any: The value associated with the given key or the default
-            value if the key is not present or its value is falsy.
+        :param metadata: Dictionary containing key-value pairs used to retrieve configuration or meta information.
+        :type metadata: dict
+        :param key: The key to look up in the metadata dictionary.
+        :type key: str
+        :param default: The fallback value to return if the key is not found or its value evaluates to a falsy value.
+        :type default: Any
+        :return: The value associated with the key from the metadata dictionary or the provided default value.
+        :rtype: Any
         """
         value = metadata.get(key, default)
         return value or default
-    
-    async def process_single_batch(self, batch_index:int, node_batch:List[TextNode], s3_client, bedrock_client):
+
+    async def process_single_batch(
+        self, batch_index: int, node_batch: List[TextNode], s3_client, bedrock_client
+    ):
         """
-        Processes a single batch of text nodes through multiple workflow stages, including record creation, S3 bucket
-        upload, batch job invocation using Bedrock, and result processing.
+        Processes a single batch of text nodes by creating input files, uploading
+        them to S3, invoking a batch job for topic extraction, downloading the
+        output files, and processing the results.
 
-        This function performs the following steps:
-        1. Creates input files for batch inference, including formatting text based on metadata, generating message prompts,
-           and preparing JSONL files.
-        2. Uploads the generated input files to an AWS S3 bucket based on the configuration.
-        3. Invokes a Bedrock batch job for topic extraction using the prepared inputs.
-        4. Downloads and processes the output files generated during the batch job.
-        5. Returns the processed batch results for further utilization.
+        This function handles input formatting, S3 operations, external LLM model
+        invocations, and output processing using the provided clients and resources.
 
-        Args:
-            batch_index (int): The index of the current batch being processed.
-            node_batch (List[TextNode]): A list of text nodes to process in this batch.
-            s3_client: The S3 client instance used for file handling with the S3 bucket.
-            bedrock_client: The Bedrock client instance for invoking and interacting with the batch job.
-
-        Returns:
-            List: The results after processing the outputs of the batch job.
-
-        Raises:
-            BatchJobError: If any error occurs during batch processing, an exception is raised, providing details
-            of the batch index and error context.
+        :param batch_index: The index of the batch being processed.
+        :type batch_index: int
+        :param node_batch: A list of TextNode objects to process.
+        :type node_batch: List[TextNode]
+        :param s3_client: The S3 client instance used for uploading and downloading files.
+        :type s3_client: Any
+        :param bedrock_client: The Bedrock client instance used for batch job execution.
+        :type bedrock_client: Any
+        :return: A list of processed results for the given batch.
+        :rtype: Any
         """
         try:
-            timestamp = datetime.now().strftime("%Y%m%d-%H%M%S") 
+            timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
             input_filename = f'topic_extraction_{timestamp}_{batch_index}.jsonl'
 
             # 1 - Create Record Files (.jsonl)
@@ -188,8 +242,8 @@ class BatchTopicExtractor(BaseExtractor):
             #     (_, current_entity_classifications) = self.entity_classification_provider.get_current_values(node)
             #     (_, current_topics) = self.topic_provider.get_current_values(node)
             #     text = format_text(
-            #         self._get_metadata_or_default(node.metadata, self.source_metadata_field, node.text) 
-            #         if self.source_metadata_field 
+            #         self._get_metadata_or_default(node.metadata, self.source_metadata_field, node.text)
+            #         if self.source_metadata_field
             #         else node.text
             #     )
             #     prompt = self.prompt_template.format(
@@ -201,35 +255,43 @@ class BatchTopicExtractor(BaseExtractor):
 
             # json_inputs = create_inference_inputs(
             #     self.llm.llm,
-            #     node_batch, 
+            #     node_batch,
             #     prompts
             # )
 
             messages_batch = []
             for node in node_batch:
-                (_, current_entity_classifications) = self.entity_classification_provider.get_current_values(node)
+                (_, current_entity_classifications) = (
+                    self.entity_classification_provider.get_current_values(node)
+                )
                 (_, current_topics) = self.topic_provider.get_current_values(node)
                 text = format_text(
-                    self._get_metadata_or_default(node.metadata, self.source_metadata_field, node.text) 
-                    if self.source_metadata_field 
+                    self._get_metadata_or_default(
+                        node.metadata, self.source_metadata_field, node.text
+                    )
+                    if self.source_metadata_field
                     else node.text
                 )
                 messages = self.llm.llm._get_messages(
-                    PromptTemplate(self.prompt_template), 
+                    PromptTemplate(self.prompt_template),
                     text=text,
-                    preferred_entity_classifications=format_list(current_entity_classifications),
-                    preferred_topics=format_list(current_topics)
+                    preferred_entity_classifications=format_list(
+                        current_entity_classifications
+                    ),
+                    preferred_topics=format_list(current_topics),
                 )
                 messages_batch.append(messages)
 
             json_inputs = create_inference_inputs_for_messages(
-                self.llm.llm, 
-                node_batch, 
-                messages_batch
+                self.llm.llm, node_batch, messages_batch
             )
 
-            input_dir = os.path.join(self.batch_inference_dir, timestamp, str(batch_index), 'inputs')
-            output_dir = os.path.join(self.batch_inference_dir, timestamp, str(batch_index), 'outputs')
+            input_dir = os.path.join(
+                self.batch_inference_dir, timestamp, str(batch_index), 'inputs'
+            )
+            output_dir = os.path.join(
+                self.batch_inference_dir, timestamp, str(batch_index), 'outputs'
+            )
             self._prepare_directory(input_dir)
             self._prepare_directory(output_dir)
 
@@ -243,69 +305,110 @@ class BatchTopicExtractor(BaseExtractor):
             s3_input_key = None
             s3_output_path = None
             if self.batch_config.key_prefix:
-                s3_input_key = os.path.join(self.batch_config.key_prefix, 'batch-topics', timestamp, str(batch_index), 'inputs', os.path.basename(input_filename))
-                s3_output_path = os.path.join(self.batch_config.key_prefix, 'batch-topics', timestamp, str(batch_index), 'outputs/')
+                s3_input_key = os.path.join(
+                    self.batch_config.key_prefix,
+                    'batch-topics',
+                    timestamp,
+                    str(batch_index),
+                    'inputs',
+                    os.path.basename(input_filename),
+                )
+                s3_output_path = os.path.join(
+                    self.batch_config.key_prefix,
+                    'batch-topics',
+                    timestamp,
+                    str(batch_index),
+                    'outputs/',
+                )
             else:
-                s3_input_key = os.path.join('batch-topics', timestamp, str(batch_index), 'inputs', os.path.basename(input_filename))
-                s3_output_path = os.path.join('batch-topics', timestamp, str(batch_index), 'outputs/')
+                s3_input_key = os.path.join(
+                    'batch-topics',
+                    timestamp,
+                    str(batch_index),
+                    'inputs',
+                    os.path.basename(input_filename),
+                )
+                s3_output_path = os.path.join(
+                    'batch-topics', timestamp, str(batch_index), 'outputs/'
+                )
 
-            await asyncio.to_thread(s3_client.upload_file, input_filepath, self.batch_config.bucket_name, s3_input_key)
-            logger.debug(f'Uploaded {input_filename} to S3 [bucket: {self.batch_config.bucket_name}, key: {s3_input_key}]')
+            await asyncio.to_thread(
+                s3_client.upload_file,
+                input_filepath,
+                self.batch_config.bucket_name,
+                s3_input_key,
+            )
+            logger.debug(
+                f'Uploaded {input_filename} to S3 [bucket: {self.batch_config.bucket_name}, key: {s3_input_key}]'
+            )
 
             # 3 - Invoke batch job
-            await asyncio.to_thread(create_and_run_batch_job,
+            await asyncio.to_thread(
+                create_and_run_batch_job,
                 'extract-topics',
-                bedrock_client, 
-                timestamp, 
+                bedrock_client,
+                timestamp,
                 batch_index,
                 self.batch_config,
-                s3_input_key, 
+                s3_input_key,
                 s3_output_path,
-                self.llm.model
+                self.llm.model,
             )
 
-            await asyncio.to_thread(download_output_files, s3_client, self.batch_config.bucket_name, s3_output_path, input_filename, output_dir)
+            await asyncio.to_thread(
+                download_output_files,
+                s3_client,
+                self.batch_config.bucket_name,
+                s3_output_path,
+                input_filename,
+                output_dir,
+            )
 
             # 4 - Once complete, process batch output
-            batch_results = await process_batch_output(output_dir, input_filename, self.llm)
+            batch_results = await process_batch_output(
+                output_dir, input_filename, self.llm
+            )
             logger.debug(f'Completed processing of batch {batch_index}')
             return batch_results
-        
+
         except Exception as e:
-            raise BatchJobError(f'Error processing batch {batch_index}: {str(e)}') from e 
-        
+            raise BatchJobError(
+                f'Error processing batch {batch_index}: {str(e)}'
+            ) from e
+
     async def aextract(self, nodes: Sequence[BaseNode]) -> List[Dict]:
         """
-        Asynchronously processes a sequence of nodes, extracting topics based on Bedrock configurations
-        or fallback TopicExtractor, and parallelizes processing in batches for performance efficiency.
+        Asynchronous method for extracting topics from a sequence of nodes. The method is optimized
+        to handle data in batches, with support for parallel processing. If the sequence contains
+        fewer nodes than the minimum required batch size, it utilizes the TopicExtractor instead.
+        Otherwise, it splits the data into batches for concurrent processing and retrieves results
+        through Bedrock. Processes the results to extract and format topic information.
 
-        Args:
-            nodes (Sequence[BaseNode]): A sequence of nodes to process and extract topics from.
-
-        Returns:
-            List[Dict]: A list of dictionaries containing extracted topics for each node.
-
-        Raises:
-            No specific exceptions explicitly raised by this function.
-
+        :param nodes: Sequence of BaseNode objects representing data from which topics are to be extracted
+        :type nodes: Sequence[BaseNode]
+        :return: List of dictionaries containing extracted topics, formatted for further processing
+        :rtype: List[Dict]
         """
         if len(nodes) < BEDROCK_MIN_BATCH_SIZE:
-            logger.debug(f'List of nodes contains fewer records ({len(nodes)}) than the minimum required by Bedrock ({BEDROCK_MIN_BATCH_SIZE}), so running TopicExtractor instead')
-            extractor = TopicExtractor( 
-                prompt_template=self.prompt_template, 
+            logger.debug(
+                f'List of nodes contains fewer records ({len(nodes)}) than the minimum required by Bedrock ({BEDROCK_MIN_BATCH_SIZE}), so running TopicExtractor instead'
+            )
+            extractor = TopicExtractor(
+                prompt_template=self.prompt_template,
                 source_metadata_field=self.source_metadata_field,
                 entity_classification_provider=self.entity_classification_provider,
-                topic_provider=self.topic_provider
+                topic_provider=self.topic_provider,
             )
             return await extractor.aextract(nodes)
-
 
         s3_client = GraphRAGConfig.s3
         bedrock_client = GraphRAGConfig.bedrock
 
         # 1 - Split nodes into batches (if needed)
         node_batches = split_nodes(nodes, self.batch_config.max_batch_size)
-        logger.debug(f'Split nodes into {len(node_batches)} batches [sizes: {[len(b) for b in node_batches]}]')
+        logger.debug(
+            f'Split nodes into {len(node_batches)} batches [sizes: {[len(b) for b in node_batches]}]'
+        )
 
         # 2 - Process batches concurrently
         all_results = {}
@@ -313,19 +416,37 @@ class BatchTopicExtractor(BaseExtractor):
 
         async def process_batch_with_semaphore(batch_index, node_batch):
             """
-            An asynchronous extractor that processes batches of nodes to perform topic
-            extraction. This class extends the BaseExtractor and provides functionality
-            to handle batch extraction in an asynchronous manner. It leverages semaphores
-            to control concurrent access to shared resources while processing batches.
+            Represents a batch topic extractor which handles the asynchronous processing
+            of nodes in batches, utilizing concurrency control to manage a limited number
+            of simultaneous operations.
 
-            Methods:
-                aextract: The main asynchronous function to extract topics from a
-                sequence of nodes in batches.
+            The `BatchTopicExtractor` class inherits from the `BaseExtractor` and provides
+            an implementation for asynchronous topic extraction. This process ensures
+            efficient and thread-safe execution of batch operations using semaphores.
+
+            :param batch_index: An integer indicating the specific index of the batch
+                being processed during concurrent execution.
+                Type: int
+
+            :param node_batch: A list of `BaseNode` instances representing the batch of
+                nodes for which topics are being extracted. Each node contains
+                relevant information used during processing.
+                Type: Sequence[BaseNode]
+
+            :return: A list of dictionaries where each dictionary corresponds to
+                the extracted topics and related information for a processed node
+                within the batch.
+                Type: List[Dict]
             """
             async with semaphore:
-                return await self.process_single_batch(batch_index, node_batch, s3_client, bedrock_client)
+                return await self.process_single_batch(
+                    batch_index, node_batch, s3_client, bedrock_client
+                )
 
-        tasks = [process_batch_with_semaphore(i, batch) for i, batch in enumerate(node_batches)]
+        tasks = [
+            process_batch_with_semaphore(i, batch)
+            for i, batch in enumerate(node_batches)
+        ]
         batch_results = await asyncio.gather(*tasks)
 
         for result in batch_results:
@@ -337,8 +458,6 @@ class BatchTopicExtractor(BaseExtractor):
             record_id = node.node_id
             if record_id in all_results:
                 (topics, _) = parse_extracted_topics(all_results[record_id])
-                return_results.append({
-                    TOPICS_KEY: topics.model_dump()
-                })
+                return_results.append({TOPICS_KEY: topics.model_dump()})
 
         return return_results

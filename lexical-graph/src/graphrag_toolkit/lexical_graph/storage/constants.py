@@ -13,5 +13,5 @@ LEXICAL_GRAPH_LABELS = [
     '__Entity__',
     '__SYS_SV__EntityClassification__',
     '__SYS_SV__StatementTopic__',
-    '__SYS_Class__'
+    '__SYS_Class__',
 ]

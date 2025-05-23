@@ -5,8 +5,7 @@ from typing import Dict, Any, List, Callable
 from graphrag_toolkit.lexical_graph.storage.graph import GraphStore
 
 class GraphBatchClient():
-    """
-    Handles batched operations with a graph store client.
+    """Handles batched operations with a graph store client.
 
     GraphBatchClient is designed for handling operations in batches to optimize performance
     when interacting with a GraphStore. It enables batching of writes and efficient processing
@@ -21,12 +20,12 @@ class GraphBatchClient():
         all_nodes (list): A collection of all nodes processed for yielding.
     """
     def __init__(self, graph_client:GraphStore, batch_writes_enabled:bool, batch_write_size:int):
-        """
-        Initializes an instance of the class that manages the graph client and facilitates
-        batch processing of operations, such as writes. This class maintains a reference
-        to a graph client, enables or disables batch writes, and configures batch write
-        sizes. Additionally, it holds data structures for managing batched operations
-        and tracking all nodes processed.
+        """Initializes an instance of the class that manages the graph client
+        and facilitates batch processing of operations, such as writes. This
+        class maintains a reference to a graph client, enables or disables
+        batch writes, and configures batch write sizes. Additionally, it holds
+        data structures for managing batched operations and tracking all nodes
+        processed.
 
         Args:
             graph_client: The graph client instance used for interacting with the graph
@@ -44,8 +43,8 @@ class GraphBatchClient():
 
     @property
     def tenant_id(self):
-        """
-        Getter method for retrieving the tenant ID associated with the graph client.
+        """Getter method for retrieving the tenant ID associated with the graph
+        client.
 
         The tenant ID identifies the tenant to which the current graph client is bound.
 
@@ -55,8 +54,7 @@ class GraphBatchClient():
         return self.graph_client.tenant_id
 
     def node_id(self, id_name:str):
-        """
-        Fetches the node ID by a given name using the graph client.
+        """Fetches the node ID by a given name using the graph client.
 
         This function utilizes the `graph_client` to retrieve the unique node ID
         associated with the provided name. It acts as a proxy to the `node_id()`
@@ -71,8 +69,8 @@ class GraphBatchClient():
         return self.graph_client.node_id(id_name)
     
     def property_assigment_fn(self, key:str, value:Any) -> Callable[[str], str]:
-        """
-        Assigns a property to a specified key and returns a function to retrieve the property.
+        """Assigns a property to a specified key and returns a function to
+        retrieve the property.
 
         Args:
             key (str): The key to which the property will be assigned.
@@ -85,11 +83,11 @@ class GraphBatchClient():
         return self.graph_client.property_assigment_fn(key, value)
     
     def execute_query_with_retry(self, query:str, properties:Dict[str, Any], **kwargs):
-        """
-        Executes a query with retry logic. Supports batch processing of queries if
-        batch writes are enabled. When batch writes are enabled, properties are grouped
-        and stored in a batch for the given query. Otherwise, the query is executed
-        immediately with the provided properties and additional arguments.
+        """Executes a query with retry logic. Supports batch processing of
+        queries if batch writes are enabled. When batch writes are enabled,
+        properties are grouped and stored in a batch for the given query.
+        Otherwise, the query is executed immediately with the provided
+        properties and additional arguments.
 
         Args:
             query: The query string to be executed against the database.
@@ -105,9 +103,8 @@ class GraphBatchClient():
             self.batches[query].extend(properties['params'])
 
     def allow_yield(self, node):
-        """
-        Determines whether the given node should be processed immediately or added to a batch
-        if batch writes are enabled.
+        """Determines whether the given node should be processed immediately or
+        added to a batch if batch writes are enabled.
 
         This function evaluates the system's current mode of handling nodes and either appends
         the node to a pending batch queue when batch writes are enabled or permits immediate
@@ -129,9 +126,9 @@ class GraphBatchClient():
             return True
         
     def apply_batch_operations(self):
-        """
-        Executes batch operations by processing stored queries and parameters, deduplicating
-        them, and executing the queries in chunks according to the defined batch size.
+        """Executes batch operations by processing stored queries and
+        parameters, deduplicating them, and executing the queries in chunks
+        according to the defined batch size.
 
         Executes queries in retries to handle transient errors, ensuring robust and reliable
         execution. Returns the resulting nodes from the performed operations.
@@ -160,9 +157,9 @@ class GraphBatchClient():
         return self.all_nodes
   
     def _dedup(self, parameters:List):
-        """
-        Removes duplicate entries from the input list based on case-insensitive string
-        representation and maintains the last occurrence of each unique entry.
+        """Removes duplicate entries from the input list based on case-
+        insensitive string representation and maintains the last occurrence of
+        each unique entry.
 
         Args:
             parameters (List): A list of elements which may contain duplicates.
@@ -177,11 +174,10 @@ class GraphBatchClient():
         return list(params_map.values())
     
     def __enter__(self):
-        """
-        Handles the setup operations for a context manager. This method is invoked
-        automatically when the context manager is entered using the `with` statement,
-        and it ensures that any necessary initialization logic for the context is
-        executed.
+        """Handles the setup operations for a context manager. This method is
+        invoked automatically when the context manager is entered using the
+        `with` statement, and it ensures that any necessary initialization
+        logic for the context is executed.
 
         Returns:
             self: Returns the context manager instance to enable usage within the
@@ -190,9 +186,8 @@ class GraphBatchClient():
         return self
 
     def __exit__(self, exception_type, exception_value, exception_traceback):
-        """
-        Handles the exit of a context manager by suppressing exceptions or performing cleanup
-        operations when the context is exited.
+        """Handles the exit of a context manager by suppressing exceptions or
+        performing cleanup operations when the context is exited.
 
         Args:
             exception_type: The type of exception class that was raised, if any. If no
@@ -204,4 +199,3 @@ class GraphBatchClient():
         """
         pass
 
-    

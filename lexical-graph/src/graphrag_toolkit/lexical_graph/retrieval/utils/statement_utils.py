@@ -5,17 +5,22 @@ import numpy as np
 import threading
 import logging
 from typing import Dict, List
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_exponential,
+    retry_if_exception_type,
+)
 
 from graphrag_toolkit.lexical_graph.storage.graph.graph_utils import node_result
 from graphrag_toolkit.lexical_graph.storage.vector import VectorStore
 
 logger = logging.getLogger(__name__)
 
+
 def cosine_similarity(query_embedding, statement_embeddings):
-    """
-    Compute the cosine similarity between a query embedding and a set of statement
-    embeddings.
+    """Compute the cosine similarity between a query embedding and a set of
+    statement embeddings.
 
     This function calculates the cosine similarity between a provided query
     embedding and a list of statement embeddings. The function returns a tuple
@@ -51,15 +56,17 @@ def cosine_similarity(query_embedding, statement_embeddings):
     statement_embeddings = np.array(statement_embeddings)
 
     dot_product = np.dot(statement_embeddings, query_embedding)
-    norms = np.linalg.norm(statement_embeddings, axis=1) * np.linalg.norm(query_embedding)
-    
+    norms = np.linalg.norm(statement_embeddings, axis=1) * np.linalg.norm(
+        query_embedding
+    )
+
     similarities = dot_product / norms
     return similarities, statement_ids
 
+
 def get_top_k(query_embedding, statement_embeddings, top_k):
-    """
-    Fetches the top_k most similar statements to the given query embedding based on
-    cosine similarity.
+    """Fetches the top_k most similar statements to the given query embedding
+    based on cosine similarity.
 
     Args:
         query_embedding: A vector that represents the query to compare against
@@ -78,12 +85,14 @@ def get_top_k(query_embedding, statement_embeddings, top_k):
     logger.debug(f'statement_embeddings: {statement_embeddings}')
 
     if not statement_embeddings:
-        return []  
-    
-    similarities, statement_ids = cosine_similarity(query_embedding, statement_embeddings)
+        return []
+
+    similarities, statement_ids = cosine_similarity(
+        query_embedding, statement_embeddings
+    )
 
     logger.debug(f'similarities: {similarities}')
-    
+
     if len(similarities) == 0:
         return []
 
@@ -94,10 +103,11 @@ def get_top_k(query_embedding, statement_embeddings, top_k):
     top_similarities = similarities[top_indices]
     return list(zip(top_similarities, top_statement_ids))
 
+
 def get_statements_query(graph_store, statement_ids):
-    """
-    Generates and executes a Cypher query to fetch detailed information about
-    statements and their associated chunks and sources from the graph database.
+    """Generates and executes a Cypher query to fetch detailed information
+    about statements and their associated chunks and sources from the graph
+    database.
 
     The function retrieves data such as statement IDs, chunk details, and source
     metadata for a list of given statement IDs. It ensures that the results are
@@ -128,16 +138,16 @@ def get_statements_query(graph_store, statement_ids):
     statements = graph_store.execute_query(cypher, params)
     results = []
     for statement_id in statement_ids:
-                for statement in statements:
-                    if statement['result']['statement']['statementId'] == statement_id:
-                        results.append(statement)
+        for statement in statements:
+            if statement['result']['statement']['statementId'] == statement_id:
+                results.append(statement)
     return results
 
+
 def get_free_memory(gpu_index):
-    """
-    Retrieves the amount of free memory on a specific GPU device in megabytes (MB).
-    This function uses the NVIDIA Management Library (NVML) to query the memory
-    information of the GPU specified by its index.
+    """Retrieves the amount of free memory on a specific GPU device in
+    megabytes (MB). This function uses the NVIDIA Management Library (NVML) to
+    query the memory information of the GPU specified by its index.
 
     Args:
         gpu_index (int): The index of the GPU device for which the free memory
@@ -152,18 +162,20 @@ def get_free_memory(gpu_index):
     """
     try:
         import pynvml
+
         pynvml.nvmlInit()
         handle = pynvml.nvmlDeviceGetHandleByIndex(int(gpu_index))
         mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
-        return mem_info.free // 1024 ** 2
+        return mem_info.free // 1024**2
     except ImportError as e:
         raise ImportError(
-                "pynvml package not found, install with 'pip install pynvml'"
-            ) from e
+            "pynvml package not found, install with 'pip install pynvml'"
+        ) from e
+
 
 def get_top_free_gpus(n=2):
-    """
-    Gets indices of the top `n` GPUs based on free memory in descending order.
+    """Gets indices of the top `n` GPUs based on free memory in descending
+    order.
 
     This function utilizes the PyTorch library to check the amount of free memory
     available on each GPU. It returns the indices of the GPUs with the highest
@@ -183,21 +195,24 @@ def get_top_free_gpus(n=2):
     """
     try:
         import torch
+
         free_memory = []
         for i in range(torch.cuda.device_count()):
             free_memory.append(get_free_memory(i))
-        top_indices = sorted(range(len(free_memory)), key=lambda i: free_memory[i], reverse=True)[:n]
+        top_indices = sorted(
+            range(len(free_memory)), key=lambda i: free_memory[i], reverse=True
+        )[:n]
         return top_indices
     except ImportError as e:
         raise ImportError(
-                "torch package not found, install with 'pip install torch'"
-            ) from e
+            "torch package not found, install with 'pip install torch'"
+        ) from e
+
 
 class SharedEmbeddingCache:
-    """
-    SharedEmbeddingCache manages a cache for embeddings, which are fetched from a
-    vector store with retry logic. It ensures efficient retrieval of embeddings,
-    minimizing repeated calls to the external data source.
+    """SharedEmbeddingCache manages a cache for embeddings, which are fetched
+    from a vector store with retry logic. It ensures efficient retrieval of
+    embeddings, minimizing repeated calls to the external data source.
 
     This class is designed to store and manage embeddings in a thread-safe manner.
     It keeps track of requested embeddings in cache, and when requested embeddings
@@ -212,15 +227,20 @@ class SharedEmbeddingCache:
         _lock (threading.Lock): A lock to ensure thread-safe access to the cache or
             updates.
     """
-    def __init__(self, vector_store:VectorStore):
+
+    def __init__(self, vector_store: VectorStore):
         self._cache: Dict[str, np.ndarray] = {}
         self._lock = threading.Lock()
         self.vector_store = vector_store
 
-    @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10),retry=retry_if_exception_type(Exception))
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=retry_if_exception_type(Exception),
+    )
     def _fetch_embeddings(self, statement_ids: List[str]) -> Dict[str, np.ndarray]:
-        """
-        Fetches embeddings for the specified statement IDs from the vector store.
+        """Fetches embeddings for the specified statement IDs from the vector
+        store.
 
         Utilizes an exponential backoff retry mechanism to handle transient errors.
         This method interacts with a vector store backend to retrieve embeddings
@@ -236,18 +256,19 @@ class SharedEmbeddingCache:
             Dict[str, np.ndarray]: A dictionary where keys are statement IDs and
                 values are NumPy arrays of the corresponding embeddings.
         """
-        embeddings = self.vector_store.get_index('statement').get_embeddings(statement_ids)
+        embeddings = self.vector_store.get_index('statement').get_embeddings(
+            statement_ids
+        )
         return {
-            e['statement']['statementId']: np.array(e['embedding']) 
-            for e in embeddings
+            e['statement']['statementId']: np.array(e['embedding']) for e in embeddings
         }
 
     def get_embeddings(self, statement_ids: List[str]) -> Dict[str, np.ndarray]:
-        """
-        Retrieves the embeddings for the provided statement identifiers. The method first attempts
-        to fetch embeddings from the internal cache. If any requested embeddings are not found in
-        the cache, it tries to fetch them using an external method, updates the cache, and
-        returns all the collected embeddings. If fetching new embeddings fails, the method
+        """Retrieves the embeddings for the provided statement identifiers. The
+        method first attempts to fetch embeddings from the internal cache. If
+        any requested embeddings are not found in the cache, it tries to fetch
+        them using an external method, updates the cache, and returns all the
+        collected embeddings. If fetching new embeddings fails, the method
         returns only the embeddings retrieved from the cache.
 
         Args:
@@ -281,6 +302,8 @@ class SharedEmbeddingCache:
             except Exception as e:
                 logger.error(f"Failed to fetch embeddings after retries: {e}")
                 # Return what we have from cache
-                logger.warning(f"Returning {len(cached_embeddings)} cached embeddings out of {len(statement_ids)} requested")
+                logger.warning(
+                    f"Returning {len(cached_embeddings)} cached embeddings out of {len(statement_ids)} requested"
+                )
 
         return cached_embeddings

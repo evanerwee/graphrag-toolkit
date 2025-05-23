@@ -11,10 +11,9 @@ from graphrag_toolkit.lexical_graph.indexing.build.build_filters import BuildFil
 from graphrag_toolkit.lexical_graph.indexing.constants import DEFAULT_CLASSIFICATION
 
 class NodeBuilder(BaseComponent):
-    """
-    NodeBuilder is an abstract base class responsible for constructing and managing
-    nodes. It provides a blueprint for creating nodes with specific attributes,
-    filters, and metadata formatting.
+    """NodeBuilder is an abstract base class responsible for constructing and
+    managing nodes. It provides a blueprint for creating nodes with specific
+    attributes, filters, and metadata formatting.
 
     Detailed description of the class, its purpose, and usage. The class includes
     methods for cleaning and formatting data, as well as abstract methods that
@@ -34,9 +33,8 @@ class NodeBuilder(BaseComponent):
     @classmethod
     @abc.abstractmethod
     def name(cls) -> str:
-        """
-        Abstract base class method that defines the contract for returning a string
-        identifier. This method must be implemented by all subclasses.
+        """Abstract base class method that defines the contract for returning a
+        string identifier. This method must be implemented by all subclasses.
 
         Args:
             cls: The class that this method is bound to.
@@ -49,10 +47,9 @@ class NodeBuilder(BaseComponent):
     @classmethod
     @abc.abstractmethod
     def metadata_keys(cls) -> List[str]:
-        """
-        Defines an abstract method to retrieve metadata keys for the class. This method
-        must be implemented by any subclass to provide a list of string keys related to
-        metadata attributes.
+        """Defines an abstract method to retrieve metadata keys for the class.
+        This method must be implemented by any subclass to provide a list of
+        string keys related to metadata attributes.
 
         Returns:
             List[str]: A list of metadata keys represented as strings.
@@ -61,8 +58,7 @@ class NodeBuilder(BaseComponent):
 
     @abc.abstractmethod
     def build_nodes(self, nodes:List[BaseNode]) -> List[BaseNode]:
-        """
-        Abstract base class for building a list of nodes.
+        """Abstract base class for building a list of nodes.
 
         This class serves as a blueprint for implementing specific operations on a list
         of nodes. The `build_nodes` method must be implemented by any concrete subclass
@@ -71,8 +67,8 @@ class NodeBuilder(BaseComponent):
         pass
     
     def _clean_id(self, s):
-        """
-        Cleans a given string by removing all characters that are not alphanumeric.
+        """Cleans a given string by removing all characters that are not
+        alphanumeric.
 
         This method takes a string as input and removes any character that is not
         a letter or a digit, then returns the cleaned string. The functionality
@@ -87,8 +83,8 @@ class NodeBuilder(BaseComponent):
         return ''.join(c for c in s if c.isalnum())
         
     def _format_classification(self, classification):
-        """
-        Formats the given classification string if it is not empty or equal to the default classification.
+        """Formats the given classification string if it is not empty or equal
+        to the default classification.
 
         Args:
             classification: The classification string to be formatted. If it is None or matches the
@@ -104,8 +100,7 @@ class NodeBuilder(BaseComponent):
             return f' ({classification})'
     
     def _format_fact(self, s, sc, p, o, oc):
-        """
-        Formats and returns a string representation of a fact.
+        """Formats and returns a string representation of a fact.
 
         Args:
             s: Subject of the fact.

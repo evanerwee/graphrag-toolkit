@@ -4,7 +4,10 @@ import logging
 from typing import List, Sequence, Any, Optional
 
 from graphrag_toolkit.lexical_graph.metadata import FilterConfig
-from graphrag_toolkit.lexical_graph.storage.vector import VectorIndex, VectorIndexFactoryMethod
+from graphrag_toolkit.lexical_graph.storage.vector import (
+    VectorIndex,
+    VectorIndexFactoryMethod,
+)
 
 from llama_index.core.schema import QueryBundle
 from llama_index.core.vector_stores.types import MetadataFilters
@@ -14,9 +17,9 @@ DUMMY = 'dummy://'
 
 logger = logging.getLogger(__name__)
 
+
 class DummyVectorIndexFactory(VectorIndexFactoryMethod):
-    """
-    Factory class for creating dummy vector indexes.
+    """Factory class for creating dummy vector indexes.
 
     This class is used to instantiate and return dummy vector index objects if specified
     criteria are met. It inherits from the base `VectorIndexFactoryMethod` and
@@ -26,9 +29,12 @@ class DummyVectorIndexFactory(VectorIndexFactoryMethod):
     Attributes:
         None
     """
-    def try_create(self, index_names:List[str], vector_index_info:str, **kwargs) -> List[VectorIndex]:
-        """
-        Tries to create vector indexes based on the provided index names and vector index information.
+
+    def try_create(
+        self, index_names: List[str], vector_index_info: str, **kwargs
+    ) -> List[VectorIndex]:
+        """Tries to create vector indexes based on the provided index names and
+        vector index information.
 
         This method checks whether the provided vector index information starts with a specific
         prefix (DUMMY). If it does, it creates and returns a list of `DummyVectorIndex` objects
@@ -46,14 +52,15 @@ class DummyVectorIndexFactory(VectorIndexFactoryMethod):
         """
         if vector_index_info.startswith(DUMMY):
             logger.debug(f'Opening dummy vector indexes [index_names: {index_names}]')
-            return [DummyVectorIndex(index_name=index_name) for index_name in index_names]
+            return [
+                DummyVectorIndex(index_name=index_name) for index_name in index_names
+            ]
         else:
             return None
 
 
 class DummyVectorIndex(VectorIndex):
-    """
-    Represents a dummy vector index.
+    """Represents a dummy vector index.
 
     This class is a placeholder implementation of a vector index. It includes methods
     for adding embeddings, retrieving embeddings for given IDs, and performing a
@@ -63,9 +70,9 @@ class DummyVectorIndex(VectorIndex):
     Attributes:
         index_name (str): The name of the index used for logging and identification.
     """
+
     def add_embeddings(self, nodes):
-        """
-        Adds embeddings for the given list of nodes.
+        """Adds embeddings for the given list of nodes.
 
         This method processes the provided nodes and logs the action of adding
         embeddings for each node by accessing their unique identifiers.
@@ -73,11 +80,18 @@ class DummyVectorIndex(VectorIndex):
         Args:
             nodes (list): A list of node objects for which embeddings are to be added.
         """
-        logger.debug(f'[{self.index_name}] add embeddings for nodes: {[n.id_ for n in nodes]}')
-    
-    def top_k(self, query_bundle:QueryBundle, top_k:int=5, filter_config:Optional[FilterConfig]=None) -> Sequence[Any]:
-        """
-        Retrieves and returns the top-k results based on the given query and optional filter configuration.
+        logger.debug(
+            f'[{self.index_name}] add embeddings for nodes: {[n.id_ for n in nodes]}'
+        )
+
+    def top_k(
+        self,
+        query_bundle: QueryBundle,
+        top_k: int = 5,
+        filter_config: Optional[FilterConfig] = None,
+    ) -> Sequence[Any]:
+        """Retrieves and returns the top-k results based on the given query and
+        optional filter configuration.
 
         This method processes the input query bundle and applies the given filtering criteria
         (if provided) to retrieve a specific number of top-ranked elements from the dataset.
@@ -92,12 +106,13 @@ class DummyVectorIndex(VectorIndex):
         Returns:
             Sequence[Any]: A sequence of top-ranked results matching the query and filter criteria.
         """
-        logger.debug(f'[{self.index_name}] top k query: {query_bundle.query_str}, top_k: {top_k}, filter_config: {filter_config}')
+        logger.debug(
+            f'[{self.index_name}] top k query: {query_bundle.query_str}, top_k: {top_k}, filter_config: {filter_config}'
+        )
         return []
 
-    def get_embeddings(self, ids:List[str]=[]) -> Sequence[Any]:
-        """
-        Gets embeddings for a list of document IDs.
+    def get_embeddings(self, ids: List[str] = []) -> Sequence[Any]:
+        """Gets embeddings for a list of document IDs.
 
         This function retrieves embeddings associated with the provided document IDs.
         Embeddings represent vectorized representations of data, which might be

@@ -7,10 +7,10 @@ from typing import Iterable
 
 from graphrag_toolkit.lexical_graph.indexing.model import SourceDocument
 
+
 @six.add_metaclass(abc.ABCMeta)
-class PipelineDecorator():
-    """
-    Abstract base class for defining pipeline decorators.
+class PipelineDecorator:
+    """Abstract base class for defining pipeline decorators.
 
     This class provides an interface for creating pipeline decorators that
     process input documents and transform them through an arbitrary operation.
@@ -20,11 +20,14 @@ class PipelineDecorator():
     Attributes:
         None
     """
+
     @abc.abstractmethod
-    def handle_input_docs(self, docs:Iterable[SourceDocument]) -> Iterable[SourceDocument]:
-        """
-        Abstract method that processes a collection of SourceDocument instances
-        and returns an iterable of processed SourceDocument instances.
+    def handle_input_docs(
+        self, docs: Iterable[SourceDocument]
+    ) -> Iterable[SourceDocument]:
+        """Abstract method that processes a collection of SourceDocument
+        instances and returns an iterable of processed SourceDocument
+        instances.
 
         This method defines an interface for handling input documents that must
         be implemented by subclasses. The implementation of the method should
@@ -42,9 +45,8 @@ class PipelineDecorator():
 
     @abc.abstractmethod
     def handle_output_doc(self, doc: SourceDocument) -> SourceDocument:
-        """
-        An abstract method to process and handle an input SourceDocument object
-        and return the processed SourceDocument.
+        """An abstract method to process and handle an input SourceDocument
+        object and return the processed SourceDocument.
 
         Args:
             doc (SourceDocument): The input document that needs to be processed.
@@ -53,4 +55,3 @@ class PipelineDecorator():
             SourceDocument: The processed document after handling.
         """
         pass
-

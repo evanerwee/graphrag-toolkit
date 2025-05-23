@@ -5,9 +5,18 @@ import logging
 from typing import List, Optional, Union, Any
 from pipe import Pipe
 
-from graphrag_toolkit.lexical_graph.tenant_id import TenantId, TenantIdType, DEFAULT_TENANT_ID, to_tenant_id
-from graphrag_toolkit.lexical_graph.metadata import FilterConfig, SourceMetadataFormatter, \
-    DefaultSourceMetadataFormatter, MetadataFiltersType
+from graphrag_toolkit.lexical_graph.tenant_id import (
+    TenantId,
+    TenantIdType,
+    DEFAULT_TENANT_ID,
+    to_tenant_id,
+)
+from graphrag_toolkit.lexical_graph.metadata import (
+    FilterConfig,
+    SourceMetadataFormatter,
+    DefaultSourceMetadataFormatter,
+    MetadataFiltersType,
+)
 from graphrag_toolkit.lexical_graph.storage import GraphStoreFactory, GraphStoreType
 from graphrag_toolkit.lexical_graph.storage import VectorStoreFactory, VectorStoreType
 from graphrag_toolkit.lexical_graph.storage.graph import MultiTenantGraphStore
@@ -16,13 +25,29 @@ from graphrag_toolkit.lexical_graph.storage.vector import MultiTenantVectorStore
 from graphrag_toolkit.lexical_graph.indexing.extract import BatchConfig
 from graphrag_toolkit.lexical_graph.indexing import NodeHandler
 from graphrag_toolkit.lexical_graph.indexing import sink
-from graphrag_toolkit.lexical_graph.indexing.constants import PROPOSITIONS_KEY, DEFAULT_ENTITY_CLASSIFICATIONS
-from graphrag_toolkit.lexical_graph.indexing.extract import ScopedValueProvider, FixedScopedValueProvider, DEFAULT_SCOPE
+from graphrag_toolkit.lexical_graph.indexing.constants import (
+    PROPOSITIONS_KEY,
+    DEFAULT_ENTITY_CLASSIFICATIONS,
+)
+from graphrag_toolkit.lexical_graph.indexing.extract import (
+    ScopedValueProvider,
+    FixedScopedValueProvider,
+    DEFAULT_SCOPE,
+)
 from graphrag_toolkit.lexical_graph.indexing.extract import GraphScopedValueStore
-from graphrag_toolkit.lexical_graph.indexing.extract import LLMPropositionExtractor, BatchLLMPropositionExtractor
-from graphrag_toolkit.lexical_graph.indexing.extract import TopicExtractor, BatchTopicExtractor
+from graphrag_toolkit.lexical_graph.indexing.extract import (
+    LLMPropositionExtractor,
+    BatchLLMPropositionExtractor,
+)
+from graphrag_toolkit.lexical_graph.indexing.extract import (
+    TopicExtractor,
+    BatchTopicExtractor,
+)
 from graphrag_toolkit.lexical_graph.indexing.extract import ExtractionPipeline
-from graphrag_toolkit.lexical_graph.indexing.extract import InferClassifications, InferClassificationsConfig
+from graphrag_toolkit.lexical_graph.indexing.extract import (
+    InferClassifications,
+    InferClassificationsConfig,
+)
 from graphrag_toolkit.lexical_graph.indexing.build import BuildPipeline
 from graphrag_toolkit.lexical_graph.indexing.build import VectorIndexing
 from graphrag_toolkit.lexical_graph.indexing.build import GraphConstruction
@@ -38,40 +63,48 @@ DEFAULT_EXTRACTION_DIR = 'output'
 logger = logging.getLogger(__name__)
 
 
-class ExtractionConfig():
+class ExtractionConfig:
     """
-    Configuration for extraction-related operations.
+    Configuration for extraction processes.
 
-    This class defines the settings and parameters for configuring extraction
-    processes such as proposition extraction, entity classification inference,
-    and topic or metadata filtering. It provides flexibility in customizing
-    the extraction behavior and prompts to tailor it to specific use cases.
+    This class encapsulates configurations related to extraction processes, such
+    as proposition extraction and entity classification. It provides settings
+    to control various aspects of the extraction behavior, including prompts
+    for proposition and topic extractions, entity classification inference, and
+    filter configurations. The purpose is to allow users to customize the
+    extraction process to their needs.
 
-    Attributes:
-        enable_proposition_extraction (bool): Determines whether proposition
-        extraction is enabled. Defaults to True.
-        preferred_entity_classifications (List[str]): A list of preferred entity
-        classifications to focus on during the extraction process.
-        Defaults to DEFAULT_ENTITY_CLASSIFICATIONS if not specified.
-        infer_entity_classifications (Union[InferClassificationsConfig, bool]):
-        Specifies whether to infer entity classifications, using either a
-        configuration object or a boolean flag. Defaults to False.
-        extract_propositions_prompt_template (Optional[str]): A template string
-        used to prompt proposition extraction. If None, a default prompt is
-        assumed.
-        extract_topics_prompt_template (Optional[str]): A template string used
-        to prompt topic extraction. If None, a default prompt is assumed.
-        extraction_filters (Optional[MetadataFiltersType]): Metadata filters to
-        be applied during the extraction process. Will be internally converted
-        to a FilterConfig object.
+    :ivar enable_proposition_extraction: Determines whether proposition extraction
+        is enabled in the extraction process.
+    :type enable_proposition_extraction: bool
+    :ivar preferred_entity_classifications: Defines a list of preferred entity
+        classifications that guide the entity extraction process.
+    :type preferred_entity_classifications: List[str]
+    :ivar infer_entity_classifications: Specifies whether entity classifications
+        should be automatically inferred. Can be configured with a specific
+        configuration or as a boolean.
+    :type infer_entity_classifications: Union[InferClassificationsConfig, bool]
+    :ivar extract_propositions_prompt_template: A template for the prompt to be used
+        when extracting propositions. This option allows custom prompts for a more
+        customized extraction process.
+    :type extract_propositions_prompt_template: Optional[str]
+    :ivar extract_topics_prompt_template: A template for the prompt to be used when
+        extracting topics, providing additional flexibility in topic extraction.
+    :type extract_topics_prompt_template: Optional[str]
+    :ivar extraction_filters: An optional configuration for metadata filters to
+        refine the extraction process based on user-defined criteria.
+    :type extraction_filters: Optional[MetadataFiltersType]
     """
-    def __init__(self,
-                 enable_proposition_extraction: bool = True,
-                 preferred_entity_classifications: List[str] = DEFAULT_ENTITY_CLASSIFICATIONS,
-                 infer_entity_classifications: Union[InferClassificationsConfig, bool] = False,
-                 extract_propositions_prompt_template: Optional[str] = None,
-                 extract_topics_prompt_template: Optional[str] = None,
-                 extraction_filters: Optional[MetadataFiltersType] = None):
+
+    def __init__(
+        self,
+        enable_proposition_extraction: bool = True,
+        preferred_entity_classifications: List[str] = DEFAULT_ENTITY_CLASSIFICATIONS,
+        infer_entity_classifications: Union[InferClassificationsConfig, bool] = False,
+        extract_propositions_prompt_template: Optional[str] = None,
+        extract_topics_prompt_template: Optional[str] = None,
+        extraction_filters: Optional[MetadataFiltersType] = None,
+    ):
         self.enable_proposition_extraction = enable_proposition_extraction
         self.preferred_entity_classifications = preferred_entity_classifications
         self.infer_entity_classifications = infer_entity_classifications
@@ -80,88 +113,101 @@ class ExtractionConfig():
         self.extraction_filters = FilterConfig(extraction_filters)
 
 
-class BuildConfig():
+class BuildConfig:
     """
-    Configuration for the build process.
+    Encapsulates configuration settings for a build process.
 
-    This class encapsulates the configuration parameters and settings used during
-    the build process. It provides options to specify filters, domain label
-    inclusion, and metadata formatting. Users can customize these parameters
-    to control build behavior as needed.
+    Provides options to use build filters, include domain labels, and format
+    source metadata. This class is designed to streamline and customize the
+    build process with optional parameters and default values.
 
-    Attributes:
-        build_filters (Optional[BuildFilters]): Filters applied during the build
-        process to include or exclude specific elements.
-        include_domain_labels (Optional[bool]): Flag indicating whether to include
-        domain labels as part of the build output.
-        source_metadata_formatter (Optional[SourceMetadataFormatter]): Formatter
-        responsible for handling source metadata during the build.
+    :ivar build_filters: The filters applied during the build process.
+        Defaults to an instance of BuildFilters.
+    :type build_filters: Optional[BuildFilters]
+    :ivar include_domain_labels: Indicates whether domain labels are included in
+        the build output. Defaults to False.
+    :type include_domain_labels: Optional[bool]
+    :ivar source_metadata_formatter: Handles formatting of source metadata used
+        in the build process. Defaults to an instance of
+        DefaultSourceMetadataFormatter.
+    :type source_metadata_formatter: Optional[SourceMetadataFormatter]
     """
-    def __init__(self,
-                 build_filters: Optional[BuildFilters] = None,
-                 include_domain_labels: Optional[bool] = None,
-                 source_metadata_formatter: Optional[SourceMetadataFormatter] = None):
+
+    def __init__(
+        self,
+        build_filters: Optional[BuildFilters] = None,
+        include_domain_labels: Optional[bool] = None,
+        source_metadata_formatter: Optional[SourceMetadataFormatter] = None,
+    ):
         """
-        Initializes an instance of the class. This constructor allows for the optional
-        configuration of filters, domain label inclusion, and a metadata formatter.
-        The appropriate default values will be used if no arguments are provided.
+        Initializes an instance of the class, allowing for optional customization of filter
+        construction, domain labeling, and metadata formatting. These attributes enable tailored
+        behavior of the object based on provided settings or defaults.
 
-        Args:
-            build_filters: An optional instance of BuildFilters. If not provided,
-            a default BuildFilters instance will be used.
-            include_domain_labels: An optional boolean indicating whether to include
-            domain labels. Defaults to False if not provided.
-            source_metadata_formatter: An optional instance of SourceMetadataFormatter
-            to format source metadata. If not provided, a DefaultSourceMetadataFormatter
-            instance will be used.
+        :param build_filters: An optional instance of ``BuildFilters`` used for customizing
+            filter creation. Defaults to a new instance of ``BuildFilters`` if not supplied.
+        :param include_domain_labels: An optional boolean flag indicating whether domain
+            labels should be included. Defaults to ``False`` if not provided.
+        :param source_metadata_formatter: An optional instance of ``SourceMetadataFormatter``
+            used to format metadata from the source. Defaults to an instance of
+            ``DefaultSourceMetadataFormatter`` if not provided.
         """
         self.build_filters = build_filters or BuildFilters()
         self.include_domain_labels = include_domain_labels or False
-        self.source_metadata_formatter = source_metadata_formatter or DefaultSourceMetadataFormatter()
+        self.source_metadata_formatter = (
+            source_metadata_formatter or DefaultSourceMetadataFormatter()
+        )
 
 
-class IndexingConfig():
+class IndexingConfig:
     """
-    Configuration for indexing data.
+    Configuration class for data processing, including chunking, extraction,
+    building, and batch processing.
 
-    This class encapsulates configurations required for indexing data, including
-    chunking, extraction, build, and batch configuration. It is designed to provide
-    flexibility in setting up the indexing process with optional configurations for
-    data parsing, information extraction, build process, and batching.
+    This class stores configurations to control how data is handled in terms
+    of splitting into smaller segments, extracting relevant information,
+    building processed entities, and managing batch operations during an
+    indexing process.
 
-    Attributes:
-        chunking (Optional[List[NodeParser]]): List of chunking strategies to be
-        applied during indexing. If no chunking strategies are provided, a
-        default `SentenceSplitter` is used with a chunk size of 256 and an
-        overlap of 20.
-        extraction (Optional[ExtractionConfig]): Configuration for data extraction,
-        defaulting to a new instance of `ExtractionConfig` if not provided.
-        build (Optional[BuildConfig]): Build-specific configuration, defaulting to
-        a new instance of `BuildConfig` if not provided.
-        batch_config (Optional[BatchConfig]): Configuration for batch inference.
-        Defaults to None, indicating that batch inference is not used.
+    :ivar chunking: List of node parsers used for text chunking. If None,
+        chunking is disabled. An empty list appends a default `SentenceSplitter`.
+    :ivar extraction: Configuration for extracting specific information
+        during processing. Defaults to a new `ExtractionConfig` instance if
+        not provided.
+    :ivar build: Configuration for constructing processed entities. Defaults
+        to a new `BuildConfig` instance if not set.
+    :ivar batch_config: Configuration for handling batch inference
+        operations. If None, batch inference is not utilized.
     """
-    def __init__(self,
-                 chunking: Optional[List[NodeParser]] = [],
-                 extraction: Optional[ExtractionConfig] = None,
-                 build: Optional[BuildConfig] = None,
-                 batch_config: Optional[BatchConfig] = None):
+
+    def __init__(
+        self,
+        chunking: Optional[List[NodeParser]] = [],
+        extraction: Optional[ExtractionConfig] = None,
+        build: Optional[BuildConfig] = None,
+        batch_config: Optional[BatchConfig] = None,
+    ):
         """
-        Initializes the instance with configurations for chunking, extraction, building,
-        and batch processing. These configurations determine the behavior of the system
-        when processing data in terms of splitting, extracting information, building entities,
-        and handling batch operations.
+        Initialize the class instance with configurations for various processing stages. This includes
+        chunking of input data into segments, extraction of essential information, building the final
+        output, and configuring batch processing. The default configurations are provided if none
+        are specified during initialization.
 
-        Args:
-            chunking (Optional[List[NodeParser]]): A list of node parsers used for chunking
-                text into smaller segments. When set to None, no chunking is performed. A
-                default SentenceSplitter is added if an empty list is provided.
-            extraction (Optional[ExtractionConfig]): Configuration for extracting relevant
-                information. If not provided, a default `ExtractionConfig` is used.
-            build (Optional[BuildConfig]): Configuration for handling building operations.
-                Defaults to a new `BuildConfig` instance when not specified.
-            batch_config (Optional[BatchConfig]): Configuration for batch inference
-                operations. If None, batch inference is not used.
+        :param chunking: A list of `NodeParser` instances used for breaking input into chunks. If not
+            provided, a default `SentenceSplitter` instance is added with predefined configurations.
+        :type chunking: Optional[List[NodeParser]]
+
+        :param extraction: Configuration for the extraction process. If not provided, a default
+            `ExtractionConfig` instance is used.
+        :type extraction: Optional[ExtractionConfig]
+
+        :param build: Configuration for building final output. If not provided, a default
+            `BuildConfig` instance is used.
+        :type build: Optional[BuildConfig]
+
+        :param batch_config: Configuration for batch processing. If not specified, batch inference
+            is disabled.
+        :type batch_config: Optional[BatchConfig]
         """
         if chunking is not None and len(chunking) == 0:
             chunking.append(SentenceSplitter(chunk_size=256, chunk_overlap=20))
@@ -174,19 +220,15 @@ class IndexingConfig():
 
 def get_topic_scope(node: BaseNode):
     """
-    Retrieves the topic scope for a given node.
+    Determines and retrieves the topic scope based on a node's relationships. If the node has a
+    relationship of type SOURCE, the topic scope is derived from the corresponding source node's
+    identifier. Otherwise, a default topic scope is returned.
 
-    This function determines the topic scope of the provided node by examining
-    its SOURCE relationship. If the SOURCE relationship does not exist, it
-    returns a default scope constant. Otherwise, it retrieves the node ID from
-    the SOURCE relationship.
-
-    Args:
-        node (BaseNode): The node for which the topic scope is determined.
-
-    Returns:
-        str: The determined topic scope of the node. If no SOURCE relationship
-        exists, returns a default scope.
+    :param node: The input object of type BaseNode whose relationships are used to
+        determine the topic scope.
+    :return: The topic scope corresponding to the node, either derived from a SOURCE
+        relationship or the default topic scope.
+    :rtype: str
     """
     source = node.relationships.get(NodeRelationship.SOURCE, None)
     if not source:
@@ -195,33 +237,33 @@ def get_topic_scope(node: BaseNode):
         return source.node_id
 
 
-IndexingConfigType = Union[IndexingConfig, ExtractionConfig, BuildConfig, BatchConfig, List[NodeParser]]
+IndexingConfigType = Union[
+    IndexingConfig, ExtractionConfig, BuildConfig, BatchConfig, List[NodeParser]
+]
 
 
-def to_indexing_config(indexing_config: Optional[IndexingConfigType] = None) -> IndexingConfig:
+def to_indexing_config(
+    indexing_config: Optional[IndexingConfigType] = None,
+) -> IndexingConfig:
     """
-    Converts a given indexing configuration into an `IndexingConfig` object.
+    Converts the given indexing configuration or related configuration type
+    to an IndexingConfig instance. Provides a central mechanism to handle
+    various supported types and ensures compatibility with the IndexingConfig
+    object. If no indexing configuration is provided, a default
+    IndexingConfig object is created and returned.
 
-    This function takes an optional parameter `indexing_config`. Depending on the
-    type of the input, it creates and returns an `IndexingConfig` object. If no
-    input is provided, it returns a default `IndexingConfig` object. The function
-    validates the input and raises a `ValueError` if the provided type does not
-    match any supported configuration type.
+    :param indexing_config: The input indexing configuration or related
+        configuration type to be converted. Accepts None, IndexingConfig,
+        ExtractionConfig, BuildConfig, BatchConfig, or a list of NodeParser
+        instances.
+    :type indexing_config: Optional[IndexingConfigType]
 
-    Args:
-        indexing_config: Optional; Can be of type `IndexingConfig`,
-            `ExtractionConfig`, `BuildConfig`, `BatchConfig`, `list` of
-            `NodeParser`, or `None`. Represents the indexing configuration
-            which will be transformed into an `IndexingConfig` object.
-            If provided as `list`, each item in the list must be an instance
-            of `NodeParser`.
+    :return: An instance of IndexingConfig based on the input configuration
+        type. If the input is invalid, a ValueError will be raised.
+    :rtype: IndexingConfig
 
-    Returns:
-        IndexingConfig: A configured `IndexingConfig` object based on the input.
-
-    Raises:
-        ValueError: If `indexing_config` is of an unsupported type, or if it is
-        a `list` containing elements that are not of type `NodeParser`.
+    :raises ValueError: If the provided input is of an unsupported type or if
+        the list items in the input are not all instances of NodeParser.
     """
     if not indexing_config:
         return IndexingConfig()
@@ -242,54 +284,95 @@ def to_indexing_config(indexing_config: Optional[IndexingConfigType] = None) -> 
         raise ValueError(f'Invalid indexing config type: {type(indexing_config)}')
 
 
-class LexicalGraphIndex():
+class LexicalGraphIndex:
     """
-    Manages the creation of a lexical graph and vector store index for node data extraction
-    and indexing. The class integrates multiple pipelines to support tasks including entity
-    classification, proposition extraction, topic extraction, and graph-based operations.
+    A robust class designed to manage and process semantic graphs and vector
+    stores for building index pipelines. This class facilitates the extraction,
+    transformation, and storage of graph and vector representations, utilizing
+    configurable components and processing pipelines tailored to organizational
+    or project-specific needs.
 
-    The primary usage of this class is to configure and process input data into structured
-    graph and vector store formats suitable for various retrieval and inference tasks. The
-    class relies on configurable components for batch processing, classification inference,
-    and topic scoping, making it adaptable to different indexing requirements.
+    The class supports dynamic pipeline assembly for operations such as
+    proposition and topic extraction, entity classification inference,
+    chunking, and other related tasks. It integrates with tenant-specific data
+    configurations and guarantees flexible processing options for different
+    extraction and build requirements.
 
-    Attributes:
-        graph_store (MultiTenantGraphStore): Multi-tenant wrapper for the graph store used for
-            indexing and graph-based operations.
-        vector_store (MultiTenantVectorStore): Multi-tenant wrapper for the vector store used
-            for efficient vector search and retrieval tasks.
-        tenant_id (TenantId): The tenant ID associated with the current instance.
-        extraction_dir (str): Path to the directory used for temporary storage during data
-            extraction.
-        indexing_config (IndexingConfig): Configuration object containing various attributes
-            to control indexing behavior, such as enabling chunking, proposition extraction,
-            and classification inference.
-        extraction_pre_processors (list): List of preprocessing steps used for data processing
-            during the extraction pipeline.
-        extraction_components (list): List of components forming the main data extraction
-            pipeline, including proposition and topic extractors.
-        allow_batch_inference (bool): Specifies whether batch inference is allowed based on
-            indexing configuration settings.
+    :ivar graph_store: The graph store for managing semantic graphs. It supports
+        dynamic tenant wrapping.
+    :type graph_store: MultiTenantGraphStore
+    :ivar vector_store: The vector store for managing vectorized representations
+        of nodes and graphs, extended for multi-tenant handling.
+    :type vector_store: MultiTenantVectorStore
+    :ivar tenant_id: The tenant identifier to segregate data and processes
+        between different clients or users.
+    :type tenant_id: TenantId
+    :ivar extraction_dir: The directory path for storing intermediate extraction
+        results or configurations during pipeline operations.
+    :type extraction_dir: str
+    :ivar indexing_config: The configuration object defining all indexing and
+        extraction parameters, including batch settings, chunking, and inference
+        options.
+    :type indexing_config: IndexingConfigType
+    :ivar extraction_pre_processors: A list of preprocessing steps applied before
+        the main extraction pipeline, such as batch classification inference.
+    :type extraction_pre_processors: list
+    :ivar extraction_components: The primary components of the extraction pipeline
+        including proposition and topic extractors.
+    :type extraction_components: list
+    :ivar allow_batch_inference: A flag indicating whether batch inference is
+        enabled based on the indexing configuration.
+    :type allow_batch_inference: bool
     """
 
     def __init__(
-            self,
-            graph_store: Optional[GraphStoreType] = None,
-            vector_store: Optional[VectorStoreType] = None,
-            tenant_id: Optional[TenantIdType] = None,
-            extraction_dir: Optional[str] = None,
-            indexing_config: Optional[IndexingConfigType] = None,
+        self,
+        graph_store: Optional[GraphStoreType] = None,
+        vector_store: Optional[VectorStoreType] = None,
+        tenant_id: Optional[TenantIdType] = None,
+        extraction_dir: Optional[str] = None,
+        indexing_config: Optional[IndexingConfigType] = None,
     ):
+        """
+        This constructor initializes a class instance with multiple configurable stores,
+        directories, and indexing configurations. It ensures that tenant-specific
+        information is correctly wrapped and managed for both graph and vector stores.
+        The function also initializes extraction-related processing components based on
+        the specified configuration. Additionally, it determines whether batch
+        inference is allowed based on the presence of a batch configuration.
 
+        :param graph_store: The graph store instance used for managing structured
+            data; if not provided, a default instance may be supplied.
+        :type graph_store: Optional[GraphStoreType]
+        :param vector_store: The vector store instance utilized for storing
+            vectorized information; defaults to None if not specified.
+        :type vector_store: Optional[VectorStoreType]
+        :param tenant_id: An optional tenant identifier that ensures tenant-specific
+            scoping is applied across the graph and vector stores.
+        :type tenant_id: Optional[TenantIdType]
+        :param extraction_dir: Directory used for extraction-related processing; if not
+            specified, defaults to a predefined location.
+        :type extraction_dir: Optional[str]
+        :param indexing_config: Configuration object that dictates indexing strategies,
+            including batching, pre-processing, and other extraction pipeline
+            configurations.
+        :type indexing_config: Optional[IndexingConfigType]
+        """
         tenant_id = to_tenant_id(tenant_id)
 
-        self.graph_store = MultiTenantGraphStore.wrap(GraphStoreFactory.for_graph_store(graph_store), tenant_id)
-        self.vector_store = MultiTenantVectorStore.wrap(VectorStoreFactory.for_vector_store(vector_store), tenant_id)
+        self.graph_store = MultiTenantGraphStore.wrap(
+            GraphStoreFactory.for_graph_store(graph_store), tenant_id
+        )
+        self.vector_store = MultiTenantVectorStore.wrap(
+            VectorStoreFactory.for_vector_store(vector_store), tenant_id
+        )
         self.tenant_id = tenant_id or TenantId()
         self.extraction_dir = extraction_dir or DEFAULT_EXTRACTION_DIR
         self.indexing_config = to_indexing_config(indexing_config)
 
-        (pre_processors, components) = self._configure_extraction_pipeline(self.indexing_config)
+        (pre_processors, components) = self._configure_extraction_pipeline(
+            self.indexing_config
+        )
 
         self.extraction_pre_processors = pre_processors
         self.extraction_components = components
@@ -297,35 +380,18 @@ class LexicalGraphIndex():
 
     def _configure_extraction_pipeline(self, config: IndexingConfig):
         """
-        Configures and initializes the extraction pipeline based on the given configuration settings. This method
-        constructs a series of preprocessing and component steps tailored to support tasks like chunking,
-        proposition extraction, entity classification inference, and topic identification. These steps are
-        assembled dynamically based on the attributes provided by the `config` parameter.
+        Configures the extraction pipeline for processing data. This method defines
+        the necessary components and pre-processors based on the provided configuration.
+        It sets up chunking, proposition extraction, and classification providers, and
+        incorporates topic extraction capabilities. The pipeline dynamically adapts
+        depending on the specifications in the `config` parameter.
 
-        The extraction pipeline is built with flexibility to accommodate configurations such as enabling
-        batch processing, setting up classification inference, or using different prompt templates for
-        proposition and topic extraction. Additionally, providers for entity classification and topic
-        scoping are conditionally instantiated depending on the type of graph store used.
-
-        The method returns a tuple containing two lists: `pre_processors` and `components`. The
-        `pre_processors` list consists of pre-processing steps like classification inference, while the
-        `components` list includes the main extraction pipeline elements like proposition or topic
-        extractors.
-
-        Args:
-            config (IndexingConfig): The configuration object that specifies various attributes needed for
-                building the extraction pipeline, including settings for chunking, proposition extraction,
-                entity classifications, and topics.
-
-        Returns:
-            tuple: A two-element tuple comprising:
-                - `pre_processors` (list): Steps to preprocess the input data before running the main
-                  extraction operations.
-                - `components` (list): The primary components of the extraction pipeline including
-                  proposition and topic extractors.
-
-        Raises:
-            ValueError: If any required configuration attributes are missing or invalid.
+        :param config: The configuration specifying chunking, extraction, and classification
+            options for building the pipeline.
+        :type config: IndexingConfig
+        :return: A tuple containing the list of pre-processors and the list of components
+            comprising the extraction pipeline.
+        :rtype: tuple[list, list]
         """
         pre_processors = []
         components = []
@@ -336,14 +402,18 @@ class LexicalGraphIndex():
 
         if config.extraction.enable_proposition_extraction:
             if config.batch_config:
-                components.append(BatchLLMPropositionExtractor(
-                    batch_config=config.batch_config,
-                    prompt_template=config.extraction.extract_propositions_prompt_template
-                ))
+                components.append(
+                    BatchLLMPropositionExtractor(
+                        batch_config=config.batch_config,
+                        prompt_template=config.extraction.extract_propositions_prompt_template,
+                    )
+                )
             else:
-                components.append(LLMPropositionExtractor(
-                    prompt_template=config.extraction.extract_propositions_prompt_template
-                ))
+                components.append(
+                    LLMPropositionExtractor(
+                        prompt_template=config.extraction.extract_propositions_prompt_template
+                    )
+                )
 
         entity_classification_provider = None
         topic_provider = None
@@ -353,53 +423,81 @@ class LexicalGraphIndex():
 
         if isinstance(self.graph_store, DummyGraphStore):
             entity_classification_provider = FixedScopedValueProvider(
-                scoped_values={DEFAULT_SCOPE: config.extraction.preferred_entity_classifications})
+                scoped_values={
+                    DEFAULT_SCOPE: config.extraction.preferred_entity_classifications
+                }
+            )
             topic_provider = FixedScopedValueProvider(scoped_values={DEFAULT_SCOPE: []})
         else:
-            initial_scope_values = [] if config.extraction.infer_entity_classifications else config.extraction.preferred_entity_classifications
+            initial_scope_values = (
+                []
+                if config.extraction.infer_entity_classifications
+                else config.extraction.preferred_entity_classifications
+            )
             entity_classification_provider = ScopedValueProvider(
                 label=classification_label,
                 scoped_value_store=GraphScopedValueStore(graph_store=self.graph_store),
-                initial_scoped_values={classification_scope: initial_scope_values}
+                initial_scoped_values={classification_scope: initial_scope_values},
             )
             topic_provider = ScopedValueProvider(
                 label='StatementTopic',
                 scoped_value_store=GraphScopedValueStore(graph_store=self.graph_store),
-                scope_func=get_topic_scope
+                scope_func=get_topic_scope,
             )
 
         if config.extraction.infer_entity_classifications:
-            infer_config = config.extraction.infer_entity_classifications if isinstance(
-                config.extraction.infer_entity_classifications,
-                InferClassificationsConfig) else InferClassificationsConfig()
-            pre_processors.append(InferClassifications(
-                classification_label=classification_label,
-                classification_scope=classification_scope,
-                classification_store=GraphScopedValueStore(graph_store=self.graph_store),
-                splitter=SentenceSplitter(chunk_size=256, chunk_overlap=20) if config.chunking else None,
-                default_classifications=config.extraction.preferred_entity_classifications,
-                num_samples=infer_config.num_samples,
-                num_iterations=infer_config.num_iterations,
-                merge_action=infer_config.on_existing_classifications,
-                prompt_template=infer_config.prompt_template
-            ))
+            infer_config = (
+                config.extraction.infer_entity_classifications
+                if isinstance(
+                    config.extraction.infer_entity_classifications,
+                    InferClassificationsConfig,
+                )
+                else InferClassificationsConfig()
+            )
+            pre_processors.append(
+                InferClassifications(
+                    classification_label=classification_label,
+                    classification_scope=classification_scope,
+                    classification_store=GraphScopedValueStore(
+                        graph_store=self.graph_store
+                    ),
+                    splitter=(
+                        SentenceSplitter(chunk_size=256, chunk_overlap=20)
+                        if config.chunking
+                        else None
+                    ),
+                    default_classifications=config.extraction.preferred_entity_classifications,
+                    num_samples=infer_config.num_samples,
+                    num_iterations=infer_config.num_iterations,
+                    merge_action=infer_config.on_existing_classifications,
+                    prompt_template=infer_config.prompt_template,
+                )
+            )
 
         topic_extractor = None
 
         if config.batch_config:
             topic_extractor = BatchTopicExtractor(
                 batch_config=config.batch_config,
-                source_metadata_field=PROPOSITIONS_KEY if config.extraction.enable_proposition_extraction else None,
+                source_metadata_field=(
+                    PROPOSITIONS_KEY
+                    if config.extraction.enable_proposition_extraction
+                    else None
+                ),
                 entity_classification_provider=entity_classification_provider,
                 topic_provider=topic_provider,
-                prompt_template=config.extraction.extract_topics_prompt_template
+                prompt_template=config.extraction.extract_topics_prompt_template,
             )
         else:
             topic_extractor = TopicExtractor(
-                source_metadata_field=PROPOSITIONS_KEY if config.extraction.enable_proposition_extraction else None,
+                source_metadata_field=(
+                    PROPOSITIONS_KEY
+                    if config.extraction.enable_proposition_extraction
+                    else None
+                ),
                 entity_classification_provider=entity_classification_provider,
                 topic_provider=topic_provider,
-                prompt_template=config.extraction.extract_topics_prompt_template
+                prompt_template=config.extraction.extract_topics_prompt_template,
             )
 
         components.append(topic_extractor)
@@ -407,31 +505,35 @@ class LexicalGraphIndex():
         return (pre_processors, components)
 
     def extract(
-            self,
-            nodes: List[BaseNode] = [],
-            handler: Optional[NodeHandler] = None,
-            checkpoint: Optional[Checkpoint] = None,
-            show_progress: Optional[bool] = False,
-            **kwargs: Any) -> None:
+        self,
+        nodes: List[BaseNode] = [],
+        handler: Optional[NodeHandler] = None,
+        checkpoint: Optional[Checkpoint] = None,
+        show_progress: Optional[bool] = False,
+        **kwargs: Any,
+    ) -> None:
         """
-        Executes the extraction process for a given set of nodes using the specified handler,
-        checkpoint, and other configuration options. This function manages the construction and
-        execution of both the extraction pipeline and build pipeline, leveraging configured
-        components and filters to process the input nodes. Integration with a handler for
-        custom processing is also supported.
+        Initiates and executes the extraction process for the provided nodes, applying the specified
+        handler, checkpoint, and other optional arguments. This extraction process involves creating
+        and configuring extraction and build pipelines with defined components and settings.
 
-        Args:
-            nodes (List[BaseNode], optional): A list of nodes to be processed during the extraction.
-            handler (Optional[NodeHandler], optional): A handler to process nodes after extraction.
-            checkpoint (Optional[Checkpoint], optional): A checkpoint to manage pipeline state and
-                progress during extraction and build stages.
-            show_progress (Optional[bool], optional): Indicates whether to display progress during
-                the pipeline execution.
-            **kwargs (Any): Additional keyword arguments for pipeline configurations or overrides.
+        :param nodes: The list of nodes to be processed during the extraction.
+        :type nodes: List[BaseNode], optional
+        :param handler: An optional NodeHandler to accept the processed nodes during extraction.
+        :type handler: Optional[NodeHandler], optional
+        :param checkpoint: An optional checkpoint object to manage the state during the pipeline execution.
+        :type checkpoint: Optional[Checkpoint], optional
+        :param show_progress: Indicates whether to display progress during the extraction process.
+        :type show_progress: Optional[bool], optional
+        :param kwargs: Additional keyword arguments to configure the extraction and build pipelines.
+        :type kwargs: Any
+        :return: None
         """
 
         if not self.tenant_id.is_default_tenant():
-            logger.warning('TenantId has been set to non-default tenant id, but extraction will use default tenant id')
+            logger.warning(
+                'TenantId has been set to non-default tenant id, but extraction will use default tenant id'
+            )
 
         extraction_pipeline = ExtractionPipeline.create(
             components=self.extraction_components,
@@ -441,18 +543,16 @@ class LexicalGraphIndex():
             num_workers=1 if self.allow_batch_inference else None,
             tenant_id=DEFAULT_TENANT_ID,
             extraction_filters=self.indexing_config.extraction.extraction_filters,
-            **kwargs
+            **kwargs,
         )
 
         build_pipeline = BuildPipeline.create(
-            components=[
-                NullBuilder()
-            ],
+            components=[NullBuilder()],
             show_progress=show_progress,
             checkpoint=checkpoint,
             num_workers=1,
             tenant_id=DEFAULT_TENANT_ID,
-            **kwargs
+            **kwargs,
         )
 
         if handler:
@@ -461,31 +561,29 @@ class LexicalGraphIndex():
             nodes | extraction_pipeline | build_pipeline | sink
 
     def build(
-            self,
-            nodes: List[BaseNode] = [],
-            handler: Optional[NodeHandler] = None,
-            checkpoint: Optional[Checkpoint] = None,
-            show_progress: Optional[bool] = False,
-            **kwargs: Any) -> None:
+        self,
+        nodes: List[BaseNode] = [],
+        handler: Optional[NodeHandler] = None,
+        checkpoint: Optional[Checkpoint] = None,
+        show_progress: Optional[bool] = False,
+        **kwargs: Any,
+    ) -> None:
         """
-        Builds an indexing pipeline for processing nodes, constructing a graph, and creating
-        a vector store index. The function orchestrates the pipeline with optional handlers,
-        checkpoints, and progress display settings. The pipeline components are assembled based
-        on configuration settings and the provided nodes are processed through the pipeline.
+        Builds a pipeline for indexing and constructs the necessary processing flow based on the provided
+        nodes, handler, checkpoint, and additional parameters.
 
-        Args:
-            nodes (List[BaseNode]): A list of nodes to be processed in the build pipeline.
-            handler (Optional[NodeHandler]): A handler function or object for post-processing
-                nodes after indexing. Defaults to None.
-            checkpoint (Optional[Checkpoint]): A checkpoint object for saving or resuming the
-                progress of the build pipeline. Defaults to None.
-            show_progress (Optional[bool]): A flag indicating whether to show progress during
-                pipeline execution. Defaults to False.
-            **kwargs (Any): Additional keyword arguments for extending or customizing the
-                pipeline behavior.
-
-        Returns:
-            None
+        :param nodes: List of BaseNode instances to be passed into the build pipeline.
+        :type nodes: List[BaseNode]
+        :param handler: An optional NodeHandler instance to process the pipeline output.
+        :type handler: Optional[NodeHandler], default is None
+        :param checkpoint: An optional Checkpoint object to allow resuming or saving progress.
+        :type checkpoint: Optional[Checkpoint], default is None
+        :param show_progress: If True, displays progress information during the build process.
+        :type show_progress: Optional[bool], default is False
+        :param kwargs: Additional parameters to customize the build flow, passed into the pipeline.
+        :type kwargs: Any
+        :return: No return value.
+        :rtype: None
         """
 
         build_config = self.indexing_config.build
@@ -493,7 +591,7 @@ class LexicalGraphIndex():
         build_pipeline = BuildPipeline.create(
             components=[
                 GraphConstruction.for_graph_store(self.graph_store),
-                VectorIndexing.for_vector_store(self.vector_store)
+                VectorIndexing.for_vector_store(self.vector_store),
             ],
             show_progress=show_progress,
             checkpoint=checkpoint,
@@ -501,36 +599,45 @@ class LexicalGraphIndex():
             source_metadata_formatter=build_config.source_metadata_formatter,
             include_domain_labels=build_config.include_domain_labels,
             tenant_id=self.tenant_id,
-            **kwargs
+            **kwargs,
         )
 
         sink_fn = sink if not handler else Pipe(handler.accept)
         nodes | build_pipeline | sink_fn
 
     def extract_and_build(
-            self,
-            nodes: List[BaseNode] = [],
-            handler: Optional[NodeHandler] = None,
-            checkpoint: Optional[Checkpoint] = None,
-            show_progress: Optional[bool] = False,
-            **kwargs: Any
+        self,
+        nodes: List[BaseNode] = [],
+        handler: Optional[NodeHandler] = None,
+        checkpoint: Optional[Checkpoint] = None,
+        show_progress: Optional[bool] = False,
+        **kwargs: Any,
     ) -> None:
         """
-        Extracts data, processes it using a pipeline, and builds structures for storage or further
-        usage. It utilizes multiple components for extraction, pre-processing, and construction
-        of graph and vector indices. This method also supports a checkpoint mechanism and optional
-        progress visualization.
+        Executes an extraction and building pipeline to process and index nodes. This method
+        utilizes two primary pipelines: the extraction pipeline for raw data extraction
+        and the build pipeline to construct graphs and vector indices. It integrates
+        preprocessors, handlers, progress indicators, and supports checkpointing for both
+        pipelines. This function is foundational in preparing and indexing data for retrieval
+        systems.
 
-        Args:
-            nodes (List[BaseNode], optional): A list of nodes to process. Defaults to an empty list.
-            handler (Optional[NodeHandler]): A handler object to manage processed nodes. Defaults to None.
-            checkpoint (Optional[Checkpoint]): A checkpoint object for resuming pipelines. Defaults to None.
-            show_progress (Optional[bool]): Boolean flag to display pipeline progress. Defaults to False.
-            **kwargs (Any): Additional parameters to pass to pipelines.
+        :param nodes: List of nodes to be processed. If not provided, an empty list is used.
+        :type nodes: List[BaseNode]
+        :param handler: Optional handler to process output or intermediate results.
+        :type handler: Optional[NodeHandler]
+        :param checkpoint: Optional checkpoint object to use for incremental progress saving.
+        :type checkpoint: Optional[Checkpoint]
+        :param show_progress: Flag indicating whether to display progress to the user.
+        :type show_progress: Optional[bool]
+        :param kwargs: Additional parameters for configuring pipelines and processing options.
+        :type kwargs: Any
+        :return: None
         """
 
         if not self.tenant_id.is_default_tenant():
-            logger.warning('TenantId has been set to non-default tenant id, but extraction will use default tenant id')
+            logger.warning(
+                'TenantId has been set to non-default tenant id, but extraction will use default tenant id'
+            )
 
         extraction_pipeline = ExtractionPipeline.create(
             components=self.extraction_components,
@@ -540,7 +647,7 @@ class LexicalGraphIndex():
             num_workers=1 if self.allow_batch_inference else None,
             tenant_id=DEFAULT_TENANT_ID,
             extraction_filters=self.indexing_config.extraction.extraction_filters,
-            **kwargs
+            **kwargs,
         )
 
         build_config = self.indexing_config.build
@@ -548,7 +655,7 @@ class LexicalGraphIndex():
         build_pipeline = BuildPipeline.create(
             components=[
                 GraphConstruction.for_graph_store(self.graph_store),
-                VectorIndexing.for_vector_store(self.vector_store)
+                VectorIndexing.for_vector_store(self.vector_store),
             ],
             show_progress=show_progress,
             checkpoint=checkpoint,
@@ -556,7 +663,7 @@ class LexicalGraphIndex():
             source_metadata_formatter=build_config.source_metadata_formatter,
             include_domain_labels=build_config.include_domain_labels,
             tenant_id=self.tenant_id,
-            **kwargs
+            **kwargs,
         )
 
         sink_fn = sink if not handler else Pipe(handler.accept)

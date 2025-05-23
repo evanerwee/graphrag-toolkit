@@ -4,38 +4,48 @@
 from dataclasses import dataclass, field
 from typing import Optional, List
 
+
 @dataclass
 class BatchConfig:
     """
-    Configuration for batch processing settings.
+    Configuration for batch processing.
 
-    This class provides a structure for configuring batch processing, including
-    AWS settings like role ARN, region, and S3 bucket details, as well as network
-    and batch control parameters. It is designed to facilitate batch operations
-    by defining a standardized schema for batch-related configurations.
+    This class represents configurations required for batch processing, including
+    details about AWS resources such as role ARN, region, bucket configuration,
+    and processing limits. These configurations enable the setup and management
+    of batch processing operations.
 
-    Attributes:
-        role_arn (str): ARN of the IAM role used for batch processing.
-        region (str): AWS region where the batch processing will take place.
-        bucket_name (str): Name of the S3 bucket used for storing batch-related
-            data.
-        key_prefix (Optional[str]): Optional prefix for keys in the S3 bucket.
-        s3_encryption_key_id (Optional[str]): KMS key ID used for S3 encryption,
-            if any.
-        subnet_ids (List[str]): List of subnet IDs used for the network
-            configuration of the batch processing.
-        security_group_ids (List[str]): List of security group IDs applied to the
-            batch processing tasks.
-        max_batch_size (int): Maximum size of a single batch. Default is 25000.
-        max_num_concurrent_batches (int): Maximum number of concurrent batches
-            allowed. Default is 3.
+    :ivar role_arn: The ARN of the IAM role used for executing batch jobs.
+    :type role_arn: str
+    :ivar region: The AWS region where the batch process is executed.
+    :type region: str
+    :ivar bucket_name: The name of the S3 bucket to be used in the batch process.
+    :type bucket_name: str
+    :ivar key_prefix: (Optional) The prefix for keys in the S3 bucket used for
+        batching.
+    :type key_prefix: Optional[str]
+    :ivar s3_encryption_key_id: (Optional) The ID of the encryption key used for
+        encrypting data in S3.
+    :type s3_encryption_key_id: Optional[str]
+    :ivar subnet_ids: The list of subnet IDs for the network configuration.
+    :type subnet_ids: List[str]
+    :ivar security_group_ids: The list of security group IDs for the network
+        configuration.
+    :type security_group_ids: List[str]
+    :ivar max_batch_size: The maximum number of entries allowed in a single batch.
+        Default is 25,000.
+    :type max_batch_size: int
+    :ivar max_num_concurrent_batches: The maximum number of batches allowed to
+        run concurrently. Default is 3.
+    :type max_num_concurrent_batches: int
     """
-    role_arn:str
-    region:str
-    bucket_name:str
-    key_prefix:Optional[str]=None
-    s3_encryption_key_id:Optional[str]=None
-    subnet_ids:List[str] = field(default_factory=list)
-    security_group_ids:List[str] = field(default_factory=list)
-    max_batch_size:int=25000
-    max_num_concurrent_batches:int=3
+
+    role_arn: str
+    region: str
+    bucket_name: str
+    key_prefix: Optional[str] = None
+    s3_encryption_key_id: Optional[str] = None
+    subnet_ids: List[str] = field(default_factory=list)
+    security_group_ids: List[str] = field(default_factory=list)
+    max_batch_size: int = 25000
+    max_num_concurrent_batches: int = 3

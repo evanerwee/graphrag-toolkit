@@ -15,8 +15,7 @@ from llama_index.core.schema import BaseNode
 logger = logging.getLogger(__name__)
 
 class FactGraphBuilder(GraphBuilder):
-    """
-    Builds fact-related nodes and relationships in the graph database.
+    """Builds fact-related nodes and relationships in the graph database.
 
     This class is responsible for implementing the logic to construct and insert
     fact-related nodes and their relationships into the graph database. It utilizes
@@ -27,8 +26,7 @@ class FactGraphBuilder(GraphBuilder):
     """
     @classmethod
     def index_key(cls) -> str:
-        """
-        Provides a method to retrieve the index key for the class.
+        """Provides a method to retrieve the index key for the class.
 
         This method is a class-level utility that returns a predefined string
         representing the index key. It encapsulates the logic for fetching the
@@ -40,8 +38,8 @@ class FactGraphBuilder(GraphBuilder):
         return 'fact'
     
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
-        """
-        Builds and processes the relationships and properties for a fact node within a graph database.
+        """Builds and processes the relationships and properties for a fact
+        node within a graph database.
 
         This function is responsible for validating metadata of a node, constructing query statements to
         add nodes and relationships to the graph database, and executing those queries. The function also

@@ -15,10 +15,10 @@ from llama_index.core.schema import BaseNode
 logger = logging.getLogger(__name__)
 
 class EntityGraphBuilder(GraphBuilder):
-    """
-    Handles the process of building and interacting with a graph database for entity and fact data
-    representation. Supports operations to insert and manage entities and their relationships in the
-    graph structure. Provides mechanisms for integrating metadata into the graph storage system.
+    """Handles the process of building and interacting with a graph database
+    for entity and fact data representation. Supports operations to insert and
+    manage entities and their relationships in the graph structure. Provides
+    mechanisms for integrating metadata into the graph storage system.
 
     This class is designed to work with a specific graph storage client and encapsulates the logic
     necessary for mapping entities and facts from node data to a graph database, considering the domain
@@ -30,8 +30,8 @@ class EntityGraphBuilder(GraphBuilder):
     """
     @classmethod
     def index_key(cls) -> str:
-        """
-        Provides a method to retrieve the index key associated with the class.
+        """Provides a method to retrieve the index key associated with the
+        class.
 
         This method is a class-level function that returns the index
         key string associated with the class. It can be used to
@@ -44,8 +44,8 @@ class EntityGraphBuilder(GraphBuilder):
         return 'fact'
     
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
-        """
-        Processes a given node and builds the corresponding entities in the graph database.
+        """Processes a given node and builds the corresponding entities in the
+        graph database.
 
         This method extracts fact metadata from the provided node to construct nodes and
         relationships in a graph database using Cypher queries. It validates the fact

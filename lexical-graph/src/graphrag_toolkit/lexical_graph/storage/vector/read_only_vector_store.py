@@ -6,8 +6,7 @@ from graphrag_toolkit.lexical_graph.storage.vector import VectorStore, VectorInd
 
 
 class ReadOnlyVectorStore(VectorStore):
-    """
-    Represents a read-only wrapper for a VectorStore.
+    """Represents a read-only wrapper for a VectorStore.
 
     This class is designed to wrap an existing VectorStore and provide a
     read-only interface to its contents. It ensures that any indexes accessed
@@ -19,10 +18,11 @@ class ReadOnlyVectorStore(VectorStore):
         inner (VectorStore): The underlying VectorStore being wrapped. All read
             operations are delegated to this inner VectorStore.
     """
+
     @classmethod
-    def wrap(cls, vector_store:VectorStore):
-        """
-        Wraps the given vector store in a read-only wrapper if it is not already read-only.
+    def wrap(cls, vector_store: VectorStore):
+        """Wraps the given vector store in a read-only wrapper if it is not
+        already read-only.
 
         This method ensures that the vector store is encapsulated in a `ReadOnlyVectorStore`
         if it is not yet of that type, providing a read-only interface while preserving the
@@ -39,11 +39,10 @@ class ReadOnlyVectorStore(VectorStore):
             return vector_store
         return ReadOnlyVectorStore(inner=vector_store)
 
-    inner:VectorStore
+    inner: VectorStore
 
     def get_index(self, index_name):
-        """
-        Retrieves an index by its name, making it non-writeable.
+        """Retrieves an index by its name, making it non-writeable.
 
         This method fetches an index from the inner system using the specified
         index name and sets its `writeable` attribute to `False`. The modified
@@ -62,10 +61,9 @@ class ReadOnlyVectorStore(VectorStore):
         index = self.inner.get_index(index_name=index_name)
         index.writeable = False
         return index
-    
+
     def all_indexes(self) -> List[VectorIndex]:
-        """
-        Gets all indexes from the inner indexing system.
+        """Gets all indexes from the inner indexing system.
 
         This method iterates over the keys of the inner indexing system and retrieves
         the corresponding indexes using the `get_index` method. It consolidates these
@@ -76,4 +74,3 @@ class ReadOnlyVectorStore(VectorStore):
             system.
         """
         return [self.get_index(i) for i in self.inner.indexes.keys()]
-        

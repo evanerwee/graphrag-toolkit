@@ -12,9 +12,9 @@ from llama_index.core.schema import BaseNode, Document
 from llama_index.core.node_parser import NodeParser
 from llama_index.core.schema import NodeRelationship
 
+
 class IdRewriter(NodeParser, DoNotCheckpoint):
-    """
-    Rewrites and assigns new IDs to nodes and processes source documents.
+    """Rewrites and assigns new IDs to nodes and processes source documents.
 
     The IdRewriter class is a specialized implementation that processes nodes and generates new IDs
     using an `IdGenerator`. It is typically used to standardize and rewrite IDs of nodes and metadata
@@ -26,12 +26,13 @@ class IdRewriter(NodeParser, DoNotCheckpoint):
         inner (Optional[NodeParser]): An optional inner parser used to process nodes after ID rewriting.
         id_generator (IdGenerator): An object used to generate source and chunk IDs for nodes.
     """
-    inner:Optional[NodeParser]=None
-    id_generator:IdGenerator
-    
+
+    inner: Optional[NodeParser] = None
+    id_generator: IdGenerator
+
     def _get_properties_str(self, properties, default):
-        """
-        Generates a string representation of properties or returns a default value.
+        """Generates a string representation of properties or returns a default
+        value.
 
         This function processes a dictionary of properties, formats them as "key:value"
         pairs sorted alphabetically by key, and combines them into a single string using
@@ -46,16 +47,14 @@ class IdRewriter(NodeParser, DoNotCheckpoint):
         Returns:
             str: A semicolon-separated string of formatted "key:value" pairs if
             properties are supplied; otherwise, the default string.
-
         """
         if properties:
-            return ';'.join(sorted([f'{k}:{v}' for k,v in properties.items()]))
+            return ';'.join(sorted([f'{k}:{v}' for k, v in properties.items()]))
         else:
             return default
-    
+
     def _new_doc_id(self, node):
-        """
-        Generates a new document ID based on node metadata and text content.
+        """Generates a new document ID based on node metadata and text content.
 
         This method processes the metadata and text of a given node to create a
         unique document ID using the `id_generator` attribute. It formats the
@@ -69,13 +68,12 @@ class IdRewriter(NodeParser, DoNotCheckpoint):
         Returns:
             str: A newly generated document ID.
         """
-        metadata_str = self._get_properties_str(node.metadata, node.doc_id)  
-        return self.id_generator.create_source_id(str(node.text), metadata_str)     
-        
+        metadata_str = self._get_properties_str(node.metadata, node.doc_id)
+        return self.id_generator.create_source_id(str(node.text), metadata_str)
+
     def _new_node_id(self, node):
-        """
-        Generates a new node identifier based on the node's source information, text content,
-        and metadata.
+        """Generates a new node identifier based on the node's source
+        information, text content, and metadata.
 
         This function retrieves the source information associated with the node and generates
         a unique identifier if no source is available. The metadata and text of the node are then
@@ -87,18 +85,18 @@ class IdRewriter(NodeParser, DoNotCheckpoint):
 
         Returns:
             str: A new identifier uniquely representing the node.
-
         """
         source_info = node.relationships.get(NodeRelationship.SOURCE, None)
-        source_id = source_info.node_id if source_info else f'aws:{uuid.uuid4().hex}' 
-        metadata_str = self._get_properties_str(node.metadata, node.node_id) 
+        source_id = source_info.node_id if source_info else f'aws:{uuid.uuid4().hex}'
+        metadata_str = self._get_properties_str(node.metadata, node.node_id)
 
-        return self.id_generator.create_chunk_id(source_id, str(node.text), metadata_str)
-        
-        
+        return self.id_generator.create_chunk_id(
+            source_id, str(node.text), metadata_str
+        )
+
     def _new_id(self, node):
-        """
-        Generates a new identifier for a given node based on its type and properties.
+        """Generates a new identifier for a given node based on its type and
+        properties.
 
         If the node's `id_` starts with the prefix 'aws:', the function returns the
         existing `id_` unchanged. For instances of the `Document` type, a unique
@@ -119,16 +117,15 @@ class IdRewriter(NodeParser, DoNotCheckpoint):
             return self._new_doc_id(node)
         else:
             return self._new_node_id(node)
-    
+
     def _parse_nodes(
         self,
         nodes: Sequence[BaseNode],
         show_progress: bool = False,
         **kwargs: Any,
     ) -> List[BaseNode]:
-        """
-        Parses a collection of nodes to update their IDs and relationships, and supports an optional
-        inner transformation logic.
+        """Parses a collection of nodes to update their IDs and relationships,
+        and supports an optional inner transformation logic.
 
         This method assigns new IDs to the provided nodes, maintains mappings between the
         old and new IDs, applies any inner processing logic if defined, and updates node
@@ -147,34 +144,34 @@ class IdRewriter(NodeParser, DoNotCheckpoint):
             relationships reflecting the transformation applied.
         """
         id_mappings = {}
-        
+
         for n in nodes:
             n.id_ = self._new_id(n)
             id_mappings[n.id_] = n.id_
-                      
+
         if not self.inner:
             return nodes
-            
+
         results = self.inner(nodes, **kwargs)
-        
+
         for n in results:
             id_mappings[n.id_] = self._new_id(n)
-        
+
         def update_ids(n):
             n.id_ = id_mappings[n.id_]
             for r in n.relationships.values():
                 r.node_id = id_mappings.get(r.node_id, r.node_id)
             return n
-            
-        return [
-            update_ids(n) 
-            for n in results
-        ]
-    
-    def handle_source_docs(self, source_documents:Iterable[SourceDocument]) -> List[SourceDocument]:
+
+        return [update_ids(n) for n in results]
+
+    def handle_source_docs(
+        self, source_documents: Iterable[SourceDocument]
+    ) -> List[SourceDocument]:
         for source_document in source_documents:
             if source_document.refNode:
-                source_document.refNode = self._parse_nodes([source_document.refNode])[0]
+                source_document.refNode = self._parse_nodes([source_document.refNode])[
+                    0
+                ]
             source_document.nodes = self._parse_nodes(source_document.nodes)
         return source_documents
-    

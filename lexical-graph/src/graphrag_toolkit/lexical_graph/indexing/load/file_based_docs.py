@@ -9,55 +9,70 @@ from os.path import join
 from typing import List, Any, Generator, Optional, Dict
 
 from graphrag_toolkit.lexical_graph.indexing import NodeHandler
-from graphrag_toolkit.lexical_graph.indexing.model import SourceDocument, SourceType, source_documents_from_source_types
-from graphrag_toolkit.lexical_graph.indexing.constants import PROPOSITIONS_KEY, TOPICS_KEY
-from graphrag_toolkit.lexical_graph.storage.constants import INDEX_KEY 
+from graphrag_toolkit.lexical_graph.indexing.model import (
+    SourceDocument,
+    SourceType,
+    source_documents_from_source_types,
+)
+from graphrag_toolkit.lexical_graph.indexing.constants import (
+    PROPOSITIONS_KEY,
+    TOPICS_KEY,
+)
+from graphrag_toolkit.lexical_graph.storage.constants import INDEX_KEY
 
 from llama_index.core.schema import TextNode, BaseNode
 
 logger = logging.getLogger(__name__)
 
+
 class FileBasedDocs(NodeHandler):
-    """Handler for file-based document processing.
-
-    This class is designed to process and manage source documents stored within a
-    file system. It enables the preparation, reading, filtering, and writing of
-    documents to and from specified directories. It facilitates document handling
-    by utilizing `TextNode` and `SourceDocument` structures, while providing
-    customizable metadata filtering for nodes and their relationships.
-
-    Attributes:
-        docs_directory (str): The directory path where documents are stored.
-        collection_id (str): The identifier of the document collection. If not
-            provided, a timestamp-based ID is generated.
-        metadata_keys (Optional[List[str]]): A list of allowed metadata keys. Only
-            these keys will be retained during metadata filtering.
     """
-    docs_directory:str
-    collection_id:str
+    Handles reading, processing, and organizing documents from a file-based
+    directory structure.
 
-    metadata_keys:Optional[List[str]]
-    
-    def __init__(self, 
-                 docs_directory:str, 
-                 collection_id:Optional[str]=None,
-                 metadata_keys:Optional[List[str]]=None):
+    This class is used to manage a directory containing documents and their
+    associated metadata. It provides methods for filtering metadata, iterating
+    through the directory structure to yield processed documents, and handling
+    document storage. It ensures compatibility with metadata filtering and
+    document organization needs.
+
+    :ivar docs_directory: The base directory where documents are stored.
+    :type docs_directory: str
+    :ivar collection_id: Identifier for the collection within the documents directory.
+    :type collection_id: str
+    :ivar metadata_keys: Optional list of metadata keys to filter during processing.
+    :type metadata_keys: Optional[List[str]]
+    """
+
+    docs_directory: str
+    collection_id: str
+
+    metadata_keys: Optional[List[str]]
+
+    def __init__(
+        self,
+        docs_directory: str,
+        collection_id: Optional[str] = None,
+        metadata_keys: Optional[List[str]] = None,
+    ):
         """
-        Initializes the object with the specified documents directory, collection ID, and
-        optional metadata keys. It also prepares the directory for the given collection ID
-        within the documents directory.
+        Initializes an instance of the class and sets up the required directory for storing
+        documents associated with the collection. The initialization also generates a unique
+        collection ID if not provided, and configures metadata keys required for processing.
 
-        Args:
-            docs_directory (str): The path to the directory where the documents will be stored.
-            collection_id (Optional[str]): The ID of the collection. If not provided, defaults
-                to a timestamp in the format 'YYYYMMDD-HHMMSS'.
-            metadata_keys (Optional[List[str]]): A list of metadata keys to associate with
-                the documents in the collection.
+        :param docs_directory: The base directory where the documents will be stored.
+        :type docs_directory: str
+        :param collection_id: An optional identifier for the document collection. If not
+            provided, a unique ID based on the current timestamp will be generated.
+        :type collection_id: Optional[str]
+        :param metadata_keys: List of metadata keys for additional information associated
+            with the documents. Defaults to None.
+        :type metadata_keys: Optional[List[str]]
         """
         super().__init__(
             docs_directory=docs_directory,
             collection_id=collection_id or datetime.now().strftime('%Y%m%d-%H%M%S'),
-            metadata_keys=metadata_keys
+            metadata_keys=metadata_keys,
         )
         self._prepare_directory(join(self.docs_directory, self.collection_id))
 
@@ -65,48 +80,63 @@ class FileBasedDocs(NodeHandler):
         """
         Creates a directory if it does not already exist.
 
-        This method checks if the directory at the specified path exists, and if
-        not, it creates the directory along with any necessary intermediate-level
-        directories. It ensures that the provided path is ready for use without
-        requiring prior manual setup.
+        This function checks whether the specified directory path exists. If the directory
+        does not exist, it creates it using the appropriate system calls.
 
-        Args:
-            directory_path (str): The file path of the directory to be verified
-                or created.
+        :param directory_path: Path to the directory that needs to be prepared.
+        :type directory_path: str
+        :return: None
         """
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
     def docs(self):
         """
-        A method that provides documentation in the form of a returned value.
+        Provides methods and attributes for handling objects.
 
-        This method is designed to demonstrate a specific behavior of returning
-        the object itself. It does not perform additional computations or
-        operations. Typically used in cases requiring fluent interfaces or
-        method chaining.
+        This class is used to perform operations and return the same object
+        when requested.
 
-        Returns:
-            object: The instance of the object itself.
+        :Attributes:
+            self (object): The instance of the class itself.
+
+        :Methods:
+            docs:
+                Returns the instance of the class.
+
+        :return: The class instance (`self`).
+        :rtype: object
         """
         return self
-    
-    def _filter_metadata(self, node:TextNode) -> TextNode:
-        """Filters specific metadata from the given TextNode based on allowed keys.
 
-        This method modifies the `metadata` of the input `TextNode` and its
-        relationships by removing any keys that are not in the allowed list
-        [PROPOSITIONS_KEY, TOPICS_KEY, INDEX_KEY] or those not present in
-        `self.metadata_keys` (if defined). It retains only the permitted metadata
-        keys within the node and its relationships.
-
-        Args:
-            node (TextNode): The TextNode whose metadata is filtered.
-
-        Returns:
-            TextNode: The modified TextNode with filtered metadata.
+    def _filter_metadata(self, node: TextNode) -> TextNode:
         """
-        def filter(metadata:Dict):
+        Filters metadata of a TextNode object by removing undesired keys. The method ensures
+        that only selected keys are retained in the metadata of both the node itself and its
+        relationships.
+
+        The filtering mechanism is aligned with either predefined keys or a list of metadata
+        keys specified by the class. If a key is not in the allowed list, it will be removed
+        from the metadata.
+
+        :param node: A TextNode object whose metadata needs to be filtered.
+        :type node: TextNode
+        :return: The filtered TextNode object with updated metadata.
+        :rtype: TextNode
+        """
+
+        def filter(metadata: Dict):
+            """
+            Handles filtering and processing of metadata for text nodes in a file-based system.
+            This class extends `NodeHandler` and modifies metadata information for specific
+            text nodes based on allowed keys and a set of predefined filtering rules.
+
+            The focus of the class is to ensure that metadata attached to text nodes is
+            appropriately filtered, retaining only the relevant and necessary information.
+
+            :param metadata_keys: List of metadata keys allowed for processing.
+            :type metadata_keys: Optional[List[str]]
+            """
             keys_to_delete = []
             for key in metadata.keys():
                 if key not in [PROPOSITIONS_KEY, TOPICS_KEY, INDEX_KEY]:
@@ -125,55 +155,76 @@ class FileBasedDocs(NodeHandler):
 
     def __iter__(self):
         """
-        Iterates through the directories and files to yield SourceDocument objects populated
-        with nodes created from the file contents.
+        Iterates over the source document directories within the specified collection directory,
+        reads files, filters metadata, and yields `SourceDocument` instances containing filtered
+        text nodes. The method accesses the target directory based on the `docs_directory` and
+        `collection_id` attributes and processes each subdirectory as a source document directory.
 
-        This method traverses the structure within a given directory path corresponding
-        to the collection ID, processing files located within subdirectories to extract
-        data and generate SourceDocument objects.
+        :raises FileNotFoundError: A `FileNotFoundError` may be raised if the `docs_directory` or
+            specific collection directory does not exist.
+        :raises OSError: May occur if there are issues while accessing the file system or reading files.
 
-        Yields:
-            SourceDocument: An object containing nodes created from the JSON file contents
-            found in the directory structure.
-
-        Args:
-            None
+        :yields: Instances of `SourceDocument` containing text node data processed from source
+            document directories.
+        :rtype: Iterator[SourceDocument]
         """
         directory_path = join(self.docs_directory, self.collection_id)
-        
+
         logger.debug(f'Reading source documents from directory: {directory_path}')
-        
-        source_document_directory_paths = [f.path for f in os.scandir(directory_path) if f.is_dir()]
-        
+
+        source_document_directory_paths = [
+            f.path for f in os.scandir(directory_path) if f.is_dir()
+        ]
+
         for source_document_directory_path in source_document_directory_paths:
             nodes = []
             for filename in os.listdir(source_document_directory_path):
                 file_path = os.path.join(source_document_directory_path, filename)
                 if os.path.isfile(file_path):
                     with open(file_path) as f:
-                        nodes.append(self._filter_metadata(TextNode.from_json(f.read())))
+                        nodes.append(
+                            self._filter_metadata(TextNode.from_json(f.read()))
+                        )
             yield SourceDocument(nodes=nodes)
 
     def __call__(self, nodes: List[SourceType], **kwargs: Any) -> List[SourceDocument]:
-        return [n for n in self.accept(source_documents_from_source_types(nodes), **kwargs)]
-
-    def accept(self, source_documents: List[SourceDocument], **kwargs: Any) -> Generator[SourceDocument, None, None]:
         """
-        This method processes a list of source documents, organizes them into directories based
-        on their source ID, and writes individual nodes of each document to separate JSON files.
-        It then yields the processed source documents.
+        Makes the class instance callable and processes a list of `SourceType` nodes
+        to generate a list of `SourceDocument` objects. The processing involves
+        extracting source documents from the source types provided in the input
+        and applying additional operations using the given keyword arguments.
 
-        Args:
-            source_documents (List[SourceDocument]): A list of source documents to be processed.
-            **kwargs (Any): Arbitrary keyword arguments that might be used when processing
-                the source documents.
+        :param nodes: A list of source type instances to be processed.
+        :type nodes: List[SourceType]
+        :param kwargs: Additional keyword arguments for processing the nodes.
+        :type kwargs: Any
+        :return: A list of processed source documents derived from the input
+            source types.
+        :rtype: List[SourceDocument]
+        """
+        return [
+            n for n in self.accept(source_documents_from_source_types(nodes), **kwargs)
+        ]
 
-        Yields:
-            SourceDocument: The processed source document after its nodes have been written
-                to corresponding JSON files in the directory structure.
+    def accept(
+        self, source_documents: List[SourceDocument], **kwargs: Any
+    ) -> Generator[SourceDocument, None, None]:
+        """
+        Processes and writes source documents to specified directories, preparing directories,
+        logging actions, and yielding the document objects after processing.
+
+        :param source_documents: List of SourceDocument instances to be processed. Each document
+            contains nodes which will be saved as separate JSON files.
+        :type source_documents: List[SourceDocument]
+        :param kwargs: Additional keyword arguments that may customize the behavior of the function.
+        :type kwargs: Any
+        :return: A generator yielding each SourceDocument after it has been processed and saved.
+        :rtype: Generator[SourceDocument, None, None]
         """
         for source_document in source_documents:
-            directory_path =  join(self.docs_directory, self.collection_id, source_document.source_id())
+            directory_path = join(
+                self.docs_directory, self.collection_id, source_document.source_id()
+            )
             self._prepare_directory(directory_path)
             logger.debug(f'Writing source document to directory: {directory_path}')
             for node in source_document.nodes:

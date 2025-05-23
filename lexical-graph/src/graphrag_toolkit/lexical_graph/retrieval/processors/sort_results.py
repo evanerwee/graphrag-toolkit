@@ -2,14 +2,17 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from graphrag_toolkit.lexical_graph.metadata import FilterConfig
-from graphrag_toolkit.lexical_graph.retrieval.processors import ProcessorBase, ProcessorArgs
+from graphrag_toolkit.lexical_graph.retrieval.processors import (
+    ProcessorBase,
+    ProcessorArgs,
+)
 from graphrag_toolkit.lexical_graph.retrieval.model import SearchResultCollection
 
 from llama_index.core.schema import QueryBundle
 
+
 class SortResults(ProcessorBase):
-    """
-    SortResults processes and sorts search results based on their score.
+    """SortResults processes and sorts search results based on their score.
 
     This class inherits from ProcessorBase and provides functionality for sorting
     search results in descending order of their scores. It is designed to be used
@@ -24,9 +27,10 @@ class SortResults(ProcessorBase):
         filter_config (FilterConfig): Configuration for filtering behavior
             during processing.
     """
-    def __init__(self, args:ProcessorArgs, filter_config:FilterConfig):
-        """
-        Initializes a processor with the provided arguments and filter configuration.
+
+    def __init__(self, args: ProcessorArgs, filter_config: FilterConfig):
+        """Initializes a processor with the provided arguments and filter
+        configuration.
 
         This constructor sets up the necessary parameters by accepting processor
         arguments and a filter configuration object. It ensures that the processor
@@ -40,9 +44,11 @@ class SortResults(ProcessorBase):
         """
         super().__init__(args, filter_config)
 
-    def _process_results(self, search_results:SearchResultCollection, query:QueryBundle) -> SearchResultCollection:
-        """
-        Processes and sorts search results based on their score in descending order.
+    def _process_results(
+        self, search_results: SearchResultCollection, query: QueryBundle
+    ) -> SearchResultCollection:
+        """Processes and sorts search results based on their score in
+        descending order.
 
         This function is responsible for reordering the search results, ensuring that
         items with higher scores appear earlier in the collection. It modifies the
@@ -59,5 +65,3 @@ class SortResults(ProcessorBase):
         results = search_results.results
         search_results.results = sorted(results, key=lambda x: x.score, reverse=True)
         return search_results
-
-

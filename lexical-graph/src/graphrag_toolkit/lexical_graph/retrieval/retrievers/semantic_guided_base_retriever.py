@@ -11,9 +11,9 @@ from graphrag_toolkit.lexical_graph.storage.vector.vector_store import VectorSto
 from llama_index.core.base.base_retriever import BaseRetriever
 from llama_index.core.schema import NodeWithScore, QueryBundle
 
+
 class SemanticGuidedBaseRetriever(BaseRetriever):
-    """
-    Base class for semantic-guided retrievers.
+    """Base class for semantic-guided retrievers.
 
     This class serves as a blueprint for implementing retrievers that leverage
     a combination of vector and graph stores for semantic-guided retrieval. It
@@ -31,15 +31,17 @@ class SemanticGuidedBaseRetriever(BaseRetriever):
             results. Debug mode is enabled when `debug_results` is explicitly specified
             in the keyword arguments.
     """
-    def __init__(self, 
-                vector_store:VectorStore,
-                graph_store:GraphStore,
-                filter_config:Optional[FilterConfig]=None,
-                **kwargs):
-        """
-        Initializes an instance of the class, configuring the necessary storage interfaces
-        and optional filtering capabilities. Allows additional keyword arguments for
-        extended configurability.
+
+    def __init__(
+        self,
+        vector_store: VectorStore,
+        graph_store: GraphStore,
+        filter_config: Optional[FilterConfig] = None,
+        **kwargs
+    ):
+        """Initializes an instance of the class, configuring the necessary
+        storage interfaces and optional filtering capabilities. Allows
+        additional keyword arguments for extended configurability.
 
         Args:
             vector_store: An instance of VectorStore for managing and querying vector
@@ -59,8 +61,8 @@ class SemanticGuidedBaseRetriever(BaseRetriever):
 
     @abstractmethod
     def _retrieve(self, query_bundle: QueryBundle) -> List[NodeWithScore]:
-        """
-        Retrieves a list of nodes with associated scores based on the provided query bundle.
+        """Retrieves a list of nodes with associated scores based on the
+        provided query bundle.
 
         This is an abstract method that must be implemented by subclasses. It defines the
         core logic for retrieving relevant nodes that match the criteria specified in the

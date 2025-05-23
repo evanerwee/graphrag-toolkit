@@ -17,9 +17,9 @@ from llama_index.core.schema import NodeRelationship
 logger = logging.getLogger(__name__)
 
 class MetadataToNodes():
-    """
-    MetadataToNodes is a utility class that builds and processes nodes based on provided
-    metadata and builders, while applying filters and transformations.
+    """MetadataToNodes is a utility class that builds and processes nodes based
+    on provided metadata and builders, while applying filters and
+    transformations.
 
     This class facilitates the creation of nodes by applying a series of node builders
     and filters to the input nodes. It supports preprocessing steps such as text cleaning
@@ -45,8 +45,8 @@ class MetadataToNodes():
         logger.debug(f'Node builders: {[type(b).__name__ for b in self.builders]}')
     
     def default_builders(self, id_generator:IdGenerator):
-        """
-        Builds and returns a list of default node builders using the provided IdGenerator.
+        """Builds and returns a list of default node builders using the
+        provided IdGenerator.
 
         This method instantiates and provides a collection of node builders, where each
         builder is responsible for creating a specific type of node within the system.
@@ -71,8 +71,8 @@ class MetadataToNodes():
         
     @classmethod
     def class_name(cls) -> str:
-        """
-        Provides class-level name identifier for the 'MetadataToNodes' class.
+        """Provides class-level name identifier for the 'MetadataToNodes'
+        class.
 
         This method returns a string value that represents the name of the
         class. It is a utility useful for identifying instances or constructing
@@ -84,9 +84,9 @@ class MetadataToNodes():
         return 'MetadataToNodes'
     
     def get_nodes_from_metadata(self, input_nodes: List[BaseNode], **kwargs: Any) -> List[BaseNode]:
-        """
-        Processes input nodes by applying tenant id rewrites and cleaning text, then uses the builders to generate
-        new nodes based on metadata and appends the original nodes to the results.
+        """Processes input nodes by applying tenant id rewrites and cleaning
+        text, then uses the builders to generate new nodes based on metadata
+        and appends the original nodes to the results.
 
         Args:
             input_nodes (List[BaseNode]): A list of input nodes to be processed and used for generating new nodes.
@@ -99,9 +99,8 @@ class MetadataToNodes():
             Exception: If an error occurs during the node-building process by any builder.
         """
         def apply_tenant_rewrites(node):
-            """
-            Represents a utility to fetch nodes from metadata and apply tenant-specific
-            rewrites using an ID generator.
+            """Represents a utility to fetch nodes from metadata and apply
+            tenant-specific rewrites using an ID generator.
 
             Methods:
                 get_nodes_from_metadata: Process a list of input nodes, apply ID rewrites
@@ -126,17 +125,14 @@ class MetadataToNodes():
             return node
         
         def clean_text(node):
-            """
-            A utility class that provides functionality for processing metadata to derive
-            or modify nodes.
-            """
+            """A utility class that provides functionality for processing
+            metadata to derive or modify nodes."""
             node.text = node.text.replace('\x00', '')
             return node
         
         def pre_process(node):
-            """
-            Processes metadata and returns a modified list of nodes after applying specified
-            operations.
+            """Processes metadata and returns a modified list of nodes after
+            applying specified operations.
 
             Attributes:
                 input_nodes (List[BaseNode]): A list of nodes of type BaseNode that are to be

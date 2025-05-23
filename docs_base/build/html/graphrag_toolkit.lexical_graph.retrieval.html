@@ -1,0 +1,1236 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="graphrag_toolkit.lexical_graph.retrieval.post_processors package" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html" /><link rel="prev" title="graphrag_toolkit.lexical_graph.indexing.utils package" href="graphrag_toolkit.lexical_graph.indexing.utils.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>graphrag_toolkit.lexical_graph.retrieval package - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/graph-model.html">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/querying.html">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/metadata-filtering.html">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">graphrag_toolkit</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="graphrag_toolkit.html">graphrag_toolkit package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 current has-children current-page"><a class="current reference internal" href="#">graphrag_toolkit.lexical_graph.retrieval package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="falkordb/falkordb.html">falkordb package</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="graphrag-toolkit-lexical-graph-retrieval-package">
+<h1>graphrag_toolkit.lexical_graph.retrieval package<a class="headerlink" href="#graphrag-toolkit-lexical-graph-retrieval-package" title="Link to this heading">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#module-graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format">graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format.BedrockContextFormat"><code class="docutils literal notranslate"><span class="pre">BedrockContextFormat</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format.BedrockContextFormat.class_name"><code class="docutils literal notranslate"><span class="pre">BedrockContextFormat.class_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format.BedrockContextFormat.model_config"><code class="docutils literal notranslate"><span class="pre">BedrockContextFormat.model_config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#module-graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker">graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker"><code class="docutils literal notranslate"><span class="pre">BGEReranker</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.batch_size"><code class="docutils literal notranslate"><span class="pre">BGEReranker.batch_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.batch_size_internal"><code class="docutils literal notranslate"><span class="pre">BGEReranker.batch_size_internal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.device"><code class="docutils literal notranslate"><span class="pre">BGEReranker.device</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.gpu_id"><code class="docutils literal notranslate"><span class="pre">BGEReranker.gpu_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.model_config"><code class="docutils literal notranslate"><span class="pre">BGEReranker.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.model_name"><code class="docutils literal notranslate"><span class="pre">BGEReranker.model_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.rerank_pairs"><code class="docutils literal notranslate"><span class="pre">BGEReranker.rerank_pairs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.reranker"><code class="docutils literal notranslate"><span class="pre">BGEReranker.reranker</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#module-graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details">graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.EnrichSourceDetails"><code class="docutils literal notranslate"><span class="pre">EnrichSourceDetails</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.EnrichSourceDetails.class_name"><code class="docutils literal notranslate"><span class="pre">EnrichSourceDetails.class_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.EnrichSourceDetails.model_config"><code class="docutils literal notranslate"><span class="pre">EnrichSourceDetails.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.EnrichSourceDetails.source_info_accessor"><code class="docutils literal notranslate"><span class="pre">EnrichSourceDetails.source_info_accessor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.source_info_keys"><code class="docutils literal notranslate"><span class="pre">source_info_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.source_info_template"><code class="docutils literal notranslate"><span class="pre">source_info_template()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#module-graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin">graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin"><code class="docutils literal notranslate"><span class="pre">RerankerMixin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin.batch_size"><code class="docutils literal notranslate"><span class="pre">RerankerMixin.batch_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin.rerank_pairs"><code class="docutils literal notranslate"><span class="pre">RerankerMixin.rerank_pairs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#module-graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker">graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker"><code class="docutils literal notranslate"><span class="pre">SentenceReranker</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.batch_size"><code class="docutils literal notranslate"><span class="pre">SentenceReranker.batch_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.batch_size_internal"><code class="docutils literal notranslate"><span class="pre">SentenceReranker.batch_size_internal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.model_config"><code class="docutils literal notranslate"><span class="pre">SentenceReranker.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.model_post_init"><code class="docutils literal notranslate"><span class="pre">SentenceReranker.model_post_init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.rerank_pairs"><code class="docutils literal notranslate"><span class="pre">SentenceReranker.rerank_pairs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#module-graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity">graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.ALL_TEXT"><code class="docutils literal notranslate"><span class="pre">ALL_TEXT()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.StatementDiversityPostProcessor"><code class="docutils literal notranslate"><span class="pre">StatementDiversityPostProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.StatementDiversityPostProcessor.model_config"><code class="docutils literal notranslate"><span class="pre">StatementDiversityPostProcessor.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.StatementDiversityPostProcessor.nlp"><code class="docutils literal notranslate"><span class="pre">StatementDiversityPostProcessor.nlp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.StatementDiversityPostProcessor.preprocess_texts"><code class="docutils literal notranslate"><span class="pre">StatementDiversityPostProcessor.preprocess_texts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.StatementDiversityPostProcessor.similarity_threshold"><code class="docutils literal notranslate"><span class="pre">StatementDiversityPostProcessor.similarity_threshold</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.StatementDiversityPostProcessor.text_fn"><code class="docutils literal notranslate"><span class="pre">StatementDiversityPostProcessor.text_fn</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.TOPICS"><code class="docutils literal notranslate"><span class="pre">TOPICS()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.TOPICS_AND_STATEMENTS"><code class="docutils literal notranslate"><span class="pre">TOPICS_AND_STATEMENTS()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#module-graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement">graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor"><code class="docutils literal notranslate"><span class="pre">StatementEnhancementPostProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.enhance_statement"><code class="docutils literal notranslate"><span class="pre">StatementEnhancementPostProcessor.enhance_statement()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.enhance_template"><code class="docutils literal notranslate"><span class="pre">StatementEnhancementPostProcessor.enhance_template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.llm"><code class="docutils literal notranslate"><span class="pre">StatementEnhancementPostProcessor.llm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.max_concurrent"><code class="docutils literal notranslate"><span class="pre">StatementEnhancementPostProcessor.max_concurrent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.model_config"><code class="docutils literal notranslate"><span class="pre">StatementEnhancementPostProcessor.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.system_prompt"><code class="docutils literal notranslate"><span class="pre">StatementEnhancementPostProcessor.system_prompt</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.user_prompt"><code class="docutils literal notranslate"><span class="pre">StatementEnhancementPostProcessor.user_prompt</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#module-graphrag_toolkit.lexical_graph.retrieval.post_processors">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.clear_chunks">graphrag_toolkit.lexical_graph.retrieval.processors.clear_chunks module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.clear_chunks.ClearChunks"><code class="docutils literal notranslate"><span class="pre">ClearChunks</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.clear_scores">graphrag_toolkit.lexical_graph.retrieval.processors.clear_scores module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.clear_scores.ClearScores"><code class="docutils literal notranslate"><span class="pre">ClearScores</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.dedup_results">graphrag_toolkit.lexical_graph.retrieval.processors.dedup_results module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.dedup_results.DedupResults"><code class="docutils literal notranslate"><span class="pre">DedupResults</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.disaggregate_results">graphrag_toolkit.lexical_graph.retrieval.processors.disaggregate_results module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.disaggregate_results.DisaggregateResults"><code class="docutils literal notranslate"><span class="pre">DisaggregateResults</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.filter_by_metadata">graphrag_toolkit.lexical_graph.retrieval.processors.filter_by_metadata module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.filter_by_metadata.FilterByMetadata"><code class="docutils literal notranslate"><span class="pre">FilterByMetadata</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.format_sources">graphrag_toolkit.lexical_graph.retrieval.processors.format_sources module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.FormatSources"><code class="docutils literal notranslate"><span class="pre">FormatSources</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.default_source_formatter_fn"><code class="docutils literal notranslate"><span class="pre">default_source_formatter_fn()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.source_info_keys"><code class="docutils literal notranslate"><span class="pre">source_info_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.source_info_template"><code class="docutils literal notranslate"><span class="pre">source_info_template()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.populate_statement_strs">graphrag_toolkit.lexical_graph.retrieval.processors.populate_statement_strs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.populate_statement_strs.PopulateStatementStrs"><code class="docutils literal notranslate"><span class="pre">PopulateStatementStrs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.processor_args">graphrag_toolkit.lexical_graph.retrieval.processors.processor_args module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><code class="docutils literal notranslate"><span class="pre">ProcessorArgs</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs.to_dict"><code class="docutils literal notranslate"><span class="pre">ProcessorArgs.to_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.processor_base">graphrag_toolkit.lexical_graph.retrieval.processors.processor_base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase.process_results"><code class="docutils literal notranslate"><span class="pre">ProcessorBase.process_results()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.prune_results">graphrag_toolkit.lexical_graph.retrieval.processors.prune_results module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.prune_results.PruneResults"><code class="docutils literal notranslate"><span class="pre">PruneResults</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.prune_statements">graphrag_toolkit.lexical_graph.retrieval.processors.prune_statements module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.prune_statements.PruneStatements"><code class="docutils literal notranslate"><span class="pre">PruneStatements</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.rerank_statements">graphrag_toolkit.lexical_graph.retrieval.processors.rerank_statements module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.rerank_statements.RerankStatements"><code class="docutils literal notranslate"><span class="pre">RerankStatements</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.rerank_statements.default_reranking_source_metadata_fn"><code class="docutils literal notranslate"><span class="pre">default_reranking_source_metadata_fn()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.rescore_results">graphrag_toolkit.lexical_graph.retrieval.processors.rescore_results module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.rescore_results.RescoreResults"><code class="docutils literal notranslate"><span class="pre">RescoreResults</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.simplify_single_topic_results">graphrag_toolkit.lexical_graph.retrieval.processors.simplify_single_topic_results module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.simplify_single_topic_results.SimplifySingleTopicResults"><code class="docutils literal notranslate"><span class="pre">SimplifySingleTopicResults</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.sort_results">graphrag_toolkit.lexical_graph.retrieval.processors.sort_results module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.sort_results.SortResults"><code class="docutils literal notranslate"><span class="pre">SortResults</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.statements_to_strings">graphrag_toolkit.lexical_graph.retrieval.processors.statements_to_strings module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.statements_to_strings.StatementsToStrings"><code class="docutils literal notranslate"><span class="pre">StatementsToStrings</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.truncate_results">graphrag_toolkit.lexical_graph.retrieval.processors.truncate_results module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.truncate_results.TruncateResults"><code class="docutils literal notranslate"><span class="pre">TruncateResults</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.truncate_statements">graphrag_toolkit.lexical_graph.retrieval.processors.truncate_statements module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.truncate_statements.TruncateStatements"><code class="docutils literal notranslate"><span class="pre">TruncateStatements</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors.zero_scores">graphrag_toolkit.lexical_graph.retrieval.processors.zero_scores module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.zero_scores.ZeroScores"><code class="docutils literal notranslate"><span class="pre">ZeroScores</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#module-graphrag_toolkit.lexical_graph.retrieval.processors">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search">graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch"><code class="docutils literal notranslate"><span class="pre">ChunkBasedSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.chunk_based_graph_search"><code class="docutils literal notranslate"><span class="pre">ChunkBasedSearch.chunk_based_graph_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.do_graph_search"><code class="docutils literal notranslate"><span class="pre">ChunkBasedSearch.do_graph_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.get_start_node_ids"><code class="docutils literal notranslate"><span class="pre">ChunkBasedSearch.get_start_node_ids()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever">graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever"><code class="docutils literal notranslate"><span class="pre">CompositeTraversalBasedRetriever</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever.do_graph_search"><code class="docutils literal notranslate"><span class="pre">CompositeTraversalBasedRetriever.do_graph_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever.get_start_node_ids"><code class="docutils literal notranslate"><span class="pre">CompositeTraversalBasedRetriever.get_start_node_ids()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.WeightedTraversalBasedRetriever"><code class="docutils literal notranslate"><span class="pre">WeightedTraversalBasedRetriever</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.WeightedTraversalBasedRetriever.retriever"><code class="docutils literal notranslate"><span class="pre">WeightedTraversalBasedRetriever.retriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.WeightedTraversalBasedRetriever.weight"><code class="docutils literal notranslate"><span class="pre">WeightedTraversalBasedRetriever.weight</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search">graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search.EntityBasedSearch"><code class="docutils literal notranslate"><span class="pre">EntityBasedSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search.EntityBasedSearch.do_graph_search"><code class="docutils literal notranslate"><span class="pre">EntityBasedSearch.do_graph_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search.EntityBasedSearch.get_start_node_ids"><code class="docutils literal notranslate"><span class="pre">EntityBasedSearch.get_start_node_ids()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_context_search">graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_context_search module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_context_search.EntityContextSearch"><code class="docutils literal notranslate"><span class="pre">EntityContextSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_context_search.EntityContextSearch.do_graph_search"><code class="docutils literal notranslate"><span class="pre">EntityContextSearch.do_graph_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_context_search.EntityContextSearch.get_start_node_ids"><code class="docutils literal notranslate"><span class="pre">EntityContextSearch.get_start_node_ids()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_entity_search">graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_entity_search module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_entity_search.KeywordEntitySearch"><code class="docutils literal notranslate"><span class="pre">KeywordEntitySearch</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_ranking_search">graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_ranking_search module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_ranking_search.KeywordRankingSearch"><code class="docutils literal notranslate"><span class="pre">KeywordRankingSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_ranking_search.KeywordRankingSearch.get_keywords"><code class="docutils literal notranslate"><span class="pre">KeywordRankingSearch.get_keywords()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search">graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search.RerankingBeamGraphSearch"><code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search.RerankingBeamGraphSearch.beam_search"><code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch.beam_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search.RerankingBeamGraphSearch.get_neighbors"><code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch.get_neighbors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search.RerankingBeamGraphSearch.get_statements"><code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch.get_statements()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search.RerankingBeamGraphSearch.rerank_statements"><code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch.rerank_statements()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search.SemanticBeamGraphSearch"><code class="docutils literal notranslate"><span class="pre">SemanticBeamGraphSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search.SemanticBeamGraphSearch.beam_search"><code class="docutils literal notranslate"><span class="pre">SemanticBeamGraphSearch.beam_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search.SemanticBeamGraphSearch.get_neighbors"><code class="docutils literal notranslate"><span class="pre">SemanticBeamGraphSearch.get_neighbors()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever.SemanticGuidedBaseRetriever"><code class="docutils literal notranslate"><span class="pre">SemanticGuidedBaseRetriever</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_retriever">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_retriever module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_retriever.SemanticGuidedRetriever"><code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.statement_cosine_seach">graphrag_toolkit.lexical_graph.retrieval.retrievers.statement_cosine_seach module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.statement_cosine_seach.StatementCosineSimilaritySearch"><code class="docutils literal notranslate"><span class="pre">StatementCosineSimilaritySearch</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search">graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search.TopicBasedSearch"><code class="docutils literal notranslate"><span class="pre">TopicBasedSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search.TopicBasedSearch.do_graph_search"><code class="docutils literal notranslate"><span class="pre">TopicBasedSearch.do_graph_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search.TopicBasedSearch.get_start_node_ids"><code class="docutils literal notranslate"><span class="pre">TopicBasedSearch.get_start_node_ids()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search.TopicBasedSearch.topic_based_graph_search"><code class="docutils literal notranslate"><span class="pre">TopicBasedSearch.topic_based_graph_search()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever">graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever"><code class="docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever.create_cypher_query"><code class="docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever.create_cypher_query()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever.do_graph_search"><code class="docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever.do_graph_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever.get_start_node_ids"><code class="docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever.get_start_node_ids()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#module-graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition">graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition.decompose_query"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose_query()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#module-graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache"><code class="docutils literal notranslate"><span class="pre">SharedEmbeddingCache</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache.get_embeddings"><code class="docutils literal notranslate"><span class="pre">SharedEmbeddingCache.get_embeddings()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.cosine_similarity"><code class="docutils literal notranslate"><span class="pre">cosine_similarity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_free_memory"><code class="docutils literal notranslate"><span class="pre">get_free_memory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_statements_query"><code class="docutils literal notranslate"><span class="pre">get_statements_query()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_free_gpus"><code class="docutils literal notranslate"><span class="pre">get_top_free_gpus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_k"><code class="docutils literal notranslate"><span class="pre">get_top_k()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#module-graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils">graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.get_diverse_vss_elements"><code class="docutils literal notranslate"><span class="pre">get_diverse_vss_elements()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#module-graphrag_toolkit.lexical_graph.retrieval.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-graphrag_toolkit.lexical_graph.retrieval.model">
+<span id="graphrag-toolkit-lexical-graph-retrieval-model-module"></span><h2>graphrag_toolkit.lexical_graph.retrieval.model module<a class="headerlink" href="#module-graphrag_toolkit.lexical_graph.retrieval.model" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Chunk">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">Chunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunkId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#Chunk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a Chunk model with strict configuration.</p>
+<p>This class defines a chunk structure with attributes such as its unique
+identifier, an optional value, and an optional score. It is primarily used
+to store and manage data related to individual chunks within a dataset or
+system. The class ensures strict validation of its structure via the
+inherited <cite>ConfigDict</cite> strict mode.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>chunkId (str): A unique identifier for the chunk.
+value (Optional[str]): An optional value associated with the chunk.
+score (Optional[float]): An optional score indicating some metric
+related to the chunk.</p>
+</dd>
+</dl>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Chunk.chunkId">
+<span class="sig-name descname"><span class="pre">chunkId</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk.chunkId" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Chunk.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'strict':</span> <span class="pre">True}</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Chunk.score">
+<span class="sig-name descname"><span class="pre">score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk.score" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Chunk.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk.value" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Entity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">Entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entityId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classification</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#Entity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents an entity model with specific configurations and attributes.</p>
+<p>This class defines an entity structure with attributes for ID, value, and
+classification. It enforces strict configuration settings through a model
+configuration and supports aliasing for specific fields. Typically used to
+represent structured data objects with validation in applications requiring
+strict field type adherence.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>entityId (str): Unique identifier for the entity.
+value (str): Value or content associated with the entity.
+classification (str): Category or classification of the entity, supporting alias
+fields such as ‘class’ or ‘classification’.</p>
+</dd>
+</dl>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Entity.classification">
+<span class="sig-name descname"><span class="pre">classification</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity.classification" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Entity.entityId">
+<span class="sig-name descname"><span class="pre">entityId</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity.entityId" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Entity.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'strict':</span> <span class="pre">True}</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Entity.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity.value" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">ScoredEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity" title="graphrag_toolkit.lexical_graph.retrieval.model.Entity"><span class="pre">Entity</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#ScoredEntity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents an entity with an associated score.</p>
+<p>This class extends the BaseModel and is used to link an Entity object
+with a corresponding score, ensuring strict validation of its properties.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>entity (Entity): The entity object associated with the score.
+score (float): The score value associated with the entity.</p>
+</dd>
+</dl>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity.entity">
+<span class="sig-name descname"><span class="pre">entity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity" title="graphrag_toolkit.lexical_graph.retrieval.model.Entity"><span class="pre">Entity</span></a></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity.entity" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'strict':</span> <span class="pre">True}</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity.score">
+<span class="sig-name descname"><span class="pre">score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity.score" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">SearchResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source" title="graphrag_toolkit.lexical_graph.retrieval.model.Source"><span class="pre">Source</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">topics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic" title="graphrag_toolkit.lexical_graph.retrieval.model.Topic"><span class="pre">Topic</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement" title="graphrag_toolkit.lexical_graph.retrieval.model.Statement"><span class="pre">Statement</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#SearchResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the result of a search operation.</p>
+<p>This class models the result of a search operation, including the source of
+the result, relevant topics, selected topic, associated statements, and an
+optional score indicating the quality or relevance of the result.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>source (SourceType): The source from which the search result was obtained.
+topics (List[Topic]): A list of topics relevant to the search result.
+topic (Optional[str]): An optional single selected topic associated with the search result.
+statements (List[StatementType]): A list of statements relevant to the search result.
+score (Optional[float]): An optional score indicating the quality or relevance of the search result.</p>
+</dd>
+</dl>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'strict':</span> <span class="pre">True}</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.score">
+<span class="sig-name descname"><span class="pre">score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.score" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source" title="graphrag_toolkit.lexical_graph.retrieval.model.Source"><span class="pre">Source</span></a></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.source" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.statements">
+<span class="sig-name descname"><span class="pre">statements</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement" title="graphrag_toolkit.lexical_graph.retrieval.model.Statement"><span class="pre">Statement</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.statements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.topic">
+<span class="sig-name descname"><span class="pre">topic</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.topic" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.topics">
+<span class="sig-name descname"><span class="pre">topics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic" title="graphrag_toolkit.lexical_graph.retrieval.model.Topic"><span class="pre">Topic</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.topics" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">SearchResultCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult"><span class="pre">SearchResult</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity" title="graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity"><span class="pre">ScoredEntity</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#SearchResultCollection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a collection of search results and associated scored
+entities.</p>
+<p>The class is designed to store and manage a list of search results and
+a list of scored entities resulting from a search operation. It provides
+methods to add search results and entities, as well as to replace
+the current set of search results with a new set.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>model_config: Configuration settings for the model. The strict setting
+ensures that data types and structures are strictly enforced.
+results (List[SearchResult]): A list of search result objects.
+entities (List[ScoredEntity]): A list of scored entities associated
+with the search results.</p>
+</dd>
+</dl>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.add_entity">
+<span class="sig-name descname"><span class="pre">add_entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity" title="graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity"><span class="pre">ScoredEntity</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#SearchResultCollection.add_entity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.add_entity" title="Link to this definition">¶</a></dt>
+<dd><p>Adds an entity to the list of entities, either merging it with an
+existing entity or appending it as a new entry.</p>
+<p>If the entity already exists in the list (based on a matching <cite>entityId</cite>),
+its score is incremented by the score of the added entity. Otherwise, the
+new entity is appended to the list.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>entity (ScoredEntity): The scored entity to add or merge with an existing entity.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.add_search_result">
+<span class="sig-name descname"><span class="pre">add_search_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult"><span class="pre">SearchResult</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#SearchResultCollection.add_search_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.add_search_result" title="Link to this definition">¶</a></dt>
+<dd><p>Adds a search result to the existing list of results.</p>
+<p>This method appends the given search result to the internal list of
+results maintained by the instance. It is intended to manage the
+storage of search results during execution, ensuring they are added
+in the order they are received.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>result: A SearchResult object representing the search result
+to be added to the list of results.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.entities">
+<span class="sig-name descname"><span class="pre">entities</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity" title="graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity"><span class="pre">ScoredEntity</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.entities" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'strict':</span> <span class="pre">True}</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.results">
+<span class="sig-name descname"><span class="pre">results</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult"><span class="pre">SearchResult</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.results" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.with_new_results">
+<span class="sig-name descname"><span class="pre">with_new_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult"><span class="pre">SearchResult</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#SearchResultCollection.with_new_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.with_new_results" title="Link to this definition">¶</a></dt>
+<dd><p>Updates the current object with new search results and returns the
+updated object. This allows for fluent interface pattern by returning
+the instance itself after updating its state with the provided search
+results.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>results (List[SearchResult]): A list of SearchResult objects to update the instance’s current
+results data.</p>
+</dd>
+<dt>Returns:</dt><dd><p>The current instance with the updated results.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Source">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">Source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sourceId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#Source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a source entity with a unique identifier and associated
+metadata.</p>
+<p>This class is used to encapsulate information about a data source, including a
+unique identifier (sourceId) and optional metadata as key-value pairs. It ensures
+that data adheres to a strict schema through its configuration.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>sourceId (str): A unique identifier for the source.
+metadata (Dict[str, str]): A dictionary representing additional information about the source, where keys and values are both strings. Defaults to an empty dictionary.</p>
+</dd>
+</dl>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Source.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source.metadata" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Source.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'strict':</span> <span class="pre">True}</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Source.sourceId">
+<span class="sig-name descname"><span class="pre">sourceId</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source.sourceId" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Statement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">Statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statementId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">details</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunkId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#Statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a statement model with associated attributes for processing
+statements, their details, facts, and related metadata.</p>
+<p>The <cite>Statement</cite> class is intended to model a structured statement object, allowing the
+definition of a main statement, optional metadata such as statement ID, related facts,
+chunk reference, calculated score, and an alternative string representation of the
+statement. This model ensures strict validation of its attributes and enforces data
+consistency.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>statementId (Optional[str]): Optional unique identifier of the statement.
+statement (str): The main content of the statement.
+facts (List[str]): A list of related factual statements.
+details (Optional[str]): Additional details or explanations for the statement.
+chunkId (Optional[str]): Identifier for the chunk to which this statement belongs.
+score (Optional[float]): Optional score or relevance metric for the statement.
+statement_str (Optional[str]): Optional alternative string representation of the statement.</p>
+</dd>
+</dl>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Statement.chunkId">
+<span class="sig-name descname"><span class="pre">chunkId</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.chunkId" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Statement.details">
+<span class="sig-name descname"><span class="pre">details</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.details" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Statement.facts">
+<span class="sig-name descname"><span class="pre">facts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.facts" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Statement.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'strict':</span> <span class="pre">True}</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Statement.score">
+<span class="sig-name descname"><span class="pre">score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.score" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Statement.statement">
+<span class="sig-name descname"><span class="pre">statement</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.statement" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Statement.statementId">
+<span class="sig-name descname"><span class="pre">statementId</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.statementId" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Statement.statement_str">
+<span class="sig-name descname"><span class="pre">statement_str</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.statement_str" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Topic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">Topic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk" title="graphrag_toolkit.lexical_graph.retrieval.model.Chunk"><span class="pre">Chunk</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement" title="graphrag_toolkit.lexical_graph.retrieval.model.Statement"><span class="pre">Statement</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#Topic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a topic containing related chunks and statements.</p>
+<p>This class defines a topic with associated chunks and statements. It can
+be used to organize data relevant to a particular subject, ensuring
+relationships and groupings are maintained for further processing or
+analysis.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>model_config (ConfigDict): Configuration settings for model behavior, enforcing strict type checks.
+topic (str): The main subject of the topic.
+chunks (List[Chunk]): A collection of associated chunks related to the topic.
+statements (List[StatementType]): Statements or assertions associated with the topic.</p>
+</dd>
+</dl>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Topic.chunks">
+<span class="sig-name descname"><span class="pre">chunks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk" title="graphrag_toolkit.lexical_graph.retrieval.model.Chunk"><span class="pre">Chunk</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic.chunks" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Topic.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'strict':</span> <span class="pre">True}</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Topic.statements">
+<span class="sig-name descname"><span class="pre">statements</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement" title="graphrag_toolkit.lexical_graph.retrieval.model.Statement"><span class="pre">Statement</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic.statements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Topic.topic">
+<span class="sig-name descname"><span class="pre">topic</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic.topic" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-graphrag_toolkit.lexical_graph.retrieval.prompts">
+<span id="graphrag-toolkit-lexical-graph-retrieval-prompts-module"></span><h2>graphrag_toolkit.lexical_graph.retrieval.prompts module<a class="headerlink" href="#module-graphrag_toolkit.lexical_graph.retrieval.prompts" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-graphrag_toolkit.lexical_graph.retrieval">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-graphrag_toolkit.lexical_graph.retrieval" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">graphrag_toolkit.lexical_graph.retrieval.post_processors package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="graphrag_toolkit.lexical_graph.indexing.utils.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">graphrag_toolkit.lexical_graph.indexing.utils package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="sidebar-div show-div-md justify-content-left">
+            <label class="nav-close-icon" id="toc-menu-close" for="__toc" tabindex="0">
+                <div class="visually-hidden">Toggle site table of content right sidebar</div>
+                <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+            </label>
+        </div>
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">graphrag_toolkit.lexical_graph.retrieval package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-graphrag_toolkit.lexical_graph.retrieval.model">graphrag_toolkit.lexical_graph.retrieval.model module</a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk"><code class="docutils literal notranslate"><span class="pre">Chunk</span></code></a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk.chunkId"><code class="docutils literal notranslate"><span class="pre">Chunk.chunkId</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk.model_config"><code class="docutils literal notranslate"><span class="pre">Chunk.model_config</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk.score"><code class="docutils literal notranslate"><span class="pre">Chunk.score</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk.value"><code class="docutils literal notranslate"><span class="pre">Chunk.value</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity.classification"><code class="docutils literal notranslate"><span class="pre">Entity.classification</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity.entityId"><code class="docutils literal notranslate"><span class="pre">Entity.entityId</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity.model_config"><code class="docutils literal notranslate"><span class="pre">Entity.model_config</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity.value"><code class="docutils literal notranslate"><span class="pre">Entity.value</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity"><code class="docutils literal notranslate"><span class="pre">ScoredEntity</span></code></a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity.entity"><code class="docutils literal notranslate"><span class="pre">ScoredEntity.entity</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity.model_config"><code class="docutils literal notranslate"><span class="pre">ScoredEntity.model_config</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity.score"><code class="docutils literal notranslate"><span class="pre">ScoredEntity.score</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult"><code class="docutils literal notranslate"><span class="pre">SearchResult</span></code></a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.model_config"><code class="docutils literal notranslate"><span class="pre">SearchResult.model_config</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.score"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.source"><code class="docutils literal notranslate"><span class="pre">SearchResult.source</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.statements"><code class="docutils literal notranslate"><span class="pre">SearchResult.statements</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.topic"><code class="docutils literal notranslate"><span class="pre">SearchResult.topic</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.topics"><code class="docutils literal notranslate"><span class="pre">SearchResult.topics</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection"><code class="docutils literal notranslate"><span class="pre">SearchResultCollection</span></code></a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.add_entity"><code class="docutils literal notranslate"><span class="pre">SearchResultCollection.add_entity()</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.add_search_result"><code class="docutils literal notranslate"><span class="pre">SearchResultCollection.add_search_result()</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.entities"><code class="docutils literal notranslate"><span class="pre">SearchResultCollection.entities</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.model_config"><code class="docutils literal notranslate"><span class="pre">SearchResultCollection.model_config</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.results"><code class="docutils literal notranslate"><span class="pre">SearchResultCollection.results</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.with_new_results"><code class="docutils literal notranslate"><span class="pre">SearchResultCollection.with_new_results()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source"><code class="docutils literal notranslate"><span class="pre">Source</span></code></a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source.metadata"><code class="docutils literal notranslate"><span class="pre">Source.metadata</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source.model_config"><code class="docutils literal notranslate"><span class="pre">Source.model_config</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source.sourceId"><code class="docutils literal notranslate"><span class="pre">Source.sourceId</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement"><code class="docutils literal notranslate"><span class="pre">Statement</span></code></a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.chunkId"><code class="docutils literal notranslate"><span class="pre">Statement.chunkId</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.details"><code class="docutils literal notranslate"><span class="pre">Statement.details</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.facts"><code class="docutils literal notranslate"><span class="pre">Statement.facts</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.model_config"><code class="docutils literal notranslate"><span class="pre">Statement.model_config</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.score"><code class="docutils literal notranslate"><span class="pre">Statement.score</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.statement"><code class="docutils literal notranslate"><span class="pre">Statement.statement</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.statementId"><code class="docutils literal notranslate"><span class="pre">Statement.statementId</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement.statement_str"><code class="docutils literal notranslate"><span class="pre">Statement.statement_str</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic"><code class="docutils literal notranslate"><span class="pre">Topic</span></code></a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic.chunks"><code class="docutils literal notranslate"><span class="pre">Topic.chunks</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic.model_config"><code class="docutils literal notranslate"><span class="pre">Topic.model_config</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic.statements"><code class="docutils literal notranslate"><span class="pre">Topic.statements</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic.topic"><code class="docutils literal notranslate"><span class="pre">Topic.topic</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-graphrag_toolkit.lexical_graph.retrieval.prompts">graphrag_toolkit.lexical_graph.retrieval.prompts module</a></li>
+<li><a class="reference internal" href="#module-graphrag_toolkit.lexical_graph.retrieval">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=f731707b"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>

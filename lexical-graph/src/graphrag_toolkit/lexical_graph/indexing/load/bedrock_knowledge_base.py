@@ -16,7 +16,9 @@ from os.path import join
 from urllib.parse import urlparse
 
 from graphrag_toolkit.lexical_graph.indexing import IdGenerator
-from graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks import FileBasedChunks
+from graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks import (
+    FileBasedChunks,
+)
 from graphrag_toolkit.lexical_graph.indexing.model import SourceDocument
 from graphrag_toolkit.lexical_graph.indexing.extract.id_rewriter import IdRewriter
 from graphrag_toolkit.lexical_graph import GraphRAGConfig
@@ -26,230 +28,256 @@ from llama_index.core.schema import NodeRelationship, RelatedNodeInfo
 
 logger = logging.getLogger(__name__)
 
-class TempFile():
-    """
-    Represents a temporary file wrapper for managing file operations and cleanup automatically.
 
-    This class provides context management for opening, reading, and safely cleaning up temporary files.
-    The file specified by the `filepath` is deleted after the context ends.
-
-    Attributes:
-        filepath (str): The path of the file to be managed as a temporary file.
-        file (IO): The file object opened in the context.
+class TempFile:
     """
+    Represents a file handler object used for managing and processing file-related operations.
+
+    This class provides the foundation for storing the file path and allows future extensions
+    for interacting with the file contents or metadata.
+
+    :ivar filepath: The path to the file that this object relates to.
+    :type filepath: str
+    :ivar file: The file object representing the opened file during the context manager usage.
+    :type file: file object
+    """
+
     def __init__(self, filepath):
         """
-        Represents a file handler that initializes and manages a specific file path.
+        Represents a class that manages or processes a given file path.
 
-        Attributes:
-            filepath: The path of the file to be managed.
+        This class initializes with a file path, which is essential for further
+        functionality related to file manipulation, reading, writing, or other
+        operations.
 
-        Args:
-            filepath: The path to the target file.
+        :param filepath: The path to a file that this class will handle or manage.
+        :type filepath: str
         """
         self.filepath = filepath
-        
+
     def __enter__(self):
         """
-        Opens a file for the context of the object and returns the object itself.
-        This method is intended to be used in a context manager where the file
-        needs to be opened and closed automatically.
+        Represents the entry point for a context manager that opens a file.
 
-        Returns:
-            The object itself with the opened file ready for use.
+        This method is specifically designed to handle the setup process when
+        using the `with` statement on an instance of the class. It ensures the
+        internal file is opened successfully and returns the current instance
+        of the context manager object.
+
+        :return: The instance of the context manager for use within the `with`
+                 block.
+        :rtype: object
         """
         self.file = open(self.filepath)
         return self
-    
+
     def __exit__(self, exception_type, exception_value, exception_traceback):
         """
-        Manages cleanup operations when exiting a context, including closing a file and removing its associated
-        file from the filesystem.
+        Cleans up resources when exiting a context managed block by closing the associated
+        file and removing its file from the file system.
 
-        This method is intended to be used within a context manager. It ensures that the file associated with
-        the class instance is properly closed and deleted from the filesystem once the context is exited,
-        whether the execution exits normally or due to an exception.
+        This method is called when the context manager is exited. It ensures that any
+        associated file is properly closed, and its corresponding file on the filesystem
+        is deleted as part of cleanup.
 
-        Args:
-            exception_type: The class of the exception when an exception is raised, otherwise None.
-            exception_value: The instance of the exception when an exception is raised, otherwise None.
-            exception_traceback: The traceback object when an exception is raised, otherwise None.
+        :param exception_type: The class of the exception raised in the context, if any.
+            If no exception was raised, this will be None.
+        :param exception_value: The instance of the exception raised in the context,
+            if any. If no exception was raised, this will be None.
+        :param exception_traceback: The traceback object related to the exception raised
+            in the context, if any. If no exception was raised, this will be None.
+        :return: None
         """
         self.file.close()
         os.remove(self.filepath)
-        
+
     def readline(self):
         """
-        Reads a single line from the file associated with the current object.
+        Reads a single line from the associated file object.
 
-        This method retrieves the next line from the file and advances the file's
-        read pointer. It is typically used for iterating through lines in a file
-        or processing input line by line.
+        This method reads the next line from the file represented by the `file`
+        attribute of the instance. The line will include the trailing newline
+        character, if it exists. If the end of the file is reached, an empty
+        string will be returned.
 
-        Returns:
-            str: The next line from the file as a string. If the end of the file
-                has been reached, an empty string is returned.
+        :return: The next line from the file as a string, including the newline
+            character, or an empty string if the end of the file is reached.
+        :rtype: str
         """
         return self.file.readline()
-    
-class TempDir():
-    """
-    Handles creation and cleanup of a temporary directory.
 
-    This class is used to manage a temporary directory within a context manager. It
-    handles the creation of the directory when the context is entered and ensures
-    the directory is cleaned up and removed when the context is exited, even if an
-    exception occurs.
 
-    Attributes:
-        dir_path (str): Path to the temporary directory.
+class TempDir:
     """
+    Represents a temporary directory context manager.
+
+    This class provides a context-managed approach to ensure the existence
+    of a directory during the lifetime of a context and then cleans it up
+    upon exiting the context. It is useful for managing temporary directories
+    in a clean and automated manner.
+
+    :ivar dir_path: A string representing the directory path that this context
+        manager will manage.
+    :type dir_path: str
+    """
+
     def __init__(self, dir_path):
         """
-        This class provides functionality to work with a specified directory path. It allows storing the directory
-        path for later use or for performing various directory-related operations.
+        Represents a class that manages a directory path.
 
-        Attributes:
-            dir_path (str): The path to the directory that this class will work with.
+        This class provides an interface to hold and represent a directory
+        path. Users can initialize an instance of this class with a specific
+        directory path.
+
+        :param dir_path: The path to the directory being managed (as a string)
+        :type dir_path: str
         """
         self.dir_path = dir_path
-        
+
     def __enter__(self):
         """
-        Manages a directory ensuring its existence for context management.
+        Handles the initialization of a context manager for ensuring the
+        existence of a specific directory. When entering the context, if
+        the directory does not exist, it is created. This ensures the
+        directory is available for further operations during the context
+        manager's lifecycle.
 
-        The `__enter__` method checks whether the directory specified by `dir_path` exists.
-        If it does not exist, the method creates the required directory structure. This
-        enables the use of the instance as a context manager for managing directories.
-
-        Returns:
-            self: The current instance of the class to manage the directory within
-                the context block.
-
-        Raises:
-            OSError: If an error occurs while creating the directory.
+        :return: The context manager instance
+        :rtype: Self
         """
         if not os.path.exists(self.dir_path):
             os.makedirs(self.dir_path)
         return self
-    
+
     def __exit__(self, exception_type, exception_value, exception_traceback):
         """
-        Handles the cleanup of temporary directories upon exiting a context.
+        Exit the runtime context and remove the directory at the specified path if it exists.
 
-        This method ensures that any temporary directory specified by the provided
-        `dir_path` is removed when the context manager exits.
+        This method is typically used in combination with the context management protocol. Upon
+        exiting the context, the method ensures the directory specified by the object's dir_path
+        attribute is removed. If the directory does not exist, no action is taken.
 
-        Args:
-            exception_type: The exception type raised during the execution of the
-                context (if an exception occurred) or None if no exception occurred.
-            exception_value: The exception value raised during the execution of the
-                context (if an exception occurred) or None if no exception occurred.
-            exception_traceback: The traceback object for the exception raised
-                during the execution of the context (if an exception occurred) or
-                None if no exception occurred.
+        :param exception_type: Type of the exception raised (if any) during the execution of the
+            code block within the context.
+        :type exception_type: type[BaseException] | None
+        :param exception_value: The exception instance raised (if any) during the execution of
+            the code block within the context.
+        :type exception_value: BaseException | None
+        :param exception_traceback: Traceback object associated with the raised exception (if any).
+        :type exception_traceback: traceback | None
+        :return: Always returns False to propagate the exception, allowing it to be handled
+            outside the context manager if raised.
+        :rtype: bool
         """
         if os.path.exists(self.dir_path):
             shutil.rmtree(self.dir_path)
 
-class BedrockKnowledgeBaseExport():
+
+class BedrockKnowledgeBaseExport:
     """
-    Handles the export and processing of Amazon Bedrock Knowledge Base (KB) data.
+    Handles the S3 export process, enabling the downloading, parsing, and management
+    of data from an Amazon Bedrock Knowledge Base. The class provides functionalities
+    to process and save data chunks and source documents in a structured local directory.
 
-    The primary purpose of this class is to work with Amazon Bedrock Knowledge Base
-    exports by managing data retrieval, processing, and transformation tasks. This
-    includes facilities for downloading and processing KB chunks, managing associated
-    metadata, and handling source documents.
+    It is equipped with configurations to support selective operations, such as filtering
+    by S3 key prefix, including additional metadata, and optional embedding integration.
 
-    Attributes:
-        region (str): The AWS region where the S3 bucket resides.
-        bucket_name (str): The name of the S3 bucket containing the KB export files.
-        key_prefix (str): The prefix used to specify the KB export files in the S3 bucket.
-        limit (int): The maximum number of documents to process. A value of -1 indicates no limit.
-        output_dir (str): The directory in which output files are temporarily stored.
-        metadata_fn (Callable[[str], Dict[str, Any]]): A function to process and retrieve metadata
-            from the content. Defaults to None.
-        include_embeddings (bool): Specifies whether to include embeddings in the output data.
-            Defaults to True.
-        include_source_doc (bool): Specifies whether to include the source document in the output.
-            Defaults to False.
-        tenant_id (str): The tenant ID used for generating unique document identifiers.
-            Defaults to None.
-        s3_client (object): The Amazon S3 client instance used for managing S3 operations.
-        id_rewriter (object): The mechanism used to rewrite document IDs for support of tenant-specific
-            operations.
+    :ivar bucket_name: Name of the S3 bucket containing the Knowledge Base data.
+    :type bucket_name: str
+    :ivar key_prefix: Prefix to filter the S3 objects in the specified bucket.
+    :type key_prefix: str
+    :ivar region: AWS region containing the S3 bucket.
+    :type region: str
+    :ivar limit: Maximum number of S3 objects to process (-1 for no limit).
+    :type limit: int
+    :ivar output_dir: Directory path where output files will be written.
+    :type output_dir: str
+    :ivar s3_client: AWS S3 client used for interacting with the S3 service.
+    :type s3_client: object
+    :ivar id_rewriter: Facilitates rewriting unique IDs with a custom tenant identifier.
+    :type id_rewriter: object
+    :ivar metadata_fn: Optional function to produce or modify object metadata.
+    :type metadata_fn: Callable[[str], Dict[str, Any]]
+    :ivar include_embeddings: Specifies whether embeddings should be included.
+    :type include_embeddings: bool
+    :ivar include_source_doc: Specifies whether to include source documents in processing.
+    :type include_source_doc: bool
     """
-    def __init__(self, 
-                 region:str, 
-                 bucket_name:str, 
-                 key_prefix:str, 
-                 limit:int=-1, 
-                 output_dir:str='output', 
-                 metadata_fn:Callable[[str], Dict[str, Any]]=None,
-                 include_embeddings:bool=True,
-                 include_source_doc:bool=False,
-                 tenant_id:str=None,
-                 **kwargs):
-        """
-        Initializes the instance with configuration for connecting to an S3 bucket and
-        managing related properties. This includes parameters for specifying the S3
-        region, bucket details, and various options for handling metadata, embeddings,
-        and source documents.
 
-        Args:
-            region (str): The AWS region where the S3 bucket is located.
-            bucket_name (str): The name of the S3 bucket.
-            key_prefix (str): Prefix for the S3 object keys to filter objects in the
-                bucket.
-            limit (int): Maximum number of S3 objects to process. Defaults to -1,
-                indicating no limit.
-            output_dir (str): Directory path to store processed output. Defaults to
-                'output'.
-            metadata_fn (Callable[[str], Dict[str, Any]]): Callable function to
-                generate metadata for a given input. Defaults to None.
-            include_embeddings (bool): Flag to include embeddings in the output.
-                Defaults to True.
-            include_source_doc (bool): Flag to include the source document in the
-                output. Defaults to False.
-            tenant_id (str): Identifier for the tenant. Defaults to None.
-            **kwargs: Additional keyword arguments for customization.
+    def __init__(
+        self,
+        region: str,
+        bucket_name: str,
+        key_prefix: str,
+        limit: int = -1,
+        output_dir: str = 'output',
+        metadata_fn: Callable[[str], Dict[str, Any]] = None,
+        include_embeddings: bool = True,
+        include_source_doc: bool = False,
+        tenant_id: str = None,
+        **kwargs,
+    ):
         """
-        self.bucket_name=bucket_name
-        self.key_prefix=key_prefix
-        self.region=region
-        self.limit=limit
+        Initializes an instance of the class, setting up configuration
+        parameters such as the AWS S3 bucket details, file processing
+        configurations, and optional metadata handling.
+
+        :param region: The AWS region for the S3 bucket.
+        :param bucket_name: The name of the AWS S3 bucket.
+        :param key_prefix: The prefix path in the S3 bucket from where data
+            will be accessed.
+        :param limit: The maximum number of objects to process from the S3
+            bucket. Defaults to -1, which implies no limit.
+        :param output_dir: The directory to which the output files will be
+            saved locally.
+        :param metadata_fn: A callable function that accepts a string and
+            returns a dictionary containing metadata for processing files.
+        :param include_embeddings: Determines whether to include embeddings
+            in the processing. Defaults to True.
+        :param include_source_doc: Specifies whether to include source
+            documents during processing. Defaults to False.
+        :param tenant_id: Identifier for the tenant for managing tenant-specific
+            configurations. Can be None.
+        :param kwargs: Additional keyword arguments for custom processing
+            configurations.
+        """
+        self.bucket_name = bucket_name
+        self.key_prefix = key_prefix
+        self.region = region
+        self.limit = limit
         self.output_dir = output_dir
         self.s3_client = GraphRAGConfig.s3
         self.id_rewriter = IdRewriter(id_generator=IdGenerator(tenant_id=tenant_id))
-        self.metadata_fn=metadata_fn
+        self.metadata_fn = metadata_fn
         self.include_embeddings = include_embeddings
         self.include_source_doc = include_source_doc
-        
+
     def _kb_chunks(self, kb_export_dir):
         """
-        Generates and yields chunks of data from knowledge base export files stored in an Amazon S3
-        bucket. Each chunk is read line by line from the files after downloading them temporarily.
+        Fetches and processes chunks of data from knowledge base export files stored in an S3 bucket.
 
-        Args:
-            kb_export_dir (str): The directory path where temporary files will be stored after
-                downloading from the S3 bucket.
+        This function uses the S3 client to retrieve paginated results for objects stored in the specified
+        S3 bucket and with the specified key prefix. For each object, it downloads the file temporarily
+        to the provided knowledge base export directory and reads its content line by line. Each line
+        is assumed to be a JSON object, which is then parsed and yielded.
 
-        Yields:
-            dict: A dictionary representing a JSON object parsed from a single line of the knowledge
-                base export file.
+        :param kb_export_dir: The directory where temporary files for processing the knowledge base
+            exports should be stored.
+        :type kb_export_dir: str
+
+        :return: Yields parsed JSON objects from the knowledge base export files stored in S3.
+        :rtype: Iterator[dict]
         """
         paginator = self.s3_client.get_paginator('list_objects_v2')
         pages = paginator.paginate(Bucket=self.bucket_name, Prefix=self.key_prefix)
 
-        keys = [
-            obj['Key']
-            for page in pages
-            for obj in page['Contents'] 
-        ]
-        
+        keys = [obj['Key'] for page in pages for obj in page['Contents']]
+
         for key in keys:
-        
-            logger.info(f'Loading Amazon Bedrock Knowledge Base export file [bucket: {self.bucket_name}, key: {key}, region: {self.region}]')
+
+            logger.info(
+                f'Loading Amazon Bedrock Knowledge Base export file [bucket: {self.bucket_name}, key: {key}, region: {self.region}]'
+            )
 
             temp_filepath = join(kb_export_dir, f'{uuid.uuid4().hex}.json')
             self.s3_client.download_file(self.bucket_name, key, temp_filepath)
@@ -261,176 +289,187 @@ class BedrockKnowledgeBaseExport():
                         break
                     else:
                         yield json.loads(line)
-                        
+
     def _parse_key(self, source):
         """
-        Parses the provided source URL to extract and return the path without the leading
-        forward slash.
+        Parses the given source URL and extracts the path component,
+        excluding any leading slashes. This function utilizes the `urlparse`
+        library to parse the input and ensure fragments are ignored during
+        processing.
 
-        This function utilizes the `urlparse` method from Python's `urllib.parse` module to
-        analyze the given URL. It removes certain components, such as fragments, and focuses
-        on the path component by stripping the leading character. The output is the cleaned
-        path section of the provided URL.
-
-        Args:
-            source: The URL to be parsed. It should be a string representation of a valid
-                URL or URI.
-
-        Returns:
-            str: The cleaned path segment from the provided source URL, without the leading
-                forward slash.
+        :param source: The source URL string to be parsed.
+        :type source: str
+        :return: The extracted path component from the URL, with leading
+            slashes removed.
+        :rtype: str
         """
         parsed = urlparse(source, allow_fragments=False)
         return parsed.path.lstrip('/')
-    
+
     def _download_source_doc(self, source, doc_file_path):
         """
-        Downloads a source document from an S3 bucket and processes it into a desired format
-        based on its content type. The processed document is saved to a given file path in
-        JSON format with metadata and content.
+        Downloads the source document from an Amazon S3 bucket and processes it to generate
+        a formatted document. It includes metadata extraction, content decoding, and saving
+        the final document to a specified file path.
 
-        This method supports processing PDF and text-based documents, and enriches the document
-        with additional metadata provided by a callable function, if specified.
-
-        Args:
-            source (str): The identifier of the source document in the form of a key or URL.
-            doc_file_path (str): The file path where the processed document will be saved.
-
-        Returns:
-            Document: The processed document object containing the text and metadata.
+        :param source: The identifier for the document's source.
+        :type source: str
+        :param doc_file_path: The path where the processed document will be saved.
+        :type doc_file_path: str
+        :return: A processed instance of the Document object containing the downloaded data
+            and associated metadata.
+        :rtype: Document
         """
         key = self._parse_key(source)
 
-        logger.debug(f'Loading Amazon Bedrock Knowledge Base underlying source document [source: {source}, bucket: {self.bucket_name}, key: {key}, region: {self.region}]')
-            
+        logger.debug(
+            f'Loading Amazon Bedrock Knowledge Base underlying source document [source: {source}, bucket: {self.bucket_name}, key: {key}, region: {self.region}]'
+        )
+
         object_metadata = self.s3_client.head_object(Bucket=self.bucket_name, Key=key)
         content_type = object_metadata.get('ContentType', None)
 
         with io.BytesIO() as io_stream:
             self.s3_client.download_fileobj(self.bucket_name, key, io_stream)
-        
+
             io_stream.seek(0)
 
             if content_type and content_type in ['application/pdf']:
                 data = base64.b64encode(io_stream.read())
             else:
                 data = io_stream.read().decode('utf-8')
-            
+
         metadata = self.metadata_fn(data) if self.metadata_fn else {}
 
         if 'source' not in metadata:
             metadata['source'] = source
-            
-        doc = Document(
-            text=data,
-            metadata=metadata
-        )
-        
+
+        doc = Document(text=data, metadata=metadata)
+
         doc = self.id_rewriter([doc])[0]
-        
+
         with open(doc_file_path, 'w') as f:
-                f.write(doc.to_json())
-        
+            f.write(doc.to_json())
+
         return doc
-    
+
     def _open_source_doc(self, doc_file_path):
         """
-        Opens and loads a source document from the specified file path.
+        Opens a source document file, reads its content, deserializes it from JSON,
+        and converts it into a `Document` object using the `Document.from_dict` method.
 
-        This function reads a JSON file from the given file path, parses its
-        content into a dictionary, and converts it into a `Document` object
-        using the `from_dict` method.
+        This function is designed to facilitate the process of loading a document
+        stored in JSON format into a structured `Document` object.
 
-        Args:
-            doc_file_path: The path to the JSON file containing the document data.
-
-        Returns:
-            Document: An instance of the `Document` class created from the JSON data.
+        :param doc_file_path: The file path to the source document in JSON format.
+                              It must be a valid path to a JSON file containing the
+                              serialized document data.
+        :type doc_file_path: str
+        :return: A `Document` object deserialized from the given JSON file.
+        :rtype: Document
         """
         with open(doc_file_path) as f:
             data = json.load(f)
             return Document.from_dict(data)
-    
+
     def _get_source_doc(self, source_docs_dir, source):
         """
-        Retrieves the source document from a specified directory. If it does not exist,
-        downloads and stores it in the designated path.
+        Retrieve or download the source document associated with the given source
+        identifier. If the document already exists in the specified directory, it is
+        opened and returned. If not, the necessary directories are created, and the
+        document is downloaded and stored.
 
-        Args:
-            source_docs_dir: Base directory path where source documents are stored.
-            source: Unique identifier or source content for which the corresponding
-                document is being retrieved.
-
-        Returns:
-            The content of the source document.
-
-        Raises:
-            OSError: If there are issues creating or accessing the specified
-                directories or files.
+        :param source_docs_dir: The directory where source documents are stored.
+            This directory should contain subdirectories corresponding to unique
+            hashed IDs for each source.
+        :type source_docs_dir: str
+        :param source: The source identifier from which the unique hash is generated.
+            This ID is used to locate or store the corresponding document.
+        :type source: str
+        :return: Returns the content of the source document either from the local
+            storage or after downloading it to the specified directory.
+        :rtype: str
         """
         source_id = get_hash(source)
         doc_directory_path = join(source_docs_dir, source_id, 'document')
         doc_file_path = join(doc_directory_path, 'source_doc')
-        
+
         if os.path.exists(doc_file_path):
             return self._open_source_doc(doc_file_path)
         else:
             if not os.path.exists(doc_directory_path):
                 os.makedirs(doc_directory_path)
             return self._download_source_doc(source, doc_file_path)
-            
-    def _save_chunk(self, source_docs_dir, chunk, source):
 
+    def _save_chunk(self, source_docs_dir, chunk, source):
+        """
+        Saves a specific chunk of data to the appropriate directory based on the source.
+        This involves creating a directory structure using the source identifier and chunk
+        identifier, then writing the JSON representation of the chunk to a file. If the
+        directory path does not already exist, it will be created.
+
+        :param source_docs_dir: Path to the directory where source documents are stored
+        :type source_docs_dir: str
+        :param chunk: The chunk of data to be saved
+        :type chunk: Chunk
+        :param source: The original source data used to create the chunk
+        :type source: str
+        :return: None
+        """
         chunk = self.id_rewriter([chunk])[0]
-                
+
         source_id = get_hash(source)
         chunks_directory_path = join(source_docs_dir, source_id, 'chunks')
         chunk_file_path = join(chunks_directory_path, chunk.id_)
-        
+
         if not os.path.exists(chunks_directory_path):
             os.makedirs(chunks_directory_path)
-            
+
         with open(chunk_file_path, 'w') as f:
-                f.write(chunk.to_json())
-    
+            f.write(chunk.to_json())
+
     def _get_doc_count(self, source_docs_dir):
         """
-        Counts the number of document files in the given directory excluding a specific file.
+        Calculate the total document count in the given source directory, excluding one file.
 
-        This method calculates the total number of files in the specified directory while
-        excluding a certain file if present (not explicitly specified in this method).
-        The result is logged and also returned for further use.
-
-        Args:
-            source_docs_dir (str): Path to the directory containing document files.
-
-        Returns:
-            int: Total count of document files minus one specific file.
-
+        :param source_docs_dir: Path to the directory containing the source documents
+            as a string.
+        :type source_docs_dir: str
+        :return: The total count of documents in the directory subtracted by one.
+        :rtype: int
         """
-        doc_count = len([name for name in os.listdir(source_docs_dir) if os.path.isfile(name)]) - 1
+        doc_count = (
+            len([name for name in os.listdir(source_docs_dir) if os.path.isfile(name)])
+            - 1
+        )
         logger.info(f'doc_count: {doc_count}')
         return doc_count
-    
+
     def docs(self):
+        """
+        Represents a method to return the current instance of the class. This method might
+        be used for purposes such as method chaining or simply to access the current object.
+
+        :return: The instance of the current class
+        :rtype: self
+        """
         return self
-    
+
     def _with_page_number(self, metadata, page_number):
         """
-        Copies and updates metadata with a page number, if provided.
+        Creates a deep copy of the provided metadata dictionary and updates it with the
+        given page number if it is provided. If the page number is not provided, returns
+        the original metadata dictionary unmodified.
 
-        This function makes a deep copy of the provided metadata and updates it
-        to include a specified `page_number`. If no `page_number` is provided,
-        the original metadata is returned unchanged.
-
-        Args:
-            metadata (dict): The original metadata to be copied and updated.
-            page_number (Union[int, None]): The page number to be added to the
-                metadata if provided. Can be `None`.
-
-        Returns:
-            dict: A new dictionary containing the original metadata with the
-            added page number, or the original metadata unmodified.
+        :param metadata: The original metadata dictionary to be copied and potentially
+            updated.
+        :type metadata: dict
+        :param page_number: The page number to be added to the metadata copy. If not
+            provided, the metadata remains unchanged.
+        :type page_number: int or None
+        :return: A new dictionary with the page number included if provided; otherwise,
+            the original metadata.
+        :rtype: dict
         """
         if page_number:
             metadata_copy = copy.deepcopy(metadata)
@@ -441,48 +480,44 @@ class BedrockKnowledgeBaseExport():
 
     def __iter__(self):
         """
-        Returns an iterator that processes and yields knowledge base chunks and corresponding
-        source documents as `SourceDocument` objects. This method creates temporary directories
-        for Amazon Bedrock Knowledge Base data and processes the data to build a structured
-        output including metadata, source documents, and embeddings.
+        Creates a generator function that iteratively processes knowledge base chunks and
+        yields SourceDocument objects generated from these chunks.
 
-        Yields:
-            SourceDocument: Each yielded object contains a reference to the source document and
-            its associated chunks of text nodes.
+        The function handles temporary directory creation, manages various chunks of data,
+        parses chunk metadata, associates it with its source documents, and optionally includes
+        embeddings if enabled. The function iterates over the processed data and yields
+        the resulting source documents along with their associated nodes.
 
-        Raises:
-            Any exception raised during directory creation, file I/O operations, or processing
-            the knowledge base chunks will propagate through this method.
-
-        Attributes:
-            output_dir (str): Directory path where the knowledge base data should be processed.
-            include_embeddings (bool): Determines whether to include chunk embeddings in the
-                yielded results.
-            include_source_doc (bool): Indicates if the source documents should be embedded
-                in the output.
-            limit (int): The maximum number of `SourceDocument` objects to yield. A value
-                less than or equal to zero disables this limit.
+        :param self: Instance of the class containing the method call.
+        :return: A generator yielding `SourceDocument` objects that contain processed
+                 metadata and associated nodes.
         """
         job_dir = join(self.output_dir, 'bedrock-kb-export', f'{uuid.uuid4().hex}')
-        
+
         bedrock_dir = join(job_dir, 'bedrock')
         llama_index_dir = join(job_dir, 'llama-index')
-        
-        logger.info(f'Creating Amazon Bedrock Knowledge Base temp directories [bedrock_dir: {bedrock_dir}, llama_index_dir: {llama_index_dir}]')
+
+        logger.info(
+            f'Creating Amazon Bedrock Knowledge Base temp directories [bedrock_dir: {bedrock_dir}, llama_index_dir: {llama_index_dir}]'
+        )
 
         count = 0
-        
-        with TempDir(job_dir) as j, TempDir(bedrock_dir) as k, TempDir(llama_index_dir) as s:
-        
+
+        with TempDir(job_dir) as j, TempDir(bedrock_dir) as k, TempDir(
+            llama_index_dir
+        ) as s:
+
             for kb_chunk in self._kb_chunks(bedrock_dir):
 
                 bedrock_id = kb_chunk['id']
-                page_number = kb_chunk.get('x-amz-bedrock-kb-document-page-number', None)
+                page_number = kb_chunk.get(
+                    'x-amz-bedrock-kb-document-page-number', None
+                )
                 metadata = json.loads(kb_chunk['AMAZON_BEDROCK_METADATA'])
                 source = metadata['source']
-                
+
                 source_doc = self._get_source_doc(llama_index_dir, source)
-                
+
                 chunk = TextNode()
 
                 chunk.text = kb_chunk['AMAZON_BEDROCK_TEXT']
@@ -494,25 +529,25 @@ class BedrockKnowledgeBaseExport():
                     node_id=source_doc.id_,
                     node_type=NodeRelationship.SOURCE,
                     metadata=source_doc.metadata,
-                    hash=source_doc.hash
+                    hash=source_doc.hash,
                 )
-                
+
                 self._save_chunk(llama_index_dir, chunk, source)
-                    
+
             for d in [d for d in Path(llama_index_dir).iterdir() if d.is_dir()]:
-            
+
                 document = None
-                
+
                 if self.include_source_doc:
                     source_doc_file_path = join(d, 'document', 'source_doc')
                     with open(source_doc_file_path) as f:
                         document = Document.from_json(f.read())
-                 
+
                 file_based_chunks = FileBasedChunks(str(d), 'chunks')
                 chunks = [c for c in file_based_chunks.chunks()]
-                
+
                 yield SourceDocument(refNode=document, nodes=chunks)
-                
+
                 count += 1
                 if self.limit > 0 and count >= self.limit:
                     break

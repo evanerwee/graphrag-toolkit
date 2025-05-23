@@ -19,45 +19,41 @@ VectorStoreInfoType = Union[str, VectorStore]
 
 class VectorIndexing(NodeHandler):
     """
-    Handles vector indexing operations, including interacting with vector stores and managing batch operations.
+    Handles vector indexing for nodes, integrating vector stores and managing
+    batch operations.
 
-    This class provides tools to index vectors from nodes, allowing for integration with vector stores. It facilitates
-    operations such as batch writes and handling embedding indexing, making it easier to process and store large amounts
-    of vector data. The class supports flexible configuration and provides mechanisms to manage and optimize vector
-    processing using external vector stores.
+    This class is designed to interface with vector stores, allowing nodes to
+    be efficiently indexed based on their metadata. It supports both individual
+    and batch indexing operations, with optional progress display. Users can
+    configure vector store operations via the provided methods.
 
-    Attributes:
-        vector_store (VectorStore): The vector store instance used for vector indexing and operations.
+    :ivar vector_store: Instance of the vector store being used for indexing.
+    :type vector_store: VectorStore
     """
     @staticmethod
     def for_vector_store(vector_store_info:VectorStoreInfoType=None, index_names=DEFAULT_EMBEDDING_INDEXES, **kwargs):
         """
-        Creates a VectorIndexing instance for the given vector store configuration.
+        Constructs and returns a `VectorIndexing` instance for a specified vector store.
 
-        This method is used to create a VectorIndexing object that wraps around
-        a vector store. The vector store can be directly passed as an instance
-        of VectorStore or indirectly specified using configuration parameters
-        through the factory method.
+        This method facilitates the creation of a `VectorIndexing` object. If an instance
+        of `VectorStore` is provided, it directly utilizes that instance. Otherwise, it
+        creates a new `VectorStore` using `VectorStoreFactory` and returns the
+        corresponding `VectorIndexing` object.
 
-        Args:
-            vector_store_info: Optional; Configuration or instance of the vector
-                store. If it is an instance of VectorStore, it will be directly
-                used. Otherwise, it should represent configuration parameters
-                required to create a vector store using the factory.
-            index_names: List of default index names that will be utilized for
-                embedding lookups. If not specified, defaults to
-                DEFAULT_EMBEDDING_INDEXES.
-            **kwargs: Additional keyword arguments to configure the vector store
-                when created indirectly through the factory.
+        :param vector_store_info: Vector store instance or the information required to
+            construct a vector store.
+        :type vector_store_info: VectorStoreInfoType, optional
 
-        Returns:
-            VectorIndexing: An instance of VectorIndexing configured with the
-            specified vector store.
+        :param index_names: List of names for the embedding indexes to be utilized.
+            Defaults to `DEFAULT_EMBEDDING_INDEXES`.
+        :type index_names: list, optional
 
-        Raises:
-            TypeError: If the provided arguments are not compatible with the
-            vector store configuration or creation requirements.
+        :param kwargs: Additional keyword arguments to be passed to
+            `VectorStoreFactory.for_vector_store`.
 
+        :return: A `VectorIndexing` instance created for the given vector store or
+            vector store information.
+        :rtype: VectorIndexing
         """
         if isinstance(vector_store_info, VectorStore):
             return VectorIndexing(vector_store=vector_store_info)
@@ -68,30 +64,21 @@ class VectorIndexing(NodeHandler):
 
     def accept(self, nodes: List[BaseNode], **kwargs: Any):
         """
-        Processes and yields nodes for vector indexing using a batch client.
+        Accepts a list of nodes and performs vector indexing with configurable batch processing and additional keyword
+        arguments. Includes optional progress visualization and handles batched operations through the VectorBatchClient.
 
-        This function processes the given list of nodes to build vector indices.
-        It uses a batch client to handle batch operations if batch writes are enabled.
-        Nodes can be processed with optional progress display, and vector indexing is
-        applied based on metadata. If any error occurs during indexing, it is logged
-        and re-raised. Nodes are yielded either individually or in batches based on
-        batch operations.
+        This method processes each node, checks metadata for indexing information, and appropriately adds embeddings to
+        specified indexes. The batch processing behavior is governed by the batch configuration. Nodes that satisfy specific
+        criteria are yielded, and batch operations are applied on remaining nodes before yielding them.
 
-        Args:
-            nodes (List[BaseNode]): A list of nodes to be indexed into the vector store.
-            **kwargs (Any): Additional configuration options including:
-                - batch_writes_enabled (bool): Determines whether batch operations are
-                  enabled.
-                - batch_write_size (int): Specifies the size of batches for batch
-                  operations.
-
-        Yields:
-            BaseNode: Nodes after they are processed and indexed, either individually or
-            in batches.
-
-        Raises:
-            Exception: Re-raises any exceptions that occur during vector indexing with
-            logging.
+        :param nodes: A list of nodes to be indexed.
+        :type nodes: List[BaseNode]
+        :param kwargs: Additional keyword arguments for configuring vector indexing and batch processing. Should include:
+            'batch_writes_enabled': A boolean flag indicating if batch writes are enabled.
+            'batch_write_size': An integer specifying the size of each write batch.
+        :type kwargs: Any
+        :return: A generator yielding nodes that satisfy specified criteria after applying vector indexing operations.
+        :rtype: Generator[BaseNode, None, None]
         """
         batch_writes_enabled = kwargs.pop('batch_writes_enabled')
         batch_write_size = kwargs.pop('batch_write_size')
@@ -119,4 +106,3 @@ class VectorIndexing(NodeHandler):
             batch_nodes = batch_client.apply_batch_operations()
             for node in batch_nodes:
                 yield node
-        

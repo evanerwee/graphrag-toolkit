@@ -15,12 +15,12 @@ from llama_index.core.schema import BaseNode
 logger = logging.getLogger(__name__)
 
 class EntityRelationGraphBuilder(GraphBuilder):
-    """
-    EntityRelationGraphBuilder is a specialized builder class responsible for creating
-    entity relationship graphs based on fact data contained within nodes. It processes
-    facts, generates corresponding graph relationships, and interacts with the graph store
-    to persist these relationships. This class integrates domain-specific metadata and is
-    configured to handle optional domain labels for nodes and relationships.
+    """EntityRelationGraphBuilder is a specialized builder class responsible
+    for creating entity relationship graphs based on fact data contained within
+    nodes. It processes facts, generates corresponding graph relationships, and
+    interacts with the graph store to persist these relationships. This class
+    integrates domain-specific metadata and is configured to handle optional
+    domain labels for nodes and relationships.
 
     Attributes:
         DEFAULT_CLASSIFICATION (str): The default classification label used when fact
@@ -28,9 +28,8 @@ class EntityRelationGraphBuilder(GraphBuilder):
     """
     @classmethod
     def index_key(cls) -> str:
-        """
-        Returns the index key associated with this class. The index key is
-        a unique identifier for objects of this type, allowing for effective
+        """Returns the index key associated with this class. The index key is a
+        unique identifier for objects of this type, allowing for effective
         lookup or indexing operations.
 
         Returns:
@@ -39,17 +38,17 @@ class EntityRelationGraphBuilder(GraphBuilder):
         return 'fact'
     
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
-        """
-        Builds and executes entity-relation creation logic based on the given node and fact metadata. It processes
-        the metadata to create or update relationships between entities in a graph database. If `include_domain_labels`
-        is specified, additional domain-specific labels will be added to the entities and relationships.
+        """Builds and executes entity-relation creation logic based on the
+        given node and fact metadata. It processes the metadata to create or
+        update relationships between entities in a graph database. If
+        `include_domain_labels` is specified, additional domain-specific labels
+        will be added to the entities and relationships.
 
         Args:
             node (BaseNode): The node containing metadata for the fact data to process.
             graph_client (GraphStore): The graph client instance for executing database queries.
             **kwargs (Any): Additional keyword arguments. Must include:
                 - include_domain_labels (bool): Indicator for whether domain labels should be included in the query.
-
         """
         fact_metadata = node.metadata.get('fact', {})
         include_domain_labels = kwargs['include_domain_labels']

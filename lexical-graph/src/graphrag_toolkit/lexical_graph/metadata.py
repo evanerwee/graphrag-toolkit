@@ -9,7 +9,12 @@ from datetime import datetime, date
 
 from graphrag_toolkit.lexical_graph import GraphRAGConfig
 
-from llama_index.core.vector_stores.types import FilterCondition, FilterOperator, MetadataFilter, MetadataFilters
+from llama_index.core.vector_stores.types import (
+    FilterCondition,
+    FilterOperator,
+    MetadataFilter,
+    MetadataFilters,
+)
 from llama_index.core.bridge.pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
@@ -18,36 +23,37 @@ MetadataFiltersType = Union[MetadataFilters, MetadataFilter, List[MetadataFilter
 
 
 def is_datetime_key(key):
-    """Determines if the given key corresponds to a datetime metadata field.
+    """
+    Determines if the provided key ends with any of the suffixes specified
+    in the metadata datetime suffixes. This function is typically used
+    to validate if a key corresponds to a datetime field based on the
+    configuration.
 
-    This function checks if the provided key ends with any of the predefined suffixes
-    indicating that it represents a datetime metadata field. It utilizes the
-    `GraphRAGConfig.metadata_datetime_suffixes` tuple to recognize potential matches.
-
-    Args:
-        key (str): The key to check for a datetime-related suffix.
-
-    Returns:
-        bool: True if the key ends with a predefined datetime suffix, False otherwise.
+    :param key: A string representing the key to check.
+    :type key: str
+    :return: A boolean indicating whether the key matches any configured
+        metadata datetime suffix.
+    :rtype: bool
     """
     return key.endswith(tuple(GraphRAGConfig.metadata_datetime_suffixes))
 
 
 def format_datetime(s: Any):
     """
-    Formats a date or datetime object or parses a string into an ISO 8601 formatted string.
+    Formats a given input into an ISO 8601 formatted datetime string. The function
+    accepts input of type `datetime`, `date`, or a parsable string that represents
+    a date and time. If the input is `datetime` or `date`, the ISO 8601 format is
+    produced directly from the object. If the input is a string, it parses the string
+    to create a corresponding datetime object, which is then formatted to ISO 8601.
 
-    This function takes a datetime or date object and formats it into an ISO 8601
-    string. If provided with a string, it attempts to parse the string into a
-    datetime object and then formats it as an ISO 8601 string. The function ensures
-    strict parsing for string inputs.
+    The function is designed to provide a reliable and standard way to convert
+    various date/time representations into a uniform string format.
 
-    Args:
-        s: A datetime object, date object, or a string representing a date or
-           datetime.
-
-    Returns:
-        str: An ISO 8601 formatted string representation of the date or datetime.
+    :param s: The input to be formatted, which can be of type `datetime`, `date`,
+        or a string representing a date and time.
+    :type s: Any
+    :return: A string representing the provided input in ISO 8601 format.
+    :rtype: str
     """
     if isinstance(s, datetime) or isinstance(s, date):
         return s.isoformat()
@@ -57,21 +63,28 @@ def format_datetime(s: Any):
 
 def type_name_for_key_value(key: str, value: Any) -> str:
     """
-    Determines the type name for a given key-value pair based on the value's type or certain key-specific logic.
+    Determines the type name for a given key-value pair based on the value's type and
+    other contextual information.
 
-    The function evaluates the type of the `value` associated with a given `key` and returns a string representing the
-    type. For specific cases like datetime-related keys or datetime-like values, additional logic is applied. Unsupported
-    value types such as lists, dictionaries, or sets will lead to an exception.
+    This function analyzes the type of the provided value and returns a string
+    representing the type. If the value is a list, dictionary, or set, an exception
+    is raised indicating the unsupported type. For other value types, it maps
+    supported types to corresponding string identifiers. Additionally, it applies
+    specific logic to determine if a value is a timestamp based on the key and value
+    combination.
 
-    Args:
-        key (str): The key associated with the value, which may influence the type determination for certain cases.
-        value (Any): The value whose type needs to be determined.
-
-    Returns:
-        str: The inferred type name for the given value. Possible values are 'int', 'float', 'timestamp', or 'text'.
-
-    Raises:
-        ValueError: If the `value` is of an unsupported type, including lists, dictionaries, or sets.
+    :param key: The key of the key-value pair used for determining additional context,
+        such as whether the value might correspond to a timestamp.
+    :type key: str
+    :param value: The value of the key-value pair whose type is to be determined.
+    :type value: Any
+    :return: A string representing the value type, which can be one of the following:
+        - 'int'
+        - 'float'
+        - 'timestamp'
+        - 'text'
+    :rtype: str
+    :raises ValueError: If the value is of type list, dict, or set, which are unsupported.
     """
     if isinstance(value, list) or isinstance(value, dict) or isinstance(value, set):
         raise ValueError(f'Unsupported value type: {type(value)}')
@@ -95,25 +108,15 @@ def type_name_for_key_value(key: str, value: Any) -> str:
 
 def formatter_for_type(type_name: str) -> Callable[[Any], str]:
     """
-    Determines and returns a specific formatter function based on the input type name. This formatter function is used
-    to convert or format an input value into the desired type or representation according to the type specified.
+    Returns a formatter function for the specified type name. The formatter function
+    is a callable that processes the input value according to the rules of the
+    specified type.
 
-    If the type name is not recognized or supported, an exception will be raised.
-
-    Args:
-        type_name: A string specifying the type of formatter function to return.
-            Supported type names include:
-            - 'text': Returns the input value as-is.
-            - 'timestamp': Returns the formatted value using `format_datetime`.
-            - 'int': Converts the input to an integer.
-            - 'float': Converts the input to a floating-point number.
-
-    Returns:
-        Callable[[Any], str]: A function that takes an input value and formats
-        it according to the specified type name.
-
-    Raises:
-        ValueError: If the type_name is not supported.
+    :param type_name: The name of the type for which a formatter function is
+        required. Supported types are 'text', 'timestamp', 'int', and 'float'.
+    :raises ValueError: If the given type name is unsupported.
+    :return: A callable that formats the input data according to the specified
+        type.
     """
     if type_name == 'text':
         return lambda x: x
@@ -129,17 +132,26 @@ def formatter_for_type(type_name: str) -> Callable[[Any], str]:
 
 class SourceMetadataFormatter(BaseModel):
     """
-    Abstract base class responsible for formatting metadata.
+    Provides an abstract base class for formatting source metadata.
 
-    This class provides a blueprint for implementing custom metadata formatters.
-    Its purpose is to ensure the consistent transformation or formatting of
-    metadata dictionaries into desired formats. Users of this class are required
-    to implement the `format` method in a subclass, where the specific logic
-    for formatting metadata is defined.
+    This class is designed to define a common interface for formatting
+    metadata related to various sources. Subclasses must implement the
+    abstract method `format` to provide custom formatting logic. The
+    purpose of this class is to ensure a consistent structure and
+    behavior across implementations that handle the transformation
+    of source metadata.
 
-    Attributes:
-        None
+    :ivar __abstractmethods__: Set of abstract methods that must
+        be implemented by subclasses.
+    :type __abstractmethods__: frozenset
+    :ivar __validators__: Validators applied to the model's fields.
+    :type __validators__: dict
+    :ivar __fields_set__: Fields explicitly set during initialization.
+    :type __fields_set__: set
+    :ivar __config__: Configuration class for model behavior.
+    :type __config__: Type[BaseConfig]
     """
+
     @abc.abstractmethod
     def format(self, metadata: Dict[str, Any]) -> Dict[str, Any]:
         raise NotImplementedError()
@@ -147,14 +159,32 @@ class SourceMetadataFormatter(BaseModel):
 
 class DefaultSourceMetadataFormatter(SourceMetadataFormatter):
     """
-    Formats source metadata into a standardized dictionary format.
+    DefaultSourceMetadataFormatter provides a default implementation for
+    formatting metadata by processing each key-value pair using a formatter
+    determined by the type of the values.
 
-    This class implements a formatting utility for source metadata, transforming
-    input metadata into a standardized form. It maps the metadata keys and values
-    to their respective types and applies appropriate formatting functions. If a
-    metadata value cannot be formatted, it retains its original value.
+    This class inherits from SourceMetadataFormatter and overrides its
+    functionality to customize metadata formatting.
+
+    :ivar SomeAttribute: Description of SomeAttribute.
+    :type SomeAttribute: type_of_attribute
     """
+
     def format(self, metadata: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Formats the given metadata dictionary by applying appropriate formatting
+        based on the type of each value. The function determines the type name for
+        each key-value pair in the metadata, retrieves the relevant formatter for
+        each type, and applies the formatter to the value. If formatting fails for
+        any reason, the original value is retained in the resulting dictionary.
+
+        :param metadata: Dictionary containing key-value pairs to be formatted.
+            Each value is subjected to type-based formatting.
+        :type metadata: Dict[str, Any]
+        :return: A new dictionary containing formatted values for the given
+            metadata, where formatting is applied based on each value's type.
+        :rtype: Dict[str, Any]
+        """
         formatted_metadata = {}
         for k, v in metadata.items():
             try:
@@ -169,31 +199,40 @@ class DefaultSourceMetadataFormatter(SourceMetadataFormatter):
 
 class FilterConfig(BaseModel):
     """
-    Configuration class for filter settings.
+    Provides configuration for filter operations, including defining source filters and a
+    filter function for metadata dictionaries.
 
-    This class handles the configuration of filters related to metadata and provides
-    functionality to filter source metadata dictionaries. It supports various types
-    of metadata filter inputs and ensures proper initialization and usage of filters.
+    This class is designed to handle and manage metadata filtering. It allows for specifying
+    metadata filters that can be used to evaluate data dictionaries, determining whether they
+    meet given filtering criteria.
 
-    Attributes:
-        source_filters (Optional[MetadataFilters]): A collection of filters for source
-            metadata, initialized based on the provided input type.
-        source_metadata_dictionary_filter_fn (Callable[[Dict[str, Any]], bool]): A function
-            that determines whether a source metadata dictionary passes the filtering condition.
+    :ivar source_filters: Optional filters for processing metadata. This attribute can be
+        initialized with different types including `MetadataFilters`, `MetadataFilter`,
+        a list of filters, or None.
+    :type source_filters: Optional[MetadataFiltersType]
+    :ivar source_metadata_dictionary_filter_fn: A callable filter function that takes a dictionary
+        of metadata as its input and returns a boolean result indicating whether the
+        dictionary passes the filter.
+    :type source_metadata_dictionary_filter_fn: Callable[[Dict[str, Any]], bool]
     """
+
     source_filters: Optional[MetadataFilters]
     source_metadata_dictionary_filter_fn: Callable[[Dict[str, Any]], bool]
 
     def __init__(self, source_filters: Optional[MetadataFiltersType] = None):
         """
-        Initializes an instance of the class, allowing for the configuration of source filters.
+        Initializes the object with optional source filters, which can configure how
+        data or metadata is filtered. The inputs are validated and transformed into
+        the appropriate format based on the provided type. Raises a ValueError if the
+        type of source_filters does not match any recognized types.
 
-        Args:
-            source_filters (Optional[MetadataFiltersType]): Optional parameter to specify the source
-                filters. Can be of type `MetadataFilters`, `MetadataFilter`, a list of filters, or `None`.
-
-        Raises:
-            ValueError: If `source_filters` is not of an acceptable type.
+        :param source_filters: Optional metadata filters to configure the object's
+            filtering behavior. Acceptable types include:
+              - MetadataFilters: A collection of metadata filters.
+              - MetadataFilter: A single metadata filter.
+              - list: A list of `MetadataFilter` objects.
+            If no filters are provided, it defaults to None.
+        :type source_filters: Optional[MetadataFiltersType]
         """
         if not source_filters:
             source_filters = None
@@ -208,22 +247,23 @@ class FilterConfig(BaseModel):
 
         super().__init__(
             source_filters=source_filters,
-            source_metadata_dictionary_filter_fn=DictionaryFilter(source_filters) if source_filters else lambda x: True
+            source_metadata_dictionary_filter_fn=(
+                DictionaryFilter(source_filters) if source_filters else lambda x: True
+            ),
         )
 
     def filter_source_metadata_dictionary(self, d: Dict[str, Any]) -> bool:
         """
-        Filters the given metadata dictionary using a filter function.
+        Filters the provided metadata dictionary using a user-defined filter function
+        and logs the result. The filtering function is expected to be a callable stored
+        in the attribute `source_metadata_dictionary_filter_fn`. The filtering decision
+        (True/False) is based on the output of this function for the input metadata.
 
-        This method applies a filter function to the input dictionary and logs
-        the result of the filter operation. The result is a boolean indicating
-        whether the dictionary passed the filter condition.
-
-        Args:
-            d (Dict[str, Any]): The metadata dictionary to be filtered.
-
-        Returns:
-            bool: True if the dictionary passes the filter; otherwise, False.
+        :param d: The input metadata dictionary that needs to be filtered.
+        :type d: Dict[str, Any]
+        :return: A boolean indicating whether the dictionary passes the filter
+                 (True if it passes, False otherwise).
+        :rtype: bool
         """
         result = self.source_metadata_dictionary_filter_fn(d)
         logger.debug(f'filter result: [{str(d)}: {result}]')
@@ -232,52 +272,51 @@ class FilterConfig(BaseModel):
 
 class DictionaryFilter(BaseModel):
     """
-    Filters metadata dictionaries based on specified filter criteria.
+    Filters a dictionary of metadata using specified filter conditions.
 
-    This class provides mechanisms to apply a series of hierarchical metadata
-    filters through recursive logic. It utilizes different filter operators
-    such as equality, inequality, text matching, and value checking across
-    nested metadata structures. The class is intended to be called as a function
-    to determine whether the supplied metadata satisfies the provided filters.
+    This class is designed to validate and evaluate metadata provided as a dictionary
+    against a set of defined rules. The filtering can be based on logical conditions such
+    as AND, OR, and NOT. It also supports filter operators like equality, containment,
+    text matching, and more, allowing for flexible and recursive filtering mechanisms.
 
-    Attributes:
-        metadata_filters (MetadataFilters): The set of filters and conditions
-            to be applied on the metadata.
+    :ivar metadata_filters: MetadataFilters object defining rules and conditions to filter
+        the provided metadata.
+    :type metadata_filters: MetadataFilters
     """
+
     metadata_filters: MetadataFilters
 
     def __init__(self, metadata_filters: MetadataFilters):
         """
-        Initializes an instance with metadata filters to process or filter specific
-        metadata as per the provided configuration.
+        Initializes an instance of the class with the given metadata filters.
 
-        Args:
-            metadata_filters: MetadataFilters object responsible for defining the
-                filtering rules or conditions for the associated metadata.
+        This constructor initializes the class by setting up the metadata filters
+        that determine how the underlying resources or actions are filtered or
+        processed. It is crucial for implementing context-specific logic or rules
+        applicable to metadata.
+
+        :param metadata_filters: Filters used to process or evaluate metadata.
+        :type metadata_filters: MetadataFilters
         """
         super().__init__(metadata_filters=metadata_filters)
 
-    def _apply_filter_operator(self, operator: FilterOperator, metadata_value: Any, value: Any) -> bool:
+    def _apply_filter_operator(
+        self, operator: FilterOperator, metadata_value: Any, value: Any
+    ) -> bool:
         """
-        Applies a filter operator to a metadata value and a given value to evaluate a condition.
+        Evaluates whether a given filter operator, when applied to metadata and a user-provided value,
+        results in a match (True) or not (False). This internal function is utilized for filtering
+        based on specific criteria dictated by the provided operator and values.
 
-        This method takes a filter operator, a metadata value, and a comparison value,
-        and applies the operator to determine if the condition holds true. It supports
-        various operators such as equality, inequality, greater than, containment,
-        text matching, and more. If the metadata value is `None` or the operator is unsupported,
-        the method handles these cases appropriately by returning `False` or raising an exception,
-        respectively.
-
-        Args:
-            operator (FilterOperator): The filter operator to evaluate the condition.
-            metadata_value (Any): The metadata value to be compared against.
-            value (Any): The value to compare with the metadata value.
-
-        Returns:
-            bool: The result of applying the filter operator to the metadata value and comparison value.
-
-        Raises:
-            ValueError: If the provided filter operator is unsupported.
+        :param operator: The operator to apply for comparison.
+        :type operator: FilterOperator
+        :param metadata_value: The value from the metadata to compare.
+        :type metadata_value: Any
+        :param value: The value to compare against the `metadata_value` using the specified operator.
+        :type value: Any
+        :return: A boolean indicating whether the applied operator results in a match or not.
+        :rtype: bool
+        :raises ValueError: If the provided `operator` is unsupported or invalid.
         """
         if metadata_value is None:
             return False
@@ -307,48 +346,53 @@ class DictionaryFilter(BaseModel):
             return any(val in metadata_value for val in value)
         raise ValueError(f'Unsupported filter operator: {operator}')
 
-    def _apply_metadata_filters_recursive(self, metadata_filters: MetadataFilters, metadata: Dict[str, Any]) -> bool:
+    def _apply_metadata_filters_recursive(
+        self, metadata_filters: MetadataFilters, metadata: Dict[str, Any]
+    ) -> bool:
         """
-        Applies a set of metadata filters recursively to determine whether the metadata
-        satisfies the specified filter conditions. This function evaluates each filter
-        based on its operator and compares the metadata values to determine whether
-        the condition (AND, OR, NOT) is satisfied. Custom formatting and type handling
-        are applied to ensure proper evaluation of metadata values.
+        Determines the applicability of metadata filters recursively. This method processes
+        a collection of metadata filters against a provided metadata dictionary and evaluates
+        their conditions based on the logical operations associated with the filters.
 
-        Args:
-            metadata_filters (MetadataFilters): A container of metadata filters and
-                a filtering condition (AND, OR, or NOT) to evaluate.
-            metadata (Dict[str, Any]): A dictionary of metadata to compare against the
-                provided filters.
-
-        Returns:
-            bool: True if the metadata satisfies the specified filter conditions, or
-                False otherwise.
-
-        Raises:
-            ValueError: If a metadata filter condition is specified incorrectly, or if
-                the metadata filter type is invalid.
+        :param metadata_filters: The collection of metadata filter conditions to
+            evaluate. This can include nested filters or a combination of filters.
+        :type metadata_filters: MetadataFilters
+        :param metadata: The dictionary-like metadata structure containing key-value
+            pairs to be validated against the filters.
+        :type metadata: Dict[str, Any]
+        :return: A boolean indicating whether the metadata satisfies the applied filters
+            and their conditions.
+        :rtype: bool
         """
         results: List[bool] = []
 
         def get_filter_result(f: MetadataFilter, metadata: Dict[str, Any]):
             """
-            Represents a filter mechanism for applying metadata filters recursively
-            on a dictionary-like metadata structure. This class primarily focuses on
-            validating metadata against specified filtering criteria using recursive
-            approaches and type-based transformations.
+            Represents a filtering mechanism that applies metadata filters to a dictionary
+            of metadata recursively.
 
-            Attributes:
-                No attributes are defined explicitly for this class. It functions
-                through its methods for processing metadata.
+            This class provides functionality to evaluate metadata filters against a set
+            of metadata values using recursive operations. The filters are applied based
+            on specific operators, such as checking if a metadata field is empty or
+            evaluating other conditions depending on the operator, metadata type, and
+            value.
 
+            :param metadata_filters: A collection of metadata filter rules to be applied
+                                     recursively on the metadata.
+            :type metadata_filters: MetadataFilters
+            :param metadata: A dictionary containing metadata key-value pairs to be
+                             evaluated against the provided filters.
+            :type metadata: Dict[str, Any]
+            :return: True if all specified filters are satisfied by the metadata,
+                     False otherwise.
+            :rtype: bool
             """
             metadata_value = metadata.get(f.key, None)
             if f.operator == FilterOperator.IS_EMPTY:
                 return (
-                        metadata_value is None
-                        or metadata_value == ''
-                        or metadata_value == []
+                    metadata_value is None
+                    or metadata_value == ''
+                    or metadata_value == []
                 )
             else:
                 type_name = type_name_for_key_value(f.key, f.value)
@@ -356,20 +400,24 @@ class DictionaryFilter(BaseModel):
                 value = formatter(f.value)
                 metadata_value = formatter(metadata_value)
                 return self._apply_filter_operator(
-                    operator=f.operator,
-                    metadata_value=metadata_value,
-                    value=value
+                    operator=f.operator, metadata_value=metadata_value, value=value
                 )
 
         for metadata_filter in metadata_filters.filters:
             if isinstance(metadata_filter, MetadataFilter):
                 if metadata_filters.condition == FilterCondition.NOT:
-                    raise ValueError(f'Expected MetadataFilters for FilterCondition.NOT, but found MetadataFilter')
+                    raise ValueError(
+                        f'Expected MetadataFilters for FilterCondition.NOT, but found MetadataFilter'
+                    )
                 results.append(get_filter_result(metadata_filter, metadata))
             elif isinstance(metadata_filter, MetadataFilters):
-                results.append(self._apply_metadata_filters_recursive(metadata_filter, metadata))
+                results.append(
+                    self._apply_metadata_filters_recursive(metadata_filter, metadata)
+                )
             else:
-                raise ValueError(f'Invalid metadata filter type: {type(metadata_filter)}')
+                raise ValueError(
+                    f'Invalid metadata filter type: {type(metadata_filter)}'
+                )
 
         if metadata_filters.condition == FilterCondition.NOT:
             return not all(results)
@@ -378,21 +426,20 @@ class DictionaryFilter(BaseModel):
         elif metadata_filters.condition == FilterCondition.OR:
             return any(results)
         else:
-            raise ValueError(f'Unsupported filters condition: {metadata_filters.condition}')
+            raise ValueError(
+                f'Unsupported filters condition: {metadata_filters.condition}'
+            )
 
     def __call__(self, metadata: Dict[str, Any]) -> bool:
         """
-        Executes the metadata filters on the provided metadata.
+        Executes the metadata filters recursively and determines if the given metadata satisfies
+        the specified filter conditions.
 
-        The method applies the set of predefined metadata filters recursively
-        to determine if the provided metadata satisfies all conditions.
+        :param metadata: A dictionary containing metadata key-value pairs to be tested
+            against the defined metadata filters.
+        :type metadata: Dict[str, Any]
 
-        Args:
-            metadata (Dict[str, Any]): The metadata to be filtered and evaluated against
-                the predefined metadata filters.
-
-        Returns:
-            bool: Returns True if the metadata satisfies all the filter conditions;
-            otherwise, returns False.
+        :return: A boolean indicating whether the metadata passes the filter conditions.
+        :rtype: bool
         """
         return self._apply_metadata_filters_recursive(self.metadata_filters, metadata)

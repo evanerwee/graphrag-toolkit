@@ -26,8 +26,8 @@ from llama_index.core.schema import BaseNode
 logger = logging.getLogger(__name__)
 
 def default_builders() -> List[GraphBuilder]:
-    """
-    Provides a list of default graph builders for constructing various types of graphs.
+    """Provides a list of default graph builders for constructing various types
+    of graphs.
 
     This function initializes and returns a predefined collection of graph builder
     instances. Each builder is responsible for constructing a specific type of graph
@@ -55,8 +55,8 @@ def default_builders() -> List[GraphBuilder]:
 GraphInfoType = Union[str, GraphStore]
 
 class GraphConstruction(NodeHandler):
-    """
-    Provides functionality for constructing and building a graph using nodes and builders.
+    """Provides functionality for constructing and building a graph using nodes
+    and builders.
 
     The GraphConstruction class is a utility for managing graph construction using a set of
     builders and a graph client. It supports functionality to batch graph operations, process
@@ -70,10 +70,9 @@ class GraphConstruction(NodeHandler):
     """
     @staticmethod
     def for_graph_store(graph_info:GraphInfoType=None, **kwargs):
-        """
-        Constructs a GraphConstruction instance either directly from a GraphStore instance
-        or by creating a GraphStore instance using GraphStoreFactory if a non-GraphStore
-        value is provided.
+        """Constructs a GraphConstruction instance either directly from a
+        GraphStore instance or by creating a GraphStore instance using
+        GraphStoreFactory if a non-GraphStore value is provided.
 
         Args:
             graph_info (GraphInfoType, optional): The initial graph information provided,
@@ -97,11 +96,10 @@ class GraphConstruction(NodeHandler):
     )
 
     def accept(self, nodes: List[BaseNode], **kwargs: Any):
-        """
-        Processes a list of nodes to construct a graph by utilizing builders with the
-        specified configurations, such as batch writes. Nodes can be processed with or
-        without progress visualization, and operations are applied in batches as per
-        given configurations.
+        """Processes a list of nodes to construct a graph by utilizing builders
+        with the specified configurations, such as batch writes. Nodes can be
+        processed with or without progress visualization, and operations are
+        applied in batches as per given configurations.
 
         Args:
             nodes: A list of BaseNode objects to be processed and incorporated into the
@@ -171,4 +169,3 @@ class GraphConstruction(NodeHandler):
             for node in batch_nodes:
                 yield node
 
-        

@@ -13,10 +13,16 @@ from llama_index.core.schema import QueryBundle
 
 logger = logging.getLogger(__name__)
 
-def get_diverse_vss_elements(index_name:str, query_bundle: QueryBundle, vector_store:VectorStore, args:ProcessorArgs, filter_config:Optional[FilterConfig]):
-    """
-    Retrieve diverse elements from a vector search system (VSS) by applying a diversity
-    factor to limit redundancy among results.
+
+def get_diverse_vss_elements(
+    index_name: str,
+    query_bundle: QueryBundle,
+    vector_store: VectorStore,
+    args: ProcessorArgs,
+    filter_config: Optional[FilterConfig],
+):
+    """Retrieve diverse elements from a vector search system (VSS) by applying
+    a diversity factor to limit redundancy among results.
 
     This function queries a vector store using the provided query, index, and filter
     configuration, then applies a diversity mechanism to return results with more
@@ -41,33 +47,40 @@ def get_diverse_vss_elements(index_name:str, query_bundle: QueryBundle, vector_s
     vss_top_k = args.vss_top_k
 
     if not diversity_factor or diversity_factor < 1:
-        return vector_store.get_index(index_name).top_k(query_bundle, top_k=vss_top_k, filter_config=filter_config)
+        return vector_store.get_index(index_name).top_k(
+            query_bundle, top_k=vss_top_k, filter_config=filter_config
+        )
 
     top_k = vss_top_k * diversity_factor
-        
-    elements = vector_store.get_index(index_name).top_k(query_bundle, top_k=top_k, filter_config=filter_config)
-        
+
+    elements = vector_store.get_index(index_name).top_k(
+        query_bundle, top_k=top_k, filter_config=filter_config
+    )
+
     source_map = {}
-        
+
     for element in elements:
         source_id = element['source']['sourceId']
         if source_id not in source_map:
             source_map[source_id] = queue.Queue()
         source_map[source_id].put(element)
-            
+
     elements_by_source = queue.Queue()
-        
+
     for source_elements in source_map.values():
         elements_by_source.put(source_elements)
-        
+
     diverse_elements = []
-        
+
     while (not elements_by_source.empty()) and len(diverse_elements) < vss_top_k:
         source_elements = elements_by_source.get()
         diverse_elements.append(source_elements.get())
         if not source_elements.empty():
             elements_by_source.put(source_elements)
 
-    logger.debug(f'Diverse {index_name}s:\n' + '\n--------------\n'.join([str(element) for element in diverse_elements]))
+    logger.debug(
+        f'Diverse {index_name}s:\n'
+        + '\n--------------\n'.join([str(element) for element in diverse_elements])
+    )
 
     return diverse_elements

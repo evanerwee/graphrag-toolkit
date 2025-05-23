@@ -7,9 +7,9 @@ from graphrag_toolkit.lexical_graph import TenantId
 from graphrag_toolkit.lexical_graph.storage.constants import LEXICAL_GRAPH_LABELS
 from graphrag_toolkit.lexical_graph.storage.graph import GraphStore, NodeId
 
+
 class MultiTenantGraphStore(GraphStore):
-    """
-    Represents a multi-tenant graph store.
+    """Represents a multi-tenant graph store.
 
     This class serves as a wrapper for a GraphStore to support multi-tenancy. It modifies
     queries and operations to be specific to the tenant identified by a tenant ID. The
@@ -20,12 +20,18 @@ class MultiTenantGraphStore(GraphStore):
         inner (GraphStore): The underlying graph store being wrapped to enable multi-tenancy.
         labels (List[str]): A list of graph labels that might be rewritten for the tenant.
     """
+
     @classmethod
-    def wrap(cls, graph_store:GraphStore, tenant_id:TenantId, labels:List[str]=LEXICAL_GRAPH_LABELS):
-        """
-        Creates and returns a GraphStore instance, which can appropriately handle multi-tenancy
-        based on the tenant information provided. If the tenant is a default tenant, the original
-        graph store instance is returned as is. Otherwise, ensures that a MultiTenantGraphStore
+    def wrap(
+        cls,
+        graph_store: GraphStore,
+        tenant_id: TenantId,
+        labels: List[str] = LEXICAL_GRAPH_LABELS,
+    ):
+        """Creates and returns a GraphStore instance, which can appropriately
+        handle multi-tenancy based on the tenant information provided. If the
+        tenant is a default tenant, the original graph store instance is
+        returned as is. Otherwise, ensures that a MultiTenantGraphStore
         instance is created and returned.
 
         Args:
@@ -43,17 +49,25 @@ class MultiTenantGraphStore(GraphStore):
             return graph_store
         if isinstance(graph_store, MultiTenantGraphStore):
             return graph_store
-        return MultiTenantGraphStore(inner=graph_store, tenant_id=tenant_id, labels=labels)
-    
-    inner:GraphStore
-    labels:List[str]=[]
+        return MultiTenantGraphStore(
+            inner=graph_store, tenant_id=tenant_id, labels=labels
+        )
 
-    def execute_query_with_retry(self, query:str, parameters:Dict[str, Any], max_attempts=3, max_wait=5, **kwargs):
-        """
-        Executes a query with retry logic, ensuring the query is attempted multiple
-        times in case of failure. This method uses the `inner` object's
-        `execute_query_with_retry` method to perform the actual query, after rewriting
-        the provided query string if necessary.
+    inner: GraphStore
+    labels: List[str] = []
+
+    def execute_query_with_retry(
+        self,
+        query: str,
+        parameters: Dict[str, Any],
+        max_attempts=3,
+        max_wait=5,
+        **kwargs,
+    ):
+        """Executes a query with retry logic, ensuring the query is attempted
+        multiple times in case of failure. This method uses the `inner`
+        object's `execute_query_with_retry` method to perform the actual query,
+        after rewriting the provided query string if necessary.
 
         Args:
             query: A string representing the SQL query to be executed.
@@ -65,11 +79,15 @@ class MultiTenantGraphStore(GraphStore):
             **kwargs: Additional optional keyword arguments to be passed to the
                 `execute_query_with_retry` method of the `inner` object.
         """
-        self.inner.execute_query_with_retry(query=self._rewrite_query(query), parameters=parameters, max_attempts=max_attempts, max_wait=max_wait)
+        self.inner.execute_query_with_retry(
+            query=self._rewrite_query(query),
+            parameters=parameters,
+            max_attempts=max_attempts,
+            max_wait=max_wait,
+        )
 
-    def _logging_prefix(self, query_id:str, correlation_id:Optional[str]=None):
-        """
-        Generates a logging prefix based on given `query_id` and optional
+    def _logging_prefix(self, query_id: str, correlation_id: Optional[str] = None):
+        """Generates a logging prefix based on given `query_id` and optional
         `correlation_id`.
 
         This method delegates the functionality to the `inner` attribute's
@@ -86,13 +104,14 @@ class MultiTenantGraphStore(GraphStore):
         Returns:
             str: The generated logging prefix containing the provided identifiers.
         """
-        return self.inner._logging_prefix(query_id=query_id, correlation_id=correlation_id)
-    
-    def property_assigment_fn(self, key:str, value:Any) -> Callable[[str], str]:
-        """
-        Assigns a value to a property of an inner object and returns a callable function
-        to retrieve a property value as a string. This method delegates the assignment
-        to an inner object's function.
+        return self.inner._logging_prefix(
+            query_id=query_id, correlation_id=correlation_id
+        )
+
+    def property_assigment_fn(self, key: str, value: Any) -> Callable[[str], str]:
+        """Assigns a value to a property of an inner object and returns a
+        callable function to retrieve a property value as a string. This method
+        delegates the assignment to an inner object's function.
 
         Args:
             key: The name of the property to assign in the inner object.
@@ -103,10 +122,10 @@ class MultiTenantGraphStore(GraphStore):
             of the requested property's value.
         """
         return self.inner.property_assigment_fn(key, value)
-    
-    def node_id(self, id_name:str) -> NodeId:
-        """
-        Retrieves a unique node identifier (NodeId) based on the provided node name.
+
+    def node_id(self, id_name: str) -> NodeId:
+        """Retrieves a unique node identifier (NodeId) based on the provided
+        node name.
 
         This function interacts with an internal structure to map the given node name
         to its corresponding unique identifier.
@@ -119,11 +138,12 @@ class MultiTenantGraphStore(GraphStore):
             NodeId: The unique identifier associated with the specified node name.
         """
         return self.inner.node_id(id_name=id_name)
-    
-    def execute_query(self, cypher:str, parameters={}, correlation_id=None) -> Dict[str, Any]:
-        """
-        Executes a database query with the given cypher query string, parameters,
-        and an optional correlation ID for tracking purposes.
+
+    def execute_query(
+        self, cypher: str, parameters={}, correlation_id=None
+    ) -> Dict[str, Any]:
+        """Executes a database query with the given cypher query string,
+        parameters, and an optional correlation ID for tracking purposes.
 
         Args:
             cypher: The cypher query string to execute.
@@ -134,14 +154,17 @@ class MultiTenantGraphStore(GraphStore):
 
         Returns:
             A dictionary containing the query results or metadata.
+        """
+        return self.inner.execute_query(
+            cypher=self._rewrite_query(cypher),
+            parameters=parameters,
+            correlation_id=correlation_id,
+        )
 
-        """
-        return self.inner.execute_query(cypher=self._rewrite_query(cypher), parameters=parameters, correlation_id=correlation_id)
-    
-    def _rewrite_query(self, cypher:str):
-        """
-        Rewrites the given Cypher query to replace instance-specific labels with their tenant-specific
-        versions based on the tenant ID. The method processes all labels and updates the query accordingly.
+    def _rewrite_query(self, cypher: str):
+        """Rewrites the given Cypher query to replace instance-specific labels
+        with their tenant-specific versions based on the tenant ID. The method
+        processes all labels and updates the query accordingly.
 
         Args:
             cypher (str): The original Cypher query to be rewritten.
@@ -156,4 +179,3 @@ class MultiTenantGraphStore(GraphStore):
             new_label = self.tenant_id.format_label(label)
             cypher = cypher.replace(original_label, new_label)
         return cypher
-    

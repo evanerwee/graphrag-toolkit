@@ -30,10 +30,9 @@ class NodeFilter(TransformComponent):
         return nodes
 
 class BuildPipeline():
-    """
-    Represents a configurable build pipeline designed for efficiently processing and transforming
-    data into nodes through various components, while supporting batching, parallelization,
-    and customizations.
+    """Represents a configurable build pipeline designed for efficiently
+    processing and transforming data into nodes through various components,
+    while supporting batching, parallelization, and customizations.
 
     The BuildPipeline class provides a mechanism to process collections of input data using a
     series of transformation components. It supports batch processing, parallel execution with
@@ -72,11 +71,11 @@ class BuildPipeline():
                tenant_id:Optional[TenantId]=None,
                **kwargs:Any
             ):
-        """
-        Creates and initializes a `Pipe` object configured with the provided parameters and
-        components through the `BuildPipeline`. This method facilitates seamless aggregation
-        of processing components into a pipeline, enabling execution with specific settings
-        such as concurrency, batching, filtering, and more.
+        """Creates and initializes a `Pipe` object configured with the provided
+        parameters and components through the `BuildPipeline`. This method
+        facilitates seamless aggregation of processing components into a
+        pipeline, enabling execution with specific settings such as
+        concurrency, batching, filtering, and more.
 
         Args:
             components (List[TransformComponent]): List of transformation components to be
@@ -142,11 +141,11 @@ class BuildPipeline():
                  tenant_id:Optional[TenantId]=None,
                  **kwargs:Any
             ):
-        """
-        Initializes an instance of a class responsible for configuring and managing a data
-        processing pipeline. This pipeline processes input through a customizable sequence
-        of transformation components, while optionally supporting checkpointing, multiprocessing,
-        and domain-specific metadata.
+        """Initializes an instance of a class responsible for configuring and
+        managing a data processing pipeline. This pipeline processes input
+        through a customizable sequence of transformation components, while
+        optionally supporting checkpointing, multiprocessing, and domain-
+        specific metadata.
 
         Args:
             components (List[TransformComponent]): A list of transformation components that
@@ -219,10 +218,9 @@ class BuildPipeline():
         self.pipeline_kwargs = kwargs
     
     def _to_node_batches(self, source_doc_batches:Iterable[Iterable[SourceDocument]]) -> List[List[BaseNode]]:
-        """
-        Converts batches of source documents into batches of nodes based on filtering and
-        builder processes. Each batch of source documents is processed individually to form
-        a batch of nodes.
+        """Converts batches of source documents into batches of nodes based on
+        filtering and builder processes. Each batch of source documents is
+        processed individually to form a batch of nodes.
 
         Args:
             source_doc_batches: A collection of collections, where each inner collection
@@ -258,11 +256,11 @@ class BuildPipeline():
         return results
 
     def build(self, inputs: Iterable[SourceType]):
-        """
-        Processes a set of input source types to generate and yield output nodes through a
-        configurable build pipeline. The method organizes source documents into batches
-        and processes them through a pipeline with customizable settings for parallel
-        execution, batching, and additional pipeline-specific options.
+        """Processes a set of input source types to generate and yield output
+        nodes through a configurable build pipeline. The method organizes
+        source documents into batches and processes them through a pipeline
+        with customizable settings for parallel execution, batching, and
+        additional pipeline-specific options.
 
         Args:
             inputs: An iterable of SourceType objects representing source data to be

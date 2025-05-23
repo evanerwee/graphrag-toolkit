@@ -8,9 +8,10 @@ from graphrag_toolkit.lexical_graph.indexing.model import SourceDocument
 
 from llama_index.core.schema import BaseComponent
 
+
 class SourceDocParser(BaseComponent):
-    """
-    Parses source documents and provides an interface for handling document parsing logic.
+    """Parses source documents and provides an interface for handling document
+    parsing logic.
 
     This class serves as an abstract base for implementing source document parsing
     functionality. The main purpose of the class is to define a generic interface that
@@ -21,10 +22,13 @@ class SourceDocParser(BaseComponent):
     Attributes:
         None
     """
+
     @abc.abstractmethod
-    def _parse_source_docs(self, source_documents:Iterable[SourceDocument]) -> Iterable[SourceDocument]:
-        """
-        Parses a collection of source documents and processes them into a specified format.
+    def _parse_source_docs(
+        self, source_documents: Iterable[SourceDocument]
+    ) -> Iterable[SourceDocument]:
+        """Parses a collection of source documents and processes them into a
+        specified format.
 
         This method is intended to be overridden by subclasses to provide specific
         logic for processing the input documents and transforming them into the desired
@@ -46,10 +50,11 @@ class SourceDocParser(BaseComponent):
         """
         pass
 
-    def parse_source_docs(self, source_documents:Iterable[SourceDocument]) -> Iterable[SourceDocument]:
-        """
-        Parses a collection of source documents and processes them through an internal
-        parsing mechanism.
+    def parse_source_docs(
+        self, source_documents: Iterable[SourceDocument]
+    ) -> Iterable[SourceDocument]:
+        """Parses a collection of source documents and processes them through
+        an internal parsing mechanism.
 
         Args:
             source_documents: An iterable of SourceDocument objects to be parsed. Each

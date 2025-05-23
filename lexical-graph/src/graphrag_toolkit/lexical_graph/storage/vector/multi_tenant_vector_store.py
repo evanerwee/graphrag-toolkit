@@ -18,14 +18,15 @@ class MultiTenantVectorStore(VectorStore):
         tenant_id (TenantId): The tenant ID associated with the operations
             performed on the vector store.
     """
+
     @classmethod
-    def wrap(cls, vector_store:VectorStore, tenant_id:TenantId):
-        """
-        Wraps the given vector_store with a MultiTenantVectorStore if necessary, based on the
-        tenant_id provided. The method ensures that the given vector_store is returned as-is
-        if it corresponds to the default tenant or is already an instance of
-        MultiTenantVectorStore. Otherwise, it wraps the vector_store inside a
-        MultiTenantVectorStore with the given tenant_id.
+    def wrap(cls, vector_store: VectorStore, tenant_id: TenantId):
+        """Wraps the given vector_store with a MultiTenantVectorStore if
+        necessary, based on the tenant_id provided. The method ensures that the
+        given vector_store is returned as-is if it corresponds to the default
+        tenant or is already an instance of MultiTenantVectorStore. Otherwise,
+        it wraps the vector_store inside a MultiTenantVectorStore with the
+        given tenant_id.
 
         Args:
             vector_store: The vector_store to wrap if required.
@@ -41,12 +42,12 @@ class MultiTenantVectorStore(VectorStore):
             return vector_store
         return MultiTenantVectorStore(inner=vector_store, tenant_id=tenant_id)
 
-    inner:VectorStore
-    tenant_id:TenantId
+    inner: VectorStore
+    tenant_id: TenantId
 
     def get_index(self, index_name):
-        """
-        Retrieves an index from the inner object and associates it with the tenant ID.
+        """Retrieves an index from the inner object and associates it with the
+        tenant ID.
 
         Args:
             index_name: Name of the index to retrieve.
@@ -57,10 +58,10 @@ class MultiTenantVectorStore(VectorStore):
         index = self.inner.get_index(index_name=index_name)
         index.tenant_id = self.tenant_id
         return index
-    
+
     def all_indexes(self) -> List[VectorIndex]:
-        """
-        Returns a list of all VectorIndex instances stored in the inner indexes.
+        """Returns a list of all VectorIndex instances stored in the inner
+        indexes.
 
         This method iterates through the keys of the `inner.indexes` dictionary and
         retrieves the corresponding VectorIndex object for each key.
@@ -70,4 +71,3 @@ class MultiTenantVectorStore(VectorStore):
             inner indexes of the current instance.
         """
         return [self.get_index(i) for i in self.inner.indexes.keys()]
-        
