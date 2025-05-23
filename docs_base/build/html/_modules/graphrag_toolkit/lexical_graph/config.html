@@ -1,0 +1,1319 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>graphrag_toolkit.lexical_graph.config - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/graph-model.html">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/querying.html">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/metadata-filtering.html">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for graphrag_toolkit.lexical_graph.config</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</span>
+<span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boto3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span> <span class="k">as</span> <span class="n">Boto3Session</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">botocore.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.llms.bedrock_converse</span><span class="w"> </span><span class="kn">import</span> <span class="n">BedrockConverse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.embeddings.bedrock</span><span class="w"> </span><span class="kn">import</span> <span class="n">BedrockEmbedding</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.base.embeddings.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEmbedding</span>
+
+<span class="n">LLMType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">LLM</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="n">EmbeddingType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">BaseEmbedding</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+
+<span class="n">DEFAULT_EXTRACTION_MODEL</span> <span class="o">=</span> <span class="s1">&#39;us.anthropic.claude-3-5-sonnet-20240620-v1:0&#39;</span>
+<span class="n">DEFAULT_RESPONSE_MODEL</span> <span class="o">=</span> <span class="s1">&#39;us.anthropic.claude-3-5-sonnet-20240620-v1:0&#39;</span>
+<span class="n">DEFAULT_EMBEDDINGS_MODEL</span> <span class="o">=</span> <span class="s1">&#39;cohere.embed-english-v3&#39;</span>
+<span class="n">DEFAULT_RERANKING_MODEL</span> <span class="o">=</span> <span class="s1">&#39;mixedbread-ai/mxbai-rerank-xsmall-v1&#39;</span>
+<span class="n">DEFAULT_EMBEDDINGS_DIMENSIONS</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">DEFAULT_EXTRACTION_NUM_WORKERS</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">DEFAULT_EXTRACTION_BATCH_SIZE</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">DEFAULT_EXTRACTION_NUM_THREADS_PER_WORKER</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">DEFAULT_BUILD_NUM_WORKERS</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">DEFAULT_BUILD_BATCH_SIZE</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">DEFAULT_BUILD_BATCH_WRITE_SIZE</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">DEFAULT_BATCH_WRITES_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">DEFAULT_INCLUDE_DOMAIN_LABELS</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">DEFAULT_ENABLE_CACHE</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">DEFAULT_METADATA_DATETIME_SUFFIXES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_date&#39;</span><span class="p">,</span> <span class="s1">&#39;_datetime&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_json_string</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determines if a given string is a valid JSON string by attempting to</span>
+<span class="sd">    parse it.</span>
+
+<span class="sd">    This function attempts to parse the provided string as JSON. If the parsing</span>
+<span class="sd">    is successful, it concludes that the string is a valid JSON. Otherwise,</span>
+<span class="sd">    it considers the string invalid and returns False.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        s (str): The string to check for JSON validity.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the input string is a valid JSON string, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="string_to_bool">
+<a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.config.string_to_bool">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">string_to_bool</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">default_value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a string to a boolean value.</span>
+
+<span class="sd">    This function attempts to convert a string to a boolean value. If the string</span>
+<span class="sd">    is empty or None, it returns the provided default value. Otherwise, it checks</span>
+<span class="sd">    if the string (case-insensitive) matches the value &#39;true&#39; to determine</span>
+<span class="sd">    whether to return True or False.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        s: The string input to be converted to a boolean.</span>
+<span class="sd">        default_value: The default boolean value to return if the string is empty</span>
+<span class="sd">            or None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: The boolean representation of the input string if valid, or the</span>
+<span class="sd">        default value otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">default_value</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;true&#39;</span><span class="p">]</span></div>
+
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_GraphRAGConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration class for managing parameters and clients in a Graph-based</span>
+<span class="sd">    RAG (Retrieve and Generate) system. This class encapsulates the</span>
+<span class="sd">    configuration necessary for interacting with AWS services, LLM-based</span>
+<span class="sd">    extractions, and embeddable models while providing utility properties and</span>
+<span class="sd">    methods to simplify access and management.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _aws_profile (Optional[str]): The AWS profile name to be utilized for authentication.</span>
+<span class="sd">        _aws_region (Optional[str]): The AWS region to be used for service access.</span>
+<span class="sd">        _aws_clients (Dict): Caches AWS clients for reusability and efficiency.</span>
+<span class="sd">        _boto3_session (Optional[boto3.Session]): The internal boto3 session, initialized on demand.</span>
+<span class="sd">        _aws_valid_services (Optional[Set[str]]): A set of valid AWS service names for validation purposes.</span>
+<span class="sd">        _session (Optional[boto3.Session]): Boto3 session attribute initialized or reused.</span>
+<span class="sd">        _extraction_llm (Optional[LLM]): The LLM configured for extraction tasks.</span>
+<span class="sd">        _response_llm (Optional[LLM]): The LLM configured for response generation tasks.</span>
+<span class="sd">        _embed_model (Optional[BaseEmbedding]): An embedding model for vector generation.</span>
+<span class="sd">        _embed_dimensions (Optional[int]): The dimensions of the embedding vectors.</span>
+<span class="sd">        _reranking_model (Optional[str]): A string specifying the reranking model to use.</span>
+<span class="sd">        _extraction_num_workers (Optional[int]): Number of parallel workers for extraction tasks.</span>
+<span class="sd">        _extraction_num_threads_per_worker (Optional[int]): Number of threads per worker in extraction operations.</span>
+<span class="sd">        _extraction_batch_size (Optional[int]): The batch size for processing during extraction.</span>
+<span class="sd">        _build_num_workers (Optional[int]): The number of workers used when building structures or data.</span>
+<span class="sd">        _build_batch_size (Optional[int]): The size of data batches processed during build operations.</span>
+<span class="sd">        _build_batch_write_size (Optional[int]): Limit for the size of batch writes in the build process.</span>
+<span class="sd">        _batch_writes_enabled (Optional[bool]): Flag indicating whether batch writes are enabled.</span>
+<span class="sd">        _include_domain_labels (Optional[bool]): Whether domain-specific labels are included in processes.</span>
+<span class="sd">        _enable_cache (Optional[bool]): Boolean flag to enable or disable caching mechanisms.</span>
+<span class="sd">        _metadata_datetime_suffixes (Optional[List[str]]): List of datetime suffixes included in metadata handling.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_aws_profile</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_aws_region</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_aws_clients</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>  <span class="c1"># Use field() for mutable default</span>
+
+    <span class="n">_boto3_session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">_aws_valid_services</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">_session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">_extraction_llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLM</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_response_llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLM</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_embed_model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseEmbedding</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_embed_dimensions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_reranking_model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_extraction_num_workers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_extraction_num_threads_per_worker</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_extraction_batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_build_num_workers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_build_batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_build_batch_write_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_batch_writes_enabled</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_include_domain_labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_enable_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_metadata_datetime_suffixes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_or_create_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve or create a boto3 client for the specified AWS service. The method</span>
+<span class="sd">        maintains a cache of previously created clients to avoid redundant</span>
+<span class="sd">        initialization. If the requested client exists in the cache, it is returned.</span>
+<span class="sd">        Otherwise, a new boto3 session is created using the specified AWS region and</span>
+<span class="sd">        profile, and the client is initialized and stored in the cache.</span>
+
+<span class="sd">        :param service_name: Name of the AWS service for which the boto3 client needs</span>
+<span class="sd">            to be retrieved or created.</span>
+<span class="sd">        :type service_name: str</span>
+<span class="sd">        :return: An instance of boto3 client for the specified AWS service.</span>
+<span class="sd">        :rtype: boto3.client</span>
+<span class="sd">        :raises AttributeError: If a boto3 client cannot be created due to an error in</span>
+<span class="sd">            session initialization or client creation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">service_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aws_clients</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aws_clients</span><span class="p">[</span><span class="n">service_name</span><span class="p">]</span>
+
+        <span class="n">region</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aws_region</span>
+
+        <span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aws_profile</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">profile</span><span class="p">:</span>
+                <span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">profile_name</span><span class="o">=</span><span class="n">profile</span><span class="p">,</span> <span class="n">region_name</span><span class="o">=</span><span class="n">region</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">region_name</span><span class="o">=</span><span class="n">region</span><span class="p">)</span>
+
+            <span class="n">client</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="n">service_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_aws_clients</span><span class="p">[</span><span class="n">service_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
+            <span class="k">return</span> <span class="n">client</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Failed to create boto3 client for &#39;</span><span class="si">{</span><span class="n">service_name</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Profile: &#39;</span><span class="si">{</span><span class="n">profile</span><span class="si">}</span><span class="s2">&#39;, Region: &#39;</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Original error: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Boto3Session</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides the `session` property which initializes and retrieves a boto3 session</span>
+<span class="sd">        based on the AWS profile and region configuration. If the session is not already</span>
+<span class="sd">        initialized, it attempts to create a new boto3 session using either an explicitly</span>
+<span class="sd">        set profile or the default AWS configuration, including environment variables.</span>
+
+<span class="sd">        :raises RuntimeError: If an error occurs during the initialization of the boto3</span>
+<span class="sd">            session, providing details on the profile, region, and underlying error.</span>
+
+<span class="sd">        :return: The active boto3 session instance.</span>
+<span class="sd">        :rtype: Boto3Session</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_boto3_session&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boto3_session</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Prefer explicitly set profile</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aws_profile</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_boto3_session</span> <span class="o">=</span> <span class="n">Boto3Session</span><span class="p">(</span>
+                        <span class="n">profile_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">aws_profile</span><span class="p">,</span> <span class="n">region_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">aws_region</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Use environment variables or default config</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_boto3_session</span> <span class="o">=</span> <span class="n">Boto3Session</span><span class="p">(</span><span class="n">region_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">aws_region</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Unable to initialize boto3 session. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Profile: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">aws_profile</span><span class="si">}</span><span class="s2">, Region: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">aws_region</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boto3_session</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">s3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides access to the S3 client through a property. The client is lazily created</span>
+<span class="sd">        if it does not already exist, enabling on-demand usage without initializing it</span>
+<span class="sd">        immediately.</span>
+
+<span class="sd">        :return: An S3 client initialized and ready for interaction.</span>
+<span class="sd">        :rtype: Any</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_or_create_client</span><span class="p">(</span><span class="s2">&quot;s3&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bedrock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides a property to access a specific client.</span>
+
+<span class="sd">        This property allows fetching or creating a specific client instance called</span>
+<span class="sd">        &#39;bedrock&#39; using an internal utility method. It ensures the &#39;bedrock&#39; client</span>
+<span class="sd">        is instantiated and available for further usage when accessed.</span>
+
+<span class="sd">        :return: The instance of the &#39;bedrock&#39; client.</span>
+<span class="sd">        :rtype: Any</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_or_create_client</span><span class="p">(</span><span class="s2">&quot;bedrock&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves or creates the Amazon RDS client instance.</span>
+
+<span class="sd">        This property method checks if an Amazon RDS client already exists;</span>
+<span class="sd">        if not, it creates one and returns it.</span>
+
+<span class="sd">        :return: An Amazon RDS client instance.</span>
+<span class="sd">        :rtype: boto3.client</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_or_create_client</span><span class="p">(</span><span class="s2">&quot;rds&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aws_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the AWS profile name used for authentication. If the profile</span>
+<span class="sd">        is not already set, it attempts to retrieve it from the environmental</span>
+<span class="sd">        variable `AWS_PROFILE`.</span>
+
+<span class="sd">        :return: The name of the AWS profile used for authentication or `None`</span>
+<span class="sd">            if it is not set in the environment and the internal attribute is unset.</span>
+<span class="sd">        :rtype: Optional[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aws_profile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_aws_profile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AWS_PROFILE&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aws_profile</span>
+
+    <span class="nd">@aws_profile</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aws_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the AWS profile to use for connections. Clears the existing AWS clients</span>
+<span class="sd">        to ensure new connections are established with the updated profile.</span>
+
+<span class="sd">        :param profile: The name of the AWS profile to set.</span>
+<span class="sd">        :type profile: str</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aws_profile</span> <span class="o">=</span> <span class="n">profile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aws_clients</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>  <span class="c1"># Clear old clients to force regeneration</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aws_region</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A property to retrieve the AWS region used by the application. The region is resolved</span>
+<span class="sd">        from the `AWS_REGION` environment variable or the default region configured in the</span>
+<span class="sd">        `boto3` session. If the `_aws_region` attribute has been set already, the cached value</span>
+<span class="sd">        will be returned. Otherwise, it initializes the attribute with the resolved AWS region.</span>
+
+<span class="sd">        :return: The AWS region as a string.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aws_region</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_aws_region</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AWS_REGION&quot;</span><span class="p">,</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span><span class="o">.</span><span class="n">region_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aws_region</span>
+
+    <span class="nd">@aws_region</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aws_region</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the AWS region for the instance and clears any cached AWS clients.</span>
+<span class="sd">        This allows the instance to work with the specified AWS region and resets</span>
+<span class="sd">        the state of any previously initialized AWS SDK clients.</span>
+
+<span class="sd">        :param region: AWS region to set for the instance</span>
+<span class="sd">        :type region: str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aws_region</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aws_clients</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>  <span class="c1"># Optional: reset clients if a region changes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extraction_num_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes and retrieves the number of extraction workers. If the number</span>
+<span class="sd">        of extraction workers is not already set, it assigns a default value</span>
+<span class="sd">        obtained from an environment variable or a predefined constant.</span>
+
+<span class="sd">        :return: The current number of extraction workers.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_num_workers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extraction_num_workers</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;EXTRACTION_NUM_WORKERS&#39;</span><span class="p">,</span> <span class="n">DEFAULT_EXTRACTION_NUM_WORKERS</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_num_workers</span>
+
+    <span class="nd">@extraction_num_workers</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extraction_num_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the number of workers used for data extraction.</span>
+
+<span class="sd">        This method allows configuring the number of workers that will be utilized</span>
+<span class="sd">        to perform data extraction operations. The parameter specified will directly</span>
+<span class="sd">        affect performance and resource allocation during these operations.</span>
+
+<span class="sd">        :param num_workers: The number of workers to use for extraction.</span>
+<span class="sd">        :type num_workers: int</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_num_workers</span> <span class="o">=</span> <span class="n">num_workers</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extraction_num_threads_per_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the number of threads allocated for each worker performing the</span>
+<span class="sd">        extraction process. If the value is not explicitly set, it attempts to</span>
+<span class="sd">        read the configuration from the environment variable</span>
+<span class="sd">        &#39;EXTRACTION_NUM_THREADS_PER_WORKER&#39;. If the environment variable is not</span>
+<span class="sd">        set, defaults to a predefined constant value.</span>
+
+<span class="sd">        :return: The number of threads set for each extraction worker.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_num_threads_per_worker</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extraction_num_threads_per_worker</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="s1">&#39;EXTRACTION_NUM_THREADS_PER_WORKER&#39;</span><span class="p">,</span>
+                    <span class="n">DEFAULT_EXTRACTION_NUM_THREADS_PER_WORKER</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_num_threads_per_worker</span>
+
+    <span class="nd">@extraction_num_threads_per_worker</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extraction_num_threads_per_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the number of threads used per worker during the extraction process.</span>
+
+<span class="sd">        This method adjusts the number of threads for each worker responsible</span>
+<span class="sd">        for the data extraction task.</span>
+
+<span class="sd">        :param num_threads: Number of threads to be assigned per worker.</span>
+<span class="sd">        :type num_threads: int</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_num_threads_per_worker</span> <span class="o">=</span> <span class="n">num_threads</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extraction_batch_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A property that retrieves the extraction batch size configuration for the application.</span>
+<span class="sd">        If the value is not already set, it attempts to retrieve it from the environment</span>
+<span class="sd">        variable &#39;EXTRACTION_BATCH_SIZE&#39;. If the environment variable is not defined, a</span>
+<span class="sd">        default value is used.</span>
+
+<span class="sd">        :raises ValueError: If the environment variable &#39;EXTRACTION_BATCH_SIZE&#39; contains</span>
+<span class="sd">                            a non-integer value or if it cannot be properly parsed.</span>
+
+<span class="sd">        :rtype: int</span>
+<span class="sd">        :return: The batch size to be used for extraction operations. Defaults to the</span>
+<span class="sd">                 value specified in `DEFAULT_EXTRACTION_BATCH_SIZE` if not set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_batch_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extraction_batch_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;EXTRACTION_BATCH_SIZE&#39;</span><span class="p">,</span> <span class="n">DEFAULT_EXTRACTION_BATCH_SIZE</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_batch_size</span>
+
+    <span class="nd">@extraction_batch_size</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extraction_batch_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the batch size for extraction operations. This setter method updates the value of</span>
+<span class="sd">        the private variable ``_extraction_batch_size`` which is responsible for storing the</span>
+<span class="sd">        batch size to be used during extraction processes.</span>
+
+<span class="sd">        :param batch_size: The size of the batch to be used for data extraction operations.</span>
+<span class="sd">        :type batch_size: int</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_num_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides property access to the number of build workers configured in the environment.</span>
+<span class="sd">        If not already set, this property attempts to retrieve the number of workers from the</span>
+<span class="sd">        environment variable &#39;BUILD_NUM_WORKERS&#39;. Defaults to a predefined constant</span>
+<span class="sd">        (DEFAULT_BUILD_NUM_WORKERS) if the environment variable is not found or invalid.</span>
+
+<span class="sd">        :return: The number of build workers as an integer.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_num_workers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">build_num_workers</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;BUILD_NUM_WORKERS&#39;</span><span class="p">,</span> <span class="n">DEFAULT_BUILD_NUM_WORKERS</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_num_workers</span>
+
+    <span class="nd">@build_num_workers</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_num_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the number of workers to be used for building processes.</span>
+
+<span class="sd">        This function allows the adjustment of the number of workers utilized</span>
+<span class="sd">        during a build process, enabling control over the parallelization of</span>
+<span class="sd">        tasks. The setter updates the internal attribute `_build_num_workers`</span>
+<span class="sd">        to reflect the supplied value.</span>
+
+<span class="sd">        :param num_workers: The number of workers to set.</span>
+<span class="sd">        :type num_workers: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_num_workers</span> <span class="o">=</span> <span class="n">num_workers</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_batch_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This property retrieves the batch size used for the build process. If the batch size</span>
+<span class="sd">        has not been set, it initializes the value by fetching it from the environment</span>
+<span class="sd">        variable &#39;BUILD_BATCH_SIZE&#39;. If the environment variable is not set, it defaults</span>
+<span class="sd">        to &#39;DEFAULT_BUILD_BATCH_SIZE&#39;.</span>
+
+<span class="sd">        :return: The batch size used for the build process.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_batch_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">build_batch_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;BUILD_BATCH_SIZE&#39;</span><span class="p">,</span> <span class="n">DEFAULT_BUILD_BATCH_SIZE</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_batch_size</span>
+
+    <span class="nd">@build_batch_size</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_batch_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the value of the build batch size. This defines the size of the batch</span>
+<span class="sd">        used during the build process.</span>
+
+<span class="sd">        :param batch_size: The size of the batch for building process.</span>
+<span class="sd">        :type batch_size: int</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_batch_write_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets or sets the size of the batch write for the build process.</span>
+
+<span class="sd">        This property checks if the `_build_batch_write_size` is `None` and, in such</span>
+<span class="sd">        a case, sets it to the value fetched from the environment variable</span>
+<span class="sd">        &#39;BUILD_BATCH_WRITE_SIZE&#39; or a default value (`DEFAULT_BUILD_BATCH_WRITE_SIZE`)</span>
+<span class="sd">        if the environment variable is not set. This allows dynamic configuration</span>
+<span class="sd">        of the batch write size during runtime.</span>
+
+<span class="sd">        :return: The batch write size used during the build process.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_batch_write_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">build_batch_write_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;BUILD_BATCH_WRITE_SIZE&#39;</span><span class="p">,</span> <span class="n">DEFAULT_BUILD_BATCH_WRITE_SIZE</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_batch_write_size</span>
+
+    <span class="nd">@build_batch_write_size</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_batch_write_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the batch write size for building operations.</span>
+
+<span class="sd">        This property allows the user to configure the size of each batch write</span>
+<span class="sd">        operation when building data. The batch size directly affects the number</span>
+<span class="sd">        of records processed in a single operation, enabling optimization for</span>
+<span class="sd">        performance or resource limitations.</span>
+
+<span class="sd">        :param batch_size: The size of each batch to be written during the build</span>
+<span class="sd">            process.</span>
+<span class="sd">        :type batch_size: int</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_batch_write_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">batch_writes_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if batch writes are enabled.</span>
+
+<span class="sd">        This property checks the ``_batch_writes_enabled`` attribute. If it is ``None``,</span>
+<span class="sd">        it attempts to derive the value from the environment variable ``BATCH_WRITES_ENABLED``.</span>
+<span class="sd">        If the environment variable is not set, a default value is used. The result is cached in</span>
+<span class="sd">        ``_batch_writes_enabled``.</span>
+
+<span class="sd">        :return: Whether batch writes are enabled</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_writes_enabled</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">batch_writes_enabled</span> <span class="o">=</span> <span class="n">string_to_bool</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;BATCH_WRITES_ENABLED&#39;</span><span class="p">),</span> <span class="n">DEFAULT_BATCH_WRITES_ENABLED</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_writes_enabled</span>
+
+    <span class="nd">@batch_writes_enabled</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">batch_writes_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_writes_enabled</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets whether batch writes are enabled.</span>
+
+<span class="sd">        This property controls if the batch writing feature of the system is</span>
+<span class="sd">        activated. When enabled, write operations may be grouped and performed</span>
+<span class="sd">        more efficiently.</span>
+
+<span class="sd">        :param batch_writes_enabled: Indicates whether batch writes are enabled.</span>
+<span class="sd">        :type batch_writes_enabled: bool</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_batch_writes_enabled</span> <span class="o">=</span> <span class="n">batch_writes_enabled</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">include_domain_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Indicates whether domain labels should be included in processing. This</span>
+<span class="sd">        property provides lazy initialization by checking the `INCLUDE_DOMAIN_LABELS`</span>
+<span class="sd">        environment variable. If it is not set, a default value is used defined by</span>
+<span class="sd">        `DEFAULT_INCLUDE_DOMAIN_LABELS`.</span>
+
+<span class="sd">        :raises AttributeError: If the property fails to initialize correctly.</span>
+<span class="sd">        :return: The current state indicating whether domain labels are included.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_include_domain_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">include_domain_labels</span> <span class="o">=</span> <span class="n">string_to_bool</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;INCLUDE_DOMAIN_LABELS&#39;</span><span class="p">),</span> <span class="n">DEFAULT_INCLUDE_DOMAIN_LABELS</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_include_domain_labels</span>
+
+    <span class="nd">@include_domain_labels</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">include_domain_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_domain_labels</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the value of the `include_domain_labels` attribute. This attribute determines</span>
+<span class="sd">        whether domain labels are included in the specified operation or context where</span>
+<span class="sd">        this attribute is used.</span>
+
+<span class="sd">        :param include_domain_labels: Boolean value to set the attribute. If set to ``True``,</span>
+<span class="sd">            domain labels will be included. Otherwise, they will be excluded.</span>
+
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_include_domain_labels</span> <span class="o">=</span> <span class="n">include_domain_labels</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">enable_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A property that determines whether caching is enabled based on an environment</span>
+<span class="sd">        variable. If the caching setting has not yet been initialized, it reads the</span>
+<span class="sd">        value from the environment and sets it to a default value if the environment</span>
+<span class="sd">        variable is not found.</span>
+
+<span class="sd">        :raises ValueError: If the environment variable is provided in an invalid format.</span>
+
+<span class="sd">        :return: A boolean indicating if caching is enabled.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enable_cache</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">enable_cache</span> <span class="o">=</span> <span class="n">string_to_bool</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ENABLE_CACHE&#39;</span><span class="p">),</span> <span class="n">DEFAULT_ENABLE_CACHE</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enable_cache</span>
+
+    <span class="nd">@enable_cache</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">enable_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable_cache</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the cache enabling state for the object.</span>
+
+<span class="sd">        This method is the setter function for the ``enable_cache``</span>
+<span class="sd">        property, allowing the user to enable or disable caching</span>
+<span class="sd">        depending on the provided value.</span>
+
+<span class="sd">        :param enable_cache: Indicates whether caching should</span>
+<span class="sd">            be enabled or disabled.</span>
+<span class="sd">        :type enable_cache: bool</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enable_cache</span> <span class="o">=</span> <span class="n">enable_cache</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">metadata_datetime_suffixes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides access to a list of metadata datetime suffixes. If the suffixes have</span>
+<span class="sd">        not been explicitly set, a default value is initialized and returned.</span>
+
+<span class="sd">        :return: A list of strings containing metadata datetime suffixes.</span>
+<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_datetime_suffixes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metadata_datetime_suffixes</span> <span class="o">=</span> <span class="n">DEFAULT_METADATA_DATETIME_SUFFIXES</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_datetime_suffixes</span>
+
+    <span class="nd">@metadata_datetime_suffixes</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">metadata_datetime_suffixes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata_datetime_suffixes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the metadata datetime suffixes for the instance. This property allows</span>
+<span class="sd">        assigning or updating the list of datetime suffixes related to metadata.</span>
+<span class="sd">        The setter method updates the internal representation of the suffixes.</span>
+
+<span class="sd">        :param metadata_datetime_suffixes: A list of strings representing the</span>
+<span class="sd">            metadata datetime suffixes.</span>
+<span class="sd">        :type metadata_datetime_suffixes: List[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_datetime_suffixes</span> <span class="o">=</span> <span class="n">metadata_datetime_suffixes</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_to_llm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm</span><span class="p">:</span> <span class="n">LLMType</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts the given LLM input to an LLM instance.</span>
+
+<span class="sd">        If the input is an instance of the LLM class, it returns the input directly.</span>
+<span class="sd">        If the input is a JSON string, it parses the string to extract configuration</span>
+<span class="sd">        details and creates an instance of BedrockConverse with the specified parameters.</span>
+<span class="sd">        Otherwise, it assumes the input is the model name and creates a BedrockConverse</span>
+<span class="sd">        instance using default values.</span>
+
+<span class="sd">        :param llm: The LLM input which can be an instance of LLM, a JSON string</span>
+<span class="sd">            with configuration details, or a model name string.</span>
+<span class="sd">        :type llm: LLMType</span>
+<span class="sd">        :return: An instance of LLM, specifically a BedrockConverse object unless the input is</span>
+<span class="sd">            an instance of LLM.</span>
+<span class="sd">        :rtype: LLM</span>
+
+<span class="sd">        :raises ValueError: If there is an error initializing a BedrockConverse instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLM</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">llm</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">boto3_session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span>
+            <span class="n">botocore_session</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">boto3_session</span><span class="p">,</span> <span class="s1">&#39;get_session&#39;</span><span class="p">):</span>
+                <span class="n">botocore_session</span> <span class="o">=</span> <span class="n">boto3_session</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
+
+            <span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aws_profile</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aws_region</span>
+
+            <span class="k">if</span> <span class="n">_is_json_string</span><span class="p">(</span><span class="n">llm</span><span class="p">):</span>
+                <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">BedrockConverse</span><span class="p">(</span>
+                    <span class="n">model</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">],</span>
+                    <span class="n">temperature</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                    <span class="n">max_tokens</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_tokens&#39;</span><span class="p">,</span> <span class="mi">4096</span><span class="p">),</span>
+                    <span class="n">botocore_session</span><span class="o">=</span><span class="n">botocore_session</span><span class="p">,</span>
+                    <span class="n">region_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;region_name&#39;</span><span class="p">,</span> <span class="n">region</span><span class="p">),</span>
+                    <span class="n">profile_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;profile_name&#39;</span><span class="p">,</span> <span class="n">profile</span><span class="p">),</span>
+                    <span class="n">max_retries</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">BedrockConverse</span><span class="p">(</span>
+                    <span class="n">model</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+                    <span class="n">temperature</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
+                    <span class="n">botocore_session</span><span class="o">=</span><span class="n">botocore_session</span><span class="p">,</span>
+                    <span class="n">region_name</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
+                    <span class="n">profile_name</span><span class="o">=</span><span class="n">profile</span><span class="p">,</span>
+                    <span class="n">max_retries</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Failed to initialize BedrockConverse: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extraction_llm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLM</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides access to the extraction language model (LLM) instance, initializing it</span>
+<span class="sd">        if not already set. The property retrieves the current LLM instance tied to</span>
+<span class="sd">        extraction tasks or initializes it with a value from the environment variable</span>
+<span class="sd">        `EXTRACTION_MODEL`, defaulting to a pre-defined model if the variable is</span>
+<span class="sd">        unset.</span>
+
+<span class="sd">        :raises ValueError: When there is an invalid assignment to the extraction_llm</span>
+<span class="sd">            attribute during initialization.</span>
+<span class="sd">        :rtype: LLM</span>
+<span class="sd">        :return: The current instance of the extraction language model (LLM).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_llm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extraction_llm</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;EXTRACTION_MODEL&#39;</span><span class="p">,</span> <span class="n">DEFAULT_EXTRACTION_MODEL</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_llm</span>
+
+    <span class="nd">@extraction_llm</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extraction_llm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm</span><span class="p">:</span> <span class="n">LLMType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the `extraction_llm` attribute for the instance. This setter method converts the provided</span>
+<span class="sd">        parameter to the appropriate LLM format and sets it as an internal attribute. If the LLM instance</span>
+<span class="sd">        has a `callback_manager` attribute, it is assigned the global callback manager from the settings.</span>
+
+<span class="sd">        :param llm: The LLM instance to be set as the `extraction_llm`. It will be processed</span>
+<span class="sd">            into the appropriate format using the `_to_llm` method.</span>
+<span class="sd">        :type llm: LLMType</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_llm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_extraction_llm</span><span class="p">,</span> <span class="s1">&#39;callback_manager&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_extraction_llm</span><span class="o">.</span><span class="n">callback_manager</span> <span class="o">=</span> <span class="n">Settings</span><span class="o">.</span><span class="n">callback_manager</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">response_llm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLM</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the LLM object used for responses. If the _response_llm attribute</span>
+<span class="sd">        is not already set, it initializes the response model using the value from</span>
+<span class="sd">        the &#39;RESPONSE_MODEL&#39; environment variable, or defaults to</span>
+<span class="sd">        DEFAULT_RESPONSE_MODEL if the environment variable is not set.</span>
+
+<span class="sd">        :return: The LLM object used for responses.</span>
+<span class="sd">        :rtype: LLM</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_response_llm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response_llm</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;RESPONSE_MODEL&#39;</span><span class="p">,</span> <span class="n">DEFAULT_RESPONSE_MODEL</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_response_llm</span>
+
+    <span class="nd">@response_llm</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">response_llm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm</span><span class="p">:</span> <span class="n">LLMType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the response language model (LLM) instance for the object.</span>
+
+<span class="sd">        The method assigns a suitable LLM instance to the internal attribute based on the input</span>
+<span class="sd">        and ensures its compatibility by converting it, if necessary. Additionally, it checks</span>
+<span class="sd">        if the response LLM contains a callback manager and aligns it with the global settings</span>
+<span class="sd">        callback manager.</span>
+
+<span class="sd">        :param llm: LLM instance or a compatible input that can be converted to an LLM.</span>
+<span class="sd">        :type llm: LLMType</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_response_llm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_response_llm</span><span class="p">,</span> <span class="s1">&#39;callback_manager&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_response_llm</span><span class="o">.</span><span class="n">callback_manager</span> <span class="o">=</span> <span class="n">Settings</span><span class="o">.</span><span class="n">callback_manager</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embed_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseEmbedding</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the embedding model. If the embedding model has not been set yet, it initializes it by</span>
+<span class="sd">        trying to retrieve the model name from the &#39;EMBEDDINGS_MODEL&#39; environment variable. If no environment</span>
+<span class="sd">        variable is found, it defaults to the pre-defined constant.</span>
+
+<span class="sd">        :return: The embedding model instance.</span>
+<span class="sd">        :rtype: BaseEmbedding</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embed_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">embed_model</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;EMBEDDINGS_MODEL&#39;</span><span class="p">,</span> <span class="n">DEFAULT_EMBEDDINGS_MODEL</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embed_model</span>
+
+    <span class="nd">@embed_model</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embed_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embed_model</span><span class="p">:</span> <span class="n">EmbeddingType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the embedding model for the instance. Handles the initialization of</span>
+<span class="sd">        the `BedrockEmbedding` model if the provided embedding model is a string,</span>
+<span class="sd">        allowing configuration through JSON string inputs or direct model names.</span>
+<span class="sd">        It also handles fallback logic for using existing `boto3` session attributes,</span>
+<span class="sd">        AWS profile, and region settings. Furthermore, it supports setting a custom</span>
+<span class="sd">        callback manager if applicable.</span>
+
+<span class="sd">        :param embed_model: The embedding model to be set for the instance. This can</span>
+<span class="sd">            either be an instance of `EmbeddingType` or a string representing the</span>
+<span class="sd">            model name. JSON string input is supported for specifying model-specific</span>
+<span class="sd">            configurations.</span>
+<span class="sd">        :type embed_model: EmbeddingType</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">embed_model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+
+            <span class="n">boto3_session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span>
+            <span class="n">botocore_session</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">boto3_session</span><span class="p">,</span> <span class="s1">&#39;get_session&#39;</span><span class="p">):</span>
+                <span class="n">botocore_session</span> <span class="o">=</span> <span class="n">boto3_session</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
+
+            <span class="n">profile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aws_profile</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aws_region</span>
+
+            <span class="n">botocore_config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span>
+                <span class="n">retries</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;total_max_attempts&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="s2">&quot;adaptive&quot;</span><span class="p">},</span>
+                <span class="n">connect_timeout</span><span class="o">=</span><span class="mf">60.0</span><span class="p">,</span>
+                <span class="n">read_timeout</span><span class="o">=</span><span class="mf">60.0</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">_is_json_string</span><span class="p">(</span><span class="n">embed_model</span><span class="p">):</span>
+                <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">embed_model</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_embed_model</span> <span class="o">=</span> <span class="n">BedrockEmbedding</span><span class="p">(</span>
+                    <span class="n">model_name</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;model_name&#39;</span><span class="p">],</span>
+                    <span class="n">botocore_session</span><span class="o">=</span><span class="n">botocore_session</span><span class="p">,</span>
+                    <span class="n">region_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;region_name&#39;</span><span class="p">,</span> <span class="n">region</span><span class="p">),</span>
+                    <span class="n">profile_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;profile_name&#39;</span><span class="p">,</span> <span class="n">profile</span><span class="p">),</span>
+                    <span class="n">botocore_config</span><span class="o">=</span><span class="n">botocore_config</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_embed_model</span> <span class="o">=</span> <span class="n">BedrockEmbedding</span><span class="p">(</span>
+                    <span class="n">model_name</span><span class="o">=</span><span class="n">embed_model</span><span class="p">,</span>
+                    <span class="n">botocore_session</span><span class="o">=</span><span class="n">botocore_session</span><span class="p">,</span>
+                    <span class="n">region_name</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
+                    <span class="n">profile_name</span><span class="o">=</span><span class="n">profile</span><span class="p">,</span>
+                    <span class="n">botocore_config</span><span class="o">=</span><span class="n">botocore_config</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_embed_model</span> <span class="o">=</span> <span class="n">embed_model</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_embed_model</span><span class="p">,</span> <span class="s1">&#39;callback_manager&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_embed_model</span><span class="o">.</span><span class="n">callback_manager</span> <span class="o">=</span> <span class="n">Settings</span><span class="o">.</span><span class="n">callback_manager</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embed_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets or sets the embedding dimensions used within the application. Embedding</span>
+<span class="sd">        dimensions are typically used in machine learning or natural language</span>
+<span class="sd">        processing models to represent the size of the vector space for embeddings.</span>
+
+<span class="sd">        This property retrieves the current value of embedding dimensions or sets it</span>
+<span class="sd">        based on an environment variable or a predefined default if the dimensions</span>
+<span class="sd">        are not already set.</span>
+
+<span class="sd">        :raise ValueError: If the `EMBEDDINGS_DIMENSIONS` environmental variable is</span>
+<span class="sd">            set but not a valid integer value.</span>
+
+<span class="sd">        :return: An integer indicating the size of embedding dimensions.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embed_dimensions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">embed_dimensions</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;EMBEDDINGS_DIMENSIONS&#39;</span><span class="p">,</span> <span class="n">DEFAULT_EMBEDDINGS_DIMENSIONS</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embed_dimensions</span>
+
+    <span class="nd">@embed_dimensions</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embed_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embed_dimensions</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the value of the embedding dimensions.</span>
+
+<span class="sd">        :param embed_dimensions: The number of dimensions to set for the embedding. This</span>
+<span class="sd">            value determines the dimensionality of the embedding space and must be an</span>
+<span class="sd">            integer.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_embed_dimensions</span> <span class="o">=</span> <span class="n">embed_dimensions</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reranking_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the reranking model configuration. If no explicit reranking</span>
+<span class="sd">        model is set, it attempts to fetch the model name from the environment</span>
+<span class="sd">        variable &#39;RERANKING_MODEL&#39;. If the environment variable is not found,</span>
+<span class="sd">        a default value will be used.</span>
+
+<span class="sd">        :return: The name of the reranking model as a string.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reranking_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reranking_model</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;RERANKING_MODEL&#39;</span><span class="p">,</span> <span class="n">DEFAULT_RERANKING_MODEL</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reranking_model</span>
+
+    <span class="nd">@reranking_model</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reranking_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reranking_model</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the reranking model used for the instance. This method allows for configuring</span>
+<span class="sd">        the model to be applied when reranking tasks are performed.</span>
+
+<span class="sd">        :param reranking_model: The name of the reranking model to be assigned.</span>
+<span class="sd">        :type reranking_model: str</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reranking_model</span> <span class="o">=</span> <span class="n">reranking_model</span>
+
+
+<span class="n">GraphRAGConfig</span> <span class="o">=</span> <span class="n">_GraphRAGConfig</span><span class="p">()</span>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>

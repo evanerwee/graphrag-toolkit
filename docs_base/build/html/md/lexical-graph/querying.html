@@ -1,0 +1,974 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Metadata Filtering" href="metadata-filtering.html" /><link rel="prev" title="Security" href="security.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>Querying - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="graph-model.html">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="metadata-filtering.html">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../falkordb/falkordb.html">falkordb package</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="querying">
+<h1>Querying<a class="headerlink" href="#querying" title="Link to this heading">¶</a></h1>
+<section id="topics">
+<h2>Topics<a class="headerlink" href="#topics" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="overview.html"><span class="doc std std-doc">Overview</span></a></p></li>
+<li><p><a class="reference internal" href="#traversalbasedretriever"><span class="xref myst">TraversalBasedRetriever</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#traversalbasedretriever-results"><span class="xref myst">TraversalBasedRetriever results</span></a></p></li>
+<li><p><a class="reference internal" href="#configuring-the-traversalbasedretriever"><span class="xref myst">Configuring the TraversalBasedRetriever</span></a></p></li>
+<li><p><a class="reference internal" href="#statement-reranking"><span class="xref myst">Statement reranking</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#semanticguidedretriever"><span class="xref myst">SemanticGuidedRetriever</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#semanticguidedretriever-results"><span class="xref myst">SemanticGuidedRetriever results</span></a></p></li>
+<li><p><a class="reference internal" href="#configuring-the-semanticguidedretriever"><span class="xref myst">Configuring the SemanticGuidedRetriever</span></a></p></li>
+<li><p><a class="reference internal" href="#semanticguidedretriever-with-a-reranking-beam-search"><span class="xref myst">SemanticGuidedRetriever with a reranking beam search</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#postprocessors"><span class="xref myst">Postprocessors</span></a></p></li>
+<li><p><a class="reference internal" href="metadata-filtering.html"><span class="doc std std-doc">Metadata filtering</span></a></p></li>
+</ul>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>For the graphrag-toolkit, the primary unit of context presented to the LLM is the <em>statement</em>, which is a standalone assertion or proposition. Source documents are broken into chunks, and from these chunks are extracted statements. In the graphrag-toolkit’s <a class="reference internal" href="graph-model.html"><span class="std std-doc">graph model</span></a>, statements are thematically grouped by topic, and supported by facts. At question-answering time, the lexical-graph retrieves groups of statements, and presents them in the context window to the LLM.</p>
+<p>The lexical-graph contains two different retrievers: a <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code>, and a <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code>. The <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> uses a combination of ‘top down’ search – finding chunks through vector similarity search, and then traversing from these chunks through topics to statements and facts – and ‘bottom up’ search, which performs keyword-based lookups of entities, and proceeds through facts to statements and topics. The <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code> integrates vector-based semantic search with structured graph traversal. It uses semantic and keyword-based searches to identify entry points, then intelligently explores the graph through beam search and path analysis, while employing reranking and diversity filtering to ensure quality results. This hybrid approach enables both precise matching and contextual exploration.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code> uses a <em>statement</em> vector index, whereas the <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> uses a <em>chunk</em> vector index. The chunk vector index is much smaller than the statement index.</p>
+<p>In the current release the output formats of the two retrievers are different. Future releases of the lexical-graph will seek to align the outputs.</p>
+<blockquote>
+<div><p>The <a class="reference internal" href="storage-model.html#falkordb-graph-store"><span class="std std-ref">FalkorDB graph store</span></a> currently supports the <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code>. It does not support the <a class="reference internal" href="#traversalbasedretriever"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code></span></a>`.</p>
+</div></blockquote>
+<p>Querying supports <a class="reference internal" href="multi-tenancy.html"><span class="std std-doc">multi-tenancy</span></a>, whereby you can query different lexical graphs hosted in the same backend graph and vector stores.</p>
+<section id="code-examples">
+<h3>Code examples<a class="headerlink" href="#code-examples" title="Link to this heading">¶</a></h3>
+<p>The code examples here are formatted to run in a Jupyter notebook. If you’re building an application with a main entry point, put your application logic inside a method, and add an <a class="reference internal" href="faq.html#runtimeerror-please-use-nest_asyncioapply-to-allow-nested-event-loops"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__'</span></code> block</span></a>.</p>
+</section>
+</section>
+<section id="traversalbasedretriever">
+<h2>TraversalBasedRetriever<a class="headerlink" href="#traversalbasedretriever" title="Link to this heading">¶</a></h2>
+<p>The following example uses a <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> with all its default settings to query the graph:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LexicalGraphQueryEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStoreFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStoreFactory</span>
+
+<span class="n">graph_store</span> <span class="o">=</span> <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span>
+    <span class="s1">&#39;neptune-db://my-graph.cluster-abcdefghijkl.us-east-1.neptune.amazonaws.com&#39;</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStoreFactory</span><span class="o">.</span><span class="n">for_vector_store</span><span class="p">(</span>
+    <span class="s1">&#39;aoss://https://abcdefghijkl.us-east-1.aoss.amazonaws.com&#39;</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">LexicalGraphQueryEngine</span><span class="o">.</span><span class="n">for_traversal_based_search</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;What are the differences between Neptune Database and Neptune Analytics?&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> uses a composite search strategy using two subretrievers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">EntityBasedSearch</span></code> – This retriever extracts keywords from the query and then looks up entities in the graph based on these keywords. From the entities, the retriever traverses facts, statements and topics. Entity-based search tends to return a broadly-scoped set of results, based on the neighbourhoods of individual entities and the facts that connect entities.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ChunkBasedSearch</span></code> – This retriever finds chunks using vector similarity search. From the chunks, the retriever traverses topics, statements, and facts. Chunk-based search tends to return a narrowly-scoped set of results based on the statement and fact neighbourhoods of chunks that match the original query.</p></li>
+</ul>
+<p>When combining these two retrievers, the <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> weights their contributions in favour of the chunk-based search: the chunk search provides a foundation of similarity-based results, which are then augmented by the broader-ranging entity-based results.</p>
+<p>To configure the <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> with just one or other of these subretrievers, you can pass an instance of the subretriever, or the type of subretriever, to the factory method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChunkBasedSearch</span>
+
+<span class="o">...</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">LexicalGraphQueryEngine</span><span class="o">.</span><span class="n">for_traversal_based_search</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">retrievers</span><span class="o">=</span><span class="p">[</span><span class="n">ChunkBasedSearch</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<section id="traversalbasedretriever-results">
+<h3>TraversalBasedRetriever results<a class="headerlink" href="#traversalbasedretriever-results" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> returns one or more search results, each of which comprises a source, topic, a set of statements, and a score:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;https://docs.aws.amazon.com/neptune/latest/userguide/intro.html&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;topic&quot;</span><span class="p">:</span> <span class="s2">&quot;Amazon Neptune&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;statements&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;Amazon Neptune provides high performance for Property Graph (PG) model&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;You can access Property Graph model in Amazon Neptune using openCypher query language&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;You can access Property Graph model in Amazon Neptune using Gremlin query language&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Amazon Neptune provides high performance for Resource Description Framework (RDF) model&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Amazon Neptune is a fully managed graph database service&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Before designing a database, consult the GitHub repository </span><span class="se">\&quot;</span><span class="s2">AWS Reference Architectures for Using Graph Databases</span><span class="se">\&quot;</span><span class="s2"> to inform choices about graph data models and query languages and browse examples of reference deployment architectures&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;With Amazon Neptune, you can use graph query languages Gremlin, openCypher, and SPARQL&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;You can access Resource Description Framework model in Amazon Neptune using SPARQL query language&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Neptune supports the Neo4j&#39;s openCypher property-graph query language&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;To learn more about using Amazon Neptune, start with the section </span><span class="se">\&quot;</span><span class="s2">Overview of Amazon Neptune features</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="mf">0.53</span>
+<span class="p">}</span>
+
+<span class="o">...</span>
+
+<span class="p">{</span>
+  <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;https://docs.aws.amazon.com/neptune-analytics/latest/userguide/neptune-analytics-vs-neptune-database.html&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;topic&quot;</span><span class="p">:</span> <span class="s2">&quot;Neptune Analytics&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;statements&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;Neptune Analytics is a solution for quickly analyzing existing graph databases&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Neptune Analytics is a solution for quickly analyzing graph datasets stored in a data lake&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Neptune Analytics uses popular graph analytic algorithms&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Processing thousands of analytic queries per second using popular graph analytics algorithms becomes possible with Neptune Analytics&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Neptune Analytics makes it easy to apply powerful algorithms to the data in your Neptune Database&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Neptune Analytics provides a simple API for analyzing graph data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;You can use Neptune Analytics to analyze and query graphs in data science workflows that assist with fraud investigations&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;You can use Neptune Analytics to analyze and query graphs in data science workflows that detect network threats&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Neptune Analytics uses low-latency analytic queries&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Neptune Analytics provides a simple API for loading graph data&quot;</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="mf">0.22</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="configuring-the-traversalbasedretriever">
+<h3>Configuring the TraversalBasedRetriever<a class="headerlink" href="#configuring-the-traversalbasedretriever" title="Link to this heading">¶</a></h3>
+<p>You can configure the <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> by passing named arguments to the <code class="docutils literal notranslate"><span class="pre">LexicalGraphQueryEngine</span></code> factory method, or to the retriever constructor.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">max_search_results</span></code></p></td>
+<td><p>The maximum number of search results to return. A search result comprises one or more statements belonging to the same topic (and source). If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, all found search results will be returned.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">20</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">max_statements_per_topic</span></code></p></td>
+<td><p>The mazimum number of statements to include with a topic. Limits the size of each search result. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, all the statements belonging to the topic that are found as part of the search will be included in the result.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">include_facts</span></code></p></td>
+<td><p>Determines whether facts, as well as statements, are included in the context returned to the LLM.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">expand_entities</span></code></p></td>
+<td><p>Used by <code class="docutils literal notranslate"><span class="pre">EntityBasedSearch</span></code> when identifying candidate entities to anchor the traversal. If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the retriever considers not only keyword lookup entities, but also additional entities transitively connected to the keyword lookup entities.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">max_keywords</span></code></p></td>
+<td><p>Used by <code class="docutils literal notranslate"><span class="pre">EntityBasedSearch</span></code> when extracting keywords from the query. When extracting keywords, the retriever attempts to include alternative names, synonyms, abbreviations, and the definitions for any acronyms it recognizes. These all count towards the keyword limit.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vss_top_k</span></code></p></td>
+<td><p>Used by <code class="docutils literal notranslate"><span class="pre">ChunkBasedSearch</span></code> when identifying candidate chunks to anchor the traversal.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vss_diversity_factor</span></code></p></td>
+<td><p>Used by <code class="docutils literal notranslate"><span class="pre">ChunkBasedSearch</span></code> to identify the most relevant chunks across the broadest range of sources. The retriever does this by looking up <code class="docutils literal notranslate"><span class="pre">vss_top_k</span> <span class="pre">*</span> <span class="pre">vss_diversity_factor</span></code> chunks, and then iterating through the results looking for the next most relevant result from a previously unseen source until it has satisfied its <code class="docutils literal notranslate"><span class="pre">vss_top_k</span></code> quota. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">vss_top_k</span></code> chunks will be returned and used in order.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">5</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">derive_subqueries</span></code></p></td>
+<td><p>Used by <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code>. If set to <code class="docutils literal notranslate"><span class="pre">True</span></code> the retriever will attempt to break complex queries into multiple, simpler queries. Candidates for query decomposition must be longer than 25 characters, and answering the original query must require details of more than one entity.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">max_subqueries</span></code></p></td>
+<td><p>The maximum number of subqueries into which a complex query will be decomposed.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reranker</span></code></p></td>
+<td><p>Prior to returning the results to the query engine for post-processing, the retriever can rerank them based on a reranking of all statements in the results. Valid options here are <code class="docutils literal notranslate"><span class="pre">tfidf</span></code>, <code class="docutils literal notranslate"><span class="pre">model</span></code>, <code class="docutils literal notranslate"><span class="pre">none</span></code>, and the Python <code class="docutils literal notranslate"><span class="pre">None</span></code> keyword. See <a class="reference internal" href="#statement-reranking"><span class="xref myst">Statement reranking</span></a> below for details.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">tfidf</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">max_statements</span></code></p></td>
+<td><p>Used by the traversal-based reranking strategy. Limits the number of reranked statements across the entire resultset to <code class="docutils literal notranslate"><span class="pre">max_statements</span></code>. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, <em>all</em> the statements in the resultset will be reranked and returned to the query engine.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">100</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The example below shows how to configure the <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> to return ten results:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query_engine</span> <span class="o">=</span> <span class="n">LexicalGraphQueryEngine</span><span class="o">.</span><span class="n">for_traversal_based_search</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">max_search_results</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="statement-reranking">
+<h3>Statement reranking<a class="headerlink" href="#statement-reranking" title="Link to this heading">¶</a></h3>
+<p>At the end of the retrieval process, but prior to returning the results to the query engine for post-processing, the <code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> can rerank all the statements in the results. There are two strategies available for doing this. If you set the <code class="docutils literal notranslate"><span class="pre">reranker</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">model</span></code>, the retriever will use a <code class="docutils literal notranslate"><span class="pre">SentenceReranker</span></code> to rerank all the statements in the resultset. If you set the <code class="docutils literal notranslate"><span class="pre">reranker</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">tfidf</span></code> (the default), the retriever uses a <em>term frequency-inverse document frequency</em> (TF-IDF) measure to rank all the statements in the resultset. <code class="docutils literal notranslate"><span class="pre">tfidf</span></code> tends to be faster than <code class="docutils literal notranslate"><span class="pre">model</span></code>. You can also turn off the reranking feature by setting <code class="docutils literal notranslate"><span class="pre">reranker</span></code> to <code class="docutils literal notranslate"><span class="pre">none</span></code>.</p>
+<p>Besides reranking statements, you can also specify the <code class="docutils literal notranslate"><span class="pre">max_statements</span></code> to be returned by the reranker. This will truncate the number of statements subsequently passed to the query engine for post-processsing. <code class="docutils literal notranslate"><span class="pre">max_statements</span></code> is only applied if <code class="docutils literal notranslate"><span class="pre">reranker</span></code> has been set to <code class="docutils literal notranslate"><span class="pre">model</span></code> or <code class="docutils literal notranslate"><span class="pre">tfidf</span></code>.</p>
+<p>This traversal-based reranking is performed on a per-statement basis. To facilitate the reranking, each statement is enriched with its topic and source metadata. This composite lexical unit is then reranked against a composite of the original query plus any entity names found in the keyword lookup step.</p>
+<p>You can use the traversal-based reranking <em>in combination</em> with any reranking applied during post-processing. Reranking in the post-processing stage will rerank <em>results</em> (i.e. collections of statements), whereas traversal-based reranking reranks individual <em>statements</em>.</p>
+</section>
+</section>
+<section id="semanticguidedretriever">
+<h2>SemanticGuidedRetriever<a class="headerlink" href="#semanticguidedretriever" title="Link to this heading">¶</a></h2>
+<p>The following example uses a <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code> with all its default settings to query the graph:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LexicalGraphQueryEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStoreFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStoreFactory</span>
+
+<span class="n">graph_store</span> <span class="o">=</span> <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span>
+    <span class="s1">&#39;neptune-db://my-graph.cluster-abcdefghijkl.us-east-1.neptune.amazonaws.com&#39;</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStoreFactory</span><span class="o">.</span><span class="n">for_vector_store</span><span class="p">(</span>
+    <span class="s1">&#39;aoss://https://abcdefghijkl.us-east-1.aoss.amazonaws.com&#39;</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">LexicalGraphQueryEngine</span><span class="o">.</span><span class="n">for_semantic_guided_search</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;What are the differences between Neptune Database and Neptune Analytics?&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code> uses a composite search strategy using three subretrievers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">StatementCosineSimilaritySearch</span></code> – Gets the top k statements using cosine similarity of statement embeddings to the query embedding.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KeywordRankingSearch</span></code> – Gets the top k statements based on the number of matches to a specified number of keywords and synonyms extracted from the query. Statements with more keyword matches rank higher in the results.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SemanticBeamGraphSearch</span></code> – A statement-based search that finds a statement’s neighbouring statements based on shared entities, and retains the most promising based on the cosine similarity of the candidate statements’ embeddings to the query embedding. The search is seeded with statements from other retrievers (e.g. <code class="docutils literal notranslate"><span class="pre">StatementCosineSimilaritySearch</span></code> and/or <code class="docutils literal notranslate"><span class="pre">KeywordRankingSearch</span></code>), or from an initial vector similarity search against the statement index.</p></li>
+</ul>
+<section id="semanticguidedretriever-results">
+<h3>SemanticGuidedRetriever results<a class="headerlink" href="#semanticguidedretriever-results" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code> returns one or more search results, each of which comprises a source, and a set of statements:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">source_1</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">source_1_metadata</span><span class="o">&gt;</span>
+	<span class="o">&lt;</span><span class="n">url</span><span class="o">&gt;</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">docs</span><span class="o">.</span><span class="n">aws</span><span class="o">.</span><span class="n">amazon</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">neptune</span><span class="o">-</span><span class="n">analytics</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">neptune</span><span class="o">-</span><span class="n">analytics</span><span class="o">-</span><span class="n">vs</span><span class="o">-</span><span class="n">neptune</span><span class="o">-</span><span class="n">database</span><span class="o">.</span><span class="n">html</span><span class="o">&lt;/</span><span class="n">url</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">source_1_metadata</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_1</span><span class="mf">.1</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Database</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">serverless</span> <span class="n">graph</span> <span class="n">database</span><span class="o">&lt;/</span><span class="n">statement_1</span><span class="mf">.1</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_1</span><span class="mf">.2</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">analytics</span> <span class="n">database</span> <span class="n">engine</span><span class="o">&lt;/</span><span class="n">statement_1</span><span class="mf">.2</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_1</span><span class="mf">.3</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">solution</span> <span class="k">for</span> <span class="n">quickly</span> <span class="n">analyzing</span> <span class="n">existing</span> <span class="n">graph</span> <span class="n">databases</span><span class="o">&lt;/</span><span class="n">statement_1</span><span class="mf">.3</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_1</span><span class="mf">.4</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Database</span> <span class="n">provides</span> <span class="n">a</span> <span class="n">solution</span> <span class="k">for</span> <span class="n">graph</span> <span class="n">database</span> <span class="n">workloads</span> <span class="n">that</span> <span class="n">need</span> <span class="n">Multi</span><span class="o">-</span><span class="n">AZ</span> <span class="n">high</span> <span class="n">availability</span><span class="o">&lt;/</span><span class="n">statement_1</span><span class="mf">.4</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_1</span><span class="mf">.5</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">solution</span> <span class="k">for</span> <span class="n">quickly</span> <span class="n">analyzing</span> <span class="n">graph</span> <span class="n">datasets</span> <span class="n">stored</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">data</span> <span class="n">lake</span> <span class="p">(</span><span class="n">details</span><span class="p">:</span> <span class="n">Graph</span> <span class="n">datasets</span> <span class="n">LOCATION</span> <span class="n">data</span> <span class="n">lake</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">statement_1</span><span class="mf">.5</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_1</span><span class="mf">.6</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Database</span> <span class="n">provides</span> <span class="n">a</span> <span class="n">solution</span> <span class="k">for</span> <span class="n">graph</span> <span class="n">database</span> <span class="n">workloads</span> <span class="n">that</span> <span class="n">need</span> <span class="n">to</span> <span class="n">scale</span> <span class="n">to</span> <span class="mi">100</span><span class="p">,</span><span class="mi">000</span> <span class="n">queries</span> <span class="n">per</span> <span class="n">second</span><span class="o">&lt;/</span><span class="n">statement_1</span><span class="mf">.6</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_1</span><span class="mf">.7</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Database</span> <span class="ow">is</span> <span class="n">designed</span> <span class="k">for</span> <span class="n">optimal</span> <span class="n">scalability</span><span class="o">&lt;/</span><span class="n">statement_1</span><span class="mf">.7</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_1</span><span class="mf">.8</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Database</span> <span class="n">provides</span> <span class="n">a</span> <span class="n">solution</span> <span class="k">for</span> <span class="n">graph</span> <span class="n">database</span> <span class="n">workloads</span> <span class="n">that</span> <span class="n">need</span> <span class="n">multi</span><span class="o">-</span><span class="n">Region</span> <span class="n">deployments</span><span class="o">&lt;/</span><span class="n">statement_1</span><span class="mf">.8</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_1</span><span class="mf">.9</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="n">removes</span> <span class="n">the</span> <span class="n">overhead</span> <span class="n">of</span> <span class="n">managing</span> <span class="nb">complex</span> <span class="n">data</span><span class="o">-</span><span class="n">analytics</span> <span class="n">pipelines</span> <span class="p">(</span><span class="n">details</span><span class="p">:</span> <span class="n">Overhead</span> <span class="n">CONTEXT</span> <span class="n">managing</span> <span class="nb">complex</span> <span class="n">data</span><span class="o">-</span><span class="n">analytics</span> <span class="n">pipelines</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">statement_1</span><span class="mf">.9</span><span class="o">&gt;</span>
+<span class="o">...</span>
+<span class="o">&lt;/</span><span class="n">source_1</span><span class="o">&gt;</span>
+
+<span class="o">...</span>
+
+<span class="o">&lt;</span><span class="n">source_4</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">source_4_metadata</span><span class="o">&gt;</span>
+	<span class="o">&lt;</span><span class="n">url</span><span class="o">&gt;</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">docs</span><span class="o">.</span><span class="n">aws</span><span class="o">.</span><span class="n">amazon</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">neptune</span><span class="o">-</span><span class="n">analytics</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">neptune</span><span class="o">-</span><span class="n">analytics</span><span class="o">-</span><span class="n">features</span><span class="o">.</span><span class="n">html</span><span class="o">&lt;/</span><span class="n">url</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">source_4_metadata</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_4</span><span class="mf">.1</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="n">allows</span> <span class="n">performing</span> <span class="n">business</span> <span class="n">intelligence</span> <span class="n">queries</span> <span class="n">using</span> <span class="n">openCypher</span> <span class="n">language</span><span class="o">&lt;/</span><span class="n">statement_4</span><span class="mf">.1</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_4</span><span class="mf">.2</span><span class="o">&gt;</span><span class="n">The</span> <span class="n">text</span> <span class="n">distinguishes</span> <span class="n">between</span> <span class="n">Neptune</span> <span class="n">Analytics</span> <span class="ow">and</span> <span class="n">Neptune</span> <span class="n">Database</span><span class="o">&lt;/</span><span class="n">statement_4</span><span class="mf">.2</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_4</span><span class="mf">.3</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="n">allows</span> <span class="n">performing</span> <span class="n">custom</span> <span class="n">analytical</span> <span class="n">queries</span> <span class="n">using</span> <span class="n">openCypher</span> <span class="n">language</span><span class="o">&lt;/</span><span class="n">statement_4</span><span class="mf">.3</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_4</span><span class="mf">.4</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="n">allows</span> <span class="n">performing</span> <span class="ow">in</span><span class="o">-</span><span class="n">database</span> <span class="n">analytics</span> <span class="n">on</span> <span class="n">large</span> <span class="n">graphs</span><span class="o">&lt;/</span><span class="n">statement_4</span><span class="mf">.4</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_4</span><span class="mf">.5</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="n">allows</span> <span class="n">focusing</span> <span class="n">on</span> <span class="n">queries</span> <span class="ow">and</span> <span class="n">workflows</span> <span class="n">to</span> <span class="n">solve</span> <span class="n">problems</span><span class="o">&lt;/</span><span class="n">statement_4</span><span class="mf">.5</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_4</span><span class="mf">.6</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="n">can</span> <span class="n">load</span> <span class="n">data</span> <span class="n">extremely</span> <span class="n">fast</span> <span class="n">into</span> <span class="n">memory</span><span class="o">&lt;/</span><span class="n">statement_4</span><span class="mf">.6</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_4</span><span class="mf">.7</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="n">allows</span> <span class="n">running</span> <span class="n">graph</span> <span class="n">analytics</span> <span class="n">queries</span> <span class="n">using</span> <span class="n">pre</span><span class="o">-</span><span class="n">built</span> <span class="ow">or</span> <span class="n">custom</span> <span class="n">graph</span> <span class="n">queries</span><span class="o">&lt;/</span><span class="n">statement_4</span><span class="mf">.7</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_4</span><span class="mf">.8</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="n">manages</span> <span class="n">graphs</span> <span class="n">instead</span> <span class="n">of</span> <span class="n">infrastructure</span><span class="o">&lt;/</span><span class="n">statement_4</span><span class="mf">.8</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">statement_4</span><span class="mf">.9</span><span class="o">&gt;</span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="n">allows</span> <span class="n">loading</span> <span class="n">graph</span> <span class="n">data</span> <span class="kn">from</span><span class="w"> </span><span class="nn">Amazon</span> <span class="n">S3</span> <span class="ow">or</span> <span class="n">a</span> <span class="n">Neptune</span> <span class="n">Database</span> <span class="n">endpoint</span><span class="o">&lt;/</span><span class="n">statement_4</span><span class="mf">.9</span><span class="o">&gt;</span>
+<span class="o">...</span>
+<span class="o">&lt;/</span><span class="n">source_4</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="configuring-the-semanticguidedretriever">
+<h3>Configuring the SemanticGuidedRetriever<a class="headerlink" href="#configuring-the-semanticguidedretriever" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code> behaviour can be configured by copnfiguring individual subretrievers:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Retriever</p></th>
+<th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">StatementCosineSimilaritySearch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">top_k</span></code></p></td>
+<td><p>Number of statements to include in the results</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">100</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">KeywordRankingSearch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">top_k</span></code></p></td>
+<td><p>Number of statements to include in the results</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">100</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max_keywords</span></code></p></td>
+<td><p>The maximum number of keywords to extract from the query</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SemanticBeamGraphSearch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max_depth</span></code></p></td>
+<td><p>The maximum depth to follow promising candidates from the starting statements</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">3</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">beam_width</span></code></p></td>
+<td><p>The number of most promising candidates to return for each statement that is expanded</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max_depth</span></code></p></td>
+<td><p>The maximum depth to follow promising candidates from the starting statements</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">3</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">beam_width</span></code></p></td>
+<td><p>The number of most promising candidates to return for each statement that is expanded</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reranker</span></code></p></td>
+<td><p>Reranker instance that will be used to rerank statements (see below)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">initial_retrievers</span></code></p></td>
+<td><p>List of retrievers used to see the starting statements (see below)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="semanticguidedretriever-with-a-reranking-beam-search">
+<h3>SemanticGuidedRetriever with a reranking beam search<a class="headerlink" href="#semanticguidedretriever-with-a-reranking-beam-search" title="Link to this heading">¶</a></h3>
+<p>Instead of using a <code class="docutils literal notranslate"><span class="pre">SemanticBeamGraphSearch</span></code> with the <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code>, you can use a <code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch</span></code> instead. Instead of using cosine similarity to determine which candidate statements to pursue, the <code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch</span></code> uses a reranker.</p>
+<p>You must initialize a <code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch</span></code> instance with a reranker. The toolkit includes two different rerankers: <code class="docutils literal notranslate"><span class="pre">BGEReranker</span></code>, and <code class="docutils literal notranslate"><span class="pre">SentenceReranker</span></code>. If you’re running on a CPU device, we recommend using the <code class="docutils literal notranslate"><span class="pre">SentenceReranker</span></code>. If you’re running on a GPU device, you can choose either the <code class="docutils literal notranslate"><span class="pre">BGEReranker</span></code> or <code class="docutils literal notranslate"><span class="pre">SentenceReranker</span></code>.</p>
+<p>The example below uses a <code class="docutils literal notranslate"><span class="pre">SentenceReranker</span></code> with a <code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch</span></code> to rerank statements while conducting the beam search:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LexicalGraphQueryEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStoreFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStoreFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers</span><span class="w"> </span><span class="kn">import</span> <span class="n">RerankingBeamGraphSearch</span><span class="p">,</span> <span class="n">StatementCosineSimilaritySearch</span><span class="p">,</span> <span class="n">KeywordRankingSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.post_processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceReranker</span>
+
+<span class="n">graph_store</span> <span class="o">=</span> <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span>
+    <span class="s1">&#39;neptune-db://my-graph.cluster-abcdefghijkl.us-east-1.neptune.amazonaws.com&#39;</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStoreFactory</span><span class="o">.</span><span class="n">for_vector_store</span><span class="p">(</span>
+    <span class="s1">&#39;aoss://https://abcdefghijkl.us-east-1.aoss.amazonaws.com&#39;</span>
+<span class="p">)</span>
+
+<span class="n">cosine_retriever</span> <span class="o">=</span> <span class="n">StatementCosineSimilaritySearch</span><span class="p">(</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+    <span class="n">top_k</span><span class="o">=</span><span class="mi">50</span>
+<span class="p">)</span>
+
+<span class="n">keyword_retriever</span> <span class="o">=</span> <span class="n">KeywordRankingSearch</span><span class="p">(</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+    <span class="n">max_keywords</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="n">reranker</span> <span class="o">=</span> <span class="n">SentenceReranker</span><span class="p">(</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span>
+<span class="p">)</span>
+
+<span class="n">beam_retriever</span> <span class="o">=</span> <span class="n">RerankingBeamGraphSearch</span><span class="p">(</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+    <span class="n">reranker</span><span class="o">=</span><span class="n">reranker</span><span class="p">,</span>
+    <span class="n">initial_retrievers</span><span class="o">=</span><span class="p">[</span><span class="n">cosine_retriever</span><span class="p">,</span> <span class="n">keyword_retriever</span><span class="p">],</span>
+    <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">beam_width</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">LexicalGraphQueryEngine</span><span class="o">.</span><span class="n">for_semantic_guided_search</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">retrievers</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">cosine_retriever</span><span class="p">,</span>
+        <span class="n">keyword_retriever</span><span class="p">,</span>
+        <span class="n">beam_retriever</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;What are the differences between Neptune Database and Neptune Analytics?&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The example below uses a <code class="docutils literal notranslate"><span class="pre">BGEReranker</span></code> with a <code class="docutils literal notranslate"><span class="pre">RerankingBeamGraphSearch</span></code> to rerank statements while conducting the beam search.</p>
+<p>There will be a delay the first time this runs while the reranker downloads tensors.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LexicalGraphQueryEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStoreFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStoreFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers</span><span class="w"> </span><span class="kn">import</span> <span class="n">RerankingBeamGraphSearch</span><span class="p">,</span> <span class="n">StatementCosineSimilaritySearch</span><span class="p">,</span> <span class="n">KeywordRankingSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.post_processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">BGEReranker</span>
+
+<span class="n">graph_store</span> <span class="o">=</span> <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span>
+    <span class="s1">&#39;neptune-db://my-graph.cluster-abcdefghijkl.us-east-1.neptune.amazonaws.com&#39;</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStoreFactory</span><span class="o">.</span><span class="n">for_vector_store</span><span class="p">(</span>
+    <span class="s1">&#39;aoss://https://abcdefghijkl.us-east-1.aoss.amazonaws.com&#39;</span>
+<span class="p">)</span>
+
+<span class="n">cosine_retriever</span> <span class="o">=</span> <span class="n">StatementCosineSimilaritySearch</span><span class="p">(</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+    <span class="n">top_k</span><span class="o">=</span><span class="mi">50</span>
+<span class="p">)</span>
+
+<span class="n">keyword_retriever</span> <span class="o">=</span> <span class="n">KeywordRankingSearch</span><span class="p">(</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+    <span class="n">max_keywords</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="n">reranker</span> <span class="o">=</span> <span class="n">BGEReranker</span><span class="p">(</span>
+    <span class="n">gpu_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="c1"># Remove if running on CPU device,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span>
+<span class="p">)</span>
+
+<span class="n">beam_retriever</span> <span class="o">=</span> <span class="n">RerankingBeamGraphSearch</span><span class="p">(</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+    <span class="n">reranker</span><span class="o">=</span><span class="n">reranker</span><span class="p">,</span>
+    <span class="n">initial_retrievers</span><span class="o">=</span><span class="p">[</span><span class="n">cosine_retriever</span><span class="p">,</span> <span class="n">keyword_retriever</span><span class="p">],</span>
+    <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">beam_width</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">LexicalGraphQueryEngine</span><span class="o">.</span><span class="n">for_semantic_guided_search</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">retrievers</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">cosine_retriever</span><span class="p">,</span>
+        <span class="n">keyword_retriever</span><span class="p">,</span>
+        <span class="n">beam_retriever</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;What are the differences between Neptune Database and Neptune Analytics?&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="postprocessors">
+<h2>Postprocessors<a class="headerlink" href="#postprocessors" title="Link to this heading">¶</a></h2>
+<p>There are a number of postprocessors you can use to further improve and format results:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Postprocessor</p></th>
+<th class="head"><p>Use With</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BGEReranker</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> or <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code></p></td>
+<td><p>Reranks (and limits) results using the <code class="docutils literal notranslate"><span class="pre">BAAI/bge-reranker-v2-minicpm-layerwise</span></code> model before returning them to the query engine. Use only if you have a GPU device.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SentenceReranker</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> or <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code></p></td>
+<td><p>Reranks (and limits) results using the <code class="docutils literal notranslate"><span class="pre">mixedbread-ai/mxbai-rerank-xsmall-v1</span></code>. model before returning them to the query engine.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">StatementDiversityPostProcessor</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code> or <code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code></p></td>
+<td><p>Removes similar statements from the results using TF-IDF similarity. Before running <code class="docutils literal notranslate"><span class="pre">StatementDiversityPostProcessor</span></code> for the first time, load the following package: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">spacy</span> <span class="pre">download</span> <span class="pre">en_core_web_sm</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EnrichSourceDetails</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TraversalBasedRetriever</span></code></p></td>
+<td><p>Replaces the <code class="docutils literal notranslate"><span class="pre">sourceId</span></code> in the results with a string composed from source metadata.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">StatementEnhancementPostProcessor</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SemanticGuidedRetriever</span></code></p></td>
+<td><p>Enhances statements by using chunk context and an LLM to improve content while preserving original metadata. (Requires an LLM call per statement.)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The example below uses a <code class="docutils literal notranslate"><span class="pre">StatementDiversityPostProcessor</span></code>, <code class="docutils literal notranslate"><span class="pre">SentenceReranker</span></code> and <code class="docutils literal notranslate"><span class="pre">StatementEnhancementPostProcessor</span></code>. If you’re running on a GPU device, you can replace the <code class="docutils literal notranslate"><span class="pre">SentenceReranker</span></code> with a <code class="docutils literal notranslate"><span class="pre">BGEReranker</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LexicalGraphQueryEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStoreFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStoreFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.post_processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceReranker</span><span class="p">,</span> <span class="n">SentenceReranker</span><span class="p">,</span> <span class="n">StatementDiversityPostProcessor</span><span class="p">,</span> <span class="n">StatementEnhancementPostProcessor</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">graph_store</span> <span class="o">=</span> <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span>
+    <span class="s1">&#39;neptune-db://my-graph.cluster-abcdefghijkl.us-east-1.neptune.amazonaws.com&#39;</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStoreFactory</span><span class="o">.</span><span class="n">for_vector_store</span><span class="p">(</span>
+    <span class="s1">&#39;aoss://https://abcdefghijkl.us-east-1.aoss.amazonaws.com&#39;</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">LexicalGraphQueryEngine</span><span class="o">.</span><span class="n">for_semantic_guided_search</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">post_processors</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">SentenceReranker</span><span class="p">(),</span> 
+        <span class="n">StatementDiversityPostProcessor</span><span class="p">(),</span> 
+        <span class="n">StatementEnhancementPostProcessor</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;What are the differences between Neptune Database and Neptune Analytics?&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="metadata-filtering">
+<h2>Metadata filtering<a class="headerlink" href="#metadata-filtering" title="Link to this heading">¶</a></h2>
+<p>Metadata filtering allows you to retrieve a constrained set of sources, topics and statements based on metadata filters and associated values when querying a lexical graph. See the <a class="reference internal" href="metadata-filtering.html"><span class="std std-doc">Metadata Filtering</span></a> section for more details.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="metadata-filtering.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Metadata Filtering</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="security.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Security</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="sidebar-div show-div-md justify-content-left">
+            <label class="nav-close-icon" id="toc-menu-close" for="__toc" tabindex="0">
+                <div class="visually-hidden">Toggle site table of content right sidebar</div>
+                <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+            </label>
+        </div>
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Querying</a><ul>
+<li><a class="reference internal" href="#topics">Topics</a></li>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#code-examples">Code examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#traversalbasedretriever">TraversalBasedRetriever</a><ul>
+<li><a class="reference internal" href="#traversalbasedretriever-results">TraversalBasedRetriever results</a></li>
+<li><a class="reference internal" href="#configuring-the-traversalbasedretriever">Configuring the TraversalBasedRetriever</a></li>
+<li><a class="reference internal" href="#statement-reranking">Statement reranking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#semanticguidedretriever">SemanticGuidedRetriever</a><ul>
+<li><a class="reference internal" href="#semanticguidedretriever-results">SemanticGuidedRetriever results</a></li>
+<li><a class="reference internal" href="#configuring-the-semanticguidedretriever">Configuring the SemanticGuidedRetriever</a></li>
+<li><a class="reference internal" href="#semanticguidedretriever-with-a-reranking-beam-search">SemanticGuidedRetriever with a reranking beam search</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#postprocessors">Postprocessors</a></li>
+<li><a class="reference internal" href="#metadata-filtering">Metadata filtering</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>

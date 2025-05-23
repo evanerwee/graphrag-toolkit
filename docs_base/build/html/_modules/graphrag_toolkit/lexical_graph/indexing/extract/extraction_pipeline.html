@@ -1,0 +1,850 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../../../index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="../../../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../../../_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../../../_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-model.html">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/querying.html">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/metadata-filtering.html">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</span>
+<span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pipe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipe</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">TenantId</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing</span><span class="w"> </span><span class="kn">import</span> <span class="n">IdGenerator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.pipeline_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SourceType</span><span class="p">,</span>
+    <span class="n">SourceDocument</span><span class="p">,</span>
+    <span class="n">source_documents_from_source_types</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PipelineDecorator</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SourceDocParser</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.build.checkpoint</span><span class="w"> </span><span class="kn">import</span> <span class="n">Checkpoint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.docs_to_nodes</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocsToNodes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.id_rewriter</span><span class="w"> </span><span class="kn">import</span> <span class="n">IdRewriter</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.node_parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextSplitter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">iter_batch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.ingestion</span><span class="w"> </span><span class="kn">import</span> <span class="n">IngestionPipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.extractors.interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseExtractor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransformComponent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseNode</span><span class="p">,</span> <span class="n">Document</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">NodeRelationship</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="PassThroughDecorator">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PassThroughDecorator</span><span class="p">(</span><span class="n">PipelineDecorator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A decorator class that processes input and output documents without modification.</span>
+
+<span class="sd">    The PassThroughDecorator class is a subclass of PipelineDecorator designed to</span>
+<span class="sd">    handle input and output documents by passing them through unchanged. It allows</span>
+<span class="sd">    integration within a pipeline where no specific transformation or processing</span>
+<span class="sd">    logic is required, enabling smooth data flow while adhering to a consistent</span>
+<span class="sd">    decorator interface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents the initialization method of a class.</span>
+
+<span class="sd">        This method is a constructor used to initialize the attributes or settings of an</span>
+<span class="sd">        object when an instance of a class is created. It does not perform any actions</span>
+<span class="sd">        or set any attributes in its current implementation.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            No attributes are defined in this method.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            No parameters are expected in this method.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            This method does not raise any exceptions.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="PassThroughDecorator.handle_input_docs">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator.handle_input_docs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_input_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles the input documents provided as an iterable of SourceDocument objects.</span>
+
+<span class="sd">        Takes an iterable of documents, processes or returns them as needed.</span>
+
+<span class="sd">        :param nodes: An iterable containing instances of SourceDocument, representing</span>
+<span class="sd">             the documents to be handled.</span>
+<span class="sd">        :type nodes: Iterable[SourceDocument]</span>
+<span class="sd">        :return: The input iterable of SourceDocument objects, processed as per the</span>
+<span class="sd">            requirements.</span>
+<span class="sd">        :rtype: Iterable[SourceDocument]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">nodes</span></div>
+
+
+<div class="viewcode-block" id="PassThroughDecorator.handle_output_doc">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator.handle_output_doc">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_output_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">SourceDocument</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SourceDocument</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles and returns the given source document node.</span>
+
+<span class="sd">        :param node: Source document node to be processed.</span>
+<span class="sd">        :type node: SourceDocument</span>
+<span class="sd">        :return: The processed source document node.</span>
+<span class="sd">        :rtype: SourceDocument</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">node</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ExtractionPipeline">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExtractionPipeline</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ExtractionPipeline class is designed to configure and execute a document extraction pipeline.</span>
+
+<span class="sd">    This pipeline integrates multiple transformation components, optional preprocessing steps, and advanced configurations</span>
+<span class="sd">    like tenant filtering, checkpointing, and data filtering. By enabling efficient processing with optional support</span>
+<span class="sd">    for batching and parallel execution, this class serves as a robust solution for data extraction and transformation.</span>
+
+<span class="sd">    :ivar ingestion_pipeline: The constructed pipeline consisting of all configured transformation</span>
+<span class="sd">        components responsible for document processing.</span>
+<span class="sd">    :type ingestion_pipeline: IngestionPipeline</span>
+<span class="sd">    :ivar pre_processors: Pre-processors to parse and prepare source documents before ingestion into the pipeline.</span>
+<span class="sd">    :type pre_processors: List[SourceDocParser]</span>
+<span class="sd">    :ivar extraction_decorator: The decorator used to extend or customize the extraction process during pipeline execution.</span>
+<span class="sd">    :type extraction_decorator: PipelineDecorator</span>
+<span class="sd">    :ivar num_workers: Number of worker threads employed for parallel processing in the pipeline.</span>
+<span class="sd">    :type num_workers: int</span>
+<span class="sd">    :ivar batch_size: Number of processing items managed concurrently within each batch.</span>
+<span class="sd">    :type batch_size: int</span>
+<span class="sd">    :ivar show_progress: A flag indicating whether progress bars are enabled during extraction pipeline operations.</span>
+<span class="sd">    :type show_progress: bool</span>
+<span class="sd">    :ivar id_rewriter: A utility for generating unique traceable IDs for documents processed in the pipeline.</span>
+<span class="sd">    :type id_rewriter: IdRewriter</span>
+<span class="sd">    :ivar extraction_filters: Holds configuration settings for applying additional extraction rules and filters.</span>
+<span class="sd">    :type extraction_filters: FilterConfig</span>
+<span class="sd">    :ivar pipeline_kwargs: Captures additional pipeline-specific configurations supplied via keyword arguments.</span>
+<span class="sd">    :type pipeline_kwargs: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ExtractionPipeline.create">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline.create">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span>
+        <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransformComponent</span><span class="p">],</span>
+        <span class="n">pre_processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SourceDocParser</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">extraction_decorator</span><span class="p">:</span> <span class="n">PipelineDecorator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">checkpoint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Checkpoint</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TenantId</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">extraction_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a pipeline for data extraction by configuring the components, pre-processors,</span>
+<span class="sd">        decorators, filters, and execution parameters. This method combines all the necessary</span>
+<span class="sd">        elements required to execute the pipeline with the specified configuration.</span>
+
+<span class="sd">        :param components: List of transformation components to be executed in the pipeline.</span>
+<span class="sd">            These components determine the processing logic for data transformation.</span>
+<span class="sd">        :type components: List[TransformComponent]</span>
+<span class="sd">        :param pre_processors: Optional list of source document parsers for preprocessing</span>
+<span class="sd">            steps prior to extraction. Defaults to None.</span>
+<span class="sd">        :type pre_processors: Optional[List[SourceDocParser]]</span>
+<span class="sd">        :param extraction_decorator: Optional decorator for the pipeline that encapsulates</span>
+<span class="sd">            additional logic or functionality around extraction processes. Defaults to None.</span>
+<span class="sd">        :type extraction_decorator: PipelineDecorator</span>
+<span class="sd">        :param num_workers: Number of workers to utilize in parallel processing.</span>
+<span class="sd">            If not provided, defaults to the system&#39;s logical processors.</span>
+<span class="sd">        :type num_workers: Optional[int]</span>
+<span class="sd">        :param batch_size: Size of each batch for batch processing. Helps manage</span>
+<span class="sd">            processing efficiency and memory usage. Defaults to None.</span>
+<span class="sd">        :type batch_size: Optional[int]</span>
+<span class="sd">        :param show_progress: Boolean indicating whether to display a progress bar</span>
+<span class="sd">            during extraction. Defaults to False.</span>
+<span class="sd">        :type show_progress: bool</span>
+<span class="sd">        :param checkpoint: Optional checkpoint configuration for resuming pipeline</span>
+<span class="sd">            processing from a saved state. Defaults to None.</span>
+<span class="sd">        :type checkpoint: Optional[Checkpoint]</span>
+<span class="sd">        :param tenant_id: Identifier for the tenant, used to differentiate and handle</span>
+<span class="sd">            multi-tenant data in configurations. Defaults to None.</span>
+<span class="sd">        :type tenant_id: Optional[TenantId]</span>
+<span class="sd">        :param extraction_filters: Optional filter configuration for refining or limiting</span>
+<span class="sd">            the data extraction scope based on specified criteria. Defaults to None.</span>
+<span class="sd">        :type extraction_filters: Optional[FilterConfig]</span>
+<span class="sd">        :param kwargs: Additional keyword arguments for further customization of</span>
+<span class="sd">            alternative configurations or extensions.</span>
+<span class="sd">        :type kwargs: Any</span>
+<span class="sd">        :return: A configured pipeline instance ready to execute the extraction process</span>
+<span class="sd">            with the specified configurations.</span>
+<span class="sd">        :rtype: Pipe</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Pipe</span><span class="p">(</span>
+            <span class="n">ExtractionPipeline</span><span class="p">(</span>
+                <span class="n">components</span><span class="o">=</span><span class="n">components</span><span class="p">,</span>
+                <span class="n">pre_processors</span><span class="o">=</span><span class="n">pre_processors</span><span class="p">,</span>
+                <span class="n">extraction_decorator</span><span class="o">=</span><span class="n">extraction_decorator</span><span class="p">,</span>
+                <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">,</span>
+                <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                <span class="n">show_progress</span><span class="o">=</span><span class="n">show_progress</span><span class="p">,</span>
+                <span class="n">checkpoint</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">,</span>
+                <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span>
+                <span class="n">extraction_filters</span><span class="o">=</span><span class="n">extraction_filters</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">extract</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransformComponent</span><span class="p">],</span>
+        <span class="n">pre_processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SourceDocParser</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">extraction_decorator</span><span class="p">:</span> <span class="n">PipelineDecorator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">checkpoint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Checkpoint</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TenantId</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">extraction_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a pipeline with configurable transformation components, optional pre-processing,</span>
+<span class="sd">        decorators, and advanced options like concurrency, batching, filters, and checkpoints. This pipeline</span>
+<span class="sd">        can process input data through a series of transformations, with optional customization and resource</span>
+<span class="sd">        management.</span>
+
+<span class="sd">        :param components:</span>
+<span class="sd">            List of transformation components to sequentially process the input data.</span>
+<span class="sd">        :param pre_processors:</span>
+<span class="sd">            Optional list of pre-processing components for parsing and preparing data before entering the</span>
+<span class="sd">            main transformation pipeline.</span>
+<span class="sd">        :param extraction_decorator:</span>
+<span class="sd">            Decorator for adding extra functionality to the extraction process. Defaults to None.</span>
+<span class="sd">        :param num_workers:</span>
+<span class="sd">            Desired number of worker threads for concurrent processing. If not provided, a default value is</span>
+<span class="sd">            derived from configuration.</span>
+<span class="sd">        :param batch_size:</span>
+<span class="sd">            Number of data items processed per batch. Uses a configuration default value if not specified.</span>
+<span class="sd">        :param show_progress:</span>
+<span class="sd">            Whether to display a progress bar or indicator during processing. Defaults to False.</span>
+<span class="sd">        :param checkpoint:</span>
+<span class="sd">            Optional configuration to allow checkpointing, enabling processing resumption or state</span>
+<span class="sd">            management.</span>
+<span class="sd">        :param tenant_id:</span>
+<span class="sd">            Identifier to associate processing components with tenant-specific contexts. Optional.</span>
+<span class="sd">        :param extraction_filters:</span>
+<span class="sd">            Configuration for applying filters during the data extraction process. Defaults to None.</span>
+<span class="sd">        :param kwargs:</span>
+<span class="sd">            Additional arguments to customize the pipeline behavior or extend its functionality properly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">components</span> <span class="o">=</span> <span class="n">components</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_num_workers</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_batch_size</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">BaseExtractor</span><span class="p">):</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">show_progress</span> <span class="o">=</span> <span class="n">show_progress</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">add_id_rewriter</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Represents an extraction pipeline to process and transform data using a series of</span>
+<span class="sd">            components with optional preprocessing, parallel processing, and filtering</span>
+<span class="sd">            capabilities.</span>
+
+<span class="sd">            This class orchestrates data processing by leveraging its components in a</span>
+<span class="sd">            specific sequence. Each component can modify the data or extract certain</span>
+<span class="sd">            information. Optional pre-processors are applied before the pipeline execution.</span>
+<span class="sd">            The pipeline also supports parallelism, batching, progress display, and</span>
+<span class="sd">            additional filtering functionality.</span>
+
+<span class="sd">            Attributes:</span>
+<span class="sd">                components (List[TransformComponent]): Sequence of transformation components</span>
+<span class="sd">                  to process the data.</span>
+<span class="sd">                pre_processors (Optional[List[SourceDocParser]]): Optional list of preprocessing objects</span>
+<span class="sd">                  to parse or modify the source data before transformation.</span>
+<span class="sd">                extraction_decorator (PipelineDecorator): Optional decorator to control or alter the</span>
+<span class="sd">                  behavior of the transformation pipeline.</span>
+<span class="sd">                num_workers (Optional[int]): Number of parallel workers for execution.</span>
+<span class="sd">                batch_size (Optional[int]): Number of items to process in each batch.</span>
+<span class="sd">                show_progress (bool): Flag to indicate whether to display progress of pipeline execution.</span>
+<span class="sd">                checkpoint (Optional[Checkpoint]): Mechanism for tracking or restoring pipeline state.</span>
+<span class="sd">                tenant_id (Optional[TenantId]): Identifier for the current tenant or context for processing.</span>
+<span class="sd">                extraction_filters (Optional[FilterConfig]): Configuration to filter results from</span>
+<span class="sd">                  the pipeline.</span>
+<span class="sd">                kwargs (Any): Additional optional parameters for fine-tuned configurations.</span>
+
+<span class="sd">            :param components: Sequence of components to apply during the transformation process.</span>
+<span class="sd">            :type components: List[TransformComponent]</span>
+<span class="sd">            :param pre_processors: Optional preprocessing objects.</span>
+<span class="sd">            :type pre_processors: Optional[List[SourceDocParser]]</span>
+<span class="sd">            :param extraction_decorator: Optional decorator for the pipeline execution.</span>
+<span class="sd">            :type extraction_decorator: PipelineDecorator</span>
+<span class="sd">            :param num_workers: Number of parallel workers.</span>
+<span class="sd">            :type num_workers: Optional[int]</span>
+<span class="sd">            :param batch_size: Batch size for processing data.</span>
+<span class="sd">            :type batch_size: Optional[int]</span>
+<span class="sd">            :param show_progress: Indicates whether to show progress during execution.</span>
+<span class="sd">            :type show_progress: bool</span>
+<span class="sd">            :param checkpoint: Optional mechanism for checkpointing and restoring states.</span>
+<span class="sd">            :type checkpoint: Optional[Checkpoint]</span>
+<span class="sd">            :param tenant_id: Tenant identifier for providing context.</span>
+<span class="sd">            :type tenant_id: Optional[TenantId]</span>
+<span class="sd">            :param extraction_filters: Additional filtering configuration.</span>
+<span class="sd">            :type extraction_filters: Optional[FilterConfig]</span>
+<span class="sd">            :param kwargs: Additional arguments for extended functionality.</span>
+<span class="sd">            :type kwargs: Any</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">TextSplitter</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Wrapping </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> with IdRewriter&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">IdRewriter</span><span class="p">(</span>
+                    <span class="n">inner</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">id_generator</span><span class="o">=</span><span class="n">IdGenerator</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">c</span>
+
+        <span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">add_id_rewriter</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">IdRewriter</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Adding DocToNodes to components&#39;</span><span class="p">)</span>
+            <span class="n">components</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="n">IdRewriter</span><span class="p">(</span>
+                    <span class="n">inner</span><span class="o">=</span><span class="n">DocsToNodes</span><span class="p">(),</span> <span class="n">id_generator</span><span class="o">=</span><span class="n">IdGenerator</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">)</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">checkpoint</span><span class="p">:</span>
+            <span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">checkpoint</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Extract pipeline components: </span><span class="si">{</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">components</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ingestion_pipeline</span> <span class="o">=</span> <span class="n">IngestionPipeline</span><span class="p">(</span><span class="n">transformations</span><span class="o">=</span><span class="n">components</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_processors</span> <span class="o">=</span> <span class="n">pre_processors</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extraction_decorator</span> <span class="o">=</span> <span class="n">extraction_decorator</span> <span class="ow">or</span> <span class="n">PassThroughDecorator</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_progress</span> <span class="o">=</span> <span class="n">show_progress</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_rewriter</span> <span class="o">=</span> <span class="n">IdRewriter</span><span class="p">(</span><span class="n">id_generator</span><span class="o">=</span><span class="n">IdGenerator</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extraction_filters</span> <span class="o">=</span> <span class="n">extraction_filters</span> <span class="ow">or</span> <span class="n">FilterConfig</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_source_documents_from_base_nodes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes a sequence of BaseNode objects and organizes them into a list of</span>
+<span class="sd">        SourceDocument objects based on their source relationships.</span>
+
+<span class="sd">        The method iterates over a sequence of BaseNode objects, determines their</span>
+<span class="sd">        source relationships, and groups them under corresponding SourceDocuments.</span>
+<span class="sd">        Each unique source ID corresponds to a SourceDocument instance, which contains</span>
+<span class="sd">        a collection of nodes belonging to that particular source.</span>
+
+<span class="sd">        :param nodes:</span>
+<span class="sd">            A sequence of BaseNode objects to be processed. Each node must contain</span>
+<span class="sd">            source information in its `relationships` attribute.</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">            A list of SourceDocument objects. Each object aggregates nodes that share</span>
+<span class="sd">            the same source ID.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SourceDocument</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">source_info</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">relationships</span><span class="p">[</span><span class="n">NodeRelationship</span><span class="o">.</span><span class="n">SOURCE</span><span class="p">]</span>
+            <span class="n">source_id</span> <span class="o">=</span> <span class="n">source_info</span><span class="o">.</span><span class="n">node_id</span>
+            <span class="k">if</span> <span class="n">source_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">SourceDocument</span><span class="p">()</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+<div class="viewcode-block" id="ExtractionPipeline.extract">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline.extract">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SourceType</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes the specified inputs using a series of pre-processors, filters, and an</span>
+<span class="sd">        extraction pipeline. The method extracts data by transforming input source documents</span>
+<span class="sd">        into nodes, filtering those nodes based on metadata, running them through an</span>
+<span class="sd">        extraction pipeline, and post-processing the results.</span>
+
+<span class="sd">        :param inputs: A collection of input source types to be processed.</span>
+<span class="sd">        :type inputs: Iterable[SourceType]</span>
+<span class="sd">        :return: A generator that yields processed source documents after extraction</span>
+<span class="sd">            and post-processing.</span>
+<span class="sd">        :rtype: Generator[SourceDocument, None, None]</span>
+<span class="sd">        :raises ValueError: If inputs provided are not valid for processing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_source_metadata</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            A pipeline class responsible for the extraction of metadata from a collection</span>
+<span class="sd">            of source nodes. The class facilitates the extraction process for different</span>
+<span class="sd">            types of input sources, isolating metadata either directly from a document</span>
+<span class="sd">            node or through its source relationships.</span>
+
+<span class="sd">            Methods defined within this class include the primary extraction method</span>
+<span class="sd">            which processes input nodes and the utility function to retrieve metadata</span>
+<span class="sd">            dependent on the node type.</span>
+
+<span class="sd">            :param inputs: An iterable collection of input nodes of SourceType from which</span>
+<span class="sd">                metadata will be extracted.</span>
+<span class="sd">            :type inputs: Iterable[SourceType]</span>
+<span class="sd">            :return: None. The function operates directly on the input data.</span>
+<span class="sd">            :rtype: None</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Document</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">relationships</span><span class="p">[</span><span class="n">NodeRelationship</span><span class="o">.</span><span class="n">SOURCE</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span>
+
+        <span class="n">input_source_documents</span> <span class="o">=</span> <span class="n">source_documents_from_source_types</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">pre_processor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_processors</span><span class="p">:</span>
+            <span class="n">input_source_documents</span> <span class="o">=</span> <span class="n">pre_processor</span><span class="o">.</span><span class="n">parse_source_docs</span><span class="p">(</span>
+                <span class="n">input_source_documents</span>
+            <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">source_documents</span> <span class="ow">in</span> <span class="n">iter_batch</span><span class="p">(</span><span class="n">input_source_documents</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">):</span>
+
+            <span class="n">source_documents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_rewriter</span><span class="o">.</span><span class="n">handle_source_docs</span><span class="p">(</span><span class="n">source_documents</span><span class="p">)</span>
+            <span class="n">source_documents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction_decorator</span><span class="o">.</span><span class="n">handle_input_docs</span><span class="p">(</span>
+                <span class="n">source_documents</span>
+            <span class="p">)</span>
+
+            <span class="n">input_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">sd</span> <span class="ow">in</span> <span class="n">source_documents</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sd</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
+
+            <span class="n">filtered_input_nodes</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">node</span>
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">input_nodes</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction_filters</span><span class="o">.</span><span class="n">filter_source_metadata_dictionary</span><span class="p">(</span>
+                    <span class="n">get_source_metadata</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">]</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Running extraction pipeline [batch_size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="si">}</span><span class="s1">, num_workers: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s1">]&#39;</span>
+            <span class="p">)</span>
+
+            <span class="n">node_batches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ingestion_pipeline</span><span class="o">.</span><span class="n">_node_batcher</span><span class="p">(</span>
+                <span class="n">num_batches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">filtered_input_nodes</span>
+            <span class="p">)</span>
+
+            <span class="n">output_nodes</span> <span class="o">=</span> <span class="n">run_pipeline</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ingestion_pipeline</span><span class="p">,</span>
+                <span class="n">node_batches</span><span class="p">,</span>
+                <span class="n">num_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+                <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline_kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">output_source_documents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source_documents_from_base_nodes</span><span class="p">(</span>
+                <span class="n">output_nodes</span>
+            <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">source_document</span> <span class="ow">in</span> <span class="n">output_source_documents</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction_decorator</span><span class="o">.</span><span class="n">handle_output_doc</span><span class="p">(</span><span class="n">source_document</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>

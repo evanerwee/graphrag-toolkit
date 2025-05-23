@@ -1,0 +1,846 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Indexing" href="indexing.html" /><link rel="prev" title="Querying" href="querying.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>Metadata Filtering - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="graph-model.html">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="querying.html">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../falkordb/falkordb.html">falkordb package</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="metadata-filtering">
+<h1>Metadata Filtering<a class="headerlink" href="#metadata-filtering" title="Link to this heading">¶</a></h1>
+<section id="topics">
+<h2>Topics<a class="headerlink" href="#topics" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="overview.html"><span class="doc std std-doc">Overview</span></a></p></li>
+<li><p><a class="reference internal" href="#adding-metadata-when-indexing"><span class="xref myst">Adding metadata when indexing</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#adding-metadata-to-web-pages"><span class="xref myst">Adding metadata to web pages</span></a></p></li>
+<li><p><a class="reference internal" href="#adding-metadata-to-json-documents"><span class="xref myst">Adding metadata to JSON documents</span></a></p></li>
+<li><p><a class="reference internal" href="#adding-metadata-to-pdf-documents"><span class="xref myst">Adding metadata to PDF documents</span></a></p></li>
+<li><p><a class="reference internal" href="#restrictions"><span class="xref myst">Restrictions</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#using-metadata-to-filter-queries"><span class="xref myst">Using metadata to filter queries</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#how-are-metadata-filters-applied"><span class="xref myst">How are metadata filters applied?</span></a></p></li>
+<li><p><a class="reference internal" href="#complex-and-nested-filter-expressions"><span class="xref myst">Complex and nested filter expressions</span></a></p></li>
+<li><p><a class="reference internal" href="#supported-filter-operators"><span class="xref myst">Supported filter operators</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#dates-and-datetimes"><span class="xref myst">Dates and datetimes</span></a></p></li>
+<li><p><a class="reference internal" href="#using-metadata-to-filter-documents-in-the-extract-and-build-stages"><span class="xref myst">Using metadata to filter documents in the extract and build stages</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#using-metadata-filtering-in-the-extract-stage"><span class="xref myst">Using metadata filtering in the extract stage</span></a></p></li>
+<li><p><a class="reference internal" href="#using-metadata-filtering-in-the-build-stage"><span class="xref myst">Using metadata filtering in the build stage</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#metadata-and-document-identity"><span class="xref myst">Metadata and document identity</span></a></p></li>
+<li><p><a class="reference internal" href="#metadata-filtering-and-multi-tenancy"><span class="xref myst">Metadata filtering and multi-tenancy</span></a></p></li>
+</ul>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>Metadata filtering allows you to retrieve a constrained set of sources, topics and statements based on metadata filters and associated values when querying a lexical graph.</p>
+<p>Metadata is any data added to the metadata dictionary of a source document. Depending on the source document, examples of metadata may include <em>title</em>, <em>url</em>, <em>filepath</em>, <em>date published</em>, and <em>author</em>. A source document’s metadata is then associated with any chunks, topics and statements extracted from that document.</p>
+<p>There are two parts to metadata filtering:</p>
+<ul class="simple">
+<li><p><strong>Indexing</strong> Add metadata to source documents passed to the indexing process</p></li>
+<li><p><strong>Querying</strong> Supply metadata filters when querying a lexical graph</p></li>
+</ul>
+<p>You can also use metadata filtering to <a class="reference internal" href="#using-metadata-to-filter-documents-in-the-extract-and-build-stages"><span class="xref myst">filter documents and chunks during the extract and build stages</span></a> of the indexing process.</p>
+</section>
+<section id="adding-metadata-when-indexing">
+<h2>Adding metadata when indexing<a class="headerlink" href="#adding-metadata-when-indexing" title="Link to this heading">¶</a></h2>
+<p>The effectiveness of metadata filtering during querying is dependent on the quality of the metadata attached to source documents during ingestion. <a class="reference external" href="https://docs.llamaindex.ai/en/stable/understanding/loading/loading/">Different loaders</a> have different mechanisms for adding metadata to ingested documents. Here are some examples.</p>
+<section id="adding-metadata-to-web-pages">
+<h3>Adding metadata to web pages<a class="headerlink" href="#adding-metadata-to-web-pages" title="Link to this heading">¶</a></h3>
+<p>The LlamaIndex <code class="docutils literal notranslate"><span class="pre">SimpleWebPageReader</span></code> accepts a function that takes a url and returns a metadata dictionary. The following example populates the metadata dictionary with the url and the date on which the page was accessed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.readers.web</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleWebPageReader</span>
+
+<span class="n">doc_urls</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;https://docs.aws.amazon.com/neptune/latest/userguide/intro.html&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;https://docs.aws.amazon.com/neptune-analytics/latest/userguide/what-is-neptune-analytics.html&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;https://docs.aws.amazon.com/neptune-analytics/latest/userguide/neptune-analytics-features.html&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;https://docs.aws.amazon.com/neptune-analytics/latest/userguide/neptune-analytics-vs-neptune-database.html&#39;</span>
+<span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">web_page_metadata</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> 
+        <span class="s1">&#39;last_accessed_date&#39;</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="p">}</span>
+
+<span class="n">docs</span> <span class="o">=</span> <span class="n">SimpleWebPageReader</span><span class="p">(</span>
+    <span class="n">html_to_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">metadata_fn</span><span class="o">=</span><span class="n">web_page_metadata</span>
+<span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">doc_urls</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-metadata-to-json-documents">
+<h3>Adding metadata to JSON documents<a class="headerlink" href="#adding-metadata-to-json-documents" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">JSONArrayReader</span></code> allows you to split a JSON array document into separate documents, one per element in the array, and extract metadata from each sub-document. The following example splits a JSON source document containing news articles into separate documents, one per article. The <code class="docutils literal notranslate"><span class="pre">get_text()</span></code> and <code class="docutils literal notranslate"><span class="pre">get_metadata()</span></code> functions extract each article’s body text and associated metadata.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONArrayReader</span>    
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_text</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_metadata</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+	<span class="k">return</span> <span class="p">{</span> 
+		<span class="n">field</span> <span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> 
+		<span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">,</span> <span class="s1">&#39;published_date&#39;</span><span class="p">]</span> 
+		<span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">data</span>
+	<span class="p">}</span>
+
+<span class="n">docs</span> <span class="o">=</span> <span class="n">JSONArrayReader</span><span class="p">(</span>
+    <span class="n">text_fn</span><span class="o">=</span><span class="n">get_text</span><span class="p">,</span> 
+    <span class="n">metadata_fn</span><span class="o">=</span><span class="n">get_metadata</span>
+<span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;./articles.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-metadata-to-pdf-documents">
+<h3>Adding metadata to PDF documents<a class="headerlink" href="#adding-metadata-to-pdf-documents" title="Link to this heading">¶</a></h3>
+<p>The following example shows one way of loading PDF documents and attaching metadata to each document.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pypdf</span><span class="w"> </span><span class="kn">import</span> <span class="n">PdfReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">Document</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pdf_docs</span><span class="p">(</span><span class="n">pdf_dir</span><span class="p">):</span>
+    
+    <span class="n">pdf_dir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pdf_dir</span><span class="p">)</span>
+    
+    <span class="n">file_paths</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">file_path</span> <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">pdf_dir_path</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span> 
+        <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">pdf_path</span> <span class="ow">in</span> <span class="n">file_paths</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">PdfReader</span><span class="p">(</span><span class="n">pdf_path</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">page_num</span><span class="p">,</span> <span class="n">page_content</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">pages</span><span class="p">):</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span>
+                <span class="n">text</span><span class="o">=</span><span class="n">page_content</span><span class="o">.</span><span class="n">extract_text</span><span class="p">(),</span> 
+                <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s1">&#39;filename&#39;</span><span class="p">:</span> <span class="n">pdf_path</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> 
+                    <span class="s1">&#39;page_num&#39;</span><span class="p">:</span> <span class="n">page_num</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+            <span class="k">yield</span> <span class="n">doc</span>
+    
+<span class="n">docs</span> <span class="o">=</span> <span class="n">get_pdf_docs</span><span class="p">(</span><span class="s1">&#39;./pdfs&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="restrictions">
+<h3>Restrictions<a class="headerlink" href="#restrictions" title="Link to this heading">¶</a></h3>
+<p>Metadata field values may comprise string, int, float, <a class="reference internal" href="#dates-and-datetimes"><span class="xref myst">date and datetime</span></a> single values. Lists, arrays, sets and nested dictionaries are not supported.</p>
+</section>
+</section>
+<section id="using-metadata-to-filter-queries">
+<h2>Using metadata to filter queries<a class="headerlink" href="#using-metadata-to-filter-queries" title="Link to this heading">¶</a></h2>
+<p>The lexical graph uses the LlamaIndex vector store types <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code>, <code class="docutils literal notranslate"><span class="pre">MetadataFilter</span></code>, <code class="docutils literal notranslate"><span class="pre">FilterOperator</span></code>, and <code class="docutils literal notranslate"><span class="pre">FilterCondition</span></code> to specify filter criteria. You supply these to a query engine in a <code class="docutils literal notranslate"><span class="pre">FilterConfig</span></code> object. The following example configures a traversal-based retriever to filter the lexical graph based on the url of source documents:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LexicalGraphQueryEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterOperator</span><span class="p">,</span> <span class="n">MetadataFilter</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">LexicalGraphQueryEngine</span><span class="o">.</span><span class="n">for_traversal_based_search</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">filter_config</span> <span class="o">=</span> <span class="n">FilterConfig</span><span class="p">(</span>
+        <span class="n">MetadataFilter</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="s1">&#39;url&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s1">&#39;https://docs.aws.amazon.com/neptune/latest/userguide/intro.html&#39;</span><span class="p">,</span>
+            <span class="n">operator</span><span class="o">=</span><span class="n">FilterOperator</span><span class="o">.</span><span class="n">EQ</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<section id="how-are-metadata-filters-applied">
+<h3>How are metadata filters applied?<a class="headerlink" href="#how-are-metadata-filters-applied" title="Link to this heading">¶</a></h3>
+<p>Metadata filters that you supply to a query engine are applied at two points in the retrieval process:</p>
+<ul class="simple">
+<li><p>The filters are applied to all vector store top-k queries. The vector store is typically used to find starting points for graph traversals: filters therefore effectively constrain a retriever’s entry points into the graph.</p></li>
+<li><p>The filters are subsequently applied to all the results returned from the graph.</p></li>
+</ul>
+<p>By its very nature, a graph can often connect disparate sources: traversals can hop from topics and statements belonging to one source, to topics and statements associated with an entirely different source. It’s not sufficient, therefore, to simply limit the starting points for a traversal; the retriever must also filter the results. The benefit of the dual application of a metadata filter is that it restricts the semantic similarity-based lookups that provide the start points of a query to a well-defined set of sources, but then allows the query to access structurally relevant but semantically dissimilar parts of the lexical graph, some of which may be allowed by the filter, some disallowed, before finally constraining the results to only those elements that pass the filter criteria.</p>
+</section>
+<section id="complex-and-nested-filter-expressions">
+<h3>Complex and nested filter expressions<a class="headerlink" href="#complex-and-nested-filter-expressions" title="Link to this heading">¶</a></h3>
+<p>The constructor of the <code class="docutils literal notranslate"><span class="pre">FilterConfig</span></code> object accepts either a <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> object, a single <code class="docutils literal notranslate"><span class="pre">MetadataFilter</span></code> or a list of <code class="docutils literal notranslate"><span class="pre">MetadataFilter</span></code> objects.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> object can hold a collection of <code class="docutils literal notranslate"><span class="pre">MetadataFilter</span></code> objects as well as other, nested <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> objects. Elements in a <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> object’s <code class="docutils literal notranslate"><span class="pre">filters</span></code> collection are chained to form complex conditions using either a <code class="docutils literal notranslate"><span class="pre">FilterCondition.AND</span></code> or <code class="docutils literal notranslate"><span class="pre">FilterCondition.OR</span></code> condition.</p>
+<p><code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> also supports a third condition: <code class="docutils literal notranslate"><span class="pre">FilterCondition.NOT</span></code>. If you use the <code class="docutils literal notranslate"><span class="pre">FilterCondition.NOT</span></code> condition with a <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> object, the <code class="docutils literal notranslate"><span class="pre">filters</span></code> collection of that object must contain a single nested <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> object.</p>
+<p>The following example shows the use of a nested <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> object to express a complex condition: either the source must be from <code class="docutils literal notranslate"><span class="pre">https://docs.aws.amazon.com/neptune/latest/userguide/intro.html</span></code>, OR its publication date must fall between <code class="docutils literal notranslate"><span class="pre">2024-01-01</span></code> and <code class="docutils literal notranslate"><span class="pre">2024-12-31</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FilterConfig</span><span class="p">(</span>
+    <span class="n">MetadataFilters</span><span class="p">(</span>
+        <span class="n">filters</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">MetadataFilter</span><span class="p">(</span>
+                <span class="n">key</span><span class="o">=</span><span class="s1">&#39;url&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="s1">&#39;https://docs.aws.amazon.com/neptune/latest/userguide/intro.html&#39;</span><span class="p">,</span>
+                <span class="n">operator</span><span class="o">=</span><span class="n">FilterOperator</span><span class="o">.</span><span class="n">EQ</span>
+            <span class="p">),</span>
+            <span class="n">MetadataFilters</span><span class="p">(</span>
+                <span class="n">filters</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">MetadataFilter</span><span class="p">(</span>
+                        <span class="n">key</span><span class="o">=</span><span class="s1">&#39;pub_date&#39;</span><span class="p">,</span>
+                        <span class="n">value</span><span class="o">=</span><span class="s1">&#39;2024-01-01&#39;</span><span class="p">,</span>
+                        <span class="n">operator</span><span class="o">=</span><span class="n">FilterOperator</span><span class="o">.</span><span class="n">GT</span>
+                    <span class="p">),</span>
+                    <span class="n">MetadataFilter</span><span class="p">(</span>
+                        <span class="n">key</span><span class="o">=</span><span class="s1">&#39;pub_date&#39;</span><span class="p">,</span>
+                        <span class="n">value</span><span class="o">=</span><span class="s1">&#39;2024-12-31&#39;</span><span class="p">,</span>
+                        <span class="n">operator</span><span class="o">=</span><span class="n">FilterOperator</span><span class="o">.</span><span class="n">LT</span>
+                    <span class="p">)</span>
+                <span class="p">],</span>
+                <span class="n">condition</span><span class="o">=</span><span class="n">FilterCondition</span><span class="o">.</span><span class="n">AND</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">condition</span><span class="o">=</span><span class="n">FilterCondition</span><span class="o">.</span><span class="n">OR</span>
+    <span class="p">)</span>       
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The following example shows the use of a nested <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> object with a <code class="docutils literal notranslate"><span class="pre">FilterCondition.NOT</span></code> condition. Even though there is only one <code class="docutils literal notranslate"><span class="pre">MetadataFilter</span></code> that is being negated here, it must be nested inside a <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FilterConfig</span><span class="p">(</span>
+    <span class="n">MetadataFilters</span><span class="p">(</span>
+        <span class="n">filters</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">MetadataFilters</span><span class="p">(</span>
+                <span class="n">filters</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">MetadataFilter</span><span class="p">(</span>
+                        <span class="n">key</span><span class="o">=</span><span class="s1">&#39;url&#39;</span><span class="p">,</span>
+                        <span class="n">value</span><span class="o">=</span><span class="s1">&#39;https://docs.aws.amazon.com/neptune/latest/userguide/intro.html&#39;</span><span class="p">,</span>
+                        <span class="n">operator</span><span class="o">=</span><span class="n">FilterOperator</span><span class="o">.</span><span class="n">EQ</span>
+                    <span class="p">)</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">condition</span><span class="o">=</span><span class="n">FilterCondition</span><span class="o">.</span><span class="n">NOT</span>
+    <span class="p">)</span>       
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="supported-filter-operators">
+<h3>Supported filter operators<a class="headerlink" href="#supported-filter-operators" title="Link to this heading">¶</a></h3>
+<p>The lexical graph supports the following filter operators:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operator</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Data Types</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EQ</span></code></p></td>
+<td><p>Equals – default operator</p></td>
+<td><p>string, int, float, date/datetime</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GT</span></code></p></td>
+<td><p>Greater than</p></td>
+<td><p>int, float, date/datetime</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LT</span></code></p></td>
+<td><p>Less than</p></td>
+<td><p>int, float, date/datetime</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NE</span></code></p></td>
+<td><p>Not equal to</p></td>
+<td><p>string, int, float, date/datetime</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GTE</span></code></p></td>
+<td><p>Greater than or equal to</p></td>
+<td><p>int, float, date/datetime</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LTE</span></code></p></td>
+<td><p>Less than or equal to</p></td>
+<td><p>int, float, date/datetime</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TEXT_MATCH</span></code></p></td>
+<td><p>Full text match (allows you to search for a specific substring, token or phrase within the text field)</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TEXT_MATCH_INSENSITIVE</span></code></p></td>
+<td><p>Full text match (case insensitive)</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">IS_EMPTY</span></code></p></td>
+<td><p>The field does not exist</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The following operators are not supported:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operator</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Data Types</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">IN</span></code></p></td>
+<td><p>In array</p></td>
+<td><p>string or number</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NIN</span></code></p></td>
+<td><p>Not in array</p></td>
+<td><p>string or number</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ANY</span></code></p></td>
+<td><p>Contains any</p></td>
+<td><p>array of strings</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ALL</span></code></p></td>
+<td><p>Contains all</p></td>
+<td><p>array of strings</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONTAINS</span></code></p></td>
+<td><p>Metadata array contains value (string or number)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="dates-and-datetimes">
+<h2>Dates and datetimes<a class="headerlink" href="#dates-and-datetimes" title="Link to this heading">¶</a></h2>
+<p>Matadata filtering supports filtering by date and datetime values. There are two ways in which you can ensure datetime filtering is applied during indexing and querying:</p>
+<ul class="simple">
+<li><p>Supply Python  <code class="docutils literal notranslate"><span class="pre">date</span></code>  or <code class="docutils literal notranslate"><span class="pre">datetime</span></code> objects in the metadata fields attached to source documents, and in the metadata filters applied when querying.</p></li>
+<li><p>Indicate that a field is to be treated as a datetime value by suffixing the field name with <code class="docutils literal notranslate"><span class="pre">_date</span></code> or <code class="docutils literal notranslate"><span class="pre">_datetime</span></code>. You can then supply either <code class="docutils literal notranslate"><span class="pre">date</span></code> or <code class="docutils literal notranslate"><span class="pre">datetime</span></code> objects, or string representations of dates and datetime values, when indexing and querying.</p></li>
+</ul>
+<p>In the build stage, Python <code class="docutils literal notranslate"><span class="pre">date</span></code> and <code class="docutils literal notranslate"><span class="pre">datetime</span></code> metadata values are converted to ISO-formatted datetime values before being persisted to the graph and vector stores. During querying, Python <code class="docutils literal notranslate"><span class="pre">date</span></code> and <code class="docutils literal notranslate"><span class="pre">datetime</span></code> metadata values are similarly converted to ISO-formatted datetime values before being applied in a filter.  <code class="docutils literal notranslate"><span class="pre">date</span></code> and <code class="docutils literal notranslate"><span class="pre">datetime</span></code> Pyton objects explictly communicate that a value should be treated as a date or datetime. With this approach, you do not need to add a <code class="docutils literal notranslate"><span class="pre">_date</span></code> or <code class="docutils literal notranslate"><span class="pre">_datetime</span></code> suffix to a metadata field name. However, you must ensure that  <code class="docutils literal notranslate"><span class="pre">date</span></code>  and/or <code class="docutils literal notranslate"><span class="pre">datetime</span></code> objects are used both during indexing and querying: if one or other of these stages receives a string representation of a date or datetime, filtering may not work as intended.</p>
+<p>Metadata fields that end with <code class="docutils literal notranslate"><span class="pre">_date</span></code> or <code class="docutils literal notranslate"><span class="pre">_datetime</span></code> are converted to ISO-formatted datetime values before being persisted to the graph and vector stores. Similarly, the values of metadata filters whose keys end with <code class="docutils literal notranslate"><span class="pre">_date</span></code> or <code class="docutils literal notranslate"><span class="pre">_datetime</span></code> are converted to ISO-formatted datetime values before being evaluated.</p>
+</section>
+<section id="using-metadata-to-filter-documents-in-the-extract-and-build-stages">
+<h2>Using metadata to filter documents in the extract and build stages<a class="headerlink" href="#using-metadata-to-filter-documents-in-the-extract-and-build-stages" title="Link to this heading">¶</a></h2>
+<p>Besides using metadata filtering to constrain the retrieval process, you can also use it to filter documents during the extract and build stages of the indexing process.</p>
+<section id="using-metadata-filtering-in-the-extract-stage">
+<h3>Using metadata filtering in the extract stage<a class="headerlink" href="#using-metadata-filtering-in-the-extract-stage" title="Link to this heading">¶</a></h3>
+<p>You can filter the documents that pass through the extract stage by supplying filter criteria to the <code class="docutils literal notranslate"><span class="pre">extraction_filters</span></code> of an <code class="docutils literal notranslate"><span class="pre">ExtractionConfig</span></code> object. <code class="docutils literal notranslate"><span class="pre">extraction_filters</span></code> accepts either a <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> object, a single <code class="docutils literal notranslate"><span class="pre">MetadataFilter</span></code> or a list of <code class="docutils literal notranslate"><span class="pre">MetadataFilter</span></code> objects.</p>
+<p>The following example shows how to filter source documents so that only documents with an <code class="docutils literal notranslate"><span class="pre">email</span></code> metadata field containing an <code class="docutils literal notranslate"><span class="pre">amazon.com</span></code> email address proceeed through the extraction pipeline. All other source documents will be discarded.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LexicalGraphIndex</span><span class="p">,</span> <span class="n">ExtractionConfig</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterOperator</span><span class="p">,</span> <span class="n">MetadataFilter</span>
+
+<span class="n">graph_index</span> <span class="o">=</span> <span class="n">LexicalGraphIndex</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">indexing_config</span><span class="o">=</span><span class="n">ExtractionConfig</span><span class="p">(</span>
+        <span class="n">extraction_filters</span><span class="o">=</span><span class="n">MetadataFilter</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="s1">&#39;email&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s1">&#39;amazon.com&#39;</span><span class="p">,</span>
+            <span class="n">operator</span><span class="o">=</span><span class="n">FilterOperator</span><span class="o">.</span><span class="n">TEXT_MATCH</span>
+        <span class="p">)</span>       
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Use extraction stage metadata filtering if you only want to extract a lexical graph from a subset of documents, but can’t control which documents are submitted to the ingestion process.</p>
+</section>
+<section id="using-metadata-filtering-in-the-build-stage">
+<h3>Using metadata filtering in the build stage<a class="headerlink" href="#using-metadata-filtering-in-the-build-stage" title="Link to this heading">¶</a></h3>
+<p>You can filter the documents that are used to build a lexical graph by supplying a <code class="docutils literal notranslate"><span class="pre">BuildFilters</span></code> object whose <code class="docutils literal notranslate"><span class="pre">source_filters</span></code> property contains filter criteria to a <code class="docutils literal notranslate"><span class="pre">BuildConfig</span></code> object. <code class="docutils literal notranslate"><span class="pre">source_filters</span></code> accepts either a <code class="docutils literal notranslate"><span class="pre">MetadataFilters</span></code> object, a single <code class="docutils literal notranslate"><span class="pre">MetadataFilter</span></code> or a list of <code class="docutils literal notranslate"><span class="pre">MetadataFilter</span></code> objects.</p>
+<p>The following example shows how to filter extracted documents so that only documents whose <code class="docutils literal notranslate"><span class="pre">url</span></code> metadata field contains <code class="docutils literal notranslate"><span class="pre">https://docs.aws.amazon.com/neptune/</span></code> will proceed through the build pipeline. All other extracted documents will be ignored. The resulting lexical graph is assigned to the <code class="docutils literal notranslate"><span class="pre">neptune</span></code> tenant.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LexicalGraphIndex</span><span class="p">,</span> <span class="n">BuildConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.build</span><span class="w"> </span><span class="kn">import</span> <span class="n">BuildFilters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterOperator</span><span class="p">,</span> <span class="n">MetadataFilter</span>
+
+<span class="n">graph_index</span> <span class="o">=</span> <span class="n">LexicalGraphIndex</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">indexing_config</span><span class="o">=</span><span class="n">BuildConfig</span><span class="p">(</span>
+        <span class="n">build_filters</span><span class="o">=</span><span class="n">BuildFilters</span><span class="p">(</span>
+            <span class="n">source_filters</span><span class="o">=</span><span class="n">MetadataFilter</span><span class="p">(</span>
+                <span class="n">key</span><span class="o">=</span><span class="s1">&#39;url&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="s1">&#39;https://docs.aws.amazon.com/neptune/&#39;</span><span class="p">,</span>
+                <span class="n">operator</span><span class="o">=</span><span class="n">FilterOperator</span><span class="o">.</span><span class="n">TEXT_MATCH</span>
+            <span class="p">)</span>           
+        <span class="p">)</span>
+    <span class="p">),</span>
+    <span class="n">tenant_id</span><span class="o">=</span><span class="s1">&#39;neptune&#39;</span>   
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Build-stage metadata filtering works well in an extract-once, build-many-times workload. You can extract the entire corpus to an <code class="docutils literal notranslate"><span class="pre">S3BasedDocs</span></code> sink or <code class="docutils literal notranslate"><span class="pre">FileBasedDocs</span></code> sink (see <a class="reference internal" href="indexing.html#run-the-extract-and-build-stages-separately"><span class="std std-ref">Run the extract and build stages separately</span></a>), and then build multiple lexical graphs from the extracted documents. Using different sets of filtering criteria and the <a class="reference internal" href="multi-tenancy.html"><span class="std std-doc">multi-tenancy</span></a> feature, you can build multiple, discrete lexical graphs with different contents from the same underlying sources.</p>
+</section>
+</section>
+<section id="metadata-and-document-identity">
+<h2>Metadata and document identity<a class="headerlink" href="#metadata-and-document-identity" title="Link to this heading">¶</a></h2>
+<p>The metadata associated with a source document comprises part of that document’s identity. A source document’s id is a function of the contents of the document and the metadata. Chunk, topic and statement ids are in turn a function of the source id. If you change a source document’s metadata (adding or removing fields, or changing field values), and reprocess the document, it will be indexed into new source, chunk, topic and statement nodes in the lexical graph.</p>
+</section>
+<section id="metadata-filtering-and-multi-tenancy">
+<h2>Metadata filtering and multi-tenancy<a class="headerlink" href="#metadata-filtering-and-multi-tenancy" title="Link to this heading">¶</a></h2>
+<p>Metadata filtering constrains retrieval to one or more subgraphs within a particular lexical graph. <a class="reference internal" href="multi-tenancy.html"><span class="std std-doc">Multi tenancy</span></a> creates wholly separate lexical graphs within the same underlying graph and vector stores. Metadata filtering and multi-tenancy work well together. As <a class="reference internal" href="#using-metadata-filtering-in-the-build-stage"><span class="xref myst">described above</span></a>, you can use metadata filtering to build different tenant graphs from the same extracted corpus. You can also use metadata filtering and multi tenancy when querying. The following example applies metadata filtering to a query in the context of the <code class="docutils literal notranslate"><span class="pre">neptune</span></code> tenant’s lexical graph:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LexicalGraphQueryEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterOperator</span><span class="p">,</span> <span class="n">MetadataFilter</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">LexicalGraphQueryEngine</span><span class="o">.</span><span class="n">for_traversal_based_search</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="p">,</span> 
+    <span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">filter_config</span> <span class="o">=</span> <span class="n">FilterConfig</span><span class="p">(</span>
+        <span class="n">MetadataFilter</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="s1">&#39;url&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s1">&#39;https://docs.aws.amazon.com/neptune/latest/userguide/intro.html&#39;</span><span class="p">,</span>
+            <span class="n">operator</span><span class="o">=</span><span class="n">FilterOperator</span><span class="o">.</span><span class="n">EQ</span>
+        <span class="p">)</span>
+    <span class="p">),</span>
+	<span class="n">tenant_id</span><span class="o">=</span><span class="s1">&#39;neptune&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="indexing.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Indexing</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="querying.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Querying</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="sidebar-div show-div-md justify-content-left">
+            <label class="nav-close-icon" id="toc-menu-close" for="__toc" tabindex="0">
+                <div class="visually-hidden">Toggle site table of content right sidebar</div>
+                <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+            </label>
+        </div>
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Metadata Filtering</a><ul>
+<li><a class="reference internal" href="#topics">Topics</a></li>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#adding-metadata-when-indexing">Adding metadata when indexing</a><ul>
+<li><a class="reference internal" href="#adding-metadata-to-web-pages">Adding metadata to web pages</a></li>
+<li><a class="reference internal" href="#adding-metadata-to-json-documents">Adding metadata to JSON documents</a></li>
+<li><a class="reference internal" href="#adding-metadata-to-pdf-documents">Adding metadata to PDF documents</a></li>
+<li><a class="reference internal" href="#restrictions">Restrictions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-metadata-to-filter-queries">Using metadata to filter queries</a><ul>
+<li><a class="reference internal" href="#how-are-metadata-filters-applied">How are metadata filters applied?</a></li>
+<li><a class="reference internal" href="#complex-and-nested-filter-expressions">Complex and nested filter expressions</a></li>
+<li><a class="reference internal" href="#supported-filter-operators">Supported filter operators</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dates-and-datetimes">Dates and datetimes</a></li>
+<li><a class="reference internal" href="#using-metadata-to-filter-documents-in-the-extract-and-build-stages">Using metadata to filter documents in the extract and build stages</a><ul>
+<li><a class="reference internal" href="#using-metadata-filtering-in-the-extract-stage">Using metadata filtering in the extract stage</a></li>
+<li><a class="reference internal" href="#using-metadata-filtering-in-the-build-stage">Using metadata filtering in the build stage</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#metadata-and-document-identity">Metadata and document identity</a></li>
+<li><a class="reference internal" href="#metadata-filtering-and-multi-tenancy">Metadata filtering and multi-tenancy</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>

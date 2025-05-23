@@ -1,0 +1,734 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Using AWS Profiles in GraphRAGConfig" href="aws-profile.html" /><link rel="prev" title="Multi-Tenancy" href="multi-tenancy.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>Configuration - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="graph-model.html">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="querying.html">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="metadata-filtering.html">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../falkordb/falkordb.html">falkordb package</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h1>
+<section id="topics">
+<h2>Topics<a class="headerlink" href="#topics" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="overview.html"><span class="doc std std-doc">Overview</span></a></p></li>
+<li><p><a class="reference internal" href="#graphragconfig"><span class="xref myst">GraphRAGConfig</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#llm-configuration"><span class="xref myst">LLM configuration</span></a></p></li>
+<li><p><a class="reference internal" href="#embedding-model-configuration"><span class="xref myst">Embedding model configuration</span></a></p></li>
+<li><p><a class="reference internal" href="#batch-writes"><span class="xref myst">Batch writes</span></a></p></li>
+<li><p><a class="reference internal" href="#caching-amazon-bedrock-llm-responses"><span class="xref myst">Caching Amazon Bedrock LLM responses</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#logging-configuration"><span class="xref myst">Logging configuration</span></a></p></li>
+<li><p><a class="reference internal" href="#aws-profile-configuration"><span class="xref myst">AWS profile configuration</span></a></p></li>
+</ul>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The lexical-graph provides a <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code> object that allows you to configure the LLMs and embedding models used by the indexing and retrieval processes, as well as the parallel and batch processing behaviours of the indexing pipelines. (The lexical-graph doesn’t use the LlamaIndex <code class="docutils literal notranslate"><span class="pre">Settings</span></code> object: attributes configured in <code class="docutils literal notranslate"><span class="pre">Settings</span></code> will have no impact in the graphrag-toolkit.)</p>
+<p>The lexical-graph also allows you to set the logging level and apply logging filters from within your application.</p>
+</section>
+<section id="graphragconfig">
+<h2>GraphRAGConfig<a class="headerlink" href="#graphragconfig" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code> allows you to configure LLMs, embedding models, and the extract and build processes. The configuration includes the following parameters:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default Value</p></th>
+<th class="head"><p>Environment Variable</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">extraction_llm</span></code></p></td>
+<td><p>LLM used to perform graph extraction (see <a class="reference internal" href="#llm-configuration"><span class="xref myst">LLM configuration</span></a>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">us.anthropic.claude-3-5-sonnet-20240620-v1:0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EXTRACTION_MODEL</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">response_llm</span></code></p></td>
+<td><p>LLM used to generate responses (see <a class="reference internal" href="#llm-configuration"><span class="xref myst">LLM configuration</span></a>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">us.anthropic.claude-3-5-sonnet-20240620-v1:0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RESPONSE_MODEL</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">embed_model</span></code></p></td>
+<td><p>Embedding model used to generate embeddings for indexed data and queries (see <a class="reference internal" href="#embedding-model-configuration"><span class="xref myst">Embedding model configuration</span></a>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cohere.embed-english-v3</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EMBEDDINGS_MODEL</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">embed_dimensions</span></code></p></td>
+<td><p>Number of dimensions in each vector</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1024</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EMBEDDINGS_DIMENSIONS</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">extraction_num_workers</span></code></p></td>
+<td><p>The number of parallel processes to use when running the extract stage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EXTRACTION_NUM_WORKERS</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">extraction_num_threads_per_worker</span></code></p></td>
+<td><p>The number of threads used by each process in the extract stage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">4</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EXTRACTION_NUM_THREADS_PER_WORKER</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">extraction_batch_size</span></code></p></td>
+<td><p>The number of input nodes to be processed in parallel across all workers in the extract stage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">4</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EXTRACTION_BATCH_SIZE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">build_num_workers</span></code></p></td>
+<td><p>The number of parallel processes to use when running the build stage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BUILD_NUM_WORKERS</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">build_batch_size</span></code></p></td>
+<td><p>The number of input nodes to be processed in parallel across all workers in the build stage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">4</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BUILD_BATCH_SIZE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">build_batch_write_size</span></code></p></td>
+<td><p>The number of elements to be written in a bulk operation to the graph and vector stores (see <a class="reference internal" href="#batch-writes"><span class="xref myst">Batch writes</span></a>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">25</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BUILD_BATCH_WRITE_SIZE</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">batch_writes_enabled</span></code></p></td>
+<td><p>Determines whether, on a per-worker basis, to write all elements (nodes and edges, or vectors) emitted by a batch of input nodes as a bulk operation, or singly, to the graph and vector stores (see <a class="reference internal" href="#batch-writes"><span class="xref myst">Batch writes</span></a>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BATCH_WRITES_ENABLED</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">include_domain_labels</span></code></p></td>
+<td><p>Determines whether entities will have a domain-specific label (e.g. <code class="docutils literal notranslate"><span class="pre">Company</span></code>) as well as the <a class="reference internal" href="graph-model.html#entity-relationship-tier"><span class="std std-ref">graph model’s</span></a> <code class="docutils literal notranslate"><span class="pre">__Entity__</span></code> label</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DEFAULT_INCLUDE_DOMAIN_LABELS</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">enable_cache</span></code></p></td>
+<td><p>Determines whether the results of LLM calls to models on Amazon Bedrock are cached to the local filesystem (see <a class="reference internal" href="#caching-amazon-bedrock-llm-responses"><span class="xref myst">Caching Amazon Bedrock LLM responses</span></a>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ENABLE_CACHE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">aws_profile</span></code></p></td>
+<td><p>AWS CLI named profile used to authenticate requests to Bedrock and other services</p></td>
+<td><p><em>None</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AWS_PROFILE</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">aws_region</span></code></p></td>
+<td><p>AWS region used to scope Bedrock service calls</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">us-east-1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AWS_REGION</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>To set a configuration parameter in your application code:</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
+
+<span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">response_llm</span> <span class="o">=</span> <span class="s1">&#39;anthropic.claude-3-haiku-20240307-v1:0&#39;</span> 
+<span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_num_workers</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>You can also set configuration parameters via environment variables, as per the variable names in the table above.</p>
+<section id="llm-configuration">
+<h3>LLM configuration<a class="headerlink" href="#llm-configuration" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">extraction_llm</span></code> and <code class="docutils literal notranslate"><span class="pre">response_llm</span></code> configuration parameters accept three different types of value:</p>
+<ul class="simple">
+<li><p>You can pass an instance of a LlamaIndex <code class="docutils literal notranslate"><span class="pre">LLM</span></code> object. This allows you to configure the lexical-graph for LLM backends other than Amazon Bedrock.</p></li>
+<li><p>You can pass the model id of an Amazon Bedrock model or <a class="reference external" href="https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles.html">inference profile</a>. For example: <code class="docutils literal notranslate"><span class="pre">anthropic.claude-3-5-sonnet-20240620-v1:0</span></code> (model id) or <code class="docutils literal notranslate"><span class="pre">us.anthropic.claude-3-5-sonnet-20240620-v1:0</span></code> (inference profile).</p></li>
+<li><p>You can pass a JSON string representation of a LlamaIndex <code class="docutils literal notranslate"><span class="pre">BedrockConverse</span></code> instance. For example:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;anthropic.claude-3-5-sonnet-20240620-v1:0&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+  <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+  <span class="s2">&quot;streaming&quot;</span><span class="p">:</span> <span class="n">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="embedding-model-configuration">
+<h3>Embedding model configuration<a class="headerlink" href="#embedding-model-configuration" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">embed_model</span></code> configuration parameter accepts three different types of value:</p>
+<ul class="simple">
+<li><p>You can pass an instance of a LlamaIndex <code class="docutils literal notranslate"><span class="pre">BaseEmbedding</span></code> object. This allows you to configure the lexical-graph for embedding backends other than Amazon Bedrock.</p></li>
+<li><p>You can pass the model name of an Amazon Bedrock model. For example: <code class="docutils literal notranslate"><span class="pre">amazon.titan-embed-text-v1</span></code>.</p></li>
+<li><p>You can pass a JSON string representation of a LlamaIndex <code class="docutils literal notranslate"><span class="pre">Bedrock</span></code> instance. For example:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;model_name&quot;</span><span class="p">:</span> <span class="s2">&quot;amazon.titan-embed-text-v2:0&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;dimensions&quot;</span><span class="p">:</span> <span class="mi">512</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>When configuring an embedding model, you must also set the <code class="docutils literal notranslate"><span class="pre">embed_dimensions</span></code> configuration parameter.</p>
+</section>
+<section id="batch-writes">
+<h3>Batch writes<a class="headerlink" href="#batch-writes" title="Link to this heading">¶</a></h3>
+<p>The lexical-graph uses microbatching to progress source data through the extract and build stages.</p>
+<ul class="simple">
+<li><p>In the extract stage a batch of source nodes is processed in parallel by one or more workers, with each worker performing chunking, proposition extraction and topic/statement/fact/entity extraction over its allocated source nodes. For a given batch of source nodes, the extract stage emits a collection of chunks derived from those source nodes.</p></li>
+<li><p>In the build stage, chunks from the extract stage are broken down into smaller <em>indexable</em> nodes representing sources, chunks, topics, statements and facts. These indexable nodes are then processed by the graph construction and vector indexing handlers.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">batch_writes_enabled</span></code> configuration parameter determines whether all of the indexable nodes derived from a batch of incoming chunks are written to the graph and vector stores singly, or as a bulk operation. Bulk/batch operations tend to improve the throughput of the build stage, at the expense of some additonal latency with regard to this data becoming available to query.</p>
+</section>
+<section id="caching-amazon-bedrock-llm-responses">
+<h3>Caching Amazon Bedrock LLM responses<a class="headerlink" href="#caching-amazon-bedrock-llm-responses" title="Link to this heading">¶</a></h3>
+<p>If you’re using Amazon Bedrock, you can use the local filesystem to cache and reuse LLM responses. Set <code class="docutils literal notranslate"><span class="pre">GraphRAGoOnfig.enable_cache</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>. LLM responses will then be saved in clear text to a <code class="docutils literal notranslate"><span class="pre">cache</span></code> directory. Subsequent invocations of the same model with the exact same prompt will return the cached response.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">cache</span></code> directory can grow very large, particularly if you are caching extraction responses for a very large ingest. The lexical-graph will not manage the size of this directory or delete old entries. If you enable the cache, ensure you clear or prune the cache directory regularly.</p>
+</section>
+</section>
+<section id="logging-configuration">
+<h2>Logging configuration<a class="headerlink" href="#logging-configuration" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">graphrag_toolkit</span></code> provides two methods for configuring logging in your application. These methods allow you to set logging levels, apply filters to include or exclude specific modules or messages, and customize logging behavior:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">set_logging_config</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set_advanced_logging_config</span></code></p></li>
+</ul>
+<section id="set-logging-config">
+<h3>set_logging_config<a class="headerlink" href="#set-logging-config" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">set_logging_config</span></code> method allows you to configure logging with a basic set of options, such as logging level and module filters. Wildcards are supported for module names, and you can pass either a single string or a list of strings for included or excluded modules. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_logging_config</span>
+
+<span class="n">set_logging_config</span><span class="p">(</span>
+  <span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;DEBUG&#39;</span><span class="p">,</span>  <span class="c1"># or logging.DEBUG</span>
+  <span class="n">debug_include_modules</span><span class="o">=</span><span class="s1">&#39;graphrag_toolkit.lexical_graph.storage&#39;</span><span class="p">,</span>  <span class="c1"># single string or list of strings</span>
+  <span class="n">debug_exclude_modules</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;opensearch&#39;</span><span class="p">,</span> <span class="s1">&#39;boto&#39;</span><span class="p">]</span>  <span class="c1"># single string or list of strings</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="set-advanced-logging-config">
+<h3>set_advanced_logging_config<a class="headerlink" href="#set-advanced-logging-config" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">set_advanced_logging_config</span></code> method provides more advanced logging configuration options, including the ability to specify filters for included and excluded modules or messages based on logging levels. Wildcards are supported only for module names, and you can pass either a single string or a list of strings for modules. This method offers greater flexibility and control over the logging behavior.</p>
+<section id="parameters">
+<h4>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h4>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">logging_level</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>The logging level to apply (e.g., <code class="docutils literal notranslate"><span class="pre">'DEBUG'</span></code>, <code class="docutils literal notranslate"><span class="pre">'INFO'</span></code>, <code class="docutils literal notranslate"><span class="pre">logging.DEBUG</span></code>, etc.).</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">logging.INFO</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">included_modules</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict[int,</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">list[str]]</span></code></p></td>
+<td><p>Modules to include in logging, grouped by logging level. Wildcards are supported.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">excluded_modules</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict[int,</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">list[str]]</span></code></p></td>
+<td><p>Modules to exclude from logging, grouped by logging level. Wildcards are supported.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">included_messages</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict[int,</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">list[str]]</span></code></p></td>
+<td><p>Specific messages to include in logging, grouped by logging level. Wildcards are supported.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">excluded_messages</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict[int,</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">list[str]]</span></code></p></td>
+<td><p>Specific messages to exclude from logging, grouped by logging level.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="example-usage">
+<h4>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">¶</a></h4>
+<p>Here is an example of how to use <code class="docutils literal notranslate"><span class="pre">set_advanced_logging_config</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_advanced_logging_config</span>
+
+<span class="n">set_advanced_logging_config</span><span class="p">(</span>
+    <span class="n">logging_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span>
+    <span class="n">included_modules</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span> <span class="s1">&#39;graphrag_toolkit&#39;</span><span class="p">,</span>  <span class="c1"># single string or list of strings</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span>  <span class="c1"># wildcard supported</span>
+    <span class="p">},</span>
+    <span class="n">excluded_modules</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;opensearch&#39;</span><span class="p">,</span> <span class="s1">&#39;boto&#39;</span><span class="p">,</span> <span class="s1">&#39;urllib&#39;</span><span class="p">],</span>  <span class="c1"># single string or list of strings</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;opensearch&#39;</span><span class="p">,</span> <span class="s1">&#39;boto&#39;</span><span class="p">,</span> <span class="s1">&#39;urllib&#39;</span><span class="p">],</span>  <span class="c1"># wildcard supported</span>
+    <span class="p">},</span>
+    <span class="n">excluded_messages</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span> <span class="s1">&#39;Removing unpickleable private attribute&#39;</span><span class="p">,</span>  <span class="c1"># single string or list of strings</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="aws-profile-configuration">
+<h2>AWS profile configuration<a class="headerlink" href="#aws-profile-configuration" title="Link to this heading">¶</a></h2>
+<p>You can explicitly configure the AWS CLI profile and region to use when initializing Bedrock clients or other AWS service clients in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code>. This ensures compatibility across local development, EC2/ECS environments, or federated environments such as AWS SSO.</p>
+<p>You may set the AWS profile and region in your application code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
+
+<span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">aws_profile</span> <span class="o">=</span> <span class="s1">&#39;padmin&#39;</span>
+<span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">aws_region</span> <span class="o">=</span> <span class="s1">&#39;us-east-1&#39;</span>
+</pre></div>
+</div>
+<p>Alternatively, use environment variables:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_PROFILE</span><span class="o">=</span>padmin
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_REGION</span><span class="o">=</span>us-east-1
+</pre></div>
+</div>
+<p>If no profile or region is set explicitly, the system will fall back to environment variables or use the default AWS CLI configuration.</p>
+<p>See <a class="reference internal" href="aws-profile.html"><span class="std std-doc">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></span></a> for more details on configuring and using <strong>AWS named profiles</strong> in the lexical-graph by leveraging the <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code> class.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="aws-profile.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="multi-tenancy.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Multi-Tenancy</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="sidebar-div show-div-md justify-content-left">
+            <label class="nav-close-icon" id="toc-menu-close" for="__toc" tabindex="0">
+                <div class="visually-hidden">Toggle site table of content right sidebar</div>
+                <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+            </label>
+        </div>
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Configuration</a><ul>
+<li><a class="reference internal" href="#topics">Topics</a></li>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#graphragconfig">GraphRAGConfig</a><ul>
+<li><a class="reference internal" href="#llm-configuration">LLM configuration</a></li>
+<li><a class="reference internal" href="#embedding-model-configuration">Embedding model configuration</a></li>
+<li><a class="reference internal" href="#batch-writes">Batch writes</a></li>
+<li><a class="reference internal" href="#caching-amazon-bedrock-llm-responses">Caching Amazon Bedrock LLM responses</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#logging-configuration">Logging configuration</a><ul>
+<li><a class="reference internal" href="#set-logging-config">set_logging_config</a></li>
+<li><a class="reference internal" href="#set-advanced-logging-config">set_advanced_logging_config</a><ul>
+<li><a class="reference internal" href="#parameters">Parameters</a></li>
+<li><a class="reference internal" href="#example-usage">Example Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#aws-profile-configuration">AWS profile configuration</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>

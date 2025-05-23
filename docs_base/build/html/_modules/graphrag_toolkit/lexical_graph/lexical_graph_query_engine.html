@@ -1,0 +1,990 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>graphrag_toolkit.lexical_graph.lexical_graph_query_engine - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/graph-model.html">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/querying.html">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/metadata-filtering.html">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../md/lexical-graph/faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for graphrag_toolkit.lexical_graph.lexical_graph_query_engine</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</span>
+<span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">json2xml</span><span class="w"> </span><span class="kn">import</span> <span class="n">json2xml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.tenant_id</span><span class="w"> </span><span class="kn">import</span> <span class="n">TenantIdType</span><span class="p">,</span> <span class="n">to_tenant_id</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMCache</span><span class="p">,</span> <span class="n">LLMCacheType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ANSWER_QUESTION_SYSTEM_PROMPT</span><span class="p">,</span>
+    <span class="n">ANSWER_QUESTION_USER_PROMPT</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BedrockContextFormat</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CompositeTraversalBasedRetriever</span><span class="p">,</span>
+    <span class="n">SemanticGuidedRetriever</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">StatementCosineSimilaritySearch</span><span class="p">,</span>
+    <span class="n">KeywordRankingSearch</span><span class="p">,</span>
+    <span class="n">SemanticBeamGraphSearch</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">WeightedTraversalBasedRetrieverType</span><span class="p">,</span>
+    <span class="n">SemanticGuidedRetrieverType</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStoreFactory</span><span class="p">,</span> <span class="n">GraphStoreType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStoreFactory</span><span class="p">,</span> <span class="n">VectorStoreType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiTenantGraphStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MultiTenantVectorStore</span><span class="p">,</span>
+    <span class="n">ReadOnlyVectorStore</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_embedded_query</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMessage</span><span class="p">,</span> <span class="n">MessageRole</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">NodeWithScore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.base.base_query_engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseQueryEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.base.base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseRetriever</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.postprocessor.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseNodePostprocessor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.callbacks.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CallbackManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.base.response.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">RESPONSE_TYPE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.base.response.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.prompts.mixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptDictType</span><span class="p">,</span> <span class="n">PromptMixinType</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">RetrieverType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">BaseRetriever</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseRetriever</span><span class="p">]]</span>
+<span class="n">PostProcessorsType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">BaseNodePostprocessor</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNodePostprocessor</span><span class="p">]]</span>
+
+
+<div class="viewcode-block" id="LexicalGraphQueryEngine">
+<a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.lexical_graph_query_engine.LexicalGraphQueryEngine">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LexicalGraphQueryEngine</span><span class="p">(</span><span class="n">BaseQueryEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages query execution over a graph and vector store for multi-tenant setups,</span>
+<span class="sd">    supporting traversal-based and semantic-guided search. This class enables</span>
+<span class="sd">    customization with retrievers, post-processors, and filtering configurations</span>
+<span class="sd">    to enhance search accuracy and flexibility.</span>
+
+<span class="sd">    This engine facilitates two distinct search strategies:</span>
+<span class="sd">    1. Traversal-based search: Focused on graph traversal techniques combined</span>
+<span class="sd">       with weighted retriever logic to prioritize paths.</span>
+<span class="sd">    2. Semantic-guided search: Designed to leverage semantic similarity,</span>
+<span class="sd">       contextual ranking, and complex multi-layered searches.</span>
+
+<span class="sd">    Attributes can be customized or extended to suit various tenant-specific</span>
+<span class="sd">    requirements while maintaining compatibility with multi-tenant operations.</span>
+
+<span class="sd">    :ivar graph_store: Multi-tenant compatible storage backend for graphs.</span>
+<span class="sd">    :type graph_store: GraphStoreType</span>
+<span class="sd">    :ivar vector_store: Multi-tenant compatible storage backend for vectors.</span>
+<span class="sd">    :type vector_store: VectorStoreType</span>
+<span class="sd">    :ivar tenant_id: Identifier for multi-tenant usage to differentiate stored data.</span>
+<span class="sd">    :type tenant_id: Optional[TenantIdType]</span>
+<span class="sd">    :ivar llm: Optional language model configuration for query enhancement.</span>
+<span class="sd">    :type llm: Optional[LLMCacheType]</span>
+<span class="sd">    :ivar system_prompt: Optional system metadata prompt used in chat templates.</span>
+<span class="sd">    :type system_prompt: Optional[str]</span>
+<span class="sd">    :ivar user_prompt: Optional user metadata prompt used in chat templates.</span>
+<span class="sd">    :type user_prompt: Optional[str]</span>
+<span class="sd">    :ivar retriever: Configured retriever instance for executing queries.</span>
+<span class="sd">    :type retriever: Optional[RetrieverType]</span>
+<span class="sd">    :ivar post_processors: Collection of post-processors for refining query results.</span>
+<span class="sd">    :type post_processors: Optional[PostProcessorsType]</span>
+<span class="sd">    :ivar callback_manager: Handles callbacks during query execution processes.</span>
+<span class="sd">    :type callback_manager: Optional[CallbackManager]</span>
+<span class="sd">    :ivar filter_config: Configuration for result filtering during search.</span>
+<span class="sd">    :type filter_config: FilterConfig</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LexicalGraphQueryEngine.for_traversal_based_search">
+<a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.lexical_graph_query_engine.LexicalGraphQueryEngine.for_traversal_based_search">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">for_traversal_based_search</span><span class="p">(</span>
+        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStoreType</span><span class="p">,</span>
+        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStoreType</span><span class="p">,</span>
+        <span class="n">tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TenantIdType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">retrievers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">WeightedTraversalBasedRetrieverType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">post_processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PostProcessorsType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Static method to create a LexicalGraphQueryEngine for traversal-based search.</span>
+<span class="sd">        This method configures a multi-tenant graph and vector store, and initializes</span>
+<span class="sd">        a composite traversal-based retriever. It encapsulates the setup process for</span>
+<span class="sd">        performing lexical graph queries based on traversal search logic.</span>
+
+<span class="sd">        :param graph_store: An instance of a graph store to be used for handling</span>
+<span class="sd">            graph-based data queries and operations.</span>
+<span class="sd">        :type graph_store: GraphStoreType</span>
+<span class="sd">        :param vector_store: An instance of a vector store to manage and retrieve</span>
+<span class="sd">            vector embeddings for the search.</span>
+<span class="sd">        :type vector_store: VectorStoreType</span>
+<span class="sd">        :param tenant_id: An optional identifier for the tenant, which allows</span>
+<span class="sd">            multi-tenant support. If `None`, a default tenant configuration will</span>
+<span class="sd">            be applied.</span>
+<span class="sd">        :type tenant_id: Optional[TenantIdType]</span>
+<span class="sd">        :param retrievers: A list of retrievers with weights to perform data retrieval</span>
+<span class="sd">            based on traversal logic. If not provided, defaults to `None`.</span>
+<span class="sd">        :type retrievers: Optional[List[WeightedTraversalBasedRetrieverType]]</span>
+<span class="sd">        :param post_processors: An optional collection of post-processors to handle</span>
+<span class="sd">            post-query processing or transformations. Defaults to `None` if not</span>
+<span class="sd">            specified.</span>
+<span class="sd">        :type post_processors: Optional[PostProcessorsType]</span>
+<span class="sd">        :param filter_config: A configuration object for applying filters during</span>
+<span class="sd">            the query process. Uses a default `FilterConfig` if not provided.</span>
+<span class="sd">        :type filter_config: FilterConfig</span>
+<span class="sd">        :param kwargs: Additional keyword arguments to customize and extend the</span>
+<span class="sd">            initialization or processing behavior.</span>
+<span class="sd">        :type kwargs: dict</span>
+<span class="sd">        :return: An instance of `LexicalGraphQueryEngine` configured for traversal-based</span>
+<span class="sd">            search with the given graph and vector store, retriever, filter settings,</span>
+<span class="sd">            and customization options.</span>
+<span class="sd">        :rtype: LexicalGraphQueryEngine</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">to_tenant_id</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">)</span>
+        <span class="n">filter_config</span> <span class="o">=</span> <span class="n">filter_config</span> <span class="ow">or</span> <span class="n">FilterConfig</span><span class="p">()</span>
+
+        <span class="n">graph_store</span> <span class="o">=</span> <span class="n">MultiTenantGraphStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
+            <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span><span class="n">graph_store</span><span class="p">),</span> <span class="n">tenant_id</span>
+        <span class="p">)</span>
+
+        <span class="n">vector_store</span> <span class="o">=</span> <span class="n">ReadOnlyVectorStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
+            <span class="n">MultiTenantVectorStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
+                <span class="n">VectorStoreFactory</span><span class="o">.</span><span class="n">for_vector_store</span><span class="p">(</span><span class="n">vector_store</span><span class="p">),</span> <span class="n">tenant_id</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">retriever</span> <span class="o">=</span> <span class="n">CompositeTraversalBasedRetriever</span><span class="p">(</span>
+            <span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">vector_store</span><span class="p">,</span>
+            <span class="n">retrievers</span><span class="o">=</span><span class="n">retrievers</span><span class="p">,</span>
+            <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">LexicalGraphQueryEngine</span><span class="p">(</span>
+            <span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">vector_store</span><span class="p">,</span>
+            <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span>
+            <span class="n">retriever</span><span class="o">=</span><span class="n">retriever</span><span class="p">,</span>
+            <span class="n">post_processors</span><span class="o">=</span><span class="n">post_processors</span><span class="p">,</span>
+            <span class="n">context_format</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+            <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LexicalGraphQueryEngine.for_semantic_guided_search">
+<a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.lexical_graph_query_engine.LexicalGraphQueryEngine.for_semantic_guided_search">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">for_semantic_guided_search</span><span class="p">(</span>
+        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStoreType</span><span class="p">,</span>
+        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStoreType</span><span class="p">,</span>
+        <span class="n">tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TenantIdType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">retrievers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SemanticGuidedRetrieverType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">post_processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PostProcessorsType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Factory method to create and configure a `LexicalGraphQueryEngine` instance for</span>
+<span class="sd">        semantic guided search. This method sets up the graph store and vector store</span>
+<span class="sd">        with tenant-specific configurations, initializes default retrievers for</span>
+<span class="sd">        semantic and keyword-based search, and creates a `SemanticGuidedRetriever`</span>
+<span class="sd">        instance to facilitate the interaction between stores and retrievers.</span>
+
+<span class="sd">        :param graph_store: The graph storage system to store and query data.</span>
+<span class="sd">        :param vector_store: The vector storage system to perform vector-based operations.</span>
+<span class="sd">        :param tenant_id: Optional identifier to isolate data and resources for a specific tenant.</span>
+<span class="sd">        :param retrievers: Optional list of retriever instances for semantic-guided search.</span>
+<span class="sd">        :param post_processors: Optional post-processing stages for refining query results.</span>
+<span class="sd">        :param filter_config: Configuration to apply filters during the search process.</span>
+<span class="sd">        :param kwargs: Additional keyword arguments for customization.</span>
+<span class="sd">        :return: An instance of `LexicalGraphQueryEngine` configured for semantic guided search.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">to_tenant_id</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">)</span>
+        <span class="n">filter_config</span> <span class="o">=</span> <span class="n">filter_config</span> <span class="ow">or</span> <span class="n">FilterConfig</span><span class="p">()</span>
+
+        <span class="n">graph_store</span> <span class="o">=</span> <span class="n">MultiTenantGraphStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
+            <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span><span class="n">graph_store</span><span class="p">),</span> <span class="n">tenant_id</span>
+        <span class="p">)</span>
+
+        <span class="n">vector_store</span> <span class="o">=</span> <span class="n">ReadOnlyVectorStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
+            <span class="n">MultiTenantVectorStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
+                <span class="n">VectorStoreFactory</span><span class="o">.</span><span class="n">for_vector_store</span><span class="p">(</span><span class="n">vector_store</span><span class="p">),</span> <span class="n">tenant_id</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">retrievers</span> <span class="o">=</span> <span class="n">retrievers</span> <span class="ow">or</span> <span class="p">[</span>
+            <span class="n">StatementCosineSimilaritySearch</span><span class="p">(</span>
+                <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+                <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+                <span class="n">top_k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">KeywordRankingSearch</span><span class="p">(</span>
+                <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+                <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+                <span class="n">max_keywords</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">SemanticBeamGraphSearch</span><span class="p">(</span>
+                <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+                <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+                <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                <span class="n">beam_width</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">]</span>
+
+        <span class="n">retriever</span> <span class="o">=</span> <span class="n">SemanticGuidedRetriever</span><span class="p">(</span>
+            <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+            <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">retrievers</span><span class="o">=</span><span class="n">retrievers</span><span class="p">,</span>
+            <span class="n">share_results</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">LexicalGraphQueryEngine</span><span class="p">(</span>
+            <span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">vector_store</span><span class="p">,</span>
+            <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span>
+            <span class="n">retriever</span><span class="o">=</span><span class="n">retriever</span><span class="p">,</span>
+            <span class="n">post_processors</span><span class="o">=</span><span class="n">post_processors</span><span class="p">,</span>
+            <span class="n">context_format</span><span class="o">=</span><span class="s1">&#39;bedrock_xml&#39;</span><span class="p">,</span>
+            <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStoreType</span><span class="p">,</span>
+        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStoreType</span><span class="p">,</span>
+        <span class="n">tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TenantIdType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">llm</span><span class="p">:</span> <span class="n">LLMCacheType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">system_prompt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANSWER_QUESTION_SYSTEM_PROMPT</span><span class="p">,</span>
+        <span class="n">user_prompt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANSWER_QUESTION_USER_PROMPT</span><span class="p">,</span>
+        <span class="n">retriever</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RetrieverType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">post_processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PostProcessorsType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">callback_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManager</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This initializer sets up the necessary components for a service or system that</span>
+<span class="sd">        involves interaction with graph databases, vector stores, and other dependencies</span>
+<span class="sd">        to offer enriched capabilities like retrieval, processing, and customizable prompts.</span>
+<span class="sd">        It initializes the required stores, large language model interface, prompt templates,</span>
+<span class="sd">        retriever, and post-processing configurations. Additional optional configurations,</span>
+<span class="sd">        such as callback management and filtering criteria, can also be provided.</span>
+
+<span class="sd">        :param graph_store: An object representing the underlying graph storage solution.</span>
+<span class="sd">        :param vector_store: A vector-based storage system for retrieval or indexing.</span>
+<span class="sd">        :param tenant_id: An optional identifier for tenants to support multi-tenancy.</span>
+<span class="sd">        :param llm: A large language model or its cache, used for generating responses.</span>
+<span class="sd">        :param system_prompt: A predefined system prompt for conversational contexts.</span>
+<span class="sd">        :param user_prompt: A predefined user prompt for conversational contexts.</span>
+<span class="sd">        :param retriever: Optional object responsible for data or document retrieval.</span>
+<span class="sd">        :param post_processors: Optional list or single post-processor for additional</span>
+<span class="sd">            transformations.</span>
+<span class="sd">        :param callback_manager: Optional callback management interface for handling asynchronous</span>
+<span class="sd">            or event-based actions.</span>
+<span class="sd">        :param filter_config: Configuration parameters specifying filtering options for retrieval.</span>
+<span class="sd">        :param kwargs: Additional keyword arguments for custom configurations or extensions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">to_tenant_id</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">)</span>
+
+        <span class="n">graph_store</span> <span class="o">=</span> <span class="n">MultiTenantGraphStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
+            <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span><span class="n">graph_store</span><span class="p">),</span> <span class="n">tenant_id</span>
+        <span class="p">)</span>
+        <span class="n">vector_store</span> <span class="o">=</span> <span class="n">ReadOnlyVectorStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
+            <span class="n">MultiTenantVectorStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
+                <span class="n">VectorStoreFactory</span><span class="o">.</span><span class="n">for_vector_store</span><span class="p">(</span><span class="n">vector_store</span><span class="p">),</span> <span class="n">tenant_id</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">context_format</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;context_format&#39;</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">llm</span>
+            <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
+                <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">response_llm</span><span class="p">,</span>
+                <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chat_template</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="p">(</span>
+            <span class="n">message_templates</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">SYSTEM</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">),</span>
+                <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">user_prompt</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">retriever</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">retriever</span><span class="p">,</span> <span class="n">BaseRetriever</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">retriever</span> <span class="o">=</span> <span class="n">retriever</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">retriever</span> <span class="o">=</span> <span class="n">retriever</span><span class="p">(</span>
+                    <span class="n">graph_store</span><span class="p">,</span> <span class="n">vector_store</span><span class="p">,</span> <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">retriever</span> <span class="o">=</span> <span class="n">CompositeTraversalBasedRetriever</span><span class="p">(</span>
+                <span class="n">graph_store</span><span class="p">,</span> <span class="n">vector_store</span><span class="p">,</span> <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">post_processors</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">post_processors</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">post_processors</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">post_processors</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+                <span class="k">else</span> <span class="p">[</span><span class="n">post_processors</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">post_processors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">context_format</span> <span class="o">==</span> <span class="s1">&#39;bedrock_xml&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">post_processors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BedrockContextFormat</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">callback_manager</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">post_processor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_processors</span><span class="p">:</span>
+                <span class="n">post_processor</span><span class="o">.</span><span class="n">callback_manager</span> <span class="o">=</span> <span class="n">callback_manager</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">callback_manager</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates a response based on the provided query and context using the language</span>
+<span class="sd">        model&#39;s prediction capabilities. The function uses a predefined chat template</span>
+<span class="sd">        to construct the appropriate prompt and invokes the language model to generate</span>
+<span class="sd">        a relevant response. In case of an error during the prediction process, it logs</span>
+<span class="sd">        the exception details and re-raises the error for further handling.</span>
+
+<span class="sd">        :param query_bundle: Contains the query string and additional query-related</span>
+<span class="sd">                             information needed for response generation.</span>
+<span class="sd">        :type query_bundle: QueryBundle</span>
+<span class="sd">        :param context: Contextual information or prior search results required to</span>
+<span class="sd">                        generate an informed response.</span>
+<span class="sd">        :type context: str</span>
+<span class="sd">        :return: The generated response from the language model based on the input query</span>
+<span class="sd">                 and contextual information.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+                <span class="n">prompt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chat_template</span><span class="p">,</span>
+                <span class="n">query</span><span class="o">=</span><span class="n">query_bundle</span><span class="o">.</span><span class="n">query_str</span><span class="p">,</span>
+                <span class="n">search_results</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">response</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Error answering query [query: </span><span class="si">{</span><span class="n">query_bundle</span><span class="o">.</span><span class="n">query_str</span><span class="si">}</span><span class="s1">, context: </span><span class="si">{</span><span class="n">context</span><span class="si">}</span><span class="s1">]&#39;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_format_as_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_results</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Formats a list of JSON objects into a summary text block. Each JSON object is</span>
+<span class="sd">        expected to contain information about a specific topic, including related</span>
+<span class="sd">        statements and a source. The generated text contains a heading for the topic,</span>
+<span class="sd">        a concatenated list of its statements, and the source.</span>
+
+<span class="sd">        :param json_results: List of dictionaries, where each dictionary represents</span>
+<span class="sd">            a structured topic with keys &#39;topic&#39; (str), &#39;statements&#39; (list of str),</span>
+<span class="sd">            and &#39;source&#39; (str).</span>
+<span class="sd">        :return: Formatted string that compiles the topics, their statements, and</span>
+<span class="sd">            their sources into a single block of text.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">json_result</span> <span class="ow">in</span> <span class="n">json_results</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;## </span><span class="si">{</span><span class="n">json_result</span><span class="p">[</span><span class="s1">&#39;topic&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">json_result</span><span class="p">[</span><span class="s1">&#39;statements&#39;</span><span class="p">]]))</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;[Source: </span><span class="si">{</span><span class="n">json_result</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_format_context</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">search_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">],</span> <span class="n">context_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;json&#39;</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Formats the given search results into the specified context format.</span>
+
+<span class="sd">        This method takes a list of search results and formats them into one of</span>
+<span class="sd">        several supported formats such as JSON, YAML, XML, or plain text. By</span>
+<span class="sd">        default, it formats the search results into JSON. If the specified context</span>
+<span class="sd">        format is &#39;bedrock_xml&#39;, it concatenates the plain text of each result,</span>
+<span class="sd">        separated by a newline character.</span>
+
+<span class="sd">        :param search_results: A list of search results where each result is an</span>
+<span class="sd">            instance of NodeWithScore containing details about the result.</span>
+<span class="sd">        :type search_results: List[NodeWithScore]</span>
+<span class="sd">        :param context_format: The format the search results should be formatted</span>
+<span class="sd">            into. Supported formats are &#39;json&#39;, &#39;yaml&#39;, &#39;xml&#39;, &#39;text&#39;, and</span>
+<span class="sd">            &#39;bedrock_xml&#39;. Default is &#39;json&#39;.</span>
+<span class="sd">        :type context_format: str</span>
+<span class="sd">        :return: A formatted string representation of the search results in the</span>
+<span class="sd">            specified format.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">context_format</span> <span class="o">==</span> <span class="s1">&#39;bedrock_xml&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">result</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">])</span>
+
+        <span class="n">json_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">]</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">context_format</span> <span class="o">==</span> <span class="s1">&#39;yaml&#39;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">json_results</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">context_format</span> <span class="o">==</span> <span class="s1">&#39;xml&#39;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json2xml</span><span class="o">.</span><span class="n">Json2xml</span><span class="p">(</span><span class="n">json_results</span><span class="p">,</span> <span class="n">attr_type</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_xml</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">context_format</span> <span class="o">==</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_as_text</span><span class="p">(</span><span class="n">json_results</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">json_results</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+
+<div class="viewcode-block" id="LexicalGraphQueryEngine.retrieve">
+<a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.lexical_graph_query_engine.LexicalGraphQueryEngine.retrieve">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a list of nodes with scores based on the given query bundle. The method</span>
+<span class="sd">        applies a sequence of retrieval and optional post-processing steps to generate</span>
+<span class="sd">        the final results.</span>
+
+<span class="sd">        :param query_bundle: The query bundle used to retrieve information. It can be a</span>
+<span class="sd">            string or a pre-constructed instance of the QueryBundle class.</span>
+<span class="sd">        :type query_bundle: QueryBundle</span>
+<span class="sd">        :return: A list of nodes paired with their respective scores, which represent</span>
+<span class="sd">            the retrieved and processed results.</span>
+<span class="sd">        :rtype: List[NodeWithScore]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query_bundle</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">QueryBundle</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">query_bundle</span>
+        <span class="p">)</span>
+
+        <span class="n">query_bundle</span> <span class="o">=</span> <span class="n">to_embedded_query</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">,</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">embed_model</span><span class="p">)</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">post_processor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_processors</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">post_processor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RESPONSE_TYPE</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes a query processing workflow that involves embedding the query, retrieving relevant</span>
+<span class="sd">        results, applying post-processing, and generating a response based on the processed context.</span>
+
+<span class="sd">        :param query_bundle:</span>
+<span class="sd">            An instance of `QueryBundle` that contains the query and any related metadata required</span>
+<span class="sd">            for processing.</span>
+<span class="sd">        :return:</span>
+<span class="sd">            An instance of `RESPONSE_TYPE` containing the generated response, source nodes, and</span>
+<span class="sd">            associated metadata.</span>
+<span class="sd">        :raises Exception:</span>
+<span class="sd">            Raised if an error occurs during any step of the query processing or response generation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+
+            <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="n">query_bundle</span> <span class="o">=</span> <span class="n">to_embedded_query</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">,</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">embed_model</span><span class="p">)</span>
+
+            <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span>
+
+            <span class="n">end_retrieve</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">post_processor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_processors</span><span class="p">:</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">post_processor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">)</span>
+
+            <span class="n">end_postprocessing</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_context</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">context_format</span><span class="p">)</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_response</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+            <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="n">retrieve_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_retrieve</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+            <span class="n">postprocess_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_postprocessing</span> <span class="o">-</span> <span class="n">end_retrieve</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+            <span class="n">answer_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">end_retrieve</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+            <span class="n">total_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+
+            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;retrieve_ms&#39;</span><span class="p">:</span> <span class="n">retrieve_ms</span><span class="p">,</span>
+                <span class="s1">&#39;postprocessing_ms&#39;</span><span class="p">:</span> <span class="n">postprocess_ms</span><span class="p">,</span>
+                <span class="s1">&#39;answer_ms&#39;</span><span class="p">:</span> <span class="n">answer_ms</span><span class="p">,</span>
+                <span class="s1">&#39;total_ms&#39;</span><span class="p">:</span> <span class="n">total_ms</span><span class="p">,</span>
+                <span class="s1">&#39;context_format&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">context_format</span><span class="p">,</span>
+                <span class="s1">&#39;retriever&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">retriever</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">retriever</span><span class="o">.</span><span class="vm">__dict__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">query_bundle</span><span class="o">.</span><span class="n">query_str</span><span class="p">,</span>
+                <span class="s1">&#39;postprocessors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_processors</span><span class="p">],</span>
+                <span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="n">context</span><span class="p">,</span>
+                <span class="s1">&#39;num_source_nodes&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">),</span>
+            <span class="p">}</span>
+
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">response</span><span class="o">=</span><span class="n">answer</span><span class="p">,</span> <span class="n">source_nodes</span><span class="o">=</span><span class="n">results</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Error in query processing&#39;</span><span class="p">)</span>
+            <span class="k">raise</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_aquery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RESPONSE_TYPE</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute an asynchronous query operation using a provided query bundle.</span>
+
+<span class="sd">        :param query_bundle: The collection of data and queries encapsulated</span>
+<span class="sd">            in a QueryBundle object.</span>
+<span class="sd">        :type query_bundle: QueryBundle</span>
+<span class="sd">        :return: The result of the query operation, adhering to the specified</span>
+<span class="sd">            RESPONSE_TYPE.</span>
+<span class="sd">        :rtype: RESPONSE_TYPE</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_prompts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptDictType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the dictionary containing prompts.</span>
+
+<span class="sd">        This method is responsible for returning a dictionary</span>
+<span class="sd">        structured as prompt keys mapped to their specific</span>
+<span class="sd">        text content or configurations. The type structure of</span>
+<span class="sd">        the returned dictionary is predefined.</span>
+
+<span class="sd">        :return: Dictionary containing prompts.</span>
+<span class="sd">        :rtype: PromptDictType</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_prompt_modules</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptMixinType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the prompt modules associated with the current object.</span>
+
+<span class="sd">        This method is intended for internal use and fetches a specified type of</span>
+<span class="sd">        prompt modules. The functionality may be utilized as part of processing</span>
+<span class="sd">        or generation pipelines where prompts are required.</span>
+
+<span class="sd">        :return: The prompt modules associated with this object.</span>
+<span class="sd">        :rtype: PromptMixinType</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_prompts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompts_dict</span><span class="p">:</span> <span class="n">PromptDictType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the internal state of prompts by applying the provided dictionary of prompts.</span>
+
+<span class="sd">        This method modifies the existing prompts stored in the instance with the values</span>
+<span class="sd">        from the provided dictionary. The update may override the previous entries or</span>
+<span class="sd">        add new ones based on the keys in the provided dictionary.</span>
+
+<span class="sd">        :param prompts_dict: A dictionary containing prompt keys and their corresponding values.</span>
+<span class="sd">        :type prompts_dict: PromptDictType</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>

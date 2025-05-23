@@ -1,0 +1,29 @@
+graphrag\_toolkit.lexical\_graph.storage.graph.falkordb package
+===============================================================
+
+Submodules
+----------
+
+graphrag\_toolkit.lexical\_graph.storage.graph.falkordb.falkordb\_graph\_store module
+-------------------------------------------------------------------------------------
+
+.. automodule:: graphrag_toolkit.lexical_graph.storage.graph.falkordb.falkordb_graph_store
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+graphrag\_toolkit.lexical\_graph.storage.graph.falkordb.falkordb\_graph\_store\_factory module
+----------------------------------------------------------------------------------------------
+
+.. automodule:: graphrag_toolkit.lexical_graph.storage.graph.falkordb.falkordb_graph_store_factory
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: graphrag_toolkit.lexical_graph.storage.graph.falkordb
+   :members:
+   :undoc-members:
+   :show-inheritance:
