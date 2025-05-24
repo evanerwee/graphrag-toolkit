@@ -26,21 +26,29 @@ except ImportError as e:
 
 
 class BGEReranker(BaseNodePostprocessor, RerankerMixin):
-    """BGEReranker class for re-ranking nodes or sentence pairs based on a
-    model.
+    """
+    Represents a Transformer-based reranker for node ranking tasks, built upon
+    the FlagEmbedding reranker implementation. This class is designed to handle
+    GPU-based re-ranking of node pairs using pre-trained language models, allowing
+    for efficient and scalable processing in applications such as search relevance
+    and text similarity scoring.
 
-    This class utilizes a pre-trained re-ranker model to re-rank sentence pairs or nodes
-    with scores. It uses GPU for computations if available and is designed to work with
-    the LayerWiseFlagLLMReranker model from the FlagEmbedding library.
+    The class leverages batch processing for efficient computation and includes
+    methods to adjust configurations dynamically. It is optimized for single GPU
+    usage and expects CUDA-compatible devices for execution.
 
-    Attributes:
-        model_name (str): Name of the pre-trained re-ranker model to use.
-        gpu_id (Optional[int]): ID of the GPU to use for computations. If None and GPUs
-            are available, the first free GPU will be used.
-        reranker (Any): The re-ranker object initialized with the specified model.
-        device (Any): The torch device to be used for computations, either CPU or GPU.
-        batch_size_internal (int): Batch size used for processing sentence pairs
-            or nodes.
+    :ivar model_config: Configuration dictionary for managing model settings and namespaces.
+    :type model_config: ConfigDict
+    :ivar model_name: The name of the model used for reranking.
+    :type model_name: str
+    :ivar gpu_id: Optional ID of the GPU utilized for processing.
+    :type gpu_id: Optional[int]
+    :ivar reranker: The initialized reranker model instance.
+    :type reranker: Any
+    :ivar device: The CUDA device used for computation.
+    :type device: Any
+    :ivar batch_size_internal: Internal batch size used for input processing.
+    :type batch_size_internal: int
     """
 
     model_config = ConfigDict(protected_namespaces=('model_validate', 'model_dump'))
@@ -57,23 +65,23 @@ class BGEReranker(BaseNodePostprocessor, RerankerMixin):
         gpu_id: Optional[int] = None,
         batch_size: int = 128,
     ):
-        """Initializes the __init__ function for configuring and setting up the
-        reranker model. This includes loading the necessary dependencies,
-        setting GPU device, and initializing key model parameters. If the
-        required dependencies are not installed or GPU is unavailable,
-        appropriate errors are raised to handle those issues.
+        """
+        Initializes the `BGEReranker` class, which configures a model for reranking
+        utilizing GPU-based acceleration. The class requires a model name and device
+        configuration for processing and uses the `FlagEmbedding` library for model
+        initialization. This initialization ensures compatibility with supported
+        GPUs and optimizes memory allocation as needed.
 
-        Args:
-            model_name (str): The name of the model to be loaded. Defaults to
-                'BAAI/bge-reranker-v2-minicpm-layerwise'.
-            gpu_id (Optional[int]): The ID of the GPU to be utilized. If None, assigns
-                the first available free GPU.
-            batch_size (int): The batch size for processing inputs. Defaults to 128.
+        :param model_name: Name of the reranker model to be loaded.
+        :type model_name: str
+        :param gpu_id: ID of the GPU to be used. If None, defaults to the most suitable GPU.
+        :type gpu_id: Optional[int]
+        :param batch_size: Number of samples to process in a batch.
+        :type batch_size: int
 
-        Raises:
-            ImportError: If the FlagEmbedding package is not installed.
-            Exception: If no compatible GPU is available or any error occurs during
-                initialization of the reranker model.
+        :raises ImportError: If `FlagEmbedding` library is not available.
+        :raises Exception: If a GPU-compatible environment is not detected.
+
         """
         super().__init__()
         try:
@@ -201,7 +209,12 @@ class BGEReranker(BaseNodePostprocessor, RerankerMixin):
             return nodes
 
     def __del__(self):
-        """Cleanup when the object is deleted."""
+        """
+        The '__del__' method ensures that GPU memory is cleared when an instance of the object is deleted.
+        This is useful for managing resources in environments with limited GPU memory.
+
+        :return: None
+        """
         if torch.cuda.is_available():
             try:
                 torch.cuda.empty_cache()

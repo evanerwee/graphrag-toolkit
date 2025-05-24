@@ -30,24 +30,26 @@ logger = logging.getLogger(__name__)
 
 
 class KeywordRankingSearch(SemanticGuidedBaseRetriever):
-    """Performs keyword-based search with ranking using a combination of
-    keyword extraction and graph-based retrieval techniques.
+    """
+    The KeywordRankingSearch class is a specialized retriever extending the
+    SemanticGuidedBaseRetriever. It provides functionality to extract and rank
+    keywords from a query, enabling more effective search and retrieval processes.
+    This involves processing query input using a language model and identifying
+    matches in the graph store. The class supports customization with various prompts,
+    filter configurations, and embedded caching to optimize performance.
 
-    The class utilizes language models for extracting keywords and their synonyms from
-    queries, and leverages a graph store to retrieve and rank relevant statements. The
-    ranking is based on keyword matches and optional similarity computations. Results
-    can be limited to a specified number of top-ranked items.
-
-    Attributes:
-        embedding_cache (Optional[SharedEmbeddingCache]): A cache to store and retrieve
-            embeddings for statements. If not provided, embeddings will not be used
-            during ranking.
-        llm (LLMCacheType): Language model cache for predictions. A default model
-            is used if none is provided.
-        max_keywords (int): Maximum number of keywords to extract from the query.
-        keywords_prompt (str): Prompt template for extracting keywords from the query.
-        synonyms_prompt (str): Prompt template for extracting synonyms for the keywords.
-        top_k (int): Maximum number of ranked results to retrieve.
+    :ivar embedding_cache: Shared embedding cache for optimizing operations.
+    :type embedding_cache: Optional[SharedEmbeddingCache]
+    :ivar llm: A large language model cache or instance used for query processing.
+    :type llm: LLMCacheType
+    :ivar max_keywords: Maximum number of keywords to extract from the query.
+    :type max_keywords: int
+    :ivar keywords_prompt: A prompt template used specifically for extracting keywords.
+    :type keywords_prompt: str
+    :ivar synonyms_prompt: A prompt template used for extracting synonyms to aid keyword retrieval.
+    :type synonyms_prompt: str
+    :ivar top_k: Maximum number of top results to consider after retrieval.
+    :type top_k: int
     """
 
     def __init__(
@@ -63,32 +65,35 @@ class KeywordRankingSearch(SemanticGuidedBaseRetriever):
         filter_config: Optional[FilterConfig] = None,
         **kwargs: Any,
     ) -> None:
-        """Initializes a component for managing and processing natural language
-        queries with various stores and configurations. The class utilizes a
-        vector store for search, a graph store for structural data, and
-        embedding cache mechanisms. Additionally, it incorporates interaction
-        with a language model for extracting keywords and synonyms, among other
-        features. The configuration supports customization through various
-        prompts, limits, and filtering options.
+        """
+        Initializes an instance of the class.
 
-        Args:
-            vector_store: The vector store instance used for search and retrieval tasks.
-            graph_store: The graph store instance used for managing structural or relational data.
-            embedding_cache: Shared embedding cache for managing precomputed embeddings to improve
-                retrieval efficiency. Optional parameter.
-            keywords_prompt: A string prompt utilized for extracting keywords during query processing.
-                Defaults to EXTRACT_KEYWORDS_PROMPT.
-            synonyms_prompt: A string prompt used for extracting synonyms based on the context.
-                Defaults to EXTRACT_SYNONYMS_PROMPT.
-            llm: The language model or its cache instance used for processing natural language
-                queries. If none is provided, a default LLMCache instance is created.
-            max_keywords: Maximum number of keywords to be extracted during processing. Defaults to 10.
-            top_k: Defines the maximum number of results to retrieve from the vector store
-                as part of the processing workflow. Defaults to 100.
-            filter_config: Filter configuration object used to define rules for post-retrieval filtering.
-                Optional parameter.
-            **kwargs: Additional keyword arguments supporting further customization or configuration
-                as required by inherited or related classes.
+        This constructor initializes the object with necessary storage, embedding cache,
+        keywords and synonyms prompt, large language model, and filters. It also allows
+        additional custom parameters through variable keyword arguments. This configuration
+        enables the object to perform tasks associated with keyword extraction and synonym
+        generation using the provided LLM and storage backends.
+
+        :param vector_store: A storage backend for managing vectors.
+        :type vector_store: VectorStore
+        :param graph_store: A storage backend for managing graphs.
+        :type graph_store: GraphStore
+        :param embedding_cache: Shared embedding cache to optimize retrieval operations. Defaults to None.
+        :type embedding_cache: Optional[SharedEmbeddingCache]
+        :param keywords_prompt: A string prompt for extracting keywords. Defaults to EXTRACT_KEYWORDS_PROMPT.
+        :type keywords_prompt: str
+        :param synonyms_prompt: A string prompt for extracting synonyms. Defaults to EXTRACT_SYNONYMS_PROMPT.
+        :type synonyms_prompt: str
+        :param llm: A large language model cache type. If not provided, it defaults to a configuration object.
+        :type llm: LLMCacheType, optional
+        :param max_keywords: Maximum number of keywords to extract. Defaults to 10.
+        :type max_keywords: int
+        :param top_k: Maximum number of top candidates to consider. Defaults to 100.
+        :type top_k: int
+        :param filter_config: Configuration for applying filters to the data. Defaults to None.
+        :type filter_config: Optional[FilterConfig]
+        :param kwargs: Additional keyword arguments for customization.
+        :type kwargs: Any
         """
         super().__init__(vector_store, graph_store, filter_config, **kwargs)
         self.embedding_cache = embedding_cache
@@ -106,23 +111,39 @@ class KeywordRankingSearch(SemanticGuidedBaseRetriever):
         self.top_k = top_k
 
     def get_keywords(self, query_bundle: QueryBundle) -> Set[str]:
-        """Extract a set of unique keywords from the provided query using
-        multiple prompts processed concurrently. The method uses a language
-        model to process the query string and extract keywords and their
-        synonyms.
+        """
+        Extracts a set of keywords from the provided query bundle using an external language
+        model. The function processes the query through two prompts: one for keywords and
+        another for synonyms, combining the results into a single set of keywords. It uses
+        a ThreadPoolExecutor for concurrent processing of prompts and logs the extracted
+        keywords. If any error occurs during extraction, an empty set is returned.
 
-        Args:
-            query_bundle: A QueryBundle object containing the query string to analyze.
-
-        Returns:
-            A set of unique keywords extracted from the query.
-
-        Raises:
-            No explicitly raised errors, but logs exceptions encountered during execution
-            and returns an empty set.
+        :param query_bundle: The query bundle containing the query string to be processed.
+        :type query_bundle: QueryBundle
+        :return: A set of keywords extracted from the query.
+        :rtype: Set[str]
         """
 
         def extract(prompt):
+            """
+            KeywordRankingSearch class is a specialized retriever extending the
+            SemanticGuidedBaseRetriever. It provides functionality to extract and rank
+            keywords from a query, enabling more effective search and retrieval processes.
+            This involves processing query input using a language model and returning a set
+            of extracted keywords.
+
+            Attributes
+            ----------
+            llm : Any
+                Language model used for processing queries and extracting keywords.
+            max_keywords : int
+                The maximum number of keywords to extract from the query.
+
+            Methods
+            -------
+            get_keywords(query_bundle)
+                Extracts keywords from the provided query bundle.
+            """
             response = self.llm.predict(
                 PromptTemplate(template=prompt),
                 text=query_bundle.query_str,
@@ -143,28 +164,23 @@ class KeywordRankingSearch(SemanticGuidedBaseRetriever):
             return set()
 
     def _retrieve(self, query_bundle: QueryBundle) -> List[NodeWithScore]:
-        """Retrieves nodes with scores based on keyword matches and similarity
-        scoring.
+        """
+        Retrieves and ranks a list of nodes with scores based on keyword matching and
+        similarity to the query.
 
-        This method performs the following steps:
-        1. Extracts keywords from the provided query bundle.
-        2. Queries a graph database to find all statements matching any of the extracted keywords,
-           utilizing a Cypher query.
-        3. Groups the retrieved statements by the number of keyword matches.
-        4. Ranks statements within each group using similarity scores, if applicable.
-        5. Normalizes scores and returns the top-k ranked nodes with their scores if the `top_k`
-           attribute is specified.
+        The function performs the following steps:
+        1. Extracts keywords from the input query bundle.
+        2. Executes a database query to find matching statements based on the keywords.
+        3. Groups and ranks the results by the number of keyword matches.
+        4. Optionally reranks results within groups using similarity scoring.
+        5. Returns a limited number of top-ranked nodes.
 
-        The method leverages the combination of keyword-based and embedding-based scoring mechanisms
-        to rank and retrieve the most relevant nodes from the graph database.
-
-        Args:
-            query_bundle (QueryBundle): An object containing query information (e.g., textual query,
-                embeddings), which guides the retrieval process.
-
-        Returns:
-            List[NodeWithScore]: A list of nodes with their associated scores, ranked by relevance.
-                Each node includes metadata about the matched keywords and ranking methodology.
+        :param query_bundle: The input query bundle containing the query text and
+            associated metadata.
+        :type query_bundle: QueryBundle
+        :return: A list of nodes with scores representing ranked results based on
+            keyword matches and computed similarity.
+        :rtype: List[NodeWithScore]
         """
         # 1. Get keywords
         keywords = self.get_keywords(query_bundle)

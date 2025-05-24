@@ -16,18 +16,23 @@ from llama_index.core.schema import QueryBundle
 
 
 class ZeroScores(ProcessorBase):
-    """Processes and zeroes out the scores of search results and topics.
+    """
+    A processor class designed to reset scores associated with search results
+    and their related topics.
 
-    This class is responsible for setting all scores in a given search result
-    collection to zero, including scores associated with individual topics and
-    statements. It subclasses ProcessorBase and leverages its methods to apply
-    the transformations across the search results and topics. This is used in cases
-    where scoring is reset or standardized as part of the processing pipeline.
+    This class is used to process `SearchResultCollection` objects by setting
+    their scores, as well as the scores within associated topics, to zero.
+    It inherits from `ProcessorBase` and extends its functionality to provide
+    score-resetting mechanisms. The class ensures uniform score values, which
+    helps facilitate predefined filtering or ranking operations.
 
-    Attributes:
-        args (ProcessorArgs): Configuration arguments for the processor.
-        filter_config (FilterConfig): Specific filter configuration applied during
-            the processing of results.
+    :ivar args: The arguments required for processing tasks. This includes
+        necessary configurations and settings to perform the processing jobs.
+    :type args: ProcessorArgs
+    :ivar filter_config: Configuration used to apply filtering mechanisms during
+        processing. This object contains the criteria and settings used for data
+        filtering.
+    :type filter_config: FilterConfig
     """
 
     def __init__(self, args: ProcessorArgs, filter_config: FilterConfig):

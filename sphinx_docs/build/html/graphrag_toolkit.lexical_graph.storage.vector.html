@@ -544,21 +544,45 @@ the vector_store itself if no wrapping is required.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">NeptuneAnalyticsVectorIndexFactory</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneAnalyticsVectorIndexFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index_factory_method.VectorIndexFactoryMethod" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index_factory_method.VectorIndexFactoryMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">VectorIndexFactoryMethod</span></code></a></p>
+<p>Implements a factory for creating Neptune Analytics vector indices.</p>
+<p>This class provides a method to attempt the creation of Neptune Analytics vector
+indices based on a given configuration and list of index names. It examines the
+provided vector index information to determine if it matches the Neptune Analytics
+configuration format and initializes the indices accordingly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>NEPTUNE_ANALYTICS</strong> – The prefix used to identify Neptune Analytics configurations.</p></li>
+<li><p><strong>logger</strong> – Logger instance for tracking the creation process and debugging details.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory.try_create">
 <span class="sig-name descname"><span class="pre">try_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_index_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex"><span class="pre">VectorIndex</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneAnalyticsVectorIndexFactory.try_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory.try_create" title="Link to this definition">¶</a></dt>
-<dd><p>Attempts to create a list of vector indices based on the given index
-names and vector index information. If the vector index information
-specifies a Neptune Analytics configuration, the function initializes
-Neptune indices for each index name. Otherwise, it returns None.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>index_names (List[str]): A list of names for the indices to attempt creation.
-vector_index_info (str): A string containing vector index information or configuration.
-<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional keyword arguments passed to the index creation process.</p>
+<dd><p>Attempts to create a list of vector indexes based on the provided index names
+and vector index information. If the vector index information starts with a
+specific prefix (NEPTUNE_ANALYTICS), a graph ID is extracted, and the relevant
+NeptuneIndexes are opened and returned. If the prefix is not found, None is
+returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index_names</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of index names to be created.</p></li>
+<li><p><strong>vector_index_info</strong> – A string containing information about the vector
+index. This may include a specific prefix (NEPTUNE_ANALYTICS) that
+identifies the type of index.</p></li>
+<li><p><strong>kwargs</strong> – Additional keyword argument parameters passed to the creation
+of the vector indexes.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>List[VectorIndex] or None: A list of VectorIndex instances if the operation is
-successful and the vector index information matches the Neptune Analytics configuration.
-Returns None if the vector index information does not match the expected configuration.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of vector indexes created for the specified index names, or
+None if the provided vector index information does not meet the expected
+criteria.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex">VectorIndex</a>] or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -569,27 +593,28 @@ Returns None if the vector index information does not match the expected configu
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">NeptuneIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id:</span> <span class="pre">~graphrag_toolkit.lexical_graph.tenant_id.TenantId</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writeable:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neptune_client:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_model:</span> <span class="pre">~typing.Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_fields:</span> <span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">VectorIndex</span></code></a></p>
-<p>Represents a NeptuneIndex specific to a graph database analytics system.</p>
-<p>This class is used to manage and interact with a vector index within a Neptune
-graph store. It provides functionality for creating the index based on the given
-parameters, embedding nodes, querying for top K neighboring elements by embedding
-similarity, and retrieving embeddings for specific node IDs. The class defines
-specific traversal paths and formats data into structures compatible with the
-underlying analytics platform, utilizing a tenant-specific configuration.</p>
-<dl>
-<dt>Attributes:</dt><dd><dl class="simple">
-<dt>neptune_client (NeptuneAnalyticsClient): The client responsible for interacting</dt><dd><p>with the Neptune graph database.</p>
-</dd>
-</dl>
-<p>embed_model (Any): The model used for generating embeddings for graph nodes.
-dimensions (int): The dimensionality of embeddings.
-id_name (str): The identifier name used for indexing nodes.
-label (str): The label corresponding to the type of index in the graph database.
-path (str): The traversal path defined for the index queries.
-return_fields (str): The fields to return when executing queries related to the</p>
-<blockquote>
-<div><p>index.</p>
-</div></blockquote>
+<p>Represents an index in a Neptune graph database that allows for efficient
+querying, embedding, and retrieval of graph node data.</p>
+<p>This class provides functionality to create, configure, and interact with
+indexes in a Neptune graph database. It supports embedding models for
+generating vector embeddings for nodes, fetching top-k results based on
+similarity scores, and retrieving embeddings based on node IDs. The class
+is particularly useful for tasks requiring graph-based data retrieval
+with embedding-based searches and filtering capabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>neptune_client</strong> – The underlying Neptune analytics client instance used
+for executing queries and interacting with the database.</p></li>
+<li><p><strong>embed_model</strong> – The embedding model utilized to compute vector embeddings.</p></li>
+<li><p><strong>dimensions</strong> – The dimensionality of the embeddings generated by the
+embedding model.</p></li>
+<li><p><strong>id_name</strong> – The identifier name for nodes stored in the indexed graph.</p></li>
+<li><p><strong>label</strong> – Label or tag associated with the nodes in the graph.</p></li>
+<li><p><strong>path</strong> – The Cypher query path used to navigate through the graph.</p></li>
+<li><p><strong>return_fields</strong> – The string representation of node fields to be included
+in the query responses.</p></li>
+</ul>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -599,19 +624,31 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.add_embeddings">
 <span class="sig-name descname"><span class="pre">add_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex.add_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.add_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Adds embeddings to the provided list of nodes by using the
-instance’s embedding model and updates these embeddings in Neptune
-using the appropriate queries.</p>
-<p>This function takes a list of nodes, computes their embeddings using the associated
-embedding model, and updates these embeddings in the Neptune database. It also ensures
-that temporary metadata added to the nodes is removed after processing.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>nodes (list): A list of node objects. Each node should have a <cite>metadata</cite> dictionary</dt><dd><p>and a unique identifier <cite>node_id</cite>.</p>
+<dd><p>Adds embeddings to provided nodes and updates the Neptune database with the
+embeddings using a specific query. The method assumes that the class is
+working with a Neptune database setup and uses an embedding model to process
+nodes.</p>
+<p>The process involves:
+1. Adding metadata to the nodes.
+2. Generating embeddings using the embedding model.
+3. Executing a Cypher query for each node to update the Neptune database</p>
+<blockquote>
+<div><p>with the embedding information.</p>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>Cleaning up metadata after processing is complete.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nodes</strong> (<em>list</em>) – List of nodes to which embeddings will be added. Each node should be
+structured and compatible with the embedding model and Neptune database setup.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of nodes with their information potentially updated
+after processing.</p>
 </dd>
-<dt>Returns:</dt><dd><p>list: The processed list of nodes with updated embeddings in Neptune.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -629,30 +666,34 @@ that temporary metadata added to the nodes is removed after processing.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.for_index">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">for_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex.for_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.for_index" title="Link to this definition">¶</a></dt>
-<dd><p>Creates and configures an instance of <cite>NeptuneIndex</cite> for a specified
+<dd><p>Provides a static method to create a specialized <cite>NeptuneIndex</cite> object tailored for
+querying specific indices in a graph database using NeptuneDB. This method allows
+configuration of the index type, associated graph, embedding model, and dimensions,
+while determining the appropriate structure and fields for the query based on the
 index type.</p>
-<p>The method sets up an index by defining the index name, graph database client,
-embedding model, dimensions of embeddings, and other necessary parameters. It
-also constructs specific paths and return fields for the given index type and
-validates the <cite>index_name</cite>.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>index_name (str): The name of the index to be configured. Must be a valid</dt><dd><p>index name.</p>
+<p>The method accepts parameters to define the index name, the graph identifier,
+embedding model details, and any additional keyword arguments necessary for the
+graph store connection. Depending on the index type, it builds the query path and
+return fields dynamically, with specialized cases for certain well-known index names.
+An error is raised for unsupported or invalid index names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index_name</strong> (<em>str</em>) – The name of the index to query (e.g., ‘chunk’, ‘statement’, ‘topic’),
+which also determines the type of entity being queried.</p></li>
+<li><p><strong>graph_id</strong> (<em>str</em>) – The unique identifier for the graph within the database.</p></li>
+<li><p><strong>embed_model</strong> (<em>Optional</em><em>[</em><em>Any</em><em>]</em>) – Optional. The embedding model to use for indexing. If not provided,
+the default model from the <cite>GraphRAGConfig</cite> is used.</p></li>
+<li><p><strong>dimensions</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Optional. The dimensions of the embedding vector space. If not
+provided, the default dimensions from the <cite>GraphRAGConfig</cite> are used.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Additional keyword arguments needed for constructing the graph store client.</p></li>
+</ul>
 </dd>
-<dt>graph_id (str): The identifier for the graph database for which the index</dt><dd><p>is created.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <cite>NeptuneIndex</cite> instance configured for the specified index type and graph ID.</p>
 </dd>
-<dt>embed_model (Optional[Any]): Embedding model to be used for the index. If</dt><dd><p>not specified, a default model from <cite>GraphRAGConfig</cite> is used.</p>
-</dd>
-<dt>dimensions (Optional[int]): The dimensionality of embeddings. Uses default</dt><dd><p>from <cite>GraphRAGConfig</cite> if not provided.</p>
-</dd>
-<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Arbitrary keyword arguments passed for additional graph store</dt><dd><p>configurations.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>NeptuneIndex: A configured NeptuneIndex instance for the specified index
-name.</p>
-</dd>
-<dt>Raises:</dt><dd><p>ValueError: If the provided <cite>index_name</cite> is invalid or unrecognized.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex" title="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex">NeptuneIndex</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -660,18 +701,20 @@ name.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.get_embeddings">
 <span class="sig-name descname"><span class="pre">get_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex.get_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.get_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Fetches embeddings for the specified node IDs by executing a Cypher
-query on the database. The function retrieves node embeddings and other
-specified result fields based on tenant-specific configurations and
-returns the collected results.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>ids (List[str]): A list of unique node IDs for which embeddings are to be fetched.</dt><dd><p>The IDs should correspond to nodes in the database.</p>
+<dd><p>Fetches embeddings for the given IDs by executing cypher queries against a
+Neptune database. The function calculates embeddings for specified nodes,
+filters them based on the tenant-specific label, and matches the defined
+path to retrieve associated data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ids</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of unique node IDs for which embeddings are retrieved.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of dictionaries containing embeddings and additional fields
+returned by the query.</p>
 </dd>
-<dt>Returns:</dt><dd><p>List[Dict]: A list of dictionaries, where each dictionary contains the retrieved
-embedding and other specified fields for a node.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[dict]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -710,25 +753,23 @@ embedding and other specified fields for a node.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.top_k">
 <span class="sig-name descname"><span class="pre">top_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex.top_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.top_k" title="Link to this definition">¶</a></dt>
-<dd><p>Fetches the top-k records ranked by similarity score based on query
-embeddings from an underlying Neptune Graph database index. The
-function internally performs embedding transformations, constructs
-queries, and applies filtering criteria.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>query_bundle (QueryBundle): The query bundle containing the query string and</dt><dd><p>potentially other context required for querying the index.</p>
+<dd><p>Executes a top-K query against a graph database using a given query embedding. The query retrieves
+the top-K results based on similarity scores computed from vector embeddings. The function can
+filter results using a <cite>FilterConfig</cite> object, modify the query context with a tenant-specific
+label, and limit the results based on the top-K value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query_bundle</strong> (<em>QueryBundle</em>) – The query bundle that includes query string and embeddings.</p></li>
+<li><p><strong>top_k</strong> (<em>int</em>) – The number of top results to retrieve. Defaults to 5.</p></li>
+<li><p><strong>filter_config</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><em>FilterConfig</em></a><em>]</em>) – An optional filter configuration to restrict query results. Defaults to None.</p></li>
+</ul>
 </dd>
-</dl>
-<p>top_k (int, optional): The number of top records to fetch based on rank. Defaults to 5.
-filter_config (Optional[FilterConfig]): Configuration for applying filters to</p>
-<blockquote>
-<div><p>the query to refine results, if provided.</p>
-</div></blockquote>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of top-K results, with each result including a score and specified return fields.</p>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>List[Dict]: A list of results where each result dictionary contains a ‘score’ field</dt><dd><p>and the fields specified in self.return_fields.</p>
-</dd>
-</dl>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Dict[str, Any]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -738,23 +779,20 @@ filter_config (Optional[FilterConfig]): Configuration for applying filters to</p
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.filter_config_to_opencypher_filters">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">filter_config_to_opencypher_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#filter_config_to_opencypher_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.filter_config_to_opencypher_filters" title="Link to this definition">¶</a></dt>
-<dd><p>Converts filter configuration into a string containing filters in
-OpenCypher format.</p>
-<p>This function takes a <cite>FilterConfig</cite> object as input, which may include a set of
-source filters. The representation of the filters is recursively constructed
-and returned as a string formatted for OpenCypher queries. If the filter
-configuration or its source filters are not provided, an empty string is
-returned.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>filter_config (FilterConfig): The configuration object containing source</dt><dd><p>filters to be converted into OpenCypher format.</p>
+<dd><p>Converts a given FilterConfig object into a string of OpenCypher filters.
+Processes the provided filter configuration and generates a recursive representation
+of the metadata filters in OpenCypher format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter_config</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><em>FilterConfig</em></a>) – Input filter configuration object containing the necessary
+source filters for translation.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string representing the OpenCypher filters, or an empty string if the
+provided filter_config is None or contains no source filters.</p>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>str: The OpenCypher formatted filters as a string. Returns an empty string</dt><dd><p>if no filters are provided or the filter configuration is invalid.</p>
-</dd>
-</dl>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -762,23 +800,23 @@ returned.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.formatter_for_type">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">formatter_for_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#formatter_for_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.formatter_for_type" title="Link to this definition">¶</a></dt>
-<dd><p>Determines and returns a formatting function based on the provided type
-name.</p>
-<p>This function takes a <cite>type_name</cite> as input and returns a corresponding
-lambda function that formats the provided value into a specific format
-associated with the type. Supported type names include ‘text’, ‘timestamp’,
-and ‘number’. If the type name does not match one of the supported types,
-a <cite>ValueError</cite> is raised.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>type_name: The name of the type for which the formatter is required.</dt><dd><p>Valid values include ‘text’, ‘timestamp’, and ‘number’.</p>
+<dd><p>Returns a formatter function for the specified type name. The formatter
+function converts input values to a specific string or format based on
+the provided type name. Supported type names include ‘text’, ‘timestamp’,
+and ‘number’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>type_name</strong> – Specifies the type of formatting to be applied.
+- ‘text’: Formats input values as quoted strings.
+- ‘timestamp’: Formats input values using a datetime representation.
+- ‘number’: Returns the input value as-is without modification.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A callable that formats input values based on the type-specific
+formatting rules.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Callable[[Any], str]: A lambda function that formats the input value
-according to the provided <cite>type_name</cite>.</p>
-</dd>
-<dt>Raises:</dt><dd><p>ValueError: If an unsupported type name is provided.</p>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If an unsupported type name is provided.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -786,26 +824,29 @@ according to the provided <cite>type_name</cite>.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.parse_metadata_filters_recursive">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">parse_metadata_filters_recursive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MetadataFilters</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#parse_metadata_filters_recursive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.parse_metadata_filters_recursive" title="Link to this definition">¶</a></dt>
-<dd><p>Parses a <cite>MetadataFilters</cite> object into an OpenCypher filter string.</p>
-<p>This function recursively processes <cite>MetadataFilters</cite> and <cite>MetadataFilter</cite> objects
-to construct a representation suitable for OpenCypher query language based on
-filter conditions (‘AND’, ‘OR’, ‘NOT’) and operator transformations. The resulting
-string can be directly incorporated into OpenCypher queries for filtering nodes
-or relationships.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>metadata_filters (MetadataFilters): The filter structure to be parsed, which</dt><dd><p>defines the conditions (<cite>AND</cite>, <cite>OR</cite>, <cite>NOT</cite>) and associated filters or nested
-filters to be converted into OpenCypher query format.</p>
+<dd><p>Recursively parses a MetadataFilters object into an OpenCypher-compatible filter expression string.</p>
+<p>This function processes a MetadataFilters object consisting of multiple filtering conditions and
+evaluates them recursively to produce a valid OpenCypher filter string representation. Each filter
+is interpreted and formatted according to the specified condition, operator, and values provided
+in the MetadataFilters object.</p>
+<p>Key operations handled include processing the MetadataFilter and MetadataFilters instances, mapping
+filter conditions such as AND, OR, and NOT, and generating properly formatted expressions. If certain
+cases like unsupported filter conditions or invalid input types are encountered, the function raises
+appropriate exceptions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metadata_filters</strong> (<em>MetadataFilters</em>) – A MetadataFilters object representing the filtering conditions
+to be evaluated recursively.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string representation of the OpenCypher-compatible parsed filter.</p>
 </dd>
-<dt>Returns:</dt><dd><p>str: The constructed OpenCypher filter string generated from the input metadata
-filter structure.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
-<dt>Raises:</dt><dd><dl class="simple">
-<dt>ValueError: If the metadata filter structure contains unexpected or invalid</dt><dd><p>types, or if an unsupported filter condition is encountered.</p>
-</dd>
-</dl>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Raises an exception for invalid metadata filter types, unsupported conditions,
+or unexpected mismatches between filter conditions and MetadataFilter object types.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -813,29 +854,22 @@ filter structure.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.to_opencypher_operator">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">to_opencypher_operator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FilterOperator</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#to_opencypher_operator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.to_opencypher_operator" title="Link to this definition">¶</a></dt>
-<dd><p>Converts a given filter operator into its corresponding OpenCypher
-operator and value formatter.</p>
-<p>This function maps an instance of <cite>FilterOperator</cite> to a tuple containing the
-OpenCypher operator string and a callable for formatting values associated
-with that operator. If the given operator is not supported, the function raises
-a <cite>ValueError</cite>.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>operator: The filter operator to convert. Expected to be an instance of</dt><dd><p><cite>FilterOperator</cite>.</p>
+<dd><p>Transforms a <cite>FilterOperator</cite> into its corresponding OpenCypher operator and a
+value formatter function. This function maps a custom filter operator to OpenCypher’s
+expression syntax, ensuring compatibility between logical filtering operations
+in Python code and OpenCypher queries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>operator</strong> – A <cite>FilterOperator</cite> instance that specifies the logical operation
+to be mapped to its OpenCypher equivalent.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the OpenCypher representation of the operator as a
+string, and a callable function to format values associated with the operator.</p>
 </dd>
-<dt>Returns:</dt><dd><p>A tuple where:
-- The first element is a string representing the corresponding OpenCypher</p>
-<blockquote>
-<div><p>operator.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>The second element is a callable, representing a function used to format
-the value for OpenCypher queries.</p></li>
-</ul>
-</dd>
-<dt>Raises:</dt><dd><p>ValueError: If the provided operator is not supported.</p>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the provided operator is not supported or cannot be mapped
+to an OpenCypher operator.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -873,7 +907,7 @@ vector_index_info (str): Information defining the type and endpoint of the vecto
 <blockquote>
 <div><p>index, such as an OpenSearch Serverless endpoint.</p>
 </div></blockquote>
-<p><a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: Additional keyword arguments passed when creating the vector indexes.</p>
+<p><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional keyword arguments passed when creating the vector indexes.</p>
 </dd>
 <dt>Returns:</dt><dd><dl class="simple">
 <dt>List[VectorIndex]: A list of vector index objects created for the provided index</dt><dd><p>names and endpoint configuration, or None if no suitable endpoint is found.</p>

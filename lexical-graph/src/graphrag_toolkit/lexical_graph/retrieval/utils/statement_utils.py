@@ -65,22 +65,21 @@ def cosine_similarity(query_embedding, statement_embeddings):
 
 
 def get_top_k(query_embedding, statement_embeddings, top_k):
-    """Fetches the top_k most similar statements to the given query embedding
-    based on cosine similarity.
+    """
+    Fetches the top K most similar statement embeddings based on the
+    cosine similarity between a query embedding and a list of statement
+    embeddings. This function computes the similarity of the query embedding
+    to each statement embedding and returns the top K highest scoring
+    similarities and their respective statement IDs.
 
-    Args:
-        query_embedding: A vector that represents the query to compare against
-            statement embeddings.
-        statement_embeddings: A list of vectors where each vector represents a
-            statement for similarity comparison. If an empty list is provided,
-            the function returns an empty result.
-        top_k: The number of top statements to retrieve based on cosine similarity.
-
-    Returns:
-        A list of tuples where each tuple contains the similarity score and the
-        corresponding statement ID. The list is sorted in descending order of
-        similarity scores. An empty list is returned if no similarities are
-        calculated or if statement_embeddings is empty.
+    :param query_embedding: A 1-dimensional array-like object representing
+        the embedding vector of the query.
+    :param statement_embeddings: A 2-dimensional array-like object where each
+        row represents the embedding vector of a statement.
+    :param top_k: An integer representing the number of top similarities to return.
+    :return: A list of tuples where each tuple contains:
+        - A float indicating the similarity score.
+        - The ID of the statement corresponding to the similarity score.
     """
     logger.debug(f'statement_embeddings: {statement_embeddings}')
 

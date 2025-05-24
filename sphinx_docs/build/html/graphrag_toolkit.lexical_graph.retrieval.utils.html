@@ -551,22 +551,25 @@ be raised, providing guidance on how to install it.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_k">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">get_top_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_embedding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_embeddings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#get_top_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_k" title="Link to this definition">¶</a></dt>
-<dd><p>Fetches the top_k most similar statements to the given query embedding
-based on cosine similarity.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>query_embedding: A vector that represents the query to compare against</dt><dd><p>statement embeddings.</p>
+<dd><p>Fetches the top K most similar statement embeddings based on the
+cosine similarity between a query embedding and a list of statement
+embeddings. This function computes the similarity of the query embedding
+to each statement embedding and returns the top K highest scoring
+similarities and their respective statement IDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query_embedding</strong> – A 1-dimensional array-like object representing
+the embedding vector of the query.</p></li>
+<li><p><strong>statement_embeddings</strong> – A 2-dimensional array-like object where each
+row represents the embedding vector of a statement.</p></li>
+<li><p><strong>top_k</strong> – An integer representing the number of top similarities to return.</p></li>
+</ul>
 </dd>
-<dt>statement_embeddings: A list of vectors where each vector represents a</dt><dd><p>statement for similarity comparison. If an empty list is provided,
-the function returns an empty result.</p>
-</dd>
-</dl>
-<p>top_k: The number of top statements to retrieve based on cosine similarity.</p>
-</dd>
-<dt>Returns:</dt><dd><p>A list of tuples where each tuple contains the similarity score and the
-corresponding statement ID. The list is sorted in descending order of
-similarity scores. An empty list is returned if no similarities are
-calculated or if statement_embeddings is empty.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tuples where each tuple contains:
+- A float indicating the similarity score.
+- The ID of the statement corresponding to the similarity score.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -577,28 +580,24 @@ calculated or if statement_embeddings is empty.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.get_diverse_vss_elements">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.</span></span><span class="sig-name descname"><span class="pre">get_diverse_vss_elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/vector_utils.html#get_diverse_vss_elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.get_diverse_vss_elements" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieve diverse elements from a vector search system (VSS) by applying
-a diversity factor to limit redundancy among results.</p>
-<p>This function queries a vector store using the provided query, index, and filter
-configuration, then applies a diversity mechanism to return results with more
-heterogeneity. The diversity factor determines the level of diversification among
-the results.</p>
-<dl>
-<dt>Args:</dt><dd><p>index_name (str): Name of the index to search in the vector store.
-query_bundle (QueryBundle): Query object containing the necessary details for</p>
-<blockquote>
-<div><p>executing the search.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>vector_store (VectorStore): Vector store instance to query for retrieving the</dt><dd><p>elements.</p>
+<dd><p>Retrieve a diverse set of elements from a vector search store (VSS) based on the specified top-k
+and diversity factor. This function ensures that elements are sampled from different sources
+based on their diversity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index_name</strong> (<em>str</em>) – The name of the index to query.</p></li>
+<li><p><strong>query_bundle</strong> (<em>QueryBundle</em>) – The query information used to fetch results from the vector store.</p></li>
+<li><p><strong>vector_store</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><em>VectorStore</em></a>) – The vector store to query for elements.</p></li>
+<li><p><strong>args</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><em>ProcessorArgs</em></a>) – Arguments containing settings for the query, including top-k and diversity factor.</p></li>
+<li><p><strong>filter_config</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><em>FilterConfig</em></a><em>]</em>) – Optional filter configuration to apply additional constraints on the query.</p></li>
+</ul>
 </dd>
-<dt>args (ProcessorArgs): Arguments object containing configurations for top-k</dt><dd><p>results and the diversity factor.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of diverse elements retrieved from the vector search store.</p>
 </dd>
-<dt>filter_config (Optional[FilterConfig]): Optional filter configuration to</dt><dd><p>refine the query results.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>list: A list of diverse elements from the vector store result set.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[dict]</p>
 </dd>
 </dl>
 </dd></dl>

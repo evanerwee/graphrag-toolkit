@@ -16,18 +16,19 @@ from llama_index.core.schema import QueryBundle
 
 
 class PopulateStatementStrs(ProcessorBase):
-    """Processes search results by populating their associated topics with
-    detailed statement strings.
+    """
+    This class extends ProcessorBase to process search results by populating detailed
+    statement strings for each topic within the results.
 
-    This class extends the functionality of the `ProcessorBase` to enhance topics
-    within search results by appending more descriptive details to their respective
-    statements. These enhanced statements include additional context from associated
-    facts and details, improving their informativeness and clarity.
+    The PopulateStatementStrs class is designed to enhance the topics in a collection of search
+    results. It processes topics by adding more information into their statement strings, derived
+    from associated facts and details. This results in enriched search results with statements
+    that better represent the underlying topics.
 
-    Attributes:
-        args (ProcessorArgs): Configuration arguments for the processor.
-        filter_config (FilterConfig): Configuration to control filtering during
-            processing.
+    :ivar args: Configuration arguments required for the processor.
+    :type args: ProcessorArgs
+    :ivar filter_config: Configuration specific to the filtering logic for the processor.
+    :type filter_config: FilterConfig
     """
 
     def __init__(self, args: ProcessorArgs, filter_config: FilterConfig):

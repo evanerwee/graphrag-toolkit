@@ -43,27 +43,20 @@ NEPTUNE_ANALYTICS = 'neptune-graph://'
 def to_opencypher_operator(
     operator: FilterOperator,
 ) -> tuple[str, Callable[[Any], str]]:
-    """Converts a given filter operator into its corresponding OpenCypher
-    operator and value formatter.
+    """
+    Transforms a `FilterOperator` into its corresponding OpenCypher operator and a
+    value formatter function. This function maps a custom filter operator to OpenCypher's
+    expression syntax, ensuring compatibility between logical filtering operations
+    in Python code and OpenCypher queries.
 
-    This function maps an instance of `FilterOperator` to a tuple containing the
-    OpenCypher operator string and a callable for formatting values associated
-    with that operator. If the given operator is not supported, the function raises
-    a `ValueError`.
+    :param operator: A `FilterOperator` instance that specifies the logical operation
+        to be mapped to its OpenCypher equivalent.
 
-    Args:
-        operator: The filter operator to convert. Expected to be an instance of
-            `FilterOperator`.
+    :return: A tuple containing the OpenCypher representation of the operator as a
+        string, and a callable function to format values associated with the operator.
 
-    Returns:
-        A tuple where:
-        - The first element is a string representing the corresponding OpenCypher
-          operator.
-        - The second element is a callable, representing a function used to format
-          the value for OpenCypher queries.
-
-    Raises:
-        ValueError: If the provided operator is not supported.
+    :raises ValueError: If the provided operator is not supported or cannot be mapped
+        to an OpenCypher operator.
     """
     default_value_formatter = lambda x: x
 
@@ -94,25 +87,19 @@ def to_opencypher_operator(
 
 
 def formatter_for_type(type_name: str) -> Callable[[Any], str]:
-    """Determines and returns a formatting function based on the provided type
-    name.
+    """
+    Returns a formatter function for the specified type name. The formatter
+    function converts input values to a specific string or format based on
+    the provided type name. Supported type names include 'text', 'timestamp',
+    and 'number'.
 
-    This function takes a `type_name` as input and returns a corresponding
-    lambda function that formats the provided value into a specific format
-    associated with the type. Supported type names include 'text', 'timestamp',
-    and 'number'. If the type name does not match one of the supported types,
-    a `ValueError` is raised.
-
-    Args:
-        type_name: The name of the type for which the formatter is required.
-            Valid values include 'text', 'timestamp', and 'number'.
-
-    Returns:
-        Callable[[Any], str]: A lambda function that formats the input value
-        according to the provided `type_name`.
-
-    Raises:
-        ValueError: If an unsupported type name is provided.
+    :param type_name: Specifies the type of formatting to be applied.
+        - 'text': Formats input values as quoted strings.
+        - 'timestamp': Formats input values using a datetime representation.
+        - 'number': Returns the input value as-is without modification.
+    :return: A callable that formats input values based on the type-specific
+        formatting rules.
+    :raises ValueError: If an unsupported type name is provided.
     """
     if type_name == 'text':
         return lambda x: f"'{x}'"
@@ -125,26 +112,26 @@ def formatter_for_type(type_name: str) -> Callable[[Any], str]:
 
 
 def parse_metadata_filters_recursive(metadata_filters: MetadataFilters) -> str:
-    """Parses a `MetadataFilters` object into an OpenCypher filter string.
+    """
+    Recursively parses a MetadataFilters object into an OpenCypher-compatible filter expression string.
 
-    This function recursively processes `MetadataFilters` and `MetadataFilter` objects
-    to construct a representation suitable for OpenCypher query language based on
-    filter conditions ('AND', 'OR', 'NOT') and operator transformations. The resulting
-    string can be directly incorporated into OpenCypher queries for filtering nodes
-    or relationships.
+    This function processes a MetadataFilters object consisting of multiple filtering conditions and
+    evaluates them recursively to produce a valid OpenCypher filter string representation. Each filter
+    is interpreted and formatted according to the specified condition, operator, and values provided
+    in the MetadataFilters object.
 
-    Args:
-        metadata_filters (MetadataFilters): The filter structure to be parsed, which
-            defines the conditions (`AND`, `OR`, `NOT`) and associated filters or nested
-            filters to be converted into OpenCypher query format.
+    Key operations handled include processing the MetadataFilter and MetadataFilters instances, mapping
+    filter conditions such as AND, OR, and NOT, and generating properly formatted expressions. If certain
+    cases like unsupported filter conditions or invalid input types are encountered, the function raises
+    appropriate exceptions.
 
-    Returns:
-        str: The constructed OpenCypher filter string generated from the input metadata
-        filter structure.
-
-    Raises:
-        ValueError: If the metadata filter structure contains unexpected or invalid
-            types, or if an unsupported filter condition is encountered.
+    :param metadata_filters: A MetadataFilters object representing the filtering conditions
+        to be evaluated recursively.
+    :type metadata_filters: MetadataFilters
+    :return: A string representation of the OpenCypher-compatible parsed filter.
+    :rtype: str
+    :raises ValueError: Raises an exception for invalid metadata filter types, unsupported conditions,
+        or unexpected mismatches between filter conditions and MetadataFilter object types.
     """
 
     def to_key(key: str) -> str:
@@ -165,21 +152,15 @@ def parse_metadata_filters_recursive(metadata_filters: MetadataFilters) -> str:
         return f"source.{key}"
 
     def metadata_filter_to_opencypher_filter(f: MetadataFilter) -> str:
-        """Parses a `MetadataFilters` object recursively into a string
-        representation usable as an OpenCypher filter expression.
+        """
+        Recursively parses a tree of metadata filters into an OpenCypher string representation.
+        Each metadata filter is converted based on its operator and associated key-value pair.
 
-        This function processes a given `MetadataFilters` object by iterating through its filters
-        and recursively transforming them into OpenCypher-compatible filter expressions. The helper
-        function `metadata_filter_to_opencypher_filter` ensures that each individual filter is properly
-        formatted based on its key, operator, and value.
-
-        Args:
-            metadata_filters (MetadataFilters): The metadata filters to be recursively parsed into an
-                OpenCypher-compatible string representation.
-
-        Returns:
-            str: The OpenCypher-compatible filter expression string after parsing the input
-                `MetadataFilters` object.
+        :param metadata_filters: The root node of metadata filters to parse, containing nested
+            conditions for filtering metadata.
+        :type metadata_filters: MetadataFilters
+        :return: An OpenCypher string representation of the metadata filters.
+        :rtype: str
         """
         key = to_key(f.key)
         (operator, operator_formatter) = to_opencypher_operator(f.operator)
@@ -223,22 +204,17 @@ def parse_metadata_filters_recursive(metadata_filters: MetadataFilters) -> str:
 
 
 def filter_config_to_opencypher_filters(filter_config: FilterConfig) -> str:
-    """Converts filter configuration into a string containing filters in
-    OpenCypher format.
+    """
+    Converts a given FilterConfig object into a string of OpenCypher filters.
+    Processes the provided filter configuration and generates a recursive representation
+    of the metadata filters in OpenCypher format.
 
-    This function takes a `FilterConfig` object as input, which may include a set of
-    source filters. The representation of the filters is recursively constructed
-    and returned as a string formatted for OpenCypher queries. If the filter
-    configuration or its source filters are not provided, an empty string is
-    returned.
-
-    Args:
-        filter_config (FilterConfig): The configuration object containing source
-            filters to be converted into OpenCypher format.
-
-    Returns:
-        str: The OpenCypher formatted filters as a string. Returns an empty string
-            if no filters are provided or the filter configuration is invalid.
+    :param filter_config: Input filter configuration object containing the necessary
+        source filters for translation.
+    :type filter_config: FilterConfig
+    :return: A string representing the OpenCypher filters, or an empty string if the
+        provided filter_config is None or contains no source filters.
+    :rtype: str
     """
     if filter_config is None or filter_config.source_filters is None:
         return ''
@@ -246,23 +222,40 @@ def filter_config_to_opencypher_filters(filter_config: FilterConfig) -> str:
 
 
 class NeptuneAnalyticsVectorIndexFactory(VectorIndexFactoryMethod):
+    """
+    Implements a factory for creating Neptune Analytics vector indices.
+
+    This class provides a method to attempt the creation of Neptune Analytics vector
+    indices based on a given configuration and list of index names. It examines the
+    provided vector index information to determine if it matches the Neptune Analytics
+    configuration format and initializes the indices accordingly.
+
+    :ivar NEPTUNE_ANALYTICS: The prefix used to identify Neptune Analytics configurations.
+    :type NEPTUNE_ANALYTICS: str
+    :ivar logger: Logger instance for tracking the creation process and debugging details.
+    :type logger: logging.Logger
+    """
     def try_create(
         self, index_names: List[str], vector_index_info: str, **kwargs
     ) -> List[VectorIndex]:
-        """Attempts to create a list of vector indices based on the given index
-        names and vector index information. If the vector index information
-        specifies a Neptune Analytics configuration, the function initializes
-        Neptune indices for each index name. Otherwise, it returns None.
+        """
+        Attempts to create a list of vector indexes based on the provided index names
+        and vector index information. If the vector index information starts with a
+        specific prefix (NEPTUNE_ANALYTICS), a graph ID is extracted, and the relevant
+        NeptuneIndexes are opened and returned. If the prefix is not found, None is
+        returned.
 
-        Args:
-            index_names (List[str]): A list of names for the indices to attempt creation.
-            vector_index_info (str): A string containing vector index information or configuration.
-            **kwargs: Additional keyword arguments passed to the index creation process.
-
-        Returns:
-            List[VectorIndex] or None: A list of VectorIndex instances if the operation is
-            successful and the vector index information matches the Neptune Analytics configuration.
-            Returns None if the vector index information does not match the expected configuration.
+        :param index_names: A list of index names to be created.
+        :type index_names: List[str]
+        :param vector_index_info: A string containing information about the vector
+            index. This may include a specific prefix (NEPTUNE_ANALYTICS) that
+            identifies the type of index.
+        :param kwargs: Additional keyword argument parameters passed to the creation
+            of the vector indexes.
+        :return: A list of vector indexes created for the specified index names, or
+            None if the provided vector index information does not meet the expected
+            criteria.
+        :rtype: List[VectorIndex] or None
         """
         graph_id = None
         if vector_index_info.startswith(NEPTUNE_ANALYTICS):
@@ -279,55 +272,66 @@ class NeptuneAnalyticsVectorIndexFactory(VectorIndexFactoryMethod):
 
 
 class NeptuneIndex(VectorIndex):
-    """Represents a NeptuneIndex specific to a graph database analytics system.
+    """
+    Represents an index in a Neptune graph database that allows for efficient
+    querying, embedding, and retrieval of graph node data.
 
-    This class is used to manage and interact with a vector index within a Neptune
-    graph store. It provides functionality for creating the index based on the given
-    parameters, embedding nodes, querying for top K neighboring elements by embedding
-    similarity, and retrieving embeddings for specific node IDs. The class defines
-    specific traversal paths and formats data into structures compatible with the
-    underlying analytics platform, utilizing a tenant-specific configuration.
+    This class provides functionality to create, configure, and interact with
+    indexes in a Neptune graph database. It supports embedding models for
+    generating vector embeddings for nodes, fetching top-k results based on
+    similarity scores, and retrieving embeddings based on node IDs. The class
+    is particularly useful for tasks requiring graph-based data retrieval
+    with embedding-based searches and filtering capabilities.
 
-    Attributes:
-        neptune_client (NeptuneAnalyticsClient): The client responsible for interacting
-            with the Neptune graph database.
-        embed_model (Any): The model used for generating embeddings for graph nodes.
-        dimensions (int): The dimensionality of embeddings.
-        id_name (str): The identifier name used for indexing nodes.
-        label (str): The label corresponding to the type of index in the graph database.
-        path (str): The traversal path defined for the index queries.
-        return_fields (str): The fields to return when executing queries related to the
-            index.
+    :ivar neptune_client: The underlying Neptune analytics client instance used
+        for executing queries and interacting with the database.
+    :type neptune_client: NeptuneAnalyticsClient
+    :ivar embed_model: The embedding model utilized to compute vector embeddings.
+    :type embed_model: Any
+    :ivar dimensions: The dimensionality of the embeddings generated by the
+        embedding model.
+    :type dimensions: int
+    :ivar id_name: The identifier name for nodes stored in the indexed graph.
+    :type id_name: str
+    :ivar label: Label or tag associated with the nodes in the graph.
+    :type label: str
+    :ivar path: The Cypher query path used to navigate through the graph.
+    :type path: str
+    :ivar return_fields: The string representation of node fields to be included
+        in the query responses.
+    :type return_fields: str
     """
 
     @staticmethod
     def for_index(index_name, graph_id, embed_model=None, dimensions=None, **kwargs):
-        """Creates and configures an instance of `NeptuneIndex` for a specified
+        """
+        Provides a static method to create a specialized `NeptuneIndex` object tailored for
+        querying specific indices in a graph database using NeptuneDB. This method allows
+        configuration of the index type, associated graph, embedding model, and dimensions,
+        while determining the appropriate structure and fields for the query based on the
         index type.
 
-        The method sets up an index by defining the index name, graph database client,
-        embedding model, dimensions of embeddings, and other necessary parameters. It
-        also constructs specific paths and return fields for the given index type and
-        validates the `index_name`.
+        The method accepts parameters to define the index name, the graph identifier,
+        embedding model details, and any additional keyword arguments necessary for the
+        graph store connection. Depending on the index type, it builds the query path and
+        return fields dynamically, with specialized cases for certain well-known index names.
+        An error is raised for unsupported or invalid index names.
 
-        Args:
-            index_name (str): The name of the index to be configured. Must be a valid
-                index name.
-            graph_id (str): The identifier for the graph database for which the index
-                is created.
-            embed_model (Optional[Any]): Embedding model to be used for the index. If
-                not specified, a default model from `GraphRAGConfig` is used.
-            dimensions (Optional[int]): The dimensionality of embeddings. Uses default
-                from `GraphRAGConfig` if not provided.
-            **kwargs: Arbitrary keyword arguments passed for additional graph store
-                configurations.
-
-        Returns:
-            NeptuneIndex: A configured NeptuneIndex instance for the specified index
-            name.
-
-        Raises:
-            ValueError: If the provided `index_name` is invalid or unrecognized.
+        :param index_name: The name of the index to query (e.g., 'chunk', 'statement', 'topic'),
+            which also determines the type of entity being queried.
+        :type index_name: str
+        :param graph_id: The unique identifier for the graph within the database.
+        :type graph_id: str
+        :param embed_model: Optional. The embedding model to use for indexing. If not provided,
+            the default model from the `GraphRAGConfig` is used.
+        :type embed_model: Optional[Any]
+        :param dimensions: Optional. The dimensions of the embedding vector space. If not
+            provided, the default dimensions from the `GraphRAGConfig` are used.
+        :type dimensions: Optional[int]
+        :param kwargs: Additional keyword arguments needed for constructing the graph store client.
+        :type kwargs: dict
+        :return: A `NeptuneIndex` instance configured for the specified index type and graph ID.
+        :rtype: NeptuneIndex
         """
         index_name = index_name.lower()
         neptune_client: GraphStore = GraphStoreFactory.for_graph_store(
@@ -372,16 +376,18 @@ class NeptuneIndex(VectorIndex):
     return_fields: str
 
     def _neptune_client(self):
-        """Creates and returns the appropriate Neptune client based on tenant
-        ID.
+        """
+        Returns the Neptune database client instance for the tenant. This method checks
+        whether the tenant is a default tenant or a specific one and provides the
+        corresponding Neptune client.
 
-        If the tenant ID corresponds to the default tenant, the unwrapped Neptune
-        client is returned. Otherwise, it wraps the Neptune client with a
-        Multi-tenant Graph Store for the corresponding tenant ID and returns it.
+        If the tenant is the default, it directly returns the configured `neptune_client`.
+        Otherwise, it wraps the `neptune_client` for multi-tenant support using
+        `MultiTenantGraphStore`.
 
-        Returns:
-            NeptuneClient or MultiTenantGraphStore: An instance of the Neptune
-            client or a wrapped Multi-tenant Graph Store object.
+        :return: The Neptune database client, either directly or wrapped for the
+            corresponding tenant.
+        :rtype: NeptuneClient or MultiTenantGraphStore
         """
         if self.tenant_id.is_default_tenant():
             return self.neptune_client
@@ -391,20 +397,25 @@ class NeptuneIndex(VectorIndex):
             )
 
     def add_embeddings(self, nodes):
-        """Adds embeddings to the provided list of nodes by using the
-        instance's embedding model and updates these embeddings in Neptune
-        using the appropriate queries.
+        """
+        Adds embeddings to provided nodes and updates the Neptune database with the
+        embeddings using a specific query. The method assumes that the class is
+        working with a Neptune database setup and uses an embedding model to process
+        nodes.
 
-        This function takes a list of nodes, computes their embeddings using the associated
-        embedding model, and updates these embeddings in the Neptune database. It also ensures
-        that temporary metadata added to the nodes is removed after processing.
+        The process involves:
+        1. Adding metadata to the nodes.
+        2. Generating embeddings using the embedding model.
+        3. Executing a Cypher query for each node to update the Neptune database
+           with the embedding information.
+        4. Cleaning up metadata after processing is complete.
 
-        Args:
-            nodes (list): A list of node objects. Each node should have a `metadata` dictionary
-                and a unique identifier `node_id`.
-
-        Returns:
-            list: The processed list of nodes with updated embeddings in Neptune.
+        :param nodes: List of nodes to which embeddings will be added. Each node should be
+            structured and compatible with the embedding model and Neptune database setup.
+        :type nodes: list
+        :return: The list of nodes with their information potentially updated
+            after processing.
+        :rtype: list
         """
         for node in nodes:
             node.metadata['index'] = self.underlying_index_name()
@@ -438,21 +449,20 @@ class NeptuneIndex(VectorIndex):
         top_k: int = 5,
         filter_config: Optional[FilterConfig] = None,
     ):
-        """Fetches the top-k records ranked by similarity score based on query
-        embeddings from an underlying Neptune Graph database index. The
-        function internally performs embedding transformations, constructs
-        queries, and applies filtering criteria.
+        """
+        Executes a top-K query against a graph database using a given query embedding. The query retrieves
+        the top-K results based on similarity scores computed from vector embeddings. The function can
+        filter results using a `FilterConfig` object, modify the query context with a tenant-specific
+        label, and limit the results based on the top-K value.
 
-        Args:
-            query_bundle (QueryBundle): The query bundle containing the query string and
-                potentially other context required for querying the index.
-            top_k (int, optional): The number of top records to fetch based on rank. Defaults to 5.
-            filter_config (Optional[FilterConfig]): Configuration for applying filters to
-                the query to refine results, if provided.
-
-        Returns:
-            List[Dict]: A list of results where each result dictionary contains a 'score' field
-                and the fields specified in self.return_fields.
+        :param query_bundle: The query bundle that includes query string and embeddings.
+        :type query_bundle: QueryBundle
+        :param top_k: The number of top results to retrieve. Defaults to 5.
+        :type top_k: int
+        :param filter_config: An optional filter configuration to restrict query results. Defaults to None.
+        :type filter_config: Optional[FilterConfig]
+        :return: A list of top-K results, with each result including a score and specified return fields.
+        :rtype: List[Dict[str, Any]]
         """
         query_str = f'''index: {self.underlying_index_name()}
 
@@ -493,18 +503,17 @@ class NeptuneIndex(VectorIndex):
         return [result['result'] for result in results]
 
     def get_embeddings(self, ids: List[str] = []):
-        """Fetches embeddings for the specified node IDs by executing a Cypher
-        query on the database. The function retrieves node embeddings and other
-        specified result fields based on tenant-specific configurations and
-        returns the collected results.
+        """
+        Fetches embeddings for the given IDs by executing cypher queries against a
+        Neptune database. The function calculates embeddings for specified nodes,
+        filters them based on the tenant-specific label, and matches the defined
+        path to retrieve associated data.
 
-        Args:
-            ids (List[str]): A list of unique node IDs for which embeddings are to be fetched.
-                The IDs should correspond to nodes in the database.
-
-        Returns:
-            List[Dict]: A list of dictionaries, where each dictionary contains the retrieved
-            embedding and other specified fields for a node.
+        :param ids: List of unique node IDs for which embeddings are retrieved.
+        :type ids: List[str]
+        :return: List of dictionaries containing embeddings and additional fields
+                 returned by the query.
+        :rtype: List[dict]
         """
         all_results = []
 

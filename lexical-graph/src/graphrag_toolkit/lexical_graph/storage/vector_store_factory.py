@@ -85,28 +85,25 @@ class VectorStoreFactory:
     def for_vector_store(
         vector_store_info: str = None, index_names=DEFAULT_EMBEDDING_INDEXES, **kwargs
     ):
-        """Creates a vector store instance or retrieves an existing one based
-        on the provided vector store information and index names. This method
-        utilizes specified factories to attempt creating vector indexes, and
-        finally constructs a `VectorStore` object if successful.
+        """
+        Creates a vector store instance using vector store information and index names. If the
+        provided `vector_store_info` is already an instance of `VectorStore`, it is returned
+        directly. Otherwise, it attempts to create vector indexes using registered factory
+        methods.
 
-        Args:
-            vector_store_info (str | VectorStore, optional): The vector store connection information or an
-                existing `VectorStore` instance. If a string, it is used to identify or connect to a
-                specific vector store.
-            index_names (list[str] | str, optional): The name(s) of indexes to create or retrieve. Defaults
-                to `DEFAULT_EMBEDDING_INDEXES` if not supplied. This should either be a single string or
-                a list of strings.
-            **kwargs: Additional keyword arguments passed to the factory methods while creating
-                the vector indexes.
+        .. note::
+            This function raises a `ValueError` if the vector store information is unrecognized
+            or misformatted.
 
-        Returns:
-            VectorStore: A `VectorStore` instance containing the specified indexes or the supplied
-            `VectorStore` if valid.
-
-        Raises:
-            ValueError: If the provided `vector_store_info` is not recognized or improperly formatted, or if
-            no suitable vector index factory successfully creates the necessary vector indexes.
+        :param vector_store_info: Optional; Information about the vector store. If it is already
+            an instance of `VectorStore`, it will be returned as-is.
+        :type vector_store_info: str or VectorStore
+        :param index_names: A list or a single name (default: DEFAULT_EMBEDDING_INDEXES)
+            identifying the vector indexes to use.
+        :type index_names: list or str
+        :param kwargs: Additional parameters passed to the vector index factory method.
+        :return: A `VectorStore` instance containing the created or resolved vector indexes.
+        :returntype: VectorStore
         """
         if vector_store_info and isinstance(vector_store_info, VectorStore):
             return vector_store_info

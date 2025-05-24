@@ -22,30 +22,39 @@ logger = logging.getLogger(__name__)
 
 
 class RerankingBeamGraphSearch(SemanticGuidedBaseRetriever):
-    """RerankingBeamGraphSearch class leverages a reranking mechanism combined
-    with beam search to perform graph-structured retrieval of statements. The
-    search process is guided by semantic relevance through reranking layers.
+    """
+    Handles retrieval, graph-based navigation, and reranking with a beam search
+    strategy. Employs semantic-guided techniques to maximize the relevance of
+    retrieved items. This class allows for a highly-tuned exploration process with
+    adjustable depth, beam width, and an optional reranker component for scoring.
 
-    This class combines multiple retrieval strategies such as vector search, direct graph
-    neighbors traversal, and reranking to fetch statements most relevant to a given query.
-    The beam search explores graph paths to a limited depth, aiming to retrieve high-quality
-    candidates for downstream processing. An intermediate caching system for retrieved
-    statements and scores ensures improved performance across retrieval stages.
+    The purpose of this class is to construct a flexible system enabling retrieval
+    tasks over structured knowledge graphs, while employing advanced reranking
+    techniques to prioritize results. It supports both manual initial retrievers
+    for customization and automatic scoring mechanisms. The usage also encompasses
+    graph analysis and neighbor exploration during retrieval.
 
-    Attributes:
-        reranker (RerankerMixin): Reranking module that computes relevance scores between
-            queries and statements.
-        max_depth (int): Maximum depth of the beam search graph traversal.
-        beam_width (int): Beam width determining the number of candidates explored at
-            each depth during search.
-        shared_nodes (Optional[List[NodeWithScore]]): Predefined shared nodes available for
-            the current retriever to initialize. May be empty.
-        score_cache (Dict[str, float]): Cache storing relevance scores previously computed
-            by the reranker to optimize repeated queries.
-        statement_cache (Dict[str, Dict]): Cache mapping statement IDs to their
-            corresponding detailed metadata fetched from the graph store.
-        initial_retrievers (List[SemanticGuidedBaseRetriever]): List of initial retrievers
-            capable of providing starting statements for further reranking and beam searches.
+    :ivar reranker: Reranker component to assign relevance scores based on
+        specific criteria.
+    :type reranker: RerankerMixin
+    :ivar max_depth: Maximum allowable depth for graph exploration or retrieval
+        operations.
+    :type max_depth: int
+    :ivar beam_width: Maximum number of concurrent paths retained during
+        beam search at each iteration.
+    :type beam_width: int
+    :ivar shared_nodes: Optional shared nodes utilized across multiple queries
+        or retrieval pipelines for consistency or propagation.
+    :type shared_nodes: Optional[List[NodeWithScore]]
+    :ivar score_cache: Caches relevance scores for previously evaluated
+        statements to avoid redundant computations.
+    :type score_cache: Dict[str, float]
+    :ivar statement_cache: Caches retrieved statement data for efficiency
+        across repeated queries.
+    :type statement_cache: Dict[str, Dict]
+    :ivar initial_retrievers: List of retrievers employed during the initial
+        phase of retrieval operations.
+    :type initial_retrievers: List[SemanticGuidedBaseRetriever]
     """
 
     def __init__(
@@ -114,17 +123,17 @@ class RerankingBeamGraphSearch(SemanticGuidedBaseRetriever):
                     self.initial_retrievers.append(retriever)
 
     def get_statements(self, statement_ids: List[str]) -> Dict[str, Dict]:
-        """Retrieves statements by their IDs, utilizing a cache for efficiency.
-        If any of the provided IDs are not found in the cache, it fetches them
-        from the graph store, updates the cache, and then returns all requested
-        results.
+        """
+        Retrieves statement details for the specified list of statement IDs. If any statement ID is not
+        cached, it queries the graph store for those IDs, updates the cache, and returns all requested
+        statements with their details.
 
-        Args:
-            statement_ids (List[str]): A list of statement IDs to fetch.
-
-        Returns:
-            Dict[str, Dict]: A dictionary mapping each statement ID to its corresponding statement
-            data. The data is retrieved either from the local cache or by querying the graph store.
+        :param statement_ids: List of statement IDs to retrieve. It is a list of strings containing unique
+            identifiers for each statement.
+        :type statement_ids: List[str]
+        :return: A dictionary where keys are the requested statement IDs and the values are dictionaries
+            containing statement details.
+        :rtype: Dict[str, Dict]
         """
         uncached_ids = [sid for sid in statement_ids if sid not in self.statement_cache]
         if uncached_ids:
@@ -136,17 +145,15 @@ class RerankingBeamGraphSearch(SemanticGuidedBaseRetriever):
         return {sid: self.statement_cache[sid] for sid in statement_ids}
 
     def get_neighbors(self, statement_id: str) -> List[str]:
-        """Retrieves the neighbors of a given statement in the graph database.
-        A neighbor is defined as a statement that is directly connected via
-        shared entities acting as subjects or objects across facts and
-        supported relationships.
+        """
+        Retrieves a list of neighboring statements connected to a given statement. The neighbors are determined by
+        navigating the graph database relationships between entities and their associated statements as defined
+        by the provided Cypher query.
 
-        Args:
-            statement_id (str): The unique identifier of the statement whose neighbors
-                are to be retrieved.
-
-        Returns:
-            List[str]: A list of statement IDs representing the neighboring statements.
+        :param statement_id: The unique identifier of the statement whose neighbors are to be retrieved.
+        :type statement_id: str
+        :return: A list of unique statement IDs that are neighbors of the given statement.
+        :rtype: List[str]
         """
         cypher = f"""
         MATCH (e:`__Entity__`)-[:`__SUBJECT__`|`__OBJECT__`]->(:`__Fact__`)-[:`__SUPPORTS__`]->(s:`__Statement__`)
@@ -165,26 +172,25 @@ class RerankingBeamGraphSearch(SemanticGuidedBaseRetriever):
     def rerank_statements(
         self, query: str, statement_ids: List[str], statement_texts: Dict[str, str]
     ) -> List[Tuple[float, str]]:
-        """Rerank statements based on the relevance scores generated by a
-        reranker.
+        """
+        Ranks a list of statement IDs and their corresponding texts based on their
+        relevance to a given query. The function utilizes a reranker model to calculate
+        relevance scores for each statement. Scores for previously unseen statements are
+        cached to optimize performance by avoiding repetitive computations. The returned
+        list of tuples contains scores and statement IDs sorted in descending order of
+        relevance.
 
-        This method takes a query, a list of statement IDs, and a dictionary mapping
-        statement IDs to statement texts. For statements not yet cached, it computes
-        relevance scores using the reranker component, caches the scores, and then
-        returns the statement IDs paired with their scores, sorted in descending
-        order of relevance.
-
-        Args:
-            query (str): The query string for which the statements need to be reranked.
-            statement_ids (List[str]): A list of unique IDs corresponding to the
-                statements to be evaluated.
-            statement_texts (Dict[str, str]): A dictionary mapping each statement ID
-                to its associated text.
-
-        Returns:
-            List[Tuple[float, str]]: A list of tuples where each tuple contains the
-                score (float) and the statement ID (str), sorted in descending order
-                based on the scores.
+        :param query: A string representing the main query for which the statements
+            are ranked.
+        :type query: str
+        :param statement_ids: A list of statement IDs that will be ranked.
+        :type statement_ids: List[str]
+        :param statement_texts: A dictionary mapping statement IDs to their corresponding
+            texts.
+        :type statement_texts: Dict[str, str]
+        :return: A list of tuples, where each tuple contains a relevance score and
+            a statement ID, sorted by score in descending order.
+        :rtype: List[Tuple[float, str]]
         """
         uncached_statements = [
             statement_texts[sid]
@@ -213,20 +219,24 @@ class RerankingBeamGraphSearch(SemanticGuidedBaseRetriever):
     def beam_search(
         self, query_bundle: QueryBundle, start_statement_ids: List[str]
     ) -> List[Tuple[str, List[str]]]:
-        """Executes a beam search algorithm using a priority queue to explore a
-        network of statements, starting from provided initial statement IDs.
-        The method scores and prioritizes paths according to a reranker
-        function and keeps track of visited nodes to avoid revisits. Results
-        consist of statement IDs and their respective paths.
+        """
+        Performs a beam search over a set of statements, starting from initial
+        statements and expanding paths through neighboring statements. The method
+        uses a priority queue to maintain and evaluate paths based on their scores.
+        The scoring is handled by a reranker which ranks statements based on their
+        relevance to a query. The results are collected as a list of statement IDs
+        and their corresponding paths up to the beam width specified.
 
-        Args:
-            query_bundle (QueryBundle): A bundle containing query details such as the query string.
-            start_statement_ids (List[str]): A list of IDs representing the starting points
-                for the beam search.
-
-        Returns:
-            List[Tuple[str, List[str]]]: A list of tuples, where each tuple consists of a
-                statement ID and the path taken to reach it.
+        :param query_bundle: The query descriptor containing the input query string
+                             used for statement scoring during reranking.
+        :type query_bundle: QueryBundle
+        :param start_statement_ids: A list of IDs representing the starting statements
+                                    for the beam search.
+        :type start_statement_ids: List[str]
+        :return: A list of tuples, each containing a statement ID and the path of
+                 statement IDs leading to it. The number of results is limited by
+                 the beam width.
+        :rtype: List[Tuple[str, List[str]]]
         """
         visited: Set[str] = set()
         results: List[Tuple[str, List[str]]] = []
@@ -286,22 +296,19 @@ class RerankingBeamGraphSearch(SemanticGuidedBaseRetriever):
         return results
 
     def _retrieve(self, query_bundle: QueryBundle) -> List[NodeWithScore]:
-        """Retrieves a list of nodes based on the given query bundle using a
-        combination of shared nodes, initial retrievers, and beam search
-        techniques. The retrieval process utilizes metadata and cached
-        information to generate a ranked list of potential matches. The
-        retrieved nodes are sorted by their scores in descending order before
-        returning.
+        """
+        Retrieve a list of relevant nodes based on the given query bundle using an
+        initial retrieval process and a subsequent beam search. The method attempts
+        to find the most contextually relevant nodes by combining initial filtering
+        and iterative refinement through beam search.
 
-        Args:
-            query_bundle (QueryBundle): Contains the query data required for retrieval.
+        :param query_bundle: The query information which may include query text,
+            metadata, or other parameters necessary for retrieval.
+        :type query_bundle: QueryBundle
 
-        Returns:
-            List[NodeWithScore]: A list of nodes with associated scores, representing
-            relevant matches for the query.
-
-        Raises:
-            None
+        :return: A list of nodes with their associated scores representing their
+            relevance to the query.
+        :rtype: List[NodeWithScore]
         """
 
         # Get initial nodes (either shared or from initial retrievers)

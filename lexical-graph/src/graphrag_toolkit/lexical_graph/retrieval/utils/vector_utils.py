@@ -21,27 +21,23 @@ def get_diverse_vss_elements(
     args: ProcessorArgs,
     filter_config: Optional[FilterConfig],
 ):
-    """Retrieve diverse elements from a vector search system (VSS) by applying
-    a diversity factor to limit redundancy among results.
+    """
+    Retrieve a diverse set of elements from a vector search store (VSS) based on the specified top-k
+    and diversity factor. This function ensures that elements are sampled from different sources
+    based on their diversity.
 
-    This function queries a vector store using the provided query, index, and filter
-    configuration, then applies a diversity mechanism to return results with more
-    heterogeneity. The diversity factor determines the level of diversification among
-    the results.
-
-    Args:
-        index_name (str): Name of the index to search in the vector store.
-        query_bundle (QueryBundle): Query object containing the necessary details for
-            executing the search.
-        vector_store (VectorStore): Vector store instance to query for retrieving the
-            elements.
-        args (ProcessorArgs): Arguments object containing configurations for top-k
-            results and the diversity factor.
-        filter_config (Optional[FilterConfig]): Optional filter configuration to
-            refine the query results.
-
-    Returns:
-        list: A list of diverse elements from the vector store result set.
+    :param index_name: The name of the index to query.
+    :type index_name: str
+    :param query_bundle: The query information used to fetch results from the vector store.
+    :type query_bundle: QueryBundle
+    :param vector_store: The vector store to query for elements.
+    :type vector_store: VectorStore
+    :param args: Arguments containing settings for the query, including top-k and diversity factor.
+    :type args: ProcessorArgs
+    :param filter_config: Optional filter configuration to apply additional constraints on the query.
+    :type filter_config: Optional[FilterConfig]
+    :return: A list of diverse elements retrieved from the vector search store.
+    :rtype: List[dict]
     """
     diversity_factor = args.vss_diversity_factor
     vss_top_k = args.vss_top_k

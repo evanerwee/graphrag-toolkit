@@ -81,32 +81,23 @@ class GraphStoreFactory:
 
     @staticmethod
     def for_graph_store(graph_info: GraphStoreType = None, **kwargs) -> GraphStore:
-        """Creates and returns a GraphStore instance based on the provided
-        connection information or factory methods.
+        """
+        Creates or retrieves a graph store instance based on the provided graph
+        information or configuration. If an existing `GraphStore` instance is
+        given, it is returned directly. Otherwise, iterates through registered
+        graph store factories to attempt creating a `GraphStore` instance.
+        Raises an error if no suitable factory can process the given graph store
+        information.
 
-        This method is responsible for initializing the GraphStore by either using
-        the given `graph_info` directly (if it is an instance of `GraphStore`) or
-        by utilizing the registered factory methods to create an appropriate
-        GraphStore instance. If factory creation is not successful, it raises a
-        `ValueError`.
-
-        Args:
-            graph_info (GraphStoreType, optional): Connection information or an
-                existing instance of `GraphStore`. If it's an instance of `GraphStore`,
-                it will be returned directly. Otherwise, it is used to create the
-                GraphStore instance.
-            **kwargs: Additional keyword arguments passed to factory methods during
-                GraphStore creation.
-
-        Returns:
-            GraphStore: An instance of `GraphStore` created using the provided
-                information.
-
-        Raises:
-            ValueError: If the `graph_info` is unrecognized or the GraphStore
-                creation fails. Provides detailed information to ensure the
-                graph store connection info is correctly formatted and a suitable
-                factory method is registered.
+        :param graph_info: An existing `GraphStore` instance or configuration
+            information for the graph store.
+        :type graph_info: GraphStoreType
+        :param kwargs: Additional keyword arguments passed to factory methods
+            when creating a `GraphStore` instance.
+        :return: A `GraphStore` instance that matches the provided information.
+        :rtype: GraphStore
+        :raises ValueError: If the graph store information is invalid or no
+            registered factory can process the given configuration.
         """
         if graph_info and isinstance(graph_info, GraphStore):
             return graph_info

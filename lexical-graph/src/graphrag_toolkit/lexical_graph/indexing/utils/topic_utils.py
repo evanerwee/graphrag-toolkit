@@ -20,19 +20,16 @@ logger = logging.getLogger(__name__)
 
 def format_text(text):
     """
-    Formats the input text into a single string.
+    Formats the input text into a string. If the input is a list of strings, it
+    joins the elements with newline characters. If the input is already a string,
+    it simply returns it without modification.
 
-    This function takes an input, which can either be a list of strings or
-    a single string. If the input is a list of strings, it joins all elements
-    in the list with a newline character (`\n`) and returns the resulting
-    string. If the input is already a single string, it returns the string
-    unchanged.
-
-    :param text: List of strings or a single string to be formatted.
-    :type text: list[str] or str
-    :return: A single formatted string. If the input is a list, it returns
-        the list elements joined by newlines. If the input is a single
-        string, it returns the string itself.
+    :param text: Input text, which can either be a list of strings or a single
+        string.
+    :type text: list[str] | str
+    :return: Formatted string. If `text` is a list, the elements are joined into
+        a single string separated by newlines. Otherwise, returns the input string
+        unchanged.
     :rtype: str
     """
     if isinstance(text, list):

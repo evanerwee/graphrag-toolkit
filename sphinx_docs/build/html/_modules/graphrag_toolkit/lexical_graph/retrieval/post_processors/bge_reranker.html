@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -295,20 +295,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -374,21 +362,29 @@
 <div class="viewcode-block" id="BGEReranker">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BGEReranker</span><span class="p">(</span><span class="n">BaseNodePostprocessor</span><span class="p">,</span> <span class="n">RerankerMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BGEReranker class for re-ranking nodes or sentence pairs based on a</span>
-<span class="sd">    model.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a Transformer-based reranker for node ranking tasks, built upon</span>
+<span class="sd">    the FlagEmbedding reranker implementation. This class is designed to handle</span>
+<span class="sd">    GPU-based re-ranking of node pairs using pre-trained language models, allowing</span>
+<span class="sd">    for efficient and scalable processing in applications such as search relevance</span>
+<span class="sd">    and text similarity scoring.</span>
 
-<span class="sd">    This class utilizes a pre-trained re-ranker model to re-rank sentence pairs or nodes</span>
-<span class="sd">    with scores. It uses GPU for computations if available and is designed to work with</span>
-<span class="sd">    the LayerWiseFlagLLMReranker model from the FlagEmbedding library.</span>
+<span class="sd">    The class leverages batch processing for efficient computation and includes</span>
+<span class="sd">    methods to adjust configurations dynamically. It is optimized for single GPU</span>
+<span class="sd">    usage and expects CUDA-compatible devices for execution.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        model_name (str): Name of the pre-trained re-ranker model to use.</span>
-<span class="sd">        gpu_id (Optional[int]): ID of the GPU to use for computations. If None and GPUs</span>
-<span class="sd">            are available, the first free GPU will be used.</span>
-<span class="sd">        reranker (Any): The re-ranker object initialized with the specified model.</span>
-<span class="sd">        device (Any): The torch device to be used for computations, either CPU or GPU.</span>
-<span class="sd">        batch_size_internal (int): Batch size used for processing sentence pairs</span>
-<span class="sd">            or nodes.</span>
+<span class="sd">    :ivar model_config: Configuration dictionary for managing model settings and namespaces.</span>
+<span class="sd">    :type model_config: ConfigDict</span>
+<span class="sd">    :ivar model_name: The name of the model used for reranking.</span>
+<span class="sd">    :type model_name: str</span>
+<span class="sd">    :ivar gpu_id: Optional ID of the GPU utilized for processing.</span>
+<span class="sd">    :type gpu_id: Optional[int]</span>
+<span class="sd">    :ivar reranker: The initialized reranker model instance.</span>
+<span class="sd">    :type reranker: Any</span>
+<span class="sd">    :ivar device: The CUDA device used for computation.</span>
+<span class="sd">    :type device: Any</span>
+<span class="sd">    :ivar batch_size_internal: Internal batch size used for input processing.</span>
+<span class="sd">    :type batch_size_internal: int</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">protected_namespaces</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;model_validate&#39;</span><span class="p">,</span> <span class="s1">&#39;model_dump&#39;</span><span class="p">))</span>
@@ -405,23 +401,23 @@
         <span class="n">gpu_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the __init__ function for configuring and setting up the</span>
-<span class="sd">        reranker model. This includes loading the necessary dependencies,</span>
-<span class="sd">        setting GPU device, and initializing key model parameters. If the</span>
-<span class="sd">        required dependencies are not installed or GPU is unavailable,</span>
-<span class="sd">        appropriate errors are raised to handle those issues.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the `BGEReranker` class, which configures a model for reranking</span>
+<span class="sd">        utilizing GPU-based acceleration. The class requires a model name and device</span>
+<span class="sd">        configuration for processing and uses the `FlagEmbedding` library for model</span>
+<span class="sd">        initialization. This initialization ensures compatibility with supported</span>
+<span class="sd">        GPUs and optimizes memory allocation as needed.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            model_name (str): The name of the model to be loaded. Defaults to</span>
-<span class="sd">                &#39;BAAI/bge-reranker-v2-minicpm-layerwise&#39;.</span>
-<span class="sd">            gpu_id (Optional[int]): The ID of the GPU to be utilized. If None, assigns</span>
-<span class="sd">                the first available free GPU.</span>
-<span class="sd">            batch_size (int): The batch size for processing inputs. Defaults to 128.</span>
+<span class="sd">        :param model_name: Name of the reranker model to be loaded.</span>
+<span class="sd">        :type model_name: str</span>
+<span class="sd">        :param gpu_id: ID of the GPU to be used. If None, defaults to the most suitable GPU.</span>
+<span class="sd">        :type gpu_id: Optional[int]</span>
+<span class="sd">        :param batch_size: Number of samples to process in a batch.</span>
+<span class="sd">        :type batch_size: int</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            ImportError: If the FlagEmbedding package is not installed.</span>
-<span class="sd">            Exception: If no compatible GPU is available or any error occurs during</span>
-<span class="sd">                initialization of the reranker model.</span>
+<span class="sd">        :raises ImportError: If `FlagEmbedding` library is not available.</span>
+<span class="sd">        :raises Exception: If a GPU-compatible environment is not detected.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
@@ -552,7 +548,12 @@
             <span class="k">return</span> <span class="n">nodes</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cleanup when the object is deleted.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The &#39;__del__&#39; method ensures that GPU memory is cleared when an instance of the object is deleted.</span>
+<span class="sd">        This is useful for managing resources in environments with limited GPU memory.</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span>
@@ -606,11 +607,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

@@ -12,28 +12,32 @@ from llama_index.core.schema import QueryBundle
 
 
 class TruncateResults(ProcessorBase):
-    """TruncateResults processes search results by limiting the number of
-    results.
+    """
+    Represents a processor that truncates search results to a specified maximum.
 
-    This class extends the ProcessorBase and is used to truncate the
-    number of search results to a defined maximum limit specified
-    in the configuration. It modifies the search results inline
-    by only keeping the top results up to the configured limit.
+    This class is responsible for handling and processing a collection of search
+    results by shortening the list to conform to a predefined maximum number of
+    results. It leverages the configuration provided during initialization and
+    enables efficient handling of search results.
 
-    Attributes:
-        args (ProcessorArgs): Configuration and settings for processing.
-        filter_config (FilterConfig): Configuration for the filtering process.
+    :ivar args: Arguments used to configure the processor, including settings
+        like the maximum number of results.
+    :type args: ProcessorArgs
+    :ivar filter_config: Configuration details defining the filters or additional
+        specifications for processing the results.
+    :type filter_config: FilterConfig
     """
 
     def __init__(self, args: ProcessorArgs, filter_config: FilterConfig):
-        """Initializes an instance of the Processor class. This constructor
-        provides initial setup and configuration using the specified arguments
-        and filter configuration.
+        """
+        Initializes the main processor class with provided arguments and filter configurations.
+        This class is a subclass of a base processor class, and its purpose is to handle specific
+        processing tasks based on the arguments and filter configurations supplied during initialization.
 
-        Args:
-            args (ProcessorArgs): Arguments for configuring the processor.
-            filter_config (FilterConfig): Filter configuration details used during
-                initialization.
+        :param args: Processor arguments used for configuring behavior and execution flow
+         :type args: ProcessorArgs
+        :param filter_config: Configuration of the filter settings for processing
+         :type filter_config: FilterConfig
         """
         super().__init__(args, filter_config)
 

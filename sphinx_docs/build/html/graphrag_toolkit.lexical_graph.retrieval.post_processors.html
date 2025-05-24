@@ -388,44 +388,44 @@ the need for an instance.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.</span></span><span class="sig-name descname"><span class="pre">BGEReranker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'BAAI/bge-reranker-v2-minicpm-layerwise'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/bge_reranker.html#BGEReranker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseNodePostprocessor</span></code>, <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin" title="graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RerankerMixin</span></code></a></p>
-<p>BGEReranker class for re-ranking nodes or sentence pairs based on a
-model.</p>
-<p>This class utilizes a pre-trained re-ranker model to re-rank sentence pairs or nodes
-with scores. It uses GPU for computations if available and is designed to work with
-the LayerWiseFlagLLMReranker model from the FlagEmbedding library.</p>
-<dl>
-<dt>Attributes:</dt><dd><p>model_name (str): Name of the pre-trained re-ranker model to use.
-gpu_id (Optional[int]): ID of the GPU to use for computations. If None and GPUs</p>
-<blockquote>
-<div><p>are available, the first free GPU will be used.</p>
-</div></blockquote>
-<p>reranker (Any): The re-ranker object initialized with the specified model.
-device (Any): The torch device to be used for computations, either CPU or GPU.
-batch_size_internal (int): Batch size used for processing sentence pairs</p>
-<blockquote>
-<div><p>or nodes.</p>
-</div></blockquote>
+<p>Represents a Transformer-based reranker for node ranking tasks, built upon
+the FlagEmbedding reranker implementation. This class is designed to handle
+GPU-based re-ranking of node pairs using pre-trained language models, allowing
+for efficient and scalable processing in applications such as search relevance
+and text similarity scoring.</p>
+<p>The class leverages batch processing for efficient computation and includes
+methods to adjust configurations dynamically. It is optimized for single GPU
+usage and expects CUDA-compatible devices for execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_config</strong> – Configuration dictionary for managing model settings and namespaces.</p></li>
+<li><p><strong>model_name</strong> – The name of the model used for reranking.</p></li>
+<li><p><strong>gpu_id</strong> – Optional ID of the GPU utilized for processing.</p></li>
+<li><p><strong>reranker</strong> – The initialized reranker model instance.</p></li>
+<li><p><strong>device</strong> – The CUDA device used for computation.</p></li>
+<li><p><strong>batch_size_internal</strong> – Internal batch size used for input processing.</p></li>
+</ul>
 </dd>
 </dl>
-<p>Initializes the __init__ function for configuring and setting up the
-reranker model. This includes loading the necessary dependencies,
-setting GPU device, and initializing key model parameters. If the
-required dependencies are not installed or GPU is unavailable,
-appropriate errors are raised to handle those issues.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>model_name (str): The name of the model to be loaded. Defaults to</dt><dd><p>‘BAAI/bge-reranker-v2-minicpm-layerwise’.</p>
+<p>Initializes the <cite>BGEReranker</cite> class, which configures a model for reranking
+utilizing GPU-based acceleration. The class requires a model name and device
+configuration for processing and uses the <cite>FlagEmbedding</cite> library for model
+initialization. This initialization ensures compatibility with supported
+GPUs and optimizes memory allocation as needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_name</strong> (<em>str</em>) – Name of the reranker model to be loaded.</p></li>
+<li><p><strong>gpu_id</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – ID of the GPU to be used. If None, defaults to the most suitable GPU.</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em>) – Number of samples to process in a batch.</p></li>
+</ul>
 </dd>
-<dt>gpu_id (Optional[int]): The ID of the GPU to be utilized. If None, assigns</dt><dd><p>the first available free GPU.</p>
-</dd>
-</dl>
-<p>batch_size (int): The batch size for processing inputs. Defaults to 128.</p>
-</dd>
-<dt>Raises:</dt><dd><p>ImportError: If the FlagEmbedding package is not installed.
-Exception: If no compatible GPU is available or any error occurs during</p>
-<blockquote>
-<div><p>initialization of the reranker model.</p>
-</div></blockquote>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ImportError</strong> – If <cite>FlagEmbedding</cite> library is not available.</p></li>
+<li><p><strong>Exception</strong> – If a GPU-compatible environment is not detected.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py property">

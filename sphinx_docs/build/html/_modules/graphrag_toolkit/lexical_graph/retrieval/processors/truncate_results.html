@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.retrieval.processors.truncate_results - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -295,20 +295,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -360,28 +348,32 @@
 <div class="viewcode-block" id="TruncateResults">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.truncate_results.TruncateResults">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TruncateResults</span><span class="p">(</span><span class="n">ProcessorBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;TruncateResults processes search results by limiting the number of</span>
-<span class="sd">    results.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a processor that truncates search results to a specified maximum.</span>
 
-<span class="sd">    This class extends the ProcessorBase and is used to truncate the</span>
-<span class="sd">    number of search results to a defined maximum limit specified</span>
-<span class="sd">    in the configuration. It modifies the search results inline</span>
-<span class="sd">    by only keeping the top results up to the configured limit.</span>
+<span class="sd">    This class is responsible for handling and processing a collection of search</span>
+<span class="sd">    results by shortening the list to conform to a predefined maximum number of</span>
+<span class="sd">    results. It leverages the configuration provided during initialization and</span>
+<span class="sd">    enables efficient handling of search results.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        args (ProcessorArgs): Configuration and settings for processing.</span>
-<span class="sd">        filter_config (FilterConfig): Configuration for the filtering process.</span>
+<span class="sd">    :ivar args: Arguments used to configure the processor, including settings</span>
+<span class="sd">        like the maximum number of results.</span>
+<span class="sd">    :type args: ProcessorArgs</span>
+<span class="sd">    :ivar filter_config: Configuration details defining the filters or additional</span>
+<span class="sd">        specifications for processing the results.</span>
+<span class="sd">    :type filter_config: FilterConfig</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">ProcessorArgs</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of the Processor class. This constructor</span>
-<span class="sd">        provides initial setup and configuration using the specified arguments</span>
-<span class="sd">        and filter configuration.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the main processor class with provided arguments and filter configurations.</span>
+<span class="sd">        This class is a subclass of a base processor class, and its purpose is to handle specific</span>
+<span class="sd">        processing tasks based on the arguments and filter configurations supplied during initialization.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            args (ProcessorArgs): Arguments for configuring the processor.</span>
-<span class="sd">            filter_config (FilterConfig): Filter configuration details used during</span>
-<span class="sd">                initialization.</span>
+<span class="sd">        :param args: Processor arguments used for configuring behavior and execution flow</span>
+<span class="sd">         :type args: ProcessorArgs</span>
+<span class="sd">        :param filter_config: Configuration of the filter settings for processing</span>
+<span class="sd">         :type filter_config: FilterConfig</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">)</span>
 
@@ -453,11 +445,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

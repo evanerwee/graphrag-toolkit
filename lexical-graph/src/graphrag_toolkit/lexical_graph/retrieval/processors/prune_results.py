@@ -15,18 +15,20 @@ from llama_index.core.schema import QueryBundle
 
 
 class PruneResults(ProcessorBase):
-    """Represents a processor that prunes search results based on a score
-    threshold.
+    """
+    Handles processing tasks by pruning search results based on scores relative
+    to a predefined pruning threshold. This class is used as a base for
+    processing search results to filter out less relevant items.
 
-    This class inherits from ProcessorBase and processes search results by applying a pruning function.
-    The pruning removes results that do not meet a predefined score threshold. It is designed for use
-    cases where it is necessary to filter out low-scoring results from a search result collection.
+    The purpose of this class is to efficiently manage and refine search
+    results by applying a pruning mechanism. It uses a score threshold to
+    exclude search results that do not meet the relevance criteria. Users can
+    configure the threshold through the associated arguments.
 
-    Attributes:
-        args (ProcessorArgs): Arguments containing configuration and settings for the pruning process,
-            including the results pruning threshold.
-        filter_config (FilterConfig): Configuration for filtering, providing additional parameters
-            or constraints that may influence the pruning logic.
+    :ivar args: The arguments required for processing tasks, including the pruning threshold.
+    :type args: ProcessorArgs
+    :ivar filter_config: Configuration settings for filtering during processing.
+    :type filter_config: FilterConfig
     """
 
     def __init__(self, args: ProcessorArgs, filter_config: FilterConfig):
@@ -35,8 +37,7 @@ class PruneResults(ProcessorBase):
 
         Args:
             args (ProcessorArgs): The arguments required for processing tasks.
-            filter_config (FilterConfig): Configuration settings for filtering during
-                processing.
+            filter_config (FilterConfig): Configuration settings for filtering during processing.
         """
         super().__init__(args, filter_config)
 
