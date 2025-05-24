@@ -9,16 +9,21 @@ from graphrag_toolkit.lexical_graph.storage.graph import GraphStore, NodeId
 
 
 class MultiTenantGraphStore(GraphStore):
-    """Represents a multi-tenant graph store.
+    """
+    Represents a multi-tenant graph store that serves as a wrapper around a `GraphStore`
+    to add tenant-specific functionality. This class enables handling of graph data
+    segregation for multiple tenants by introducing tenant-specific labels, query rewriting,
+    and additional tenant context. It delegates underlying operations to the contained
+    `GraphStore` instance while applying tenant-awareness on top of it.
 
-    This class serves as a wrapper for a GraphStore to support multi-tenancy. It modifies
-    queries and operations to be specific to the tenant identified by a tenant ID. The
-    class ensures that graph operations are isolated and specific to the tenant, providing
-    effective multi-tenant handling for graph data.
+    This class is particularly useful in applications where multiple tenants share the same
+    underlying graph database infrastructure but need data isolation and customized operations
+    per tenant.
 
-    Attributes:
-        inner (GraphStore): The underlying graph store being wrapped to enable multi-tenancy.
-        labels (List[str]): A list of graph labels that might be rewritten for the tenant.
+    :ivar inner: The underlying graph store instance being wrapped by this multi-tenant wrapper.
+    :type inner: GraphStore
+    :ivar labels: List of graph labels that are tenant-specific and used in query rewriting.
+    :type labels: List[str]
     """
 
     @classmethod
@@ -28,22 +33,25 @@ class MultiTenantGraphStore(GraphStore):
         tenant_id: TenantId,
         labels: List[str] = LEXICAL_GRAPH_LABELS,
     ):
-        """Creates and returns a GraphStore instance, which can appropriately
-        handle multi-tenancy based on the tenant information provided. If the
-        tenant is a default tenant, the original graph store instance is
-        returned as is. Otherwise, ensures that a MultiTenantGraphStore
-        instance is created and returned.
+        """
+        Wraps a ``GraphStore`` instance into a ``MultiTenantGraphStore`` if necessary. This
+        method checks the type of the provided ``graph_store`` and the status of the
+        ``tenant_id`` to either return the given ``graph_store`` directly or wrap it
+        in a ``MultiTenantGraphStore``.
 
-        Args:
-            graph_store (GraphStore): The graph store instance to be wrapped for multi-tenancy.
-            tenant_id (TenantId): The tenant identifier used to determine if multi-tenancy is
-                required.
-            labels (List[str]): A list of labels associated with the graph store. Defaults to
-                `LEXICAL_GRAPH_LABELS`.
-
-        Returns:
-            GraphStore: The resulting graph store instance, either as-is or wrapped as a
-                MultiTenantGraphStore depending on tenant information.
+        :param graph_store: The graph store instance to potentially wrap, which may be a
+            subclass of ``GraphStore`` or already a ``MultiTenantGraphStore``.
+        :type graph_store: GraphStore
+        :param tenant_id: The identifier of the tenant information for the
+            graph store. Each tenant is identified uniquely.
+        :type tenant_id: TenantId
+        :param labels: A list of graph labels used for multi-tenancy context.
+            Defaults to ``LEXICAL_GRAPH_LABELS``.
+        :type labels: List[str]
+        :return: Returns the same instance if it's already a multi-tenant graph store or the
+            tenant is default. Otherwise, wraps the existing graph store in a
+            ``MultiTenantGraphStore`` and returns it.
+        :rtype: Union[GraphStore, MultiTenantGraphStore]
         """
         if tenant_id.is_default_tenant():
             return graph_store
@@ -64,20 +72,20 @@ class MultiTenantGraphStore(GraphStore):
         max_wait=5,
         **kwargs,
     ):
-        """Executes a query with retry logic, ensuring the query is attempted
-        multiple times in case of failure. This method uses the `inner`
-        object's `execute_query_with_retry` method to perform the actual query,
-        after rewriting the provided query string if necessary.
+        """
+        Executes a database query with retry capability. The method attempts to execute the
+        provided query using a specified maximum number of attempts and wait time between
+        each retry. It also allows additional parameters and arguments to modify the query
+        execution behavior. This function internally rewrites the query before execution and
+        delegates the retry mechanism to another method.
 
-        Args:
-            query: A string representing the SQL query to be executed.
-            parameters: A dictionary containing the parameters to be bound to the query.
-            max_attempts: An optional integer specifying the maximum number of retry
-                attempts. Defaults to 3.
-            max_wait: An optional integer specifying the maximum wait time in seconds
-                between retries. Defaults to 5.
-            **kwargs: Additional optional keyword arguments to be passed to the
-                `execute_query_with_retry` method of the `inner` object.
+        :param query: The SQL query string to be executed.
+        :param parameters: Mapping of query parameters to their respective values.
+        :param max_attempts: The maximum number of retry attempts allowed in case of failure
+            (default is 3).
+        :param max_wait: The maximum wait time between retry attempts, in seconds (default is 5).
+        :param kwargs: Additional arguments to customize query execution as needed.
+        :return: None.
         """
         self.inner.execute_query_with_retry(
             query=self._rewrite_query(query),
@@ -87,73 +95,69 @@ class MultiTenantGraphStore(GraphStore):
         )
 
     def _logging_prefix(self, query_id: str, correlation_id: Optional[str] = None):
-        """Generates a logging prefix based on given `query_id` and optional
-        `correlation_id`.
+        """
+        Generates a logging prefix string based on the provided query ID and optional
+        correlation ID. The function utilizes an internal method to construct the
+        logging prefix for identifying specific queries and their related operations.
 
-        This method delegates the functionality to the `inner` attribute's
-        `_logging_prefix` method. The prefix is typically used for logging
-        or debugging purposes to include contextual information.
-
-        Args:
-            query_id (str): A unique identifier for the query to include in
-                the logging prefix.
-            correlation_id (Optional[str]): An optional identifier that links
-                related queries or requests for additional context in log
-                messages.
-
-        Returns:
-            str: The generated logging prefix containing the provided identifiers.
+        :param query_id: A unique identifier for the query.
+        :type query_id: str
+        :param correlation_id: An optional identifier used for correlating related queries
+            or operations. If not provided, the prefix is generated using only the query_id.
+        :type correlation_id: Optional[str]
+        :return: A string used as the logging prefix, constructed using the query_id and
+            optionally the correlation_id.
+        :rtype: str
         """
         return self.inner._logging_prefix(
             query_id=query_id, correlation_id=correlation_id
         )
 
     def property_assigment_fn(self, key: str, value: Any) -> Callable[[str], str]:
-        """Assigns a value to a property of an inner object and returns a
-        callable function to retrieve a property value as a string. This method
-        delegates the assignment to an inner object's function.
+        """
+        Assigns a property by using a key-value pair. This function acts as a wrapper
+        around an inner method and delegates execution to it.
 
-        Args:
-            key: The name of the property to assign in the inner object.
-            value: The value to assign to the specified property.
-
-        Returns:
-            A callable that takes a string parameter and returns a string representation
-            of the requested property's value.
+        :param key: The key identifying the property to be assigned.
+        :type key: str
+        :param value: The value to be assigned to the given key.
+        :type value: Any
+        :return: A callable function that accepts a key as a string and returns a string.
+        :rtype: Callable[[str], str
         """
         return self.inner.property_assigment_fn(key, value)
 
     def node_id(self, id_name: str) -> NodeId:
-        """Retrieves a unique node identifier (NodeId) based on the provided
-        node name.
+        """
+        Retrieves a NodeId corresponding to the provided node name.
 
-        This function interacts with an internal structure to map the given node name
-        to its corresponding unique identifier.
+        This method utilizes the `node_id` method from an underlying
+        implementation to fetch the unique identifier (NodeId) for the
+        given node name.
 
-        Args:
-            id_name (str): The name of the node for which the identifier is being
-                retrieved.
-
-        Returns:
-            NodeId: The unique identifier associated with the specified node name.
+        :param id_name: The name of the node for which the unique identifier
+            (NodeId) is required.
+        :type id_name: str
+        :return: A NodeId instance corresponding to the provided node name.
+        :rtype: NodeId
         """
         return self.inner.node_id(id_name=id_name)
 
     def execute_query(
         self, cypher: str, parameters={}, correlation_id=None
     ) -> Dict[str, Any]:
-        """Executes a database query with the given cypher query string,
-        parameters, and an optional correlation ID for tracking purposes.
+        """
+        Executes a query using the provided cypher string, parameters, and optional correlation ID.
+        This method interacts with an underlying reference to execute the final translated query.
 
-        Args:
-            cypher: The cypher query string to execute.
-            parameters: A dictionary containing the parameters for the query. Default
-                is an empty dictionary.
-            correlation_id: An optional identifier used for correlating and tracking
-                the query execution. Default is None.
-
-        Returns:
-            A dictionary containing the query results or metadata.
+        :param cypher: The Cypher query string that specifies the operation to be executed.
+        :type cypher: str
+        :param parameters: Optional dictionary containing the parameters for the Cypher query.
+        :type parameters: dict
+        :param correlation_id: Optional identifier to correlate the execution of this query.
+        :type correlation_id: Any
+        :return: A dictionary containing the result of the query execution.
+        :rtype: Dict[str, Any]
         """
         return self.inner.execute_query(
             cypher=self._rewrite_query(cypher),
@@ -162,15 +166,17 @@ class MultiTenantGraphStore(GraphStore):
         )
 
     def _rewrite_query(self, cypher: str):
-        """Rewrites the given Cypher query to replace instance-specific labels
-        with their tenant-specific versions based on the tenant ID. The method
-        processes all labels and updates the query accordingly.
+        """
+        Rewrites a Cypher query to ensure that all labels are formatted according
+        to the tenant's identifier. If the default tenant is active, the query
+        remains unchanged. Otherwise, it replaces each label in the query format
+        with the tenant-specific label.
 
-        Args:
-            cypher (str): The original Cypher query to be rewritten.
-
-        Returns:
-            str: The rewritten Cypher query with tenant-specific labels.
+        :param cypher: The Cypher query string to be rewritten.
+        :type cypher: str
+        :return: The rewritten Cypher query string with tenant-specific labels, or
+            the original query if executed under the default tenant.
+        :rtype: str
         """
         if self.tenant_id.is_default_tenant():
             return cypher

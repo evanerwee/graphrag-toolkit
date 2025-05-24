@@ -20,21 +20,21 @@ graphrag\_toolkit.lexical\_graph.retrieval.model module
 
 .. automodule:: graphrag_toolkit.lexical_graph.retrieval.model
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 graphrag\_toolkit.lexical\_graph.retrieval.prompts module
 ---------------------------------------------------------
 
 .. automodule:: graphrag_toolkit.lexical_graph.retrieval.prompts
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: graphrag_toolkit.lexical_graph.retrieval
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

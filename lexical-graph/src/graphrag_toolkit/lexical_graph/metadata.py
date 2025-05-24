@@ -199,20 +199,21 @@ class DefaultSourceMetadataFormatter(SourceMetadataFormatter):
 
 class FilterConfig(BaseModel):
     """
-    Provides configuration for filter operations, including defining source filters and a
-    filter function for metadata dictionaries.
+    Represents a configuration for filtering metadata dictionaries. This class is built
+    to handle filtering logic determined by source filters and a custom dictionary filter
+    function. It is designed to initialize with or without user-provided metadata filters
+    and applies those specified filters during operations.
 
-    This class is designed to handle and manage metadata filtering. It allows for specifying
-    metadata filters that can be used to evaluate data dictionaries, determining whether they
-    meet given filtering criteria.
+    This class ensures appropriate handling and validation of filter inputs during
+    initialization. It applies user-defined filtering logic to metadata dictionaries
+    to decide whether they meet the desired criteria.
 
-    :ivar source_filters: Optional filters for processing metadata. This attribute can be
-        initialized with different types including `MetadataFilters`, `MetadataFilter`,
-        a list of filters, or None.
-    :type source_filters: Optional[MetadataFiltersType]
-    :ivar source_metadata_dictionary_filter_fn: A callable filter function that takes a dictionary
-        of metadata as its input and returns a boolean result indicating whether the
-        dictionary passes the filter.
+    :ivar source_filters: Metadata filters applied to configure filtering behavior, which
+        defines what criteria the metadata should meet. Can be None if no filters are provided.
+    :type source_filters: Optional[MetadataFilters]
+    :ivar source_metadata_dictionary_filter_fn: A callable filter function that determines
+        whether a metadata dictionary passes the filtering criteria. Used internally to apply
+        the filter logic at runtime.
     :type source_metadata_dictionary_filter_fn: Callable[[Dict[str, Any]], bool]
     """
 

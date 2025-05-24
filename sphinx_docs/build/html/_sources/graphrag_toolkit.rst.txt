@@ -14,5 +14,5 @@ Module contents
 
 .. automodule:: graphrag_toolkit
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.metadata - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
@@ -295,20 +295,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -571,20 +559,21 @@
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FilterConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Provides configuration for filter operations, including defining source filters and a</span>
-<span class="sd">    filter function for metadata dictionaries.</span>
+<span class="sd">    Represents a configuration for filtering metadata dictionaries. This class is built</span>
+<span class="sd">    to handle filtering logic determined by source filters and a custom dictionary filter</span>
+<span class="sd">    function. It is designed to initialize with or without user-provided metadata filters</span>
+<span class="sd">    and applies those specified filters during operations.</span>
 
-<span class="sd">    This class is designed to handle and manage metadata filtering. It allows for specifying</span>
-<span class="sd">    metadata filters that can be used to evaluate data dictionaries, determining whether they</span>
-<span class="sd">    meet given filtering criteria.</span>
+<span class="sd">    This class ensures appropriate handling and validation of filter inputs during</span>
+<span class="sd">    initialization. It applies user-defined filtering logic to metadata dictionaries</span>
+<span class="sd">    to decide whether they meet the desired criteria.</span>
 
-<span class="sd">    :ivar source_filters: Optional filters for processing metadata. This attribute can be</span>
-<span class="sd">        initialized with different types including `MetadataFilters`, `MetadataFilter`,</span>
-<span class="sd">        a list of filters, or None.</span>
-<span class="sd">    :type source_filters: Optional[MetadataFiltersType]</span>
-<span class="sd">    :ivar source_metadata_dictionary_filter_fn: A callable filter function that takes a dictionary</span>
-<span class="sd">        of metadata as its input and returns a boolean result indicating whether the</span>
-<span class="sd">        dictionary passes the filter.</span>
+<span class="sd">    :ivar source_filters: Metadata filters applied to configure filtering behavior, which</span>
+<span class="sd">        defines what criteria the metadata should meet. Can be None if no filters are provided.</span>
+<span class="sd">    :type source_filters: Optional[MetadataFilters]</span>
+<span class="sd">    :ivar source_metadata_dictionary_filter_fn: A callable filter function that determines</span>
+<span class="sd">        whether a metadata dictionary passes the filtering criteria. Used internally to apply</span>
+<span class="sd">        the filter logic at runtime.</span>
 <span class="sd">    :type source_metadata_dictionary_filter_fn: Callable[[Dict[str, Any]], bool]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -869,11 +858,11 @@
     </aside>
   </div>
 </div><script src="../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>
