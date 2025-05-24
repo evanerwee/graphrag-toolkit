@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -295,20 +295,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -377,28 +365,26 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.load.html#graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">S3BasedDocs</span><span class="p">(</span><span class="n">NodeHandler</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Facilitates operations related to handling S3-based documents by providing methods</span>
-<span class="sd">    for processing, filtering metadata, iterating over documents, and storing them</span>
-<span class="sd">    back to S3.</span>
+<span class="sd">    Class responsible for handling operations involving S3 documents. This class provides</span>
+<span class="sd">    functionality for managing, processing, and storing data in an AWS S3 bucket. It allows</span>
+<span class="sd">    filtering of metadata within nodes, retrieval of source documents, iteration over S3</span>
+<span class="sd">    data, and handling of S3 encryption for added security.</span>
 
-<span class="sd">    This class is designed to serve as an interface for applications working with</span>
-<span class="sd">    document nodes stored and managed in S3 buckets. It enables metadata filtering,</span>
-<span class="sd">    standard processing workflows, and secure storage with optional encryption. The</span>
-<span class="sd">    design supports both source document retrieval and the uploading of processed</span>
-<span class="sd">    node data.</span>
+<span class="sd">    The class offers methods that assist in retrieving data from S3, filtering it, and</span>
+<span class="sd">    writing processed information back to the bucket in a structured and secure manner.</span>
+<span class="sd">    It integrates seamlessly with the S3 API for object listing, downloading, and uploading.</span>
 
-<span class="sd">    :ivar region: The AWS region where the S3 bucket is deployed.</span>
+<span class="sd">    :ivar region: The AWS region where the S3 bucket is located.</span>
 <span class="sd">    :type region: str</span>
-<span class="sd">    :ivar bucket_name: Name of the S3 bucket being accessed.</span>
+<span class="sd">    :ivar bucket_name: The name of the S3 bucket used for storing documents.</span>
 <span class="sd">    :type bucket_name: str</span>
-<span class="sd">    :ivar key_prefix: Path prefix in S3 bucket for storing or retrieving objects.</span>
+<span class="sd">    :ivar key_prefix: The prefix for keys in the S3 bucket, defining the folder structure.</span>
 <span class="sd">    :type key_prefix: str</span>
-<span class="sd">    :ivar collection_id: Unique identifier for the collection managed in S3.</span>
+<span class="sd">    :ivar collection_id: The unique identifier for the collection being managed in S3.</span>
 <span class="sd">    :type collection_id: str</span>
-<span class="sd">    :ivar s3_encryption_key_id: Optional encryption key ID for AWS KMS encryption of S3 objects.</span>
+<span class="sd">    :ivar s3_encryption_key_id: The optional KMS encryption key ID for securing S3 objects.</span>
 <span class="sd">    :type s3_encryption_key_id: Optional[str]</span>
-<span class="sd">    :ivar metadata_keys: Optional list of metadata keys for filtering and managing</span>
-<span class="sd">        associated data effectively.</span>
+<span class="sd">    :ivar metadata_keys: The optional list of metadata keys to filter when processing data.</span>
 <span class="sd">    :type metadata_keys: Optional[List[str]]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -418,21 +404,27 @@
         <span class="n">s3_encryption_key_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">metadata_keys</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of the class with parameters for region,</span>
-<span class="sd">        bucket name, key prefix, collection ID, S3 encryption key ID, and</span>
-<span class="sd">        metadata keys. The collection ID defaults to the current timestamp if</span>
-<span class="sd">        not provided.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the instance with the specified region, bucket name, key</span>
+<span class="sd">        prefix, and optional parameters for collection ID, S3 encryption key ID,</span>
+<span class="sd">        and metadata keys. The collection ID defaults to the current timestamp</span>
+<span class="sd">        formatted as &#39;%Y%m%d-%H%M%S&#39; if not provided.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            region: The AWS region where the S3 bucket is hosted.</span>
-<span class="sd">            bucket_name: The name of the S3 bucket to be used.</span>
-<span class="sd">            key_prefix: The prefix to be applied to the keys for the objects stored.</span>
-<span class="sd">            collection_id: The identifier for the collection. If not provided, defaults</span>
-<span class="sd">                to a timestamp in &#39;%Y%m%d-%H%M%S&#39; format.</span>
-<span class="sd">            s3_encryption_key_id: The ID of the encryption key used by S3 for encrypting</span>
-<span class="sd">                objects.</span>
-<span class="sd">            metadata_keys: A list of metadata keys associated with the collection. If</span>
-<span class="sd">                None, metadata will not include additional keys.</span>
+<span class="sd">        :param region: AWS region where the S3 bucket is located.</span>
+<span class="sd">        :param bucket_name: Name of the S3 bucket to be used.</span>
+<span class="sd">        :param key_prefix: Prefix for the S3 keys.</span>
+<span class="sd">        :param collection_id: Unique identifier for the collection. Defaults</span>
+<span class="sd">            to the current timestamp in the &#39;%Y%m%d-%H%M%S&#39; format if not provided.</span>
+<span class="sd">        :param s3_encryption_key_id: Optional encryption key ID for securing S3 keys</span>
+<span class="sd">            in cases where server-side encryption is required.</span>
+<span class="sd">        :param metadata_keys: Optional list of metadata keys to associate with the</span>
+<span class="sd">            S3 objects.</span>
+<span class="sd">        :type region: str</span>
+<span class="sd">        :type bucket_name: str</span>
+<span class="sd">        :type key_prefix: str</span>
+<span class="sd">        :type collection_id: Optional[str]</span>
+<span class="sd">        :type s3_encryption_key_id: Optional[str]</span>
+<span class="sd">        :type metadata_keys: Optional[List[str]]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
@@ -447,42 +439,45 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.load.html#graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs.docs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">docs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Represents the documentation for a generic function or method that</span>
-<span class="sd">        returns its own instance. This function serves as a utility to return</span>
-<span class="sd">        the object itself, which can be useful in chaining operations or</span>
-<span class="sd">        maintaining fluency in method calls.</span>
+<span class="sd">        This method returns the instance of the object itself. It is typically</span>
+<span class="sd">        used for cases where chaining or fluent interfaces are desired. No operations</span>
+<span class="sd">        are performed in this method beyond returning `self`.</span>
 
-<span class="sd">        :return: Returns the instance of the current object itself.</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :return: The instance of the object itself.</span>
+<span class="sd">        :rtypethe same object instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_filter_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">TextNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TextNode</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Processes the provided TextNode object by filtering its metadata and associated</span>
-<span class="sd">        relationship metadata based on predefined and optional criteria.</span>
+<span class="sd">        Filters metadata from a TextNode and its associated relationships.</span>
+<span class="sd">        The function modifies the `metadata` attributes of the input `node`</span>
+<span class="sd">        and any nested relationships to retain specific keys, either those</span>
+<span class="sd">        defined in the constants PROPOSITIONS_KEY, TOPICS_KEY, and INDEX_KEY,</span>
+<span class="sd">        or those specified explicitly in `self.metadata_keys`.</span>
 
-<span class="sd">        This method mutates the metadata attached to the given TextNode by retaining only</span>
-<span class="sd">        specific keys as defined in the filter logic. The filtering operation is applied</span>
-<span class="sd">        to both the node&#39;s metadata and metadata of its relationships.</span>
-
-<span class="sd">        :param node: The TextNode instance whose metadata is to be filtered.</span>
+<span class="sd">        :param node: The input TextNode object whose metadata and relationships&#39;</span>
+<span class="sd">            metadata need to be filtered.</span>
 <span class="sd">        :type node: TextNode</span>
-<span class="sd">        :return: The modified TextNode with filtered metadata.</span>
+<span class="sd">        :return: The updated TextNode with filtered metadata.</span>
 <span class="sd">        :rtype: TextNode</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Class responsible for handling operations involving S3 documents by filtering</span>
-<span class="sd">            relevant metadata from input nodes. Designed to process and retain metadata</span>
-<span class="sd">            that matches specific keys or pre-defined metadata configurations.</span>
+<span class="sd">            Handles S3-based document processing utilizing metadata filtering mechanisms.</span>
+<span class="sd">            This class is an implementation of NodeHandler specialized for specific metadata</span>
+<span class="sd">            management. It includes functionality to process, handle, and filter metadata</span>
+<span class="sd">            based on predefined criteria.</span>
 
-<span class="sd">            :param metadata_keys: Optional list of keys that should be retained when</span>
-<span class="sd">                processing metadata. If not provided, only keys predefined in the</span>
-<span class="sd">                PROPOSITIONS_KEY, TOPICS_KEY, and INDEX_KEY constants are retained.</span>
+<span class="sd">            Attributes:</span>
+<span class="sd">                metadata_keys: Optional list of metadata keys to retain during filtering.</span>
 
+<span class="sd">            :param metadata: Dictionary containing key-value pairs of document metadata.</span>
+<span class="sd">            :type metadata: Dict</span>
+<span class="sd">            :return: Filtered node with the processed metadata.</span>
+<span class="sd">            :rtype: TextNode</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">keys_to_delete</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -502,26 +497,24 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Iterates over source documents stored in an S3 bucket and yields them after</span>
-<span class="sd">        processing. This method retrieves and processes document data by paginating</span>
-<span class="sd">        through S3 objects and filtering their metadata.</span>
+<span class="sd">        Provides an iterator to process and yield source documents, stored in an S3</span>
+<span class="sd">        bucket, where each source document consists of multiple nodes downloaded</span>
+<span class="sd">        and processed in chunks.</span>
 
-<span class="sd">        The documents are represented by nodes, which are extracted from S3 path</span>
-<span class="sd">        prefixes, downloaded as chunks, and parsed from JSON format before filtering.</span>
-<span class="sd">        Each document is then yielded as a `SourceDocument` containing the nodes.</span>
+<span class="sd">        This method fetches a collection of source documents based on a specified</span>
+<span class="sd">        S3 bucket, key prefix, and collection ID. Each source document prefix is</span>
+<span class="sd">        iterated upon to retrieve its associated content in chunks. The chunks</span>
+<span class="sd">        are downloaded, decoded, and processed to construct text nodes, which are</span>
+<span class="sd">        further encapsulated into SourceDocument objects for yielding. Logging is</span>
+<span class="sd">        used to provide debugging information about the ongoing operations.</span>
 
-<span class="sd">        :param self:</span>
-<span class="sd">            The instance of the class containing S3 configurations and context-specific</span>
-<span class="sd">            attributes such as `bucket_name`, `collection_id`, and `key_prefix`.</span>
+<span class="sd">        :raises KeyError: If expected keys are not found in the response from S3.</span>
+<span class="sd">        :raises botocore.exceptions.BotoCoreError: For errors raised by Boto3</span>
+<span class="sd">            or botocore in accessing S3.</span>
+<span class="sd">        :raises IOError: For I/O errors during file download or processing.</span>
 
-<span class="sd">        :returns:</span>
-<span class="sd">            A generator that yields `SourceDocument` objects, where each source document</span>
-<span class="sd">            comprises a list of nodes parsed and filtered from the S3 data.</span>
-
-<span class="sd">        :raises:</span>
-<span class="sd">            This method does not explicitly describe raised exceptions, but S3 client</span>
-<span class="sd">            operations, I/O operations, or JSON parsing may raise exceptions during</span>
-<span class="sd">            execution.</span>
+<span class="sd">        :yield: SourceDocument instances containing nodes retrieved and processed</span>
+<span class="sd">            from the S3 storage.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">s3_client</span> <span class="o">=</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">s3</span>
 
@@ -571,18 +564,15 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SourceType</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        __call__ method processes a list of source types and utilizes the provided</span>
-<span class="sd">        arguments to transform them into a list of source documents. This</span>
-<span class="sd">        method acts as a wrapper that combines source type conversion and</span>
-<span class="sd">        processing logic to generate source documents effectively.</span>
+<span class="sd">        Processes a list of source types and returns a list of source documents. It first</span>
+<span class="sd">        transforms the source types into source documents, and then applies any additional</span>
+<span class="sd">        processing specified by subclass implementations through the `accept` method.</span>
 
-<span class="sd">        :param nodes: List of source types to be processed.</span>
+<span class="sd">        :param nodes: A list of source types to be processed.</span>
 <span class="sd">        :type nodes: List[SourceType]</span>
-<span class="sd">        :param kwargs: Additional arguments that influence the processing of</span>
-<span class="sd">                       source types.</span>
+<span class="sd">        :param kwargs: Additional keyword arguments passed to the `accept` method.</span>
 <span class="sd">        :type kwargs: Any</span>
-<span class="sd">        :return: A list of processed source documents derived from the</span>
-<span class="sd">                 given source types.</span>
+<span class="sd">        :return: A list of processed source documents.</span>
 <span class="sd">        :rtype: List[SourceDocument]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
@@ -595,21 +585,24 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">source_documents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Processes and uploads a list of source documents and their nodes to an S3 bucket.</span>
+<span class="sd">        Processes a list of source documents and writes their metadata chunks to an S3 bucket.</span>
 
-<span class="sd">        The method iterates over the provided source documents and writes each document&#39;s</span>
-<span class="sd">        nodes to an S3 bucket as JSON files. The key prefix structure and additional details</span>
-<span class="sd">        required for S3 uploading are configured using the class attributes such as</span>
-<span class="sd">        `bucket_name`, `key_prefix`, `collection_id`, and `s3_encryption_key_id`. The</span>
-<span class="sd">        method also leverages AWS KMS encryption for secure storage of the objects</span>
-<span class="sd">        where applicable.</span>
+<span class="sd">        Iterates through the provided source documents and generates an output stream</span>
+<span class="sd">        using a generator pattern. Each document and its nodes are processed and stored</span>
+<span class="sd">        in an S3 bucket with proper encryption settings if configured. Supports both KMS</span>
+<span class="sd">        and AES256 encryption for added security. Once a source document&#39;s nodes are</span>
+<span class="sd">        completely written to S3, the method yields the processed document.</span>
 
-<span class="sd">        :param source_documents: List of SourceDocument objects to be processed and stored.</span>
-<span class="sd">        :type source_documents: List[SourceDocument]</span>
-<span class="sd">        :param kwargs: Optional additional parameters.</span>
-<span class="sd">        :type kwargs: Any</span>
-<span class="sd">        :return: A generator to yield each processed SourceDocument after storage.</span>
-<span class="sd">        :rtype: Generator[SourceDocument, None, None]</span>
+<span class="sd">        :param source_documents:</span>
+<span class="sd">            A list of source documents to process and upload to an S3 bucket.</span>
+<span class="sd">            Each document contains metadata that is iterated for storage.</span>
+<span class="sd">        :param kwargs:</span>
+<span class="sd">            Additional key-value arguments that can be passed for extended or</span>
+<span class="sd">            method-specific configuration, if applicable.</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">            A generator that yields processed `SourceDocument` objects after their</span>
+<span class="sd">            respective metadata chunks are successfully written to S3 for storage.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">s3_client</span> <span class="o">=</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">s3</span>
@@ -704,11 +697,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

@@ -57,21 +57,19 @@ def _is_json_string(s):
 
 
 def string_to_bool(s, default_value: bool):
-    """Converts a string to a boolean value.
+    """
+    Converts a string representation of a boolean to an actual boolean value.
+    The function takes a string input and checks if it can be interpreted as
+    a boolean. If the string is empty or None, the provided default value will
+    be returned. Otherwise, the comparison logic is case-insensitive to determine
+    if the string represents a "true" boolean value.
 
-    This function attempts to convert a string to a boolean value. If the string
-    is empty or None, it returns the provided default value. Otherwise, it checks
-    if the string (case-insensitive) matches the value 'true' to determine
-    whether to return True or False.
-
-    Args:
-        s: The string input to be converted to a boolean.
-        default_value: The default boolean value to return if the string is empty
-            or None.
-
-    Returns:
-        bool: The boolean representation of the input string if valid, or the
-        default value otherwise.
+    :param s: The string input to be evaluated. It might contain a textual
+        representation of a boolean.
+    :param default_value: Default boolean value to return if the string is empty
+        or None.
+    :return: A boolean value derived from the given string or the default value
+        if the input string is empty or None.
     """
     if not s:
         return default_value

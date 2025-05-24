@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -295,20 +295,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -353,35 +341,35 @@
 <div class="viewcode-block" id="GraphBatchClient">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GraphBatchClient</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handles batched operations with a graph store client.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages the graph client and facilitates batch processing of operations, such</span>
+<span class="sd">    as writes.</span>
 
-<span class="sd">    GraphBatchClient is designed for handling operations in batches to optimize performance</span>
-<span class="sd">    when interacting with a GraphStore. It enables batching of writes and efficient processing</span>
-<span class="sd">    of graph queries, with support for retrying queries.</span>
+<span class="sd">    This class is designed to streamline and optimize operations with a graph</span>
+<span class="sd">    client by enabling batch processing. It allows configuration for batch write</span>
+<span class="sd">    functionality and maintains data structures for batched operations. It also</span>
+<span class="sd">    keeps track of all nodes processed. The class is intended to enhance</span>
+<span class="sd">    efficiency in working with the graph store by aggregating and managing</span>
+<span class="sd">    operations effectively, including retries for query execution.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        graph_client (GraphStore): The underlying graph store client used for executing</span>
-<span class="sd">            queries and node operations.</span>
-<span class="sd">        batch_writes_enabled (bool): Flag indicating whether batch writes are enabled.</span>
-<span class="sd">        batch_write_size (int): The maximum number of entries in a batch.</span>
-<span class="sd">        batches (dict): A mapping of queries to their associated batched parameters.</span>
-<span class="sd">        all_nodes (list): A collection of all nodes processed for yielding.</span>
+<span class="sd">    :ivar graph_client: The graph client instance used for interacting with the</span>
+<span class="sd">        graph store.</span>
+<span class="sd">    :ivar batch_writes_enabled: Boolean flag indicating whether batch writing is</span>
+<span class="sd">        enabled or not.</span>
+<span class="sd">    :ivar batch_write_size: The number of items included in a single batch during</span>
+<span class="sd">        batch operations.</span>
+<span class="sd">    :ivar batches: Dictionary to store batched query operations, where keys</span>
+<span class="sd">        represent query strings and values are lists of parameters.</span>
+<span class="sd">    :ivar all_nodes: List to track all nodes processed during operations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_client</span><span class="p">:</span><span class="n">GraphStore</span><span class="p">,</span> <span class="n">batch_writes_enabled</span><span class="p">:</span><span class="nb">bool</span><span class="p">,</span> <span class="n">batch_write_size</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of the class that manages the graph client</span>
-<span class="sd">        and facilitates batch processing of operations, such as writes. This</span>
-<span class="sd">        class maintains a reference to a graph client, enables or disables</span>
-<span class="sd">        batch writes, and configures batch write sizes. Additionally, it holds</span>
-<span class="sd">        data structures for managing batched operations and tracking all nodes</span>
-<span class="sd">        processed.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the instance with the required parameters and sets up attributes for managing</span>
+<span class="sd">        graph-related operations, potential batch processing, and tracking nodes.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            graph_client: The graph client instance used for interacting with the graph</span>
-<span class="sd">                store.</span>
-<span class="sd">            batch_writes_enabled: A boolean flag indicating whether batch writing is</span>
-<span class="sd">                enabled or not.</span>
-<span class="sd">            batch_write_size: The number of items to include in a single batch when</span>
-<span class="sd">                performing batch operations.</span>
+<span class="sd">        :param graph_client: The client instance used to interact with the graph database.</span>
+<span class="sd">        :param batch_writes_enabled: Flag indicating whether batch writing is enabled.</span>
+<span class="sd">        :param batch_write_size: The size limit for a single batch in batch writing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph_client</span> <span class="o">=</span> <span class="n">graph_client</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">batch_writes_enabled</span> <span class="o">=</span> <span class="n">batch_writes_enabled</span>
@@ -391,30 +379,31 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">tenant_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Getter method for retrieving the tenant ID associated with the graph</span>
-<span class="sd">        client.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This property retrieves the tenant identifier associated with the</span>
+<span class="sd">        graph client instance. The tenant identifier is a unique value that</span>
+<span class="sd">        is used within the context of a multi-tenant system for identifying</span>
+<span class="sd">        a specific tenant or organization.</span>
 
-<span class="sd">        The tenant ID identifies the tenant to which the current graph client is bound.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The tenant ID of the associated graph client.</span>
+<span class="sd">        :return: The tenant identifier linked to the graph client.</span>
+<span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_client</span><span class="o">.</span><span class="n">tenant_id</span>
 
 <div class="viewcode-block" id="GraphBatchClient.node_id">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.node_id">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetches the node ID by a given name using the graph client.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the unique identifier for a node based on the provided name.</span>
 
-<span class="sd">        This function utilizes the `graph_client` to retrieve the unique node ID</span>
-<span class="sd">        associated with the provided name. It acts as a proxy to the `node_id()`</span>
-<span class="sd">        method of the `graph_client`.</span>
+<span class="sd">        This method takes a name identifier and retrieves the unique node identifier</span>
+<span class="sd">        from the internal graph client. It is useful for associating external entities</span>
+<span class="sd">        with their corresponding internal node representation.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            id_name (str): The name of the node for which the ID is requested.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Any: The ID of the node as returned by the `graph_client`.</span>
+<span class="sd">        :param id_name: Name identifier of the node</span>
+<span class="sd">        :type id_name: str</span>
+<span class="sd">        :return: Unique identifier for the node</span>
+<span class="sd">        :rtype: object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="n">id_name</span><span class="p">)</span></div>
 
@@ -422,16 +411,19 @@
 <div class="viewcode-block" id="GraphBatchClient.property_assigment_fn">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.property_assigment_fn">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assigns a property to a specified key and returns a function to</span>
-<span class="sd">        retrieve the property.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assigns a property to a specified key and value pair, utilizing the provided</span>
+<span class="sd">        graph client to handle the operation. The function ensures a callable result</span>
+<span class="sd">        is returned upon execution.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            key (str): The key to which the property will be assigned.</span>
-<span class="sd">            value (Any): The value of the property to be assigned.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Callable[[str], str]: A function that takes a key and retrieves the assigned property</span>
-<span class="sd">            value as a string.</span>
+<span class="sd">        :param key: The identifier for which the property is being assigned.</span>
+<span class="sd">        :type key: str</span>
+<span class="sd">        :param value: The data or information to associate with the given key in</span>
+<span class="sd">                      the property assignment.</span>
+<span class="sd">        :type value: Any</span>
+<span class="sd">        :return: A callable function that takes a string as input and returns a</span>
+<span class="sd">                 string output after performing the property assignment.</span>
+<span class="sd">        :rtype: Callable[[str], str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_client</span><span class="o">.</span><span class="n">property_assigment_fn</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
@@ -439,17 +431,20 @@
 <div class="viewcode-block" id="GraphBatchClient.execute_query_with_retry">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.execute_query_with_retry">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute_query_with_retry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Executes a query with retry logic. Supports batch processing of</span>
-<span class="sd">        queries if batch writes are enabled. When batch writes are enabled,</span>
-<span class="sd">        properties are grouped and stored in a batch for the given query.</span>
-<span class="sd">        Otherwise, the query is executed immediately with the provided</span>
-<span class="sd">        properties and additional arguments.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes a query with retry logic. If batch writes are enabled, the query and</span>
+<span class="sd">        its parameters are added to a batch for later execution. Otherwise, the query</span>
+<span class="sd">        is immediately executed using the configured graph client.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            query: The query string to be executed against the database.</span>
-<span class="sd">            properties: A dictionary containing parameters or other properties required</span>
-<span class="sd">                for executing the query. Must include &#39;params&#39; if batching is enabled.</span>
-<span class="sd">            **kwargs: Arbitrary keyword arguments that may affect query execution.</span>
+<span class="sd">        :param query: The Cypher query to execute.</span>
+<span class="sd">        :type query: str</span>
+<span class="sd">        :param properties: A dictionary of properties associated with the query,</span>
+<span class="sd">                           typically including parameters to bind during the query</span>
+<span class="sd">                           execution.</span>
+<span class="sd">        :type properties: Dict[str, Any]</span>
+<span class="sd">        :param kwargs: Additional optional parameters passed to control the query</span>
+<span class="sd">                       execution behavior.</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_writes_enabled</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">graph_client</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -462,21 +457,15 @@
 <div class="viewcode-block" id="GraphBatchClient.allow_yield">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.allow_yield">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">allow_yield</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determines whether the given node should be processed immediately or</span>
-<span class="sd">        added to a batch if batch writes are enabled.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if the computational process should yield or continue without yielding</span>
+<span class="sd">        based on the batch writes configuration and the given node.</span>
 
-<span class="sd">        This function evaluates the system&#39;s current mode of handling nodes and either appends</span>
-<span class="sd">        the node to a pending batch queue when batch writes are enabled or permits immediate</span>
-<span class="sd">        processing. If batch writes are enabled, the `all_nodes` list is updated with the</span>
-<span class="sd">        given node. The function determines and returns whether yielding the node is allowed.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            node: The node to process, either by immediate evaluation or batching, depending</span>
-<span class="sd">                on the `batch_writes_enabled` state.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: False if the node is added to the batch queue (batch write mode is enabled),</span>
-<span class="sd">            True otherwise, allowing the node to be processed immediately.</span>
+<span class="sd">        :param node: The node being processed in the computational operation.</span>
+<span class="sd">        :type node: Any</span>
+<span class="sd">        :return: A boolean value indicating whether the process is allowed to yield</span>
+<span class="sd">                 (`True`) or not (`False`).</span>
+<span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_writes_enabled</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">all_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
@@ -488,19 +477,14 @@
 <div class="viewcode-block" id="GraphBatchClient.apply_batch_operations">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.apply_batch_operations">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">apply_batch_operations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Executes batch operations by processing stored queries and</span>
-<span class="sd">        parameters, deduplicating them, and executing the queries in chunks</span>
-<span class="sd">        according to the defined batch size.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply batch operations on stored queries and parameters. This method processes batched query</span>
+<span class="sd">        parameters, removes duplicates, divides them into chunks of a predefined size, and executes each</span>
+<span class="sd">        chunk using the configured graph client. It ensures retries with limited attempts and wait time</span>
+<span class="sd">        in case of execution failures. Returns all processed nodes.</span>
 
-<span class="sd">        Executes queries in retries to handle transient errors, ensuring robust and reliable</span>
-<span class="sd">        execution. Returns the resulting nodes from the performed operations.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            Any exceptions raised during the execution of queries are managed internally</span>
-<span class="sd">            and retried up to the specified maximum attempts.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            list: A list of all nodes resulting from the operations.</span>
+<span class="sd">        :return: All nodes processed after executing the batch operations</span>
+<span class="sd">        :rtype: list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">query</span><span class="p">,</span> <span class="n">parameters</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">batches</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 
@@ -520,16 +504,12 @@
 
   
     <span class="k">def</span><span class="w"> </span><span class="nf">_dedup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span><span class="n">List</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes duplicate entries from the input list based on case-</span>
-<span class="sd">        insensitive string representation and maintains the last occurrence of</span>
-<span class="sd">        each unique entry.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes duplicate parameters from the provided list while preserving case sensitivity</span>
+<span class="sd">        and retains one unique entry based on a lowercased string representation as a key.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            parameters (List): A list of elements which may contain duplicates.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List: A list containing unique elements from the input, preserving the last</span>
-<span class="sd">            occurrence order.</span>
+<span class="sd">        :param parameters: List of parameters of any type to be deduplicated</span>
+<span class="sd">        :return: A list containing unique parameters based on case-insensitive comparisons</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">params_map</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
@@ -537,28 +517,34 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">params_map</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
     
     <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Handles the setup operations for a context manager. This method is</span>
-<span class="sd">        invoked automatically when the context manager is entered using the</span>
-<span class="sd">        `with` statement, and it ensures that any necessary initialization</span>
-<span class="sd">        logic for the context is executed.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Manages context entering actions for a class or object. When used in a</span>
+<span class="sd">        with-statement, this method is automatically invoked to allow the</span>
+<span class="sd">        class or object to define the set-up behavior for the context.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            self: Returns the context manager instance to enable usage within the</span>
-<span class="sd">            `with` statement.</span>
+<span class="sd">        :return: Returns the context-managed object.</span>
+<span class="sd">        :rtype: Same class as the object implementing this method</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_type</span><span class="p">,</span> <span class="n">exception_value</span><span class="p">,</span> <span class="n">exception_traceback</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Handles the exit of a context manager by suppressing exceptions or</span>
-<span class="sd">        performing cleanup operations when the context is exited.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles the exit from a runtime context, such as that created by the</span>
+<span class="sd">        `with` statement. It allows cleanup actions or resource finalization,</span>
+<span class="sd">        and provides a mechanism to suppress exceptions if necessary.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            exception_type: The type of exception class that was raised, if any. If no</span>
-<span class="sd">                exception was raised, this value will be None.</span>
-<span class="sd">            exception_value: The value of the exception that was raised, if any. If no</span>
-<span class="sd">                exception was raised, this value will be None.</span>
-<span class="sd">            exception_traceback: The traceback object associated with the raised</span>
-<span class="sd">                exception, if any. If no exception was raised, this value will be None.</span>
+<span class="sd">        :param exception_type: The class of the exception, if an exception was raised.</span>
+<span class="sd">            Otherwise, `None` if no exception occurred.</span>
+<span class="sd">        :type exception_type: Optional[Type[BaseException]]</span>
+<span class="sd">        :param exception_value: The instance of the exception raised, or</span>
+<span class="sd">            `None` if no exception occurred.</span>
+<span class="sd">        :type exception_value: Optional[BaseException]</span>
+<span class="sd">        :param exception_traceback: A traceback object providing details of</span>
+<span class="sd">            where the exception was raised, or `None` if no exception occurred.</span>
+<span class="sd">        :type exception_traceback: Optional[TracebackType]</span>
+<span class="sd">        :return: Indicates whether the exception should be suppressed or propagated.</span>
+<span class="sd">            `True` suppresses the exception, while `False` propagates it outward.</span>
+<span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -610,11 +596,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

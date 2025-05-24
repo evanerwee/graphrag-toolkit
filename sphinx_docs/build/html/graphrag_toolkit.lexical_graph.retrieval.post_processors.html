@@ -663,55 +663,55 @@ key-value pairs. The returned list should maintain the same order as the input l
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.</span></span><span class="sig-name descname"><span class="pre">SentenceReranker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_n:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'cross-encoder/stsb-distilroberta-base'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_retrieval_score:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_manager:</span> <span class="pre">~llama_index.core.callbacks.base.CallbackManager</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trust_remote_code:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size_internal:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/sentence_reranker.html#SentenceReranker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceTransformerRerank</span></code>, <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin" title="graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RerankerMixin</span></code></a></p>
-<p>Represents a specialized sentence reranker that combines functionalities
-from SentenceTransformerRerank and RerankerMixin.</p>
-<p>This class is designed to rerank sentence pairs using a pre-trained cross-encoder
-model. Users can specify parameters such as the top N results to rerank, the
-underlying model to use, and batch size. The class initializes with support
-for GPU execution if available and relies on external libraries such as
-<cite>sentence_transformers</cite> and <cite>torch</cite>.</p>
-<dl class="simple">
-<dt>Attributes:</dt><dd><p>batch_size_internal (int): Internal batch size used during reranking.</p>
+<p>A class used for reranking sentence pairs using a pretrained cross-encoder model.</p>
+<p>This class combines the functionalities of <cite>SentenceTransformerRerank</cite> and
+<cite>RerankerMixin</cite> to enable efficient reranking of sentence pairs based on their
+similarity scores. It provides configurations for top-n reranking, model selection,
+device setup, and batch processing. The primary use case is to compute relevance scores
+for a list of sentence pairs and retrieve the most relevant ones according to the
+given model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>batch_size_internal</strong> – Internal variable to store the batch size for processing sentences.</p>
 </dd>
 </dl>
-<p>Initializes the class with configuration for a model execution
-environment.</p>
-<p>This constructor sets up the initial parameters for handling model operations, such
-as determining the top number of results, model name, device configuration, batch size,
-and additional keyword arguments. It ensures that the required external dependencies
-are available and imports them upon initialization.</p>
-<dl>
-<dt>Args:</dt><dd><p>top_n (int): The number of top results to retrieve. Default is 2.
-model (str): The name or identifier of the model to be used.</p>
-<blockquote>
-<div><p>Default is “cross-encoder/stsb-distilroberta-base”.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>device (Optional[str]): Specifies the device to execute the model.</dt><dd><p>For example, ‘cpu’ or ‘cuda’. Default is None.</p>
+<p>Initializes the instance of a class with the specified configurations. This constructor
+is responsible for importing necessary dependencies and setting up class attributes
+based on the provided arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>top_n</strong> (<em>int</em>) – The top number of results to consider for the operation.</p></li>
+<li><p><strong>model</strong> (<em>str</em>) – The identifier of the model to load and utilize.</p></li>
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The device on which the computations will be performed. It can be set to a
+specific device like ‘cpu’ or ‘cuda’.</p></li>
+<li><p><strong>keep_retrieval_score</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Determines whether to retain the retrieval score as part
+of the result output if applicable.</p></li>
+<li><p><strong>batch_size</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Specifies the size of batches to be utilized during processing.</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments to customize behavior.</p></li>
+</ul>
 </dd>
-<dt>keep_retrieval_score (Optional[bool]): Determines whether to retain</dt><dd><p>the retrieval score after execution. Default is False.</p>
-</dd>
-<dt>batch_size (Optional[int]): Defines the size of batches to be processed</dt><dd><p>during execution. Default is 128.</p>
-</dd>
-<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs (Any): Additional keyword arguments for further customization</dt><dd><p>of the model initialization.</p>
-</dd>
-</dl>
-</dd>
-<dt>Raises:</dt><dd><dl class="simple">
-<dt>ImportError: If the required ‘torch’ and/or ‘sentence_transformers’</dt><dd><p>packages are not installed.</p>
-</dd>
-</dl>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ImportError</strong> – If required packages <cite>torch</cite> and/or <cite>sentence_transformers</cite> are not found.</p>
 </dd>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.batch_size">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_size</span></span><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.batch_size" title="Link to this definition">¶</a></dt>
-<dd><p>Returns the internal batch size value.</p>
-<p>This property provides access to the internal variable <cite>batch_size_internal</cite>,
-which stores the batch size for the current object. It is used to retrieve the
-value externally without directly exposing the internal variable.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>int: The batch size value stored in the internal variable.</p>
+<dd><p>Property to get the batch size.</p>
+<p>This attribute returns the internal batch size value stored in
+the object. The property provides a way to retrieve the
+value without directly accessing the internal attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AttributeError</strong> – If the internal batch size attribute
+does not exist or cannot be accessed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The current internal batch size value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -742,21 +742,21 @@ context: The context.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.rerank_pairs">
 <span class="sig-name descname"><span class="pre">rerank_pairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/sentence_reranker.html#SentenceReranker.rerank_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.rerank_pairs" title="Link to this definition">¶</a></dt>
-<dd><p>Re-ranks pairs of sentences based on their similarity or relevance
-by passing them through the model for prediction. It processes the
-pairs in batches for efficiency.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>pairs (List[Tuple[str, str]]): A list of sentence pairs, where each pair consists</dt><dd><p>of two strings to be compared.</p>
+<dd><p>Re-ranks a list of sentence pairs using the model by predicting a similarity
+score for each pair. The similarity scores are computed in batches of a
+specified size, which can improve efficiency for large input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pairs</strong> – A list of sentence pairs for which similarity scores need to be
+computed. Each sentence pair is represented as a tuple of two strings.</p></li>
+<li><p><strong>batch_size</strong> – The number of sentence pairs to be processed in a single
+batch. Defaults to 128.</p></li>
+</ul>
 </dd>
-<dt>batch_size (int): The number of sentence pairs to process in a single batch.</dt><dd><p>Defaults to 128.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>List[float]: A list of prediction scores for each pair, indicating their similarity</dt><dd><p>or relevance.</p>
-</dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of float values, where each value represents the computed
+similarity score for the corresponding sentence pair in the input list.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -923,24 +923,27 @@ and parsing.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.</span></span><span class="sig-name descname"><span class="pre">StatementEnhancementPostProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LLM</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><span class="pre">LLMCache</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'\n#</span> <span class="pre">Instructions:\nYou</span> <span class="pre">are</span> <span class="pre">a</span> <span class="pre">helpful</span> <span class="pre">assistant</span> <span class="pre">that</span> <span class="pre">clarifies</span> <span class="pre">statements</span> <span class="pre">to</span> <span class="pre">make</span> <span class="pre">them</span> <span class="pre">self-explanatory,</span> <span class="pre">even</span> <span class="pre">without</span> <span class="pre">context.</span> <span class="pre">\nYour</span> <span class="pre">task</span> <span class="pre">is</span> <span class="pre">to</span> <span class="pre">enhance</span> <span class="pre">the</span> <span class="pre">clarity</span> <span class="pre">and</span> <span class="pre">understandability</span> <span class="pre">of</span> <span class="pre">statements</span> <span class="pre">while</span> <span class="pre">preserving</span> <span class="pre">their</span> <span class="pre">original</span> <span class="pre">meaning</span> <span class="pre">and</span> <span class="pre">intent.\nYou</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">provided</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">statement</span> <span class="pre">and</span> <span class="pre">its</span> <span class="pre">corresponding</span> <span class="pre">context.\n\nFor</span> <span class="pre">the</span> <span class="pre">claim,</span> <span class="pre">follow</span> <span class="pre">these</span> <span class="pre">steps:\n\n</span>&#160;&#160;&#160; <span class="pre">1.</span> <span class="pre">Replace</span> <span class="pre">any</span> <span class="pre">pronouns</span> <span class="pre">(e.g.,</span> <span class="pre">he,</span> <span class="pre">she,</span> <span class="pre">it,</span> <span class="pre">they)</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">specific</span> <span class="pre">nouns</span> <span class="pre">they</span> <span class="pre">refer</span> <span class="pre">to.</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">2.</span> <span class="pre">Replace</span> <span class="pre">any</span> <span class="pre">acronyms</span> <span class="pre">with</span> <span class="pre">their</span> <span class="pre">full</span> <span class="pre">forms.\n</span>&#160;&#160;&#160; <span class="pre">3.</span> <span class="pre">If</span> <span class="pre">the</span> <span class="pre">statement</span> <span class="pre">is</span> <span class="pre">fragmented,</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">provided</span> <span class="pre">context</span> <span class="pre">to</span> <span class="pre">reconstruct</span> <span class="pre">it</span> <span class="pre">into</span> <span class="pre">a</span> <span class="pre">complete,</span> <span class="pre">self-explanatory</span> <span class="pre">statement.\n</span>&#160;&#160;&#160; <span class="pre">4.</span> <span class="pre">Preserve</span> <span class="pre">any</span> <span class="pre">quoted</span> <span class="pre">speech</span> <span class="pre">or</span> <span class="pre">dialogue</span> <span class="pre">as</span> <span class="pre">is,</span> <span class="pre">without</span> <span class="pre">paraphrasing.\n</span>&#160;&#160;&#160; <span class="pre">5.</span> <span class="pre">If</span> <span class="pre">a</span> <span class="pre">statement</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">self-explanatory,</span> <span class="pre">leave</span> <span class="pre">it</span> <span class="pre">unchanged.\n</span>&#160;&#160;&#160; <span class="pre">6.</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">introduce</span> <span class="pre">irrelevant</span> <span class="pre">context</span> <span class="pre">information</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">modified</span> <span class="pre">sentence.</span> <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">7.</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">use</span> <span class="pre">your</span> <span class="pre">training</span> <span class="pre">history,</span> <span class="pre">rely</span> <span class="pre">only</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">context</span> <span class="pre">information</span> <span class="pre">to</span> <span class="pre">enhance</span> <span class="pre">the</span> <span class="pre">statement.\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'\n&lt;statement&gt;\n{statement}\n&lt;/statement&gt;\n\n\n&lt;context&gt;\n{context}\n&lt;/context&gt;\n\n#</span> <span class="pre">Response</span> <span class="pre">Format:\n&lt;modified_statement&gt;Provide</span> <span class="pre">the</span> <span class="pre">self-explanatory</span> <span class="pre">statement</span> <span class="pre">here&lt;/modified_statement&gt;\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_concurrent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/statement_enhancement.html#StatementEnhancementPostProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseNodePostprocessor</span></code></p>
-<p>Post-processes nodes to enhance their statements using provided language
-model and templates.</p>
-<p>The <cite>StatementEnhancementPostProcessor</cite> class is responsible for enhancing textual statements
-associated with nodes. This class utilizes a language model and specific templates to improve
-the quality or formatting of the statements based on the provided chunk context. The enhancement
-is performed concurrently on multiple nodes for efficiency.</p>
-<dl>
-<dt>Attributes:</dt><dd><dl class="simple">
-<dt>llm (Optional[LLMCache]): Language model cache used for enhancing statements. Defaults to</dt><dd><p><cite>None</cite>, in which case a default LLM configuration is used.</p>
-</dd>
-</dl>
-<p>max_concurrent (int): Maximum number of nodes to process concurrently. Defaults to 10.
-system_prompt (str): System-level prompt used as part of the enhancement template.
-user_prompt (str): User-level prompt used as part of the enhancement template.
-enhance_template (ChatPromptTemplate): Template used to structure the prompts for the</p>
-<blockquote>
-<div><p>language model.</p>
-</div></blockquote>
+<p>Enhances text statements within nodes using a language model (LLM) to improve
+their clarity, completeness, or quality.</p>
+<p>This class processes nodes containing textual statements and metadata. The
+primary functionality is enhancing text through the use of a large language
+model (LLM). It provides configurable options such as maximum concurrency,
+customizable system and user prompts, and a predefined language model
+interaction template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>llm</strong> – An optional cache for the large language model. Defaults to None, in
+which case a new cache instance is initialized with default settings.</p></li>
+<li><p><strong>max_concurrent</strong> – The maximum number of nodes processed concurrently. This
+attribute determines the threading pool size utilized in processing.</p></li>
+<li><p><strong>system_prompt</strong> – The default system prompt message content, which is used
+as the initial SYSTEM role text in the chat template.</p></li>
+<li><p><strong>user_prompt</strong> – The default user prompt message content, which is used as
+the USER role text in the chat template.</p></li>
+<li><p><strong>enhance_template</strong> – A chat prompt template initialized with system and user
+prompt messages. It serves as the format for interacting with the LLM.</p></li>
+</ul>
 </dd>
 </dl>
 <p>Initializes an instance of the class with an optional large language

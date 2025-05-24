@@ -30,23 +30,28 @@ logger = logging.getLogger(__name__)
 
 
 class EntityBasedSearch(TraversalBasedBaseRetriever):
-    """EntityBasedSearch is a retrieval mechanism built on top of the
-    TraversalBasedBaseRetriever class.
+    """
+    Handles entity-based search functionality leveraging traversal-based
+    retriever mechanisms.
 
-    This class performs entity-based search by leveraging both graph storage and vector storage. It
-    utilizes various methods to determine start nodes for a query, executes graph-based searches, and
-    returns a collection of search results. The search logic supports both single-entity-based and
-    multiple-entity-based graph traversals. This enables deriving meaningful insights by identifying
-    connections and relationships between different entities in the graph structure.
+    This class is designed to facilitate searching within a hybrid entity-graph
+    and vector-search-based environment. It integrates with specific data stores
+    such as graph and vector storage systems to enable complex search operations
+    using entities, their relationships, and associated metadata.
 
-    Attributes:
-        graph_store (GraphStore): The graph storage system used for executing graph-based queries.
-        vector_store (VectorStore): The vector storage system utilized for embedding-related operations or searches.
-        processor_args (Optional[ProcessorArgs]): Optional arguments for configuring processors in the
-            retrieval process.
-        processors (Optional[List[Type[ProcessorBase]]]): A list of processors used during the retrieval
-            process.
-        filter_config (Optional[FilterConfig]): Optional configuration for filtering search results.
+    :ivar graph_store: Provides storage and management for graph-related data
+        and operations.
+    :type graph_store: GraphStore
+    :ivar vector_store: Handles storage and similarity operations for vectors.
+    :type vector_store: VectorStore
+    :ivar processor_args: Optional attributes and configurations for the
+        processor pipeline.
+    :type processor_args: Optional[ProcessorArgs]
+    :ivar processors: Defines the processing pipeline with a list of processor
+        classes.
+    :type processors: Optional[List[Type[ProcessorBase]]]
+    :ivar filter_config: Configuration details for customized search filtering.
+    :type filter_config: Optional[FilterConfig]
     """
 
     def __init__(

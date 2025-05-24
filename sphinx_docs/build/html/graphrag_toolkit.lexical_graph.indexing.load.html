@@ -924,69 +924,65 @@ complexity.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.</span></span><span class="sig-name descname"><span class="pre">S3BasedDocs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s3_encryption_key_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/s3_based_docs.html#S3BasedDocs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler" title="graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeHandler</span></code></a></p>
-<p>Facilitates operations related to handling S3-based documents by providing methods
-for processing, filtering metadata, iterating over documents, and storing them
-back to S3.</p>
-<p>This class is designed to serve as an interface for applications working with
-document nodes stored and managed in S3 buckets. It enables metadata filtering,
-standard processing workflows, and secure storage with optional encryption. The
-design supports both source document retrieval and the uploading of processed
-node data.</p>
+<p>Class responsible for handling operations involving S3 documents. This class provides
+functionality for managing, processing, and storing data in an AWS S3 bucket. It allows
+filtering of metadata within nodes, retrieval of source documents, iteration over S3
+data, and handling of S3 encryption for added security.</p>
+<p>The class offers methods that assist in retrieving data from S3, filtering it, and
+writing processed information back to the bucket in a structured and secure manner.
+It integrates seamlessly with the S3 API for object listing, downloading, and uploading.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>region</strong> – The AWS region where the S3 bucket is deployed.</p></li>
-<li><p><strong>bucket_name</strong> – Name of the S3 bucket being accessed.</p></li>
-<li><p><strong>key_prefix</strong> – Path prefix in S3 bucket for storing or retrieving objects.</p></li>
-<li><p><strong>collection_id</strong> – Unique identifier for the collection managed in S3.</p></li>
-<li><p><strong>s3_encryption_key_id</strong> – Optional encryption key ID for AWS KMS encryption of S3 objects.</p></li>
-<li><p><strong>metadata_keys</strong> – Optional list of metadata keys for filtering and managing
-associated data effectively.</p></li>
+<li><p><strong>region</strong> – The AWS region where the S3 bucket is located.</p></li>
+<li><p><strong>bucket_name</strong> – The name of the S3 bucket used for storing documents.</p></li>
+<li><p><strong>key_prefix</strong> – The prefix for keys in the S3 bucket, defining the folder structure.</p></li>
+<li><p><strong>collection_id</strong> – The unique identifier for the collection being managed in S3.</p></li>
+<li><p><strong>s3_encryption_key_id</strong> – The optional KMS encryption key ID for securing S3 objects.</p></li>
+<li><p><strong>metadata_keys</strong> – The optional list of metadata keys to filter when processing data.</p></li>
 </ul>
 </dd>
 </dl>
-<p>Initializes an instance of the class with parameters for region,
-bucket name, key prefix, collection ID, S3 encryption key ID, and
-metadata keys. The collection ID defaults to the current timestamp if
-not provided.</p>
-<dl>
-<dt>Args:</dt><dd><p>region: The AWS region where the S3 bucket is hosted.
-bucket_name: The name of the S3 bucket to be used.
-key_prefix: The prefix to be applied to the keys for the objects stored.
-collection_id: The identifier for the collection. If not provided, defaults</p>
-<blockquote>
-<div><p>to a timestamp in ‘%Y%m%d-%H%M%S’ format.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>s3_encryption_key_id: The ID of the encryption key used by S3 for encrypting</dt><dd><p>objects.</p>
-</dd>
-<dt>metadata_keys: A list of metadata keys associated with the collection. If</dt><dd><p>None, metadata will not include additional keys.</p>
-</dd>
-</dl>
+<p>Initializes the instance with the specified region, bucket name, key
+prefix, and optional parameters for collection ID, S3 encryption key ID,
+and metadata keys. The collection ID defaults to the current timestamp
+formatted as ‘%Y%m%d-%H%M%S’ if not provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>region</strong> (<em>str</em>) – AWS region where the S3 bucket is located.</p></li>
+<li><p><strong>bucket_name</strong> (<em>str</em>) – Name of the S3 bucket to be used.</p></li>
+<li><p><strong>key_prefix</strong> (<em>str</em>) – Prefix for the S3 keys.</p></li>
+<li><p><strong>collection_id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Unique identifier for the collection. Defaults
+to the current timestamp in the ‘%Y%m%d-%H%M%S’ format if not provided.</p></li>
+<li><p><strong>s3_encryption_key_id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Optional encryption key ID for securing S3 keys
+in cases where server-side encryption is required.</p></li>
+<li><p><strong>metadata_keys</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – Optional list of metadata keys to associate with the
+S3 objects.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs.accept">
 <span class="sig-name descname"><span class="pre">accept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_documents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/s3_based_docs.html#S3BasedDocs.accept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs.accept" title="Link to this definition">¶</a></dt>
-<dd><p>Processes and uploads a list of source documents and their nodes to an S3 bucket.</p>
-<p>The method iterates over the provided source documents and writes each document’s
-nodes to an S3 bucket as JSON files. The key prefix structure and additional details
-required for S3 uploading are configured using the class attributes such as
-<cite>bucket_name</cite>, <cite>key_prefix</cite>, <cite>collection_id</cite>, and <cite>s3_encryption_key_id</cite>. The
-method also leverages AWS KMS encryption for secure storage of the objects
-where applicable.</p>
+<dd><p>Processes a list of source documents and writes their metadata chunks to an S3 bucket.</p>
+<p>Iterates through the provided source documents and generates an output stream
+using a generator pattern. Each document and its nodes are processed and stored
+in an S3 bucket with proper encryption settings if configured. Supports both KMS
+and AES256 encryption for added security. Once a source document’s nodes are
+completely written to S3, the method yields the processed document.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>source_documents</strong> (<em>List</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><em>SourceDocument</em></a><em>]</em>) – List of SourceDocument objects to be processed and stored.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Optional additional parameters.</p></li>
+<li><p><strong>source_documents</strong> – A list of source documents to process and upload to an S3 bucket.
+Each document contains metadata that is iterated for storage.</p></li>
+<li><p><strong>kwargs</strong> – Additional key-value arguments that can be passed for extended or
+method-specific configuration, if applicable.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A generator to yield each processed SourceDocument after storage.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Generator[<a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument">SourceDocument</a>, None, None]</p>
+<dd class="field-even"><p>A generator that yields processed <cite>SourceDocument</cite> objects after their
+respective metadata chunks are successfully written to S3 for storage.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1004,18 +1000,15 @@ where applicable.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs.docs">
 <span class="sig-name descname"><span class="pre">docs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/s3_based_docs.html#S3BasedDocs.docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs.docs" title="Link to this definition">¶</a></dt>
-<dd><p>Represents the documentation for a generic function or method that
-returns its own instance. This function serves as a utility to return
-the object itself, which can be useful in chaining operations or
-maintaining fluency in method calls.</p>
+<dd><p>This method returns the instance of the object itself. It is typically
+used for cases where chaining or fluent interfaces are desired. No operations
+are performed in this method beyond returning <cite>self</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Returns the instance of the current object itself.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-odd"><p>The instance of the object itself.</p>
 </dd>
 </dl>
+<p>:rtypethe same object instance</p>
 </dd></dl>
 
 <dl class="py attribute">

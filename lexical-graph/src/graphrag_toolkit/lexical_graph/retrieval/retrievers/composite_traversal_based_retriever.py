@@ -74,20 +74,29 @@ WeightedTraversalBasedRetrieverType = Union[
 
 
 class CompositeTraversalBasedRetriever(TraversalBasedBaseRetriever):
-    """Handles composite traversal-based retrieval with decomposition and
-    weighting of sub-retrievers.
+    """
+    Manages traversal-based retrieval across graph and vector stores, integrating
+    optional weighted retrievers, query decomposition, and filtering configurations.
 
-    This class is a specialized retriever that integrates multiple weighted traversal-based retrievers.
-    It allows for query decomposition into subqueries and combines the results from different retrieval
-    strategies, providing a unified search result. It supports advanced configurations such as
-    graph-based and vector-based retrieval integrations. The retrieval process leverages the
-    functionality of `TraversalBasedBaseRetriever` while enabling dynamic interaction with sub-retrievers
-    and query decomposition mechanisms.
+    This class provides a mechanism to perform complex search queries over graph-like
+    and vectorized data structures. It combines the capabilities of multiple weighted
+    retrievers and includes support for query decomposition to break down complex
+    queries into component subqueries for enhanced search precision. Results can
+    be filtered based on specific configurations. The class is designed for advanced
+    retrieval scenarios involving graph traversal and parallel processing.
 
-    Attributes:
-        query_decomposition (QueryDecomposition): Mechanism for decomposing queries into subqueries.
-        weighted_retrievers (List[WeightedTraversalBasedRetrieverType]): A list of retrievers with
-            associated weights for weighted retrievals.
+    :ivar graph_store: The storage mechanism for managing a graph-like data structure.
+    :type graph_store: GraphStore
+    :ivar vector_store: The storage mechanism for managing vectorized representations of the data.
+    :type vector_store: VectorStore
+    :ivar weighted_retrievers: A list of weighted retrievers that work based on traversal
+        in the graph.
+    :type weighted_retrievers: Optional[List[WeightedTraversalBasedRetrieverType]]
+    :ivar query_decomposition: The query decomposition tool for breaking down complex
+        queries into subqueries.
+    :type query_decomposition: Optional[QueryDecomposition]
+    :ivar filter_config: Configuration object for filtering results based on specific criteria.
+    :type filter_config: FilterConfig
     """
 
     def __init__(

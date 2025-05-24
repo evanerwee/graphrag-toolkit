@@ -26,20 +26,15 @@ from llama_index.core.schema import BaseNode
 logger = logging.getLogger(__name__)
 
 def default_builders() -> List[GraphBuilder]:
-    """Provides a list of default graph builders for constructing various types
-    of graphs.
+    """
+    Creates and returns a list of default graph builders used for graph construction. Each graph builder in the
+    list is responsible for building a specific type of graph structure, such as source graphs, chunk graphs,
+    entity graphs, and more. These graph builders facilitate a modular and systematic approach to building
+    complex graphs by separating functionality into distinct components.
 
-    This function initializes and returns a predefined collection of graph builder
-    instances. Each builder is responsible for constructing a specific type of graph
-    used in processing, analyzing, or summarizing graph data. The sequence and types
-    of builders included in the returned list are predetermined based on the expected
-    workflow of graph construction.
-
-    Returns:
-        List[GraphBuilder]: A list of instantiated graph builders in the specific
-            order of SourceGraphBuilder, ChunkGraphBuilder, TopicGraphBuilder,
-            StatementGraphBuilder, EntityGraphBuilder, EntityRelationGraphBuilder,
-            FactGraphBuilder, GraphSummaryBuilder.
+    :return: A list of instances of `GraphBuilder` and its derived types used for various graph construction
+             processes.
+    :rtype: List[GraphBuilder]
     """
     return [
         SourceGraphBuilder(),
@@ -55,34 +50,46 @@ def default_builders() -> List[GraphBuilder]:
 GraphInfoType = Union[str, GraphStore]
 
 class GraphConstruction(NodeHandler):
-    """Provides functionality for constructing and building a graph using nodes
-    and builders.
+    """
+    Handles the construction of graphs using a given GraphStore instance and
+    a set of configurable graph builders for processing nodes. This class
+    provides functionality for accepting and processing a set of nodes to
+    build a graph, utilizing batch operations and other configurations for
+    efficient graph construction.
 
-    The GraphConstruction class is a utility for managing graph construction using a set of
-    builders and a graph client. It supports functionality to batch graph operations, process
-    nodes, and utilize builders dynamically based on node metadata. This class facilitates
-    graph creation and updating in a scalable and configurable manner.
-
-    Attributes:
-        graph_client (GraphStore): The graph client used to perform operations on the graph store.
-        builders (List[GraphBuilder]): A collection of graph builders used to process nodes during
-            graph construction.
+    :ivar graph_client: The GraphStore instance used for managing graph-related
+        operations, such as storing and retrieving graph-related data.
+    :type graph_client: GraphStore
+    :ivar builders: A list of GraphBuilder instances used to process and
+        transform nodes into graph components. Builders are responsible for
+        applying specific logic to the nodes based on their configurations.
+    :type builders: List[GraphBuilder]
     """
     @staticmethod
     def for_graph_store(graph_info:GraphInfoType=None, **kwargs):
-        """Constructs a GraphConstruction instance either directly from a
-        GraphStore instance or by creating a GraphStore instance using
-        GraphStoreFactory if a non-GraphStore value is provided.
+        """
+        Creates an instance of the GraphConstruction class for interacting with a graph
+        store, either by accepting an existing GraphStore instance or by creating one
+        using the GraphStoreFactory.
 
-        Args:
-            graph_info (GraphInfoType, optional): The initial graph information provided,
-                which can either be a GraphStore instance or data that can be used to
-                create a GraphStore instance.
-            **kwargs: Additional parameters required for GraphConstruction or
-                GraphStore creation.
+        This static method provides flexibility in initializing the GraphConstruction
+        class. If a GraphStore instance is passed, it is directly utilized. Otherwise,
+        the method constructs a GraphStore instance using provided graph information
+        and additional parameters, and then initializes GraphConstruction with it.
 
-        Returns:
-            GraphConstruction: A new instance of the GraphConstruction class.
+        :param graph_info: Optional information about the graph that may either be
+            used to identify the graph store to interact with or directly represent
+            an existing graph store instance.
+        :type graph_info: GraphInfoType, optional
+
+        :param kwargs: Additional keyword arguments required for creating or interacting
+            with a graph store, forwarded to the GraphStoreFactory or GraphConstruction
+            initialization as needed.
+        :type kwargs: dict
+
+        :return: An initialized instance of the GraphConstruction class representing
+            the graph store ready for operations.
+        :rtype: GraphConstruction
         """
         if isinstance(graph_info, GraphStore):
             return GraphConstruction(graph_client=graph_info, **kwargs)
@@ -96,31 +103,27 @@ class GraphConstruction(NodeHandler):
     )
 
     def accept(self, nodes: List[BaseNode], **kwargs: Any):
-        """Processes a list of nodes to construct a graph by utilizing builders
-        with the specified configurations, such as batch writes. Nodes can be
-        processed with or without progress visualization, and operations are
-        applied in batches as per given configurations.
+        """
+        Processes a list of nodes within a graph, utilizing various builders for construction,
+        and applies batch operations according to the provided configurations. The method
+        supports optional progress display and facilitates integration with metadata-based
+        builder selection.
 
-        Args:
-            nodes: A list of BaseNode objects to be processed and incorporated into the
-                graph. Each node is checked and processed via builders based on its
-                metadata.
-            **kwargs: Arbitrary keyword arguments for configuring the processing and
-                graph construction. Supported keys include:
-                - batch_writes_enabled (bool): Enables or disables batch write
-                  operations.
-                - batch_write_size (int): Configures the maximum size of each batch for
-                  operations.
+        :param nodes: A list of nodes to process, each represented by an instance of
+            `BaseNode`. Nodes may optionally contain metadata with specific keys for
+            targeted builder processing.
+        :type nodes: List[BaseNode]
 
-        Yields:
-            BaseNode: Nodes that have been processed by the builders and subjected to
-            batch operations, ready to be yielded back to the caller. Nodes that do not
-            meet the criteria or are ignored are not yielded.
+        :param kwargs: Additional keyword arguments for configuration. Includes:
+            - batch_writes_enabled (bool): Determines whether batch write operations
+              are enabled during the process.
+            - batch_write_size (int): Specifies the size of batch operations if enabled.
+            - Any other custom arguments required for the specific builders.
 
-        Raises:
-            Exception: Propagates any exception that occurs during the processing of a
-                node with its assigned builders. Error details are logged before the
-                exception is raised.
+        :return: A generator yielding nodes after processing. Nodes may have been
+            modified during the graph construction process or as a result of batch
+            operations.
+        :rtype: Generator[BaseNode, None, None]
         """
         builders_dict = {}
         for b in self.builders:

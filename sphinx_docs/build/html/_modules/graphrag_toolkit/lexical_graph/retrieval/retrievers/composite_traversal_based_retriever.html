@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -295,20 +295,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -425,20 +413,29 @@
 <div class="viewcode-block" id="CompositeTraversalBasedRetriever">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CompositeTraversalBasedRetriever</span><span class="p">(</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handles composite traversal-based retrieval with decomposition and</span>
-<span class="sd">    weighting of sub-retrievers.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages traversal-based retrieval across graph and vector stores, integrating</span>
+<span class="sd">    optional weighted retrievers, query decomposition, and filtering configurations.</span>
 
-<span class="sd">    This class is a specialized retriever that integrates multiple weighted traversal-based retrievers.</span>
-<span class="sd">    It allows for query decomposition into subqueries and combines the results from different retrieval</span>
-<span class="sd">    strategies, providing a unified search result. It supports advanced configurations such as</span>
-<span class="sd">    graph-based and vector-based retrieval integrations. The retrieval process leverages the</span>
-<span class="sd">    functionality of `TraversalBasedBaseRetriever` while enabling dynamic interaction with sub-retrievers</span>
-<span class="sd">    and query decomposition mechanisms.</span>
+<span class="sd">    This class provides a mechanism to perform complex search queries over graph-like</span>
+<span class="sd">    and vectorized data structures. It combines the capabilities of multiple weighted</span>
+<span class="sd">    retrievers and includes support for query decomposition to break down complex</span>
+<span class="sd">    queries into component subqueries for enhanced search precision. Results can</span>
+<span class="sd">    be filtered based on specific configurations. The class is designed for advanced</span>
+<span class="sd">    retrieval scenarios involving graph traversal and parallel processing.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        query_decomposition (QueryDecomposition): Mechanism for decomposing queries into subqueries.</span>
-<span class="sd">        weighted_retrievers (List[WeightedTraversalBasedRetrieverType]): A list of retrievers with</span>
-<span class="sd">            associated weights for weighted retrievals.</span>
+<span class="sd">    :ivar graph_store: The storage mechanism for managing a graph-like data structure.</span>
+<span class="sd">    :type graph_store: GraphStore</span>
+<span class="sd">    :ivar vector_store: The storage mechanism for managing vectorized representations of the data.</span>
+<span class="sd">    :type vector_store: VectorStore</span>
+<span class="sd">    :ivar weighted_retrievers: A list of weighted retrievers that work based on traversal</span>
+<span class="sd">        in the graph.</span>
+<span class="sd">    :type weighted_retrievers: Optional[List[WeightedTraversalBasedRetrieverType]]</span>
+<span class="sd">    :ivar query_decomposition: The query decomposition tool for breaking down complex</span>
+<span class="sd">        queries into subqueries.</span>
+<span class="sd">    :type query_decomposition: Optional[QueryDecomposition]</span>
+<span class="sd">    :ivar filter_config: Configuration object for filtering results based on specific criteria.</span>
+<span class="sd">    :type filter_config: FilterConfig</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -696,11 +693,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

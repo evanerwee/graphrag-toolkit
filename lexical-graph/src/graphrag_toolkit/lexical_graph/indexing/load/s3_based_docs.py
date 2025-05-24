@@ -29,28 +29,26 @@ logger = logging.getLogger(__name__)
 
 class S3BasedDocs(NodeHandler):
     """
-    Facilitates operations related to handling S3-based documents by providing methods
-    for processing, filtering metadata, iterating over documents, and storing them
-    back to S3.
+    Class responsible for handling operations involving S3 documents. This class provides
+    functionality for managing, processing, and storing data in an AWS S3 bucket. It allows
+    filtering of metadata within nodes, retrieval of source documents, iteration over S3
+    data, and handling of S3 encryption for added security.
 
-    This class is designed to serve as an interface for applications working with
-    document nodes stored and managed in S3 buckets. It enables metadata filtering,
-    standard processing workflows, and secure storage with optional encryption. The
-    design supports both source document retrieval and the uploading of processed
-    node data.
+    The class offers methods that assist in retrieving data from S3, filtering it, and
+    writing processed information back to the bucket in a structured and secure manner.
+    It integrates seamlessly with the S3 API for object listing, downloading, and uploading.
 
-    :ivar region: The AWS region where the S3 bucket is deployed.
+    :ivar region: The AWS region where the S3 bucket is located.
     :type region: str
-    :ivar bucket_name: Name of the S3 bucket being accessed.
+    :ivar bucket_name: The name of the S3 bucket used for storing documents.
     :type bucket_name: str
-    :ivar key_prefix: Path prefix in S3 bucket for storing or retrieving objects.
+    :ivar key_prefix: The prefix for keys in the S3 bucket, defining the folder structure.
     :type key_prefix: str
-    :ivar collection_id: Unique identifier for the collection managed in S3.
+    :ivar collection_id: The unique identifier for the collection being managed in S3.
     :type collection_id: str
-    :ivar s3_encryption_key_id: Optional encryption key ID for AWS KMS encryption of S3 objects.
+    :ivar s3_encryption_key_id: The optional KMS encryption key ID for securing S3 objects.
     :type s3_encryption_key_id: Optional[str]
-    :ivar metadata_keys: Optional list of metadata keys for filtering and managing
-        associated data effectively.
+    :ivar metadata_keys: The optional list of metadata keys to filter when processing data.
     :type metadata_keys: Optional[List[str]]
     """
 
@@ -70,21 +68,27 @@ class S3BasedDocs(NodeHandler):
         s3_encryption_key_id: Optional[str] = None,
         metadata_keys: Optional[List[str]] = None,
     ):
-        """Initializes an instance of the class with parameters for region,
-        bucket name, key prefix, collection ID, S3 encryption key ID, and
-        metadata keys. The collection ID defaults to the current timestamp if
-        not provided.
+        """
+        Initializes the instance with the specified region, bucket name, key
+        prefix, and optional parameters for collection ID, S3 encryption key ID,
+        and metadata keys. The collection ID defaults to the current timestamp
+        formatted as '%Y%m%d-%H%M%S' if not provided.
 
-        Args:
-            region: The AWS region where the S3 bucket is hosted.
-            bucket_name: The name of the S3 bucket to be used.
-            key_prefix: The prefix to be applied to the keys for the objects stored.
-            collection_id: The identifier for the collection. If not provided, defaults
-                to a timestamp in '%Y%m%d-%H%M%S' format.
-            s3_encryption_key_id: The ID of the encryption key used by S3 for encrypting
-                objects.
-            metadata_keys: A list of metadata keys associated with the collection. If
-                None, metadata will not include additional keys.
+        :param region: AWS region where the S3 bucket is located.
+        :param bucket_name: Name of the S3 bucket to be used.
+        :param key_prefix: Prefix for the S3 keys.
+        :param collection_id: Unique identifier for the collection. Defaults
+            to the current timestamp in the '%Y%m%d-%H%M%S' format if not provided.
+        :param s3_encryption_key_id: Optional encryption key ID for securing S3 keys
+            in cases where server-side encryption is required.
+        :param metadata_keys: Optional list of metadata keys to associate with the
+            S3 objects.
+        :type region: str
+        :type bucket_name: str
+        :type key_prefix: str
+        :type collection_id: Optional[str]
+        :type s3_encryption_key_id: Optional[str]
+        :type metadata_keys: Optional[List[str]]
         """
         super().__init__(
             region=region,
@@ -97,41 +101,44 @@ class S3BasedDocs(NodeHandler):
 
     def docs(self):
         """
-        Represents the documentation for a generic function or method that
-        returns its own instance. This function serves as a utility to return
-        the object itself, which can be useful in chaining operations or
-        maintaining fluency in method calls.
+        This method returns the instance of the object itself. It is typically
+        used for cases where chaining or fluent interfaces are desired. No operations
+        are performed in this method beyond returning `self`.
 
-        :return: Returns the instance of the current object itself.
-        :rtype: Self
+        :return: The instance of the object itself.
+        :rtypethe same object instance
         """
         return self
 
     def _filter_metadata(self, node: TextNode) -> TextNode:
         """
-        Processes the provided TextNode object by filtering its metadata and associated
-        relationship metadata based on predefined and optional criteria.
+        Filters metadata from a TextNode and its associated relationships.
+        The function modifies the `metadata` attributes of the input `node`
+        and any nested relationships to retain specific keys, either those
+        defined in the constants PROPOSITIONS_KEY, TOPICS_KEY, and INDEX_KEY,
+        or those specified explicitly in `self.metadata_keys`.
 
-        This method mutates the metadata attached to the given TextNode by retaining only
-        specific keys as defined in the filter logic. The filtering operation is applied
-        to both the node's metadata and metadata of its relationships.
-
-        :param node: The TextNode instance whose metadata is to be filtered.
+        :param node: The input TextNode object whose metadata and relationships'
+            metadata need to be filtered.
         :type node: TextNode
-        :return: The modified TextNode with filtered metadata.
+        :return: The updated TextNode with filtered metadata.
         :rtype: TextNode
         """
 
         def filter(metadata: Dict):
             """
-            Class responsible for handling operations involving S3 documents by filtering
-            relevant metadata from input nodes. Designed to process and retain metadata
-            that matches specific keys or pre-defined metadata configurations.
+            Handles S3-based document processing utilizing metadata filtering mechanisms.
+            This class is an implementation of NodeHandler specialized for specific metadata
+            management. It includes functionality to process, handle, and filter metadata
+            based on predefined criteria.
 
-            :param metadata_keys: Optional list of keys that should be retained when
-                processing metadata. If not provided, only keys predefined in the
-                PROPOSITIONS_KEY, TOPICS_KEY, and INDEX_KEY constants are retained.
+            Attributes:
+                metadata_keys: Optional list of metadata keys to retain during filtering.
 
+            :param metadata: Dictionary containing key-value pairs of document metadata.
+            :type metadata: Dict
+            :return: Filtered node with the processed metadata.
+            :rtype: TextNode
             """
             keys_to_delete = []
             for key in metadata.keys():
@@ -151,26 +158,24 @@ class S3BasedDocs(NodeHandler):
 
     def __iter__(self):
         """
-        Iterates over source documents stored in an S3 bucket and yields them after
-        processing. This method retrieves and processes document data by paginating
-        through S3 objects and filtering their metadata.
+        Provides an iterator to process and yield source documents, stored in an S3
+        bucket, where each source document consists of multiple nodes downloaded
+        and processed in chunks.
 
-        The documents are represented by nodes, which are extracted from S3 path
-        prefixes, downloaded as chunks, and parsed from JSON format before filtering.
-        Each document is then yielded as a `SourceDocument` containing the nodes.
+        This method fetches a collection of source documents based on a specified
+        S3 bucket, key prefix, and collection ID. Each source document prefix is
+        iterated upon to retrieve its associated content in chunks. The chunks
+        are downloaded, decoded, and processed to construct text nodes, which are
+        further encapsulated into SourceDocument objects for yielding. Logging is
+        used to provide debugging information about the ongoing operations.
 
-        :param self:
-            The instance of the class containing S3 configurations and context-specific
-            attributes such as `bucket_name`, `collection_id`, and `key_prefix`.
+        :raises KeyError: If expected keys are not found in the response from S3.
+        :raises botocore.exceptions.BotoCoreError: For errors raised by Boto3
+            or botocore in accessing S3.
+        :raises IOError: For I/O errors during file download or processing.
 
-        :returns:
-            A generator that yields `SourceDocument` objects, where each source document
-            comprises a list of nodes parsed and filtered from the S3 data.
-
-        :raises:
-            This method does not explicitly describe raised exceptions, but S3 client
-            operations, I/O operations, or JSON parsing may raise exceptions during
-            execution.
+        :yield: SourceDocument instances containing nodes retrieved and processed
+            from the S3 storage.
         """
         s3_client = GraphRAGConfig.s3
 
@@ -220,18 +225,15 @@ class S3BasedDocs(NodeHandler):
 
     def __call__(self, nodes: List[SourceType], **kwargs: Any) -> List[SourceDocument]:
         """
-        __call__ method processes a list of source types and utilizes the provided
-        arguments to transform them into a list of source documents. This
-        method acts as a wrapper that combines source type conversion and
-        processing logic to generate source documents effectively.
+        Processes a list of source types and returns a list of source documents. It first
+        transforms the source types into source documents, and then applies any additional
+        processing specified by subclass implementations through the `accept` method.
 
-        :param nodes: List of source types to be processed.
+        :param nodes: A list of source types to be processed.
         :type nodes: List[SourceType]
-        :param kwargs: Additional arguments that influence the processing of
-                       source types.
+        :param kwargs: Additional keyword arguments passed to the `accept` method.
         :type kwargs: Any
-        :return: A list of processed source documents derived from the
-                 given source types.
+        :return: A list of processed source documents.
         :rtype: List[SourceDocument]
         """
         return [
@@ -242,21 +244,24 @@ class S3BasedDocs(NodeHandler):
         self, source_documents: List[SourceDocument], **kwargs: Any
     ) -> Generator[SourceDocument, None, None]:
         """
-        Processes and uploads a list of source documents and their nodes to an S3 bucket.
+        Processes a list of source documents and writes their metadata chunks to an S3 bucket.
 
-        The method iterates over the provided source documents and writes each document's
-        nodes to an S3 bucket as JSON files. The key prefix structure and additional details
-        required for S3 uploading are configured using the class attributes such as
-        `bucket_name`, `key_prefix`, `collection_id`, and `s3_encryption_key_id`. The
-        method also leverages AWS KMS encryption for secure storage of the objects
-        where applicable.
+        Iterates through the provided source documents and generates an output stream
+        using a generator pattern. Each document and its nodes are processed and stored
+        in an S3 bucket with proper encryption settings if configured. Supports both KMS
+        and AES256 encryption for added security. Once a source document's nodes are
+        completely written to S3, the method yields the processed document.
 
-        :param source_documents: List of SourceDocument objects to be processed and stored.
-        :type source_documents: List[SourceDocument]
-        :param kwargs: Optional additional parameters.
-        :type kwargs: Any
-        :return: A generator to yield each processed SourceDocument after storage.
-        :rtype: Generator[SourceDocument, None, None]
+        :param source_documents:
+            A list of source documents to process and upload to an S3 bucket.
+            Each document contains metadata that is iterated for storage.
+        :param kwargs:
+            Additional key-value arguments that can be passed for extended or
+            method-specific configuration, if applicable.
+
+        :return:
+            A generator that yields processed `SourceDocument` objects after their
+            respective metadata chunks are successfully written to S3 for storage.
         """
 
         s3_client = GraphRAGConfig.s3

@@ -40,24 +40,25 @@ SemanticGuidedRetrieverType = Union[
 
 
 class SemanticGuidedRetriever(SemanticGuidedBaseRetriever):
-    """Implementation of a retrieval class that combines semantic-guided search
-    mechanisms to retrieve data from multiple sources, such as vector and graph
-    stores. The class integrates various retrievers for initial search and
-    graph-based expansion, offering a flexible and configurable retrieval
-    system.
+    """
+    Defines a semantic-guided retriever that integrates multiple retriever classes
+    for performing semantic and keyword-based searches. This composite system is
+    built upon shared embedding caches and supports vector and graph-based result
+    retrieval. The retriever is designed for flexibility, allowing dynamic
+    retriever initialization and advanced search capabilities.
 
-    This class is designed for retrieving nodes relevant to a given query, applying semantic similarity,
-    keyword ranking, graph expansion, and filtering strategies. It ensures efficient and comprehensive
-    information retrieval, leveraging shared caches, metadata filtering, and source grouping to organize
-    the resulting nodes.
-
-    Attributes:
-        share_results (bool): Indicates if results from initial retrieval should be shared and used for
-            graph-based expansion.
-        shared_embedding_cache (SharedEmbeddingCache): Caches embeddings to optimize retrieval performance
-            across multiple retriever instances.
-        initial_retrievers (list): Contains instances of retrievers used for the initial search phase.
-        graph_retrievers (list): Contains instances of graph-based retrievers for result expansion.
+    :ivar share_results: Indicates whether results from different retrievers
+        should be shared for additional processing.
+    :type share_results: bool
+    :ivar shared_embedding_cache: Shared embedding cache to store and reuse
+        precomputed embeddings across retrievers for improved efficiency.
+    :type shared_embedding_cache: SharedEmbeddingCache
+    :ivar initial_retrievers: List of initial retrievers for base-level
+        information retrieval.
+    :type initial_retrievers: List[Union[SemanticGuidedBaseRetriever, Type[SemanticGuidedBaseRetriever]]]
+    :ivar graph_retrievers: List of graph-based retrievers for expanding initial
+        retrieved results based on graph relationships.
+    :type graph_retrievers: List[SemanticGuidedBaseRetriever]
     """
 
     def __init__(
@@ -71,22 +72,30 @@ class SemanticGuidedRetriever(SemanticGuidedBaseRetriever):
         filter_config: Optional[FilterConfig] = None,
         **kwargs: Any,
     ) -> None:
-        """Initializes a composite retriever system that integrates multiple
-        retriever classes for semantic and keyword-based search using shared
-        embedding caches and vector/graph stores. The initialization process
-        allows for custom retrievers or defaults to predefined retrievers with
-        specific configurations.
+        """
+        Initializes an instance of the class by configuring vector and graph stores, retrievers,
+        and shared embedding cache. Additionally, it sets up default retrievers and manages
+        retriever-specific configurations including graph retriever instantiation.
 
-        Args:
-            vector_store: The vector storage backend used for embedding search.
-            graph_store: The graph storage backend used for retrieving graph-based results.
-            retrievers: Optional list of retriever instances or retriever classes. If classes
-                are provided, they will be initialized with the provided `vector_store`,
-                `graph_store`, and additional keyword arguments.
-            share_results: Boolean flag indicating whether the results from different retrievers
-                should be shared.
-            filter_config: Optional configuration used for filtering retriever results.
-            **kwargs: Additional keyword arguments used to initialize retrievers.
+        :param vector_store: The vector store instance used for managing embeddings and search.
+                             Must be of type `VectorStore`.
+        :type vector_store: VectorStore
+        :param graph_store: The graph store instance used for managing graph-like structures
+                            and connectivity. Must be of type `GraphStore`.
+        :type graph_store: GraphStore
+        :param retrievers: A list of retriever instances or their types. Retrievers may be
+                           constructed dynamically and include optional graph-based retrievers
+                           or semantic-guided retrievers. Default is None.
+        :type retrievers: Optional[List[Union[SemanticGuidedBaseRetriever, Type[SemanticGuidedBaseRetriever]]]]
+        :param share_results: A flag that indicates whether results should be shared across
+                              the retrievers. Defaults to True.
+        :type share_results: bool
+        :param filter_config: Optional filter configuration settings used for initializing the class.
+                              Default is None.
+        :type filter_config: Optional[FilterConfig]
+        :param kwargs: Additional keyword arguments that may be passed to the retriever instances
+                       during their initialization or other internal configuration settings.
+        :type kwargs: Any
         """
         super().__init__(vector_store, graph_store, filter_config, **kwargs)
 
@@ -137,21 +146,15 @@ class SemanticGuidedRetriever(SemanticGuidedBaseRetriever):
             ]
 
     def _retrieve(self, query_bundle: QueryBundle) -> List[NodeWithScore]:
-        """Retrieves and processes nodes based on a query, leveraging multiple
-        retrievers and optional graph expansion. The method executes in several
-        stages, including initial retrieval, deduplication of nodes, optional
-        graph-based expansion, fetching detailed statement data, filtering
-        nodes based on metadata, and grouping nodes by their source for final
-        ordering. It returns an ordered list of nodes, maximizing relevance and
-        context.
+        """
+        Retrieves and processes nodes based on the initial retrieval from retrievers, applies filters, and orders them.
+        This method performs a multi-step process which involves retrieving initial results, applying graph-based expansions,
+        fetching and updating metadata for nodes, and applying specified filtering and ordering logic.
 
-        Args:
-            query_bundle (QueryBundle): The query bundle containing the necessary information
-                for performing the retrieval process.
-
-        Returns:
-            List[NodeWithScore]: A list of nodes ordered by score, with detailed metadata
-                included for contextual relevance.
+        :param query_bundle: The input query encapsulated as a QueryBundle instance.
+        :type query_bundle: QueryBundle
+        :return: A list of NodeWithScore objects containing ordered and filtered nodes.
+        :rtype: List[NodeWithScore]
         """
         # 1. Get initial results in parallel
         with concurrent.futures.ThreadPoolExecutor(

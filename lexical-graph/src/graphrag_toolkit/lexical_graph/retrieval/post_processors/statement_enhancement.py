@@ -24,22 +24,31 @@ logger = logging.getLogger(__name__)
 
 
 class StatementEnhancementPostProcessor(BaseNodePostprocessor):
-    """Post-processes nodes to enhance their statements using provided language
-    model and templates.
+    """
+    Enhances text statements within nodes using a language model (LLM) to improve
+    their clarity, completeness, or quality.
 
-    The `StatementEnhancementPostProcessor` class is responsible for enhancing textual statements
-    associated with nodes. This class utilizes a language model and specific templates to improve
-    the quality or formatting of the statements based on the provided chunk context. The enhancement
-    is performed concurrently on multiple nodes for efficiency.
+    This class processes nodes containing textual statements and metadata. The
+    primary functionality is enhancing text through the use of a large language
+    model (LLM). It provides configurable options such as maximum concurrency,
+    customizable system and user prompts, and a predefined language model
+    interaction template.
 
-    Attributes:
-        llm (Optional[LLMCache]): Language model cache used for enhancing statements. Defaults to
-            `None`, in which case a default LLM configuration is used.
-        max_concurrent (int): Maximum number of nodes to process concurrently. Defaults to 10.
-        system_prompt (str): System-level prompt used as part of the enhancement template.
-        user_prompt (str): User-level prompt used as part of the enhancement template.
-        enhance_template (ChatPromptTemplate): Template used to structure the prompts for the
-            language model.
+    :ivar llm: An optional cache for the large language model. Defaults to None, in
+        which case a new cache instance is initialized with default settings.
+    :type llm: Optional[LLMCache]
+    :ivar max_concurrent: The maximum number of nodes processed concurrently. This
+        attribute determines the threading pool size utilized in processing.
+    :type max_concurrent: int
+    :ivar system_prompt: The default system prompt message content, which is used
+        as the initial SYSTEM role text in the chat template.
+    :type system_prompt: str
+    :ivar user_prompt: The default user prompt message content, which is used as
+        the USER role text in the chat template.
+    :type user_prompt: str
+    :ivar enhance_template: A chat prompt template initialized with system and user
+        prompt messages. It serves as the format for interacting with the LLM.
+    :type enhance_template: ChatPromptTemplate
     """
 
     llm: Optional[LLMCache] = Field(default=None)

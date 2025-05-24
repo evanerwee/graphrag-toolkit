@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -295,20 +295,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -372,22 +360,31 @@
 <div class="viewcode-block" id="StatementEnhancementPostProcessor">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StatementEnhancementPostProcessor</span><span class="p">(</span><span class="n">BaseNodePostprocessor</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Post-processes nodes to enhance their statements using provided language</span>
-<span class="sd">    model and templates.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enhances text statements within nodes using a language model (LLM) to improve</span>
+<span class="sd">    their clarity, completeness, or quality.</span>
 
-<span class="sd">    The `StatementEnhancementPostProcessor` class is responsible for enhancing textual statements</span>
-<span class="sd">    associated with nodes. This class utilizes a language model and specific templates to improve</span>
-<span class="sd">    the quality or formatting of the statements based on the provided chunk context. The enhancement</span>
-<span class="sd">    is performed concurrently on multiple nodes for efficiency.</span>
+<span class="sd">    This class processes nodes containing textual statements and metadata. The</span>
+<span class="sd">    primary functionality is enhancing text through the use of a large language</span>
+<span class="sd">    model (LLM). It provides configurable options such as maximum concurrency,</span>
+<span class="sd">    customizable system and user prompts, and a predefined language model</span>
+<span class="sd">    interaction template.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        llm (Optional[LLMCache]): Language model cache used for enhancing statements. Defaults to</span>
-<span class="sd">            `None`, in which case a default LLM configuration is used.</span>
-<span class="sd">        max_concurrent (int): Maximum number of nodes to process concurrently. Defaults to 10.</span>
-<span class="sd">        system_prompt (str): System-level prompt used as part of the enhancement template.</span>
-<span class="sd">        user_prompt (str): User-level prompt used as part of the enhancement template.</span>
-<span class="sd">        enhance_template (ChatPromptTemplate): Template used to structure the prompts for the</span>
-<span class="sd">            language model.</span>
+<span class="sd">    :ivar llm: An optional cache for the large language model. Defaults to None, in</span>
+<span class="sd">        which case a new cache instance is initialized with default settings.</span>
+<span class="sd">    :type llm: Optional[LLMCache]</span>
+<span class="sd">    :ivar max_concurrent: The maximum number of nodes processed concurrently. This</span>
+<span class="sd">        attribute determines the threading pool size utilized in processing.</span>
+<span class="sd">    :type max_concurrent: int</span>
+<span class="sd">    :ivar system_prompt: The default system prompt message content, which is used</span>
+<span class="sd">        as the initial SYSTEM role text in the chat template.</span>
+<span class="sd">    :type system_prompt: str</span>
+<span class="sd">    :ivar user_prompt: The default user prompt message content, which is used as</span>
+<span class="sd">        the USER role text in the chat template.</span>
+<span class="sd">    :type user_prompt: str</span>
+<span class="sd">    :ivar enhance_template: A chat prompt template initialized with system and user</span>
+<span class="sd">        prompt messages. It serves as the format for interacting with the LLM.</span>
+<span class="sd">    :type enhance_template: ChatPromptTemplate</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMCache</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -557,11 +554,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

@@ -796,20 +796,23 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.config.string_to_bool">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.config.</span></span><span class="sig-name descname"><span class="pre">string_to_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/config.html#string_to_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.config.string_to_bool" title="Link to this definition">¶</a></dt>
-<dd><p>Converts a string to a boolean value.</p>
-<p>This function attempts to convert a string to a boolean value. If the string
-is empty or None, it returns the provided default value. Otherwise, it checks
-if the string (case-insensitive) matches the value ‘true’ to determine
-whether to return True or False.</p>
-<dl>
-<dt>Args:</dt><dd><p>s: The string input to be converted to a boolean.
-default_value: The default boolean value to return if the string is empty</p>
-<blockquote>
-<div><p>or None.</p>
-</div></blockquote>
+<dd><p>Converts a string representation of a boolean to an actual boolean value.
+The function takes a string input and checks if it can be interpreted as
+a boolean. If the string is empty or None, the provided default value will
+be returned. Otherwise, the comparison logic is case-insensitive to determine
+if the string represents a “true” boolean value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s</strong> – The string input to be evaluated. It might contain a textual
+representation of a boolean.</p></li>
+<li><p><strong>default_value</strong> – Default boolean value to return if the string is empty
+or None.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>bool: The boolean representation of the input string if valid, or the
-default value otherwise.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A boolean value derived from the given string or the default value
+if the input string is empty or None.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -1287,55 +1287,55 @@ key associated with the class data.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.</span></span><span class="sig-name descname"><span class="pre">GraphBatchClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_writes_enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_write_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_batch_client.html#GraphBatchClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Handles batched operations with a graph store client.</p>
-<p>GraphBatchClient is designed for handling operations in batches to optimize performance
-when interacting with a GraphStore. It enables batching of writes and efficient processing
-of graph queries, with support for retrying queries.</p>
-<dl>
-<dt>Attributes:</dt><dd><dl class="simple">
-<dt>graph_client (GraphStore): The underlying graph store client used for executing</dt><dd><p>queries and node operations.</p>
+<p>Manages the graph client and facilitates batch processing of operations, such
+as writes.</p>
+<p>This class is designed to streamline and optimize operations with a graph
+client by enabling batch processing. It allows configuration for batch write
+functionality and maintains data structures for batched operations. It also
+keeps track of all nodes processed. The class is intended to enhance
+efficiency in working with the graph store by aggregating and managing
+operations effectively, including retries for query execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph_client</strong> – The graph client instance used for interacting with the
+graph store.</p></li>
+<li><p><strong>batch_writes_enabled</strong> – Boolean flag indicating whether batch writing is
+enabled or not.</p></li>
+<li><p><strong>batch_write_size</strong> – The number of items included in a single batch during
+batch operations.</p></li>
+<li><p><strong>batches</strong> – Dictionary to store batched query operations, where keys
+represent query strings and values are lists of parameters.</p></li>
+<li><p><strong>all_nodes</strong> – List to track all nodes processed during operations.</p></li>
+</ul>
 </dd>
 </dl>
-<p>batch_writes_enabled (bool): Flag indicating whether batch writes are enabled.
-batch_write_size (int): The maximum number of entries in a batch.
-batches (dict): A mapping of queries to their associated batched parameters.
-all_nodes (list): A collection of all nodes processed for yielding.</p>
-</dd>
-</dl>
-<p>Initializes an instance of the class that manages the graph client
-and facilitates batch processing of operations, such as writes. This
-class maintains a reference to a graph client, enables or disables
-batch writes, and configures batch write sizes. Additionally, it holds
-data structures for managing batched operations and tracking all nodes
-processed.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>graph_client: The graph client instance used for interacting with the graph</dt><dd><p>store.</p>
-</dd>
-<dt>batch_writes_enabled: A boolean flag indicating whether batch writing is</dt><dd><p>enabled or not.</p>
-</dd>
-<dt>batch_write_size: The number of items to include in a single batch when</dt><dd><p>performing batch operations.</p>
-</dd>
-</dl>
+<p>Initializes the instance with the required parameters and sets up attributes for managing
+graph-related operations, potential batch processing, and tracking nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph_client</strong> – The client instance used to interact with the graph database.</p></li>
+<li><p><strong>batch_writes_enabled</strong> – Flag indicating whether batch writing is enabled.</p></li>
+<li><p><strong>batch_write_size</strong> – The size limit for a single batch in batch writing.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.allow_yield">
 <span class="sig-name descname"><span class="pre">allow_yield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_batch_client.html#GraphBatchClient.allow_yield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.allow_yield" title="Link to this definition">¶</a></dt>
-<dd><p>Determines whether the given node should be processed immediately or
-added to a batch if batch writes are enabled.</p>
-<p>This function evaluates the system’s current mode of handling nodes and either appends
-the node to a pending batch queue when batch writes are enabled or permits immediate
-processing. If batch writes are enabled, the <cite>all_nodes</cite> list is updated with the
-given node. The function determines and returns whether yielding the node is allowed.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>node: The node to process, either by immediate evaluation or batching, depending</dt><dd><p>on the <cite>batch_writes_enabled</cite> state.</p>
+<dd><p>Determines if the computational process should yield or continue without yielding
+based on the batch writes configuration and the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>Any</em>) – The node being processed in the computational operation.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A boolean value indicating whether the process is allowed to yield
+(<cite>True</cite>) or not (<cite>False</cite>).</p>
 </dd>
-<dt>Returns:</dt><dd><p>bool: False if the node is added to the batch queue (batch write mode is enabled),
-True otherwise, allowing the node to be processed immediately.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1343,16 +1343,16 @@ True otherwise, allowing the node to be processed immediately.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.apply_batch_operations">
 <span class="sig-name descname"><span class="pre">apply_batch_operations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_batch_client.html#GraphBatchClient.apply_batch_operations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.apply_batch_operations" title="Link to this definition">¶</a></dt>
-<dd><p>Executes batch operations by processing stored queries and
-parameters, deduplicating them, and executing the queries in chunks
-according to the defined batch size.</p>
-<p>Executes queries in retries to handle transient errors, ensuring robust and reliable
-execution. Returns the resulting nodes from the performed operations.</p>
-<dl class="simple">
-<dt>Raises:</dt><dd><p>Any exceptions raised during the execution of queries are managed internally
-and retried up to the specified maximum attempts.</p>
+<dd><p>Apply batch operations on stored queries and parameters. This method processes batched query
+parameters, removes duplicates, divides them into chunks of a predefined size, and executes each
+chunk using the configured graph client. It ensures retries with limited attempts and wait time
+in case of execution failures. Returns all processed nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>All nodes processed after executing the batch operations</p>
 </dd>
-<dt>Returns:</dt><dd><p>list: A list of all nodes resulting from the operations.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1360,18 +1360,22 @@ and retried up to the specified maximum attempts.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.execute_query_with_retry">
 <span class="sig-name descname"><span class="pre">execute_query_with_retry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_batch_client.html#GraphBatchClient.execute_query_with_retry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.execute_query_with_retry" title="Link to this definition">¶</a></dt>
-<dd><p>Executes a query with retry logic. Supports batch processing of
-queries if batch writes are enabled. When batch writes are enabled,
-properties are grouped and stored in a batch for the given query.
-Otherwise, the query is executed immediately with the provided
-properties and additional arguments.</p>
-<dl>
-<dt>Args:</dt><dd><p>query: The query string to be executed against the database.
-properties: A dictionary containing parameters or other properties required</p>
-<blockquote>
-<div><p>for executing the query. Must include ‘params’ if batching is enabled.</p>
-</div></blockquote>
-<p><a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs: Arbitrary keyword arguments that may affect query execution.</p>
+<dd><p>Executes a query with retry logic. If batch writes are enabled, the query and
+its parameters are added to a batch for later execution. Otherwise, the query
+is immediately executed using the configured graph client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) – The Cypher query to execute.</p></li>
+<li><p><strong>properties</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – A dictionary of properties associated with the query,
+typically including parameters to bind during the query
+execution.</p></li>
+<li><p><strong>kwargs</strong> – Additional optional parameters passed to control the query
+execution behavior.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1379,14 +1383,19 @@ properties: A dictionary containing parameters or other properties required</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.node_id">
 <span class="sig-name descname"><span class="pre">node_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_batch_client.html#GraphBatchClient.node_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.node_id" title="Link to this definition">¶</a></dt>
-<dd><p>Fetches the node ID by a given name using the graph client.</p>
-<p>This function utilizes the <cite>graph_client</cite> to retrieve the unique node ID
-associated with the provided name. It acts as a proxy to the <cite>node_id()</cite>
-method of the <cite>graph_client</cite>.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>id_name (str): The name of the node for which the ID is requested.</p>
+<dd><p>Returns the unique identifier for a node based on the provided name.</p>
+<p>This method takes a name identifier and retrieves the unique node identifier
+from the internal graph client. It is useful for associating external entities
+with their corresponding internal node representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id_name</strong> (<em>str</em>) – Name identifier of the node</p>
 </dd>
-<dt>Returns:</dt><dd><p>Any: The ID of the node as returned by the <cite>graph_client</cite>.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Unique identifier for the node</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1394,14 +1403,23 @@ method of the <cite>graph_client</cite>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.property_assigment_fn">
 <span class="sig-name descname"><span class="pre">property_assigment_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_batch_client.html#GraphBatchClient.property_assigment_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.property_assigment_fn" title="Link to this definition">¶</a></dt>
-<dd><p>Assigns a property to a specified key and returns a function to
-retrieve the property.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>key (str): The key to which the property will be assigned.
-value (Any): The value of the property to be assigned.</p>
+<dd><p>Assigns a property to a specified key and value pair, utilizing the provided
+graph client to handle the operation. The function ensures a callable result
+is returned upon execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The identifier for which the property is being assigned.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The data or information to associate with the given key in
+the property assignment.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>Callable[[str], str]: A function that takes a key and retrieves the assigned property
-value as a string.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A callable function that takes a string as input and returns a
+string output after performing the property assignment.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Callable[[str], str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1409,11 +1427,16 @@ value as a string.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.tenant_id">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tenant_id</span></span><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.tenant_id" title="Link to this definition">¶</a></dt>
-<dd><p>Getter method for retrieving the tenant ID associated with the graph
-client.</p>
-<p>The tenant ID identifies the tenant to which the current graph client is bound.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>str: The tenant ID of the associated graph client.</p>
+<dd><p>This property retrieves the tenant identifier associated with the
+graph client instance. The tenant identifier is a unique value that
+is used within the context of a multi-tenant system for identifying
+a specific tenant or organization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The tenant identifier linked to the graph client.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1454,7 +1477,7 @@ related to a BaseNode within a GraphStore using additional parameters.</p>
 </dd>
 <dt>graph_client: The graph storage client of type GraphStore responsible</dt><dd><p>for managing graph operations.</p>
 </dd>
-<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>kwargs: Arbitrary additional arguments that may be required for the</dt><dd><p>build operation specific to the implementation.</p>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs: Arbitrary additional arguments that may be required for the</dt><dd><p>build operation specific to the implementation.</p>
 </dd>
 </dl>
 </dd>
@@ -1489,18 +1512,20 @@ purposes.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.build.graph_construction.</span></span><span class="sig-name descname"><span class="pre">GraphConstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_client:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builders:</span> <span class="pre">~typing.List[~graphrag_toolkit.lexical_graph.indexing.build.graph_builder.GraphBuilder]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_construction.html#GraphConstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler" title="graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeHandler</span></code></a></p>
-<p>Provides functionality for constructing and building a graph using nodes
-and builders.</p>
-<p>The GraphConstruction class is a utility for managing graph construction using a set of
-builders and a graph client. It supports functionality to batch graph operations, process
-nodes, and utilize builders dynamically based on node metadata. This class facilitates
-graph creation and updating in a scalable and configurable manner.</p>
-<dl>
-<dt>Attributes:</dt><dd><p>graph_client (GraphStore): The graph client used to perform operations on the graph store.
-builders (List[GraphBuilder]): A collection of graph builders used to process nodes during</p>
-<blockquote>
-<div><p>graph construction.</p>
-</div></blockquote>
+<p>Handles the construction of graphs using a given GraphStore instance and
+a set of configurable graph builders for processing nodes. This class
+provides functionality for accepting and processing a set of nodes to
+build a graph, utilizing batch operations and other configurations for
+efficient graph construction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph_client</strong> – The GraphStore instance used for managing graph-related
+operations, such as storing and retrieving graph-related data.</p></li>
+<li><p><strong>builders</strong> – A list of GraphBuilder instances used to process and
+transform nodes into graph components. Builders are responsible for
+applying specific logic to the nodes based on their configurations.</p></li>
+</ul>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1510,36 +1535,35 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction.accept">
 <span class="sig-name descname"><span class="pre">accept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_construction.html#GraphConstruction.accept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction.accept" title="Link to this definition">¶</a></dt>
-<dd><p>Processes a list of nodes to construct a graph by utilizing builders
-with the specified configurations, such as batch writes. Nodes can be
-processed with or without progress visualization, and operations are
-applied in batches as per given configurations.</p>
-<dl>
-<dt>Args:</dt><dd><dl>
-<dt>nodes: A list of BaseNode objects to be processed and incorporated into the</dt><dd><p>graph. Each node is checked and processed via builders based on its
-metadata.</p>
-</dd>
-<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs: Arbitrary keyword arguments for configuring the processing and</dt><dd><p>graph construction. Supported keys include:
-- batch_writes_enabled (bool): Enables or disables batch write</p>
+<dd><p>Processes a list of nodes within a graph, utilizing various builders for construction,
+and applies batch operations according to the provided configurations. The method
+supports optional progress display and facilitates integration with metadata-based
+builder selection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> (<em>List</em><em>[</em><em>BaseNode</em><em>]</em>) – A list of nodes to process, each represented by an instance of
+<cite>BaseNode</cite>. Nodes may optionally contain metadata with specific keys for
+targeted builder processing.</p></li>
+<li><p><strong>kwargs</strong> – <p>Additional keyword arguments for configuration. Includes:
+- batch_writes_enabled (bool): Determines whether batch write operations</p>
 <blockquote>
-<div><p>operations.</p>
+<div><p>are enabled during the process.</p>
 </div></blockquote>
-<ul class="simple">
-<li><p>batch_write_size (int): Configures the maximum size of each batch for
-operations.</p></li>
+<ul>
+<li><p>batch_write_size (int): Specifies the size of batch operations if enabled.</p></li>
+<li><p>Any other custom arguments required for the specific builders.</p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A generator yielding nodes after processing. Nodes may have been
+modified during the graph construction process or as a result of batch
+operations.</p>
 </dd>
-<dt>Yields:</dt><dd><p>BaseNode: Nodes that have been processed by the builders and subjected to
-batch operations, ready to be yielded back to the caller. Nodes that do not
-meet the criteria or are ignored are not yielded.</p>
-</dd>
-<dt>Raises:</dt><dd><dl class="simple">
-<dt>Exception: Propagates any exception that occurs during the processing of a</dt><dd><p>node with its assigned builders. Error details are logged before the
-exception is raised.</p>
-</dd>
-</dl>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Generator[BaseNode, None, None]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1552,19 +1576,30 @@ exception is raised.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction.for_graph_store">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">for_graph_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_construction.html#GraphConstruction.for_graph_store"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction.for_graph_store" title="Link to this definition">¶</a></dt>
-<dd><p>Constructs a GraphConstruction instance either directly from a
-GraphStore instance or by creating a GraphStore instance using
-GraphStoreFactory if a non-GraphStore value is provided.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>graph_info (GraphInfoType, optional): The initial graph information provided,</dt><dd><p>which can either be a GraphStore instance or data that can be used to
-create a GraphStore instance.</p>
+<dd><p>Creates an instance of the GraphConstruction class for interacting with a graph
+store, either by accepting an existing GraphStore instance or by creating one
+using the GraphStoreFactory.</p>
+<p>This static method provides flexibility in initializing the GraphConstruction
+class. If a GraphStore instance is passed, it is directly utilized. Otherwise,
+the method constructs a GraphStore instance using provided graph information
+and additional parameters, and then initializes GraphConstruction with it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph_info</strong> (<em>GraphInfoType</em><em>, </em><em>optional</em>) – Optional information about the graph that may either be
+used to identify the graph store to interact with or directly represent
+an existing graph store instance.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Additional keyword arguments required for creating or interacting
+with a graph store, forwarded to the GraphStoreFactory or GraphConstruction
+initialization as needed.</p></li>
+</ul>
 </dd>
-<dt><a href="#id21"><span class="problematic" id="id22">**</span></a>kwargs: Additional parameters required for GraphConstruction or</dt><dd><p>GraphStore creation.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An initialized instance of the GraphConstruction class representing
+the graph store ready for operations.</p>
 </dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>GraphConstruction: A new instance of the GraphConstruction class.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction" title="graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction">GraphConstruction</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1585,20 +1620,17 @@ create a GraphStore instance.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_construction.default_builders">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.build.graph_construction.</span></span><span class="sig-name descname"><span class="pre">default_builders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_builder.GraphBuilder" title="graphrag_toolkit.lexical_graph.indexing.build.graph_builder.GraphBuilder"><span class="pre">GraphBuilder</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_construction.html#default_builders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.default_builders" title="Link to this definition">¶</a></dt>
-<dd><p>Provides a list of default graph builders for constructing various types
-of graphs.</p>
-<p>This function initializes and returns a predefined collection of graph builder
-instances. Each builder is responsible for constructing a specific type of graph
-used in processing, analyzing, or summarizing graph data. The sequence and types
-of builders included in the returned list are predetermined based on the expected
-workflow of graph construction.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>List[GraphBuilder]: A list of instantiated graph builders in the specific</dt><dd><p>order of SourceGraphBuilder, ChunkGraphBuilder, TopicGraphBuilder,
-StatementGraphBuilder, EntityGraphBuilder, EntityRelationGraphBuilder,
-FactGraphBuilder, GraphSummaryBuilder.</p>
+<dd><p>Creates and returns a list of default graph builders used for graph construction. Each graph builder in the
+list is responsible for building a specific type of graph structure, such as source graphs, chunk graphs,
+entity graphs, and more. These graph builders facilitate a modular and systematic approach to building
+complex graphs by separating functionality into distinct components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of instances of <cite>GraphBuilder</cite> and its derived types used for various graph construction
+processes.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_builder.GraphBuilder" title="graphrag_toolkit.lexical_graph.indexing.build.graph_builder.GraphBuilder">GraphBuilder</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1645,7 +1677,7 @@ configure the graph.</p>
 formatting.</p>
 </dd>
 </dl>
-<p><a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs (Any): Additional arguments that may be passed for internal usage.</p>
+<p><a href="#id17"><span class="problematic" id="id18">**</span></a>kwargs (Any): Additional arguments that may be passed for internal usage.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1745,7 +1777,7 @@ text, then uses the builders to generate new nodes based on metadata
 and appends the original nodes to the results.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>input_nodes (List[BaseNode]): A list of input nodes to be processed and used for generating new nodes.
-<a href="#id25"><span class="problematic" id="id26">**</span></a>kwargs (Any): Additional keyword arguments that may be required by the builders.</p>
+<a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs (Any): Additional keyword arguments that may be required by the builders.</p>
 </dd>
 <dt>Returns:</dt><dd><p>List[BaseNode]: A list of processed nodes that includes both generated nodes and the original input nodes.</p>
 </dd>

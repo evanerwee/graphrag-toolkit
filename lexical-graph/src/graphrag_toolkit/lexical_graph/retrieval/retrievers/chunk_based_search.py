@@ -27,22 +27,26 @@ logger = logging.getLogger(__name__)
 
 
 class ChunkBasedSearch(TraversalBasedBaseRetriever):
-    """Class for performing chunk-based search in a graph store using traversal
-    methods.
+    """
+    Handles chunk-based retrieval and search operations using graph and vector
+    datastores.
 
-    This class extends the TraversalBasedBaseRetriever to implement functionality for
-    retrieving data from a graph database. The retrieval is based on chunk-oriented
-    principles, employing parallelized search techniques to enable efficient data
-    retrieval for complex queries. It processes queries through graph traversal,
-    facilitates use of external vector stores, and supports custom filtering.
+    This class integrates graph and vector stores to facilitate retrieval and
+    search operations based on chunks. It provides mechanisms for executing
+    queries, performing filtering, and enabling concurrent search operations
+    to efficiently process large-scale data. The class supports configurable
+    processors and filtering options to accommodate diverse use cases.
 
-    Attributes:
-        graph_store (GraphStore): The graph store instance used for retrieving data.
-        vector_store (VectorStore): The vector store instance used for vector-based searches.
-        processor_args (Optional[ProcessorArgs]): Configuration arguments for data processors.
-        processors (Optional[List[Type[ProcessorBase]]]): List of data processors applied
-            during the search process.
-        filter_config (Optional[FilterConfig]): Configuration for filtering search results.
+    :ivar graph_store: The graph database management system used to store and retrieve graph-related data.
+    :type graph_store: GraphStore
+    :ivar vector_store: The vector-based storage system used for similarity-based search and retrieval.
+    :type vector_store: VectorStore
+    :ivar processor_args: Optional set of arguments configuring the behavior of additional processors.
+    :type processor_args: Optional[ProcessorArgs]
+    :ivar processors: List of processor types for handling specific tasks or transformations.
+    :type processors: Optional[List[Type[ProcessorBase]]]
+    :ivar filter_config: Configuration settings for filtering results during retrieval operations.
+    :type filter_config: Optional[FilterConfig]
     """
 
     def __init__(
