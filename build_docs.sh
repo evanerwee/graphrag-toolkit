@@ -10,7 +10,7 @@ SRC_MAIN="$PROJECT_ROOT/lexical-graph/src"
 SRC_CONTRIB="$PROJECT_ROOT/lexical-graph-contrib/falkordb/src"
 
 # Path to Sphinx docs
-DOCS_DIR="$PROJECT_ROOT/docs_base"
+DOCS_DIR="$PROJECT_ROOT/sphinx_docs"
 DOCS_SOURCE="$DOCS_DIR/source"
 DOCS_BUILD="$DOCS_DIR/build"
 
