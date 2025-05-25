@@ -71,16 +71,15 @@ def node_result(
     properties: Optional[List[str]] = ['*'],
     key_name: Optional[str] = None,
 ):
-    """Generates a formatted result string based on the provided node
-    reference, node ID, properties, and optional key name.
+    """Generates a formatted result string based on the provided node reference, node ID, properties, and optional key name.
 
     This can be used to specify desired details to fetch or represent related nodes and their
     attributes in a structured format.
 
     Args:
         node_ref (str): The reference name of the node.
-        node_id (Optional[NodeId]): An optional ID for the node, which may influence
-            the resulting properties based on whether the ID is property-based.
+        node_id (Optional[NodeId]): An optional ID for the node, which may influence the
+            resulting properties based on whether the ID is property-based.
         properties (Optional[List[str]]): A list of property names to include. By default,
             includes all properties ('*'). If specific properties are provided, property-specific
             selectors will be constructed unless the provided ID conflicts.
@@ -89,6 +88,7 @@ def node_result(
 
     Returns:
         str: A formatted string combining the node reference, key, and selected properties.
+
     """
     key = key_name or node_ref
 

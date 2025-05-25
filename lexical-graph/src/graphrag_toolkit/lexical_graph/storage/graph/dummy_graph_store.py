@@ -24,6 +24,7 @@ class DummyGraphStoreFactory(GraphStoreFactoryMethod):
 
     Attributes:
         No additional class attributes are explicitly defined beyond inherited attributes.
+
     """
 
     def try_create(self, graph_info: str, **kwargs) -> GraphStore:
@@ -50,8 +51,7 @@ class DummyGraphStoreFactory(GraphStoreFactoryMethod):
 
 
 class DummyGraphStore(GraphStore):
-    """Represents a specialized graph store that extends the base functionality
-    of GraphStore.
+    """Represents a specialized graph store that extends the base functionality of GraphStore.
 
     This class is designed to execute Cypher queries on a graph database and log the query
     information for debugging purposes. It provides an implementation for executing queries with
@@ -64,25 +64,23 @@ class DummyGraphStore(GraphStore):
         log_formatting (LogFormatter): An instance of LogFormatter used for formatting log entries.
         _logging_prefix (callable): A callable function or method responsible for generating the
             logging prefix based on the provided correlation ID.
+
     """
 
     def execute_query(self, cypher, parameters={}, correlation_id=None):
-        """Executes the given Cypher query with specified parameters and logs
-        the operation.
+        """Executes the given Cypher query with specified parameters and logs the operation.
 
         The function logs a formatted version of the Cypher query and its parameters with
         a correlation identifier for tracking. It provides an empty result as a placeholder.
 
         Args:
-            cypher: The Cypher query to be executed.
-            parameters: A dictionary representing the parameters for the Cypher query.
-                Defaults to an empty dictionary.
-            correlation_id: An optional identifier for correlating log entries. Defaults
-                to None.
+            cypher (str): The Cypher query to be executed.
+            parameters (dict, optional): A dictionary representing the parameters for the Cypher query. Defaults to None.
+            correlation_id (str, optional): An identifier for correlating log entries. Defaults to None.
 
         Returns:
-            A list as a placeholder for query execution results. Currently, it does
-            not retrieve any actual results.
+            list: A placeholder for query execution results. Currently, it does not retrieve any actual results.
+
         """
         log_entry_parameters = self.log_formatting.format_log_entry(
             self._logging_prefix(correlation_id), cypher, parameters

@@ -377,6 +377,19 @@
 
 <span class="sd">    This approach is particularly effective for retrieving contextually</span>
 <span class="sd">    relevant information from large document collections.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        graph_store: The graph store instance for traversal operations.</span>
+<span class="sd">        vector_store: The vector store instance for similarity search.</span>
+<span class="sd">        top_k: Number of top results to return (default: 10).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: A list of scored chunks with associated metadata.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        Ensure the graph and vector stores are properly initialized before</span>
+<span class="sd">        using this class. Performance may vary based on the size of the</span>
+<span class="sd">        document collection and the complexity of the graph.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -388,25 +401,19 @@
         <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of a class by setting up graph and vector</span>
-<span class="sd">        stores, optional processing configurations, and other keyword</span>
-<span class="sd">        arguments. This constructor is used to setup necessary parameters and</span>
-<span class="sd">        configurations to enable the functionality of the class instance. It</span>
-<span class="sd">        manages dependencies, configurations, and extensions that enable</span>
-<span class="sd">        enhanced data handling and processing.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of a class by setting up graph and vector stores, optional processing configurations, and other keyword arguments.</span>
+
+<span class="sd">        This constructor is used to set up the necessary parameters and configurations to enable the functionality of the class instance. It manages dependencies, configurations, and extensions that enable enhanced data handling and processing.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            graph_store: The storage mechanism for graph data.</span>
 <span class="sd">            vector_store: The storage mechanism for vector data.</span>
-<span class="sd">            processor_args: Optional set of arguments that configure how</span>
-<span class="sd">                processors handle incoming operations.</span>
-<span class="sd">            processors: Optional list of processor types to handle specific operations</span>
-<span class="sd">                or processing tasks.</span>
-<span class="sd">            filter_config: Optional configuration data for filtering certain types of</span>
-<span class="sd">                content or operations.</span>
-<span class="sd">            **kwargs: Additional keyword arguments to pass into the parent</span>
-<span class="sd">                initialization.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            processor_args: Optional set of arguments that configure how processors handle incoming operations.</span>
+<span class="sd">            processors: Optional list of processor types to handle specific operations or processing tasks.</span>
+<span class="sd">            filter_config: Optional configuration data for filtering certain types of content or operations.</span>
+<span class="sd">            **kwargs: Additional keyword arguments to pass into the parent initialization.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
             <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>

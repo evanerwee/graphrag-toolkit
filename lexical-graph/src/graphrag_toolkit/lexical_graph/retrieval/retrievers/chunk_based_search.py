@@ -41,6 +41,19 @@ class ChunkBasedSearch(TraversalBasedBaseRetriever):
 
     This approach is particularly effective for retrieving contextually
     relevant information from large document collections.
+
+    Args:
+        graph_store: The graph store instance for traversal operations.
+        vector_store: The vector store instance for similarity search.
+        top_k: Number of top results to return (default: 10).
+
+    Returns:
+        list: A list of scored chunks with associated metadata.
+
+    Notes:
+        Ensure the graph and vector stores are properly initialized before
+        using this class. Performance may vary based on the size of the
+        document collection and the complexity of the graph.
     """
 
     def __init__(
@@ -52,25 +65,19 @@ class ChunkBasedSearch(TraversalBasedBaseRetriever):
         filter_config: Optional[FilterConfig] = None,
         **kwargs,
     ):
-        """Initializes an instance of a class by setting up graph and vector
-        stores, optional processing configurations, and other keyword
-        arguments. This constructor is used to setup necessary parameters and
-        configurations to enable the functionality of the class instance. It
-        manages dependencies, configurations, and extensions that enable
-        enhanced data handling and processing.
+        """Initializes an instance of a class by setting up graph and vector stores, optional processing configurations, and other keyword arguments.
+
+        This constructor is used to set up the necessary parameters and configurations to enable the functionality of the class instance. It manages dependencies, configurations, and extensions that enable enhanced data handling and processing.
 
         Args:
             graph_store: The storage mechanism for graph data.
             vector_store: The storage mechanism for vector data.
-            processor_args: Optional set of arguments that configure how
-                processors handle incoming operations.
-            processors: Optional list of processor types to handle specific operations
-                or processing tasks.
-            filter_config: Optional configuration data for filtering certain types of
-                content or operations.
-            **kwargs: Additional keyword arguments to pass into the parent
-                initialization.
-        """
+            processor_args: Optional set of arguments that configure how processors handle incoming operations.
+            processors: Optional list of processor types to handle specific operations or processing tasks.
+            filter_config: Optional configuration data for filtering certain types of content or operations.
+            **kwargs: Additional keyword arguments to pass into the parent initialization.
+
+    """
         super().__init__(
             graph_store=graph_store,
             vector_store=vector_store,

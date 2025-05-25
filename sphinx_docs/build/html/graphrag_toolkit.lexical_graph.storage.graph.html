@@ -345,8 +345,7 @@
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStore">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.</span></span><span class="sig-name descname"><span class="pre">DummyGraphStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_formatting:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id:</span> <span class="pre">~graphrag_toolkit.lexical_graph.tenant_id.TenantId</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/dummy_graph_store.html#DummyGraphStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStore" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a></p>
-<p>Represents a specialized graph store that extends the base functionality
-of GraphStore.</p>
+<p>Represents a specialized graph store that extends the base functionality of GraphStore.</p>
 <p>This class is designed to execute Cypher queries on a graph database and log the query
 information for debugging purposes. It provides an implementation for executing queries with
 optional parameters and correlation IDs.</p>
@@ -367,23 +366,15 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStore.execute_query">
 <span class="sig-name descname"><span class="pre">execute_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cypher</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/dummy_graph_store.html#DummyGraphStore.execute_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStore.execute_query" title="Link to this definition">¶</a></dt>
-<dd><p>Executes the given Cypher query with specified parameters and logs
-the operation.</p>
+<dd><p>Executes the given Cypher query with specified parameters and logs the operation.</p>
 <p>The function logs a formatted version of the Cypher query and its parameters with
 a correlation identifier for tracking. It provides an empty result as a placeholder.</p>
-<dl>
-<dt>Args:</dt><dd><p>cypher: The Cypher query to be executed.
-parameters: A dictionary representing the parameters for the Cypher query.</p>
-<blockquote>
-<div><p>Defaults to an empty dictionary.</p>
-</div></blockquote>
 <dl class="simple">
-<dt>correlation_id: An optional identifier for correlating log entries. Defaults</dt><dd><p>to None.</p>
+<dt>Args:</dt><dd><p>cypher (str): The Cypher query to be executed.
+parameters (dict, optional): A dictionary representing the parameters for the Cypher query. Defaults to None.
+correlation_id (str, optional): An identifier for correlating log entries. Defaults to None.</p>
 </dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>A list as a placeholder for query execution results. Currently, it does
-not retrieve any actual results.</p>
+<dt>Returns:</dt><dd><p>list: A placeholder for query execution results. Currently, it does not retrieve any actual results.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -988,15 +979,14 @@ are removed between the words to form a label-like output.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_utils.node_result">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_utils.</span></span><span class="sig-name descname"><span class="pre">node_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId"><span class="pre">NodeId</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['*']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_utils.html#node_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_utils.node_result" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a formatted result string based on the provided node
-reference, node ID, properties, and optional key name.</p>
+<dd><p>Generates a formatted result string based on the provided node reference, node ID, properties, and optional key name.</p>
 <p>This can be used to specify desired details to fetch or represent related nodes and their
 attributes in a structured format.</p>
 <dl>
 <dt>Args:</dt><dd><p>node_ref (str): The reference name of the node.
-node_id (Optional[NodeId]): An optional ID for the node, which may influence</p>
+node_id (Optional[NodeId]): An optional ID for the node, which may influence the</p>
 <blockquote>
-<div><p>the resulting properties based on whether the ID is property-based.</p>
+<div><p>resulting properties based on whether the ID is property-based.</p>
 </div></blockquote>
 <dl class="simple">
 <dt>properties (Optional[List[str]]): A list of property names to include. By default,</dt><dd><p>includes all properties (‘*’). If specific properties are provided, property-specific

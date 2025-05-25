@@ -416,16 +416,15 @@
     <span class="n">properties</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
     <span class="n">key_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a formatted result string based on the provided node</span>
-<span class="sd">    reference, node ID, properties, and optional key name.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a formatted result string based on the provided node reference, node ID, properties, and optional key name.</span>
 
 <span class="sd">    This can be used to specify desired details to fetch or represent related nodes and their</span>
 <span class="sd">    attributes in a structured format.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        node_ref (str): The reference name of the node.</span>
-<span class="sd">        node_id (Optional[NodeId]): An optional ID for the node, which may influence</span>
-<span class="sd">            the resulting properties based on whether the ID is property-based.</span>
+<span class="sd">        node_id (Optional[NodeId]): An optional ID for the node, which may influence the</span>
+<span class="sd">            resulting properties based on whether the ID is property-based.</span>
 <span class="sd">        properties (Optional[List[str]]): A list of property names to include. By default,</span>
 <span class="sd">            includes all properties (&#39;*&#39;). If specific properties are provided, property-specific</span>
 <span class="sd">            selectors will be constructed unless the provided ID conflicts.</span>
@@ -434,6 +433,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: A formatted string combining the node reference, key, and selected properties.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">key_name</span> <span class="ow">or</span> <span class="n">node_ref</span>
 

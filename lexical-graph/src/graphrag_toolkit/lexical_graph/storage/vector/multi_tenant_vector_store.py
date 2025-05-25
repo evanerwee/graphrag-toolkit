@@ -15,8 +15,9 @@ class MultiTenantVectorStore(VectorStore):
 
     Attributes:
         inner (VectorStore): The underlying vector store being wrapped.
-        tenant_id (TenantId): The tenant ID associated with the operations
-            performed on the vector store.
+        tenant_id (TenantId): The tenant ID associated with the operations performed
+            on the vector store.
+
     """
 
     @classmethod
@@ -30,7 +31,7 @@ class MultiTenantVectorStore(VectorStore):
 
         Args:
             vector_store: The vector_store to wrap if required.
-            tenant_id: The tenant identifier used to decide whether wrapping is necessary.
+            tenant_id: The tenant identifier is used to decide whether wrapping is necessary.
 
         Returns:
             The provided vector_store, wrapped in a MultiTenantVectorStore if necessary, or

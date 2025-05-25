@@ -360,6 +360,7 @@
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        No additional class attributes are explicitly defined beyond inherited attributes.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DummyGraphStoreFactory.try_create">
@@ -392,8 +393,7 @@
 <div class="viewcode-block" id="DummyGraphStore">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStore">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DummyGraphStore</span><span class="p">(</span><span class="n">GraphStore</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a specialized graph store that extends the base functionality</span>
-<span class="sd">    of GraphStore.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a specialized graph store that extends the base functionality of GraphStore.</span>
 
 <span class="sd">    This class is designed to execute Cypher queries on a graph database and log the query</span>
 <span class="sd">    information for debugging purposes. It provides an implementation for executing queries with</span>
@@ -406,27 +406,25 @@
 <span class="sd">        log_formatting (LogFormatter): An instance of LogFormatter used for formatting log entries.</span>
 <span class="sd">        _logging_prefix (callable): A callable function or method responsible for generating the</span>
 <span class="sd">            logging prefix based on the provided correlation ID.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DummyGraphStore.execute_query">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStore.execute_query">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span> <span class="n">correlation_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Executes the given Cypher query with specified parameters and logs</span>
-<span class="sd">        the operation.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Executes the given Cypher query with specified parameters and logs the operation.</span>
 
 <span class="sd">        The function logs a formatted version of the Cypher query and its parameters with</span>
 <span class="sd">        a correlation identifier for tracking. It provides an empty result as a placeholder.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            cypher: The Cypher query to be executed.</span>
-<span class="sd">            parameters: A dictionary representing the parameters for the Cypher query.</span>
-<span class="sd">                Defaults to an empty dictionary.</span>
-<span class="sd">            correlation_id: An optional identifier for correlating log entries. Defaults</span>
-<span class="sd">                to None.</span>
+<span class="sd">            cypher (str): The Cypher query to be executed.</span>
+<span class="sd">            parameters (dict, optional): A dictionary representing the parameters for the Cypher query. Defaults to None.</span>
+<span class="sd">            correlation_id (str, optional): An identifier for correlating log entries. Defaults to None.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            A list as a placeholder for query execution results. Currently, it does</span>
-<span class="sd">            not retrieve any actual results.</span>
+<span class="sd">            list: A placeholder for query execution results. Currently, it does not retrieve any actual results.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">correlation_id</span><span class="p">),</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span>

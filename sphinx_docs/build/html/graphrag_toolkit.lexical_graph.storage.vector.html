@@ -463,9 +463,9 @@ that all indexes retrieved or processed are identified and associated with
 the correct tenant context.</p>
 <dl>
 <dt>Attributes:</dt><dd><p>inner (VectorStore): The underlying vector store being wrapped.
-tenant_id (TenantId): The tenant ID associated with the operations</p>
+tenant_id (TenantId): The tenant ID associated with the operations performed</p>
 <blockquote>
-<div><p>performed on the vector store.</p>
+<div><p>on the vector store.</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -527,7 +527,7 @@ it wraps the vector_store inside a MultiTenantVectorStore with the
 given tenant_id.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>vector_store: The vector_store to wrap if required.
-tenant_id: The tenant identifier used to decide whether wrapping is necessary.</p>
+tenant_id: The tenant identifier is used to decide whether wrapping is necessary.</p>
 </dd>
 <dt>Returns:</dt><dd><p>The provided vector_store, wrapped in a MultiTenantVectorStore if necessary, or
 the vector_store itself if no wrapping is required.</p>

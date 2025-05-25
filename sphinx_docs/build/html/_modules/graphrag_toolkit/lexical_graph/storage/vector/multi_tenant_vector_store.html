@@ -351,8 +351,9 @@
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        inner (VectorStore): The underlying vector store being wrapped.</span>
-<span class="sd">        tenant_id (TenantId): The tenant ID associated with the operations</span>
-<span class="sd">            performed on the vector store.</span>
+<span class="sd">        tenant_id (TenantId): The tenant ID associated with the operations performed</span>
+<span class="sd">            on the vector store.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="MultiTenantVectorStore.wrap">
@@ -368,7 +369,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            vector_store: The vector_store to wrap if required.</span>
-<span class="sd">            tenant_id: The tenant identifier used to decide whether wrapping is necessary.</span>
+<span class="sd">            tenant_id: The tenant identifier is used to decide whether wrapping is necessary.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The provided vector_store, wrapped in a MultiTenantVectorStore if necessary, or</span>

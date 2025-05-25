@@ -27,28 +27,26 @@ logger = logging.getLogger(__name__)
 
 
 class TopicBasedSearch(TraversalBasedBaseRetriever):
-    """A retriever class implementing topic-based search within a knowledge
-    graph.
+    """A retriever class implementing topic-based search within a knowledge graph.
 
     The TopicBasedSearch class specializes in retrieving information from a graph database
     using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide
     functionality specific to exploring the graph based on topic relationships. The retriever
     employs both a graph store for hierarchical relationships and a vector store for semantic queries.
 
-    This is particularly useful in scenarios where topic-centric information
-    organization and retrieval are required.
+    This is particularly useful in scenarios where topic-centric information organization
+    and retrieval are required.
 
     Attributes:
-        graph_store (GraphStore): An instance of the backing graph database used to
-            execute cypher queries.
-        vector_store (VectorStore): A vector store used for semantic representation
-            and querying.
-        processor_args (Optional[ProcessorArgs]): Optional arguments for
-            configuring preprocessing workflows.
-        processors (Optional[List[Type[ProcessorBase]]]): A list of processor
-            classes for custom data preprocessing.
-        filter_config (FilterConfig): Configuration for how filtering should be
-            applied to retrieve results.
+        graph_store (GraphStore): An instance of the backing graph database used to execute
+            Cypher queries.
+        vector_store (VectorStore): A vector store used for semantic representation and querying.
+        processor_args (Optional[ProcessorArgs]): Optional arguments for configuring
+            preprocessing workflows.
+        processors (Optional[List[Type[ProcessorBase]]]): A list of processor classes for
+            custom data preprocessing.
+        filter_config (FilterConfig): Configuration for how filtering should be applied to
+            retrieve results.
 
     """
 
@@ -61,22 +59,18 @@ class TopicBasedSearch(TraversalBasedBaseRetriever):
         filter_config: FilterConfig = None,
         **kwargs,
     ):
-        """Initializes an instance of the class with specified configurations
-        for graph storage, vector storage, processing arguments, processors,
-        and filter configuration. This constructor also accepts additional
-        keyword arguments to support customization or extension.
+        """Initializes an instance of the class with specified configurations for graph storage, vector storage, processing arguments, processors, and filter configuration.
+
+        This constructor also accepts additional keyword arguments to support customization or extension.
 
         Args:
-            graph_store: The object responsible for storing and managing graph data.
-            vector_store: The storage system designed to handle vectorized data.
-            processor_args: Optional settings or configurations relevant to data processing,
-                provided as `ProcessorArgs`. Defaults to None.
-            processors: Optional list of `ProcessorBase` types used for performing specific
-                processing tasks. Defaults to None.
-            filter_config: Configuration object that defines filtering rules or settings
-                as `FilterConfig`. Defaults to None.
-            kwargs: Additional keyword arguments for further customization or
-                extension of functionality.
+            graph_store (GraphStore): The object responsible for storing and managing graph data.
+            vector_store (VectorStore): The storage system designed to handle vectorized data.
+            processor_args (Optional[ProcessorArgs]): Optional settings or configurations relevant to data processing. Defaults to None.
+            processors (Optional[List[Type[ProcessorBase]]]): Optional list of processor types used for performing specific processing tasks. Defaults to None.
+            filter_config (Optional[FilterConfig]): Configuration object that defines filtering rules or settings. Defaults to None.
+            kwargs (dict): Additional keyword arguments for further customization or extension of functionality.
+
         """
         super().__init__(
             graph_store=graph_store,
