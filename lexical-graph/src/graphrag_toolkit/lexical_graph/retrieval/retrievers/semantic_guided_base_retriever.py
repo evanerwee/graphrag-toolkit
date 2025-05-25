@@ -30,6 +30,7 @@ class SemanticGuidedBaseRetriever(BaseRetriever):
         debug_results (bool): Indicates whether to enable debugging for retrieved
             results. Debug mode is enabled when debug_results is explicitly specified
             in the keyword arguments.
+
     """
 
     def __init__(

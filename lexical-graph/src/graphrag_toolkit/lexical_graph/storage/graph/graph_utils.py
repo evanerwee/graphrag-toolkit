@@ -72,8 +72,9 @@ def node_result(
     key_name: Optional[str] = None,
 ):
     """Generates a formatted result string based on the provided node
-    reference, node ID, properties, and optional key name. This can be used to
-    specify desired details to fetch or represent related nodes and their
+    reference, node ID, properties, and optional key name.
+
+    This can be used to specify desired details to fetch or represent related nodes and their
     attributes in a structured format.
 
     Args:

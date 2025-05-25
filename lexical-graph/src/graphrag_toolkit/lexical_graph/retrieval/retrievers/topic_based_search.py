@@ -30,7 +30,10 @@ class TopicBasedSearch(TraversalBasedBaseRetriever):
     """A retriever class implementing topic-based search within a knowledge
     graph.
 
-    The TopicBasedSearch class specializes in retrieving information from a graph database using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide functionality specific to exploring the graph based on topic relationships. The retriever employs both a graph store for hierarchical relationships and a vector store for semantic queries.
+    The TopicBasedSearch class specializes in retrieving information from a graph database
+    using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide
+    functionality specific to exploring the graph based on topic relationships. The retriever
+    employs both a graph store for hierarchical relationships and a vector store for semantic queries.
 
     This is particularly useful in scenarios where topic-centric information
     organization and retrieval are required.
@@ -46,6 +49,7 @@ class TopicBasedSearch(TraversalBasedBaseRetriever):
             classes for custom data preprocessing.
         filter_config (FilterConfig): Configuration for how filtering should be
             applied to retrieve results.
+
     """
 
     def __init__(

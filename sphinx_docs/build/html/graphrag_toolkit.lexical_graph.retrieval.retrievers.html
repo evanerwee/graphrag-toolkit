@@ -349,10 +349,12 @@
 <p>This class implements a retrieval strategy that focuses on chunks of text
 as the primary units for search operations. It leverages both graph and
 vector stores to find relevant chunks based on the input query.</p>
-<p>The retrieval process involves:
-1. Finding relevant chunks using vector similarity search
-2. Traversing the graph to find related statements and topics
-3. Aggregating and scoring the results</p>
+<p>The retrieval process involves:</p>
+<ol class="arabic simple">
+<li><p>Finding relevant chunks using vector similarity search</p></li>
+<li><p>Traversing the graph to find related statements and topics</p></li>
+<li><p>Aggregating and scoring the results</p></li>
+</ol>
 <p>This approach is particularly effective for retrieving contextually
 relevant information from large document collections.</p>
 <p>Initializes an instance of a class by setting up graph and vector
@@ -1208,7 +1210,10 @@ the required stores, configurations, and cache for processing tasks.</p>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever" title="graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever"><code class="xref py py-class docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever</span></code></a></p>
 <p>A retriever class implementing topic-based search within a knowledge
 graph.</p>
-<p>The TopicBasedSearch class specializes in retrieving information from a graph database using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide functionality specific to exploring the graph based on topic relationships. The retriever employs both a graph store for hierarchical relationships and a vector store for semantic queries.</p>
+<p>The TopicBasedSearch class specializes in retrieving information from a graph database
+using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide
+functionality specific to exploring the graph based on topic relationships. The retriever
+employs both a graph store for hierarchical relationships and a vector store for semantic queries.</p>
 <p>This is particularly useful in scenarios where topic-centric information
 organization and retrieval are required.</p>
 <dl class="simple">

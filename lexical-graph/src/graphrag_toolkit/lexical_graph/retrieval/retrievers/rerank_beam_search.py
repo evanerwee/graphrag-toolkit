@@ -55,6 +55,7 @@ class RerankingBeamGraphSearch(SemanticGuidedBaseRetriever):
     :ivar initial_retrievers: List of retrievers employed during the initial
         phase of retrieval operations.
     :type initial_retrievers: List[SemanticGuidedBaseRetriever]
+
     """
 
     def __init__(

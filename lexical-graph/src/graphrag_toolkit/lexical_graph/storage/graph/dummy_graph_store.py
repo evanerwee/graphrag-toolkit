@@ -55,9 +55,9 @@ class DummyGraphStore(GraphStore):
 
     This class is designed to execute Cypher queries on a graph database and log the query
     information for debugging purposes. It provides an implementation for executing queries with
-    optional parameters and correlation IDs. 
+    optional parameters and correlation IDs.
 
-    The main use case for this class is to interact with graph databases, primarily for logging 
+    The main use case for this class is to interact with graph databases, primarily for logging
     and debugging scenarios.
 
     Attributes:

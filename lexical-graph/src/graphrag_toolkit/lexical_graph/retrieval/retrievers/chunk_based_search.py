@@ -34,6 +34,7 @@ class ChunkBasedSearch(TraversalBasedBaseRetriever):
     vector stores to find relevant chunks based on the input query.
 
     The retrieval process involves:
+
     1. Finding relevant chunks using vector similarity search
     2. Traversing the graph to find related statements and topics
     3. Aggregating and scoring the results

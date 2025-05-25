@@ -52,6 +52,7 @@ class EntityContextSearch(TraversalBasedBaseRetriever):
     Attributes:
         sub_retriever (Optional[SubRetrieverType]): An optional sub-retriever instance or class used for
             deeper result retrieval during the search process.
+
     """
 
     def __init__(

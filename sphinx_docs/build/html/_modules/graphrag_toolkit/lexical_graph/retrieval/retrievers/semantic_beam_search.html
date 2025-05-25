@@ -374,6 +374,7 @@
 <span class="sd">        max_depth (int): Maximum number of graph traversal levels during beam search.</span>
 <span class="sd">        beam_width (int): Number of candidate states to consider at each step in the beam search.</span>
 <span class="sd">        shared_nodes (Optional[List[NodeWithScore]]): Initial shared nodes to derive the starting points.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -466,6 +467,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List[Tuple[str, List[str]]]: A list of tuples where each tuple consists of a statement ID and its corresponding path of IDs that led to it. The length of the returned list does not exceed the beam width.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">visited</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>

@@ -350,7 +350,7 @@ of GraphStore.</p>
 <p>This class is designed to execute Cypher queries on a graph database and log the query
 information for debugging purposes. It provides an implementation for executing queries with
 optional parameters and correlation IDs.</p>
-<p>The main use case for this class is to interact with graph databases, primarily for logging 
+<p>The main use case for this class is to interact with graph databases, primarily for logging
 and debugging scenarios.</p>
 <dl>
 <dt>Attributes:</dt><dd><p>log_formatting (LogFormatter): An instance of LogFormatter used for formatting log entries.
@@ -989,8 +989,8 @@ are removed between the words to form a label-like output.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_utils.node_result">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_utils.</span></span><span class="sig-name descname"><span class="pre">node_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId"><span class="pre">NodeId</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['*']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_utils.html#node_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_utils.node_result" title="Link to this definition">¶</a></dt>
 <dd><p>Generates a formatted result string based on the provided node
-reference, node ID, properties, and optional key name. This can be used to
-specify desired details to fetch or represent related nodes and their
+reference, node ID, properties, and optional key name.</p>
+<p>This can be used to specify desired details to fetch or represent related nodes and their
 attributes in a structured format.</p>
 <dl>
 <dt>Args:</dt><dd><p>node_ref (str): The reference name of the node.

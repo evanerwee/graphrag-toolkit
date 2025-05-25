@@ -38,6 +38,7 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
         max_depth (int): Maximum number of graph traversal levels during beam search.
         beam_width (int): Number of candidate states to consider at each step in the beam search.
         shared_nodes (Optional[List[NodeWithScore]]): Initial shared nodes to derive the starting points.
+
     """
 
     def __init__(
@@ -125,6 +126,7 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
 
         Returns:
             List[Tuple[str, List[str]]]: A list of tuples where each tuple consists of a statement ID and its corresponding path of IDs that led to it. The length of the returned list does not exceed the beam width.
+
         """
         visited: Set[str] = set()
         results: List[Tuple[str, List[str]]] = []

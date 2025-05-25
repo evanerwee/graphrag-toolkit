@@ -9,7 +9,7 @@ class MultiTenantVectorStore(VectorStore):
     """Provides a multi-tenant wrapper for VectorStore.
 
     This class allows creating a wrapper around a VectorStore object to support
-    multi-tenancy by associating a specific tenant ID with operations. It ensures 
+    multi-tenancy by associating a specific tenant ID with operations. It ensures
     that all indexes retrieved or processed are identified and associated with
     the correct tenant context.
 

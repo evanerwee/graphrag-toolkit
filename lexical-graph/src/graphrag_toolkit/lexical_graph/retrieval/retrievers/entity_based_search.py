@@ -42,6 +42,7 @@ class EntityBasedSearch(TraversalBasedBaseRetriever):
         processor_args (ProcessorArgs): Configuration for processors.
         processors (List[Type[ProcessorBase]]): Processing pipeline components.
         filter_config (FilterConfig): Configuration for search filtering.
+
     """
 
     def __init__(

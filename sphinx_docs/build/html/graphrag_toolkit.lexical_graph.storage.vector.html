@@ -458,7 +458,7 @@ index names if vector_index_info starts with the prefix DUMMY, otherwise None.</
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">VectorStore</span></code></a></p>
 <p>Provides a multi-tenant wrapper for VectorStore.</p>
 <p>This class allows creating a wrapper around a VectorStore object to support
-multi-tenancy by associating a specific tenant ID with operations. It ensures 
+multi-tenancy by associating a specific tenant ID with operations. It ensures
 that all indexes retrieved or processed are identified and associated with
 the correct tenant context.</p>
 <dl>
@@ -628,17 +628,15 @@ validated to form a valid model.</p>
 embeddings using a specific query.</p>
 <p>The method assumes that the class is working with a Neptune database setup
 and uses an embedding model to process nodes.</p>
-<p>The process involves:
-1. Adding metadata to the nodes.
-2. Generating embeddings using the embedding model.
-3. Executing a Cypher query for each node to update the Neptune database</p>
-<blockquote>
-<div><p>with the embedding information.</p>
-</div></blockquote>
-<ol class="arabic simple" start="4">
+<dl class="simple">
+<dt>The process involves:</dt><dd><ol class="arabic simple">
+<li><p>Adding metadata to the nodes.</p></li>
+<li><p>Generating embeddings using the embedding model.</p></li>
+<li><p>Executing a Cypher query for each node to update the Neptune database
+with the embedding information.</p></li>
 <li><p>Cleaning up metadata after processing is complete.</p></li>
 </ol>
-<dl class="simple">
+</dd>
 <dt>Args:</dt><dd><dl class="simple">
 <dt>nodes: List of nodes to which embeddings will be added. Each node should be</dt><dd><p>structured and compatible with the embedding model and Neptune database setup.</p>
 </dd>

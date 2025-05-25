@@ -34,6 +34,7 @@ class StatementCosineSimilaritySearch(SemanticGuidedBaseRetriever):
         embedding_cache (Optional[SharedEmbeddingCache]): Shared cache for efficiently retrieving
             statement embeddings.
         top_k (int): Number of top statements to retrieve based on cosine similarity.
+
     """
 
     def __init__(

@@ -404,11 +404,11 @@ class NeptuneIndex(VectorIndex):
         and uses an embedding model to process nodes.
 
         The process involves:
-        1. Adding metadata to the nodes.
-        2. Generating embeddings using the embedding model.
-        3. Executing a Cypher query for each node to update the Neptune database
-           with the embedding information.
-        4. Cleaning up metadata after processing is complete.
+            1. Adding metadata to the nodes.
+            2. Generating embeddings using the embedding model.
+            3. Executing a Cypher query for each node to update the Neptune database
+               with the embedding information.
+            4. Cleaning up metadata after processing is complete.
 
         Args:
             nodes: List of nodes to which embeddings will be added. Each node should be

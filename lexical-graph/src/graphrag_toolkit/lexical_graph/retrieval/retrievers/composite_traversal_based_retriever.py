@@ -89,6 +89,7 @@ class CompositeTraversalBasedRetriever(TraversalBasedBaseRetriever):
         weighted_retrievers (List[WeightedTraversalBasedRetrieverType]): Weighted retrievers.
         query_decomposition (QueryDecomposition): Tool for breaking down queries.
         filter_config (FilterConfig): Configuration for filtering results.
+
     """
 
     def __init__(
