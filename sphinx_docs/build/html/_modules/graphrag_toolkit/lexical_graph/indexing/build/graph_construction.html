@@ -368,7 +368,7 @@
 <span class="sd">    entity graphs, and more. These graph builders facilitate a modular and systematic approach to building</span>
 <span class="sd">    complex graphs by separating functionality into distinct components.</span>
 
-<span class="sd">    :return: A list of instances of `GraphBuilder` and its derived types used for various graph construction</span>
+<span class="sd">    :return: A list of instances of GraphBuilder and its derived types used for various graph construction</span>
 <span class="sd">             processes.</span>
 <span class="sd">    :rtype: List[GraphBuilder]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -453,14 +453,10 @@
 <span class="sd">        supports optional progress display and facilitates integration with metadata-based</span>
 <span class="sd">        builder selection.</span>
 
-<span class="sd">        :param nodes: A list of nodes to process, each represented by an instance of `BaseNode`. Nodes may optionally contain metadata with specific keys for targeted builder processing.</span>
+<span class="sd">        :param nodes: A list of nodes to process, each represented by an instance of BaseNode. Nodes may optionally contain metadata with specific keys for targeted builder processing.</span>
 <span class="sd">        :type nodes: List[BaseNode]</span>
 
-<span class="sd">        :param kwargs: Additional keyword arguments for configuration. Includes:</span>
-<span class="sd">            - batch_writes_enabled (bool): Determines whether batch write operations</span>
-<span class="sd">              are enabled during the process.</span>
-<span class="sd">            - batch_write_size (int): Specifies the size of batch operations if enabled.</span>
-<span class="sd">            - Any other custom arguments required for the specific builders.</span>
+<span class="sd">        :param kwargs: Additional keyword arguments for configuration. Includes: batch_writes_enabled (bool) - Determines whether batch write operations are enabled during the process; batch_write_size (int) - Specifies the size of batch operations if enabled; Any other custom arguments required for the specific builders.</span>
 
 <span class="sd">        :return: A generator yielding nodes after processing. Nodes may have been</span>
 <span class="sd">            modified during the graph construction process or as a result of batch</span>

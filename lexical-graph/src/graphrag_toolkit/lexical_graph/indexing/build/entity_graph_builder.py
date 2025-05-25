@@ -57,10 +57,9 @@ class EntityGraphBuilder(GraphBuilder):
         ensures reliability through query retries with controlled attempts and wait times.
 
         Args:
-            node (`BaseNode`): The node from which fact metadata is to be extracted.
-            graph_client (`GraphStore`): The graph database client to execute queries.
-            **kwargs (Any): Additional options, such as `include_domain_labels`, which
-                determines whether domain-specific labels are added to the entities.
+            node (BaseNode): The node from which fact metadata is to be extracted.
+            graph_client (GraphStore): The graph database client to execute queries.
+            **kwargs (Any): Additional options, such as `include_domain_labels`, which determines whether domain-specific labels are added to the entities.
         """
         fact_metadata = node.metadata.get('fact', {})
         include_domain_labels = kwargs['include_domain_labels']

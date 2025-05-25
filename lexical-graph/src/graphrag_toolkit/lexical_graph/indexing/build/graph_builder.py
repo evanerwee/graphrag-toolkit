@@ -52,12 +52,12 @@ class GraphBuilder(BaseComponent):
     @abc.abstractmethod
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
         """An abstract method designated for building a specific process
-        related to a `BaseNode` within a `GraphStore` using additional parameters.
+        related to a BaseNode within a GraphStore using additional parameters.
 
         Args:
-            node: The node instance of type `BaseNode` on which the build operation
+            node: The node instance of type BaseNode on which the build operation
                 is performed.
-            graph_client: The graph storage client of type `GraphStore` responsible
+            graph_client: The graph storage client of type GraphStore responsible
                 for managing graph operations.
             **kwargs: Arbitrary additional arguments that may be required for the
                 build operation specific to the implementation.

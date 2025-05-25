@@ -47,17 +47,17 @@ class FactGraphBuilder(GraphBuilder):
         to be established.
 
         Args:
-            node (`BaseNode`): The node containing metadata and text to be analyzed and inserted into the
+            node (BaseNode): The node containing metadata and text to be analyzed and inserted into the
                 graph database as a fact.
-            graph_client (`GraphStore`): The client used to interact with the graph database, providing methods
+            graph_client (GraphStore): The client used to interact with the graph database, providing methods
                 for query execution and schema utility functions.
             **kwargs (Any): Additional parameters for customization, such as 'include_domain_labels' to
                 determine whether domain labels for entities should be included in the queries.
 
         Raises:
-            `KeyError`: If required keys such as 'include_domain_labels' are missing from the kwargs or
+            KeyError: If required keys such as 'include_domain_labels' are missing from the kwargs or
                 metadata is incomplete.
-            `ValidationError`: If the metadata provided in the node is invalid or does not match the expected
+            ValidationError: If the metadata provided in the node is invalid or does not match the expected
                 structure for fact validation.
         """
         fact_metadata = node.metadata.get('fact', {})

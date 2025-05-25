@@ -32,7 +32,7 @@ def default_builders() -> List[GraphBuilder]:
     entity graphs, and more. These graph builders facilitate a modular and systematic approach to building
     complex graphs by separating functionality into distinct components.
 
-    :return: A list of instances of `GraphBuilder` and its derived types used for various graph construction
+    :return: A list of instances of GraphBuilder and its derived types used for various graph construction
              processes.
     :rtype: List[GraphBuilder]
     """
@@ -109,14 +109,10 @@ class GraphConstruction(NodeHandler):
         supports optional progress display and facilitates integration with metadata-based
         builder selection.
 
-        :param nodes: A list of nodes to process, each represented by an instance of `BaseNode`. Nodes may optionally contain metadata with specific keys for targeted builder processing.
+        :param nodes: A list of nodes to process, each represented by an instance of BaseNode. Nodes may optionally contain metadata with specific keys for targeted builder processing.
         :type nodes: List[BaseNode]
 
-        :param kwargs: Additional keyword arguments for configuration. Includes:
-            - batch_writes_enabled (bool): Determines whether batch write operations
-              are enabled during the process.
-            - batch_write_size (int): Specifies the size of batch operations if enabled.
-            - Any other custom arguments required for the specific builders.
+        :param kwargs: Additional keyword arguments for configuration. Includes: batch_writes_enabled (bool) - Determines whether batch write operations are enabled during the process; batch_write_size (int) - Specifies the size of batch operations if enabled; Any other custom arguments required for the specific builders.
 
         :return: A generator yielding nodes after processing. Nodes may have been
             modified during the graph construction process or as a result of batch

@@ -46,7 +46,7 @@ class GraphSummaryBuilder(GraphBuilder):
         database based on the metadata associated with a given base node. The
         process involves constructing parameters and Cypher queries to manage
         relationships and classifications for nodes within a graph database.
-        This method uses the `graph_client` to run the query with error retries
+        This method uses the graph_client to run the query with error retries
         and logs warnings for missing metadata.
 
         Args:

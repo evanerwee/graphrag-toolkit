@@ -58,7 +58,7 @@ class MetadataToNodes():
         Returns:
             list: A list of node builder instances including SourceNodeBuilder,
                 ChunkNodeBuilder, TopicNodeBuilder, and StatementNodeBuilder. Each
-                builder is initialized with the provided `id_generator`.
+                builder is initialized with the provided id_generator.
         """
         return [
             SourceNodeBuilder(id_generator=id_generator),
@@ -101,9 +101,7 @@ class MetadataToNodes():
             tenant-specific rewrites using an ID generator.
 
             Methods:
-                get_nodes_from_metadata: Process a list of input nodes, apply ID rewrites
-                to each node and its relationships for a specific tenant, and return
-                the modified list of nodes.
+                get_nodes_from_metadata: Process a list of input nodes, apply ID rewrites to each node and its relationships for a specific tenant, and return the modified list of nodes.
 
             """
             node.id_ =  self.id_generator.rewrite_id_for_tenant(node.id_)

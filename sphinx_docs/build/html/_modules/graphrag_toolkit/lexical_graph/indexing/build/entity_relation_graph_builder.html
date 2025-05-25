@@ -386,10 +386,10 @@
 <span class="sd">        will be added to the entities and relationships.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            node (`BaseNode`): The node containing metadata for the fact data to process.</span>
-<span class="sd">            graph_client (`GraphStore`): The graph client instance for executing database queries.</span>
+<span class="sd">            node (BaseNode): The node containing metadata for the fact data to process.</span>
+<span class="sd">            graph_client (GraphStore): The graph client instance for executing database queries.</span>
 <span class="sd">            **kwargs (Any): Additional keyword arguments. Must include:</span>
-<span class="sd">                - include_domain_labels (bool): Indicator for whether domain labels should be included in the query.</span>
+<span class="sd">                include_domain_labels (bool): Indicator for whether domain labels should be included in the query.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fact_metadata</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fact&#39;</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">include_domain_labels</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;include_domain_labels&#39;</span><span class="p">]</span>

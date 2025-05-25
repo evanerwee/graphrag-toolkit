@@ -1116,13 +1116,10 @@ the subject and object are set or updated based on whether they already exist in
 the graph. Optionally, domain-specific labels can be included.</p>
 <p>The function handles missing fact metadata by logging a warning message. It also
 ensures reliability through query retries with controlled attempts and wait times.</p>
-<dl>
-<dt>Args:</dt><dd><p>node (<cite>BaseNode</cite>): The node from which fact metadata is to be extracted.
-graph_client (<cite>GraphStore</cite>): The graph database client to execute queries.
-<a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs (Any): Additional options, such as <cite>include_domain_labels</cite>, which</p>
-<blockquote>
-<div><p>determines whether domain-specific labels are added to the entities.</p>
-</div></blockquote>
+<dl class="simple">
+<dt>Args:</dt><dd><p>node (BaseNode): The node from which fact metadata is to be extracted.
+graph_client (GraphStore): The graph database client to execute queries.
+<a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs (Any): Additional options, such as <cite>include_domain_labels</cite>, which determines whether domain-specific labels are added to the entities.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1183,13 +1180,11 @@ update relationships between entities in a graph database. If
 <cite>include_domain_labels</cite> is specified, additional domain-specific labels
 will be added to the entities and relationships.</p>
 <dl>
-<dt>Args:</dt><dd><p>node (<cite>BaseNode</cite>): The node containing metadata for the fact data to process.
-graph_client (<cite>GraphStore</cite>): The graph client instance for executing database queries.
+<dt>Args:</dt><dd><p>node (BaseNode): The node containing metadata for the fact data to process.
+graph_client (GraphStore): The graph client instance for executing database queries.
 <a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs (Any): Additional keyword arguments. Must include:</p>
 <blockquote>
-<div><ul class="simple">
-<li><p>include_domain_labels (bool): Indicator for whether domain labels should be included in the query.</p></li>
-</ul>
+<div><p>include_domain_labels (bool): Indicator for whether domain labels should be included in the query.</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -1245,18 +1240,18 @@ handles scenarios where domain labels are required or when connections to previo
 to be established.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
-<dt>node (<cite>BaseNode</cite>): The node containing metadata and text to be analyzed and inserted into the</dt><dd><p>graph database as a fact.</p>
+<dt>node (BaseNode): The node containing metadata and text to be analyzed and inserted into the</dt><dd><p>graph database as a fact.</p>
 </dd>
-<dt>graph_client (<cite>GraphStore</cite>): The client used to interact with the graph database, providing methods</dt><dd><p>for query execution and schema utility functions.</p>
+<dt>graph_client (GraphStore): The client used to interact with the graph database, providing methods</dt><dd><p>for query execution and schema utility functions.</p>
 </dd>
 <dt><a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs (Any): Additional parameters for customization, such as ‘include_domain_labels’ to</dt><dd><p>determine whether domain labels for entities should be included in the queries.</p>
 </dd>
 </dl>
 </dd>
 <dt>Raises:</dt><dd><dl class="simple">
-<dt><cite>KeyError</cite>: If required keys such as ‘include_domain_labels’ are missing from the kwargs or</dt><dd><p>metadata is incomplete.</p>
+<dt>KeyError: If required keys such as ‘include_domain_labels’ are missing from the kwargs or</dt><dd><p>metadata is incomplete.</p>
 </dd>
-<dt><cite>ValidationError</cite>: If the metadata provided in the node is invalid or does not match the expected</dt><dd><p>structure for fact validation.</p>
+<dt>ValidationError: If the metadata provided in the node is invalid or does not match the expected</dt><dd><p>structure for fact validation.</p>
 </dd>
 </dl>
 </dd>
@@ -1474,12 +1469,12 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_builder.GraphBuilder.build">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseNode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_builder.html#GraphBuilder.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_builder.GraphBuilder.build" title="Link to this definition">¶</a></dt>
 <dd><p>An abstract method designated for building a specific process
-related to a <cite>BaseNode</cite> within a <cite>GraphStore</cite> using additional parameters.</p>
+related to a BaseNode within a GraphStore using additional parameters.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
-<dt>node: The node instance of type <cite>BaseNode</cite> on which the build operation</dt><dd><p>is performed.</p>
+<dt>node: The node instance of type BaseNode on which the build operation</dt><dd><p>is performed.</p>
 </dd>
-<dt>graph_client: The graph storage client of type <cite>GraphStore</cite> responsible</dt><dd><p>for managing graph operations.</p>
+<dt>graph_client: The graph storage client of type GraphStore responsible</dt><dd><p>for managing graph operations.</p>
 </dd>
 <dt><a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs: Arbitrary additional arguments that may be required for the</dt><dd><p>build operation specific to the implementation.</p>
 </dd>
@@ -1546,17 +1541,8 @@ builder selection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> (<em>List</em><em>[</em><em>BaseNode</em><em>]</em>) – A list of nodes to process, each represented by an instance of <cite>BaseNode</cite>. Nodes may optionally contain metadata with specific keys for targeted builder processing.</p></li>
-<li><p><strong>kwargs</strong> – <p>Additional keyword arguments for configuration. Includes:
-- batch_writes_enabled (bool): Determines whether batch write operations</p>
-<blockquote>
-<div><p>are enabled during the process.</p>
-</div></blockquote>
-<ul>
-<li><p>batch_write_size (int): Specifies the size of batch operations if enabled.</p></li>
-<li><p>Any other custom arguments required for the specific builders.</p></li>
-</ul>
-</p></li>
+<li><p><strong>nodes</strong> (<em>List</em><em>[</em><em>BaseNode</em><em>]</em>) – A list of nodes to process, each represented by an instance of BaseNode. Nodes may optionally contain metadata with specific keys for targeted builder processing.</p></li>
+<li><p><strong>kwargs</strong> – Additional keyword arguments for configuration. Includes: batch_writes_enabled (bool) - Determines whether batch write operations are enabled during the process; batch_write_size (int) - Specifies the size of batch operations if enabled; Any other custom arguments required for the specific builders.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1628,7 +1614,7 @@ entity graphs, and more. These graph builders facilitate a modular and systemati
 complex graphs by separating functionality into distinct components.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of instances of <cite>GraphBuilder</cite> and its derived types used for various graph construction
+<dd class="field-odd"><p>A list of instances of GraphBuilder and its derived types used for various graph construction
 processes.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -1668,7 +1654,7 @@ validated to form a valid model.</p>
 database based on the metadata associated with a given base node. The
 process involves constructing parameters and Cypher queries to manage
 relationships and classifications for nodes within a graph database.
-This method uses the <cite>graph_client</cite> to run the query with error retries
+This method uses the graph_client to run the query with error retries
 and logs warnings for missing metadata.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>node (BaseNode): The node containing metadata for generating the query. This metadata is used to derive the relationships and classifications required to configure the graph.
@@ -1752,7 +1738,7 @@ by these builders.</p>
 </dd>
 <dt>Returns:</dt><dd><dl class="simple">
 <dt>list: A list of node builder instances including SourceNodeBuilder,</dt><dd><p>ChunkNodeBuilder, TopicNodeBuilder, and StatementNodeBuilder. Each
-builder is initialized with the provided <cite>id_generator</cite>.</p>
+builder is initialized with the provided id_generator.</p>
 </dd>
 </dl>
 </dd>
