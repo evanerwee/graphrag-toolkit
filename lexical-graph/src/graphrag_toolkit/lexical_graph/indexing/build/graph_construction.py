@@ -95,7 +95,7 @@ class GraphConstruction(NodeHandler):
             return GraphConstruction(graph_client=graph_info, **kwargs)
         else:
             return GraphConstruction(graph_client=GraphStoreFactory.for_graph_store(graph_info, **kwargs), **kwargs)
-    
+
     graph_client: GraphStore 
     builders:List[GraphBuilder] = Field(
         description='Graph builders',
@@ -133,22 +133,22 @@ class GraphConstruction(NodeHandler):
 
         batch_writes_enabled = kwargs.pop('batch_writes_enabled')
         batch_write_size = kwargs.pop('batch_write_size')
-        
+
         logger.debug(f'Batch config: [batch_writes_enabled: {batch_writes_enabled}, batch_write_size: {batch_write_size}]')
         logger.debug(f'Graph construction kwargs: {kwargs}')
 
         with GraphBatchClient(self.graph_client, batch_writes_enabled=batch_writes_enabled, batch_write_size=batch_write_size) as batch_client:
-        
+
             node_iterable = nodes if not self.show_progress else tqdm(nodes, desc=f'Building graph [batch_writes_enabled: {batch_writes_enabled}, batch_write_size: {batch_write_size}]')
 
             for node in node_iterable:
 
                 node_id = node.node_id
-                
+
                 if [key for key in [INDEX_KEY] if key in node.metadata]:
-                    
+
                     try:
-                    
+
                         index = node.metadata[INDEX_KEY]['index']
                         builders = builders_dict.get(index, None)
 
@@ -161,14 +161,13 @@ class GraphConstruction(NodeHandler):
                     except Exception as e:
                         logger.exception('An error occurred while building the graph')
                         raise e
-                        
+
                 else:
                     logger.debug(f'Ignoring node [node_id: {node_id}]')
-                    
+
                 if batch_client.allow_yield(node):
                     yield node
 
             batch_nodes = batch_client.apply_batch_operations()
             for node in batch_nodes:
                 yield node
-

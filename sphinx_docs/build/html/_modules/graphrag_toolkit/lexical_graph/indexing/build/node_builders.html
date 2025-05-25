@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.build.node_builders - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -354,28 +354,28 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NodeBuilders</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a utility class for building or transforming nodes.</span>
+<span class="sd">    Represents a class to manage node building logic with support for filtering,</span>
+<span class="sd">    metadata formatting, and ID generation. This class provides mechanisms to</span>
+<span class="sd">    process input nodes, apply filters, preprocess data, and construct new nodes</span>
+<span class="sd">    from metadata using various registered builders.</span>
 
-<span class="sd">    The `NodeBuilders` class is designed to handle the creation, transformation, and</span>
-<span class="sd">    filtering of nodes based on metadata. This is achieved through various configurations</span>
-<span class="sd">    like node builders, filtering mechanisms, metadata formatting, and an ID generator.</span>
-<span class="sd">    It facilitates the processing of custom metadata and ensures nodes are correctly structured.</span>
+<span class="sd">    This class allows for extensibility through custom builders, filters, and</span>
+<span class="sd">    metadata formatters. It processes input data into a structured form suitable</span>
+<span class="sd">    for use in constructing nodes and manages workflows for transforming raw data</span>
+<span class="sd">    into meaningful output for further processing.</span>
 
-<span class="sd">    :ivar builders: A list of configured node builder instances, each specializing in</span>
-<span class="sd">        creating nodes based on specific logic or rules.</span>
-<span class="sd">    :vartype builders: List[NodeBuilder]</span>
-
-<span class="sd">    :ivar build_filters: The filter instance defined to control the criteria for filtering</span>
-<span class="sd">        nodes during their processing.</span>
-<span class="sd">    :vartype build_filters: BuildFilters</span>
-
-<span class="sd">    :ivar source_metadata_formatter: A formatter to process metadata into a specific structure</span>
-<span class="sd">        during node handling.</span>
-<span class="sd">    :vartype source_metadata_formatter: SourceMetadataFormatter</span>
-
-<span class="sd">    :ivar id_generator: An instance responsible for generating unique IDs for the nodes,</span>
-<span class="sd">        or rewriting node IDs to conform to specific conventions.</span>
-<span class="sd">    :vartype id_generator: IdGenerator</span>
+<span class="sd">    :ivar builders: List of NodeBuilder instances that encapsulate logic for building</span>
+<span class="sd">        nodes of various types. Defaults to a set of predefined node builders.</span>
+<span class="sd">    :type builders: list</span>
+<span class="sd">    :ivar build_filters: Instance used for applying filtering logic to input nodes during</span>
+<span class="sd">        preprocessing and node construction. Expected to conform to the `BuildFilters` protocol.</span>
+<span class="sd">    :type build_filters: BuildFilters</span>
+<span class="sd">    :ivar source_metadata_formatter: Component responsible for formatting metadata associated</span>
+<span class="sd">        with nodes. Conforms to the source metadata formatting interface.</span>
+<span class="sd">    :type source_metadata_formatter: SourceMetadataFormatter</span>
+<span class="sd">    :ivar id_generator: Utility for generating unique identifiers for nodes and rewriting</span>
+<span class="sd">        IDs when applying tenant-specific adjustments.</span>
+<span class="sd">    :type id_generator: IdGenerator</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> 
@@ -385,28 +385,18 @@
             <span class="n">id_generator</span><span class="p">:</span><span class="n">IdGenerator</span><span class="o">=</span><span class="kc">None</span>
         <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes an instance of the class with configured node builders, build filters,</span>
-<span class="sd">        a custom source metadata formatter, and an ID generator. These configurations dictate</span>
-<span class="sd">        the behavior of the instance, including how nodes are built, filtered, formatted,</span>
-<span class="sd">        and uniquely identified.</span>
+<span class="sd">        Initializes an instance of the class, setting up node builders, build filters,</span>
+<span class="sd">        a source metadata formatter, and an ID generator. This initialization ensures</span>
+<span class="sd">        that default components are provided if none are explicitly specified.</span>
 
-<span class="sd">        :param builders: A list of NodeBuilder instances. Every builder is used to create</span>
-<span class="sd">            nodes based on specific logic and rules. If not provided, default builders</span>
-<span class="sd">            are used.</span>
-<span class="sd">        :type builders: List[NodeBuilder]</span>
-
-<span class="sd">        :param build_filters: An instance of BuildFilters to control the filtering of nodes</span>
-<span class="sd">            during the building process. Defaults to a new BuildFilters instance if not provided.</span>
-<span class="sd">        :type build_filters: BuildFilters</span>
-
-<span class="sd">        :param source_metadata_formatter: A source metadata formatter to shape metadata</span>
-<span class="sd">            of source nodes. If not provided, a DefaultSourceMetadataFormatter instance</span>
-<span class="sd">            will be used.</span>
-<span class="sd">        :type source_metadata_formatter: Optional[SourceMetadataFormatter]</span>
-
-<span class="sd">        :param id_generator: An instance of IdGenerator to produce unique identifiers</span>
-<span class="sd">            for nodes. Will default to a newly created IdGenerator if one is not supplied.</span>
-<span class="sd">        :type id_generator: IdGenerator</span>
+<span class="sd">        :param builders: Optional list of NodeBuilder instances to construct nodes. If not</span>
+<span class="sd">            provided, default builders will be used.</span>
+<span class="sd">        :param build_filters: Optional BuildFilters instance to handle filtering</span>
+<span class="sd">            logic during the build process. Defaults to a new instance of BuildFilters.</span>
+<span class="sd">        :param source_metadata_formatter: Optional SourceMetadataFormatter instance to</span>
+<span class="sd">            format metadata for nodes. Defaults to an instance of DefaultSourceMetadataFormatter.</span>
+<span class="sd">        :param id_generator: Optional IdGenerator instance to generate unique IDs. If not</span>
+<span class="sd">            provided, a new instance of IdGenerator will be used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">id_generator</span> <span class="o">=</span> <span class="n">id_generator</span> <span class="ow">or</span> <span class="n">IdGenerator</span><span class="p">()</span>
         <span class="n">build_filters</span> <span class="o">=</span> <span class="n">build_filters</span> <span class="ow">or</span> <span class="n">BuildFilters</span><span class="p">()</span>
@@ -417,27 +407,26 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">builders</span> <span class="o">=</span> <span class="n">builders</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_builders</span><span class="p">(</span><span class="n">id_generator</span><span class="p">,</span> <span class="n">build_filters</span><span class="p">,</span> <span class="n">source_metadata_formatter</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Node builders: </span><span class="si">{</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">builders</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-    
+
 <div class="viewcode-block" id="NodeBuilders.default_builders">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.default_builders">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">default_builders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_generator</span><span class="p">:</span><span class="n">IdGenerator</span><span class="p">,</span> <span class="n">build_filters</span><span class="p">:</span><span class="n">BuildFilters</span><span class="p">,</span> <span class="n">source_metadata_formatter</span><span class="p">:</span><span class="n">SourceMetadataFormatter</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Builds a list of node builders using the provided generator, filters, and formatter.</span>
+<span class="sd">        Builds a list of node builders using the provided builders and their configurations.</span>
 
-<span class="sd">        This method initializes a list of node builders by iterating over predefined node</span>
-<span class="sd">        builder classes. Each builder is instantiated with the provided id generator, filter,</span>
-<span class="sd">        and formatter, which are essential for creating structured and uniquely identified</span>
-<span class="sd">        nodes in a processing pipeline. The configuration passed to the builders ensures</span>
-<span class="sd">        consistency and compatibility across different node builders.</span>
+<span class="sd">        This function iterates over a predefined list of node builder classes and constructs</span>
+<span class="sd">        them using the parameters provided. Each of these node builder classes represents a specific</span>
+<span class="sd">        type of node (source, chunk, topic, or statement), and they are built with the common</span>
+<span class="sd">        attributes: `id_generator`, `build_filters`, and `source_metadata_formatter`.</span>
 
-<span class="sd">        :param id_generator: An instance of IdGenerator used to generate unique identifiers</span>
-<span class="sd">            for nodes.</span>
-<span class="sd">        :param build_filters: An instance of BuildFilters used to filter or conditionally</span>
-<span class="sd">            process nodes during their building process.</span>
-<span class="sd">        :param source_metadata_formatter: An instance of SourceMetadataFormatter used to</span>
-<span class="sd">            format metadata for the built nodes.</span>
-<span class="sd">        :return: A list of instantiated node builders, each configured with the provided</span>
-<span class="sd">            id generator, filter, and formatter.</span>
+<span class="sd">        :param id_generator: Instance used to generate unique identifiers for nodes.</span>
+<span class="sd">            Must implement the `IdGenerator` protocol.</span>
+<span class="sd">        :param build_filters: Instance responsible for filtering nodes during the</span>
+<span class="sd">            build process. Expected to conform to the `BuildFilters` protocol.</span>
+<span class="sd">        :param source_metadata_formatter: Formatter used to process source metadata.</span>
+<span class="sd">            Expects an object with the `SourceMetadataFormatter` interface.</span>
+<span class="sd">        :return: A list containing initialized instances of node builders, one for</span>
+<span class="sd">            each builder class in the node builder class list.</span>
 <span class="sd">        :rtype: list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
@@ -449,44 +438,49 @@
             <span class="k">for</span> <span class="n">node_builder</span> <span class="ow">in</span> <span class="p">[</span><span class="n">SourceNodeBuilder</span><span class="p">,</span> <span class="n">ChunkNodeBuilder</span><span class="p">,</span> <span class="n">TopicNodeBuilder</span><span class="p">,</span> <span class="n">StatementNodeBuilder</span><span class="p">]</span>
         <span class="p">]</span></div>
 
-        
+
 <div class="viewcode-block" id="NodeBuilders.class_name">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.class_name">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">class_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provides a class method to retrieve the name of the class. This method can be used</span>
-<span class="sd">        to dynamically access the class name at runtime without directly referencing it.</span>
+<span class="sd">        Provides the name of the class. This is useful for debugging, logging,</span>
+<span class="sd">        or dynamic referencing in certain programming patterns.</span>
 
-<span class="sd">        :returns: The name of the class as a string</span>
+<span class="sd">        :return: The name of the class as a string.</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;NodeBuilders&#39;</span></div>
 
-    
+
 <div class="viewcode-block" id="NodeBuilders.get_nodes_from_metadata">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.get_nodes_from_metadata">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_nodes_from_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Processes a list of input nodes to apply tenant-specific identifier rewrites,</span>
-<span class="sd">        clean textual data, filter, and prepare node structures based on provided</span>
-<span class="sd">        metadata and provided builders. It returns a refined list of nodes combining</span>
-<span class="sd">        both original and derived nodes.</span>
+<span class="sd">        Processes input nodes, applies preprocessing, filters, tenant-specific rewrites,</span>
+<span class="sd">        and builds new nodes from metadata using registered builders.</span>
 
-<span class="sd">        :param input_nodes: List of input nodes to be processed</span>
-<span class="sd">        :type input_nodes: List[BaseNode]</span>
-<span class="sd">        :param kwargs: Additional keyword arguments for optional configurations</span>
-<span class="sd">        :type kwargs: Any</span>
-<span class="sd">        :return: A list of nodes that have been filtered, rewritten, cleaned,</span>
-<span class="sd">            pre-processed, and processed by builder logic</span>
+<span class="sd">        This function represents a structured workflow for handling a collection of nodes.</span>
+<span class="sd">        It applies filtering, text cleaning, ID rewriting, and transformation to generate</span>
+<span class="sd">        a final list of nodes that includes both derived and original input nodes.</span>
+
+<span class="sd">        :param input_nodes: List of BaseNode objects to be processed. Each node may have</span>
+<span class="sd">            relationships, metadata, and text fields that are manipulated during preprocessing.</span>
+<span class="sd">        :param kwargs: Additional keyword arguments to customize the node processing workflow.</span>
+<span class="sd">        :return: List of BaseNode objects. Includes the original input nodes along with</span>
+<span class="sd">            newly constructed nodes generated by the registered node builders.</span>
 <span class="sd">        :rtype: List[BaseNode]</span>
+
+<span class="sd">        :raises Exception: If an error occurs in the registered builders during the node</span>
+<span class="sd">            building process, it is logged and then re-raised.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">apply_tenant_rewrites</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Represents a utility class for building or transforming nodes.</span>
+<span class="sd">            Applies tenant-specific rewrites to node IDs and their relationships.</span>
 
-<span class="sd">            Attributes:</span>
-<span class="sd">                id_generator: An instance used for rewriting node IDs according to a tenant&#39;s context.</span>
+<span class="sd">            :param node: A BaseNode object to be processed.</span>
+<span class="sd">            :return: The BaseNode object after applying tenant-specific rewrites.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">node</span><span class="o">.</span><span class="n">id_</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">id_generator</span><span class="o">.</span><span class="n">rewrite_id_for_tenant</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>
 
@@ -502,27 +496,25 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">node_info</span><span class="o">.</span><span class="n">node_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_generator</span><span class="o">.</span><span class="n">rewrite_id_for_tenant</span><span class="p">(</span><span class="n">node_info</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
                     <span class="n">node_relationships</span><span class="p">[</span><span class="n">rel</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_info</span>
-           
+
             <span class="k">return</span> <span class="n">node</span>
-        
+
         <span class="k">def</span><span class="w"> </span><span class="nf">clean_text</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Represents a utility class for building and manipulating nodes.</span>
+<span class="sd">            Cleans the text content of a node by removing null characters.</span>
 
-<span class="sd">            This class provides methods used to process and refine nodes, specifically</span>
-<span class="sd">            deriving node data from provided metadata and cleaning text fields within</span>
-<span class="sd">            the nodes.</span>
+<span class="sd">            :param node: A BaseNode object whose text needs to be cleaned.</span>
+<span class="sd">            :return: The BaseNode object with cleaned text.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">node</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">node</span>
-        
+
         <span class="k">def</span><span class="w"> </span><span class="nf">pre_process</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Handles operations related to node processing and construction.</span>
+<span class="sd">            Preprocesses a node by cleaning its text and applying tenant-specific rewrites.</span>
 
-<span class="sd">            This class is responsible for managing and building nodes from metadata by</span>
-<span class="sd">            applying preprocessing operations as defined. It allows for customization</span>
-<span class="sd">            using additional keyword arguments during node processing.</span>
+<span class="sd">            :param node: A BaseNode object to be preprocessed.</span>
+<span class="sd">            :return: The preprocessed BaseNode object.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">clean_text</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">apply_tenant_rewrites</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
@@ -543,43 +535,38 @@
 
         <span class="k">for</span> <span class="n">builder</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">builders</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                
+
                 <span class="n">builder_specific_nodes</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="n">node</span>
                     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">pre_processed_nodes</span> 
                     <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">metadata_keys</span><span class="p">()</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
                 <span class="p">]</span>
-                
+
                 <span class="n">results</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">build_nodes</span><span class="p">(</span><span class="n">builder_specific_nodes</span><span class="p">))</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;An error occurred while building nodes from chunks&#39;</span><span class="p">)</span>
                     <span class="k">raise</span> <span class="n">e</span>
-            
+
         <span class="n">results</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">input_nodes</span><span class="p">)</span> <span class="c1"># Always add the original nodes after derived nodes    </span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Accepted </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">input_nodes</span><span class="p">)</span><span class="si">}</span><span class="s1"> chunks, emitting </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="si">}</span><span class="s1"> nodes&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">results</span></div>
 
-        
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This method is responsible for processing a list of nodes and returning a filtered or modified</span>
-<span class="sd">        list based on specified metadata criteria. It uses the `get_nodes_from_metadata` method to</span>
-<span class="sd">        apply the operations. Additional parameters can be passed to customize the processing behavior.</span>
+<span class="sd">        Executes the logic for processing a list of nodes to retrieve specific nodes</span>
+<span class="sd">        based on metadata. The method uses provided nodes and any additional keyword</span>
+<span class="sd">        arguments to filter or obtain nodes according to some predefined criteria.</span>
 
-<span class="sd">        :param nodes: A list of `BaseNode` objects that need to be processed.</span>
-<span class="sd">        :type nodes: List[BaseNode]</span>
-<span class="sd">        :param kwargs: Additional arguments that control the behavior of metadata filtering or processing.</span>
-<span class="sd">                       These arguments are passed directly to the `get_nodes_from_metadata` method.</span>
-<span class="sd">        :type kwargs: Any</span>
-<span class="sd">        :return: A list of `BaseNode` objects that have been processed based on the given</span>
-<span class="sd">                 metadata criteria and additional `kwargs`.</span>
+<span class="sd">        :param nodes: A list of BaseNode instances to be processed for metadata filtering.</span>
+<span class="sd">        :param kwargs: Additional filters or parameters that refine the metadata search.</span>
+<span class="sd">        :return: A list of BaseNode instances that match the metadata criteria.</span>
 <span class="sd">        :rtype: List[BaseNode]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_nodes_from_metadata</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-                    
 </pre></div>
         </article>
       </div>
@@ -627,11 +614,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

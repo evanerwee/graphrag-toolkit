@@ -25,7 +25,7 @@ from llama_index.core.schema import TransformComponent, BaseNode
 logger = logging.getLogger(__name__)
 
 class NodeFilter(TransformComponent):
-      
+
     def __call__(self, nodes: List[BaseNode], **kwargs: Any) -> List[BaseNode]:
         return nodes
 
@@ -43,7 +43,7 @@ class BuildPipeline():
     to produce output nodes.
 
     Attributes:
-        inner_pipeline (IngestionPipeline): The internal ingestion pipeline used for processing
+        inner_pipeline (`IngestionPipeline`): The internal ingestion pipeline used for processing
         the transformation components.
         num_workers (int): Number of parallel workers for processing the data. Defaults to the
         system's CPU count if not provided.
@@ -51,9 +51,9 @@ class BuildPipeline():
         batch_writes_enabled (bool): Flag indicating whether batch writes are enabled.
         batch_write_size (int): Size of batches for processing writes. Defaults to a configured size.
         include_domain_labels (bool): Flag indicating whether domain labels should be included.
-        node_builders (NodeBuilders): Object that encapsulates the logic for building nodes,
+        node_builders (`NodeBuilders`): Object that encapsulates the logic for building nodes,
         applying filters, and formatting metadata.
-        node_filter (NodeFilter): Filter used for excluding or including nodes based on certain conditions.
+        node_filter (`NodeFilter`): Filter used for excluding or including nodes based on certain conditions.
         pipeline_kwargs (dict): Additional keyword arguments passed to the pipeline.
     """
     @staticmethod
@@ -78,34 +78,34 @@ class BuildPipeline():
         concurrency, batching, filtering, and more.
 
         Args:
-            components (List[TransformComponent]): List of transformation components to be
-            included in the pipeline.
+            components (List[`TransformComponent`]): List of transformation components to be
+                included in the pipeline.
             num_workers (Optional[int]): Number of worker threads or processes for parallel
-            execution of the pipeline. Defaults to None.
+                execution of the pipeline. Defaults to None.
             batch_size (Optional[int]): Size of data batches to be processed. Defaults to None.
             batch_writes_enabled (Optional[bool]): Toggles batching for writes during the
-            processing. Defaults to None.
+                processing. Defaults to None.
             batch_write_size (Optional[int]): Size of data batches for write operations,
-            applicable if batching is enabled. Defaults to None.
-            builders (Optional[List[NodeBuilder]]): Optional list of node builders if specific
-            building structures are required. Defaults to an empty list.
+                applicable if batching is enabled. Defaults to None.
+            builders (Optional[List[`NodeBuilder`]]): Optional list of node builders if specific
+                building structures are required. Defaults to an empty list.
             show_progress (bool): Flag indicating whether to show progress during processing.
-            Defaults to False.
-            checkpoint (Optional[Checkpoint]): Optional checkpoint configuration to enable
-            resumption from a specific state. Defaults to None.
-            build_filters (Optional[BuildFilters]): Filters applied during the build process
-            to refine data processing. Defaults to None.
-            source_metadata_formatter (Optional[SourceMetadataFormatter]): Formatter for source
-            metadata to customize metadata configuration. Defaults to None.
+                Defaults to False.
+            checkpoint (Optional[`Checkpoint`]): Optional checkpoint configuration to enable
+                resumption from a specific state. Defaults to None.
+            build_filters (Optional[`BuildFilters`]): Filters applied during the build process
+                to refine data processing. Defaults to None.
+            source_metadata_formatter (Optional[`SourceMetadataFormatter`]): Formatter for source
+                metadata to customize metadata configuration. Defaults to None.
             include_domain_labels (Optional[bool]): Specifies whether domain labels should be
-            incorporated in the output. Defaults to None.
-            tenant_id (Optional[TenantId]): Identifier for tenant-specific operations or
-            segregations. Defaults to None.
+                incorporated in the output. Defaults to None.
+            tenant_id (Optional[`TenantId`]): Identifier for tenant-specific operations or
+                segregations. Defaults to None.
             **kwargs (Any): Additional keyword arguments to customize further configuration
                 of the pipeline.
 
         Returns:
-            Pipe: A configured `Pipe` instance encapsulating the constructed pipeline for
+            `Pipe`: A configured `Pipe` instance encapsulating the constructed pipeline for
             execution.
         """
         return Pipe(
@@ -125,7 +125,7 @@ class BuildPipeline():
                 **kwargs
             ).build
         )
-    
+
     def __init__(self, 
                  components: List[TransformComponent], 
                  num_workers:Optional[int]=None, 
@@ -182,7 +182,7 @@ class BuildPipeline():
         batch_write_size = batch_write_size or GraphRAGConfig.build_batch_write_size
         include_domain_labels = include_domain_labels or GraphRAGConfig.include_domain_labels
         source_metadata_formatter = source_metadata_formatter or DefaultSourceMetadataFormatter()
-        
+
         for c in components:
             if isinstance(c, NodeHandler):
                 c.show_progress = show_progress
@@ -192,7 +192,7 @@ class BuildPipeline():
             logger.debug(f'Setting num_workers to CPU count [num_workers: {num_workers}]')
 
         if checkpoint and components:
-            
+
             l = len(components)
             for i, c in enumerate(reversed(components)):
                 updated_component = checkpoint.add_writer(c)
@@ -216,7 +216,7 @@ class BuildPipeline():
         )
         self.node_filter = NodeFilter() if not checkpoint else checkpoint.add_filter(NodeFilter())
         self.pipeline_kwargs = kwargs
-    
+
     def _to_node_batches(self, source_doc_batches:Iterable[Iterable[SourceDocument]]) -> List[List[BaseNode]]:
         """Converts batches of source documents into batches of nodes based on
         filtering and builder processes. Each batch of source documents is
@@ -232,9 +232,9 @@ class BuildPipeline():
             documents.
         """
         results = []
-    
+
         for source_documents in source_doc_batches:
-        
+
             chunk_node_batches = [
                 self.node_filter(source_document.nodes)
                 for source_document in source_documents
@@ -250,7 +250,7 @@ class BuildPipeline():
                 for nodes in node_batches
                 for node in nodes
             ]   
-        
+
             results.append(nodes)
 
         return results
@@ -276,7 +276,7 @@ class BuildPipeline():
 
             num_source_docs_per_batch = math.ceil(len(source_documents)/self.num_workers)
             source_doc_batches = iter_batch(source_documents, num_source_docs_per_batch)
-            
+
             node_batches:List[List[BaseNode]] = self._to_node_batches(source_doc_batches)
 
             logger.info(f'Running build pipeline [batch_size: {self.batch_size}, num_workers: {self.num_workers}, job_sizes: {[len(b) for b in node_batches]}, batch_writes_enabled: {self.batch_writes_enabled}, batch_write_size: {self.batch_write_size}]')
@@ -294,4 +294,3 @@ class BuildPipeline():
 
             for node in output_nodes:
                 yield node       
-

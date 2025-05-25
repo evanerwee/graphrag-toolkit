@@ -437,7 +437,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">GraphConstruction</span><span class="p">(</span><span class="n">graph_client</span><span class="o">=</span><span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span><span class="n">graph_info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-    
+
     <span class="n">graph_client</span><span class="p">:</span> <span class="n">GraphStore</span> 
     <span class="n">builders</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">GraphBuilder</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Graph builders&#39;</span><span class="p">,</span>
@@ -477,22 +477,22 @@
 
         <span class="n">batch_writes_enabled</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_writes_enabled&#39;</span><span class="p">)</span>
         <span class="n">batch_write_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_write_size&#39;</span><span class="p">)</span>
-        
+
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Batch config: [batch_writes_enabled: </span><span class="si">{</span><span class="n">batch_writes_enabled</span><span class="si">}</span><span class="s1">, batch_write_size: </span><span class="si">{</span><span class="n">batch_write_size</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Graph construction kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">GraphBatchClient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_client</span><span class="p">,</span> <span class="n">batch_writes_enabled</span><span class="o">=</span><span class="n">batch_writes_enabled</span><span class="p">,</span> <span class="n">batch_write_size</span><span class="o">=</span><span class="n">batch_write_size</span><span class="p">)</span> <span class="k">as</span> <span class="n">batch_client</span><span class="p">:</span>
-        
+
             <span class="n">node_iterable</span> <span class="o">=</span> <span class="n">nodes</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_progress</span> <span class="k">else</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Building graph [batch_writes_enabled: </span><span class="si">{</span><span class="n">batch_writes_enabled</span><span class="si">}</span><span class="s1">, batch_write_size: </span><span class="si">{</span><span class="n">batch_write_size</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_iterable</span><span class="p">:</span>
 
                 <span class="n">node_id</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span>
-                
+
                 <span class="k">if</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="n">INDEX_KEY</span><span class="p">]</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">]:</span>
-                    
+
                     <span class="k">try</span><span class="p">:</span>
-                    
+
                         <span class="n">index</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">INDEX_KEY</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
                         <span class="n">builders</span> <span class="o">=</span> <span class="n">builders_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
@@ -505,10 +505,10 @@
                     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;An error occurred while building the graph&#39;</span><span class="p">)</span>
                         <span class="k">raise</span> <span class="n">e</span>
-                        
+
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Ignoring node [node_id: </span><span class="si">{</span><span class="n">node_id</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
-                    
+
                 <span class="k">if</span> <span class="n">batch_client</span><span class="o">.</span><span class="n">allow_yield</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
                     <span class="k">yield</span> <span class="n">node</span>
 
@@ -516,7 +516,6 @@
             <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">batch_nodes</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">node</span></div>
 </div>
-
 
 </pre></div>
         </article>

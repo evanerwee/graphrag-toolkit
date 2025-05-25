@@ -27,9 +27,7 @@ logger = logging.getLogger(__name__)
 
 
 class ChunkBasedSearch(TraversalBasedBaseRetriever):
-    """
-    Handles chunk-based retrieval and search operations using graph and vector
-    datastores.
+    """Handles chunk-based retrieval and search operations using graph and vector datastores.
 
     This class integrates graph and vector stores to facilitate retrieval and
     search operations based on chunks. It provides mechanisms for executing

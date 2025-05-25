@@ -36,7 +36,7 @@ class EntityRelationGraphBuilder(GraphBuilder):
             str: The index key for the class instance.
         """
         return 'fact'
-    
+
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
         """Builds and executes entity-relation creation logic based on the
         given node and fact metadata. It processes the metadata to create or
@@ -45,8 +45,8 @@ class EntityRelationGraphBuilder(GraphBuilder):
         will be added to the entities and relationships.
 
         Args:
-            node (BaseNode): The node containing metadata for the fact data to process.
-            graph_client (GraphStore): The graph client instance for executing database queries.
+            node (`BaseNode`): The node containing metadata for the fact data to process.
+            graph_client (`GraphStore`): The graph client instance for executing database queries.
             **kwargs (Any): Additional keyword arguments. Must include:
                 - include_domain_labels (bool): Indicator for whether domain labels should be included in the query.
         """
@@ -58,7 +58,7 @@ class EntityRelationGraphBuilder(GraphBuilder):
             fact = Fact.model_validate(fact_metadata)
 
             if fact.subject and fact.object:
-        
+
                 logger.debug(f'Inserting entity relations for fact [fact_id: {fact.factId}]')
 
                 statements = [
@@ -90,14 +90,14 @@ class EntityRelationGraphBuilder(GraphBuilder):
                     'o_id': fact.object.entityId,
                     'p': fact.predicate.value
                 }
-            
+
                 query = '\n'.join(statements)
-                    
+
                 graph_client.execute_query_with_retry(query, self._to_params(properties), max_attempts=5, max_wait=7)
 
             else:
                 logger.debug(f'SPC fact, so not creating relation [fact_id: {fact.factId}]')
-           
+
 
         else:
             logger.warning(f'fact_id missing from fact node [node_id: {node.node_id}]')

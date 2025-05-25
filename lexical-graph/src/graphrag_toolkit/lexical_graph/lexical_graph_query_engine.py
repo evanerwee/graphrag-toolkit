@@ -66,6 +66,7 @@ class LexicalGraphQueryEngine(BaseQueryEngine):
     to enhance search accuracy and flexibility.
 
     This engine facilitates two distinct search strategies:
+
     1. Traversal-based search: Focused on graph traversal techniques combined
        with weighted retriever logic to prioritize paths.
     2. Semantic-guided search: Designed to leverage semantic similarity,

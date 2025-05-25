@@ -106,7 +106,8 @@ class S3BasedDocs(NodeHandler):
         are performed in this method beyond returning `self`.
 
         :return: The instance of the object itself.
-        :rtypethe same object instance
+        :rtype: The same object instance
+
         """
         return self
 

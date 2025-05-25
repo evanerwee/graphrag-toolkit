@@ -43,7 +43,7 @@ class MetadataToNodes():
         self.id_generator = id_generator
 
         logger.debug(f'Node builders: {[type(b).__name__ for b in self.builders]}')
-    
+
     def default_builders(self, id_generator:IdGenerator):
         """Builds and returns a list of default node builders using the
         provided IdGenerator.
@@ -68,7 +68,7 @@ class MetadataToNodes():
             TopicNodeBuilder(id_generator=id_generator),
             StatementNodeBuilder(id_generator=id_generator)
         ]
-        
+
     @classmethod
     def class_name(cls) -> str:
         """Provides class-level name identifier for the 'MetadataToNodes'
@@ -82,7 +82,7 @@ class MetadataToNodes():
             str: The name of the class, 'MetadataToNodes'.
         """
         return 'MetadataToNodes'
-    
+
     def get_nodes_from_metadata(self, input_nodes: List[BaseNode], **kwargs: Any) -> List[BaseNode]:
         """Processes input nodes by applying tenant id rewrites and cleaning
         text, then uses the builders to generate new nodes based on metadata
@@ -106,6 +106,7 @@ class MetadataToNodes():
                 get_nodes_from_metadata: Process a list of input nodes, apply ID rewrites
                     to each node and its relationships for a specific tenant, and return
                     the modified list of nodes.
+
             """
             node.id_ =  self.id_generator.rewrite_id_for_tenant(node.id_)
 
@@ -121,37 +122,29 @@ class MetadataToNodes():
                 else:
                     node_info.node_id = self.id_generator.rewrite_id_for_tenant(node_info.node_id)
                     node_relationships[rel] = node_info
-           
+
             return node
-        
+
         def clean_text(node):
-            """A utility class that provides functionality for processing
-            metadata to derive or modify nodes."""
-            node.text = node.text.replace('\x00', '')
-            return node
-        
-        def pre_process(node):
-            """Processes metadata and returns a modified list of nodes after
-            applying specified operations.
-
-            Attributes:
-                input_nodes (List[BaseNode]): A list of nodes of type BaseNode that are to be
-                    processed.
-                kwargs (Any): Additional keyword arguments for processing.
-
-            Methods:
-                get_nodes_from_metadata(): Applies processing steps to input nodes to modify
-                    their metadata.
+            """Cleans the text content of a node by removing null characters.
 
             Args:
-                input_nodes: A list of `BaseNode` objects that will undergo metadata
-                    processing.
-                **kwargs: Additional arguments that may be passed to influence the
-                    metadata processing.
+                node: The node whose text needs to be cleaned.
 
             Returns:
-                List[BaseNode]: A new list of `BaseNode` objects with updated or modified
-                metadata resulting from the applied processing steps.
+                The node with cleaned text content.
+            """
+            node.text = node.text.replace('\x00', '')
+            return node
+
+        def pre_process(node):
+            """Preprocesses a node by cleaning its text and applying tenant-specific rewrites.
+
+            Args:
+                node: The node to be preprocessed.
+
+            Returns:
+                The preprocessed node with cleaned text and tenant-specific ID rewrites.
             """
             node = clean_text(node)
             node = apply_tenant_rewrites(node)
@@ -161,24 +154,23 @@ class MetadataToNodes():
 
         for builder in self.builders:
             try:
-                
+
                 filtered_input_nodes = [
                     pre_process(node) 
                     for node in input_nodes 
                     if any(key in builder.metadata_keys() for key in node.metadata)
                 ]
-                
+
                 results.extend(builder.build_nodes(filtered_input_nodes, self.filter))
             except Exception as e:
                     logger.exception('An error occurred while building nodes from metadata')
                     raise e
-            
+
         results.extend(input_nodes) # Always add the original nodes after derived nodes    
 
         logger.debug(f'Accepted {len(input_nodes)} chunks, emitting {len(results)} nodes')
 
         return results
-        
+
     def __call__(self, nodes: List[BaseNode], **kwargs: Any) -> List[BaseNode]:    
         return self.get_nodes_from_metadata(nodes, **kwargs)
-                    

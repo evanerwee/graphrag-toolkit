@@ -42,7 +42,7 @@ class EntityGraphBuilder(GraphBuilder):
             str: The index key associated with the class.
         """
         return 'fact'
-    
+
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
         """Processes a given node and builds the corresponding entities in the
         graph database.
@@ -57,8 +57,8 @@ class EntityGraphBuilder(GraphBuilder):
         ensures reliability through query retries with controlled attempts and wait times.
 
         Args:
-            node (BaseNode): The node from which fact metadata is to be extracted.
-            graph_client (GraphStore): The graph database client to execute queries.
+            node (`BaseNode`): The node from which fact metadata is to be extracted.
+            graph_client (`GraphStore`): The graph database client to execute queries.
             **kwargs (Any): Additional options, such as `include_domain_labels`, which
                 determines whether domain-specific labels are added to the entities.
         """
@@ -68,7 +68,7 @@ class EntityGraphBuilder(GraphBuilder):
         if fact_metadata:
 
             fact = Fact.model_validate(fact_metadata)
-        
+
             logger.debug(f'Inserting entities for fact [fact_id: {fact.factId}]')
 
             statements = [
@@ -111,11 +111,11 @@ class EntityGraphBuilder(GraphBuilder):
                     'o_search_str': search_string_from(fact.object.value),
                     'oc': fact.object.classification or DEFAULT_CLASSIFICATION
                 })
-        
+
             query = '\n'.join(statements)
-                
+
             graph_client.execute_query_with_retry(query, self._to_params(properties), max_attempts=5, max_wait=7)
-           
+
 
         else:
             logger.warning(f'fact_id missing from fact node [node_id: {node.node_id}]')

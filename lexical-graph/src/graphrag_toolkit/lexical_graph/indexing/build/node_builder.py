@@ -58,14 +58,20 @@ class NodeBuilder(BaseComponent):
 
     @abc.abstractmethod
     def build_nodes(self, nodes:List[BaseNode]) -> List[BaseNode]:
-        """Abstract base class for building a list of nodes.
+        """Builds and processes a list of nodes according to implementation-specific logic.
 
-        This class serves as a blueprint for implementing specific operations on a list
-        of nodes. The `build_nodes` method must be implemented by any concrete subclass
-        to provide functionality specific to the application's requirements.
+        This abstract method must be implemented by concrete subclasses to define how
+        nodes are processed, transformed, or created based on the input nodes.
+
+        Args:
+            nodes: A list of BaseNode objects to be processed or used as a basis for
+                creating new nodes.
+
+        Returns:
+            List[BaseNode]: A list of processed or newly created BaseNode objects.
         """
         pass
-    
+
     def _clean_id(self, s):
         """Cleans a given string by removing all characters that are not
         alphanumeric.
@@ -81,7 +87,7 @@ class NodeBuilder(BaseComponent):
             str: A new string consisting only of alphanumeric characters from the input.
         """
         return ''.join(c for c in s if c.isalnum())
-        
+
     def _format_classification(self, classification):
         """Formats the given classification string if it is not empty or equal
         to the default classification.
@@ -98,7 +104,7 @@ class NodeBuilder(BaseComponent):
             return ''
         else:
             return f' ({classification})'
-    
+
     def _format_fact(self, s, sc, p, o, oc):
         """Formats and returns a string representation of a fact.
 

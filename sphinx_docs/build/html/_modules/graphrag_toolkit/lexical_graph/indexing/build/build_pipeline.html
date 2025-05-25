@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.build.build_pipeline - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -295,20 +295,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -373,7 +361,7 @@
 <div class="viewcode-block" id="NodeFilter">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.build_pipeline.NodeFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NodeFilter</span><span class="p">(</span><span class="n">TransformComponent</span><span class="p">):</span>
-      
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">nodes</span></div>
 
@@ -394,7 +382,7 @@
 <span class="sd">    to produce output nodes.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        inner_pipeline (IngestionPipeline): The internal ingestion pipeline used for processing</span>
+<span class="sd">        inner_pipeline (`IngestionPipeline`): The internal ingestion pipeline used for processing</span>
 <span class="sd">        the transformation components.</span>
 <span class="sd">        num_workers (int): Number of parallel workers for processing the data. Defaults to the</span>
 <span class="sd">        system&#39;s CPU count if not provided.</span>
@@ -402,9 +390,9 @@
 <span class="sd">        batch_writes_enabled (bool): Flag indicating whether batch writes are enabled.</span>
 <span class="sd">        batch_write_size (int): Size of batches for processing writes. Defaults to a configured size.</span>
 <span class="sd">        include_domain_labels (bool): Flag indicating whether domain labels should be included.</span>
-<span class="sd">        node_builders (NodeBuilders): Object that encapsulates the logic for building nodes,</span>
+<span class="sd">        node_builders (`NodeBuilders`): Object that encapsulates the logic for building nodes,</span>
 <span class="sd">        applying filters, and formatting metadata.</span>
-<span class="sd">        node_filter (NodeFilter): Filter used for excluding or including nodes based on certain conditions.</span>
+<span class="sd">        node_filter (`NodeFilter`): Filter used for excluding or including nodes based on certain conditions.</span>
 <span class="sd">        pipeline_kwargs (dict): Additional keyword arguments passed to the pipeline.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="BuildPipeline.create">
@@ -431,34 +419,34 @@
 <span class="sd">        concurrency, batching, filtering, and more.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            components (List[TransformComponent]): List of transformation components to be</span>
-<span class="sd">            included in the pipeline.</span>
+<span class="sd">            components (List[`TransformComponent`]): List of transformation components to be</span>
+<span class="sd">                included in the pipeline.</span>
 <span class="sd">            num_workers (Optional[int]): Number of worker threads or processes for parallel</span>
-<span class="sd">            execution of the pipeline. Defaults to None.</span>
+<span class="sd">                execution of the pipeline. Defaults to None.</span>
 <span class="sd">            batch_size (Optional[int]): Size of data batches to be processed. Defaults to None.</span>
 <span class="sd">            batch_writes_enabled (Optional[bool]): Toggles batching for writes during the</span>
-<span class="sd">            processing. Defaults to None.</span>
+<span class="sd">                processing. Defaults to None.</span>
 <span class="sd">            batch_write_size (Optional[int]): Size of data batches for write operations,</span>
-<span class="sd">            applicable if batching is enabled. Defaults to None.</span>
-<span class="sd">            builders (Optional[List[NodeBuilder]]): Optional list of node builders if specific</span>
-<span class="sd">            building structures are required. Defaults to an empty list.</span>
+<span class="sd">                applicable if batching is enabled. Defaults to None.</span>
+<span class="sd">            builders (Optional[List[`NodeBuilder`]]): Optional list of node builders if specific</span>
+<span class="sd">                building structures are required. Defaults to an empty list.</span>
 <span class="sd">            show_progress (bool): Flag indicating whether to show progress during processing.</span>
-<span class="sd">            Defaults to False.</span>
-<span class="sd">            checkpoint (Optional[Checkpoint]): Optional checkpoint configuration to enable</span>
-<span class="sd">            resumption from a specific state. Defaults to None.</span>
-<span class="sd">            build_filters (Optional[BuildFilters]): Filters applied during the build process</span>
-<span class="sd">            to refine data processing. Defaults to None.</span>
-<span class="sd">            source_metadata_formatter (Optional[SourceMetadataFormatter]): Formatter for source</span>
-<span class="sd">            metadata to customize metadata configuration. Defaults to None.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">            checkpoint (Optional[`Checkpoint`]): Optional checkpoint configuration to enable</span>
+<span class="sd">                resumption from a specific state. Defaults to None.</span>
+<span class="sd">            build_filters (Optional[`BuildFilters`]): Filters applied during the build process</span>
+<span class="sd">                to refine data processing. Defaults to None.</span>
+<span class="sd">            source_metadata_formatter (Optional[`SourceMetadataFormatter`]): Formatter for source</span>
+<span class="sd">                metadata to customize metadata configuration. Defaults to None.</span>
 <span class="sd">            include_domain_labels (Optional[bool]): Specifies whether domain labels should be</span>
-<span class="sd">            incorporated in the output. Defaults to None.</span>
-<span class="sd">            tenant_id (Optional[TenantId]): Identifier for tenant-specific operations or</span>
-<span class="sd">            segregations. Defaults to None.</span>
+<span class="sd">                incorporated in the output. Defaults to None.</span>
+<span class="sd">            tenant_id (Optional[`TenantId`]): Identifier for tenant-specific operations or</span>
+<span class="sd">                segregations. Defaults to None.</span>
 <span class="sd">            **kwargs (Any): Additional keyword arguments to customize further configuration</span>
 <span class="sd">                of the pipeline.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Pipe: A configured `Pipe` instance encapsulating the constructed pipeline for</span>
+<span class="sd">            `Pipe`: A configured `Pipe` instance encapsulating the constructed pipeline for</span>
 <span class="sd">            execution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Pipe</span><span class="p">(</span>
@@ -479,7 +467,7 @@
             <span class="p">)</span><span class="o">.</span><span class="n">build</span>
         <span class="p">)</span></div>
 
-    
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
                  <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransformComponent</span><span class="p">],</span> 
                  <span class="n">num_workers</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
@@ -536,7 +524,7 @@
         <span class="n">batch_write_size</span> <span class="o">=</span> <span class="n">batch_write_size</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">build_batch_write_size</span>
         <span class="n">include_domain_labels</span> <span class="o">=</span> <span class="n">include_domain_labels</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">include_domain_labels</span>
         <span class="n">source_metadata_formatter</span> <span class="o">=</span> <span class="n">source_metadata_formatter</span> <span class="ow">or</span> <span class="n">DefaultSourceMetadataFormatter</span><span class="p">()</span>
-        
+
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">NodeHandler</span><span class="p">):</span>
                 <span class="n">c</span><span class="o">.</span><span class="n">show_progress</span> <span class="o">=</span> <span class="n">show_progress</span>
@@ -546,7 +534,7 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Setting num_workers to CPU count [num_workers: </span><span class="si">{</span><span class="n">num_workers</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">checkpoint</span> <span class="ow">and</span> <span class="n">components</span><span class="p">:</span>
-            
+
             <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">components</span><span class="p">)):</span>
                 <span class="n">updated_component</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">add_writer</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
@@ -570,7 +558,7 @@
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">node_filter</span> <span class="o">=</span> <span class="n">NodeFilter</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">checkpoint</span> <span class="k">else</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">NodeFilter</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
-    
+
     <span class="k">def</span><span class="w"> </span><span class="nf">_to_node_batches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_doc_batches</span><span class="p">:</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts batches of source documents into batches of nodes based on</span>
 <span class="sd">        filtering and builder processes. Each batch of source documents is</span>
@@ -586,9 +574,9 @@
 <span class="sd">            documents.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-    
+
         <span class="k">for</span> <span class="n">source_documents</span> <span class="ow">in</span> <span class="n">source_doc_batches</span><span class="p">:</span>
-        
+
             <span class="n">chunk_node_batches</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">node_filter</span><span class="p">(</span><span class="n">source_document</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">source_document</span> <span class="ow">in</span> <span class="n">source_documents</span>
@@ -604,7 +592,7 @@
                 <span class="k">for</span> <span class="n">nodes</span> <span class="ow">in</span> <span class="n">node_batches</span>
                 <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span>
             <span class="p">]</span>   
-        
+
             <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">results</span>
@@ -632,7 +620,7 @@
 
             <span class="n">num_source_docs_per_batch</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">source_documents</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">)</span>
             <span class="n">source_doc_batches</span> <span class="o">=</span> <span class="n">iter_batch</span><span class="p">(</span><span class="n">source_documents</span><span class="p">,</span> <span class="n">num_source_docs_per_batch</span><span class="p">)</span>
-            
+
             <span class="n">node_batches</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_node_batches</span><span class="p">(</span><span class="n">source_doc_batches</span><span class="p">)</span>
 
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Running build pipeline [batch_size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="si">}</span><span class="s1">, num_workers: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s1">, job_sizes: </span><span class="si">{</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">node_batches</span><span class="p">]</span><span class="si">}</span><span class="s1">, batch_writes_enabled: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_writes_enabled</span><span class="si">}</span><span class="s1">, batch_write_size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_write_size</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
@@ -651,7 +639,6 @@
             <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">output_nodes</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">node</span>       </div>
 </div>
-
 
 </pre></div>
         </article>
@@ -700,11 +687,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

@@ -40,7 +40,7 @@ class GraphSummaryBuilder(GraphBuilder):
             str: The key used for indexing, which is 'fact' in this case.
         """
         return 'fact'
-    
+
     def build(self, node:BaseNode, graph_client:GraphStore, **kwargs:Any):
         """Builds and executes a query to summarize graph data in the graph
         database based on the metadata associated with a given base node. The
@@ -50,16 +50,17 @@ class GraphSummaryBuilder(GraphBuilder):
         and logs warnings for missing metadata.
 
         Args:
-            node (BaseNode): The node containing metadata for generating the query. This
+            node (`BaseNode`): The node containing metadata for generating the query. This
                 metadata is used to derive the relationships and classifications required to
                 configure the graph.
-            graph_client (GraphStore): The client responsible for interacting with the
+            graph_client (`GraphStore`): The client responsible for interacting with the
                 backend graph database. It provides methods for query execution and ID
                 formatting.
             **kwargs (Any): Additional arguments that may be passed for internal usage.
+
         """
         fact_metadata = node.metadata.get('fact', {})
-        
+
         if fact_metadata:
 
             fact = Fact.model_validate(fact_metadata)
@@ -67,7 +68,7 @@ class GraphSummaryBuilder(GraphBuilder):
             if fact.subject and fact.object:
 
                 tenant_id = graph_client.tenant_id
-                
+
                 sc_id = tenant_id.format_id('sys_class', fact.subject.classification or DEFAULT_CLASSIFICATION)
                 oc_id = tenant_id.format_id('sys_class', fact.object.classification or DEFAULT_CLASSIFICATION)
 
@@ -95,7 +96,7 @@ class GraphSummaryBuilder(GraphBuilder):
                         'ON CREATE SET oc.value = params.oc, oc.count = 1 ON MATCH SET oc.count = oc.count + 1',
                         'MERGE (sc)-[r:`__SYS_RELATION__`{value: params.p}]->(oc)',
                         'ON CREATE SET r.count = 1 ON MATCH SET r.count = r.count + 1'
-                        
+
                     ])
 
                 properties = {
@@ -107,7 +108,7 @@ class GraphSummaryBuilder(GraphBuilder):
                 }
 
                 query = '\n'.join(statements)
-                    
+
                 graph_client.execute_query_with_retry(query, self._to_params(properties), max_attempts=5, max_wait=7)
 
         else:

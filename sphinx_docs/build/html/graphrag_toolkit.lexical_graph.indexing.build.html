@@ -588,7 +588,7 @@ where transformations and filtering of input data are required. The pipeline man
 components, applies node filtering and building logic, and executes transformations in parallel
 to produce output nodes.</p>
 <dl class="simple">
-<dt>Attributes:</dt><dd><p>inner_pipeline (IngestionPipeline): The internal ingestion pipeline used for processing
+<dt>Attributes:</dt><dd><p>inner_pipeline (<cite>IngestionPipeline</cite>): The internal ingestion pipeline used for processing
 the transformation components.
 num_workers (int): Number of parallel workers for processing the data. Defaults to the
 system’s CPU count if not provided.
@@ -596,9 +596,9 @@ batch_size (int): Size of batches for processing data. Defaults to a configured 
 batch_writes_enabled (bool): Flag indicating whether batch writes are enabled.
 batch_write_size (int): Size of batches for processing writes. Defaults to a configured size.
 include_domain_labels (bool): Flag indicating whether domain labels should be included.
-node_builders (NodeBuilders): Object that encapsulates the logic for building nodes,
+node_builders (<cite>NodeBuilders</cite>): Object that encapsulates the logic for building nodes,
 applying filters, and formatting metadata.
-node_filter (NodeFilter): Filter used for excluding or including nodes based on certain conditions.
+node_filter (<cite>NodeFilter</cite>): Filter used for excluding or including nodes based on certain conditions.
 pipeline_kwargs (dict): Additional keyword arguments passed to the pipeline.</p>
 </dd>
 </dl>
@@ -663,35 +663,39 @@ facilitates seamless aggregation of processing components into a
 pipeline, enabling execution with specific settings such as
 concurrency, batching, filtering, and more.</p>
 <dl>
-<dt>Args:</dt><dd><p>components (List[TransformComponent]): List of transformation components to be
-included in the pipeline.
-num_workers (Optional[int]): Number of worker threads or processes for parallel
-execution of the pipeline. Defaults to None.
-batch_size (Optional[int]): Size of data batches to be processed. Defaults to None.
-batch_writes_enabled (Optional[bool]): Toggles batching for writes during the
-processing. Defaults to None.
-batch_write_size (Optional[int]): Size of data batches for write operations,
-applicable if batching is enabled. Defaults to None.
-builders (Optional[List[NodeBuilder]]): Optional list of node builders if specific
-building structures are required. Defaults to an empty list.
-show_progress (bool): Flag indicating whether to show progress during processing.
-Defaults to False.
-checkpoint (Optional[Checkpoint]): Optional checkpoint configuration to enable
-resumption from a specific state. Defaults to None.
-build_filters (Optional[BuildFilters]): Filters applied during the build process
-to refine data processing. Defaults to None.
-source_metadata_formatter (Optional[SourceMetadataFormatter]): Formatter for source
-metadata to customize metadata configuration. Defaults to None.
-include_domain_labels (Optional[bool]): Specifies whether domain labels should be
-incorporated in the output. Defaults to None.
-tenant_id (Optional[TenantId]): Identifier for tenant-specific operations or
-segregations. Defaults to None.
-<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs (Any): Additional keyword arguments to customize further configuration</p>
-<blockquote>
-<div><p>of the pipeline.</p>
-</div></blockquote>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>components (List[<cite>TransformComponent</cite>]): List of transformation components to be</dt><dd><p>included in the pipeline.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Pipe: A configured <cite>Pipe</cite> instance encapsulating the constructed pipeline for
+<dt>num_workers (Optional[int]): Number of worker threads or processes for parallel</dt><dd><p>execution of the pipeline. Defaults to None.</p>
+</dd>
+</dl>
+<p>batch_size (Optional[int]): Size of data batches to be processed. Defaults to None.
+batch_writes_enabled (Optional[bool]): Toggles batching for writes during the</p>
+<blockquote>
+<div><p>processing. Defaults to None.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>batch_write_size (Optional[int]): Size of data batches for write operations,</dt><dd><p>applicable if batching is enabled. Defaults to None.</p>
+</dd>
+<dt>builders (Optional[List[<cite>NodeBuilder</cite>]]): Optional list of node builders if specific</dt><dd><p>building structures are required. Defaults to an empty list.</p>
+</dd>
+<dt>show_progress (bool): Flag indicating whether to show progress during processing.</dt><dd><p>Defaults to False.</p>
+</dd>
+<dt>checkpoint (Optional[<cite>Checkpoint</cite>]): Optional checkpoint configuration to enable</dt><dd><p>resumption from a specific state. Defaults to None.</p>
+</dd>
+<dt>build_filters (Optional[<cite>BuildFilters</cite>]): Filters applied during the build process</dt><dd><p>to refine data processing. Defaults to None.</p>
+</dd>
+<dt>source_metadata_formatter (Optional[<cite>SourceMetadataFormatter</cite>]): Formatter for source</dt><dd><p>metadata to customize metadata configuration. Defaults to None.</p>
+</dd>
+<dt>include_domain_labels (Optional[bool]): Specifies whether domain labels should be</dt><dd><p>incorporated in the output. Defaults to None.</p>
+</dd>
+<dt>tenant_id (Optional[<cite>TenantId</cite>]): Identifier for tenant-specific operations or</dt><dd><p>segregations. Defaults to None.</p>
+</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs (Any): Additional keyword arguments to customize further configuration</dt><dd><p>of the pipeline.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p><cite>Pipe</cite>: A configured <cite>Pipe</cite> instance encapsulating the constructed pipeline for
 execution.</p>
 </dd>
 </dl>
@@ -884,13 +888,13 @@ checkpointable based on metadata, performing checkpoint-related
 operations for applicable nodes.</p>
 <dl>
 <dt>Args:</dt><dd><dl class="simple">
-<dt>nodes (List[BaseNode]): A list of nodes to be processed. Each node contains a unique</dt><dd><p>identifier and associated metadata that determines whether it is checkpointable.</p>
+<dt>nodes (List[<cite>BaseNode</cite>]): A list of nodes to be processed. Each node contains a unique</dt><dd><p>identifier and associated metadata that determines whether it is checkpointable.</p>
 </dd>
 </dl>
 <p><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs (Any): Additional keyword arguments to be passed to the inner accept method.</p>
 </dd>
 <dt>Yields:</dt><dd><dl class="simple">
-<dt>BaseNode: Nodes that have been processed and classified. Each node is yielded</dt><dd><p>after logging and performing checkpoint-related operations if applicable.</p>
+<dt><cite>BaseNode</cite>: Nodes that have been processed and classified. Each node is yielded</dt><dd><p>after logging and performing checkpoint-related operations if applicable.</p>
 </dd>
 </dl>
 </dd>
@@ -976,8 +980,8 @@ graph database. Handles the insertion of child, parent, previous, next,
 and source relationships. If a chunk ID or required relationship
 information is missing, the function logs warnings.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>node: The node object containing chunk data and its relationships.
-graph_client: The graph client interface to interact with the graph database.
+<dt>Args:</dt><dd><p>node: The <cite>BaseNode</cite> object containing chunk data and its relationships.
+graph_client: The <cite>GraphStore</cite> interface to interact with the graph database.
 <a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: Additional optional parameters for configuring the operation.</p>
 </dd>
 </dl>
@@ -1113,8 +1117,8 @@ the graph. Optionally, domain-specific labels can be included.</p>
 <p>The function handles missing fact metadata by logging a warning message. It also
 ensures reliability through query retries with controlled attempts and wait times.</p>
 <dl>
-<dt>Args:</dt><dd><p>node (BaseNode): The node from which fact metadata is to be extracted.
-graph_client (GraphStore): The graph database client to execute queries.
+<dt>Args:</dt><dd><p>node (<cite>BaseNode</cite>): The node from which fact metadata is to be extracted.
+graph_client (<cite>GraphStore</cite>): The graph database client to execute queries.
 <a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs (Any): Additional options, such as <cite>include_domain_labels</cite>, which</p>
 <blockquote>
 <div><p>determines whether domain-specific labels are added to the entities.</p>
@@ -1179,8 +1183,8 @@ update relationships between entities in a graph database. If
 <cite>include_domain_labels</cite> is specified, additional domain-specific labels
 will be added to the entities and relationships.</p>
 <dl>
-<dt>Args:</dt><dd><p>node (BaseNode): The node containing metadata for the fact data to process.
-graph_client (GraphStore): The graph client instance for executing database queries.
+<dt>Args:</dt><dd><p>node (<cite>BaseNode</cite>): The node containing metadata for the fact data to process.
+graph_client (<cite>GraphStore</cite>): The graph client instance for executing database queries.
 <a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs (Any): Additional keyword arguments. Must include:</p>
 <blockquote>
 <div><ul class="simple">
@@ -1241,18 +1245,18 @@ handles scenarios where domain labels are required or when connections to previo
 to be established.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
-<dt>node (BaseNode): The node containing metadata and text to be analyzed and inserted into the</dt><dd><p>graph database as a fact.</p>
+<dt>node (<cite>BaseNode</cite>): The node containing metadata and text to be analyzed and inserted into the</dt><dd><p>graph database as a fact.</p>
 </dd>
-<dt>graph_client (GraphStore): The client used to interact with the graph database, providing methods</dt><dd><p>for query execution and schema utility functions.</p>
+<dt>graph_client (<cite>GraphStore</cite>): The client used to interact with the graph database, providing methods</dt><dd><p>for query execution and schema utility functions.</p>
 </dd>
 <dt><a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs (Any): Additional parameters for customization, such as ‘include_domain_labels’ to</dt><dd><p>determine whether domain labels for entities should be included in the queries.</p>
 </dd>
 </dl>
 </dd>
 <dt>Raises:</dt><dd><dl class="simple">
-<dt>KeyError: If required keys such as ‘include_domain_labels’ are missing from the kwargs or</dt><dd><p>metadata is incomplete.</p>
+<dt><cite>KeyError</cite>: If required keys such as ‘include_domain_labels’ are missing from the kwargs or</dt><dd><p>metadata is incomplete.</p>
 </dd>
-<dt>ValidationError: If the metadata provided in the node is invalid or does not match the expected</dt><dd><p>structure for fact validation.</p>
+<dt><cite>ValidationError</cite>: If the metadata provided in the node is invalid or does not match the expected</dt><dd><p>structure for fact validation.</p>
 </dd>
 </dl>
 </dd>
@@ -1470,12 +1474,12 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.graph_builder.GraphBuilder.build">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseNode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/graph_builder.html#GraphBuilder.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.graph_builder.GraphBuilder.build" title="Link to this definition">¶</a></dt>
 <dd><p>An abstract method designated for building a specific process
-related to a BaseNode within a GraphStore using additional parameters.</p>
+related to a <cite>BaseNode</cite> within a <cite>GraphStore</cite> using additional parameters.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
-<dt>node: The node instance of type BaseNode on which the build operation</dt><dd><p>is performed.</p>
+<dt>node: The node instance of type <cite>BaseNode</cite> on which the build operation</dt><dd><p>is performed.</p>
 </dd>
-<dt>graph_client: The graph storage client of type GraphStore responsible</dt><dd><p>for managing graph operations.</p>
+<dt>graph_client: The graph storage client of type <cite>GraphStore</cite> responsible</dt><dd><p>for managing graph operations.</p>
 </dd>
 <dt><a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs: Arbitrary additional arguments that may be required for the</dt><dd><p>build operation specific to the implementation.</p>
 </dd>
@@ -1670,10 +1674,10 @@ This method uses the <cite>graph_client</cite> to run the query with error retri
 and logs warnings for missing metadata.</p>
 <dl>
 <dt>Args:</dt><dd><dl class="simple">
-<dt>node (BaseNode): The node containing metadata for generating the query. This</dt><dd><p>metadata is used to derive the relationships and classifications required to
+<dt>node (<cite>BaseNode</cite>): The node containing metadata for generating the query. This</dt><dd><p>metadata is used to derive the relationships and classifications required to
 configure the graph.</p>
 </dd>
-<dt>graph_client (GraphStore): The client responsible for interacting with the</dt><dd><p>backend graph database. It provides methods for query execution and ID
+<dt>graph_client (<cite>GraphStore</cite>): The client responsible for interacting with the</dt><dd><p>backend graph database. It provides methods for query execution and ID
 formatting.</p>
 </dd>
 </dl>
@@ -1879,53 +1883,53 @@ string identifier. This method must be implemented by all subclasses.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.build.node_builders.</span></span><span class="sig-name descname"><span class="pre">NodeBuilders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">builders</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder" title="graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder"><span class="pre">NodeBuilder</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.build_filters.BuildFilters" title="graphrag_toolkit.lexical_graph.indexing.build.build_filters.BuildFilters"><span class="pre">BuildFilters</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_metadata_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter" title="graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter"><span class="pre">SourceMetadataFormatter</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_generator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator" title="graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator"><span class="pre">IdGenerator</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/node_builders.html#NodeBuilders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Represents a utility class for building or transforming nodes.</p>
-<p>The <cite>NodeBuilders</cite> class is designed to handle the creation, transformation, and
-filtering of nodes based on metadata. This is achieved through various configurations
-like node builders, filtering mechanisms, metadata formatting, and an ID generator.
-It facilitates the processing of custom metadata and ensures nodes are correctly structured.</p>
+<p>Represents a class to manage node building logic with support for filtering,
+metadata formatting, and ID generation. This class provides mechanisms to
+process input nodes, apply filters, preprocess data, and construct new nodes
+from metadata using various registered builders.</p>
+<p>This class allows for extensibility through custom builders, filters, and
+metadata formatters. It processes input data into a structured form suitable
+for use in constructing nodes and manages workflows for transforming raw data
+into meaningful output for further processing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>builders</strong> (<em>List</em><em>[</em><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder" title="graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder"><em>NodeBuilder</em></a><em>]</em>) – A list of configured node builder instances, each specializing in
-creating nodes based on specific logic or rules.</p></li>
-<li><p><strong>build_filters</strong> (<a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.build_filters.BuildFilters" title="graphrag_toolkit.lexical_graph.indexing.build.build_filters.BuildFilters"><em>BuildFilters</em></a>) – The filter instance defined to control the criteria for filtering
-nodes during their processing.</p></li>
-<li><p><strong>source_metadata_formatter</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter" title="graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter"><em>SourceMetadataFormatter</em></a>) – A formatter to process metadata into a specific structure
-during node handling.</p></li>
-<li><p><strong>id_generator</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator" title="graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator"><em>IdGenerator</em></a>) – An instance responsible for generating unique IDs for the nodes,
-or rewriting node IDs to conform to specific conventions.</p></li>
+<li><p><strong>builders</strong> – List of NodeBuilder instances that encapsulate logic for building
+nodes of various types. Defaults to a set of predefined node builders.</p></li>
+<li><p><strong>build_filters</strong> – Instance used for applying filtering logic to input nodes during
+preprocessing and node construction. Expected to conform to the <cite>BuildFilters</cite> protocol.</p></li>
+<li><p><strong>source_metadata_formatter</strong> – Component responsible for formatting metadata associated
+with nodes. Conforms to the source metadata formatting interface.</p></li>
+<li><p><strong>id_generator</strong> – Utility for generating unique identifiers for nodes and rewriting
+IDs when applying tenant-specific adjustments.</p></li>
 </ul>
 </dd>
 </dl>
-<p>Initializes an instance of the class with configured node builders, build filters,
-a custom source metadata formatter, and an ID generator. These configurations dictate
-the behavior of the instance, including how nodes are built, filtered, formatted,
-and uniquely identified.</p>
+<p>Initializes an instance of the class, setting up node builders, build filters,
+a source metadata formatter, and an ID generator. This initialization ensures
+that default components are provided if none are explicitly specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>builders</strong> (<em>List</em><em>[</em><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder" title="graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder"><em>NodeBuilder</em></a><em>]</em>) – A list of NodeBuilder instances. Every builder is used to create
-nodes based on specific logic and rules. If not provided, default builders
-are used.</p></li>
-<li><p><strong>build_filters</strong> (<a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.build_filters.BuildFilters" title="graphrag_toolkit.lexical_graph.indexing.build.build_filters.BuildFilters"><em>BuildFilters</em></a>) – An instance of BuildFilters to control the filtering of nodes
-during the building process. Defaults to a new BuildFilters instance if not provided.</p></li>
-<li><p><strong>source_metadata_formatter</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter" title="graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter"><em>SourceMetadataFormatter</em></a><em>]</em>) – A source metadata formatter to shape metadata
-of source nodes. If not provided, a DefaultSourceMetadataFormatter instance
-will be used.</p></li>
-<li><p><strong>id_generator</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator" title="graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator"><em>IdGenerator</em></a>) – An instance of IdGenerator to produce unique identifiers
-for nodes. Will default to a newly created IdGenerator if one is not supplied.</p></li>
+<li><p><strong>builders</strong> – Optional list of NodeBuilder instances to construct nodes. If not
+provided, default builders will be used.</p></li>
+<li><p><strong>build_filters</strong> – Optional BuildFilters instance to handle filtering
+logic during the build process. Defaults to a new instance of BuildFilters.</p></li>
+<li><p><strong>source_metadata_formatter</strong> – Optional SourceMetadataFormatter instance to
+format metadata for nodes. Defaults to an instance of DefaultSourceMetadataFormatter.</p></li>
+<li><p><strong>id_generator</strong> – Optional IdGenerator instance to generate unique IDs. If not
+provided, a new instance of IdGenerator will be used.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.class_name">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/node_builders.html#NodeBuilders.class_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.class_name" title="Link to this definition">¶</a></dt>
-<dd><p>Provides a class method to retrieve the name of the class. This method can be used
-to dynamically access the class name at runtime without directly referencing it.</p>
+<dd><p>Provides the name of the class. This is useful for debugging, logging,
+or dynamic referencing in certain programming patterns.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The name of the class as a string</p>
+<dd class="field-odd"><p>The name of the class as a string.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
@@ -1936,26 +1940,25 @@ to dynamically access the class name at runtime without directly referencing it.
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.default_builders">
 <span class="sig-name descname"><span class="pre">default_builders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_generator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator" title="graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator"><span class="pre">IdGenerator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.build_filters.BuildFilters" title="graphrag_toolkit.lexical_graph.indexing.build.build_filters.BuildFilters"><span class="pre">BuildFilters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_metadata_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter" title="graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter"><span class="pre">SourceMetadataFormatter</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/node_builders.html#NodeBuilders.default_builders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.default_builders" title="Link to this definition">¶</a></dt>
-<dd><p>Builds a list of node builders using the provided generator, filters, and formatter.</p>
-<p>This method initializes a list of node builders by iterating over predefined node
-builder classes. Each builder is instantiated with the provided id generator, filter,
-and formatter, which are essential for creating structured and uniquely identified
-nodes in a processing pipeline. The configuration passed to the builders ensures
-consistency and compatibility across different node builders.</p>
+<dd><p>Builds a list of node builders using the provided builders and their configurations.</p>
+<p>This function iterates over a predefined list of node builder classes and constructs
+them using the parameters provided. Each of these node builder classes represents a specific
+type of node (source, chunk, topic, or statement), and they are built with the common
+attributes: <cite>id_generator</cite>, <cite>build_filters</cite>, and <cite>source_metadata_formatter</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id_generator</strong> – An instance of IdGenerator used to generate unique identifiers
-for nodes.</p></li>
-<li><p><strong>build_filters</strong> – An instance of BuildFilters used to filter or conditionally
-process nodes during their building process.</p></li>
-<li><p><strong>source_metadata_formatter</strong> – An instance of SourceMetadataFormatter used to
-format metadata for the built nodes.</p></li>
+<li><p><strong>id_generator</strong> – Instance used to generate unique identifiers for nodes.
+Must implement the <cite>IdGenerator</cite> protocol.</p></li>
+<li><p><strong>build_filters</strong> – Instance responsible for filtering nodes during the
+build process. Expected to conform to the <cite>BuildFilters</cite> protocol.</p></li>
+<li><p><strong>source_metadata_formatter</strong> – Formatter used to process source metadata.
+Expects an object with the <cite>SourceMetadataFormatter</cite> interface.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of instantiated node builders, each configured with the provided
-id generator, filter, and formatter.</p>
+<dd class="field-even"><p>A list containing initialized instances of node builders, one for
+each builder class in the node builder class list.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
@@ -1966,23 +1969,29 @@ id generator, filter, and formatter.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.get_nodes_from_metadata">
 <span class="sig-name descname"><span class="pre">get_nodes_from_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/node_builders.html#NodeBuilders.get_nodes_from_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.get_nodes_from_metadata" title="Link to this definition">¶</a></dt>
-<dd><p>Processes a list of input nodes to apply tenant-specific identifier rewrites,
-clean textual data, filter, and prepare node structures based on provided
-metadata and provided builders. It returns a refined list of nodes combining
-both original and derived nodes.</p>
+<dd><p>Processes input nodes, applies preprocessing, filters, tenant-specific rewrites,
+and builds new nodes from metadata using registered builders.</p>
+<p>This function represents a structured workflow for handling a collection of nodes.
+It applies filtering, text cleaning, ID rewriting, and transformation to generate
+a final list of nodes that includes both derived and original input nodes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input_nodes</strong> (<em>List</em><em>[</em><em>BaseNode</em><em>]</em>) – List of input nodes to be processed</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Additional keyword arguments for optional configurations</p></li>
+<li><p><strong>input_nodes</strong> – List of BaseNode objects to be processed. Each node may have
+relationships, metadata, and text fields that are manipulated during preprocessing.</p></li>
+<li><p><strong>kwargs</strong> – Additional keyword arguments to customize the node processing workflow.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of nodes that have been filtered, rewritten, cleaned,
-pre-processed, and processed by builder logic</p>
+<dd class="field-even"><p>List of BaseNode objects. Includes the original input nodes along with
+newly constructed nodes generated by the registered node builders.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List[BaseNode]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> – If an error occurs in the registered builders during the node
+building process, it is logged and then re-raised.</p>
 </dd>
 </dl>
 </dd></dl>

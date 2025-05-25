@@ -65,7 +65,7 @@ class LLMCache(BaseModel):
             str: The generated or cached response from the LLM.
 
         Raises:
-            ModelError: If there is any exception while interacting with the LLM, detailed
+            `ModelError`: If there is any exception while interacting with the LLM, detailed
                 configuration information is included to aid debugging.
         """
         response = None

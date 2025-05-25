@@ -229,9 +229,11 @@ class FilterConfig(BaseModel):
 
         :param source_filters: Optional metadata filters to configure the object's
             filtering behavior. Acceptable types include:
+
               - MetadataFilters: A collection of metadata filters.
               - MetadataFilter: A single metadata filter.
               - list: A list of `MetadataFilter` objects.
+
             If no filters are provided, it defaults to None.
         :type source_filters: Optional[MetadataFiltersType]
         """

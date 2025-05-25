@@ -42,7 +42,7 @@ class CheckpointFilter(TransformComponent, DoNotCheckpoint):
     checkpoint_name:str
     checkpoint_dir:str
     inner:TransformComponent
-        
+
     def checkpoint_does_not_exist(self, node_id):
         """Checks whether a checkpoint exists for the given node and determines
         if the node should be included or ignored based on this status.
@@ -67,7 +67,7 @@ class CheckpointFilter(TransformComponent, DoNotCheckpoint):
         else:
             logger.debug(f'Including node [node_id: {node_id}, checkpoint: {self.checkpoint_name}, component: {type(self.inner).__name__}]')
             return True
-        
+
     def __call__(self, nodes: List[BaseNode], **kwargs: Any) -> List[BaseNode]:
         """Filters nodes based on specific criteria and forwards the filtered
         list to an inner callable.
@@ -86,7 +86,7 @@ class CheckpointFilter(TransformComponent, DoNotCheckpoint):
         filtered_nodes = [node for node in nodes if self.checkpoint_does_not_exist(node.id_)]
         return self.inner.__call__(filtered_nodes, **kwargs)
 
-    
+
 class CheckpointWriter(NodeHandler):
 
     checkpoint_name:str
@@ -102,19 +102,19 @@ class CheckpointWriter(NodeHandler):
         """
         with open(path, 'a'):
             os.utime(path, None)
-    
+
     def accept(self, nodes: List[BaseNode], **kwargs: Any):
         """Processes and categorizes nodes as checkpointable or non-
         checkpointable based on metadata, performing checkpoint-related
         operations for applicable nodes.
 
         Args:
-            nodes (List[BaseNode]): A list of nodes to be processed. Each node contains a unique
+            nodes (List[`BaseNode`]): A list of nodes to be processed. Each node contains a unique
                 identifier and associated metadata that determines whether it is checkpointable.
             **kwargs (Any): Additional keyword arguments to be passed to the inner accept method.
 
         Yields:
-            BaseNode: Nodes that have been processed and classified. Each node is yielded
+            `BaseNode`: Nodes that have been processed and classified. Each node is yielded
                 after logging and performing checkpoint-related operations if applicable.
         """
         for node in self.inner.accept(nodes, **kwargs):
@@ -176,7 +176,7 @@ class Checkpoint():
         else:
             logger.debug(f'Not wrapping with checkpoint filter [checkpoint: {self.checkpoint_name}, component: {type(o).__name__}]')
             return o
-        
+
     def add_writer(self, o):
         """Adds a checkpoint writer wrapper to the provided object if enabled
         and if the object is an instance of NodeHandler. This function allows
@@ -217,12 +217,10 @@ class Checkpoint():
             The complete path of the prepared checkpoint directory.
         """
         checkpoint_dir = join(output_dir, SAVEPOINT_ROOT_DIR, checkpoint_name)
-        
+
         logger.debug(f'Preparing checkpoint directory [checkpoint: {checkpoint_name}, checkpoint_dir: {checkpoint_dir}]')
 
         if not os.path.exists(checkpoint_dir):
             os.makedirs(checkpoint_dir)
-   
-        return checkpoint_dir
 
-    
+        return checkpoint_dir

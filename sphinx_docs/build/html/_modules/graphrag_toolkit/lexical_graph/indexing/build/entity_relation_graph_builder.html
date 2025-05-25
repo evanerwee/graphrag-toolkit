@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.build.entity_relation_graph_builder - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -295,20 +295,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -387,7 +375,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;fact&#39;</span></div>
 
-    
+
 <div class="viewcode-block" id="EntityRelationGraphBuilder.build">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.entity_relation_graph_builder.EntityRelationGraphBuilder.build">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span><span class="n">BaseNode</span><span class="p">,</span> <span class="n">graph_client</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="n">Any</span><span class="p">):</span>
@@ -398,8 +386,8 @@
 <span class="sd">        will be added to the entities and relationships.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            node (BaseNode): The node containing metadata for the fact data to process.</span>
-<span class="sd">            graph_client (GraphStore): The graph client instance for executing database queries.</span>
+<span class="sd">            node (`BaseNode`): The node containing metadata for the fact data to process.</span>
+<span class="sd">            graph_client (`GraphStore`): The graph client instance for executing database queries.</span>
 <span class="sd">            **kwargs (Any): Additional keyword arguments. Must include:</span>
 <span class="sd">                - include_domain_labels (bool): Indicator for whether domain labels should be included in the query.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -411,7 +399,7 @@
             <span class="n">fact</span> <span class="o">=</span> <span class="n">Fact</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fact_metadata</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">fact</span><span class="o">.</span><span class="n">subject</span> <span class="ow">and</span> <span class="n">fact</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
-        
+
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inserting entity relations for fact [fact_id: </span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">factId</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
                 <span class="n">statements</span> <span class="o">=</span> <span class="p">[</span>
@@ -443,14 +431,14 @@
                     <span class="s1">&#39;o_id&#39;</span><span class="p">:</span> <span class="n">fact</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">entityId</span><span class="p">,</span>
                     <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">fact</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">value</span>
                 <span class="p">}</span>
-            
+
                 <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">statements</span><span class="p">)</span>
-                    
+
                 <span class="n">graph_client</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_params</span><span class="p">(</span><span class="n">properties</span><span class="p">),</span> <span class="n">max_attempts</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_wait</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SPC fact, so not creating relation [fact_id: </span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">factId</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
-           
+
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;fact_id missing from fact node [node_id: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span></div>
@@ -503,11 +491,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>
