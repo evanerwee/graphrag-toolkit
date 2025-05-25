@@ -48,7 +48,7 @@ class MetadataToNodes():
 
         This method instantiates and provides a collection of node builders, where each
         builder is responsible for creating a specific type of node within the system.
-        The `id_generator` is utilized to assign unique identifiers to the nodes created
+        The id_generator is utilized to assign unique identifiers to the nodes created
         by these builders.
 
         Args:
@@ -88,7 +88,7 @@ class MetadataToNodes():
 
         Args:
             input_nodes (List[BaseNode]): A list of input nodes to be processed and used for generating new nodes.
-            **kwargs (Any): Additional keyword arguments that may be required by the builders.
+            \*\*kwargs (Any): Additional keyword arguments that may be required by the builders.
 
         Returns:
             List[BaseNode]: A list of processed nodes that includes both generated nodes and the original input nodes.
@@ -97,12 +97,13 @@ class MetadataToNodes():
             Exception: If an error occurs during the node-building process by any builder.
         """
         def apply_tenant_rewrites(node):
-            """Represents a utility to fetch nodes from metadata and apply
-            tenant-specific rewrites using an ID generator.
+            """Applies tenant-specific ID rewrites to a node and its relationships.
 
-            Methods:
-                get_nodes_from_metadata: Process a list of input nodes, apply ID rewrites to each node and its relationships for a specific tenant, and return the modified list of nodes.
+            Args:
+                node: The node to apply tenant-specific ID rewrites to.
 
+            Returns:
+                The node with tenant-specific ID rewrites applied.
             """
             node.id_ =  self.id_generator.rewrite_id_for_tenant(node.id_)
 

@@ -363,8 +363,19 @@
 <div class="viewcode-block" id="ChunkBasedSearch">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ChunkBasedSearch</span><span class="p">(</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles chunk-based retrieval and search operations.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handles chunk-based retrieval and search operations.</span>
+
+<span class="sd">    This class implements a retrieval strategy that focuses on chunks of text</span>
+<span class="sd">    as the primary units for search operations. It leverages both graph and</span>
+<span class="sd">    vector stores to find relevant chunks based on the input query.</span>
+
+<span class="sd">    The retrieval process involves:</span>
+<span class="sd">    1. Finding relevant chunks using vector similarity search</span>
+<span class="sd">    2. Traversing the graph to find related statements and topics</span>
+<span class="sd">    3. Aggregating and scoring the results</span>
+
+<span class="sd">    This approach is particularly effective for retrieving contextually</span>
+<span class="sd">    relevant information from large document collections.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>

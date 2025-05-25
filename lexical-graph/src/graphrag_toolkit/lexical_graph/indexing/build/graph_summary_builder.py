@@ -46,13 +46,13 @@ class GraphSummaryBuilder(GraphBuilder):
         database based on the metadata associated with a given base node. The
         process involves constructing parameters and Cypher queries to manage
         relationships and classifications for nodes within a graph database.
-        This method uses the graph_client to run the query with error retries
+        This method uses the graph client to run the query with error retries
         and logs warnings for missing metadata.
 
         Args:
             node (BaseNode): The node containing metadata for generating the query. This metadata is used to derive the relationships and classifications required to configure the graph.
             graph_client (GraphStore): The client responsible for interacting with the backend graph database. It provides methods for query execution and ID formatting.
-            **kwargs (Any): Additional arguments that may be passed for internal usage.
+            \\*\\*kwargs (Any): Additional arguments that may be passed for internal usage.
 
         """
         fact_metadata = node.metadata.get('fact', {})

@@ -124,9 +124,7 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
             start_statement_ids (List[str]): A list of statement IDs to start the beam search from.
 
         Returns:
-            List[Tuple[str, List[str]]]: A list of tuples where each tuple consists of a statement ID
-            and its corresponding path of IDs that led to it. The length of the returned list does
-            not exceed the beam width.
+            List[Tuple[str, List[str]]]: A list of tuples where each tuple consists of a statement ID and its corresponding path of IDs that led to it. The length of the returned list does not exceed the beam width.
         """
         visited: Set[str] = set()
         results: List[Tuple[str, List[str]]] = []

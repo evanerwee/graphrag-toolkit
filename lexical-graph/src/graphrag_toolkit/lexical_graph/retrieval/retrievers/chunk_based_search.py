@@ -27,8 +27,19 @@ logger = logging.getLogger(__name__)
 
 
 class ChunkBasedSearch(TraversalBasedBaseRetriever):
-    """
-    Handles chunk-based retrieval and search operations.
+    """Handles chunk-based retrieval and search operations.
+
+    This class implements a retrieval strategy that focuses on chunks of text
+    as the primary units for search operations. It leverages both graph and
+    vector stores to find relevant chunks based on the input query.
+
+    The retrieval process involves:
+    1. Finding relevant chunks using vector similarity search
+    2. Traversing the graph to find related statements and topics
+    3. Aggregating and scoring the results
+
+    This approach is particularly effective for retrieving contextually
+    relevant information from large document collections.
     """
 
     def __init__(

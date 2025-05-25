@@ -413,11 +413,14 @@
 <div class="viewcode-block" id="CompositeTraversalBasedRetriever">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CompositeTraversalBasedRetriever</span><span class="p">(</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Manages traversal-based retrieval across graph and vector stores.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages traversal-based retrieval across graph and vector stores.</span>
 
 <span class="sd">    This class integrates weighted retrievers, query decomposition, and filtering</span>
 <span class="sd">    configurations to perform complex search queries over graph and vector data.</span>
+
+<span class="sd">    The retriever combines results from multiple specialized retrievers, each with</span>
+<span class="sd">    its own weight to prioritize certain types of results. It can also decompose</span>
+<span class="sd">    complex queries into simpler subqueries for more effective retrieval.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        graph_store (GraphStore): Storage for graph data.</span>
@@ -513,17 +516,18 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">weighted_arg</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">factor</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Represents a retrieval mechanism that relies on traversals</span>
-<span class="sd">            across various components within a query or document-based system.</span>
-<span class="sd">            This class extends the functionality provided by</span>
-<span class="sd">            TraversalBasedBaseRetriever and customizes the search result</span>
-<span class="sd">            retrieval process by implementing a specific query evaluation</span>
-<span class="sd">            mechanism.</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Calculates a weighted argument value based on input parameters.</span>
 
-<span class="sd">            Methods:</span>
-<span class="sd">                _get_search_results_for_query: Retrieves search results for a given query</span>
-<span class="sd">                                               bundle based on a customized scoring and</span>
-<span class="sd">                                               weighted approach.</span>
+<span class="sd">            This function computes a multiplier based on weight and factor,</span>
+<span class="sd">            then applies it to the input value v.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                v: The base value to be weighted</span>
+<span class="sd">                weight: The weight factor to apply</span>
+<span class="sd">                factor: An additional scaling factor</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                The weighted value, ceiling rounded to the nearest integer</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">multiplier</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">)</span>

@@ -74,11 +74,14 @@ WeightedTraversalBasedRetrieverType = Union[
 
 
 class CompositeTraversalBasedRetriever(TraversalBasedBaseRetriever):
-    """
-    Manages traversal-based retrieval across graph and vector stores.
+    """Manages traversal-based retrieval across graph and vector stores.
 
     This class integrates weighted retrievers, query decomposition, and filtering
     configurations to perform complex search queries over graph and vector data.
+
+    The retriever combines results from multiple specialized retrievers, each with
+    its own weight to prioritize certain types of results. It can also decompose
+    complex queries into simpler subqueries for more effective retrieval.
 
     Attributes:
         graph_store (GraphStore): Storage for graph data.
@@ -171,17 +174,18 @@ class CompositeTraversalBasedRetriever(TraversalBasedBaseRetriever):
         """
 
         def weighted_arg(v, weight, factor):
-            """Represents a retrieval mechanism that relies on traversals
-            across various components within a query or document-based system.
-            This class extends the functionality provided by
-            TraversalBasedBaseRetriever and customizes the search result
-            retrieval process by implementing a specific query evaluation
-            mechanism.
+            """Calculates a weighted argument value based on input parameters.
 
-            Methods:
-                _get_search_results_for_query: Retrieves search results for a given query
-                                               bundle based on a customized scoring and
-                                               weighted approach.
+            This function computes a multiplier based on weight and factor,
+            then applies it to the input value v.
+
+            Args:
+                v: The base value to be weighted
+                weight: The weight factor to apply
+                factor: An additional scaling factor
+
+            Returns:
+                The weighted value, ceiling rounded to the nearest integer
             """
             multiplier = min(1, weight * factor)
             return math.ceil(v * multiplier)

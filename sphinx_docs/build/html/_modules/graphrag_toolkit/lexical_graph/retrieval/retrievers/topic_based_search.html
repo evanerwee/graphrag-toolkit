@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -295,20 +295,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -378,11 +366,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A retriever class implementing topic-based search within a knowledge</span>
 <span class="sd">    graph.</span>
 
-<span class="sd">    The `TopicBasedSearch` class specializes in retrieving information from a</span>
-<span class="sd">    graph database using a topic-based approach. It extends the</span>
-<span class="sd">    `TraversalBasedBaseRetriever` to provide functionality specific to exploring</span>
-<span class="sd">    the graph based on topic relationships. The retriever employs both a graph</span>
-<span class="sd">    store for hierarchical relationships and a vector store for semantic queries.</span>
+<span class="sd">    The TopicBasedSearch class specializes in retrieving information from a graph database using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide functionality specific to exploring the graph based on topic relationships. The retriever employs both a graph store for hierarchical relationships and a vector store for semantic queries.</span>
 <span class="sd">    This is particularly useful in scenarios where topic-centric information</span>
 <span class="sd">    organization and retrieval are required.</span>
 
@@ -439,11 +423,11 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">topic_based_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs a graph search based on a specific topic ID. The method</span>
 <span class="sd">        uses a Cypher query to traverse a graph database, retrieving relevant</span>
-<span class="sd">        `__Fact__` and associated `__Statement__` nodes connected to a specific</span>
+<span class="sd">        __Fact__ and associated __Statement__ nodes connected to a specific</span>
 <span class="sd">        topic.</span>
 
-<span class="sd">        The query traverses relationships such as `__NEXT__`, `__SUPPORTS__`, and</span>
-<span class="sd">        `__BELONGS_TO__` to ensure that all relevant nodes and their connections are</span>
+<span class="sd">        The query traverses relationships such as __NEXT__, __SUPPORTS__, and</span>
+<span class="sd">        __BELONGS_TO__ to ensure that all relevant nodes and their connections are</span>
 <span class="sd">        retrieved based on the provided topic ID and query limits.</span>
 
 <span class="sd">        Args:</span>
@@ -608,11 +592,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

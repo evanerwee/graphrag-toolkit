@@ -109,13 +109,11 @@ class CheckpointWriter(NodeHandler):
         operations for applicable nodes.
 
         Args:
-            nodes (List[`BaseNode`]): A list of nodes to be processed. Each node contains a unique
-                identifier and associated metadata that determines whether it is checkpointable.
+            nodes (List[BaseNode]): A list of nodes to be processed. Each node contains a unique identifier and associated metadata that determines whether it is checkpointable.
             **kwargs (Any): Additional keyword arguments to be passed to the inner accept method.
 
         Yields:
-            `BaseNode`: Nodes that have been processed and classified. Each node is yielded
-                after logging and performing checkpoint-related operations if applicable.
+            BaseNode: Nodes that have been processed and classified. Each node is yielded after logging and performing checkpoint-related operations if applicable.
         """
         for node in self.inner.accept(nodes, **kwargs):
             node_id = node.node_id

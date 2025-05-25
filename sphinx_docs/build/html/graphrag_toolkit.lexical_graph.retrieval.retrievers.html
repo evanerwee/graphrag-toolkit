@@ -346,6 +346,15 @@
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.</span></span><span class="sig-name descname"><span class="pre">ChunkBasedSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">processor_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><span class="pre">ProcessorBase</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/retrievers/chunk_based_search.html#ChunkBasedSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever" title="graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever"><code class="xref py py-class docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever</span></code></a></p>
 <p>Handles chunk-based retrieval and search operations.</p>
+<p>This class implements a retrieval strategy that focuses on chunks of text
+as the primary units for search operations. It leverages both graph and
+vector stores to find relevant chunks based on the input query.</p>
+<p>The retrieval process involves:
+1. Finding relevant chunks using vector similarity search
+2. Traversing the graph to find related statements and topics
+3. Aggregating and scoring the results</p>
+<p>This approach is particularly effective for retrieving contextually
+relevant information from large document collections.</p>
 <p>Initializes an instance of a class by setting up graph and vector
 stores, optional processing configurations, and other keyword
 arguments. This constructor is used to setup necessary parameters and
@@ -399,6 +408,9 @@ processor_args: Optional set of arguments that configure how</p>
 <p>Manages traversal-based retrieval across graph and vector stores.</p>
 <p>This class integrates weighted retrievers, query decomposition, and filtering
 configurations to perform complex search queries over graph and vector data.</p>
+<p>The retriever combines results from multiple specialized retrievers, each with
+its own weight to prioritize certain types of results. It can also decompose
+complex queries into simpler subqueries for more effective retrieval.</p>
 <dl class="simple">
 <dt>Attributes:</dt><dd><p>graph_store (GraphStore): Storage for graph data.
 vector_store (VectorStore): Storage for vector data.
@@ -1026,9 +1038,7 @@ is reached or when no more relevant neighbors are found.</p>
 </dl>
 <p>start_statement_ids (List[str]): A list of statement IDs to start the beam search from.</p>
 </dd>
-<dt>Returns:</dt><dd><p>List[Tuple[str, List[str]]]: A list of tuples where each tuple consists of a statement ID
-and its corresponding path of IDs that led to it. The length of the returned list does
-not exceed the beam width.</p>
+<dt>Returns:</dt><dd><p>List[Tuple[str, List[str]]]: A list of tuples where each tuple consists of a statement ID and its corresponding path of IDs that led to it. The length of the returned list does not exceed the beam width.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1071,7 +1081,7 @@ The class is designed to be extended by implementing the <cite>_retrieve</cite> 
 </dd>
 <dt>filter_config (FilterConfig): Configuration settings used for applying filters</dt><dd><p>during the retrieval process. A default configuration is applied if not provided.</p>
 </dd>
-<dt>debug_results (bool): Indicates whether to enable debugging for retrieved</dt><dd><p>results. Debug mode is enabled when <cite>debug_results</cite> is explicitly specified
+<dt>debug_results (bool): Indicates whether to enable debugging for retrieved</dt><dd><p>results. Debug mode is enabled when debug_results is explicitly specified
 in the keyword arguments.</p>
 </dd>
 </dl>
@@ -1198,11 +1208,7 @@ the required stores, configurations, and cache for processing tasks.</p>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever" title="graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever"><code class="xref py py-class docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever</span></code></a></p>
 <p>A retriever class implementing topic-based search within a knowledge
 graph.</p>
-<p>The <cite>TopicBasedSearch</cite> class specializes in retrieving information from a
-graph database using a topic-based approach. It extends the
-<cite>TraversalBasedBaseRetriever</cite> to provide functionality specific to exploring
-the graph based on topic relationships. The retriever employs both a graph
-store for hierarchical relationships and a vector store for semantic queries.
+<p>The TopicBasedSearch class specializes in retrieving information from a graph database using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide functionality specific to exploring the graph based on topic relationships. The retriever employs both a graph store for hierarchical relationships and a vector store for semantic queries.
 This is particularly useful in scenarios where topic-centric information
 organization and retrieval are required.</p>
 <dl class="simple">
@@ -1286,10 +1292,10 @@ from the vector store combined with filtering conditions.</p>
 <span class="sig-name descname"><span class="pre">topic_based_graph_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topic_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/retrievers/topic_based_search.html#TopicBasedSearch.topic_based_graph_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search.TopicBasedSearch.topic_based_graph_search" title="Link to this definition">¶</a></dt>
 <dd><p>Performs a graph search based on a specific topic ID. The method
 uses a Cypher query to traverse a graph database, retrieving relevant
-<cite>__Fact__</cite> and associated <cite>__Statement__</cite> nodes connected to a specific
+__Fact__ and associated __Statement__ nodes connected to a specific
 topic.</p>
-<p>The query traverses relationships such as <cite>__NEXT__</cite>, <cite>__SUPPORTS__</cite>, and
-<cite>__BELONGS_TO__</cite> to ensure that all relevant nodes and their connections are
+<p>The query traverses relationships such as __NEXT__, __SUPPORTS__, and
+__BELONGS_TO__ to ensure that all relevant nodes and their connections are
 retrieved based on the provided topic ID and query limits.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>topic_id (str): The ID of the topic for which the graph search will be performed.</p>

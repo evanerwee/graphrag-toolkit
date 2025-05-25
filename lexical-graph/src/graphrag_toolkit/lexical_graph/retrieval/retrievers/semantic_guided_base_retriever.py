@@ -28,7 +28,7 @@ class SemanticGuidedBaseRetriever(BaseRetriever):
         filter_config (FilterConfig): Configuration settings used for applying filters
             during the retrieval process. A default configuration is applied if not provided.
         debug_results (bool): Indicates whether to enable debugging for retrieved
-            results. Debug mode is enabled when `debug_results` is explicitly specified
+            results. Debug mode is enabled when debug_results is explicitly specified
             in the keyword arguments.
     """
 

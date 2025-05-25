@@ -387,13 +387,13 @@
 <span class="sd">        database based on the metadata associated with a given base node. The</span>
 <span class="sd">        process involves constructing parameters and Cypher queries to manage</span>
 <span class="sd">        relationships and classifications for nodes within a graph database.</span>
-<span class="sd">        This method uses the graph_client to run the query with error retries</span>
+<span class="sd">        This method uses the graph client to run the query with error retries</span>
 <span class="sd">        and logs warnings for missing metadata.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            node (BaseNode): The node containing metadata for generating the query. This metadata is used to derive the relationships and classifications required to configure the graph.</span>
 <span class="sd">            graph_client (GraphStore): The client responsible for interacting with the backend graph database. It provides methods for query execution and ID formatting.</span>
-<span class="sd">            **kwargs (Any): Additional arguments that may be passed for internal usage.</span>
+<span class="sd">            \\*\\*kwargs (Any): Additional arguments that may be passed for internal usage.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fact_metadata</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fact&#39;</span><span class="p">,</span> <span class="p">{})</span>

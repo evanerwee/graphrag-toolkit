@@ -588,17 +588,14 @@ where transformations and filtering of input data are required. The pipeline man
 components, applies node filtering and building logic, and executes transformations in parallel
 to produce output nodes.</p>
 <dl class="simple">
-<dt>Attributes:</dt><dd><p>inner_pipeline (<cite>IngestionPipeline</cite>): The internal ingestion pipeline used for processing
-the transformation components.
-num_workers (int): Number of parallel workers for processing the data. Defaults to the
-system’s CPU count if not provided.
+<dt>Attributes:</dt><dd><p>inner_pipeline (IngestionPipeline): The internal ingestion pipeline used for processing the transformation components.
+num_workers (int): Number of parallel workers for processing the data. Defaults to the system’s CPU count if not provided.
 batch_size (int): Size of batches for processing data. Defaults to a configured batch size.
 batch_writes_enabled (bool): Flag indicating whether batch writes are enabled.
 batch_write_size (int): Size of batches for processing writes. Defaults to a configured size.
 include_domain_labels (bool): Flag indicating whether domain labels should be included.
-node_builders (<cite>NodeBuilders</cite>): Object that encapsulates the logic for building nodes,
-applying filters, and formatting metadata.
-node_filter (<cite>NodeFilter</cite>): Filter used for excluding or including nodes based on certain conditions.
+node_builders (NodeBuilders): Object that encapsulates the logic for building nodes, applying filters, and formatting metadata.
+node_filter (NodeFilter): Filter used for excluding or including nodes based on certain conditions.
 pipeline_kwargs (dict): Additional keyword arguments passed to the pipeline.</p>
 </dd>
 </dl>
@@ -608,31 +605,18 @@ through a customizable sequence of transformation components, while
 optionally supporting checkpointing, multiprocessing, and domain-
 specific metadata.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>components (List[TransformComponent]): A list of transformation components that
-collectively define the pipeline workflow. Defaults to an empty list if None.
-num_workers (Optional[int]): The number of worker processes for parallel execution.
-Defaults to the system’s processor count or a preconfigured value.
-batch_size (Optional[int]): The size of data batches to process in each step of the
-pipeline. Defaults to a preconfigured value.
-batch_writes_enabled (Optional[bool]): Indicates whether batch writes are enabled
-during processing. Defaults to a preconfigured value.
-batch_write_size (Optional[int]): Specifies the number of items to include in each
-batch write operation. Defaults to a preconfigured value.
-builders (Optional[List[NodeBuilder]]): A list of node builders used for node creation
-in the pipeline. Defaults to an empty list.
-show_progress (bool): Whether to display progress updates during processing.
-Defaults to False.
-checkpoint (Optional[Checkpoint]): An object for managing checkpoint operations,
-enabling the pipeline to resume from a specific state. Defaults to None.
-build_filters (Optional[BuildFilters]): Filters applied during node building,
-restricting or modifying node creation. Defaults to None.
-source_metadata_formatter (Optional[SourceMetadataFormatter]): A formatter for metadata
-associated with nodes, enabling customization or domain-specific adjustments.
-Defaults to a <cite>DefaultSourceMetadataFormatter</cite> instance.
-include_domain_labels (Optional[bool]): Indicates whether domain labels should be
-included in the output during processing. Defaults to a preconfigured value.
-tenant_id (Optional[TenantId]): An identifier for the tenant, used for scoping data.
-Defaults to None.
+<dt>Args:</dt><dd><p>components (List[TransformComponent]): A list of transformation components that collectively define the pipeline workflow. Defaults to an empty list if None.
+num_workers (Optional[int]): The number of worker processes for parallel execution. Defaults to the system’s processor count or a preconfigured value.
+batch_size (Optional[int]): The size of data batches to process in each step of the pipeline. Defaults to a preconfigured value.
+batch_writes_enabled (Optional[bool]): Indicates whether batch writes are enabled during processing. Defaults to a preconfigured value.
+batch_write_size (Optional[int]): Specifies the number of items to include in each batch write operation. Defaults to a preconfigured value.
+builders (Optional[List[NodeBuilder]]): A list of node builders used for node creation in the pipeline. Defaults to an empty list.
+show_progress (bool): Whether to display progress updates during processing. Defaults to False.
+checkpoint (Optional[Checkpoint]): An object for managing checkpoint operations, enabling the pipeline to resume from a specific state. Defaults to None.
+build_filters (Optional[BuildFilters]): Filters applied during node building, restricting or modifying node creation. Defaults to None.
+source_metadata_formatter (Optional[SourceMetadataFormatter]): A formatter for metadata associated with nodes, enabling customization or domain-specific adjustments. Defaults to a DefaultSourceMetadataFormatter instance.
+include_domain_labels (Optional[bool]): Indicates whether domain labels should be included in the output during processing. Defaults to a preconfigured value.
+tenant_id (Optional[TenantId]): An identifier for the tenant, used for scoping data. Defaults to None.
 <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs (Any): Additional keyword arguments to configure the pipeline behavior.</p>
 </dd>
 </dl>
@@ -645,11 +629,9 @@ source documents into batches and processes them through a pipeline
 with customizable settings for parallel execution, batching, and
 additional pipeline-specific options.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>inputs: An iterable of SourceType objects representing source data to be
-processed into nodes.</p>
+<dt>Args:</dt><dd><p>inputs: An iterable of SourceType objects representing source data to be processed into nodes.</p>
 </dd>
-<dt>Yields:</dt><dd><p>BaseNode: Yields nodes as output from the processing pipeline, after being
-transformed and processed according to the pipeline steps.</p>
+<dt>Yields:</dt><dd><p>BaseNode: Yields nodes as output from the processing pipeline, after being transformed and processed according to the pipeline steps.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -657,46 +639,27 @@ transformed and processed according to the pipeline steps.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.build_pipeline.BuildPipeline.create">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TransformComponent</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_writes_enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_write_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builders</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder" title="graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder"><span class="pre">NodeBuilder</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint" title="graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint"><span class="pre">Checkpoint</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.build.build_filters.BuildFilters" title="graphrag_toolkit.lexical_graph.indexing.build.build_filters.BuildFilters"><span class="pre">BuildFilters</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_metadata_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter" title="graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter"><span class="pre">SourceMetadataFormatter</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_domain_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.tenant_id.TenantId" title="graphrag_toolkit.lexical_graph.tenant_id.TenantId"><span class="pre">TenantId</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/build_pipeline.html#BuildPipeline.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.build_pipeline.BuildPipeline.create" title="Link to this definition">¶</a></dt>
-<dd><p>Creates and initializes a <cite>Pipe</cite> object configured with the provided
-parameters and components through the <cite>BuildPipeline</cite>. This method
+<dd><p>Creates and initializes a Pipe object configured with the provided
+parameters and components through the BuildPipeline. This method
 facilitates seamless aggregation of processing components into a
 pipeline, enabling execution with specific settings such as
 concurrency, batching, filtering, and more.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>components (List[<cite>TransformComponent</cite>]): List of transformation components to be</dt><dd><p>included in the pipeline.</p>
-</dd>
-<dt>num_workers (Optional[int]): Number of worker threads or processes for parallel</dt><dd><p>execution of the pipeline. Defaults to None.</p>
-</dd>
-</dl>
-<p>batch_size (Optional[int]): Size of data batches to be processed. Defaults to None.
-batch_writes_enabled (Optional[bool]): Toggles batching for writes during the</p>
-<blockquote>
-<div><p>processing. Defaults to None.</p>
-</div></blockquote>
 <dl class="simple">
-<dt>batch_write_size (Optional[int]): Size of data batches for write operations,</dt><dd><p>applicable if batching is enabled. Defaults to None.</p>
+<dt>Args:</dt><dd><p>components (List[TransformComponent]): List of transformation components to be included in the pipeline.
+num_workers (Optional[int]): Number of worker threads or processes for parallel execution of the pipeline. Defaults to None.
+batch_size (Optional[int]): Size of data batches to be processed. Defaults to None.
+batch_writes_enabled (Optional[bool]): Toggles batching for writes during the processing. Defaults to None.
+batch_write_size (Optional[int]): Size of data batches for write operations, applicable if batching is enabled. Defaults to None.
+builders (Optional[List[NodeBuilder]]): Optional list of node builders if specific building structures are required. Defaults to an empty list.
+show_progress (bool): Flag indicating whether to show progress during processing. Defaults to False.
+checkpoint (Optional[Checkpoint]): Optional checkpoint configuration to enable resumption from a specific state. Defaults to None.
+build_filters (Optional[BuildFilters]): Filters applied during the build process to refine data processing. Defaults to None.
+source_metadata_formatter (Optional[SourceMetadataFormatter]): Formatter for source metadata to customize metadata configuration. Defaults to None.
+include_domain_labels (Optional[bool]): Specifies whether domain labels should be incorporated in the output. Defaults to None.
+tenant_id (Optional[TenantId]): Identifier for tenant-specific operations or segregations. Defaults to None.
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs (Any): Additional keyword arguments to customize further configuration of the pipeline.</p>
 </dd>
-<dt>builders (Optional[List[<cite>NodeBuilder</cite>]]): Optional list of node builders if specific</dt><dd><p>building structures are required. Defaults to an empty list.</p>
-</dd>
-<dt>show_progress (bool): Flag indicating whether to show progress during processing.</dt><dd><p>Defaults to False.</p>
-</dd>
-<dt>checkpoint (Optional[<cite>Checkpoint</cite>]): Optional checkpoint configuration to enable</dt><dd><p>resumption from a specific state. Defaults to None.</p>
-</dd>
-<dt>build_filters (Optional[<cite>BuildFilters</cite>]): Filters applied during the build process</dt><dd><p>to refine data processing. Defaults to None.</p>
-</dd>
-<dt>source_metadata_formatter (Optional[<cite>SourceMetadataFormatter</cite>]): Formatter for source</dt><dd><p>metadata to customize metadata configuration. Defaults to None.</p>
-</dd>
-<dt>include_domain_labels (Optional[bool]): Specifies whether domain labels should be</dt><dd><p>incorporated in the output. Defaults to None.</p>
-</dd>
-<dt>tenant_id (Optional[<cite>TenantId</cite>]): Identifier for tenant-specific operations or</dt><dd><p>segregations. Defaults to None.</p>
-</dd>
-<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs (Any): Additional keyword arguments to customize further configuration</dt><dd><p>of the pipeline.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p><cite>Pipe</cite>: A configured <cite>Pipe</cite> instance encapsulating the constructed pipeline for
-execution.</p>
+<dt>Returns:</dt><dd><p>Pipe: A configured Pipe instance encapsulating the constructed pipeline for execution.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -886,17 +849,11 @@ validated to form a valid model.</p>
 <dd><p>Processes and categorizes nodes as checkpointable or non-
 checkpointable based on metadata, performing checkpoint-related
 operations for applicable nodes.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>nodes (List[<cite>BaseNode</cite>]): A list of nodes to be processed. Each node contains a unique</dt><dd><p>identifier and associated metadata that determines whether it is checkpointable.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>nodes (List[BaseNode]): A list of nodes to be processed. Each node contains a unique identifier and associated metadata that determines whether it is checkpointable.
+<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs (Any): Additional keyword arguments to be passed to the inner accept method.</p>
 </dd>
-</dl>
-<p><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs (Any): Additional keyword arguments to be passed to the inner accept method.</p>
-</dd>
-<dt>Yields:</dt><dd><dl class="simple">
-<dt><cite>BaseNode</cite>: Nodes that have been processed and classified. Each node is yielded</dt><dd><p>after logging and performing checkpoint-related operations if applicable.</p>
-</dd>
-</dl>
+<dt>Yields:</dt><dd><p>BaseNode: Nodes that have been processed and classified. Each node is yielded after logging and performing checkpoint-related operations if applicable.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -980,8 +937,8 @@ graph database. Handles the insertion of child, parent, previous, next,
 and source relationships. If a chunk ID or required relationship
 information is missing, the function logs warnings.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>node: The <cite>BaseNode</cite> object containing chunk data and its relationships.
-graph_client: The <cite>GraphStore</cite> interface to interact with the graph database.
+<dt>Args:</dt><dd><p>node: The BaseNode object containing chunk data and its relationships.
+graph_client: The GraphStore interface to interact with the graph database.
 <a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: Additional optional parameters for configuring the operation.</p>
 </dd>
 </dl>
@@ -1119,7 +1076,7 @@ ensures reliability through query retries with controlled attempts and wait time
 <dl class="simple">
 <dt>Args:</dt><dd><p>node (BaseNode): The node from which fact metadata is to be extracted.
 graph_client (GraphStore): The graph database client to execute queries.
-<a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs (Any): Additional options, such as <cite>include_domain_labels</cite>, which determines whether domain-specific labels are added to the entities.</p>
+**kwargs (Any): Additional options, such as include_domain_labels, which determines whether domain-specific labels are added to the entities.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1177,15 +1134,12 @@ validated to form a valid model.</p>
 <dd><p>Builds and executes entity-relation creation logic based on the
 given node and fact metadata. It processes the metadata to create or
 update relationships between entities in a graph database. If
-<cite>include_domain_labels</cite> is specified, additional domain-specific labels
+include_domain_labels is specified, additional domain-specific labels
 will be added to the entities and relationships.</p>
-<dl>
+<dl class="simple">
 <dt>Args:</dt><dd><p>node (BaseNode): The node containing metadata for the fact data to process.
 graph_client (GraphStore): The graph client instance for executing database queries.
-<a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs (Any): Additional keyword arguments. Must include:</p>
-<blockquote>
-<div><p>include_domain_labels (bool): Indicator for whether domain labels should be included in the query.</p>
-</div></blockquote>
+**kwargs (Any): Additional keyword arguments. Must include: include_domain_labels (bool) - Indicator for whether domain labels should be included in the query.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1238,22 +1192,17 @@ node within a graph database.</p>
 add nodes and relationships to the graph database, and executing those queries. The function also
 handles scenarios where domain labels are required or when connections to previous or next facts need
 to be established.</p>
-<dl class="simple">
+<dl>
 <dt>Args:</dt><dd><dl class="simple">
 <dt>node (BaseNode): The node containing metadata and text to be analyzed and inserted into the</dt><dd><p>graph database as a fact.</p>
 </dd>
 <dt>graph_client (GraphStore): The client used to interact with the graph database, providing methods</dt><dd><p>for query execution and schema utility functions.</p>
 </dd>
-<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs (Any): Additional parameters for customization, such as ‘include_domain_labels’ to</dt><dd><p>determine whether domain labels for entities should be included in the queries.</p>
-</dd>
 </dl>
+<p>**kwargs (Any): Additional parameters for customization, such as include_domain_labels to determine whether domain labels for entities should be included in the queries.</p>
 </dd>
-<dt>Raises:</dt><dd><dl class="simple">
-<dt>KeyError: If required keys such as ‘include_domain_labels’ are missing from the kwargs or</dt><dd><p>metadata is incomplete.</p>
-</dd>
-<dt>ValidationError: If the metadata provided in the node is invalid or does not match the expected</dt><dd><p>structure for fact validation.</p>
-</dd>
-</dl>
+<dt>Raises:</dt><dd><p>KeyError: If required keys such as include_domain_labels are missing from the kwargs or metadata is incomplete.
+ValidationError: If the metadata provided in the node is invalid or does not match the expected structure for fact validation.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1471,14 +1420,9 @@ validated to form a valid model.</p>
 <dd><p>An abstract method designated for building a specific process
 related to a BaseNode within a GraphStore using additional parameters.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>node: The node instance of type BaseNode on which the build operation</dt><dd><p>is performed.</p>
-</dd>
-<dt>graph_client: The graph storage client of type GraphStore responsible</dt><dd><p>for managing graph operations.</p>
-</dd>
-<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs: Arbitrary additional arguments that may be required for the</dt><dd><p>build operation specific to the implementation.</p>
-</dd>
-</dl>
+<dt>Args:</dt><dd><p>node: The node instance of type BaseNode on which the build operation is performed.
+graph_client: The graph storage client of type GraphStore responsible for managing graph operations.
+**kwargs: Arbitrary additional arguments that may be required for the build operation specific to the implementation.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1654,12 +1598,12 @@ validated to form a valid model.</p>
 database based on the metadata associated with a given base node. The
 process involves constructing parameters and Cypher queries to manage
 relationships and classifications for nodes within a graph database.
-This method uses the graph_client to run the query with error retries
+This method uses the graph client to run the query with error retries
 and logs warnings for missing metadata.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>node (BaseNode): The node containing metadata for generating the query. This metadata is used to derive the relationships and classifications required to configure the graph.
 graph_client (GraphStore): The client responsible for interacting with the backend graph database. It provides methods for query execution and ID formatting.
-<a href="#id17"><span class="problematic" id="id18">**</span></a>kwargs (Any): Additional arguments that may be passed for internal usage.</p>
+**kwargs (Any): Additional arguments that may be passed for internal usage.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1728,7 +1672,7 @@ dynamic processes that involve metadata or hierarchical node mappings.</p>
 provided IdGenerator.</p>
 <p>This method instantiates and provides a collection of node builders, where each
 builder is responsible for creating a specific type of node within the system.
-The <cite>id_generator</cite> is utilized to assign unique identifiers to the nodes created
+The id_generator is utilized to assign unique identifiers to the nodes created
 by these builders.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
@@ -1753,7 +1697,7 @@ text, then uses the builders to generate new nodes based on metadata
 and appends the original nodes to the results.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>input_nodes (List[BaseNode]): A list of input nodes to be processed and used for generating new nodes.
-<a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs (Any): Additional keyword arguments that may be required by the builders.</p>
+**kwargs (Any): Additional keyword arguments that may be required by the builders.</p>
 </dd>
 <dt>Returns:</dt><dd><p>List[BaseNode]: A list of processed nodes that includes both generated nodes and the original input nodes.</p>
 </dd>

@@ -77,8 +77,7 @@ class StatementCosineSimilaritySearch(SemanticGuidedBaseRetriever):
             query_bundle (QueryBundle): Input query bundle containing the query and its embedding.
 
         Returns:
-            List[NodeWithScore]: List of nodes paired with their respective similarity scores. The nodes
-            are initialized with minimal data, primarily serving metadata about the retrieval process.
+            List[NodeWithScore]: List of nodes paired with their respective similarity scores. The nodes are initialized with minimal data, primarily serving metadata about the retrieval process.
         """
         # 1. Get initial candidates from vector store via L2 Norm
         statement_results = self.vector_store.get_index('statement').top_k(

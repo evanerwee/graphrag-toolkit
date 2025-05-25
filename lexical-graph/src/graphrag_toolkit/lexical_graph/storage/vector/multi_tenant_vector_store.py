@@ -8,10 +8,7 @@ from graphrag_toolkit.lexical_graph.storage.vector import VectorStore, VectorInd
 class MultiTenantVectorStore(VectorStore):
     """Provides a multi-tenant wrapper for VectorStore.
 
-    This class allows creating a wrapper around a `VectorStore` object to
-    support multi-tenancy by associating a specific tenant ID with operations.
-    It ensures that all indexes retrieved or processed are identified and
-    associated with the correct tenant context.
+    This class allows creating a wrapper around a VectorStore object to support multi-tenancy by associating a specific tenant ID with operations. It ensures that all indexes retrieved or processed are identified and associated with the correct tenant context.
 
     Attributes:
         inner (VectorStore): The underlying vector store being wrapped.

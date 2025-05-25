@@ -41,14 +41,13 @@ class EntityRelationGraphBuilder(GraphBuilder):
         """Builds and executes entity-relation creation logic based on the
         given node and fact metadata. It processes the metadata to create or
         update relationships between entities in a graph database. If
-        `include_domain_labels` is specified, additional domain-specific labels
+        include_domain_labels is specified, additional domain-specific labels
         will be added to the entities and relationships.
 
         Args:
             node (BaseNode): The node containing metadata for the fact data to process.
             graph_client (GraphStore): The graph client instance for executing database queries.
-            **kwargs (Any): Additional keyword arguments. Must include:
-                include_domain_labels (bool): Indicator for whether domain labels should be included in the query.
+            \\*\\*kwargs (Any): Additional keyword arguments. Must include: include_domain_labels (bool) - Indicator for whether domain labels should be included in the query.
         """
         fact_metadata = node.metadata.get('fact', {})
         include_domain_labels = kwargs['include_domain_labels']

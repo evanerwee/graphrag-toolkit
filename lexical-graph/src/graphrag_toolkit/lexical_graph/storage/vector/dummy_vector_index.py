@@ -47,8 +47,8 @@ class DummyVectorIndexFactory(VectorIndexFactoryMethod):
             **kwargs: Additional keyword arguments to be passed to the creation process.
 
         Returns:
-            List[VectorIndex]: A list of `DummyVectorIndex` objects created based on the input
-            index names if `vector_index_info` starts with the prefix DUMMY, otherwise `None`.
+            List[VectorIndex]: A list of DummyVectorIndex objects created based on the input
+            index names if vector_index_info starts with the prefix DUMMY, otherwise None.
         """
         if vector_index_info.startswith(DUMMY):
             logger.debug(f'Opening dummy vector indexes [index_names: {index_names}]')

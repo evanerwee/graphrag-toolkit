@@ -386,7 +386,7 @@
 
 <span class="sd">        This method instantiates and provides a collection of node builders, where each</span>
 <span class="sd">        builder is responsible for creating a specific type of node within the system.</span>
-<span class="sd">        The `id_generator` is utilized to assign unique identifiers to the nodes created</span>
+<span class="sd">        The id_generator is utilized to assign unique identifiers to the nodes created</span>
 <span class="sd">        by these builders.</span>
 
 <span class="sd">        Args:</span>
@@ -432,7 +432,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            input_nodes (List[BaseNode]): A list of input nodes to be processed and used for generating new nodes.</span>
-<span class="sd">            **kwargs (Any): Additional keyword arguments that may be required by the builders.</span>
+<span class="sd">            \*\*kwargs (Any): Additional keyword arguments that may be required by the builders.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List[BaseNode]: A list of processed nodes that includes both generated nodes and the original input nodes.</span>
@@ -441,12 +441,13 @@
 <span class="sd">            Exception: If an error occurs during the node-building process by any builder.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">apply_tenant_rewrites</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Represents a utility to fetch nodes from metadata and apply</span>
-<span class="sd">            tenant-specific rewrites using an ID generator.</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Applies tenant-specific ID rewrites to a node and its relationships.</span>
 
-<span class="sd">            Methods:</span>
-<span class="sd">                get_nodes_from_metadata: Process a list of input nodes, apply ID rewrites to each node and its relationships for a specific tenant, and return the modified list of nodes.</span>
+<span class="sd">            Args:</span>
+<span class="sd">                node: The node to apply tenant-specific ID rewrites to.</span>
 
+<span class="sd">            Returns:</span>
+<span class="sd">                The node with tenant-specific ID rewrites applied.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">node</span><span class="o">.</span><span class="n">id_</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">id_generator</span><span class="o">.</span><span class="n">rewrite_id_for_tenant</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>
 

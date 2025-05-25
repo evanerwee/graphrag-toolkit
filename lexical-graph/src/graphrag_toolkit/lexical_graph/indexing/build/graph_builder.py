@@ -25,7 +25,7 @@ class GraphBuilder(BaseComponent):
         expected by the application or system.
 
         The function processes the input dictionary and wraps it inside another
-        dictionary under the key `'params'`. It ensures consistency in the data
+        dictionary under the key 'params'. It ensures consistency in the data
         format for further use or processing.
 
         Args:
@@ -55,11 +55,8 @@ class GraphBuilder(BaseComponent):
         related to a BaseNode within a GraphStore using additional parameters.
 
         Args:
-            node: The node instance of type BaseNode on which the build operation
-                is performed.
-            graph_client: The graph storage client of type GraphStore responsible
-                for managing graph operations.
-            **kwargs: Arbitrary additional arguments that may be required for the
-                build operation specific to the implementation.
+            node: The node instance of type BaseNode on which the build operation is performed.
+            graph_client: The graph storage client of type GraphStore responsible for managing graph operations.
+            \\*\\*kwargs: Arbitrary additional arguments that may be required for the build operation specific to the implementation.
         """
         pass

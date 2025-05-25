@@ -400,7 +400,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            node (BaseNode): The node from which fact metadata is to be extracted.</span>
 <span class="sd">            graph_client (GraphStore): The graph database client to execute queries.</span>
-<span class="sd">            **kwargs (Any): Additional options, such as `include_domain_labels`, which determines whether domain-specific labels are added to the entities.</span>
+<span class="sd">            \\*\\*kwargs (Any): Additional options, such as include_domain_labels, which determines whether domain-specific labels are added to the entities.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fact_metadata</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fact&#39;</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">include_domain_labels</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;include_domain_labels&#39;</span><span class="p">]</span>
