@@ -23,8 +23,7 @@ class NodeBuilder(BaseComponent):
     Attributes:
         id_generator (IdGenerator): Generates unique identifiers for nodes.
         build_filters (BuildFilters): Filters applied when building nodes.
-        source_metadata_formatter (SourceMetadataFormatter): Formats source
-            metadata for nodes.
+        source_metadata_formatter (SourceMetadataFormatter): Formats source metadata for nodes.
     """
     id_generator:IdGenerator
     build_filters:BuildFilters

@@ -414,28 +414,17 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CompositeTraversalBasedRetriever</span><span class="p">(</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Manages traversal-based retrieval across graph and vector stores, integrating</span>
-<span class="sd">    optional weighted retrievers, query decomposition, and filtering configurations.</span>
+<span class="sd">    Manages traversal-based retrieval across graph and vector stores.</span>
 
-<span class="sd">    This class provides a mechanism to perform complex search queries over graph-like</span>
-<span class="sd">    and vectorized data structures. It combines the capabilities of multiple weighted</span>
-<span class="sd">    retrievers and includes support for query decomposition to break down complex</span>
-<span class="sd">    queries into component subqueries for enhanced search precision. Results can</span>
-<span class="sd">    be filtered based on specific configurations. The class is designed for advanced</span>
-<span class="sd">    retrieval scenarios involving graph traversal and parallel processing.</span>
+<span class="sd">    This class integrates weighted retrievers, query decomposition, and filtering</span>
+<span class="sd">    configurations to perform complex search queries over graph and vector data.</span>
 
-<span class="sd">    :ivar graph_store: The storage mechanism for managing a graph-like data structure.</span>
-<span class="sd">    :type graph_store: GraphStore</span>
-<span class="sd">    :ivar vector_store: The storage mechanism for managing vectorized representations of the data.</span>
-<span class="sd">    :type vector_store: VectorStore</span>
-<span class="sd">    :ivar weighted_retrievers: A list of weighted retrievers that work based on traversal</span>
-<span class="sd">        in the graph.</span>
-<span class="sd">    :type weighted_retrievers: Optional[List[WeightedTraversalBasedRetrieverType]]</span>
-<span class="sd">    :ivar query_decomposition: The query decomposition tool for breaking down complex</span>
-<span class="sd">        queries into subqueries.</span>
-<span class="sd">    :type query_decomposition: Optional[QueryDecomposition]</span>
-<span class="sd">    :ivar filter_config: Configuration object for filtering results based on specific criteria.</span>
-<span class="sd">    :type filter_config: FilterConfig</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        graph_store (GraphStore): Storage for graph data.</span>
+<span class="sd">        vector_store (VectorStore): Storage for vector data.</span>
+<span class="sd">        weighted_retrievers (List[WeightedTraversalBasedRetrieverType]): Weighted retrievers.</span>
+<span class="sd">        query_decomposition (QueryDecomposition): Tool for breaking down queries.</span>
+<span class="sd">        filter_config (FilterConfig): Configuration for filtering results.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>

@@ -109,9 +109,7 @@ class GraphConstruction(NodeHandler):
         supports optional progress display and facilitates integration with metadata-based
         builder selection.
 
-        :param nodes: A list of nodes to process, each represented by an instance of
-            `BaseNode`. Nodes may optionally contain metadata with specific keys for
-            targeted builder processing.
+        :param nodes: A list of nodes to process, each represented by an instance of `BaseNode`. Nodes may optionally contain metadata with specific keys for targeted builder processing.
         :type nodes: List[BaseNode]
 
         :param kwargs: Additional keyword arguments for configuration. Includes:

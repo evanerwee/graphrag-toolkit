@@ -28,11 +28,9 @@ class MetadataToNodes():
     node builder configurations.
 
     Attributes:
-        builders (List[NodeBuilder]): A list of node builders used to transform metadata and
-            build nodes.
+        builders (List[NodeBuilder]): A list of node builders used to transform metadata and build nodes.
         filter (BuildFilter): A filter applied to evaluate the input nodes before building nodes.
-        id_generator (IdGenerator): An instance of IdGenerator used for generating and rewriting
-            tenant-specific node IDs.
+        id_generator (IdGenerator): An instance of IdGenerator used for generating and rewriting tenant-specific node IDs.
     """
     def __init__(self, builders:List[NodeBuilder]=[], filter:BuildFilter=None, id_generator:IdGenerator=None):
 
@@ -104,8 +102,8 @@ class MetadataToNodes():
 
             Methods:
                 get_nodes_from_metadata: Process a list of input nodes, apply ID rewrites
-                    to each node and its relationships for a specific tenant, and return
-                    the modified list of nodes.
+                to each node and its relationships for a specific tenant, and return
+                the modified list of nodes.
 
             """
             node.id_ =  self.id_generator.rewrite_id_for_tenant(node.id_)

@@ -901,18 +901,12 @@ names and vector index information. This method checks if a supported
 endpoint configuration is provided and uses it to initialize
 appropriate vector indexes. Raises ImportError if the required module
 is not available.</p>
-<dl>
+<dl class="simple">
 <dt>Args:</dt><dd><p>index_names (List[str]): List of index names to create vector indexes for.
-vector_index_info (str): Information defining the type and endpoint of the vector</p>
-<blockquote>
-<div><p>index, such as an OpenSearch Serverless endpoint.</p>
-</div></blockquote>
-<p><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional keyword arguments passed when creating the vector indexes.</p>
+vector_index_info (str): Information defining the type and endpoint of the vector index, such as an OpenSearch Serverless endpoint.
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional keyword arguments passed when creating the vector indexes.</p>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>List[VectorIndex]: A list of vector index objects created for the provided index</dt><dd><p>names and endpoint configuration, or None if no suitable endpoint is found.</p>
-</dd>
-</dl>
+<dt>Returns:</dt><dd><p>List[VectorIndex]: A list of vector index objects created for the provided index names and endpoint configuration, or None if no suitable endpoint is found.</p>
 </dd>
 </dl>
 </dd></dl>

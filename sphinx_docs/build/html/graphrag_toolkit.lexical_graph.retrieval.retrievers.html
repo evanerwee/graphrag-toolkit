@@ -345,24 +345,7 @@
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.</span></span><span class="sig-name descname"><span class="pre">ChunkBasedSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">processor_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><span class="pre">ProcessorBase</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/retrievers/chunk_based_search.html#ChunkBasedSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever" title="graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever"><code class="xref py py-class docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever</span></code></a></p>
-<p>Handles chunk-based retrieval and search operations using graph and vector
-datastores.</p>
-<p>This class integrates graph and vector stores to facilitate retrieval and
-search operations based on chunks. It provides mechanisms for executing
-queries, performing filtering, and enabling concurrent search operations
-to efficiently process large-scale data. The class supports configurable
-processors and filtering options to accommodate diverse use cases.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>graph_store</strong> – The graph database management system used to store and retrieve graph-related data.</p></li>
-<li><p><strong>vector_store</strong> – The vector-based storage system used for similarity-based search and retrieval.</p></li>
-<li><p><strong>processor_args</strong> – Optional set of arguments configuring the behavior of additional processors.</p></li>
-<li><p><strong>processors</strong> – List of processor types for handling specific tasks or transformations.</p></li>
-<li><p><strong>filter_config</strong> – Configuration settings for filtering results during retrieval operations.</p></li>
-</ul>
-</dd>
-</dl>
+<p>Handles chunk-based retrieval and search operations.</p>
 <p>Initializes an instance of a class by setting up graph and vector
 stores, optional processing configurations, and other keyword
 arguments. This constructor is used to setup necessary parameters and
@@ -389,63 +372,19 @@ processor_args: Optional set of arguments that configure how</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.chunk_based_graph_search">
 <span class="sig-name descname"><span class="pre">chunk_based_graph_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chunk_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/retrievers/chunk_based_search.html#ChunkBasedSearch.chunk_based_graph_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.chunk_based_graph_search" title="Link to this definition">¶</a></dt>
-<dd><p>Performs a graph search query based on a specific chunk ID. The
-function constructs a Cypher query to search the graph database,
-matching relationships and nodes linked to a given chunk ID. The query
-focuses on retrieving related statements, topics, and associated chunks
-within defined query and statement limits.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>chunk_id: The unique identifier of the chunk to search for in the graph database.</p>
-</dd>
-<dt>Returns:</dt><dd><p>List[dict]: A list of results retrieved from the graph database based on the
-provided chunk ID and query parameters.</p>
-</dd>
-</dl>
+<dd><p>Performs a graph search query based on a specific chunk ID.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.do_graph_search">
 <span class="sig-name descname"><span class="pre">do_graph_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_node_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection"><span class="pre">SearchResultCollection</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/retrievers/chunk_based_search.html#ChunkBasedSearch.do_graph_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.do_graph_search" title="Link to this definition">¶</a></dt>
-<dd><p>Performs graph search using chunk-based retrieval strategy starting
-from given node IDs and executing concurrent search with thread
-pooling.</p>
-<p>This method conducts a search operation on a graph where starting points (chunks)
-are defined, and concurrent retrieval is used to collect results from multiple
-chunks in parallel. The search is based on the <cite>chunk_based_graph_search</cite> method,
-and the retrieval results are aggregated into a <cite>SearchResultCollection</cite>. It also
-logs detailed debug information when debugging is enabled.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>query_bundle (QueryBundle): An object containing the query parameters and</dt><dd><p>metadata required for performing the search.</p>
-</dd>
-<dt>start_node_ids (List[str]): A list of starting node identifiers that mark</dt><dd><p>the initial points for the graph search.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>SearchResultCollection: An aggregated collection of search results obtained
-from chunk-based graph search.</p>
-</dd>
-</dl>
+<dd><p>Performs graph search using chunk-based retrieval strategy.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.get_start_node_ids">
 <span class="sig-name descname"><span class="pre">get_start_node_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/retrievers/chunk_based_search.html#ChunkBasedSearch.get_start_node_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.get_start_node_ids" title="Link to this definition">¶</a></dt>
-<dd><p>Gets the starting node IDs based on the given query bundle for
-chunk-based search.</p>
-<p>This function retrieves diverse data elements classified as “chunks” that match
-the criteria specified in the query bundle, utilizing a vector store for searching
-and additional filtering configurations. It then extracts and returns the unique
-chunk IDs for further processing.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>query_bundle (QueryBundle): The query object containing the search parameters</dt><dd><p>and configurations.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>List[str]: A list of starting node IDs corresponding to the retrieved data chunks.</p>
-</dd>
-</dl>
+<dd><p>Gets the starting node IDs for chunk-based search.</p>
 </dd></dl>
 
 </dd></dl>
@@ -457,25 +396,15 @@ chunk IDs for further processing.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.</span></span><span class="sig-name descname"><span class="pre">CompositeTraversalBasedRetriever</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">retrievers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.WeightedTraversalBasedRetriever" title="graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.WeightedTraversalBasedRetriever"><span class="pre">WeightedTraversalBasedRetriever</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever" title="graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever"><span class="pre">TraversalBasedBaseRetriever</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever" title="graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever"><span class="pre">TraversalBasedBaseRetriever</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_decomposition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition" title="graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition"><span class="pre">QueryDecomposition</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/retrievers/composite_traversal_based_retriever.html#CompositeTraversalBasedRetriever"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever" title="graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever"><code class="xref py py-class docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever</span></code></a></p>
-<p>Manages traversal-based retrieval across graph and vector stores, integrating
-optional weighted retrievers, query decomposition, and filtering configurations.</p>
-<p>This class provides a mechanism to perform complex search queries over graph-like
-and vectorized data structures. It combines the capabilities of multiple weighted
-retrievers and includes support for query decomposition to break down complex
-queries into component subqueries for enhanced search precision. Results can
-be filtered based on specific configurations. The class is designed for advanced
-retrieval scenarios involving graph traversal and parallel processing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>graph_store</strong> – The storage mechanism for managing a graph-like data structure.</p></li>
-<li><p><strong>vector_store</strong> – The storage mechanism for managing vectorized representations of the data.</p></li>
-<li><p><strong>weighted_retrievers</strong> – A list of weighted retrievers that work based on traversal
-in the graph.</p></li>
-<li><p><strong>query_decomposition</strong> – The query decomposition tool for breaking down complex
-queries into subqueries.</p></li>
-<li><p><strong>filter_config</strong> – Configuration object for filtering results based on specific criteria.</p></li>
-</ul>
+<p>Manages traversal-based retrieval across graph and vector stores.</p>
+<p>This class integrates weighted retrievers, query decomposition, and filtering
+configurations to perform complex search queries over graph and vector data.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>graph_store (GraphStore): Storage for graph data.
+vector_store (VectorStore): Storage for vector data.
+weighted_retrievers (List[WeightedTraversalBasedRetrieverType]): Weighted retrievers.
+query_decomposition (QueryDecomposition): Tool for breaking down queries.
+filter_config (FilterConfig): Configuration for filtering results.</p>
 </dd>
 </dl>
 <p>Initializes an instance of a class that manages graph and vector
@@ -576,24 +505,15 @@ The <cite>weight</cite> attribute enables flexible scoring adjustments for a ret
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search.EntityBasedSearch">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search.</span></span><span class="sig-name descname"><span class="pre">EntityBasedSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">processor_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><span class="pre">ProcessorBase</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/retrievers/entity_based_search.html#EntityBasedSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search.EntityBasedSearch" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever" title="graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever"><code class="xref py py-class docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever</span></code></a></p>
-<p>Handles entity-based search functionality leveraging traversal-based
-retriever mechanisms.</p>
-<p>This class is designed to facilitate searching within a hybrid entity-graph
-and vector-search-based environment. It integrates with specific data stores
-such as graph and vector storage systems to enable complex search operations
-using entities, their relationships, and associated metadata.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>graph_store</strong> – Provides storage and management for graph-related data
-and operations.</p></li>
-<li><p><strong>vector_store</strong> – Handles storage and similarity operations for vectors.</p></li>
-<li><p><strong>processor_args</strong> – Optional attributes and configurations for the
-processor pipeline.</p></li>
-<li><p><strong>processors</strong> – Defines the processing pipeline with a list of processor
-classes.</p></li>
-<li><p><strong>filter_config</strong> – Configuration details for customized search filtering.</p></li>
-</ul>
+<p>Handles entity-based search functionality using traversal-based retriever mechanisms.</p>
+<p>This class facilitates searching within a hybrid entity-graph and vector-search
+environment, enabling complex search operations using entities and their relationships.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>graph_store (GraphStore): Storage for graph data.
+vector_store (VectorStore): Storage for vector data.
+processor_args (ProcessorArgs): Configuration for processors.
+processors (List[Type[ProcessorBase]]): Processing pipeline components.
+filter_config (FilterConfig): Configuration for search filtering.</p>
 </dd>
 </dl>
 <p>Initializes the class instance with the provided parameters and

@@ -364,25 +364,7 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ChunkBasedSearch</span><span class="p">(</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles chunk-based retrieval and search operations using graph and vector</span>
-<span class="sd">    datastores.</span>
-
-<span class="sd">    This class integrates graph and vector stores to facilitate retrieval and</span>
-<span class="sd">    search operations based on chunks. It provides mechanisms for executing</span>
-<span class="sd">    queries, performing filtering, and enabling concurrent search operations</span>
-<span class="sd">    to efficiently process large-scale data. The class supports configurable</span>
-<span class="sd">    processors and filtering options to accommodate diverse use cases.</span>
-
-<span class="sd">    :ivar graph_store: The graph database management system used to store and retrieve graph-related data.</span>
-<span class="sd">    :type graph_store: GraphStore</span>
-<span class="sd">    :ivar vector_store: The vector-based storage system used for similarity-based search and retrieval.</span>
-<span class="sd">    :type vector_store: VectorStore</span>
-<span class="sd">    :ivar processor_args: Optional set of arguments configuring the behavior of additional processors.</span>
-<span class="sd">    :type processor_args: Optional[ProcessorArgs]</span>
-<span class="sd">    :ivar processors: List of processor types for handling specific tasks or transformations.</span>
-<span class="sd">    :type processors: Optional[List[Type[ProcessorBase]]]</span>
-<span class="sd">    :ivar filter_config: Configuration settings for filtering results during retrieval operations.</span>
-<span class="sd">    :type filter_config: Optional[FilterConfig]</span>
+<span class="sd">    Handles chunk-based retrieval and search operations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -425,19 +407,7 @@
 <div class="viewcode-block" id="ChunkBasedSearch.chunk_based_graph_search">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.chunk_based_graph_search">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">chunk_based_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs a graph search query based on a specific chunk ID. The</span>
-<span class="sd">        function constructs a Cypher query to search the graph database,</span>
-<span class="sd">        matching relationships and nodes linked to a given chunk ID. The query</span>
-<span class="sd">        focuses on retrieving related statements, topics, and associated chunks</span>
-<span class="sd">        within defined query and statement limits.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            chunk_id: The unique identifier of the chunk to search for in the graph database.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List[dict]: A list of results retrieved from the graph database based on the</span>
-<span class="sd">            provided chunk ID and query parameters.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs a graph search query based on a specific chunk ID.&quot;&quot;&quot;</span>
         <span class="n">cypher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_cypher_query</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        // chunk-based graph search                                  </span>
@@ -458,21 +428,7 @@
 <div class="viewcode-block" id="ChunkBasedSearch.get_start_node_ids">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.get_start_node_ids">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_start_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the starting node IDs based on the given query bundle for</span>
-<span class="sd">        chunk-based search.</span>
-
-<span class="sd">        This function retrieves diverse data elements classified as &quot;chunks&quot; that match</span>
-<span class="sd">        the criteria specified in the query bundle, utilizing a vector store for searching</span>
-<span class="sd">        and additional filtering configurations. It then extracts and returns the unique</span>
-<span class="sd">        chunk IDs for further processing.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            query_bundle (QueryBundle): The query object containing the search parameters</span>
-<span class="sd">                and configurations.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List[str]: A list of starting node IDs corresponding to the retrieved data chunks.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the starting node IDs for chunk-based search.&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Getting start node ids for chunk-based search...&#39;</span><span class="p">)</span>
 
         <span class="n">chunks</span> <span class="o">=</span> <span class="n">get_diverse_vss_elements</span><span class="p">(</span>
@@ -487,26 +443,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs graph search using chunk-based retrieval strategy starting</span>
-<span class="sd">        from given node IDs and executing concurrent search with thread</span>
-<span class="sd">        pooling.</span>
-
-<span class="sd">        This method conducts a search operation on a graph where starting points (chunks)</span>
-<span class="sd">        are defined, and concurrent retrieval is used to collect results from multiple</span>
-<span class="sd">        chunks in parallel. The search is based on the `chunk_based_graph_search` method,</span>
-<span class="sd">        and the retrieval results are aggregated into a `SearchResultCollection`. It also</span>
-<span class="sd">        logs detailed debug information when debugging is enabled.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            query_bundle (QueryBundle): An object containing the query parameters and</span>
-<span class="sd">                metadata required for performing the search.</span>
-<span class="sd">            start_node_ids (List[str]): A list of starting node identifiers that mark</span>
-<span class="sd">                the initial points for the graph search.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            SearchResultCollection: An aggregated collection of search results obtained</span>
-<span class="sd">            from chunk-based graph search.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs graph search using chunk-based retrieval strategy.&quot;&quot;&quot;</span>
         <span class="n">chunk_ids</span> <span class="o">=</span> <span class="n">start_node_ids</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Running chunk-based search...&#39;</span><span class="p">)</span>

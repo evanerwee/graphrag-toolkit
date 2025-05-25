@@ -50,12 +50,8 @@ class GraphSummaryBuilder(GraphBuilder):
         and logs warnings for missing metadata.
 
         Args:
-            node (`BaseNode`): The node containing metadata for generating the query. This
-                metadata is used to derive the relationships and classifications required to
-                configure the graph.
-            graph_client (`GraphStore`): The client responsible for interacting with the
-                backend graph database. It provides methods for query execution and ID
-                formatting.
+            node (BaseNode): The node containing metadata for generating the query. This metadata is used to derive the relationships and classifications required to configure the graph.
+            graph_client (GraphStore): The client responsible for interacting with the backend graph database. It provides methods for query execution and ID formatting.
             **kwargs (Any): Additional arguments that may be passed for internal usage.
 
         """

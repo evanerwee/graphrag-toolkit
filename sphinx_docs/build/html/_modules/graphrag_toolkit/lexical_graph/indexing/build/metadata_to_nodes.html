@@ -364,11 +364,9 @@
 <span class="sd">    node builder configurations.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        builders (List[NodeBuilder]): A list of node builders used to transform metadata and</span>
-<span class="sd">            build nodes.</span>
+<span class="sd">        builders (List[NodeBuilder]): A list of node builders used to transform metadata and build nodes.</span>
 <span class="sd">        filter (BuildFilter): A filter applied to evaluate the input nodes before building nodes.</span>
-<span class="sd">        id_generator (IdGenerator): An instance of IdGenerator used for generating and rewriting</span>
-<span class="sd">            tenant-specific node IDs.</span>
+<span class="sd">        id_generator (IdGenerator): An instance of IdGenerator used for generating and rewriting tenant-specific node IDs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builders</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">NodeBuilder</span><span class="p">]</span><span class="o">=</span><span class="p">[],</span> <span class="nb">filter</span><span class="p">:</span><span class="n">BuildFilter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_generator</span><span class="p">:</span><span class="n">IdGenerator</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
@@ -448,8 +446,8 @@
 
 <span class="sd">            Methods:</span>
 <span class="sd">                get_nodes_from_metadata: Process a list of input nodes, apply ID rewrites</span>
-<span class="sd">                    to each node and its relationships for a specific tenant, and return</span>
-<span class="sd">                    the modified list of nodes.</span>
+<span class="sd">                to each node and its relationships for a specific tenant, and return</span>
+<span class="sd">                the modified list of nodes.</span>
 
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">node</span><span class="o">.</span><span class="n">id_</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">id_generator</span><span class="o">.</span><span class="n">rewrite_id_for_tenant</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>

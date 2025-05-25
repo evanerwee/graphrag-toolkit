@@ -1546,9 +1546,7 @@ builder selection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> (<em>List</em><em>[</em><em>BaseNode</em><em>]</em>) – A list of nodes to process, each represented by an instance of
-<cite>BaseNode</cite>. Nodes may optionally contain metadata with specific keys for
-targeted builder processing.</p></li>
+<li><p><strong>nodes</strong> (<em>List</em><em>[</em><em>BaseNode</em><em>]</em>) – A list of nodes to process, each represented by an instance of <cite>BaseNode</cite>. Nodes may optionally contain metadata with specific keys for targeted builder processing.</p></li>
 <li><p><strong>kwargs</strong> – <p>Additional keyword arguments for configuration. Includes:
 - batch_writes_enabled (bool): Determines whether batch write operations</p>
 <blockquote>
@@ -1672,16 +1670,10 @@ process involves constructing parameters and Cypher queries to manage
 relationships and classifications for nodes within a graph database.
 This method uses the <cite>graph_client</cite> to run the query with error retries
 and logs warnings for missing metadata.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>node (<cite>BaseNode</cite>): The node containing metadata for generating the query. This</dt><dd><p>metadata is used to derive the relationships and classifications required to
-configure the graph.</p>
-</dd>
-<dt>graph_client (<cite>GraphStore</cite>): The client responsible for interacting with the</dt><dd><p>backend graph database. It provides methods for query execution and ID
-formatting.</p>
-</dd>
-</dl>
-<p><a href="#id17"><span class="problematic" id="id18">**</span></a>kwargs (Any): Additional arguments that may be passed for internal usage.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>node (BaseNode): The node containing metadata for generating the query. This metadata is used to derive the relationships and classifications required to configure the graph.
+graph_client (GraphStore): The client responsible for interacting with the backend graph database. It provides methods for query execution and ID formatting.
+<a href="#id17"><span class="problematic" id="id18">**</span></a>kwargs (Any): Additional arguments that may be passed for internal usage.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1723,16 +1715,10 @@ and filters to the input nodes. It supports preprocessing steps such as text cle
 and tenant-specific transformations for node identifiers and relationships. The class
 is designed to process metadata and generate new nodes that adhere to user-defined
 node builder configurations.</p>
-<dl>
-<dt>Attributes:</dt><dd><dl class="simple">
-<dt>builders (List[NodeBuilder]): A list of node builders used to transform metadata and</dt><dd><p>build nodes.</p>
-</dd>
-</dl>
-<p>filter (BuildFilter): A filter applied to evaluate the input nodes before building nodes.
-id_generator (IdGenerator): An instance of IdGenerator used for generating and rewriting</p>
-<blockquote>
-<div><p>tenant-specific node IDs.</p>
-</div></blockquote>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>builders (List[NodeBuilder]): A list of node builders used to transform metadata and build nodes.
+filter (BuildFilter): A filter applied to evaluate the input nodes before building nodes.
+id_generator (IdGenerator): An instance of IdGenerator used for generating and rewriting tenant-specific node IDs.</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -1806,13 +1792,10 @@ attributes, filters, and metadata formatting.</p>
 methods for cleaning and formatting data, as well as abstract methods that
 must be implemented by subclasses to define the class name, metadata keys,
 and the node-building logic.</p>
-<dl>
+<dl class="simple">
 <dt>Attributes:</dt><dd><p>id_generator (IdGenerator): Generates unique identifiers for nodes.
 build_filters (BuildFilters): Filters applied when building nodes.
-source_metadata_formatter (SourceMetadataFormatter): Formats source</p>
-<blockquote>
-<div><p>metadata for nodes.</p>
-</div></blockquote>
+source_metadata_formatter (SourceMetadataFormatter): Formats source metadata for nodes.</p>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1827,10 +1810,18 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder.build_nodes">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/build/node_builder.html#NodeBuilder.build_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder.build_nodes" title="Link to this definition">¶</a></dt>
-<dd><p>Abstract base class for building a list of nodes.</p>
-<p>This class serves as a blueprint for implementing specific operations on a list
-of nodes. The <cite>build_nodes</cite> method must be implemented by any concrete subclass
-to provide functionality specific to the application’s requirements.</p>
+<dd><p>Builds and processes a list of nodes according to implementation-specific logic.</p>
+<p>This abstract method must be implemented by concrete subclasses to define how
+nodes are processed, transformed, or created based on the input nodes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>nodes: A list of BaseNode objects to be processed or used as a basis for</dt><dd><p>creating new nodes.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>List[BaseNode]: A list of processed or newly created BaseNode objects.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">

@@ -31,27 +31,17 @@ logger = logging.getLogger(__name__)
 
 class EntityBasedSearch(TraversalBasedBaseRetriever):
     """
-    Handles entity-based search functionality leveraging traversal-based
-    retriever mechanisms.
+    Handles entity-based search functionality using traversal-based retriever mechanisms.
 
-    This class is designed to facilitate searching within a hybrid entity-graph
-    and vector-search-based environment. It integrates with specific data stores
-    such as graph and vector storage systems to enable complex search operations
-    using entities, their relationships, and associated metadata.
+    This class facilitates searching within a hybrid entity-graph and vector-search
+    environment, enabling complex search operations using entities and their relationships.
 
-    :ivar graph_store: Provides storage and management for graph-related data
-        and operations.
-    :type graph_store: GraphStore
-    :ivar vector_store: Handles storage and similarity operations for vectors.
-    :type vector_store: VectorStore
-    :ivar processor_args: Optional attributes and configurations for the
-        processor pipeline.
-    :type processor_args: Optional[ProcessorArgs]
-    :ivar processors: Defines the processing pipeline with a list of processor
-        classes.
-    :type processors: Optional[List[Type[ProcessorBase]]]
-    :ivar filter_config: Configuration details for customized search filtering.
-    :type filter_config: Optional[FilterConfig]
+    Attributes:
+        graph_store (GraphStore): Storage for graph data.
+        vector_store (VectorStore): Storage for vector data.
+        processor_args (ProcessorArgs): Configuration for processors.
+        processors (List[Type[ProcessorBase]]): Processing pipeline components.
+        filter_config (FilterConfig): Configuration for search filtering.
     """
 
     def __init__(

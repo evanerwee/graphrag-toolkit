@@ -367,27 +367,17 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search.EntityBasedSearch">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EntityBasedSearch</span><span class="p">(</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles entity-based search functionality leveraging traversal-based</span>
-<span class="sd">    retriever mechanisms.</span>
+<span class="sd">    Handles entity-based search functionality using traversal-based retriever mechanisms.</span>
 
-<span class="sd">    This class is designed to facilitate searching within a hybrid entity-graph</span>
-<span class="sd">    and vector-search-based environment. It integrates with specific data stores</span>
-<span class="sd">    such as graph and vector storage systems to enable complex search operations</span>
-<span class="sd">    using entities, their relationships, and associated metadata.</span>
+<span class="sd">    This class facilitates searching within a hybrid entity-graph and vector-search</span>
+<span class="sd">    environment, enabling complex search operations using entities and their relationships.</span>
 
-<span class="sd">    :ivar graph_store: Provides storage and management for graph-related data</span>
-<span class="sd">        and operations.</span>
-<span class="sd">    :type graph_store: GraphStore</span>
-<span class="sd">    :ivar vector_store: Handles storage and similarity operations for vectors.</span>
-<span class="sd">    :type vector_store: VectorStore</span>
-<span class="sd">    :ivar processor_args: Optional attributes and configurations for the</span>
-<span class="sd">        processor pipeline.</span>
-<span class="sd">    :type processor_args: Optional[ProcessorArgs]</span>
-<span class="sd">    :ivar processors: Defines the processing pipeline with a list of processor</span>
-<span class="sd">        classes.</span>
-<span class="sd">    :type processors: Optional[List[Type[ProcessorBase]]]</span>
-<span class="sd">    :ivar filter_config: Configuration details for customized search filtering.</span>
-<span class="sd">    :type filter_config: Optional[FilterConfig]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        graph_store (GraphStore): Storage for graph data.</span>
+<span class="sd">        vector_store (VectorStore): Storage for vector data.</span>
+<span class="sd">        processor_args (ProcessorArgs): Configuration for processors.</span>
+<span class="sd">        processors (List[Type[ProcessorBase]]): Processing pipeline components.</span>
+<span class="sd">        filter_config (FilterConfig): Configuration for search filtering.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>

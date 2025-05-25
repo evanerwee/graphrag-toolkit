@@ -27,24 +27,8 @@ logger = logging.getLogger(__name__)
 
 
 class ChunkBasedSearch(TraversalBasedBaseRetriever):
-    """Handles chunk-based retrieval and search operations using graph and vector datastores.
-
-    This class integrates graph and vector stores to facilitate retrieval and
-    search operations based on chunks. It provides mechanisms for executing
-    queries, performing filtering, and enabling concurrent search operations
-    to efficiently process large-scale data. The class supports configurable
-    processors and filtering options to accommodate diverse use cases.
-
-    :ivar graph_store: The graph database management system used to store and retrieve graph-related data.
-    :type graph_store: GraphStore
-    :ivar vector_store: The vector-based storage system used for similarity-based search and retrieval.
-    :type vector_store: VectorStore
-    :ivar processor_args: Optional set of arguments configuring the behavior of additional processors.
-    :type processor_args: Optional[ProcessorArgs]
-    :ivar processors: List of processor types for handling specific tasks or transformations.
-    :type processors: Optional[List[Type[ProcessorBase]]]
-    :ivar filter_config: Configuration settings for filtering results during retrieval operations.
-    :type filter_config: Optional[FilterConfig]
+    """
+    Handles chunk-based retrieval and search operations.
     """
 
     def __init__(
@@ -85,19 +69,7 @@ class ChunkBasedSearch(TraversalBasedBaseRetriever):
         )
 
     def chunk_based_graph_search(self, chunk_id):
-        """Performs a graph search query based on a specific chunk ID. The
-        function constructs a Cypher query to search the graph database,
-        matching relationships and nodes linked to a given chunk ID. The query
-        focuses on retrieving related statements, topics, and associated chunks
-        within defined query and statement limits.
-
-        Args:
-            chunk_id: The unique identifier of the chunk to search for in the graph database.
-
-        Returns:
-            List[dict]: A list of results retrieved from the graph database based on the
-            provided chunk ID and query parameters.
-        """
+        """Performs a graph search query based on a specific chunk ID."""
         cypher = self.create_cypher_query(
             f'''
         // chunk-based graph search                                  
@@ -115,21 +87,7 @@ class ChunkBasedSearch(TraversalBasedBaseRetriever):
         return self.graph_store.execute_query(cypher, properties)
 
     def get_start_node_ids(self, query_bundle: QueryBundle) -> List[str]:
-        """Gets the starting node IDs based on the given query bundle for
-        chunk-based search.
-
-        This function retrieves diverse data elements classified as "chunks" that match
-        the criteria specified in the query bundle, utilizing a vector store for searching
-        and additional filtering configurations. It then extracts and returns the unique
-        chunk IDs for further processing.
-
-        Args:
-            query_bundle (QueryBundle): The query object containing the search parameters
-                and configurations.
-
-        Returns:
-            List[str]: A list of starting node IDs corresponding to the retrieved data chunks.
-        """
+        """Gets the starting node IDs for chunk-based search."""
         logger.debug('Getting start node ids for chunk-based search...')
 
         chunks = get_diverse_vss_elements(
@@ -141,26 +99,7 @@ class ChunkBasedSearch(TraversalBasedBaseRetriever):
     def do_graph_search(
         self, query_bundle: QueryBundle, start_node_ids: List[str]
     ) -> SearchResultCollection:
-        """Performs graph search using chunk-based retrieval strategy starting
-        from given node IDs and executing concurrent search with thread
-        pooling.
-
-        This method conducts a search operation on a graph where starting points (chunks)
-        are defined, and concurrent retrieval is used to collect results from multiple
-        chunks in parallel. The search is based on the `chunk_based_graph_search` method,
-        and the retrieval results are aggregated into a `SearchResultCollection`. It also
-        logs detailed debug information when debugging is enabled.
-
-        Args:
-            query_bundle (QueryBundle): An object containing the query parameters and
-                metadata required for performing the search.
-            start_node_ids (List[str]): A list of starting node identifiers that mark
-                the initial points for the graph search.
-
-        Returns:
-            SearchResultCollection: An aggregated collection of search results obtained
-            from chunk-based graph search.
-        """
+        """Performs graph search using chunk-based retrieval strategy."""
         chunk_ids = start_node_ids
 
         logger.debug('Running chunk-based search...')

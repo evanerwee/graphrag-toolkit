@@ -75,28 +75,17 @@ WeightedTraversalBasedRetrieverType = Union[
 
 class CompositeTraversalBasedRetriever(TraversalBasedBaseRetriever):
     """
-    Manages traversal-based retrieval across graph and vector stores, integrating
-    optional weighted retrievers, query decomposition, and filtering configurations.
+    Manages traversal-based retrieval across graph and vector stores.
 
-    This class provides a mechanism to perform complex search queries over graph-like
-    and vectorized data structures. It combines the capabilities of multiple weighted
-    retrievers and includes support for query decomposition to break down complex
-    queries into component subqueries for enhanced search precision. Results can
-    be filtered based on specific configurations. The class is designed for advanced
-    retrieval scenarios involving graph traversal and parallel processing.
+    This class integrates weighted retrievers, query decomposition, and filtering
+    configurations to perform complex search queries over graph and vector data.
 
-    :ivar graph_store: The storage mechanism for managing a graph-like data structure.
-    :type graph_store: GraphStore
-    :ivar vector_store: The storage mechanism for managing vectorized representations of the data.
-    :type vector_store: VectorStore
-    :ivar weighted_retrievers: A list of weighted retrievers that work based on traversal
-        in the graph.
-    :type weighted_retrievers: Optional[List[WeightedTraversalBasedRetrieverType]]
-    :ivar query_decomposition: The query decomposition tool for breaking down complex
-        queries into subqueries.
-    :type query_decomposition: Optional[QueryDecomposition]
-    :ivar filter_config: Configuration object for filtering results based on specific criteria.
-    :type filter_config: FilterConfig
+    Attributes:
+        graph_store (GraphStore): Storage for graph data.
+        vector_store (VectorStore): Storage for vector data.
+        weighted_retrievers (List[WeightedTraversalBasedRetrieverType]): Weighted retrievers.
+        query_decomposition (QueryDecomposition): Tool for breaking down queries.
+        filter_config (FilterConfig): Configuration for filtering results.
     """
 
     def __init__(
