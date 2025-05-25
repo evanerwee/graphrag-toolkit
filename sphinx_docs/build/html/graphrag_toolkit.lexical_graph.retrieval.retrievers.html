@@ -1192,7 +1192,7 @@ the required stores, configurations, and cache for processing tasks.</p>
 </dd>
 <dt>filter_config: Optional FilterConfig instance to define the filtering</dt><dd><p>criteria or configuration for data processing.</p>
 </dd>
-<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs: Additional keyword arguments for further custom configuration</dt><dd><p>or initialization.</p>
+<dt>kwargs: Additional keyword arguments for further custom configuration</dt><dd><p>or initialization.</p>
 </dd>
 </dl>
 </dd>
@@ -1208,8 +1208,8 @@ the required stores, configurations, and cache for processing tasks.</p>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever" title="graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever"><code class="xref py py-class docutils literal notranslate"><span class="pre">TraversalBasedBaseRetriever</span></code></a></p>
 <p>A retriever class implementing topic-based search within a knowledge
 graph.</p>
-<p>The TopicBasedSearch class specializes in retrieving information from a graph database using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide functionality specific to exploring the graph based on topic relationships. The retriever employs both a graph store for hierarchical relationships and a vector store for semantic queries.
-This is particularly useful in scenarios where topic-centric information
+<p>The TopicBasedSearch class specializes in retrieving information from a graph database using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide functionality specific to exploring the graph based on topic relationships. The retriever employs both a graph store for hierarchical relationships and a vector store for semantic queries.</p>
+<p>This is particularly useful in scenarios where topic-centric information
 organization and retrieval are required.</p>
 <dl class="simple">
 <dt>Attributes:</dt><dd><dl class="simple">
@@ -1242,7 +1242,7 @@ processor_args: Optional settings or configurations relevant to data processing,
 </dd>
 <dt>filter_config: Configuration object that defines filtering rules or settings</dt><dd><p>as <cite>FilterConfig</cite>. Defaults to None.</p>
 </dd>
-<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>kwargs: Additional keyword arguments for further customization or</dt><dd><p>extension of functionality.</p>
+<dt>kwargs: Additional keyword arguments for further customization or</dt><dd><p>extension of functionality.</p>
 </dd>
 </dl>
 </dd>
@@ -1373,7 +1373,7 @@ an empty list if None.</p>
 <dt>filter_config (FilterConfig):</dt><dd><p>Configurations for applying filters to data or entities.
 Defaults to a new FilterConfig if not given.</p>
 </dd>
-<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs:</dt><dd><p>Additional keyword arguments that can be used to initialize
+<dt>kwargs:</dt><dd><p>Additional keyword arguments that can be used to initialize
 processor arguments or passed as optional configurations.</p>
 </dd>
 </dl>

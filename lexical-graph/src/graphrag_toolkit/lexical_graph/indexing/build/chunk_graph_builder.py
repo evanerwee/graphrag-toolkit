@@ -47,7 +47,7 @@ class ChunkGraphBuilder(GraphBuilder):
         Args:
             node: The BaseNode object containing chunk data and its relationships.
             graph_client: The GraphStore interface to interact with the graph database.
-            **kwargs: Additional optional parameters for configuring the operation.
+            \\*\\*kwargs: Additional optional parameters for configuring the operation.
         """
         chunk_metadata = node.metadata.get('chunk', {})
         chunk_id = chunk_metadata.get('chunkId', None)

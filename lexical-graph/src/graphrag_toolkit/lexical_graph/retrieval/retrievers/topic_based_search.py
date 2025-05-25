@@ -31,6 +31,7 @@ class TopicBasedSearch(TraversalBasedBaseRetriever):
     graph.
 
     The TopicBasedSearch class specializes in retrieving information from a graph database using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide functionality specific to exploring the graph based on topic relationships. The retriever employs both a graph store for hierarchical relationships and a vector store for semantic queries.
+
     This is particularly useful in scenarios where topic-centric information
     organization and retrieval are required.
 
@@ -70,7 +71,7 @@ class TopicBasedSearch(TraversalBasedBaseRetriever):
                 processing tasks. Defaults to None.
             filter_config: Configuration object that defines filtering rules or settings
                 as `FilterConfig`. Defaults to None.
-            **kwargs: Additional keyword arguments for further customization or
+            kwargs: Additional keyword arguments for further customization or
                 extension of functionality.
         """
         super().__init__(

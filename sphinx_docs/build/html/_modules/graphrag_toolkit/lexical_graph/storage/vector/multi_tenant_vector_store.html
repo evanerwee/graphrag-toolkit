@@ -344,7 +344,10 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">MultiTenantVectorStore</span><span class="p">(</span><span class="n">VectorStore</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Provides a multi-tenant wrapper for VectorStore.</span>
 
-<span class="sd">    This class allows creating a wrapper around a VectorStore object to support multi-tenancy by associating a specific tenant ID with operations. It ensures that all indexes retrieved or processed are identified and associated with the correct tenant context.</span>
+<span class="sd">    This class allows creating a wrapper around a VectorStore object to support</span>
+<span class="sd">    multi-tenancy by associating a specific tenant ID with operations. It ensures </span>
+<span class="sd">    that all indexes retrieved or processed are identified and associated with</span>
+<span class="sd">    the correct tenant context.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        inner (VectorStore): The underlying vector store being wrapped.</span>

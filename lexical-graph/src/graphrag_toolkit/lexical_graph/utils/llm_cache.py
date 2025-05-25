@@ -58,7 +58,7 @@ class LLMCache(BaseModel):
         Args:
             prompt: A pre-formatted BasePromptTemplate instance containing the template definition
                 to generate the LLM response.
-            **prompt_args: Arbitrary keyword arguments that provide dynamic content to fill
+            prompt_args: Arbitrary keyword arguments that provide dynamic content to fill
                 in the placeholders of the given prompt template.
 
         Returns:

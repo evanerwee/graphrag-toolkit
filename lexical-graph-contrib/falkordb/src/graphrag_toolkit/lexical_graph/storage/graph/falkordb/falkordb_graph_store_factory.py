@@ -1,8 +1,20 @@
 import logging
-from typing import List, Union
-from falkordb.node import Node
-from falkordb.edge import Edge
-from falkordb.path import Path
+from typing import List, Union, Any
+
+try:
+    from falkordb.node import Node
+    from falkordb.edge import Edge
+    from falkordb.path import Path
+    # Define the type when imports are successful
+    QUERY_RESULT_TYPE = Union[List[List[Node]], List[List[List[Path]]], List[List[Edge]]]
+except ImportError as e:
+    # This allows the module to be imported for documentation purposes
+    # even if falkordb is not installed
+    Node = Any
+    Edge = Any
+    Path = Any
+    # Use a generic type when imports fail
+    QUERY_RESULT_TYPE = List[List[Any]]
 
 from graphrag_toolkit.lexical_graph.storage.graph import GraphStoreFactoryMethod, GraphStore, get_log_formatting
 
@@ -11,7 +23,6 @@ logger = logging.getLogger(__name__)
 FALKORDB = 'falkordb://'
 FALKORDB_DNS = 'falkordb.com'
 DEFAULT_DATABASE_NAME = 'graphrag'
-QUERY_RESULT_TYPE = Union[List[List[Node]], List[List[List[Path]]], List[List[Edge]]]
 
 class FalkorDBGraphStoreFactory(GraphStoreFactoryMethod):
     """
@@ -62,6 +73,6 @@ class FalkorDBGraphStoreFactory(GraphStoreFactoryMethod):
                 )
             except ImportError as e:
                 raise e
-            
+
         else:
             return None

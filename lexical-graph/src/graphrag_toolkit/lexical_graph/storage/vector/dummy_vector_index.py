@@ -44,7 +44,7 @@ class DummyVectorIndexFactory(VectorIndexFactoryMethod):
             index_names (List[str]): A list of index names to create vector indexes for.
             vector_index_info (str): A string containing vector index information used to
             determine the type of vector indexes to create.
-            **kwargs: Additional keyword arguments to be passed to the creation process.
+            \\*\\*kwargs: Additional keyword arguments to be passed to the creation process.
 
         Returns:
             List[VectorIndex]: A list of DummyVectorIndex objects created based on the input

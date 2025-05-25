@@ -439,7 +439,7 @@ for the provided index names. If not, it returns <cite>None</cite>.</p>
 <dt>Args:</dt><dd><p>index_names (List[str]): A list of index names to create vector indexes for.
 vector_index_info (str): A string containing vector index information used to
 determine the type of vector indexes to create.
-<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments to be passed to the creation process.</p>
+**kwargs: Additional keyword arguments to be passed to the creation process.</p>
 </dd>
 <dt>Returns:</dt><dd><p>List[VectorIndex]: A list of DummyVectorIndex objects created based on the input
 index names if vector_index_info starts with the prefix DUMMY, otherwise None.</p>
@@ -457,7 +457,10 @@ index names if vector_index_info starts with the prefix DUMMY, otherwise None.</
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.</span></span><span class="sig-name descname"><span class="pre">MultiTenantVectorStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id:</span> <span class="pre">~graphrag_toolkit.lexical_graph.tenant_id.TenantId</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/multi_tenant_vector_store.html#MultiTenantVectorStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">VectorStore</span></code></a></p>
 <p>Provides a multi-tenant wrapper for VectorStore.</p>
-<p>This class allows creating a wrapper around a VectorStore object to support multi-tenancy by associating a specific tenant ID with operations. It ensures that all indexes retrieved or processed are identified and associated with the correct tenant context.</p>
+<p>This class allows creating a wrapper around a VectorStore object to support
+multi-tenancy by associating a specific tenant ID with operations. It ensures 
+that all indexes retrieved or processed are identified and associated with
+the correct tenant context.</p>
 <dl>
 <dt>Attributes:</dt><dd><p>inner (VectorStore): The underlying vector store being wrapped.
 tenant_id (TenantId): The tenant ID associated with the operations</p>
@@ -622,9 +625,9 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.add_embeddings">
 <span class="sig-name descname"><span class="pre">add_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex.add_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.add_embeddings" title="Link to this definition">¶</a></dt>
 <dd><p>Adds embeddings to provided nodes and updates the Neptune database with the
-embeddings using a specific query. The method assumes that the class is
-working with a Neptune database setup and uses an embedding model to process
-nodes.</p>
+embeddings using a specific query.</p>
+<p>The method assumes that the class is working with a Neptune database setup
+and uses an embedding model to process nodes.</p>
 <p>The process involves:
 1. Adding metadata to the nodes.
 2. Generating embeddings using the embedding model.
@@ -635,17 +638,13 @@ nodes.</p>
 <ol class="arabic simple" start="4">
 <li><p>Cleaning up metadata after processing is complete.</p></li>
 </ol>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>nodes</strong> (<em>list</em>) – List of nodes to which embeddings will be added. Each node should be
-structured and compatible with the embedding model and Neptune database setup.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>nodes: List of nodes to which embeddings will be added. Each node should be</dt><dd><p>structured and compatible with the embedding model and Neptune database setup.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The list of nodes with their information potentially updated
-after processing.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
+<dt>Returns:</dt><dd><p>The list of nodes with their information potentially updated after processing.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -901,7 +900,7 @@ is not available.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>index_names (List[str]): List of index names to create vector indexes for.
 vector_index_info (str): Information defining the type and endpoint of the vector index, such as an OpenSearch Serverless endpoint.
-<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional keyword arguments passed when creating the vector indexes.</p>
+**kwargs: Additional keyword arguments passed when creating the vector indexes.</p>
 </dd>
 <dt>Returns:</dt><dd><p>List[VectorIndex]: A list of vector index objects created for the provided index names and endpoint configuration, or None if no suitable endpoint is found.</p>
 </dd>

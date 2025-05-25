@@ -110,7 +110,7 @@ class CheckpointWriter(NodeHandler):
 
         Args:
             nodes (List[BaseNode]): A list of nodes to be processed. Each node contains a unique identifier and associated metadata that determines whether it is checkpointable.
-            **kwargs (Any): Additional keyword arguments to be passed to the inner accept method.
+            \\*\\*kwargs (Any): Additional keyword arguments to be passed to the inner accept method.
 
         Yields:
             BaseNode: Nodes that have been processed and classified. Each node is yielded after logging and performing checkpoint-related operations if applicable.

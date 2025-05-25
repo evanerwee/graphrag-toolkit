@@ -111,7 +111,7 @@ class TraversalBasedBaseRetriever(BaseRetriever):
             filter_config (FilterConfig):
                 Configurations for applying filters to data or entities.
                 Defaults to a new FilterConfig if not given.
-            **kwargs:
+            kwargs:
                 Additional keyword arguments that can be used to initialize
                 processor arguments or passed as optional configurations.
         """

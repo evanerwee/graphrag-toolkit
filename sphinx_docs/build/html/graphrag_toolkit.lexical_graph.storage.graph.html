@@ -349,8 +349,9 @@
 of GraphStore.</p>
 <p>This class is designed to execute Cypher queries on a graph database and log the query
 information for debugging purposes. It provides an implementation for executing queries with
-optional parameters and correlation IDs. The main use case for this class is to interact with
-graph databases, primarily for logging and debugging scenarios.</p>
+optional parameters and correlation IDs.</p>
+<p>The main use case for this class is to interact with graph databases, primarily for logging 
+and debugging scenarios.</p>
 <dl>
 <dt>Attributes:</dt><dd><p>log_formatting (LogFormatter): An instance of LogFormatter used for formatting log entries.
 _logging_prefix (callable): A callable function or method responsible for generating the</p>
@@ -419,7 +420,7 @@ method returns <cite>None</cite>.</p>
 <dt>Args:</dt><dd><dl class="simple">
 <dt>graph_info (str): Information specifying the type of the graph store to</dt><dd><p>create. If the value starts with <cite>DUMMY</cite>, a dummy graph store is opened.</p>
 </dd>
-<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments used for configuring the graph store,</dt><dd><p>such as formatting for logs.</p>
+<dt>**kwargs: Additional keyword arguments used for configuring the graph store,</dt><dd><p>such as formatting for logs.</p>
 </dd>
 </dl>
 </dd>
@@ -939,7 +940,7 @@ subclasses, specifying how <cite>GraphStore</cite> objects are instantiated base
 graph configuration details.</p>
 <dl class="simple">
 <dt>Methods:</dt><dd><dl class="simple">
-<dt>try_create(graph_info, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs): Abstract method to attempt the creation</dt><dd><p>of a <cite>GraphStore</cite> instance based on provided graph configuration
+<dt>try_create(graph_info, **kwargs): Abstract method to attempt the creation</dt><dd><p>of a <cite>GraphStore</cite> instance based on provided graph configuration
 and optional parameters.</p>
 </dd>
 </dl>
@@ -948,15 +949,15 @@ and optional parameters.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod.try_create">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">try_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store_factory_method.html#GraphStoreFactoryMethod.try_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod.try_create" title="Link to this definition">¶</a></dt>
-<dd><p>Abstract base class for creating a graph store from provided graph
+<dd><p>Abstract method for creating a graph store from provided graph
 information.</p>
-<p>This class represents the structure that any concrete implementation must adhere
-to, ensuring that essential methods related to graph creation are defined.</p>
+<p>This method must be implemented by subclasses to create a graph store
+based on the provided information.</p>
 <dl class="simple">
 <dt>Attributes:</dt><dd><dl class="simple">
 <dt>graph_info (str): Information or details about the graph structure, which</dt><dd><p>will be used for constructing the graph store.</p>
 </dd>
-<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Arbitrary keyword arguments that might be required to configure</dt><dd><p>the creation process.</p>
+<dt>**kwargs: Arbitrary keyword arguments that might be required to configure</dt><dd><p>the creation process.</p>
 </dd>
 </dl>
 </dd>

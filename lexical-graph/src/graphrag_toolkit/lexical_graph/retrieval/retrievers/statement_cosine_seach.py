@@ -59,7 +59,7 @@ class StatementCosineSimilaritySearch(SemanticGuidedBaseRetriever):
                 specific computations or querying.
             filter_config: Optional FilterConfig instance to define the filtering
                 criteria or configuration for data processing.
-            **kwargs: Additional keyword arguments for further custom configuration
+            kwargs: Additional keyword arguments for further custom configuration
                 or initialization.
         """
         super().__init__(vector_store, graph_store, filter_config, **kwargs)

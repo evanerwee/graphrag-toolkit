@@ -388,7 +388,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            node: The BaseNode object containing chunk data and its relationships.</span>
 <span class="sd">            graph_client: The GraphStore interface to interact with the graph database.</span>
-<span class="sd">            **kwargs: Additional optional parameters for configuring the operation.</span>
+<span class="sd">            \\*\\*kwargs: Additional optional parameters for configuring the operation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">chunk_metadata</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chunk&#39;</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">chunk_id</span> <span class="o">=</span> <span class="n">chunk_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chunkId&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>

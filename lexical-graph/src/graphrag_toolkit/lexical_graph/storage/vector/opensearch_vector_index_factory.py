@@ -43,7 +43,7 @@ class OpenSearchVectorIndexFactory(VectorIndexFactoryMethod):
         Args:
             index_names (List[str]): List of index names to create vector indexes for.
             vector_index_info (str): Information defining the type and endpoint of the vector index, such as an OpenSearch Serverless endpoint.
-            **kwargs: Additional keyword arguments passed when creating the vector indexes.
+            \\*\\*kwargs: Additional keyword arguments passed when creating the vector indexes.
 
         Returns:
             List[VectorIndex]: A list of vector index objects created for the provided index names and endpoint configuration, or None if no suitable endpoint is found.

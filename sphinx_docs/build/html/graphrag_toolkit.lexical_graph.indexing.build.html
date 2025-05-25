@@ -596,7 +596,8 @@ batch_write_size (int): Size of batches for processing writes. Defaults to a con
 include_domain_labels (bool): Flag indicating whether domain labels should be included.
 node_builders (NodeBuilders): Object that encapsulates the logic for building nodes, applying filters, and formatting metadata.
 node_filter (NodeFilter): Filter used for excluding or including nodes based on certain conditions.
-pipeline_kwargs (dict): Additional keyword arguments passed to the pipeline.</p>
+pipeline_kwargs (dict): Additional keyword arguments passed to the pipeline.
+**kwargs (Any): Additional keyword arguments for customization.</p>
 </dd>
 </dl>
 <p>Initializes an instance of a class responsible for configuring and
@@ -617,7 +618,7 @@ build_filters (Optional[BuildFilters]): Filters applied during node building, re
 source_metadata_formatter (Optional[SourceMetadataFormatter]): A formatter for metadata associated with nodes, enabling customization or domain-specific adjustments. Defaults to a DefaultSourceMetadataFormatter instance.
 include_domain_labels (Optional[bool]): Indicates whether domain labels should be included in the output during processing. Defaults to a preconfigured value.
 tenant_id (Optional[TenantId]): An identifier for the tenant, used for scoping data. Defaults to None.
-<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs (Any): Additional keyword arguments to configure the pipeline behavior.</p>
+**kwargs (Any): Additional keyword arguments to configure the pipeline behavior.</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -657,7 +658,7 @@ build_filters (Optional[BuildFilters]): Filters applied during the build process
 source_metadata_formatter (Optional[SourceMetadataFormatter]): Formatter for source metadata to customize metadata configuration. Defaults to None.
 include_domain_labels (Optional[bool]): Specifies whether domain labels should be incorporated in the output. Defaults to None.
 tenant_id (Optional[TenantId]): Identifier for tenant-specific operations or segregations. Defaults to None.
-<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs (Any): Additional keyword arguments to customize further configuration of the pipeline.</p>
+**kwargs (Any): Additional keyword arguments to customize further configuration of the pipeline.</p>
 </dd>
 <dt>Returns:</dt><dd><p>Pipe: A configured Pipe instance encapsulating the constructed pipeline for execution.</p>
 </dd>
@@ -851,7 +852,7 @@ checkpointable based on metadata, performing checkpoint-related
 operations for applicable nodes.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>nodes (List[BaseNode]): A list of nodes to be processed. Each node contains a unique identifier and associated metadata that determines whether it is checkpointable.
-<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs (Any): Additional keyword arguments to be passed to the inner accept method.</p>
+**kwargs (Any): Additional keyword arguments to be passed to the inner accept method.</p>
 </dd>
 <dt>Yields:</dt><dd><p>BaseNode: Nodes that have been processed and classified. Each node is yielded after logging and performing checkpoint-related operations if applicable.</p>
 </dd>
@@ -939,7 +940,7 @@ information is missing, the function logs warnings.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>node: The BaseNode object containing chunk data and its relationships.
 graph_client: The GraphStore interface to interact with the graph database.
-<a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: Additional optional parameters for configuring the operation.</p>
+**kwargs: Additional optional parameters for configuring the operation.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -391,6 +391,7 @@
 <span class="sd">        node_builders (NodeBuilders): Object that encapsulates the logic for building nodes, applying filters, and formatting metadata.</span>
 <span class="sd">        node_filter (NodeFilter): Filter used for excluding or including nodes based on certain conditions.</span>
 <span class="sd">        pipeline_kwargs (dict): Additional keyword arguments passed to the pipeline.</span>
+<span class="sd">        \\*\\*kwargs (Any): Additional keyword arguments for customization.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="BuildPipeline.create">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.build_pipeline.BuildPipeline.create">[docs]</a>
@@ -428,7 +429,7 @@
 <span class="sd">            source_metadata_formatter (Optional[SourceMetadataFormatter]): Formatter for source metadata to customize metadata configuration. Defaults to None.</span>
 <span class="sd">            include_domain_labels (Optional[bool]): Specifies whether domain labels should be incorporated in the output. Defaults to None.</span>
 <span class="sd">            tenant_id (Optional[TenantId]): Identifier for tenant-specific operations or segregations. Defaults to None.</span>
-<span class="sd">            **kwargs (Any): Additional keyword arguments to customize further configuration of the pipeline.</span>
+<span class="sd">            \\*\\*kwargs (Any): Additional keyword arguments to customize further configuration of the pipeline.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Pipe: A configured Pipe instance encapsulating the constructed pipeline for execution.</span>
@@ -486,7 +487,7 @@
 <span class="sd">            source_metadata_formatter (Optional[SourceMetadataFormatter]): A formatter for metadata associated with nodes, enabling customization or domain-specific adjustments. Defaults to a DefaultSourceMetadataFormatter instance.</span>
 <span class="sd">            include_domain_labels (Optional[bool]): Indicates whether domain labels should be included in the output during processing. Defaults to a preconfigured value.</span>
 <span class="sd">            tenant_id (Optional[TenantId]): An identifier for the tenant, used for scoping data. Defaults to None.</span>
-<span class="sd">            **kwargs (Any): Additional keyword arguments to configure the pipeline behavior.</span>
+<span class="sd">            \\*\\*kwargs (Any): Additional keyword arguments to configure the pipeline behavior.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">components</span> <span class="o">=</span> <span class="n">components</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">build_num_workers</span>

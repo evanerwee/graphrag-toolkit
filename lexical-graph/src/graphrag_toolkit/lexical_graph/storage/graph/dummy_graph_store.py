@@ -35,7 +35,7 @@ class DummyGraphStoreFactory(GraphStoreFactoryMethod):
         Args:
             graph_info (str): Information specifying the type of the graph store to
                 create. If the value starts with `DUMMY`, a dummy graph store is opened.
-            **kwargs: Additional keyword arguments used for configuring the graph store,
+            \\*\\*kwargs: Additional keyword arguments used for configuring the graph store,
                 such as formatting for logs.
 
         Returns:
@@ -55,8 +55,10 @@ class DummyGraphStore(GraphStore):
 
     This class is designed to execute Cypher queries on a graph database and log the query
     information for debugging purposes. It provides an implementation for executing queries with
-    optional parameters and correlation IDs. The main use case for this class is to interact with
-    graph databases, primarily for logging and debugging scenarios.
+    optional parameters and correlation IDs. 
+
+    The main use case for this class is to interact with graph databases, primarily for logging 
+    and debugging scenarios.
 
     Attributes:
         log_formatting (LogFormatter): An instance of LogFormatter used for formatting log entries.

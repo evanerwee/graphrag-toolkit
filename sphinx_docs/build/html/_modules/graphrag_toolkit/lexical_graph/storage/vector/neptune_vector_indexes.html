@@ -756,11 +756,11 @@
 <div class="viewcode-block" id="NeptuneIndex.add_embeddings">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.add_embeddings">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Adds embeddings to provided nodes and updates the Neptune database with the</span>
-<span class="sd">        embeddings using a specific query. The method assumes that the class is</span>
-<span class="sd">        working with a Neptune database setup and uses an embedding model to process</span>
-<span class="sd">        nodes.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds embeddings to provided nodes and updates the Neptune database with the</span>
+<span class="sd">        embeddings using a specific query.</span>
+
+<span class="sd">        The method assumes that the class is working with a Neptune database setup</span>
+<span class="sd">        and uses an embedding model to process nodes.</span>
 
 <span class="sd">        The process involves:</span>
 <span class="sd">        1. Adding metadata to the nodes.</span>
@@ -769,12 +769,12 @@
 <span class="sd">           with the embedding information.</span>
 <span class="sd">        4. Cleaning up metadata after processing is complete.</span>
 
-<span class="sd">        :param nodes: List of nodes to which embeddings will be added. Each node should be</span>
-<span class="sd">            structured and compatible with the embedding model and Neptune database setup.</span>
-<span class="sd">        :type nodes: list</span>
-<span class="sd">        :return: The list of nodes with their information potentially updated</span>
-<span class="sd">            after processing.</span>
-<span class="sd">        :rtype: list</span>
+<span class="sd">        Args:</span>
+<span class="sd">            nodes: List of nodes to which embeddings will be added. Each node should be</span>
+<span class="sd">                structured and compatible with the embedding model and Neptune database setup.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The list of nodes with their information potentially updated after processing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
             <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">underlying_index_name</span><span class="p">()</span>

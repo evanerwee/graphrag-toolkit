@@ -88,7 +88,7 @@ class MetadataToNodes():
 
         Args:
             input_nodes (List[BaseNode]): A list of input nodes to be processed and used for generating new nodes.
-            \*\*kwargs (Any): Additional keyword arguments that may be required by the builders.
+            \\*\\*kwargs (Any): Additional keyword arguments that may be required by the builders.
 
         Returns:
             List[BaseNode]: A list of processed nodes that includes both generated nodes and the original input nodes.

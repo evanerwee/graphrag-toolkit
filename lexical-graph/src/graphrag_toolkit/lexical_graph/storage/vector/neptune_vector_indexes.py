@@ -397,11 +397,11 @@ class NeptuneIndex(VectorIndex):
             )
 
     def add_embeddings(self, nodes):
-        """
-        Adds embeddings to provided nodes and updates the Neptune database with the
-        embeddings using a specific query. The method assumes that the class is
-        working with a Neptune database setup and uses an embedding model to process
-        nodes.
+        """Adds embeddings to provided nodes and updates the Neptune database with the
+        embeddings using a specific query.
+
+        The method assumes that the class is working with a Neptune database setup
+        and uses an embedding model to process nodes.
 
         The process involves:
         1. Adding metadata to the nodes.
@@ -410,12 +410,12 @@ class NeptuneIndex(VectorIndex):
            with the embedding information.
         4. Cleaning up metadata after processing is complete.
 
-        :param nodes: List of nodes to which embeddings will be added. Each node should be
-            structured and compatible with the embedding model and Neptune database setup.
-        :type nodes: list
-        :return: The list of nodes with their information potentially updated
-            after processing.
-        :rtype: list
+        Args:
+            nodes: List of nodes to which embeddings will be added. Each node should be
+                structured and compatible with the embedding model and Neptune database setup.
+
+        Returns:
+            The list of nodes with their information potentially updated after processing.
         """
         for node in nodes:
             node.metadata['index'] = self.underlying_index_name()

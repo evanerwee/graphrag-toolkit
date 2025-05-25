@@ -52,6 +52,7 @@ class BuildPipeline():
         node_builders (NodeBuilders): Object that encapsulates the logic for building nodes, applying filters, and formatting metadata.
         node_filter (NodeFilter): Filter used for excluding or including nodes based on certain conditions.
         pipeline_kwargs (dict): Additional keyword arguments passed to the pipeline.
+        \\*\\*kwargs (Any): Additional keyword arguments for customization.
     """
     @staticmethod
     def create(components: List[TransformComponent], 
@@ -87,7 +88,7 @@ class BuildPipeline():
             source_metadata_formatter (Optional[SourceMetadataFormatter]): Formatter for source metadata to customize metadata configuration. Defaults to None.
             include_domain_labels (Optional[bool]): Specifies whether domain labels should be incorporated in the output. Defaults to None.
             tenant_id (Optional[TenantId]): Identifier for tenant-specific operations or segregations. Defaults to None.
-            **kwargs (Any): Additional keyword arguments to customize further configuration of the pipeline.
+            \\*\\*kwargs (Any): Additional keyword arguments to customize further configuration of the pipeline.
 
         Returns:
             Pipe: A configured Pipe instance encapsulating the constructed pipeline for execution.
@@ -144,7 +145,7 @@ class BuildPipeline():
             source_metadata_formatter (Optional[SourceMetadataFormatter]): A formatter for metadata associated with nodes, enabling customization or domain-specific adjustments. Defaults to a DefaultSourceMetadataFormatter instance.
             include_domain_labels (Optional[bool]): Indicates whether domain labels should be included in the output during processing. Defaults to a preconfigured value.
             tenant_id (Optional[TenantId]): An identifier for the tenant, used for scoping data. Defaults to None.
-            **kwargs (Any): Additional keyword arguments to configure the pipeline behavior.
+            \\*\\*kwargs (Any): Additional keyword arguments to configure the pipeline behavior.
         """
         components = components or []
         num_workers = num_workers or GraphRAGConfig.build_num_workers
