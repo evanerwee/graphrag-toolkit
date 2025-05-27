@@ -1,6 +1,8 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
+_unspecified = object()
+
 import json
 import yaml
 import logging
@@ -173,6 +175,8 @@ class LexicalGraphQueryEngine(BaseQueryEngine):
             **kwargs,
         )
 
+
+
     @staticmethod
     def for_semantic_guided_search(
         graph_store: GraphStoreType,
@@ -260,8 +264,8 @@ class LexicalGraphQueryEngine(BaseQueryEngine):
         vector_store: VectorStoreType,
         tenant_id: Optional[TenantIdType] = None,
         llm: LLMCacheType = None,
-        system_prompt: Optional[str] = ANSWER_QUESTION_SYSTEM_PROMPT,
-        user_prompt: Optional[str] = ANSWER_QUESTION_USER_PROMPT,
+        system_prompt: Optional[str] = _unspecified ,
+        user_prompt: Optional[str] = _unspecified ,
         retriever: Optional[RetrieverType] = None,
         post_processors: Optional[PostProcessorsType] = None,
         callback_manager: Optional[CallbackManager] = None,
@@ -311,10 +315,22 @@ class LexicalGraphQueryEngine(BaseQueryEngine):
                 enable_cache=GraphRAGConfig.enable_cache,
             )
         )
+
+        # Resolve prompts through GraphRAGConfig if not explicitly passed
+        resolved_system_prompt = (
+            system_prompt if system_prompt is not _unspecified
+            else GraphRAGConfig.system_prompt or ANSWER_QUESTION_SYSTEM_PROMPT
+        )
+
+        resolved_user_prompt = (
+            user_prompt if user_prompt is not _unspecified
+            else GraphRAGConfig.user_prompt or ANSWER_QUESTION_USER_PROMPT
+        )
+
         self.chat_template = ChatPromptTemplate(
             message_templates=[
-                ChatMessage(role=MessageRole.SYSTEM, content=system_prompt),
-                ChatMessage(role=MessageRole.USER, content=user_prompt),
+                ChatMessage(role=MessageRole.SYSTEM, content=resolved_system_prompt),
+                ChatMessage(role=MessageRole.USER, content=resolved_user_prompt),
             ]
         )
 
@@ -447,7 +463,7 @@ class LexicalGraphQueryEngine(BaseQueryEngine):
         applies a sequence of retrieval and optional post-processing steps to generate
         the final results.
 
-        :param query_bundle: The query bundle used to retrieve information. It can be a
+        :param query_bundle: The query bundle is used to retrieve information. It can be a
             string or a pre-constructed instance of the QueryBundle class.
         :type query_bundle: QueryBundle
         :return: A list of nodes paired with their respective scores, which represent

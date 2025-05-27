@@ -11,7 +11,7 @@ from pydantic import Field
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from graphrag_toolkit.lexical_graph import ModelError
+from graphrag_toolkit.lexical_graph.errors import ModelError
 from graphrag_toolkit.lexical_graph.retrieval.model import SearchResult
 
 from llama_index.core.postprocessor.types import BaseNodePostprocessor

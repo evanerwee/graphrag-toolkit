@@ -1,6 +1,8 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
+_unspecified = object()
+
 import os
 import json
 import boto3
@@ -14,6 +16,10 @@ from llama_index.embeddings.bedrock import BedrockEmbedding
 from llama_index.core.settings import Settings
 from llama_index.core.llms import LLM
 from llama_index.core.base.embeddings.base import BaseEmbedding
+
+from graphrag_toolkit.lexical_graph.logging import logging
+
+logger = logging.getLogger(__name__)
 
 LLMType = Union[LLM, str]
 EmbeddingType = Union[BaseEmbedding, str]
@@ -137,6 +143,31 @@ class _GraphRAGConfig:
     _enable_cache: Optional[bool] = None
     _metadata_datetime_suffixes: Optional[List[str]] = None
 
+    _system_prompt_arn: Optional[str] = None
+    _user_prompt_arn: Optional[str] = None
+    _response_prompt_arn: Optional[str] = None
+
+    _system_prompt: Optional[str] = None
+    _user_prompt: Optional[str] = None
+
+    def _resolve_prompt_arn(self, value: str) -> str:
+        """
+        Resolve a prompt identifier into a full Bedrock prompt ARN.
+
+        If the value is already a full ARN, it is returned as-is.
+        Otherwise, assume it's a short name and construct the ARN using:
+        - the configured AWS region (from self.aws_region)
+        - the current AWS account ID (via STS)
+
+        :param value: Full ARN or short name (e.g., "my-prompt")
+        :return: Full ARN string
+        """
+        if value.startswith("arn:aws:bedrock:"):
+            return value
+
+        sts = self._get_or_create_client("sts")
+        account_id = sts.get_caller_identity()["Account"]
+        return f"arn:aws:bedrock:{self.aws_region}:{account_id}:prompt/{value}"
     def _get_or_create_client(self, service_name: str) -> boto3.client:
         """
         Retrieve or create a boto3 client for the specified AWS service. The method
@@ -176,6 +207,95 @@ class _GraphRAGConfig:
                 f"Profile: '{profile}', Region: '{region}'. "
                 f"Original error: {str(e)}"
             ) from e
+
+    def fetch_bedrock_prompt_text(self, prompt_identifier: str) -> str:
+        """
+        Retrieves the prompt text from a Bedrock Agent prompt.
+
+        Accepts either a full ARN or a short prompt name and returns the prompt's template text.
+        """
+        if not prompt_identifier.startswith("arn:"):
+            try:
+                sts_client = self._get_or_create_client("sts")
+                account_id = sts_client.get_caller_identity()["Account"]
+                prompt_identifier = f"arn:aws:bedrock:{self.aws_region}:{account_id}:prompt/{prompt_identifier}"
+            except Exception as e:
+                raise RuntimeError(f"Failed to construct ARN from short prompt name: {e}") from e
+
+        try:
+            response = self._get_or_create_client("bedrock-agent").get_prompt(
+                promptIdentifier=prompt_identifier
+            )
+
+            # ✅ Extract only the text from the default variant
+            return response["variants"][0]["templateConfiguration"]["text"]["text"]
+
+        except Exception as e:
+            raise RuntimeError(
+                f"Failed to retrieve Bedrock prompt for identifier '{prompt_identifier}': {e}"
+            ) from e
+
+    @property
+    def system_prompt(self) -> Optional[str]:
+        if self._system_prompt:
+            return self._system_prompt
+
+        self._system_prompt_arn = self._system_prompt_arn or os.environ.get("SYSTEM_PROMPT_ARN")
+        if self._system_prompt_arn:
+            try:
+                self._system_prompt = self.fetch_bedrock_prompt_text(self._system_prompt_arn)
+            except Exception as e:
+                logger.warning(f"Failed to fetch system prompt from ARN: {e}")
+
+        return self._system_prompt
+
+    @system_prompt.setter
+    def system_prompt(self, value: str):
+        self._system_prompt = value
+        self._system_prompt_arn = None  # clear ARN resolution
+
+    @property
+    def user_prompt(self) -> Optional[str]:
+        if self._user_prompt:
+            return self._user_prompt
+
+        self._user_prompt_arn = self._user_prompt_arn or os.environ.get("USER_PROMPT_ARN")
+        if self._user_prompt_arn:
+            try:
+                self._user_prompt = self.fetch_bedrock_prompt_text(self._user_prompt_arn)
+            except Exception as e:
+                logger.warning(f"Failed to fetch user prompt from ARN: {e}")
+
+        return self._user_prompt
+
+    @user_prompt.setter
+    def user_prompt(self, value: str):
+        self._user_prompt = value
+        self._user_prompt_arn = None
+
+    @property
+    def response_prompt_arn(self) -> Optional[str]:
+        """
+        Retrieves the prompt template ARN for Bedrock-managed response prompts.
+        Falls back to the environment variable RESPONSE_PROMPT_ARN if not set.
+        """
+        if self._response_prompt_arn is None:
+            self._response_prompt_arn = os.environ.get('RESPONSE_PROMPT_ARN')
+        return self._response_prompt_arn
+
+    @response_prompt_arn.setter
+    def response_prompt_arn(self, arn: str) -> None:
+        """
+        Sets the response prompt ARN to use for Bedrock-managed templates.
+        """
+        self._response_prompt_arn = arn
+
+    @property
+    def bedrock_agent(self):
+        """
+        Returns the boto3 client for Bedrock Agent (used to fetch prompts, agents, etc.).
+        """
+        return self._get_or_create_client("bedrock-agent")
 
     @property
     def session(self) -> Boto3Session:
