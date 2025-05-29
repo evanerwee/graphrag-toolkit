@@ -2,20 +2,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from graphrag_toolkit.lexical_graph.metadata import FilterConfig
-from graphrag_toolkit.lexical_graph.retrieval.processors import (
-    ProcessorBase,
-    ProcessorArgs,
-)
-from graphrag_toolkit.lexical_graph.retrieval.model import (
-    SearchResultCollection,
-    SearchResult,
-)
+from graphrag_toolkit.lexical_graph.retrieval.processors import ProcessorBase, ProcessorArgs
+from graphrag_toolkit.lexical_graph.retrieval.model import SearchResultCollection, SearchResult
 
 from llama_index.core.schema import QueryBundle
 
-
 class FilterByMetadata(ProcessorBase):
-    """Filters search results based on metadata.
+    """
+    Filters search results based on metadata.
 
     This class is responsible for filtering search results by examining their metadata.
     The filtering is applied to a collection of search results, retaining only those
@@ -25,10 +19,9 @@ class FilterByMetadata(ProcessorBase):
         args (ProcessorArgs): Arguments required for the processing.
         filter_config (FilterConfig): Configuration that defines the metadata filtering rules.
     """
-
-    def __init__(self, args: ProcessorArgs, filter_config: FilterConfig):
-        """Initializes the class instance and sets up the basic configuration
-        for processing.
+    def __init__(self, args:ProcessorArgs, filter_config:FilterConfig):
+        """
+        Initializes the class instance and sets up the basic configuration for processing.
 
         The constructor initializes the parent class with the provided arguments and
         filter configuration. It is responsible for setting up any necessary state
@@ -37,15 +30,13 @@ class FilterByMetadata(ProcessorBase):
         Args:
             args (ProcessorArgs): The arguments required for initializing the processor.
             filter_config (FilterConfig): The configuration settings for the filtering
-            process.
+                process.
         """
         super().__init__(args, filter_config)
-
-    def _process_results(
-        self, search_results: SearchResultCollection, query: QueryBundle
-    ) -> SearchResultCollection:
-        """Processes search results based on the provided query and applies
-        filters to the search result metadata.
+        
+    def _process_results(self, search_results:SearchResultCollection, query:QueryBundle) -> SearchResultCollection:
+        """
+        Processes search results based on the provided query and applies filters to the search result metadata.
 
         Filters the search results by evaluating the metadata of each result using the filter configuration.
         Only results that satisfy the filter criteria are retained.
@@ -57,14 +48,7 @@ class FilterByMetadata(ProcessorBase):
         Returns:
             SearchResultCollection: A collection of filtered search results.
         """
-
-        def filter_search_result(index: int, search_result: SearchResult):
-            return (
-                search_result
-                if self.filter_config.filter_source_metadata_dictionary(
-                    search_result.source.metadata
-                )
-                else None
-            )
+        def filter_search_result(index:int, search_result:SearchResult):
+            return search_result if self.filter_config.filter_source_metadata_dictionary(search_result.source.metadata) else None
 
         return self._apply_to_search_results(search_results, filter_search_result)

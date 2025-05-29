@@ -11,8 +11,9 @@ from llama_index.core.schema import BaseNode
 logger = logging.getLogger(__name__)
 
 class NullBuilder(NodeHandler):
-    """Handles the acceptance of nodes without performing any transformations,
-    primarily used as a pass-through handler.
+    """
+    Handles the acceptance of nodes without performing any transformations, primarily
+    used as a pass-through handler.
 
     The class is designed to process and yield nodes without altering their state. This
     can be helpful in scenarios where nodes need to be logged or monitored without any
@@ -23,14 +24,17 @@ class NullBuilder(NodeHandler):
     """
     def accept(self, nodes: List[BaseNode], **kwargs: Any):
         """
-        Processes a list of nodes and yields them after logging their IDs.
+        Accepts a list of nodes and processes them, yielding each node while logging its acceptance. This function is designed
+        to produce a generator for the given nodes after logging their node IDs.
 
-        :param nodes: A list of nodes to process.
-        :type nodes: List[BaseNode]
-        :param kwargs: Additional keyword arguments for future extensibility.
-        :type kwargs: Any
-        :return: A generator yielding nodes from the input list.
-        :rtype: Generator[BaseNode, None, None]
+        Args:
+            nodes (List[BaseNode]): A list of nodes to be processed. Each node is expected to have a `node_id` attribute
+                which will be used for logging.
+            **kwargs (Any): Additional arguments that might be used for extended functionality or context, but are not
+                required for this function's core behavior.
+
+        Yields:
+            BaseNode: Each node from the input list is yielded after being processed (specifically logged in this case).
         """
         for node in nodes:
             logger.debug(f'Accepted node [node_id: {node.node_id}]')         

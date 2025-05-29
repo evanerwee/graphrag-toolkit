@@ -12,10 +12,10 @@ from graphrag_toolkit.lexical_graph.indexing.constants import TOPICS_KEY
 from graphrag_toolkit.lexical_graph.storage.constants import INDEX_KEY
 
 class StatementNodeBuilder(NodeBuilder):
-    """Represents a specialized node builder for constructing statement and
-    fact nodes from input nodes. This class is designed for processing
-    structured data, extracting topics, statements, and facts, and creating
-    associated metadata-enriched nodes.
+    """
+    Represents a specialized node builder for constructing statement and fact nodes
+    from input nodes. This class is designed for processing structured data, extracting
+    topics, statements, and facts, and creating associated metadata-enriched nodes.
 
     The primary use of this class is to generate nodes, with appropriate relationships
     and metadata, from a given list of base nodes. This is done by parsing topics and
@@ -30,9 +30,10 @@ class StatementNodeBuilder(NodeBuilder):
     """
     @classmethod
     def name(cls) -> str:
-        """Provides a way to retrieve the name of the class. This method allows
-        obtaining the specific identifier for the class when needed, especially
-        in contexts requiring dynamic class identification.
+        """
+        Provides a way to retrieve the name of the class. This method allows obtaining the
+        specific identifier for the class when needed, especially in contexts requiring
+        dynamic class identification.
 
         Returns:
             str: The name of the class, "StatementNodeBuilder".
@@ -41,10 +42,11 @@ class StatementNodeBuilder(NodeBuilder):
     
     @classmethod
     def metadata_keys(cls) -> List[str]:
-        """Retrieves metadata keys specifically associated with the class. This
-        method provides a list of standardized metadata keys that are utilized
-        within the class context. The keys returned are constants predefined
-        within the class, ensuring consistency and avoiding hardcoding.
+        """
+        Retrieves metadata keys specifically associated with the class. This method provides
+        a list of standardized metadata keys that are utilized within the class context. The
+        keys returned are constants predefined within the class, ensuring consistency and
+        avoiding hardcoding.
 
         Returns:
             List[str]: A list of strings representing metadata keys associated
@@ -54,19 +56,25 @@ class StatementNodeBuilder(NodeBuilder):
     
     def build_nodes(self, nodes:List[BaseNode]):
         """
-        Builds and organizes nodes into structured collections of statements and facts, creating appropriate
-        relationships and metadata for each.
+        Builds and processes nodes from the provided list of BaseNode objects. This method
+        constructs 'statement' and 'fact' nodes with associated metadata and relationships,
+        based on the topics, statements, and facts provided in the nodes. The constructed
+        nodes are further categorized, filtered, and structured to maintain logical
+        connections between related elements such as topics, statements, and facts.
 
-        This function processes a list of nodes to extract and identify topics, statements, and facts,
-        building corresponding statement and fact nodes while applying filtering logic based on provided
-        criteria. Each node is assigned detailed metadata and relationships, ensuring structured linkage
-        between topics, statements, and their associated facts.
+        Conditions:
+        - Topics without data in metadata are skipped.
+        - Statements or topics ignored by filters are excluded from node creation.
+        - Facts are indexed and associated with their parent statements, ensuring
+          deduplication when applicable.
 
-        :param nodes: A list of BaseNode objects to be processed. Each node contains metadata and relationships
-                      required to generate statement and fact nodes.
-        :type nodes: List[BaseNode]
-        :return: A list of generated TextNode objects that represent structured statement and fact nodes.
-        :rtype: List[TextNode]
+        Args:
+            nodes (List[BaseNode]): A list of BaseNode instances containing metadata,
+                relationships, topics, statements, and facts to parse and process.
+
+        Returns:
+            List[TextNode]: A list of TextNode objects representing 'statement' and 'fact'
+            nodes, properly structured, indexed, and enriched with metadata and relationships.
         """
         statement_nodes = {}
         fact_nodes = {}

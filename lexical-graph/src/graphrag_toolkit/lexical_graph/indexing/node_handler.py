@@ -7,60 +7,54 @@ from llama_index.core.schema import BaseNode
 from llama_index.core.schema import TransformComponent
 from llama_index.core.bridge.pydantic import Field
 
-
 class NodeHandler(TransformComponent):
     """
-    Represents a component for processing and filtering nodes. The class serves as
-    a base for handling `BaseNode` objects by applying specific logic defined in
-    a concrete implementation. It provides an abstract method `accept` that must
-    be implemented by subclasses to define the node processing behavior.
+    Handles the processing and transformation of node data.
 
-    This class includes functionality to process a list of `BaseNode` objects and
-    demonstrates flexible handling through additional keyword arguments, enabling
-    various processing needs.
+    This class is designed to process a collection of nodes with optional
+    parameters. It serves as a base class for customizable node handling
+    operations, requiring the implementation of the `accept` method to
+    define specific processing logic. The `__call__` method is provided
+    for use as a callable, enabling straightforward invocation of the
+    processing logic.
 
-    :ivar show_progress: Indicates whether progress should be displayed during
-        processing.
-    :type show_progress: bool
+    Attributes:
+        show_progress (bool): Whether to show progress during processing.
     """
-
     show_progress: bool = Field(default=True, description='Whether to show progress.')
 
     def __call__(self, nodes: List[BaseNode], **kwargs: Any) -> List[BaseNode]:
         """
-        Filters and processes a list of nodes using a specified acceptance logic.
+        Processes and filters a list of nodes by applying the accept method to each node.
 
-        This method leverages the `accept` method to process the input `nodes` list,
-        applying the defined criteria or transformation. It returns only those nodes
-        that meet the acceptance criteria.
+        The method takes a list of BaseNode objects, applies the accept method, and
+        returns a new list containing the results.
 
-        :param nodes: List of nodes to be processed. Each node should be an instance
-            of `BaseNode`, adhering to the required structure and format.
-        :param kwargs: Additional keyword arguments that may be passed to the internal
-            `accept` method for customized processing.
-        :return: A filtered list of nodes that meet the acceptance criteria, as defined
-            by the implementation of the `accept` method.
-        :rtype: List[BaseNode]
+        Args:
+            nodes: A list of BaseNode objects that need to be processed.
+            **kwargs: Additional keyword arguments that can be passed to the accept
+                method.
+
+        Returns:
+            A list of BaseNode objects that have been processed by the accept method.
         """
         return [n for n in self.accept(nodes, **kwargs)]
-
+    
     @abc.abstractmethod
-    def accept(
-        self, nodes: List[BaseNode], **kwargs: Any
-    ) -> Generator[BaseNode, None, None]:
+    def accept(self, nodes: List[BaseNode], **kwargs: Any) -> Generator[BaseNode, None, None]:
         """
-        Processes a list of nodes and applies specific logic as defined by
-        the implementing method. This abstract method must be implemented
-        by subclasses, defining the exact behavior for processing nodes.
-        This method is expected to yield instances of `BaseNode` as it processes.
+        Abstract base class for implementing a visitor pattern that can process
+        a collection of nodes. This requires subclasses to implement the `accept`
+        method to define their processing logic.
 
-        :param nodes: A list of `BaseNode` instances to be processed.
-        :type nodes: List[BaseNode]
-        :param kwargs: Additional keyword arguments to support extensions
-            or optional processing behaviors. May vary depending on
-            subclass implementation.
-        :type kwargs: Any
-        :return: A generator yielding processed `BaseNode` instances.
-        :rtype: Generator[BaseNode, None, None]
+        Args:
+            nodes: A list of nodes derived from the BaseNode class that are to
+                be processed by the visitor pattern.
+            **kwargs: Additional keyword arguments that can be passed during the
+                processing of the nodes.
+
+        Yields:
+            BaseNode: Processed node instances derived from BaseNode, one at
+                a time as the generator progresses.
         """
         raise NotImplementedError()

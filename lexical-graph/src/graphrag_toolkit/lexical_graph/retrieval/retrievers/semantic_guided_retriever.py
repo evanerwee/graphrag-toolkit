@@ -12,119 +12,90 @@ from graphrag_toolkit.lexical_graph.metadata import FilterConfig
 from graphrag_toolkit.lexical_graph.storage.graph import GraphStore
 from graphrag_toolkit.lexical_graph.storage.vector import VectorStore
 
-from graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever import (
-    SemanticGuidedBaseRetriever,
-)
-from graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_ranking_search import (
-    KeywordRankingSearch,
-)
-from graphrag_toolkit.lexical_graph.retrieval.retrievers.statement_cosine_seach import (
-    StatementCosineSimilaritySearch,
-)
-from graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search import (
-    SemanticBeamGraphSearch,
-)
-from graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search import (
-    RerankingBeamGraphSearch,
-)
-from graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils import (
-    get_statements_query,
-    SharedEmbeddingCache,
-)
+from graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever import SemanticGuidedBaseRetriever
+from graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_ranking_search import KeywordRankingSearch
+from graphrag_toolkit.lexical_graph.retrieval.retrievers.statement_cosine_seach import StatementCosineSimilaritySearch
+from graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search import SemanticBeamGraphSearch
+from graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search import RerankingBeamGraphSearch
+from graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils import get_statements_query, SharedEmbeddingCache
 
 logger = logging.getLogger(__name__)
 
-SemanticGuidedRetrieverType = Union[
-    SemanticGuidedBaseRetriever, Type[SemanticGuidedBaseRetriever]
-]
-
+SemanticGuidedRetrieverType = Union[SemanticGuidedBaseRetriever, Type[SemanticGuidedBaseRetriever]]
 
 class SemanticGuidedRetriever(SemanticGuidedBaseRetriever):
     """
-    Defines a semantic-guided retriever that integrates multiple retriever classes
-    for performing semantic and keyword-based searches. This composite system is
-    built upon shared embedding caches and supports vector and graph-based result
-    retrieval. The retriever is designed for flexibility, allowing dynamic
-    retriever initialization and advanced search capabilities.
+    Implementation of a retrieval class that combines semantic-guided search mechanisms to retrieve data
+    from multiple sources, such as vector and graph stores. The class integrates various retrievers for
+    initial search and graph-based expansion, offering a flexible and configurable retrieval system.
 
-    :ivar share_results: Indicates whether results from different retrievers
-        should be shared for additional processing.
-    :type share_results: bool
-    :ivar shared_embedding_cache: Shared embedding cache to store and reuse
-        precomputed embeddings across retrievers for improved efficiency.
-    :type shared_embedding_cache: SharedEmbeddingCache
-    :ivar initial_retrievers: List of initial retrievers for base-level
-        information retrieval.
-    :type initial_retrievers: List[Union[SemanticGuidedBaseRetriever, Type[SemanticGuidedBaseRetriever]]]
-    :ivar graph_retrievers: List of graph-based retrievers for expanding initial
-        retrieved results based on graph relationships.
-    :type graph_retrievers: List[SemanticGuidedBaseRetriever]
+    This class is designed for retrieving nodes relevant to a given query, applying semantic similarity,
+    keyword ranking, graph expansion, and filtering strategies. It ensures efficient and comprehensive
+    information retrieval, leveraging shared caches, metadata filtering, and source grouping to organize
+    the resulting nodes.
+
+    Attributes:
+        share_results (bool): Indicates if results from initial retrieval should be shared and used for
+            graph-based expansion.
+        shared_embedding_cache (SharedEmbeddingCache): Caches embeddings to optimize retrieval performance
+            across multiple retriever instances.
+        initial_retrievers (list): Contains instances of retrievers used for the initial search phase.
+        graph_retrievers (list): Contains instances of graph-based retrievers for result expansion.
     """
-
     def __init__(
         self,
-        vector_store: VectorStore,
-        graph_store: GraphStore,
-        retrievers: Optional[
-            List[Union[SemanticGuidedBaseRetriever, Type[SemanticGuidedBaseRetriever]]]
-        ] = None,
-        share_results: bool = True,
-        filter_config: Optional[FilterConfig] = None,
+        vector_store:VectorStore,
+        graph_store:GraphStore,
+        retrievers:Optional[List[Union[SemanticGuidedBaseRetriever, Type[SemanticGuidedBaseRetriever]]]]=None,
+        share_results:bool=True,
+        filter_config:Optional[FilterConfig]=None,
         **kwargs: Any,
     ) -> None:
         """
-        Initializes an instance of the class by configuring vector and graph stores, retrievers,
-        and shared embedding cache. Additionally, it sets up default retrievers and manages
-        retriever-specific configurations including graph retriever instantiation.
+        Initializes a composite retriever system that integrates multiple retriever classes for
+        semantic and keyword-based search using shared embedding caches and vector/graph
+        stores. The initialization process allows for custom retrievers or defaults to predefined
+        retrievers with specific configurations.
 
-        :param vector_store: The vector store instance used for managing embeddings and search.
-                             Must be of type `VectorStore`.
-        :type vector_store: VectorStore
-        :param graph_store: The graph store instance used for managing graph-like structures
-                            and connectivity. Must be of type `GraphStore`.
-        :type graph_store: GraphStore
-        :param retrievers: A list of retriever instances or their types. Retrievers may be
-                           constructed dynamically and include optional graph-based retrievers
-                           or semantic-guided retrievers. Default is None.
-        :type retrievers: Optional[List[Union[SemanticGuidedBaseRetriever, Type[SemanticGuidedBaseRetriever]]]]
-        :param share_results: A flag that indicates whether results should be shared across
-                              the retrievers. Defaults to True.
-        :type share_results: bool
-        :param filter_config: Optional filter configuration settings used for initializing the class.
-                              Default is None.
-        :type filter_config: Optional[FilterConfig]
-        :param kwargs: Additional keyword arguments that may be passed to the retriever instances
-                       during their initialization or other internal configuration settings.
-        :type kwargs: Any
+        Args:
+            vector_store: The vector storage backend used for embedding search.
+            graph_store: The graph storage backend used for retrieving graph-based results.
+            retrievers: Optional list of retriever instances or retriever classes. If classes
+                are provided, they will be initialized with the provided `vector_store`,
+                `graph_store`, and additional keyword arguments.
+            share_results: Boolean flag indicating whether the results from different retrievers
+                should be shared.
+            filter_config: Optional configuration used for filtering retriever results.
+            **kwargs: Additional keyword arguments used to initialize retrievers.
+
         """
         super().__init__(vector_store, graph_store, filter_config, **kwargs)
 
         self.share_results = share_results
-
+        
         # Create shared embedding cache
         self.shared_embedding_cache = SharedEmbeddingCache(vector_store)
 
         self.initial_retrievers = []
         self.graph_retrievers = []
-
+        
         # initialize retrievers
         if retrievers:
             for retriever in retrievers:
                 if isinstance(retriever, type):
-                    instance = retriever(vector_store, graph_store, **kwargs)
+                    instance = retriever(
+                        vector_store, 
+                        graph_store, 
+                        **kwargs
+                    )
                 else:
                     instance = retriever
-
+                
                 # Inject shared cache if not already set
-                if (
-                    hasattr(instance, 'embedding_cache')
-                    and instance.embedding_cache is None
-                ):
+                if hasattr(instance, 'embedding_cache') and instance.embedding_cache is None:
                     instance.embedding_cache = self.shared_embedding_cache
-
-                if isinstance(
-                    instance, (SemanticBeamGraphSearch, RerankingBeamGraphSearch)
-                ):
+                
+                if isinstance(instance, (SemanticBeamGraphSearch, RerankingBeamGraphSearch)):
                     self.graph_retrievers.append(instance)
                 else:
                     self.initial_retrievers.append(instance)
@@ -135,39 +106,41 @@ class SemanticGuidedRetriever(SemanticGuidedBaseRetriever):
                     vector_store=vector_store,
                     graph_store=graph_store,
                     embedding_cache=self.shared_embedding_cache,
-                    **kwargs,
+                    **kwargs
                 ),
                 KeywordRankingSearch(
                     vector_store=vector_store,
                     graph_store=graph_store,
                     embedding_cache=self.shared_embedding_cache,
-                    **kwargs,
-                ),
+                    **kwargs
+                )
             ]
 
     def _retrieve(self, query_bundle: QueryBundle) -> List[NodeWithScore]:
         """
-        Retrieves and processes nodes based on the initial retrieval from retrievers, applies filters, and orders them.
-        This method performs a multi-step process which involves retrieving initial results, applying graph-based expansions,
-        fetching and updating metadata for nodes, and applying specified filtering and ordering logic.
+        Retrieves and processes nodes based on a query, leveraging multiple retrievers and
+        optional graph expansion. The method executes in several stages, including initial
+        retrieval, deduplication of nodes, optional graph-based expansion, fetching detailed
+        statement data, filtering nodes based on metadata, and grouping nodes by their source
+        for final ordering. It returns an ordered list of nodes, maximizing relevance and
+        context.
 
-        :param query_bundle: The input query encapsulated as a QueryBundle instance.
-        :type query_bundle: QueryBundle
-        :return: A list of NodeWithScore objects containing ordered and filtered nodes.
-        :rtype: List[NodeWithScore]
+        Args:
+            query_bundle (QueryBundle): The query bundle containing the necessary information
+                for performing the retrieval process.
+
+        Returns:
+            List[NodeWithScore]: A list of nodes ordered by score, with detailed metadata
+                included for contextual relevance.
         """
         # 1. Get initial results in parallel
-        with concurrent.futures.ThreadPoolExecutor(
-            max_workers=len(self.initial_retrievers)
-        ) as p:
-            initial_results = list(
-                p.map(
-                    lambda r, query: r.retrieve(query),
-                    self.initial_retrievers,
-                    repeat(query_bundle),
-                )
-            )
-
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(self.initial_retrievers)) as p:
+            initial_results = list(p.map(
+                lambda r, query: r.retrieve(query), 
+                self.initial_retrievers, 
+                repeat(query_bundle)
+            ))
+        
         if logger.isEnabledFor(logging.DEBUG) and self.debug_results:
             logger.debug(f'initial_results: {initial_results}')
         else:
@@ -202,12 +175,10 @@ class SemanticGuidedRetriever(SemanticGuidedBaseRetriever):
                             seen_statement_ids.add(statement_id)
                             all_nodes.append(node)
                 except Exception as e:
-                    logger.error(
-                        f"Error in graph retriever {retriever.__class__.__name__}: {e}"
-                    )
+                    logger.error(f"Error in graph retriever {retriever.__class__.__name__}: {e}")
                     continue
 
-        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:
+        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:            
             logger.debug(f'all_nodes (after expansion): {all_nodes}')
         else:
             logger.debug(f'num all_nodes (after expansion): {len(all_nodes)}')
@@ -217,7 +188,8 @@ class SemanticGuidedRetriever(SemanticGuidedBaseRetriever):
             return []
 
         statement_ids = [
-            node.node.metadata['statement']['statementId'] for node in all_nodes
+            node.node.metadata['statement']['statementId'] 
+            for node in all_nodes
         ]
         statements = get_statements_query(self.graph_store, statement_ids)
 
@@ -225,13 +197,15 @@ class SemanticGuidedRetriever(SemanticGuidedBaseRetriever):
             logger.debug(f'statements: {statements}')
         else:
             logger.debug(f'num statements: {len(statements)}')
+        
 
         # 5. Create final nodes with full data
         final_nodes = []
         statements_map = {
-            s['result']['statement']['statementId']: s['result'] for s in statements
+            s['result']['statement']['statementId']: s['result'] 
+            for s in statements
         }
-
+        
         for node in all_nodes:
             statement_id = node.node.metadata['statement']['statementId']
             if statement_id in statements_map:
@@ -242,26 +216,27 @@ class SemanticGuidedRetriever(SemanticGuidedBaseRetriever):
                         **node.node.metadata,  # Preserve retriever metadata
                         'statement': result['statement'],
                         'chunk': result['chunk'],
-                        'source': result['source'],
-                    },
+                        'source': result['source']                     
+                    }
                 )
-                final_nodes.append(NodeWithScore(node=new_node, score=node.score))
+                final_nodes.append(NodeWithScore(
+                    node=new_node,
+                    score=node.score
+                ))
 
-        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:
+        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:       
             logger.debug(f'final_nodes: {final_nodes}')
         else:
             logger.debug(f'num final_nodes: {len(final_nodes)}')
 
         # 6. Apply metadata filters
         filtered_nodes = [
-            node
-            for node in final_nodes
-            if self.filter_config.filter_source_metadata_dictionary(
-                node.node.metadata['source']['metadata']
-            )
+            node 
+            for node in final_nodes 
+            if self.filter_config.filter_source_metadata_dictionary(node.node.metadata['source']['metadata'])    
         ]
 
-        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:
+        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:       
             logger.debug(f'filter_nodes: {filtered_nodes}')
         else:
             logger.debug(f'num filter_nodes: {len(filtered_nodes)}')
@@ -278,7 +253,7 @@ class SemanticGuidedRetriever(SemanticGuidedBaseRetriever):
             nodes.sort(key=lambda x: x.score or 0.0, reverse=True)
             ordered_nodes.extend(nodes)
 
-        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:
+        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:    
             logger.debug(f'ordered_nodes: {ordered_nodes}')
         else:
             logger.debug(f'num ordered_nodes: {len(ordered_nodes)}')

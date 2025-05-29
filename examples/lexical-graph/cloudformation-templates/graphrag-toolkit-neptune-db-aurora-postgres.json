@@ -13,7 +13,7 @@
 		"NeptuneEngineVersion": {
 			"Description": "Neptune DB engine version",
 			"Type": "String",
-			"Default": "1.4.1.0"
+			"Default": "1.4.5.0"
 		},
 		"NeptuneDbInstanceType": {
 			"Description": "Neptune DB instance type (use db.serverless to provision a Neptune Serverless cluster)",
@@ -78,7 +78,7 @@
 		},
 		"IamPolicyArn": {
 			"Type": "String",
-			"Description": "ARN of an additional IAM policy to be attached to the GraphRAG client IAM role (optional)",
+			"Description": "Space-separated ARNs of one or more additional IAM policies to be attached to the GraphRAG client IAM role (optional)",
 			"Default": ""
 		},
 		"NotebookInstanceType": {
@@ -571,19 +571,24 @@
 						}
 					]
 				},
-				"ManagedPolicyArns": [
-					{
-						"Fn::If": [
-							"AddIamPolicyArn",
-							{
-								"Ref": "IamPolicyArn"
-							},
+				"ManagedPolicyArns": {
+					"Fn::If": [
+						"AddIamPolicyArn",
+						{
+							"Fn::Split": [
+								" ",
+								{
+									"Ref": "IamPolicyArn"
+								}
+							]
+						},
+						[
 							{
 								"Ref": "AWS::NoValue"
 							}
 						]
-					}
-				],
+					]
+				},
 				"Path": "/graphrag-toolkit/"
 			}
 		},
@@ -670,7 +675,8 @@
 						{
 							"Effect": "Allow",
 							"Action": [
-								"bedrock:InvokeModel"
+								"bedrock:InvokeModel",
+								"bedrock:InvokeModelWithResponseStream"
 							],
 							"Resource": [
 								{
@@ -679,6 +685,38 @@
 								{
 									"Fn::Sub": [
 										"arn:${partition}:bedrock:${region}:${accountId}:inference-profile/${regionPrefix}.anthropic.claude-3-5-sonnet-20240620-v1:0",
+										{
+											"partition": {
+												"Ref": "AWS::Partition"
+											},
+											"region": {
+												"Ref": "AWS::Region"
+											},
+											"accountId": {
+												"Ref": "AWS::AccountId"
+											},
+											"regionPrefix": {
+												"Fn::Select": [
+													0,
+													{
+														"Fn::Split": [
+															"-",
+															{
+																"Ref": "AWS::Region"
+															}
+														]
+													}
+												]
+											}
+										}
+									]
+								},
+								{
+									"Fn::Sub": "arn:${AWS::Partition}:bedrock:*::foundation-model/anthropic.claude-3-7-sonnet-20250219-v1:0"
+								},
+								{
+									"Fn::Sub": [
+										"arn:${partition}:bedrock:${region}:${accountId}:inference-profile/${regionPrefix}.anthropic.claude-3-7-sonnet-20250219-v1:0",
 										{
 											"partition": {
 												"Ref": "AWS::Partition"
@@ -1271,7 +1309,7 @@
 				"InstanceType": {
 					"Ref": "NotebookInstanceType"
 				},
-				"PlatformIdentifier": "notebook-al2-v2",
+				"PlatformIdentifier": "notebook-al2-v3",
 				"NotebookInstanceName": {
 					"Fn::Sub": "aws-neptune-${ApplicationId}"
 				},
@@ -1505,7 +1543,8 @@
 										"/graph_notebook.tar.gz /tmp/graph_notebook.tar.gz\n",
 										"rm -rf /tmp/graph_notebook\n",
 										"tar -zxvf /tmp/graph_notebook.tar.gz -C /tmp\n",
-										"/tmp/graph_notebook/install.sh\n",
+										"chmod +x /tmp/graph_notebook/install_jl4x.sh\n",
+										"/tmp/graph_notebook/install_jl4x.sh\n",
 										"\n",
 										"cd /home/ec2-user/SageMaker\n",
 										"if [ ! -d graphrag-toolkit ]; then\n",
@@ -1692,7 +1731,7 @@
 										"  if [ -f \"./run_test_suite.sh\" ]\n",
 										"  then\n",
 										"    echo \"Running test suite\"\n",
-										"    sh run_test_suite.sh &\n",
+										"    screen -L -m -d sh run_test_suite.sh\n",
 										"  else\n",
 										"    echo \"No test suite\"\n",
 										"  fi\n",

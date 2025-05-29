@@ -9,11 +9,7 @@ from typing import List, Any, Type, Optional
 from graphrag_toolkit.lexical_graph.metadata import FilterConfig
 from graphrag_toolkit.lexical_graph.storage.graph import GraphStore
 from graphrag_toolkit.lexical_graph.storage.vector.vector_store import VectorStore
-from graphrag_toolkit.lexical_graph.retrieval.model import (
-    SearchResultCollection,
-    SearchResult,
-    ScoredEntity,
-)
+from graphrag_toolkit.lexical_graph.retrieval.model import SearchResultCollection, SearchResult, ScoredEntity
 from graphrag_toolkit.lexical_graph.retrieval.processors import *
 
 from llama_index.core.base.base_retriever import BaseRetriever
@@ -24,8 +20,8 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_PROCESSORS = [
     DedupResults,
-    DisaggregateResults,
-    FilterByMetadata,
+    DisaggregateResults, 
+    FilterByMetadata,               
     PopulateStatementStrs,
     RerankStatements,
     RescoreResults,
@@ -33,19 +29,19 @@ DEFAULT_PROCESSORS = [
     TruncateResults,
     TruncateStatements,
     ClearChunks,
-    ClearScores,
+    ClearScores
 ]
 
 DEFAULT_FORMATTING_PROCESSORS = [
     StatementsToStrings,
     SimplifySingleTopicResults,
-    FormatSources,
+    FormatSources
 ]
 
-
 class TraversalBasedBaseRetriever(BaseRetriever):
-    """Base class for retrieval using traversal-based methods combining a graph
-    store and a vector store for querying and search.
+    """
+    Base class for retrieval using traversal-based methods combining a graph store and a
+    vector store for querying and search.
 
     The TraversalBasedBaseRetriever class provides foundational utilities and
     interfaces for performing data retrieval by leveraging both a graph store for
@@ -72,22 +68,20 @@ class TraversalBasedBaseRetriever(BaseRetriever):
         filter_config (FilterConfig): Configuration settings for applying filters
             during retrieval.
     """
-
-    def __init__(
-        self,
-        graph_store: GraphStore,
-        vector_store: VectorStore,
-        processor_args: Optional[ProcessorArgs] = None,
-        processors: Optional[List[Type[ProcessorBase]]] = None,
-        formatting_processors: Optional[List[Type[ProcessorBase]]] = None,
-        entities: Optional[List[ScoredEntity]] = None,
-        filter_config: FilterConfig = None,
-        **kwargs,
-    ):
-        """Initializes a class for managing and processing entities, their
-        relationships, and vectors within a given graph and vector store. This
-        also includes the initialization of necessary processors and
-        configurations for handling filtering and formatting tasks.
+    def __init__(self, 
+                 graph_store:GraphStore,
+                 vector_store:VectorStore,
+                 processor_args:Optional[ProcessorArgs]=None,
+                 processors:Optional[List[Type[ProcessorBase]]]=None,
+                 formatting_processors:Optional[List[Type[ProcessorBase]]]=None,
+                 entities:Optional[List[ScoredEntity]]=None,
+                 filter_config:FilterConfig=None,
+                 **kwargs):
+        """
+        Initializes a class for managing and processing entities, their relationships,
+        and vectors within a given graph and vector store. This also includes the
+        initialization of necessary processors and configurations for handling
+        filtering and formatting tasks.
 
         Args:
             graph_store (GraphStore):
@@ -111,26 +105,22 @@ class TraversalBasedBaseRetriever(BaseRetriever):
             filter_config (FilterConfig):
                 Configurations for applying filters to data or entities.
                 Defaults to a new FilterConfig if not given.
-            kwargs:
+            **kwargs:
                 Additional keyword arguments that can be used to initialize
                 processor arguments or passed as optional configurations.
         """
         self.args = processor_args or ProcessorArgs(**kwargs)
-
+        
         self.graph_store = graph_store
         self.vector_store = vector_store
         self.processors = processors if processors is not None else DEFAULT_PROCESSORS
-        self.formatting_processors = (
-            formatting_processors
-            if formatting_processors is not None
-            else DEFAULT_FORMATTING_PROCESSORS
-        )
+        self.formatting_processors = formatting_processors if formatting_processors is not None else DEFAULT_FORMATTING_PROCESSORS
         self.entities = entities or []
         self.filter_config = filter_config or FilterConfig()
-
+        
     def create_cypher_query(self, match_clause):
-        """Constructs a Cypher query string based on the provided match clause,
-        tailoring it to retrieve data from a graph database.
+        """
+        Constructs a Cypher query string based on the provided match clause, tailoring it to retrieve data from a graph database.
 
         This function generates a Cypher query dynamically to process relationships and nodes in the graph database.
         It extracts information on sources, topics, statements, and chunks, organizing them into a structured result.
@@ -169,8 +159,8 @@ class TraversalBasedBaseRetriever(BaseRetriever):
         return f'{match_clause}{return_clause}'
 
     def _retrieve(self, query_bundle: QueryBundle) -> List[NodeWithScore]:
-        """Retrieves nodes with associated scores by performing a graph search
-        and applying processing routines.
+        """
+        Retrieves nodes with associated scores by performing a graph search and applying processing routines.
 
         This function performs a search operation starting from the relevant node IDs determined by
         the provided query. It then applies a series of processing steps to refine the search results and
@@ -181,38 +171,29 @@ class TraversalBasedBaseRetriever(BaseRetriever):
 
         Returns:
             List[NodeWithScore]: A list of nodes with their associated scores, ready for further processing or display.
+
         """
-        logger.debug(
-            f'[{type(self).__name__}] Begin retrieve [args: {self.args.to_dict()}]'
-        )
-
+        logger.debug(f'[{type(self).__name__}] Begin retrieve [args: {self.args.to_dict()}]')
+        
         start_retrieve = time.time()
-
+        
         start_node_ids = self.get_start_node_ids(query_bundle)
-        search_results: SearchResultCollection = self.do_graph_search(
-            query_bundle, start_node_ids
-        )
+        search_results:SearchResultCollection = self.do_graph_search(query_bundle, start_node_ids)
 
         end_retrieve = time.time()
 
         for processor in self.processors:
-            search_results = processor(self.args, self.filter_config).process_results(
-                search_results, query_bundle, type(self).__name__
-            )
+            search_results = processor(self.args, self.filter_config).process_results(search_results, query_bundle, type(self).__name__)
 
         formatted_search_results = search_results.model_copy(deep=True)
-
+        
         for processor in self.formatting_processors:
-            formatted_search_results = processor(
-                self.args, self.filter_config
-            ).process_results(
-                formatted_search_results, query_bundle, type(self).__name__
-            )
-
+            formatted_search_results = processor(self.args, self.filter_config).process_results(formatted_search_results, query_bundle, type(self).__name__)
+        
         end_processing = time.time()
 
-        retrieval_ms = (end_retrieve - start_retrieve) * 1000
-        processing_ms = (end_processing - end_retrieve) * 1000
+        retrieval_ms = (end_retrieve-start_retrieve) * 1000
+        processing_ms = (end_processing-end_retrieve) * 1000
 
         logger.debug(f'[{type(self).__name__}] Retrieval: {retrieval_ms:.2f}ms')
         logger.debug(f'[{type(self).__name__}] Processing: {processing_ms:.2f}ms')
@@ -220,25 +201,18 @@ class TraversalBasedBaseRetriever(BaseRetriever):
         return [
             NodeWithScore(
                 node=TextNode(
-                    text=formatted_search_result.model_dump_json(
-                        exclude_none=True, exclude_defaults=True, indent=2
-                    ),
-                    metadata=search_result.model_dump(
-                        exclude_none=True, exclude_unset=True, exclude_defaults=True
-                    ),
-                ),
-                score=search_result.score,
-            )
-            for (search_result, formatted_search_result) in zip(
-                search_results.results, formatted_search_results.results
-            )
+                    text=formatted_search_result.model_dump_json(exclude_none=True, exclude_defaults=True, indent=2),
+                    metadata=search_result.model_dump(exclude_none=True, exclude_unset=True, exclude_defaults=True)
+                ), 
+                score=search_result.score
+            ) 
+            for (search_result, formatted_search_result) in zip(search_results.results, formatted_search_results.results)
         ]
-
-    def _to_search_results_collection(
-        self, results: List[Any]
-    ) -> SearchResultCollection:
-        """Transforms a list of results into a SearchResultCollection object by
-        validating and filtering the provided data.
+    
+    def _to_search_results_collection(self, results:List[Any]) -> SearchResultCollection:
+        """
+        Transforms a list of results into a SearchResultCollection object by validating
+        and filtering the provided data.
 
         This method processes a list of raw results, validates each result's data using
         the SearchResult model, and filters out entries that do not have a 'source' key
@@ -254,7 +228,7 @@ class TraversalBasedBaseRetriever(BaseRetriever):
             filtered search results.
         """
         search_results = [
-            SearchResult.model_validate(result['result'])
+            SearchResult.model_validate(result['result']) 
             for result in results
             if result['result'].get('source', None)
         ]
@@ -263,8 +237,8 @@ class TraversalBasedBaseRetriever(BaseRetriever):
 
     @abc.abstractmethod
     def get_start_node_ids(self, query_bundle: QueryBundle) -> List[str]:
-        """Abstract method to retrieve the starting node IDs based on the
-        provided query bundle.
+        """
+        Abstract method to retrieve the starting node IDs based on the provided query bundle.
 
         This method should be implemented by subclasses to determine which nodes
         to start the traversal or processing from, according to the given query.
@@ -279,15 +253,13 @@ class TraversalBasedBaseRetriever(BaseRetriever):
                        for processing or traversal.
         """
         pass
-
+    
     @abc.abstractmethod
-    def do_graph_search(
-        self, query_bundle: QueryBundle, start_node_ids: List[str]
-    ) -> SearchResultCollection:
-        """Performs a graph search starting from the specified nodes and
-        utilizing the given query to determine the traversal or filtering
-        logic, ultimately constructing a result collection based on the search
-        output.
+    def do_graph_search(self, query_bundle: QueryBundle, start_node_ids:List[str]) -> SearchResultCollection:
+        """
+        Performs a graph search starting from the specified nodes and utilizing the given
+        query to determine the traversal or filtering logic, ultimately constructing a
+        result collection based on the search output.
 
         Args:
             query_bundle: A bundle object containing the query details utilized for

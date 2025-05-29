@@ -7,38 +7,38 @@ from typing import List, Optional, Union, Dict, Generator, Iterable
 from llama_index.core.schema import TextNode, Document, BaseNode
 from llama_index.core.schema import NodeRelationship
 
-
 class SourceDocument(BaseModel):
     """
-    Represents a source document comprising a collection of nodes and an optional reference
-    node.
+    Represents a source document model used for managing and organizing nodes
+    with relationships, providing methods to operate on these nodes.
 
-    This class is designed to store and manage a list of nodes, along with an optional
-    reference node, within a strict configuration environment. It provides functionality
-    to retrieve information about the source node if present.
+    This class defines a structure to handle a collection of nodes (`refNode` and
+    `nodes`) associated with a source document. It includes functionality to
+    retrieve the source identifier of the document based on the defined node
+    relationships.
 
-    :ivar refNode: An optional reference node associated with the document.
-    :type refNode: Optional[BaseNode]
-    :ivar nodes: A list of nodes associated with the source document.
-    :type nodes: List[BaseNode]
+    Attributes:
+        refNode (Optional[BaseNode]): A reference node that can optionally
+            associate with the document.
+        nodes (List[BaseNode]): A list of nodes associated with the source
+            document. Defaults to an empty list.
     """
-
     model_config = ConfigDict(strict=True)
-
-    refNode: Optional[BaseNode] = None
-    nodes: List[BaseNode] = []
+    
+    refNode:Optional[BaseNode]=None
+    nodes:List[BaseNode]=[]
 
     def source_id(self):
         """
-        Retrieves the source ID of the first node in the `nodes` list.
+        Retrieves the source node ID from the list of nodes if it exists.
 
-        The source ID is determined by accessing the `relationships` attribute of the
-        first node and returning the `node_id` associated with the
-        `NodeRelationship.SOURCE` relationship type. If the `nodes` list is empty,
-        this method returns `None`.
+        This method accesses the first node in the `nodes` list and retrieves
+        the ID of the node it is related to via the `SOURCE` relationship.
+        If no nodes are present in the list, the method returns `None`.
 
-        :return: The source ID of the first node, or `None` if no nodes are present.
-        :rtype: int or None
+        Returns:
+            Optional[int]: The node ID of the source node if it exists.
+            Returns `None` if the `nodes` list is empty.
         """
         if not self.nodes:
             return None
@@ -47,25 +47,27 @@ class SourceDocument(BaseModel):
 
 SourceType = Union[SourceDocument, BaseNode]
 
-
-def source_documents_from_source_types(
-    inputs: Iterable[SourceType],
-) -> Generator[SourceDocument, None, None]:
+def source_documents_from_source_types(inputs: Iterable[SourceType]) -> Generator[SourceDocument, None, None]:
     """
-    Transforms and yields SourceDocument objects from provided input data of various types.
+    Generates `SourceDocument` objects from a collection of input types, processing
+    each input object based on its type.
 
-    The function processes a sequence of inputs, which can include multiple types:
-    SourceDocument, Document, and TextNode. Based on the type of each input, it
-    either yields the input as-is or constructs new SourceDocument objects by
-    aggregating related nodes. The function organizes nodes based on their source
-    information when they are of type TextNode.
+    This function iterates through a collection of `SourceType` inputs and converts
+    them into `SourceDocument` objects while maintaining contextual relationships
+    between the input nodes. It handles three primary types: `SourceDocument`,
+    `Document`, and `TextNode`. All `TextNode` inputs are grouped into their parent
+    `SourceDocument` based on their source relationships. If the input type does
+    not match one of the specified types, a `ValueError` is raised.
 
-    :param inputs: An iterable collection of SourceType objects, including
-        SourceDocument, Document, or TextNode.
-    :return: A generator yielding instances of SourceDocument created or processed
-        from the input data.
+    Args:
+        inputs (Iterable[SourceType]): An iterable collection of input objects
+            which can include `SourceDocument`, `Document`, or `TextNode` instances.
+
+    Yields:
+        Generator[SourceDocument, None, None]: A generator of `SourceDocument`
+            objects created from the input data set.
     """
-    chunks_by_source: Dict[str, SourceDocument] = {}
+    chunks_by_source:Dict[str, SourceDocument] = {}
 
     for i in inputs:
         if isinstance(i, SourceDocument):
@@ -87,181 +89,162 @@ def source_documents_from_source_types(
 
 class Propositions(BaseModel):
     """
-    Represents a data model for handling a list of propositions.
+    Represents a collection of propositions with configuration for strict validation.
 
-    This class serves as a model to store and manage a collection of propositions
-    and provides strict validation on its attributes via the associated configuration.
+    This class stores a list of propositions and enforces strict validation of its data.
+    It is used to model structured collections of propositional data, ensuring that
+    the input adheres to the defined constraints and types.
 
-    :ivar model_config: Configuration for the model, allowing strict type validation.
-    :type model_config: ConfigDict
-    :ivar propositions: List of propositions represented as strings.
-    :type propositions: List[str]
+    Attributes:
+        model_config (ConfigDict): Configuration dict to enforce strict validation.
+        propositions (List[str]): A list of propositions represented as strings.
     """
-
     model_config = ConfigDict(strict=True)
-
+    
     propositions: List[str]
-
 
 class Entity(BaseModel):
     """
-    Represents an entity model for managing data with optional strict configuration.
+    Represents an entity with its value and optional classification.
 
-    This class is designed to represent an entity with specific attributes such as
-    entity ID, value, and classification. It inherits from `BaseModel` and allows
-    for optional strict configuration using `ConfigDict(strict=True)`. The entity ID
-    and classification are optional attributes, while the value is required.
+    The Entity class serves to model an object with an identifier, a specific
+    value, and an optional classification. It is designed to provide structure
+    for representing and managing entities in various contexts.
 
-    :ivar entityId: An optional unique identifier for the entity.
-    :type entityId: Optional[str]
-    :ivar value: A required value representing the main data of the entity.
-    :type value: str
-    :ivar classification: An optional classification associated with the entity.
-    :type classification: Optional[str]
+    Attributes:
+        entityId (Optional[str]): The unique identifier for the entity. If not
+            provided, it defaults to None.
+        value (str): The specific value of the entity. This is a required
+            attribute.
+        classification (Optional[str]): Optional classification or category of
+            the entity. Defaults to None.
     """
-
     model_config = ConfigDict(strict=True)
-
-    entityId: Optional[str] = None
+    
+    entityId: Optional[str]=None
 
     value: str
-    classification: Optional[str] = None
-
+    classification: Optional[str]=None
 
 class Relation(BaseModel):
     """
-    Represents a relation model with a strict configuration.
+    Represents a relation with specific configuration attributes.
 
-    This class is designed to represent a relation with a specific configuration. The
-    configuration ensures strict validation for the model attributes. It inherits from
-    BaseModel to provide model validation and management capabilities.
+    This class is used to define and manage a relation with a strict configuration
+    model. It encapsulates attributes relevant to a given relation and ensures
+    that the specified configuration is enforced.
 
-    :ivar value: Represents the value of the relation.
-    :type value: str
+    Attributes:
+        model_config (ConfigDict): Configuration dictionary enforcing a strict
+            model behavior.
+        value (str): The value representing the relation.
     """
-
     model_config = ConfigDict(strict=True)
 
     value: str
-
 
 class Fact(BaseModel):
     """
-    Represents a structured fact consisting of a subject, predicate, and object,
-    typically to model relationships or assertions in data. This class uses strict
-    configuration to enforce data validation rules.
+    Represents a fact entity with associated properties describing relationships
+    between subject, predicate, object, and an optional complement.
 
-    :ivar factId: Identifier for the fact, which is optional.
-    :type factId: Optional[str]
-    :ivar statementId: Identifier for the statement associated with the fact, which
-        is optional.
-    :type statementId: Optional[str]
-    :ivar subject: The entity representing the subject in the fact.
-    :type subject: Entity
-    :ivar predicate: The relationship or action linking the subject to the object.
-    :type predicate: Relation
-    :ivar object: The entity representing the object in the fact, which is optional.
-    :type object: Optional[Entity]
-    :ivar complement: Additional information or context about the fact,
-        which is optional.
-    :type complement: Optional[str]
+    This class is used to model facts in a structured format, where each fact is
+    essentially a subject-predicate-object triplet, often supplemented with an
+    optional complement. The relation between the subject and object is defined
+    by the predicate. The fact is also associated with unique identifiers for
+    fact tracking and external references.
+
+    Attributes:
+        factId (Optional[str]): Unique identifier for the fact. Defaults to None.
+        statementId (Optional[str]): Identifier referencing the statement this
+            fact is derived from. Defaults to None.
+        subject (Entity): The subject entity involved in the fact.
+        predicate (Relation): The relationship or action linking subject and
+            object.
+        object (Optional[Entity]): The object entity involved in the fact.
+            Defaults to None.
+        complement (Optional[str]): Additional information or modification
+            related to the fact. Defaults to None.
     """
-
     model_config = ConfigDict(strict=True)
 
-    factId: Optional[str] = None
-    statementId: Optional[str] = None
+    factId: Optional[str]=None
+    statementId: Optional[str]=None
 
     subject: Entity
     predicate: Relation
-    object: Optional[Entity] = None
-    complement: Optional[str] = None
-
+    object: Optional[Entity]=None
+    complement: Optional[str]=None
 
 class Statement(BaseModel):
+    """Represents a statement with associated details, facts, and identifiers.
+
+    This class captures the concept of a statement, which is associated with specific
+    identifiers such as topic, chunk, and statement IDs. It also holds the statement
+    value, related details, and a list of associated facts. It ensures a strict configuration
+    model for its behavior.
+
+    Attributes:
+        statementId (Optional[str]): Identifier for the statement. It is optional and
+            can be None.
+        topicId (Optional[str]): Identifier for the topic to which the statement belongs.
+            It is optional and can be None.
+        chunkId (Optional[str]): Identifier for the chunk related to the statement. It
+            is optional and can be None.
+        value (str): The textual content or main value of the statement.
+        details (List[str]): A list of additional details or elaborations related to the
+            statement. Defaults to an empty list.
+        facts (List[Fact]): A list of Fact objects associated with the statement. Defaults
+            to an empty list.
     """
-    Represents a statement with associated attributes such as its unique identifier,
-    related topic and chunk IDs, and accompanying details and facts.
-
-    The Statement class provides a structured way to manage and organize information
-    related to a specific statement, including its value, additional details, and
-    factual data. Instances of this class can be used to encapsulate and manipulate
-    information relevant to a statement for a variety of use cases.
-
-    :ivar statementId: Unique identifier of the statement.
-    :type statementId: Optional[str]
-    :ivar topicId: Identifier for the topic associated with the statement.
-    :type topicId: Optional[str]
-    :ivar chunkId: Identifier for the chunk of content the statement belongs to.
-    :type chunkId: Optional[str]
-    :ivar value: The textual content of the statement.
-    :type value: str
-    :ivar details: A list of additional details or clarifications about the statement.
-    :type details: List[str]
-    :ivar facts: A collection of factual information associated with the statement.
-    :type facts: List[Fact]
-    """
-
     model_config = ConfigDict(strict=True)
 
-    statementId: Optional[str] = None
-    topicId: Optional[str] = None
-    chunkId: Optional[str] = None
+    statementId: Optional[str]=None
+    topicId: Optional[str]=None
+    chunkId: Optional[str]=None
 
     value: str
-    details: List[str] = []
-    facts: List[Fact] = []
-
+    details: List[str]=[]
+    facts: List[Fact]=[]
 
 class Topic(BaseModel):
     """
-    Represents a Topic with related metadata such as `value`, `entities`,
-    and `statements`, as well as identifiers including `topicId` and `chunkIds`.
+    Represents a Topic with associated details, related chunks, entities, and statements.
 
-    This class serves as a data model for organizing and managing topic-related
-    information. It is constructed with a strict configuration to ensure valid
-    data input. It binds additional metadata such as associated entities and
-    statements for comprehensive information tracking.
+    This class encapsulates information about a specific topic, including its unique
+    identifier, related chunk identifiers, the topic's textual value, a list of entities
+    associated with the topic, and any relevant statements. The configuration ensures
+    strict model validation rules when handling Topic instances.
 
-    :ivar topicId: The unique identifier for the topic (if available). Defaults to None.
-    :type topicId: Optional[str]
-    :ivar chunkIds: A list of chunk identifiers associated with the topic. Defaults to an empty list.
-    :type chunkIds: List[str]
-    :ivar value: The main textual value or description of the topic.
-    :type value: str
-    :ivar entities: A list of entities related to the topic. Defaults to an empty list.
-    :type entities: List[Entity]
-    :ivar statements: A list of statements associated with the topic. Defaults to an empty list.
-    :type statements: List[Statement]
+    Attributes:
+        topicId (Optional[str]): A unique identifier for the topic. Defaults to None if not provided.
+        chunkIds (List[str]): List of chunk identifiers related to the topic. Defaults to an empty list.
+        value (str): The textual value or name of the topic.
+        entities (List[Entity]): List of entities relevant to the topic. Defaults to an empty list.
+        statements (List[Statement]): List of statements associated with the topic. Defaults to an empty list.
     """
-
     model_config = ConfigDict(strict=True)
 
-    topicId: Optional[str] = None
-    chunkIds: List[str] = []
+    topicId : Optional[str]=None
+    chunkIds: List[str]=[]
 
     value: str
-    entities: List[Entity] = []
-    statements: List[Statement] = []
-
+    entities: List[Entity]=[]
+    statements: List[Statement]=[]
 
 class TopicCollection(BaseModel):
     """
-    Represents a collection of topics.
+    Represents a collection of topics with strict model configuration.
 
-    This class is designed to manage and store multiple topics efficiently. It
-    inherits from the BaseModel class and provides strict configuration and data
-    validation. The primary purpose of this class is to hold a list of topics,
-    which can be easily accessed and utilized in applications where grouped topics
-    need to be managed.
+    This class serves as a data model for managing a collection of `Topic` objects.
+    It ensures strict validation and typing enforcement, making it suitable for use
+    in scenarios where structured and validated data representation is critical.
 
-    :ivar model_config: Configuration settings for the model, enforcing strict
-        validation rules and behavior.
-    :type model_config: ConfigDict
-    :ivar topics: A list of topics managed by this collection.
-    :type topics: List[Topic]
+    Attributes:
+        model_config (ConfigDict): Specifies the configuration for the model,
+            enforcing strict validation rules.
+        topics (List[Topic]): A list that contains instances of `Topic` objects.
     """
-
     model_config = ConfigDict(strict=True)
 
-    topics: List[Topic] = []
+    topics: List[Topic]=[]  

@@ -11,12 +11,7 @@ from typing import Optional, Any, Callable
 from importlib.metadata import version, PackageNotFoundError
 from dateutil.parser import parse
 
-from graphrag_toolkit.lexical_graph.storage.graph import (
-    GraphStoreFactoryMethod,
-    GraphStore,
-    NodeId,
-    get_log_formatting,
-)
+from graphrag_toolkit.lexical_graph.storage.graph import GraphStoreFactoryMethod, GraphStore, NodeId, get_log_formatting
 from graphrag_toolkit.lexical_graph.metadata import format_datetime, is_datetime_key
 from graphrag_toolkit.lexical_graph import GraphRAGConfig
 from llama_index.core.bridge.pydantic import PrivateAttr
@@ -27,44 +22,47 @@ NEPTUNE_DB_DNS = 'neptune.amazonaws.com'
 
 logger = logging.getLogger(__name__)
 
-
-def format_id_for_neptune(id_name: str):
+def format_id_for_neptune(id_name:str):
     """
-    Formats an identifier string into an instance of `NodeId`, tailoring
-    the format based on the input string structure. The input can
-    contain a single segment or segments separated by a period,
-    and the function processes these segments to construct and
-    return a corresponding `NodeId` object.
+    Formats an identifier string into a structured format suitable for Neptune.
 
-    :param id_name: The identifier string to format, which can be a
-        single word or composed of segments separated by periods.
-    :type id_name: str
-    :return: A `NodeId` instance where the segments of the `id_name`
-        are appropriately structured into the `NodeId` fields.
-    :rtype: NodeId
+    This function accepts an identifier string, splits it into parts based on the
+    presence of a dot ('.'), and returns a `NodeId` object with appropriately
+    formatted values based on these parts. If the identifier does not contain a
+    dot, it uses the entire string as the identifier's base name and assigns a
+    fixed format for the resulting instance.
+
+    Args:
+        id_name (str): The identifier string to format, which can contain a dot
+            separating different parts.
+
+    Returns:
+        NodeId: An object that encapsulates the formatted identifier, including its
+        base name, formatted string, and a fixed boolean flag.
     """
     parts = id_name.split('.')
     if len(parts) == 1:
         return NodeId(parts[0], '`~id`', False)
     else:
         return NodeId(parts[1], f'id({parts[0]})', False)
-
-
-def create_config(config: Optional[str] = None):
+        
+def create_config(config:Optional[str]=None):
     """
-    Creates and returns a configuration object for the system.
+    Creates a configuration object for the application, including retries, timeouts, and
+    optional user-specified arguments in JSON format.
 
-    This function attempts to determine the version of the
-    `graphrag-toolkit-lexical-graph` package. If the package is not available,
-    the version falls back to 'unknown'. An optional configuration string in JSON
-    format can be provided, which is parsed and merged with the default
-    configuration.
+    This function initializes a configuration with default settings, such as retry policies,
+    read timeouts, and user agent identifiers. If a configuration string in JSON format is
+    provided, it will be parsed and applied to augment or override default settings. The
+    toolkit version is dynamically fetched if available.
 
-    :param config: A JSON-formatted string containing configuration values
-        (optional).
-    :type config: Optional[str]
-    :return: A populated `Config` object with merged configuration values.
-    :rtype: Config
+    Args:
+        config: A JSON-formatted string containing additional configuration settings. If not
+            provided, only default settings will be used.
+
+    Returns:
+        Config: An initialized configuration object containing properties such as retry
+        settings, timeouts, and user agent details.
     """
     toolkit_version = 'unknown'
 
@@ -77,28 +75,29 @@ def create_config(config: Optional[str] = None):
     if config:
         config_args = json.loads(config)
     return Config(
-        retries={'total_max_attempts': 1, 'mode': 'standard'},
+        retries={
+            'total_max_attempts': 1, 
+            'mode': 'standard'
+        }, 
         read_timeout=600,
         user_agent_appid=f'graphrag-toolkit-lexical-graph-{toolkit_version}',
-        **config_args,
+        **config_args
     )
 
-
-def create_property_assigment_fn_for_neptune(
-    key: str, value: Any
-) -> Callable[[str], str]:
+def create_property_assigment_fn_for_neptune(key:str, value:Any) -> Callable[[str], str]:
     """
-    Creates a property assignment function for Neptune based on the given key and value. The function
-    generated will determine how the property is formatted or transformed when assigned,
-    depending on whether the key corresponds to a datetime or a generic property.
+    Creates a property assignment function for Neptune keys and values, enabling specialized handling for
+    datetime keys to format their associated values while leaving other keys untouched.
 
-    :param key: The key name of the property.
-    :type key: str
-    :param value: The value associated with the property, which may be validated or transformed.
-    :type value: Any
-    :return: A callable function that accepts a string representing the property identifier
-        and returns a formatted string for property assignment.
-    :rtype: Callable[[str], str]
+    Args:
+        key (str): The key associated with the property, which can affect the behavior based on its type.
+        value (Any): The value to be assigned, specifically checked and formatted if the key indicates
+            datetime.
+
+    Returns:
+        Callable[[str], str]: A function that takes a single string argument and returns a string. This
+            function formats the input value depending on whether the key is determined to represent
+            datetime.
     """
     if is_datetime_key(key):
         try:
@@ -109,89 +108,83 @@ def create_property_assigment_fn_for_neptune(
     else:
         return lambda x: x
 
-
 class NeptuneAnalyticsGraphStoreFactory(GraphStoreFactoryMethod):
     """
-    Factory class for creating instances of NeptuneAnalyticsClient based on specific graph
-    information.
+    Factory class to create instances of NeptuneAnalyticsClient.
 
-    This class provides a factory method for initializing a graph connection
-    to `NeptuneAnalytics`. It evaluates the given graph information and decides whether
-    to create and return a `NeptuneAnalyticsClient` instance based on predefined matching
-    criteria.
+    This class serves as a factory for creating instances of a NeptuneAnalyticsClient
+    using the factory method pattern. It provides a mechanism to conditionally create
+    the graph store depending on the provided identifier and configuration parameters.
 
-    :ivar NEPTUNE_ANALYTICS: A prefix used for checking whether the provided
-        graph information corresponds to a Neptune Analytics graph.
-    :type NEPTUNE_ANALYTICS: str
+    Attributes:
+        None
     """
-
-    def try_create(self, graph_info: str, **kwargs) -> GraphStore:
+    def try_create(self, graph_info:str, **kwargs) -> GraphStore:
         """
-        Attempts to create a `GraphStore` instance based on the provided graph information
-        string. If the `graph_info` string starts with the predefined `NEPTUNE_ANALYTICS`
-        prefix, this function initializes a `NeptuneAnalyticsClient` using the deriving
-        specific details and configuration provided in `kwargs`. Otherwise, it returns None.
+        Attempts to create and return an instance of `NeptuneAnalyticsClient` if the provided
+        graph information matches the expected format. If the graph information does not match,
+        `None` is returned. The function is used for initializing a graph connection based
+        on specific criteria.
 
-        :param graph_info: A string containing the information about the graph. It is
-            expected to possibly contain the `NEPTUNE_ANALYTICS` prefix.
-        :type graph_info: str
-        :param kwargs: Additional keyword arguments that may include optional configuration
-            parameters, such as 'config', which defines specific setup details for the
-            client.
-        :type kwargs: dict
-        :return: A `NeptuneAnalyticsClient` instance if the graph information matches
-            the `NEPTUNE_ANALYTICS` criteria. Returns None otherwise.
-        :rtype: GraphStore or None
+        Args:
+            graph_info (str): Information about the graph, expected to start with the
+                `NEPTUNE_ANALYTICS` prefix to successfully create a client instance.
+            **kwargs: Additional optional parameters, such as configuration settings.
+                The `config` parameter, if provided, will be used to customize
+                the initialization of the `NeptuneAnalyticsClient`.
+
+        Returns:
+            GraphStore: An instance of `NeptuneAnalyticsClient` if the graph info matches the
+                expected conditions. Otherwise, `None` is returned.
         """
         if graph_info.startswith(NEPTUNE_ANALYTICS):
 
-            graph_id = graph_info[len(NEPTUNE_ANALYTICS) :]
+            graph_id = graph_info[len(NEPTUNE_ANALYTICS):]
             config = kwargs.pop('config', {})
 
             logger.debug(f'Opening Neptune Analytics graph [graph_id: {graph_id}]')
-            return NeptuneAnalyticsClient(
-                graph_id=graph_id,
-                log_formatting=get_log_formatting(kwargs),
-                config=json.dumps(config),
-            )
+            return NeptuneAnalyticsClient(graph_id=graph_id, log_formatting=get_log_formatting(kwargs), config=json.dumps(config))
         else:
             return None
-
-
+            
 class NeptuneDatabaseGraphStoreFactory(GraphStoreFactoryMethod):
+    """Factory for creating Neptune database graph store instances.
+
+    Provides the implementation for creating instances of NeptuneDatabaseClient based
+    on the provided graph information and additional configurations. This factory parses
+    the graph endpoint from the given graph information and constructs the client accordingly.
+
+    Attributes:
+        None
     """
-    Factory class responsible for creating instances of GraphStore configured specifically
-    for Neptune database connections. This class interprets provided graph database
-    identifiers or URLs, optionally processes configuration arguments, and initializes
-    a Neptune database client if the connection information is valid.
-
-    Designed to handle multiple ways of identifying Neptune database instances
-    and allows for flexible customization of connection parameters.
-
-    :ivar graph_endpoint: The resolved or processed endpoint URL of the Neptune database.
-    :type graph_endpoint: str or None
-    """
-
-    def try_create(self, graph_info: str, **kwargs) -> GraphStore:
+    def try_create(self, graph_info:str, **kwargs) -> GraphStore:
         """
-        Attempts to create and return a NeptuneDatabaseClient instance based on the given
-        graph_info string. Determines the appropriate endpoint and configuration details
-        for the Neptune database, and initializes the client if a valid endpoint can
-        be identified. If the input graph_info does not match expected patterns or no
-        valid endpoint is found, returns None without any instantiation.
+        Attempts to create a GraphStore instance for a Neptune database based on the provided
+        graph information. It extracts or processes the graph endpoint from the given
+        `graph_info` and optionally leverages additional configurations provided through
+        keyword arguments.
 
-        :param graph_info: The string containing information about the graph database,
-            including the possible endpoint or DNS details.
-        :param kwargs: Keyword arguments that can include additional configurations,
-            such as 'endpoint_url', 'port', and 'config'.
-        :return: An instance of NeptuneDatabaseClient if a valid database endpoint
-            is determined, otherwise None.
-        :rtype: GraphStore or None
+        Args:
+            graph_info (str): Information or identifier for the graph database. This could
+                be a URL or a string containing elements allowing identification of a
+                Neptune database endpoint.
+            **kwargs: Additional arguments to customize the connection and configuration
+                for the generated Neptune database client. Supported arguments include:
+                - endpoint_url: Explicit endpoint URL to use for the database connection.
+                - port: Port number to use for the connection if not embedded in the
+                  `graph_endpoint`. Defaults to 8182.
+                - config: A dictionary of configuration key-value pairs to control specifics
+                  of the database client's behavior.
+
+        Returns:
+            GraphStore: A NeptuneDatabaseClient instance configured for the provided
+            `graph_info` and `**kwargs`, or `None` if the `graph_info` does not lead to a
+            valid endpoint.
         """
         graph_endpoint = None
 
         if graph_info.startswith(NEPTUNE_DATABASE):
-            graph_endpoint = graph_info[len(NEPTUNE_DATABASE) :]
+            graph_endpoint = graph_info[len(NEPTUNE_DATABASE):]
         elif graph_info.endswith(NEPTUNE_DB_DNS):
             graph_endpoint = graph_info
         elif NEPTUNE_DB_DNS in graph_info:
@@ -202,42 +195,30 @@ class NeptuneDatabaseGraphStoreFactory(GraphStoreFactoryMethod):
             endpoint_url = kwargs.pop('endpoint_url', None)
             port = kwargs.pop('port', 8182)
             if not endpoint_url:
-                endpoint_url = (
-                    f'https://{graph_endpoint}'
-                    if ':' in graph_endpoint
-                    else f'https://{graph_endpoint}:{port}'
-                )
+                endpoint_url = f'https://{graph_endpoint}' if ':' in graph_endpoint else f'https://{graph_endpoint}:{port}'
             config = kwargs.pop('config', {})
-            return NeptuneDatabaseClient(
-                endpoint_url=endpoint_url,
-                log_formatting=get_log_formatting(kwargs),
-                config=json.dumps(config),
-            )
+            return NeptuneDatabaseClient(endpoint_url=endpoint_url, log_formatting=get_log_formatting(kwargs), config=json.dumps(config))
         else:
             return None
-
-
+            
 class NeptuneAnalyticsClient(GraphStore):
     """
-    Represents a client for interacting with a Neptune Graph database system.
+    Represents a client for interacting with an Amazon Neptune graph database.
 
-    This class provides an interface for managing and interacting with Neptune-powered
-    graph databases. It supports features such as client initialization, node ID
-    formatting, property assignment functions, and Cypher query executions, while
-    abstracting away implementation-specific details for easier use.
+    Provides functionality to execute queries and handle operations specific to
+    Neptune's OpenCypher API. It also offers utility methods for node ID formatting
+    and property assignment customization.
 
-    :ivar graph_id: The unique identifier of the Neptune graph instance.
-    :type graph_id: str
-    :ivar config: Optional configuration settings for the Neptune graph client.
-    :type config: Optional[str]
-    :ivar _client: Internal storage for the initialized Neptune Graph API client.
-    :type _client: Optional[Any]
+    Attributes:
+        graph_id (str): The identifier for the graph being accessed.
+        config (Optional[str]): Optional configuration details for the client.
+        _client (Optional[Any]): Internal attribute to manage the Neptune client
+            instance. Initialized lazily when accessed via the `client` property.
     """
-
     graph_id: str
-    config: Optional[str] = None
+    config : Optional[str] = None
     _client: Optional[Any] = PrivateAttr(default=None)
-
+        
     def __getstate__(self):
         self._client = None
         return super().__getstate__()
@@ -245,87 +226,91 @@ class NeptuneAnalyticsClient(GraphStore):
     @property
     def client(self):
         """
-        Retrieves the Neptune graph client. If the client is not previously initialized,
-        it creates a new client instance using the defined session and configuration.
+        The `client` property provides access to the Neptune Graph API client. It initializes
+        the client lazily upon the first request, ensuring that the session and configuration
+        are properly set up. This encapsulation allows deferred initialization and prevents
+        unnecessary setup unless the client is required.
 
-        :raises AttributeError: If the session or configuration is improperly defined.
+        Attributes:
+            _client (Optional[Any]): Stores the initialized Neptune Graph API client.
 
-        :return: The initialized or existing client instance.
-        :rtype: typing.Any
+        Returns:
+            Any: The initialized Neptune Graph API client object.
         """
         if self._client is None:
             session = GraphRAGConfig.session
-            self._client = session.client(
-                'neptune-graph', config=create_config(self.config)
-            )
+            self._client = session.client('neptune-graph', config=create_config(self.config))
         return self._client
-
-    def node_id(self, id_name: str) -> NodeId:
+    
+    def node_id(self, id_name:str) -> NodeId:
         """
-        Formats the given node identifier for compatibility with Neptune's expected format.
+        Formats an identifier for compatibility with Neptune.
 
-        :param id_name: The identifier of the node that needs to be formatted.
-        :type id_name: str
-        :return: A `NodeId` object representing the formatted node identifier.
-        :rtype: NodeId
+        This function processes the provided identifier into the format required
+        by Neptune, enabling smooth handling and identification of nodes.
+
+        Args:
+            id_name: The identifier string to be formatted.
+
+        Returns:
+            NodeId: The formatted identifier as a NodeId type, ready for use with
+            Neptune.
         """
         return format_id_for_neptune(id_name)
-
-    def property_assigment_fn(self, key: str, value: Any) -> Callable[[str], str]:
+    
+    def property_assigment_fn(self, key:str, value:Any) -> Callable[[str], str]:
         """
-        Creates a function that assigns a specific property to a Neptune object.
+        Assigns a property value for a Neptune property system using the provided key and value.
 
-        This function generates a callable that associates a given key-value pair with
-        a Neptune property. It facilitates creating dynamic property assignment
-        functions for Neptune objects.
+        This function creates a callable function that assigns a property value in a Neptune-based
+        system by leveraging the given key and value. The result of the function is intended to
+        help simplify interactions with Neptune’s property system by wrapping the implementation
+        details into a callable template.
 
-        :param key: The key of the property to be assigned.
-        :type key: str
-        :param value: The value of the property to be assigned.
-        :type value: Any
-        :return: A callable function that accepts a string input and applies the key-value
-                 property assignment for the Neptune object.
-        :rtype: Callable[[str], str]
+        Args:
+            key (str): The property key to assign the value to. Must be provided as a string.
+            value (Any): The value to be assigned to the key, where the type depends on the specific
+                requirements of the Neptune system.
+
+        Returns:
+            Callable[[str], str]: A callable function that implements the specified property
+            assignment operation based on the provided key and value.
         """
         return create_property_assigment_fn_for_neptune(key, value)
-
+ 
     def execute_query(self, cypher, parameters={}, correlation_id=None):
         """
-        Executes a Cypher query against a database and returns the results. The function logs the query
-        and execution details, including the time taken to process the query. If debug logging is enabled,
-        it logs more detailed information about the response.
+        Executes a Cypher query against the database, with the ability to log the request and response,
+        including the execution time. This method is a wrapper over the database client execution,
+        providing additional formatting and debug logging for traceability.
 
-        :param cypher: The Cypher query to be executed, as a string.
-        :type cypher: str
-        :param parameters: A dictionary of parameters to bind to the Cypher query. Defaults to an empty
-            dictionary.
-        :type parameters: dict, optional
-        :param correlation_id: Optional identifier used to correlate the request in logs. If not provided,
-            this is set to None.
-        :type correlation_id: str, optional
-        :return: The results of the query execution, parsed as a JSON object.
-        :rtype: dict
+        Args:
+            cypher (str): The Cypher query string to be executed.
+            parameters (dict, optional): The parameters to pass along with the Cypher query. Defaults to an empty dictionary.
+            correlation_id (str, optional): An identifier to associate the request with a specific operation or context. Defaults to None.
+
+        Returns:
+            list: A list of results obtained by executing the query. Each result is parsed as a JSON object.
+
         """
         query_id = uuid.uuid4().hex[:5]
 
         request_log_entry_parameters = self.log_formatting.format_log_entry(
-            self._logging_prefix(query_id, correlation_id), cypher, parameters
+            self._logging_prefix(query_id, correlation_id), 
+            cypher, 
+            parameters
         )
 
-        logger.debug(
-            f'[{request_log_entry_parameters.query_ref}] Query: [query: {request_log_entry_parameters.query}, parameters: {request_log_entry_parameters.parameters}]'
-        )
+        logger.debug(f'[{request_log_entry_parameters.query_ref}] Query: [query: {request_log_entry_parameters.query}, parameters: {request_log_entry_parameters.parameters}]')
 
         start = time.time()
-
-        response = self.client.execute_query(
+        
+        response =  self.client.execute_query(
             graphIdentifier=self.graph_id,
-            queryString=request_log_entry_parameters.format_query_with_query_ref(
-                cypher
-            ),
+            queryString=request_log_entry_parameters.format_query_with_query_ref(cypher),
             parameters=parameters,
             language='OPEN_CYPHER',
-            planCache='DISABLED',
+            planCache='DISABLED'
         )
 
         end = time.time()
@@ -334,40 +319,37 @@ class NeptuneAnalyticsClient(GraphStore):
 
         if logger.isEnabledFor(logging.DEBUG):
             response_log_entry_parameters = self.log_formatting.format_log_entry(
-                self._logging_prefix(query_id, correlation_id),
-                cypher,
-                parameters,
-                results,
+                self._logging_prefix(query_id, correlation_id), 
+                cypher, 
+                parameters, 
+                results
             )
-            logger.debug(
-                f'[{response_log_entry_parameters.query_ref}] {int((end-start) * 1000)}ms Results: [{response_log_entry_parameters.results}]'
-            )
-
+            logger.debug(f'[{response_log_entry_parameters.query_ref}] {int((end-start) * 1000)}ms Results: [{response_log_entry_parameters.results}]')
+    
         return results
-
-
+    
 class NeptuneDatabaseClient(GraphStore):
     """
-    A client for interacting with the Neptune Data service using openCypher queries.
+    A client implementation for interacting with an Amazon Neptune graph database.
 
-    This class provides methods for formatting identifiers, creating property assignment
-    functions, and executing openCypher queries. It manages client initialization lazily,
-    ensuring efficient access to the Neptune Data service. The class is designed to handle
-    dynamic endpoint URLs and configurations, allowing for flexible integration.
+    This class provides functionalities to interact with an Amazon Neptune graph
+    database in a structured way. It allows executing queries using OpenCypher,
+    managing nodes and their properties, and more. The client handles setting up
+    connections and formatting requests, making it easier to perform graph database
+    operations. It also includes functionality for detailed logging of queries and
+    their responses.
 
-    :ivar endpoint_url: The endpoint URL for the `neptunedata` service.
-    :type endpoint_url: str
-    :ivar config: Optional configuration for the client setup. Defaults to None.
-    :type config: Optional[str]
-    :ivar _client: The internal client instance for interacting with the `neptunedata` service.
-        Initialized lazily when accessed.
-    :type _client: Optional[Any]
+    Attributes:
+        endpoint_url (str): The endpoint URL of the Neptune database to connect to.
+        config (Optional[str]): Configuration settings for the Neptune client
+            session, if needed.
+        _client (Optional[Any]): Internal attribute, managed privately, used to
+            hold the initialized Neptune client session.
     """
-
     endpoint_url: str
-    config: Optional[str] = None
+    config : Optional[str] = None
     _client: Optional[Any] = PrivateAttr(default=None)
-
+        
     def __getstate__(self):
         self._client = None
         return super().__getstate__()
@@ -375,82 +357,90 @@ class NeptuneDatabaseClient(GraphStore):
     @property
     def client(self):
         """
-        Provides the AWS Neptune data client associated with the current object. This property
-        initializes the client if it does not already exist, leveraging configuration details
-        such as the endpoint URL and session settings.
+        Provides a property to access the `_client` attribute, initializing it if
+        necessary. The `_client` is created using the `neptunedata` service, where
+        the `endpoint_url` and configuration are supplied dynamically.
 
-        :return: The initialized or previously existing AWS Neptune data client
-        :rtype: boto3.client
+        Attributes:
+            _client (Any): The underlying client instance for interacting with the
+                `neptunedata` service. It is initialized lazily when the property
+                is accessed.
+            endpoint_url (str): The endpoint URL for the `neptunedata` service.
+            config (dict): Configuration options required for creating the client.
+
+        Returns:
+            Any: A client object set up to interact with the Neptune Data service.
         """
         if self._client is None:
             session = GraphRAGConfig.session
             self._client = session.client(
                 'neptunedata',
                 endpoint_url=self.endpoint_url,
-                config=create_config(self.config),
+                config=create_config(self.config)
             )
         return self._client
 
-    def node_id(self, id_name: str) -> NodeId:
+    def node_id(self, id_name:str) -> NodeId:
         """
-        Formats the provided identifier to match the required format for Neptune.
+        Formats the given identifier into a NodeId compatible format for Neptune.
 
-        :param id_name: The identifier that needs to be formatted for Neptune.
-        :type id_name: str
-        :return: A properly formatted NodeId object, adhering to the format expected
-            by Neptune.
-        :rtype: NodeId
+        Args:
+            id_name (str): The identifier string to format.
+
+        Returns:
+            NodeId: The formatted NodeId object.
         """
         return format_id_for_neptune(id_name)
-
-    def property_assigment_fn(self, key: str, value: Any) -> Callable[[str], str]:
+    
+    def property_assigment_fn(self, key:str, value:Any) -> Callable[[str], str]:
         """
-        Creates a property assignment function for Neptune API usage. The generated
-        function can be used to set properties associated with a Neptune object.
+        Creates and returns a property assignment function which assigns a given value
+        to a specific key. The returned function will perform the assignment when
+        invoked.
 
-        :param key: A string representing the key of the property to assign.
-        :param value: The value of any type to be associated with the provided key.
-        :return: A callable function that takes a single string parameter and returns
-            a string representing the outcome of the property assignment.
+        Args:
+            key (str): The key to which the value would be assigned.
+            value (Any): The value to assign to the provided key.
+
+        Returns:
+            Callable[[str], str]: A function that takes a single string argument and
+            performs the assignment with respect to the specified key and value.
         """
         return create_property_assigment_fn_for_neptune(key, value)
 
     def execute_query(self, cypher, parameters={}, correlation_id=None):
         """
-        Executes a cypher query with the provided parameters and logs the request and response
-        details for debugging purposes. It uses a unique query identifier for each execution
-        and measures the execution time. The results of the query are returned after execution.
+        Executes an openCypher query using the provided query string and parameters,
+        logs the query and its results for debugging purposes, and measures the
+        execution time in milliseconds.
 
-        :param cypher: The cypher query to execute.
-        :type cypher: str
-        :param parameters: A dictionary of parameters to be used within the cypher query.
-            Defaults to an empty dictionary.
-        :type parameters: dict, optional
-        :param correlation_id: An optional identifier used to correlate log entries
-            with specific requests. Defaults to None.
-        :type correlation_id: str, optional
-        :return: The results of the executed cypher query.
-        :rtype: dict
+        Args:
+            cypher (str): The openCypher query string to be executed.
+            parameters (dict, optional): A dictionary of parameters to bind to the
+                query. Defaults to an empty dictionary.
+            correlation_id (str, optional): An optional correlation ID for tracking
+                queries across services. Defaults to None.
+
+        Returns:
+            list: The results of the executed query as returned by the query response.
         """
         query_id = uuid.uuid4().hex[:5]
-
+        
         params = json.dumps(parameters)
 
         request_log_entry_parameters = self.log_formatting.format_log_entry(
-            self._logging_prefix(query_id, correlation_id), cypher, params
+            self._logging_prefix(query_id, correlation_id), 
+            cypher, 
+            params
         )
 
-        logger.debug(
-            f'[{request_log_entry_parameters.query_ref}] Query: [query: {request_log_entry_parameters.query}, parameters: {request_log_entry_parameters.parameters}]'
-        )
+        logger.debug(f'[{request_log_entry_parameters.query_ref}] Query: [query: {request_log_entry_parameters.query}, parameters: {request_log_entry_parameters.parameters}]')
 
         start = time.time()
 
-        response = self.client.execute_open_cypher_query(
-            openCypherQuery=request_log_entry_parameters.format_query_with_query_ref(
-                cypher
-            ),
-            parameters=params,
+        response =  self.client.execute_open_cypher_query(
+            openCypherQuery=request_log_entry_parameters.format_query_with_query_ref(cypher),
+            parameters=params
         )
 
         end = time.time()
@@ -459,13 +449,11 @@ class NeptuneDatabaseClient(GraphStore):
 
         if logger.isEnabledFor(logging.DEBUG):
             response_log_entry_parameters = self.log_formatting.format_log_entry(
-                self._logging_prefix(query_id, correlation_id),
-                cypher,
-                parameters,
-                results,
+                self._logging_prefix(query_id, correlation_id), 
+                cypher, 
+                parameters, 
+                results
             )
-            logger.debug(
-                f'[{response_log_entry_parameters.query_ref}] {int((end-start) * 1000)}ms Results: [{response_log_entry_parameters.results}]'
-            )
-
+            logger.debug(f'[{response_log_entry_parameters.query_ref}] {int((end-start) * 1000)}ms Results: [{response_log_entry_parameters.results}]')
+        
         return results

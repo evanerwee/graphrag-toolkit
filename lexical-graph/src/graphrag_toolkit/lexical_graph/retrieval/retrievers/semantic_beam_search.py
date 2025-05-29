@@ -9,23 +9,17 @@ import logging
 from graphrag_toolkit.lexical_graph.metadata import FilterConfig
 from graphrag_toolkit.lexical_graph.storage.graph import GraphStore
 from graphrag_toolkit.lexical_graph.storage.vector import VectorStore
-from graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils import (
-    get_top_k,
-    SharedEmbeddingCache,
-)
-from graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever import (
-    SemanticGuidedBaseRetriever,
-)
+from graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils import get_top_k, SharedEmbeddingCache
+from graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever import SemanticGuidedBaseRetriever
 
 from llama_index.core.schema import NodeWithScore, QueryBundle, TextNode
 
 logger = logging.getLogger(__name__)
 
-
 class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
-    """A class that implements a semantic-guided beam search algorithm on a
-    graph-based data store, facilitating retrieval tasks involving entity
-    relationships and embedding-based similarity.
+    """
+    A class that implements a semantic-guided beam search algorithm on a graph-based data store,
+    facilitating retrieval tasks involving entity relationships and embedding-based similarity.
 
     The `SemanticBeamGraphSearch` class builds upon a base retriever to utilize a combination of graph-based
     neighbor expansion and beam search heuristic optimization. It is designed to process queries, traverse
@@ -38,24 +32,22 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
         max_depth (int): Maximum number of graph traversal levels during beam search.
         beam_width (int): Number of candidate states to consider at each step in the beam search.
         shared_nodes (Optional[List[NodeWithScore]]): Initial shared nodes to derive the starting points.
-
     """
-
     def __init__(
         self,
-        vector_store: VectorStore,
-        graph_store: GraphStore,
-        embedding_cache: Optional[SharedEmbeddingCache] = None,
-        max_depth: int = 3,
-        beam_width: int = 10,
-        shared_nodes: Optional[List[NodeWithScore]] = None,
-        filter_config: Optional[FilterConfig] = None,
+        vector_store:VectorStore,
+        graph_store:GraphStore,
+        embedding_cache:Optional[SharedEmbeddingCache]=None,
+        max_depth:int=3,
+        beam_width:int=10,
+        shared_nodes:Optional[List[NodeWithScore]]=None,
+        filter_config:Optional[FilterConfig]=None,
         **kwargs: Any,
     ) -> None:
-        """Initializes a class that manages the connection between a vector
-        store, a graph store, and an optional embedding cache, allowing complex
-        data structure processing through specific search depth and beam width
-        configurations.
+        """
+        Initializes a class that manages the connection between a vector store, a graph store, and
+        an optional embedding cache, allowing complex data structure processing through specific
+        search depth and beam width configurations.
 
         Args:
             vector_store: The storage facility adhering to the VectorStore interface for
@@ -81,9 +73,9 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
         self.shared_nodes = shared_nodes
 
     def get_neighbors(self, statement_id: str) -> List[str]:
-        """Fetches the neighboring statement IDs in the graph, where
-        neighboring statements are associated with any entities connected to
-        the given statement.
+        """
+        Fetches the neighboring statement IDs in the graph, where neighboring statements are associated
+        with any entities connected to the given statement.
 
         This method queries the graph database to identify entities that are directly linked to the
         provided statement and retrieves other statements supported by these entities.
@@ -102,17 +94,17 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
         MATCH (entity)-[:`__SUBJECT__`|`__OBJECT__`]->(:`__Fact__`)-[:`__SUPPORTS__`]->(e_neighbors:`__Statement__`)
         RETURN DISTINCT {self.graph_store.node_id('e_neighbors.statementId')} as statementId
         """
-
-        neighbors = self.graph_store.execute_query(
-            cypher, {'statementId': statement_id}
-        )
+        
+        neighbors = self.graph_store.execute_query(cypher, {'statementId': statement_id})
         return [n['statementId'] for n in neighbors]
 
     def beam_search(
-        self, query_embedding: np.ndarray, start_statement_ids: List[str]
+        self, 
+        query_embedding: np.ndarray,
+        start_statement_ids: List[str]
     ) -> List[Tuple[str, List[str]]]:  # [(statement_id, path), ...]
-        """Performs a beam search to find the most relevant paths based on the
-        provided query embedding.
+        """
+        Performs a beam search to find the most relevant paths based on the provided query embedding.
 
         The search starts from given initial statement IDs and explores their neighbors up to a maximum
         depth. It uses a priority queue to ensure that the paths with the highest similarity scores
@@ -125,8 +117,9 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
             start_statement_ids (List[str]): A list of statement IDs to start the beam search from.
 
         Returns:
-            List[Tuple[str, List[str]]]: A list of tuples where each tuple consists of a statement ID and its corresponding path of IDs that led to it. The length of the returned list does not exceed the beam width.
-
+            List[Tuple[str, List[str]]]: A list of tuples where each tuple consists of a statement ID
+            and its corresponding path of IDs that led to it. The length of the returned list does
+            not exceed the beam width.
         """
         visited: Set[str] = set()
         results: List[Tuple[str, List[str]]] = []
@@ -135,7 +128,9 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
         # Get initial embeddings and scores
         start_embeddings = self.embedding_cache.get_embeddings(start_statement_ids)
         start_scores = get_top_k(
-            query_embedding, start_embeddings, len(start_statement_ids)
+            query_embedding,
+            start_embeddings,
+            len(start_statement_ids)
         )
 
         # Initialize queue with start statements
@@ -153,32 +148,34 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
 
             if depth < self.max_depth:
                 neighbor_ids = self.get_neighbors(current_id)
-
+                
                 if neighbor_ids:
                     # Get embeddings for neighbors using shared cache
-                    neighbor_embeddings = self.embedding_cache.get_embeddings(
-                        neighbor_ids
-                    )
-
+                    neighbor_embeddings = self.embedding_cache.get_embeddings(neighbor_ids)
+                    
                     # Score neighbors
                     scored_neighbors = get_top_k(
-                        query_embedding, neighbor_embeddings, self.beam_width
+                        query_embedding,
+                        neighbor_embeddings,
+                        self.beam_width
                     )
 
                     # Add neighbors to queue
                     for similarity, neighbor_id in scored_neighbors:
                         if neighbor_id not in visited:
                             new_path = path + [neighbor_id]
-                            queue.put((-similarity, depth + 1, neighbor_id, new_path))
+                            queue.put(
+                                (-similarity, depth + 1, neighbor_id, new_path)
+                            )
 
         return results
 
     def _retrieve(self, query_bundle: QueryBundle) -> List[NodeWithScore]:
-        """Retrieves nodes relevant to a query by performing an initial
-        extraction of statement IDs either from shared nodes or through a
-        fallback vector similarity search, followed by a beam search to further
-        refine the results. Constructs new nodes for any statements not already
-        processed.
+        """
+        Retrieves nodes relevant to a query by performing an initial extraction of
+        statement IDs either from shared nodes or through a fallback vector similarity
+        search, followed by a beam search to further refine the results. Constructs
+        new nodes for any statements not already processed.
 
         Args:
             query_bundle (QueryBundle): The input query packaged as a QueryBundle
@@ -193,29 +190,36 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
         initial_statement_ids = []
         if self.shared_nodes:
             initial_statement_ids = [
-                n.node.metadata['statement']['statementId'] for n in self.shared_nodes
+                n.node.metadata['statement']['statementId'] 
+                for n in self.shared_nodes
             ]
         else:
             # Fallback to vector similarity
             results = self.vector_store.get_index('statement').top_k(
                 query_bundle,
                 top_k=self.beam_width * 2,
-                filter_config=self.filter_config,
+                filter_config=self.filter_config
             )
-            initial_statement_ids = [r['statement']['statementId'] for r in results]
+            initial_statement_ids = [
+                r['statement']['statementId'] for r in results
+            ]
 
-        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:
+        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:    
             logger.debug(f'initial_statement_ids: {initial_statement_ids}')
         else:
             logger.debug(f'num initial_statement_ids: {len(initial_statement_ids)}')
+        
 
         if not initial_statement_ids:
             return []
 
         # 2. Perform beam search
-        beam_results = self.beam_search(query_bundle.embedding, initial_statement_ids)
-
-        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:
+        beam_results = self.beam_search(
+            query_bundle.embedding,
+            initial_statement_ids
+        )
+        
+        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:  
             logger.debug(f'beam_results: {beam_results}')
         else:
             logger.debug(f'num beam_results: {len(beam_results)}')
@@ -231,12 +235,12 @@ class SemanticBeamGraphSearch(SemanticGuidedBaseRetriever):
                         'statement': {'statementId': statement_id},
                         'search_type': 'beam_search',
                         'depth': len(path),
-                        'path': path,
-                    },
+                        'path': path
+                    }
                 )
                 nodes.append(NodeWithScore(node=node, score=0.0))
 
-        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:
+        if logger.isEnabledFor(logging.DEBUG) and self.debug_results:      
             logger.debug(f'nodes: {nodes}')
         else:
             logger.debug(f'num nodes: {len(nodes)}')

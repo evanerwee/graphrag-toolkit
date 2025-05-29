@@ -19,10 +19,9 @@ DEFAULT_PROPOSITION_MODEL = 'chentong00/propositionizer-wiki-flan-t5-large'
 
 logger = logging.getLogger(__name__)
 
-
 class PropositionExtractor(BaseExtractor):
-    """Handles the extraction of propositions from textual data using a pre-
-    trained transformer model.
+    """
+    Handles the extraction of propositions from textual data using a pre-trained transformer model.
 
     This class serves as a tool to extract structured propositions and entities from textual
     content. It leverages transformer-based models (`transformers` library) and integrates
@@ -40,16 +39,16 @@ class PropositionExtractor(BaseExtractor):
         _proposition_model (Optional[Any]): Internal attribute to store the initialized model
             for proposition extraction.
     """
-
     proposition_model_name: str = Field(
         default=DEFAULT_PROPOSITION_MODEL,
         description='The model name of the AutoModelForSeq2SeqLM model to use.',
     )
-
+   
     device: Optional[str] = Field(
-        default=None, description="Device to run model on, i.e. 'cuda', 'cpu'"
+        default=None, 
+        description="Device to run model on, i.e. 'cuda', 'cpu'"
     )
-
+        
     source_metadata_field: Optional[str] = Field(
         description='Metadata field from which to extract propositions and entities'
     )
@@ -59,23 +58,23 @@ class PropositionExtractor(BaseExtractor):
 
     @classmethod
     def class_name(cls) -> str:
-        """Returns the name of the class as a string. Useful for identifying
-        the class name programmatically, especially when dealing with multiple
-        inheritance or dynamic class structures.
+        """
+        Returns the name of the class as a string. Useful for identifying the class
+        name programmatically, especially when dealing with multiple inheritance
+        or dynamic class structures.
 
         Returns:
             str: The name of the class, 'PropositionExtractor'.
         """
         return 'PropositionExtractor'
-
+    
     @property
     def proposition_tokenizer(self):
-        """Provides a property for accessing a tokenizer specific to
-        proposition models. This property ensures that the tokenizer is loaded
-        only once and cached for future use. It attempts to dynamically import
-        the required `transformers` library and initializes a tokenizer using
-        the pre-defined model name. Raises an appropriate error if the
-        `transformers` package is unavailable.
+        """
+        Provides a property for accessing a tokenizer specific to proposition models. This property ensures
+        that the tokenizer is loaded only once and cached for future use. It attempts to dynamically import
+        the required `transformers` library and initializes a tokenizer using the pre-defined model name.
+        Raises an appropriate error if the `transformers` package is unavailable.
 
         Raises:
             ImportError: If the `transformers` package is not installed and cannot be imported.
@@ -87,20 +86,17 @@ class PropositionExtractor(BaseExtractor):
         if self._proposition_tokenizer is None:
             try:
                 from transformers import AutoTokenizer
-
-                self._proposition_tokenizer = AutoTokenizer.from_pretrained(
-                    self.proposition_model_name
-                )
+                self._proposition_tokenizer = AutoTokenizer.from_pretrained(self.proposition_model_name)
             except ImportError as e:
                 raise ImportError(
-                    "transformers package not found, install with 'pip install transformers'"
-                ) from e
+                        "transformers package not found, install with 'pip install transformers'"
+                    ) from e
         return self._proposition_tokenizer
-
+    
     @property
     def proposition_model(self):
-        """Fetches and initializes the proposition model for sequence-to-
-        sequence learning tasks.
+        """
+        Fetches and initializes the proposition model for sequence-to-sequence learning tasks.
 
         The method first checks if the `proposition_model` attribute is already initialized. If not, it attempts to import
         the required libraries, load the model specified by `proposition_model_name`, and move it to the appropriate device:
@@ -117,21 +113,19 @@ class PropositionExtractor(BaseExtractor):
             try:
                 import torch
                 from transformers import AutoModelForSeq2SeqLM
-
                 device = self.device or ('cuda' if torch.cuda.is_available() else 'cpu')
-                self._proposition_model = AutoModelForSeq2SeqLM.from_pretrained(
-                    self.proposition_model_name
-                ).to(device)
+                self._proposition_model = AutoModelForSeq2SeqLM.from_pretrained(self.proposition_model_name).to(device)
             except ImportError as e:
                 raise ImportError(
-                    "torch and/or transformers packages not found, install with 'pip install torch transformers'"
-                ) from e
+                        "torch and/or transformers packages not found, install with 'pip install torch transformers'"
+                    ) from e
         return self._proposition_model
+    
 
     async def aextract(self, nodes: Sequence[BaseNode]) -> List[Dict]:
-        """Asynchronously extracts propositions from a sequence of nodes and
-        returns a list of dictionaries containing the extracted proposition
-        data.
+        """
+        Asynchronously extracts propositions from a sequence of nodes and returns a list of
+        dictionaries containing the extracted proposition data.
 
         Processes the given sequence of nodes, performs extraction operations for their associated
         propositions, and aggregates the results into a list.
@@ -145,9 +139,10 @@ class PropositionExtractor(BaseExtractor):
         """
         proposition_entries = await self._extract_propositions_for_nodes(nodes)
         return [proposition_entry for proposition_entry in proposition_entries]
-
+    
     async def _extract_propositions_for_nodes(self, nodes):
-        """Extracts propositions for the given nodes asynchronously.
+        """
+        Extracts propositions for the given nodes asynchronously.
 
         This method takes a list of nodes and processes each node to extract
         propositions using a helper method. The tasks are processed in parallel
@@ -162,18 +157,20 @@ class PropositionExtractor(BaseExtractor):
             Any: The result of the asynchronous job execution for extracting
                 propositions for the provided nodes.
         """
-        jobs = [self._extract_propositions_for_node(node) for node in nodes]
+        jobs = [
+            self._extract_propositions_for_node(node) for node in nodes
+        ]
         return await run_jobs(
-            jobs,
-            show_progress=self.show_progress,
-            workers=self.num_workers,
-            desc=f'Extracting propositions [nodes: {len(nodes)}, num_workers: {self.num_workers}]',
+            jobs, 
+            show_progress=self.show_progress, 
+            workers=self.num_workers, 
+            desc=f'Extracting propositions [nodes: {len(nodes)}, num_workers: {self.num_workers}]'
         )
-
+        
     async def _extract_propositions_for_node(self, node):
-        """Asynchronously extracts propositions for a given node based on its
-        text or specified metadata field. Logs debug information if debug level
-        is enabled.
+        """
+        Asynchronously extracts propositions for a given node based on its text or specified
+        metadata field. Logs debug information if debug level is enabled.
 
         Args:
             node: The node object containing metadata and text attributes used for proposition
@@ -184,11 +181,7 @@ class PropositionExtractor(BaseExtractor):
                 `PROPOSITIONS_KEY`.
         """
         logger.debug(f'Extracting propositions for node {node.node_id}')
-        text = (
-            node.metadata.get(self.source_metadata_field, node.text)
-            if self.source_metadata_field
-            else node.text
-        )
+        text = node.metadata.get(self.source_metadata_field, node.text) if self.source_metadata_field else node.text
         proposition_collection = await self._extract_propositions(text)
 
         if logger.isEnabledFor(logging.DEBUG):
@@ -198,12 +191,14 @@ text: {text}
 propositions: {proposition_collection}
 """
             logger.debug(s)
-
-        return {PROPOSITIONS_KEY: proposition_collection.model_dump()['propositions']}
-
+            
+        return {
+            PROPOSITIONS_KEY: proposition_collection.model_dump()['propositions']
+        }
+            
     async def _extract_propositions(self, text):
-        """Extracts propositions from the provided text using a pre-trained
-        model and tokenizer.
+        """
+        Extracts propositions from the provided text using a pre-trained model and tokenizer.
 
         This method generates an input text including a title, section, and content, encodes it using
         a tokenizer, and processes it through a proposition generation model. The model's output
@@ -215,27 +210,22 @@ propositions: {proposition_collection}
 
         Returns:
             Propositions: An object containing the extracted propositions in a list.
+
         """
         title = ''
         section = ''
-
+        
         input_text = f'Title: {title}. Section: {section}. Content: {text}'
-
-        input_ids = self.proposition_tokenizer(
-            input_text, return_tensors='pt'
-        ).input_ids
-        outputs = self.proposition_model.generate(
-            input_ids.to(self.device), max_length=1024
-        ).cpu()
-
-        output_text = self.proposition_tokenizer.decode(
-            outputs[0], skip_special_tokens=True
-        )
-
+        
+        input_ids = self.proposition_tokenizer(input_text, return_tensors='pt').input_ids
+        outputs = self.proposition_model.generate(input_ids.to(self.device), max_length=1024).cpu()
+        
+        output_text = self.proposition_tokenizer.decode(outputs[0], skip_special_tokens=True)
+        
         propositions = []
 
         if output_text:
-
+        
             try:
                 propositions = json.loads(output_text)
             except JSONDecodeError as e:
@@ -244,16 +234,15 @@ propositions: {proposition_collection}
                     # add missing double quotes to end of last entry
                     output_text = output_text[0:-1] + '"]'
                 # add missing double quotes to other entries
-                xss = [
-                    [str(i) for i in p.split(', "')]
-                    for p in output_text[2:-2].split('", "')
-                ]
-                cleaned = [x for xs in xss for x in xs]
+                xss = [[str(i) for i in p.split(', "')] for p in output_text[2:-2].split('", "')]
+                cleaned = [
+                    x
+                    for xs in xss
+                    for x in xs
+                ]                               
                 try:
                     propositions = json.loads(json.dumps(cleaned))
-                except JSONDecodeError as e:
-                    logger.exception(
-                        f'Failed to parse output text as JSON: {output_text}'
-                    )
+                except JSONDecodeError as e:            
+                    logger.exception(f'Failed to parse output text as JSON: {output_text}')
 
         return Propositions(propositions=[p for p in propositions])

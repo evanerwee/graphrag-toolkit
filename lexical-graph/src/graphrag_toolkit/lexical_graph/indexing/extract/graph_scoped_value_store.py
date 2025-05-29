@@ -3,17 +3,13 @@
 
 import logging
 from typing import List
-from graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider import (
-    ScopedValueStore,
-)
+from graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider import ScopedValueStore
 from graphrag_toolkit.lexical_graph.storage.graph import GraphStore
 
 logger = logging.getLogger(__name__)
 
-
 class GraphScopedValueStore(ScopedValueStore):
-    """Manages and stores values in a graph database with scope-based
-    organization.
+    """Manages and stores values in a graph database with scope-based organization.
 
     This class allows for storing and retrieving scoped values using a graph database.
     Scoped values are organized by a label and associated with a defined scope for easy
@@ -22,12 +18,11 @@ class GraphScopedValueStore(ScopedValueStore):
     Attributes:
         graph_store (GraphStore): The graph database store used for executing queries.
     """
-
     graph_store: GraphStore
 
-    def get_scoped_values(self, label: str, scope: str) -> List[str]:
-        """Fetches distinct values associated with a specific label and scope
-        from the graph database.
+    def get_scoped_values(self, label:str, scope:str) -> List[str]:
+        """
+        Fetches distinct values associated with a specific label and scope from the graph database.
 
         This function performs a Cypher query to retrieve distinct values from nodes that match
         the specified label and scope in the graph database. The results are then extracted and
@@ -51,18 +46,19 @@ class GraphScopedValueStore(ScopedValueStore):
         RETURN DISTINCT n.value AS value
         '''
 
-        params = {'scope': scope}
+        params = {
+            'scope': scope
+        }
 
         results = self.graph_store.execute_query(cypher, params)
 
         return [result['value'] for result in results]
 
-    def save_scoped_values(self, label: str, scope: str, values: List[str]) -> None:
-        """Saves a list of values associated with a specific label and scope to
-        the graph store. Each value is processed within the provided scope, and
-        the method ensures a unique combination of scope and value through the
-        `MERGE` operation in the query. The execution handles retries in case
-        of query failure.
+    def save_scoped_values(self, label:str, scope:str, values:List[str]) -> None:
+        """
+        Saves a list of values associated with a specific label and scope to the graph store. Each value is
+        processed within the provided scope, and the method ensures a unique combination of scope and value
+        through the `MERGE` operation in the query. The execution handles retries in case of query failure.
 
         Args:
             label (str): The label used to dynamically define the node label in the query. This allows for
@@ -80,6 +76,14 @@ class GraphScopedValueStore(ScopedValueStore):
         MERGE (:`__SYS_SV__{label}__`{{scope:$scope, value:value}})
         '''
 
-        params = {'scope': scope, 'values': values}
+        params = {
+            'scope': scope,
+            'values': values
+        }
 
         self.graph_store.execute_query_with_retry(cypher, params)
+
+   
+
+    
+

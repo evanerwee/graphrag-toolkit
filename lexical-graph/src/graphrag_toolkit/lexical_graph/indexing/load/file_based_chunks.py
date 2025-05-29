@@ -9,84 +9,73 @@ from os.path import join
 from typing import List, Any, Generator, Optional, Dict
 
 from graphrag_toolkit.lexical_graph.indexing import NodeHandler
-from graphrag_toolkit.lexical_graph.indexing.constants import (
-    PROPOSITIONS_KEY,
-    TOPICS_KEY,
-)
-from graphrag_toolkit.lexical_graph.storage.constants import INDEX_KEY
+from graphrag_toolkit.lexical_graph.indexing.constants import PROPOSITIONS_KEY, TOPICS_KEY
+from graphrag_toolkit.lexical_graph.storage.constants import INDEX_KEY 
 
 from llama_index.core.schema import TextNode, BaseNode
 
 logger = logging.getLogger(__name__)
 
-
 class FileBasedChunks(NodeHandler):
     """
-    Handles file-based data chunking with support for metadata filtering and
-    structured data organization.
+    Handles the processing and management of text data chunks stored as files in a specified directory.
 
-    This class allows efficient storage and retrieval of data chunks from the
-    filesystem. It provides methods for filtering metadata, reading files and
-    yielding structured data objects, writing data to disk, and organizing files
-    for specific collections. Primarily designed for scenarios requiring metadata
-    management and chunk-based data processing.
+    The `FileBasedChunks` class provides functionality to handle and store chunks of text data, maintain
+    metadata filtering, and process incoming `BaseNode` objects. Each chunk is represented as a file in
+    the designated `chunks_directory`, and operations like filtering metadata, saving, and iterating
+    through stored chunks are supported. The class can work with specific metadata keys and assigns a
+    unique collection identifier for organizing files.
 
-    :ivar chunks_directory: The base directory for storing and organizing chunk files.
-    :type chunks_directory: str
-    :ivar collection_id: Identifier for the collection. If not provided during
-        initialization, a timestamp in the format '%Y%m%d-%H%M%S' will be used.
-    :type collection_id: str
-    :ivar metadata_keys: List of metadata keys to include or filter during
-        processing. If None, all metadata are included.
-    :type metadata_keys: Optional[List[str]]
+    Attributes:
+        chunks_directory (str): Path to the directory where chunks are stored.
+        collection_id (str): Unique identifier for the collection of chunks. Defaults to a timestamp if
+            not provided.
+        metadata_keys (Optional[List[str]]): List of metadata keys to retain during metadata filtering.
     """
+    chunks_directory:str
+    collection_id:str
 
-    chunks_directory: str
-    collection_id: str
-
-    metadata_keys: Optional[List[str]]
-
-    def __init__(
-        self,
-        chunks_directory: str,
-        collection_id: Optional[str] = None,
-        metadata_keys: Optional[List[str]] = None,
-    ):
+    metadata_keys:Optional[List[str]]
+    
+    def __init__(self, 
+                 chunks_directory:str, 
+                 collection_id:Optional[str]=None,
+                 metadata_keys:Optional[List[str]]=None):
         """
-        Initializes an instance of the class responsible for handling a directory of chunks,
-        a specific collection identifier, and optional metadata keys. The constructor sets
-        up the necessary parameters and ensures the storage directory is prepared for
-        further operations. A collection identifier can optionally be provided, but if not,
-        it defaults to a timestamp.
+        Initializes the class with a directory for chunks, an optional collection ID, and
+        a list of metadata keys. This constructor prepares the necessary configurations
+        for managing data chunks, assigns a unique collection identifier if not provided,
+        and handles directory preparation.
 
-        :param chunks_directory: The path to the directory where chunk files are stored.
-            This parameter is mandatory and determines the location for reading or writing
-            chunked data.
-        :type chunks_directory: str
-        :param collection_id: A unique identifier for the collection of chunks being
-            handled. If not provided, a timestamp in the format "YYYYMMDD-HHMMSS" is
-            automatically generated.
-        :type collection_id: Optional[str]
-        :param metadata_keys: A list of keys for associating metadata with collection items.
-            These keys allow additional information to be attached to the handled objects.
-        :type metadata_keys: Optional[List[str]]
+        Args:
+            chunks_directory: The directory path where chunks will be stored.
+            collection_id: Optional identifier for the collection. If not provided, a timestamp
+                in the format '%Y%m%d-%H%M%S' will be generated and used as the collection ID.
+            metadata_keys: Optional list of metadata keys for handling specific metadata related
+                to the chunks.
         """
         super().__init__(
             chunks_directory=chunks_directory,
             collection_id=collection_id or datetime.now().strftime('%Y%m%d-%H%M%S'),
-            metadata_keys=metadata_keys,
+            metadata_keys=metadata_keys
         )
         self._prepare_directory()
 
     def _prepare_directory(self):
         """
-        Prepare the directory for storing collection-related files.
+        Creates a directory structure for storing collection-specific data if it does
+        not already exist.
 
-        This method ensures that the intended directory for storing files
-        associated with a specific collection exists. If the directory does
-        not exist, it is created.
+        This private method ensures that a directory path combining the base
+        `chunks_directory` and the specific `collection_id` exists on the filesystem.
+        If the directory does not exist, it is created. This setup is essential for
+        managing and organizing files related to individual collections.
 
-        :return: None
+        Args:
+            None
+
+        Raises:
+            None
         """
         directory_path = join(self.chunks_directory, self.collection_id)
         if not os.path.exists(directory_path):
@@ -94,42 +83,33 @@ class FileBasedChunks(NodeHandler):
 
     def chunks(self):
         """
-        Provides an iterable that returns itself. Typically used in cases where
-        an iterator behavior is implemented, but the actual data yielding
-        logic is delegated to another method.
+        Returns the current object, typically used as a placeholder or identity function.
 
-        :return: Returns the instance itself as an iterator
-        :rtype: object
+        This method might be utilized in contexts where an object iterates over itself or where
+        some form of chaining logic is required.
+
+        Returns:
+            object: The current instance of this object.
         """
         return self
-
-    def _filter_metadata(self, node: TextNode) -> TextNode:
+    
+    def _filter_metadata(self, node:TextNode) -> TextNode:
         """
-        Filters metadata of a given TextNode and its relationships to retain only
-        specified metadata keys. The function removes metadata fields that are not
-        in the allowed list of keys or metadata keys explicitly specified for the
-        filtering process.
+        Filters the metadata of a TextNode instance to only retain specified keys or mandatory keys. Keys
+        not listed in `self.metadata_keys` (if defined) or not among the mandatory keys will be deleted from
+        the metadata of the node and its relationships.
 
-        The function operates on the `metadata` property of the node as well as on
-        the metadata of any relationships associated with the node. This ensures
-        that the metadata remains consistent with predefined filtering criteria.
+        Args:
+            node (TextNode): The node whose metadata needs to be filtered.
 
-        :param node: A TextNode object whose metadata and relationship metadata are
-                     to be filtered.
-        :type node: TextNode
-        :return: The modified TextNode object with filtered metadata.
-        :rtype: TextNode
+        Returns:
+            TextNode: The node with its filtered metadata.
         """
-
-        def filter(metadata: Dict):
+        def filter(metadata:Dict):
             """
-            Handles operations related to file-based chunks for node handling, including
-            filtering metadata based on specified conditions.
-
-            Attributes:
-                metadata_keys (Optional[List[str]]): A list of metadata keys to retain during
-                    filtering. If None, all allowed keys are retained.
-
+            Provides mechanisms to handle file-based chunks with the ability to filter their
+            metadata based on specific keys defined within the context of the handler. This class
+            processes nodes by manipulating the metadata to align with predefined conditions.
             """
             keys_to_delete = []
             for key in metadata.keys():
@@ -149,14 +129,28 @@ class FileBasedChunks(NodeHandler):
 
     def __iter__(self):
         """
-        Iterates over the files in the specified chunks directory and yields processed
-        text nodes.
+        Reads chunk files from a specified directory and yields processed data objects.
 
-        This method reads files from the directory specified by `chunks_directory`
-        and `collection_id`. Each file is processed to produce a `TextNode` object
-        with metadata filtered using the `_filter_metadata` method.
+        Iterates over all files in a given directory and processes their contents. Each
+        file's content is converted into a structured data object (`TextNode`) that is
+        filtered to exclude metadata before being yielded. This is used to sequentially
+        access and process a collection of data stored in chunk files.
 
-        :yield: Processed `TextNode` objects created from the JSON content of each file.
+        Returns:
+            Generator: Yields structured data objects (`TextNode`) processed from file
+            contents.
+
+        Yields:
+            TextNode: A filtered `TextNode` object created from reading and parsing the
+            content of each chunk file.
+
+        Attributes:
+            chunks_directory (str): The base directory path containing chunked files.
+            collection_id (str): The unique identifier for the specific collection of
+                chunks being processed.
+
+        Args:
+            self: Instance of the object containing the iteration logic.
         """
         directory_path = join(self.chunks_directory, self.collection_id)
         logger.debug(f'Reading chunks from directory: {directory_path}')
@@ -166,26 +160,25 @@ class FileBasedChunks(NodeHandler):
                 with open(file_path) as f:
                     yield self._filter_metadata(TextNode.from_json(f.read()))
 
-    def accept(
-        self, nodes: List[BaseNode], **kwargs: Any
-    ) -> Generator[BaseNode, None, None]:
-        """
-        Accepts a list of BaseNode instances and processes them based on their metadata, saving
-        specific nodes to the chunks directory with metadata keys not containing `INDEX_KEY`.
-        Yields each node regardless of its processing outcome.
+    def accept(self, nodes: List[BaseNode], **kwargs: Any) -> Generator[BaseNode, None, None]:
+        """Processes a list of nodes and writes certain nodes to disk while yielding them.
 
-        :param nodes: A list of BaseNode objects to process.
-        :type nodes: List[BaseNode]
-        :param kwargs: Additional keyword arguments that may be utilized during processing.
-        :type kwargs: Any
-        :return: A generator yielding each BaseNode after processing.
-        :rtype: Generator[BaseNode, None, None]
+        This method iterates over a list of nodes. For each node, it checks if specific metadata
+        keys are absent. If so, it writes the node's data to a JSON file within a predefined
+        directory structure. Regardless of whether the node was written to disk, each node is
+        yielded.
+
+        Args:
+            nodes (List[BaseNode]): A list of nodes to process.
+            **kwargs (Any): Additional keyword arguments for potential use in processing.
+
+        Yields:
+            BaseNode: Each node from the input list, after optionally writing its data to disk.
+
         """
         for n in nodes:
             if not [key for key in [INDEX_KEY] if key in n.metadata]:
-                chunk_output_path = join(
-                    self.chunks_directory, self.collection_id, f'{n.node_id}.json'
-                )
+                chunk_output_path = join(self.chunks_directory, self.collection_id, f'{n.node_id}.json')
                 logger.debug(f'Writing chunk to file: {chunk_output_path}')
                 with open(chunk_output_path, 'w') as f:
                     json.dump(n.to_dict(), f, indent=4)

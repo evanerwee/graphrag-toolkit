@@ -6,9 +6,9 @@ from typing import List
 
 from graphrag_toolkit.lexical_graph.storage.vector.vector_index import VectorIndex
 
-
-class VectorIndexFactoryMethod:
-    """A factory method for creating vector indexes.
+class VectorIndexFactoryMethod():
+    """
+    A factory method for creating vector indexes.
 
     This abstract class defines an interface for creating vector indexes. Any subclass should
     implement the `try_create` method to specify creation logic. The factory method ensures a
@@ -21,9 +21,6 @@ class VectorIndexFactoryMethod:
     Attributes:
         None
     """
-
     @abc.abstractmethod
-    def try_create(
-        self, index_names: List[str], vector_index_info: str, **kwargs
-    ) -> List[VectorIndex]:
+    def try_create(self, index_names:List[str], vector_index_info:str, **kwargs) -> List[VectorIndex]:
         raise NotImplementedError

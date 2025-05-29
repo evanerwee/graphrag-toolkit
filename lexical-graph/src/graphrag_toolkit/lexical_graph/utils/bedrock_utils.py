@@ -16,8 +16,10 @@ from tenacity import (
 logger = logging.getLogger(__name__)
 
 
+
 def _create_retry_decorator(client: Any, max_retries: int) -> Callable[[Any], Any]:
-    """Creates a retry decorator with exponential backoff strategy.
+    """
+    Creates a retry decorator with exponential backoff strategy.
 
     This function returns a retry decorator based on the specified maximum
     number of retries and the provided client. It uses exponential backoff
@@ -49,14 +51,11 @@ def _create_retry_decorator(client: Any, max_retries: int) -> Callable[[Any], An
         stop=stop_after_attempt(max_retries),
         wait=wait_random_exponential(multiplier=1, min=min_seconds, max=max_seconds),
         retry=(
-            retry_if_exception_type(client.exceptions.ThrottlingException)
-            | retry_if_exception_type(client.exceptions.ModelTimeoutException)
-            | retry_if_exception_type(client.exceptions.ModelErrorException)
+            retry_if_exception_type(client.exceptions.ThrottlingException) | 
+            retry_if_exception_type(client.exceptions.ModelTimeoutException) |
+            retry_if_exception_type(client.exceptions.ModelErrorException)
         ),
         before_sleep=before_sleep_log(logger, logging.WARNING),
     )
-
-
-llama_index.llms.bedrock_converse.utils._create_retry_decorator = (
-    _create_retry_decorator
-)
+    
+llama_index.llms.bedrock_converse.utils._create_retry_decorator = _create_retry_decorator

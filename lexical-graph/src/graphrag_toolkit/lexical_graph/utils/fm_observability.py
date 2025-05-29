@@ -22,50 +22,48 @@ logger = logging.getLogger(__name__)
 
 _fm_observability_queue = None
 
-
 class FMObservabilityQueuePoller(threading.Thread):
     """
-    Manages a thread-based queue poller for processing observability events.
+    FMObservabilityQueuePoller is a thread-based queue polling class.
 
-    This class runs in a separate thread to process events from a queue. It interacts
-    with an observability statistics tracker and can be safely started and stopped
-    to manage the lifecycle of event processing.
+    This class is used to continuously poll a queue for events and process them
+    using the FMObservabilityStats instance. It utilises threading to perform
+    polling in a separate thread and provides methods to start and gracefully
+    stop the polling operation.
 
-    :ivar _discontinue: A threading event used to signal and manage the stop state
-        of the thread. It enables controlled termination of the thread loop.
-    :type _discontinue: threading.Event
-    :ivar fm_observability: Tracks and manages observability-related statistics,
-        providing functionality to handle processed events.
-    :type fm_observability: FMObservabilityStats
+    Attributes:
+        _discontinue (threading.Event): An event object to signal and manage
+            the termination of the thread's execution.
+        fm_observability (FMObservabilityStats): An instance of the
+            FMObservabilityStats class used to handle the events being processed.
     """
-
     def __init__(self):
         """
-        Represents the initialization of an instance for handling internal
-        state and observability statistics.
+        Handles initialization of the class, setting up attributes and dependencies needed for
+        observability and thread event management.
 
-        :ivar _discontinue: A threading event object used to signal when
-            the operation should be discontinued.
-        :type _discontinue: threading.Event
-
-        :ivar fm_observability: An instance of FMObservabilityStats utilized
-            for managing and tracking observability-related statistics.
-        :type fm_observability: FMObservabilityStats
+        Attributes:
+            _discontinue (threading.Event): Threading event used to signal and manage thread
+                lifecycle or operations that need coordination.
+            fm_observability (FMObservabilityStats): Instance of FMObservabilityStats that
+                handles observability-related statistics and functionality.
         """
         super().__init__()
         self._discontinue = threading.Event()
         self.fm_observability = FMObservabilityStats()
+   
 
     def run(self):
         """
-        Process events from the queue and handle them utilizing the observability framework.
+        Runs the queue polling process to process events as they become available in the
+        observability queue. It continuously checks for events unless interrupted by
+        setting the `self._discontinue` event.
 
-        This method continuously polls the `_fm_observability_queue` for events. If an event is retrieved,
-        it invokes the `on_event` method of the `fm_observability` instance to handle the event. Should
-        the `_discontinue` flag be set, the method ceases its operation. If the queue remains empty
-        for a specified timeout interval, the method continues its loop without handling an event.
+        The method polls the `_fm_observability_queue` at a regular interval and processes
+        each event by invoking the `fm_observability.on_event` method.
 
-        :raises queue.Empty: Raised when attempting to get an item from an empty queue and the timeout expires.
+        Raises:
+            queue.Empty: If the queue is empty during a poll attempt.
         """
         logging.debug('Starting queue poller')
         while not self._discontinue.is_set():
@@ -78,54 +76,44 @@ class FMObservabilityQueuePoller(threading.Thread):
 
     def stop(self):
         """
-        Stops the queue polling process by setting the internal flag that signals
-        polling discontinuation. This method is intended to halt any ongoing
-        polling activities cleanly and efficiently. It logs the stopping operation
-        and provides access to relevant observability metrics upon completion.
+        Stops the queue polling process by signaling a discontinuation event and returns
+        the observability object for further monitoring or assessment.
 
-        :return: Observability metrics related to the queue polling process.
-        :rtype: Any
+        This method is intended to halt the queue polling process initiated or operated
+        by the current instance. By setting the discontinuation flag, the polling loop
+        will cease operation. The method also provides access to the observability instance
+        used during the process.
+
+        Returns:
+            Any: The observability object associated with the current process, which
+            can be used for tracking or further evaluation.
         """
         logging.debug('Stopping queue poller')
         self._discontinue.set()
         return self.fm_observability
 
-
 @dataclass
 class FMObservabilityStats:
     """
-    Represents statistics for tracking aggregated performance metrics for
-    language model (LLM) operations and embedding operations.
+    Tracks and updates observability statistics for LLM (Large Language Model) and embedding
+    operations.
 
-    This class is designed for the purpose of collecting and maintaining
-    performance metrics such as execution durations, counts, and token usage
-    for language model operations and embeddings. It provides methods for
-    updating the statistics based on incoming data and properties to
-    calculate derived statistics such as averages. This can be useful for
-    monitoring and analyzing the behavior and resource utilization of large
-    language models and embedding processes.
+    This class monitors various metrics associated with LLM and embedding events, such as
+    durations and token counts. It allows updating of the statistics using external data or
+    events and provides convenient methods for accessing average values. The statistics tracked
+    include both prompt and completion tokens for LLMs and tokens for embeddings.
 
-    :ivar total_llm_duration_millis: Cumulative total duration in milliseconds
-        of all LLM operations.
-    :type total_llm_duration_millis: float
-    :ivar total_llm_count: Total number of LLM operations executed.
-    :type total_llm_count: int
-    :ivar total_llm_prompt_tokens: Total number of tokens used in prompts
-        across all LLM operations.
-    :type total_llm_prompt_tokens: float
-    :ivar total_llm_completion_tokens: Total number of tokens used in
-        completions across all LLM operations.
-    :type total_llm_completion_tokens: float
-    :ivar total_embedding_duration_millis: Cumulative total duration in
-        milliseconds of all embedding operations.
-    :type total_embedding_duration_millis: float
-    :ivar total_embedding_count: Total number of embedding operations executed.
-    :type total_embedding_count: int
-    :ivar total_embedding_tokens: Total number of tokens used in all embedding
-        operations.
-    :type total_embedding_tokens: float
+    Attributes:
+        total_llm_duration_millis (float): Total duration of all LLM calls in milliseconds.
+        total_llm_count (int): Total count of LLM calls.
+        total_llm_prompt_tokens (float): Total prompt tokens used in all LLM calls.
+        total_llm_completion_tokens (float): Total completion tokens returned in all LLM calls.
+        total_embedding_duration_millis (float): Total duration of all embedding calls in
+            milliseconds.
+        total_embedding_count (int): Total count of embedding calls.
+        total_embedding_tokens (float): Total number of embedding tokens across all embedding
+            calls.
     """
-
     total_llm_duration_millis: float = 0
     total_llm_count: int = 0
     total_llm_prompt_tokens: float = 0
@@ -136,16 +124,27 @@ class FMObservabilityStats:
 
     def update(self, stats: Any):
         """
-        Updates the current object's cumulative statistics based on another statistics object
-        and determines if there are any recorded LLM or embedding operations.
+        Updates the current object's statistical attributes with the values from the provided stats object and
+        determines whether the sum of total_llm_count and total_embedding_count is greater than zero.
 
-        This method aggregates various metrics related to LLM (Large Language Model) operations
-        and embeddings, including their respective durations, counts, and token usage.
+        This method is used to aggregate statistical data from another object into the current instance and
+        helps analyze whether any meaningful statistical contributions are made by checking if the combined
+        counts of LLM and embedding operations are non-zero.
 
-        :param stats: The statistics object containing the metrics to be added to the current object.
-        :type stats: Any
-        :return: A boolean indicating whether there was at least one recorded LLM or embedding operation.
-        :rtype: bool
+        Args:
+            stats (Any): An object containing the statistical data to update. The provided stats object must
+                         have the attributes:
+                         - total_llm_duration_millis (int)
+                         - total_llm_count (int)
+                         - total_llm_prompt_tokens (int)
+                         - total_llm_completion_tokens (int)
+                         - total_embedding_duration_millis (int)
+                         - total_embedding_count (int)
+                         - total_embedding_tokens (int)
+
+        Returns:
+            bool: True if the combined total_llm_count and total_embedding_count from the stats object is
+                  greater than zero; otherwise, False.
         """
         self.total_llm_duration_millis += stats.total_llm_duration_millis
         self.total_llm_count += stats.total_llm_count
@@ -158,16 +157,12 @@ class FMObservabilityStats:
 
     def on_event(self, event: CBEvent):
         """
-        Handles the processing of events with different types, updating various counters
-        and accumulators based on the event payload. The function is invoked whenever an
-        event occurs, and modifies the object's state based on the event type and its
-        associated payload data.
+        Handles the processing of different types of events and updates related statistics
+        based on the event type and payload data. Supports events of type LLM and EMBEDDING.
 
-        :param event: A CBEvent instance representing the event to handle. It contains
-            details including the event type and a payload dict that holds related information.
-        :type event: CBEvent
-
-        :return: None
+        Args:
+            event (CBEvent): The event object containing the event type and associated
+                payload data used to update relevant statistics.
         """
         if event.event_type == CBEventType.LLM:
             if 'model' in event.payload:
@@ -175,256 +170,229 @@ class FMObservabilityStats:
                 self.total_llm_count += 1
             elif 'llm_prompt_token_count' in event.payload:
                 self.total_llm_prompt_tokens += event.payload['llm_prompt_token_count']
-                self.total_llm_completion_tokens += event.payload[
-                    'llm_completion_token_count'
-                ]
+                self.total_llm_completion_tokens += event.payload['llm_completion_token_count']
         elif event.event_type == CBEventType.EMBEDDING:
             if 'model' in event.payload:
                 self.total_embedding_duration_millis += event.payload['duration_millis']
                 self.total_embedding_count += 1
             elif 'embedding_token_count' in event.payload:
                 self.total_embedding_tokens += event.payload['embedding_token_count']
-
+    
     @property
     def average_llm_duration_millis(self) -> int:
         """
-        Provides the average duration of LLM operations in milliseconds.
+        Gets the average duration of LLM operations in milliseconds.
 
-        This property calculates the average duration based on the total LLM
-        duration and count. If there have been no LLM operations recorded
-        (total_llm_count is 0), it returns 0 to avoid division by zero.
+        This property calculates the average duration of LLM operations by dividing the
+        total duration spent in LLM operations by the total number of LLM operations
+        performed. If no LLM operations were performed, the average duration is set to 0.
 
-        :return: The average LLM duration in milliseconds. If there are
-            no LLM operations recorded, it returns 0.
-        :rtype: int
+        Returns:
+            int: The average duration of LLM operations in milliseconds.
         """
         if self.total_llm_count > 0:
             return self.total_llm_duration_millis / self.total_llm_count
         else:
             return 0
-
+        
     @property
     def total_llm_tokens(self) -> int:
         """
-        Calculates the total number of tokens used in an LLM operation.
+        Calculates the total number of LLM tokens used, combining prompt and completion tokens.
 
-        The total includes both the prompt tokens and the completion tokens, which
-        are summed to determine the overall usage.
+        This property method calculates the total number of tokens used by summing up
+        the number of tokens used in the prompt and completion phases by the LLM. It
+        provides a convenient way to access the aggregate token usage.
 
-        :return: Total number of tokens used in an LLM operation.
-        :rtype: int
+        Returns:
+            int: Total number of LLM tokens, including both prompt and completion tokens.
         """
         return self.total_llm_prompt_tokens + self.total_llm_completion_tokens
-
+    
     @property
     def average_llm_prompt_tokens(self) -> int:
         """
-        Computes the average number of tokens in LLM (Large Language Model) prompts.
+        Calculates the average number of LLM prompt tokens used per LLM call.
 
-        This property calculates the average by dividing the total number of tokens in
-        LLM prompts (`total_llm_prompt_tokens`) by the total count of LLMs (`total_llm_count`).
-        If the total count of LLMs is zero, the result will be zero to avoid division
-        errors and maintain a sensible return value. This property ensures easy and
-        efficient access to the token average used across LLM prompts.
+        This method determines an average value by dividing the total LLM prompt tokens by
+        the total number of LLM calls. If no LLM calls have been made, it will return 0 to
+        avoid division by zero.
 
-        :return: The average number of tokens in LLM prompts as an integer. Defaults
-                 to zero if no LLM data is available.
-        :rtype: int
+        Returns:
+            int: The average number of LLM prompt tokens per LLM call. If no LLM calls have
+            been made, it returns 0.
         """
         if self.total_llm_count > 0:
             return self.total_llm_prompt_tokens / self.total_llm_count
         else:
             return 0
-
+        
     @property
     def average_llm_completion_tokens(self) -> int:
         """
-        Computes the average number of tokens used in the completion phase of
-        LLM (Large Language Model) interactions. This metric is calculated by dividing
-        the total completion tokens by the total count of LLM interactions. If no LLM
-        interactions have occurred, the function returns 0 to avoid division by zero.
+        Calculates the average number of completion tokens generated by a language
+        model (LLM) across multiple requests. If there are no LLM requests, it
+        returns 0.
 
-        :return: The average number of completion tokens per LLM interaction.
-        :rtype: int
+        The calculation is based on dividing the total number of LLM completion
+        tokens by the total count of LLM requests. Acts as a property getter.
+
+        Returns:
+            int: The average number of LLM completion tokens per request. If no
+            LLM requests exist, returns 0.
         """
         if self.total_llm_count > 0:
             return self.total_llm_completion_tokens / self.total_llm_count
         else:
             return 0
-
+        
     @property
     def average_llm_tokens(self) -> int:
         """
-        Calculates the average number of Large Language Model (LLM) tokens per
-        count. If the total count of LLM instances is greater than zero, the method
-        returns the total tokens divided by the total count. Otherwise, it returns zero.
+        Gets the average number of LLM tokens. The property calculates the average by dividing
+        the total number of LLM tokens by the total count of LLM instances. If no LLM instances
+        exist, returns zero.
 
-        :return: The average number of LLM tokens as an integer.
-        :rtype: int
+        Returns:
+            int: The average number of LLM tokens. If the total LLM count is zero, returns 0.
         """
         if self.total_llm_count > 0:
             return self.total_llm_tokens / self.total_llm_count
         else:
             return 0
-
+    
     @property
     def average_embedding_duration_millis(self) -> int:
         """
-        Calculates and returns the average embedding duration in milliseconds.
+        Calculates the average duration of embedding in milliseconds.
 
-        The calculation is based on the total embedding duration and the total number
-        of embeddings. If there are no embeddings, the value returned is 0. This
-        property provides a convenient way to access the average embedding duration
-        directly.
+        The average duration is computed by dividing the total embedding
+        duration in milliseconds by the total count of embeddings. If the
+        embedding count is zero, it returns 0 to avoid division by zero.
 
-        :return: The average embedding duration in milliseconds. Returns 0 if there
-            are no embeddings.
-        :rtype: int
+        Returns:
+            int: The average embedding duration in milliseconds. Returns 0
+            if there are no embeddings.
         """
         if self.total_embedding_count > 0:
             return self.total_embedding_duration_millis / self.total_embedding_count
         else:
             return 0
-
+        
     @property
     def average_embedding_tokens(self) -> int:
         """
-        Calculates and returns the average number of embedding tokens. The average
-        is computed by dividing the total number of embedding tokens by the total
-        embedding count. If the total embedding count is zero, the method returns
-        zero to prevent division by zero.
+        Calculates the average number of embedding tokens per embedding.
 
-        :return: Integer value representing the average number of embedding tokens.
-                 Returns 0 if the total embedding count is zero.
-        :rtype: int
+        The `average_embedding_tokens` property retrieves the average of
+        embedding tokens by dividing the total number of embedding tokens
+        by the total count of embeddings. If the total embedding count is
+        zero, it safely returns zero to avoid division errors.
+
+        Attributes:
+            total_embedding_tokens (int): The total number of embedding tokens.
+            total_embedding_count (int): The total number of embeddings.
+
+        Returns:
+            int: The average number of embedding tokens per embedding. If the
+            `total_embedding_count` is zero, returns 0.
         """
         if self.total_embedding_count > 0:
             return self.total_embedding_tokens / self.total_embedding_count
         else:
             return 0
-
-
+        
 class FMObservabilitySubscriber(ABC):
+    """Defines an interface for subscribers to receive observability statistics.
+
+    FMObservabilitySubscriber serves as an abstract base class that establishes
+    a contract for implementing classes to handle new statistics from
+    FMObservability. It ensures any subscriber provides a concrete implementation
+    for the `on_new_stats` method, enabling consistent behavior across different
+    subscriber implementations.
+
+    Methods:
+        on_new_stats(stats): Abstract method to handle new observability statistics.
     """
-    Interface defining an observability subscriber mechanism.
-
-    The FMObservabilitySubscriber class is an abstract base class intended to be
-    used as a blueprint for creating subscribers that respond to updates in
-    observability data. Concrete implementations are expected to define the behavior
-    required for processing newly received statistics. This class enforces the
-    implementation of the `on_new_stats` method, ensuring that it processes
-    instances of FMObservabilityStats.
-
-    """
-
     @abstractmethod
     def on_new_stats(self, stats: FMObservabilityStats):
         """
-        Abstract function that must be implemented by a derived class to process and
-        handle new FMObservabilityStats statistics. This method is expected to define
-        specific actions to be performed whenever a new instance of FMObservabilityStats
-        is received.
+        An abstract base class that defines a callback method to be invoked upon
+        receiving new statistics related to observability.
 
-        :param stats: The new FMObservabilityStats object containing the statistics data
-                      to be handled. The exact nature of the data will depend on the
-                      implementation and definition of FMObservabilityStats.
-
+        Methods:
+            on_new_stats: Abstract method to handle new observability statistics.
         """
         pass
 
-
 class ConsoleFMObservabilitySubscriber(FMObservabilitySubscriber):
     """
-    Subscriber for managing and observing statistics within a console-based environment.
+    A subscriber class for observing FM (Foundation Model) observability statistics.
 
-    This class implements methods for handling and updating observability statistics
-    for foundational models (FM). The `ConsoleFMObservabilitySubscriber` maintains
-    an aggregated view of statistics and provides a mechanism to output these
-    statistics directly to the console for real-time monitoring.
+    This class is a concrete implementation of FMObservabilitySubscriber, designed to collect
+    and print observability statistics in real time. It maintains cumulative statistics and
+    prints detailed data on occurrences of LLM (Large Language Model) events and Embedding
+    events whenever new statistics are received.
 
-    :ivar all_stats: Instance of `FMObservabilityStats` that aggregates and manages
-        all statistics related to observability.
-    :type all_stats: FMObservabilityStats
+    Attributes:
+        all_stats (FMObservabilityStats): An instance of FMObservabilityStats that aggregates
+        and maintains cumulative statistics for LLM and Embedding events.
     """
-
     def __init__(self):
-        """
-        The class is responsible for managing and tracking the statistics of observability data, specifically focusing
-        on FM (fault management) metrics. It provides a central location for storing and accessing aggregated statistical
-        information within the context of monitoring systems. This class initializes with an instance of
-        FMObservabilityStats.
-
-        Attributes
-        ----------
-        all_stats : FMObservabilityStats
-            An object responsible for collecting and maintaining fault management observability metrics.
-        """
         self.all_stats = FMObservabilityStats()
 
     def on_new_stats(self, stats: FMObservabilityStats):
         """
-        Updates the current statistics with new observations and logs detailed information
-        about LLM-related and embeddings-related counts and tokens if the statistics are
-        updated successfully.
+        Processes and updates the current statistics with new incoming statistics data.
 
-        :param stats: The new set of statistics to be merged into the existing stats.
-        :type stats: FMObservabilityStats
-        :return: None
+        This method takes in an `FMObservabilityStats` instance containing new
+        observability statistics and updates the aggregated statistics stored
+        in `self.all_stats`. If the update is successful, a summary of the updated
+        statistics is printed, including information about LLM (Large Language Model)
+        usage and Embedding usage.
+
+        Args:
+            stats (FMObservabilityStats): The new observability statistics to be
+                processed and integrated into the existing set of aggregated statistics.
         """
         updated = self.all_stats.update(stats)
         if updated:
-            print(
-                f'LLM: count: {self.all_stats.total_llm_count}, total_prompt_tokens: {self.all_stats.total_llm_prompt_tokens}, total_completion_tokens: {self.all_stats.total_llm_completion_tokens}'
-            )
-            print(
-                f'Embeddings: count: {self.all_stats.total_embedding_count}, total_tokens: {self.all_stats.total_embedding_tokens}'
-            )
-
+            print(f'LLM: count: {self.all_stats.total_llm_count}, total_prompt_tokens: {self.all_stats.total_llm_prompt_tokens}, total_completion_tokens: {self.all_stats.total_llm_completion_tokens}')
+            print(f'Embeddings: count: {self.all_stats.total_embedding_count}, total_tokens: {self.all_stats.total_embedding_tokens}')
 
 class StatPrintingSubscriber(FMObservabilitySubscriber):
+    """Represents a subscriber that collects and processes observability statistics
+    and estimates costs associated with language model usage.
+
+    This class is designed for subscribing to observability events, aggregating statistics,
+    and calculating costs associated with specific observability data such as input tokens,
+    output tokens, and embeddings. It provides utility methods for updating, retrieving,
+    and summarizing observability stats in a structured format.
+
+    Attributes:
+        cost_per_thousand_input_tokens_llm (float): Cost per thousand input tokens for the
+            language model.
+        cost_per_thousand_output_tokens_llm (float): Cost per thousand output tokens for the
+            language model.
+        cost_per_thousand_embedding_tokens (float): Cost per thousand tokens for embeddings.
     """
-    Manages, tracks, and reports observability-related cost statistics for a foundation model.
-
-    The class records cost metrics for processing tokens (input, output, and embedding)
-    and aggregates usage statistics. It provides methods to estimate costs, retrieve detailed
-    statistics, and update the internal state with new data. This class helps monitor and
-    analyze the token and duration-based usages and compute associated costs dynamically.
-
-    :ivar cost_per_thousand_input_tokens_llm: Cost associated with processing one thousand input tokens by the language model.
-    :type cost_per_thousand_input_tokens_llm: float
-    :ivar cost_per_thousand_output_tokens_llm: Cost associated with processing one thousand output tokens by the language model.
-    :type cost_per_thousand_output_tokens_llm: float
-    :ivar cost_per_thousand_embedding_tokens: Cost associated with processing one thousand embedding tokens.
-    :type cost_per_thousand_embedding_tokens: float
-    :ivar all_stats: Aggregated statistics tracking object for tokens, durations, and usage metrics.
-    :type all_stats: FMObservabilityStats
-    """
-
     cost_per_thousand_input_tokens_llm: float = 0
     cost_per_thousand_output_tokens_llm: float = 0
     cost_per_thousand_embedding_tokens: float = 0
 
-    def __init__(
-        self,
-        cost_per_thousand_input_tokens_llm,
-        cost_per_thousand_output_tokens_llm,
-        cost_per_thousand_embedding_tokens,
-    ):
+    def __init__(self, cost_per_thousand_input_tokens_llm, cost_per_thousand_output_tokens_llm, cost_per_thousand_embedding_tokens):
         """
-        Initializes an instance to manage and track observability-related cost statistics for a
-        foundation model including costs for input tokens, output tokens, and embedding tokens.
-        The class encapsulates these parameters as input cost metrics and initializes an
-        aggregated statistics tracking object.
+        Initializes the object with the provided costs for input tokens, output tokens,
+        and embedding tokens. This class is designed to allow tracking and managing
+        factors related to these costs for specified parameters.
 
-        :param cost_per_thousand_input_tokens_llm:
-            Cost associated with processing one thousand input tokens by the language model.
-        :type cost_per_thousand_input_tokens_llm: float
-        :param cost_per_thousand_output_tokens_llm:
-            Cost associated with processing one thousand output tokens by the language model.
-        :type cost_per_thousand_output_tokens_llm: float
-        :param cost_per_thousand_embedding_tokens:
-            Cost associated with processing one thousand embedding tokens.
-        :type cost_per_thousand_embedding_tokens: float
+        Args:
+            cost_per_thousand_input_tokens_llm: The cost per thousand input tokens
+                used by the language model.
+            cost_per_thousand_output_tokens_llm: The cost per thousand output tokens
+                generated by the language model.
+            cost_per_thousand_embedding_tokens: The cost per thousand embedding tokens
+                used in the process.
         """
         self.all_stats = FMObservabilityStats()
         self.cost_per_thousand_input_tokens_llm = cost_per_thousand_input_tokens_llm
@@ -433,127 +401,119 @@ class StatPrintingSubscriber(FMObservabilitySubscriber):
 
     def on_new_stats(self, stats: FMObservabilityStats):
         """
-        Processes and updates internal statistics with the provided new data.
+        Updates the current statistics with new observation data. This method takes in a new set of
+        observability statistics and merges them into the existing aggregation of statistics.
 
-        This method takes an instance of `FMObservabilityStats` containing new
-        observability statistics and integrates it into the current set of
-        stored statistics by updating the internal state of `all_stats`.
-
-        :param stats: New observation statistics to integrate.
-        :type stats: FMObservabilityStats
-
+        Args:
+            stats: New FMObservabilityStats object containing the observation data to be processed and
+                merged into the aggregated statistics.
         """
         self.all_stats.update(stats)
-
+ 
     def get_stats(self):
         """
-        Provides a method to retrieve statistical data stored in the instance.
+        Retrieves all statistical data recorded and stored in the object.
 
-        This method is used to access the `all_stats` attribute, which contains
-        the aggregated statistical data collected and managed within the instance.
+        This method provides access to the collection of all statistics that
+        have been aggregated or computed. It is intended to be used when the
+        caller needs a comprehensive view of the stored statistical data.
 
-        :return: The aggregated statistical data.
-        :rtype: Any
+        Returns:
+            list: A list containing all statistical data stored within the
+            object. The actual structure and content of the data may vary
+            depending on the implementation details.
         """
         return self.all_stats
-
+    
     def estimate_costs(self) -> float:
         """
-        Estimate the total cost based on token usage and predefined costs per thousand tokens.
-        The function calculates the cost using prompt tokens, completion tokens,
-        and embedding tokens, each scaled by their respective costs.
+        Estimates the total cost based on token usage statistics and predefined costs per
+        thousand tokens for input, output, and embeddings.
 
-        :return: Total calculated cost as a float.
-        :rtype: float
+        The method calculates the total cost by aggregating the costs associated with
+        the total number of input prompt tokens, output completion tokens, and embedding
+        tokens. Each cost component is determined by dividing the respective token count
+        by 1000 and multiplying it with the respective cost per thousand tokens.
+
+        Returns:
+            float: The total estimated cost calculated from token usage statistics.
         """
-        total_cost = (
-            self.all_stats.total_llm_prompt_tokens
-            / 1000.0
-            * self.cost_per_thousand_input_tokens_llm
-            + self.all_stats.total_llm_completion_tokens
-            / 1000.0
-            * self.cost_per_thousand_output_tokens_llm
-            + self.all_stats.total_embedding_tokens
-            / 1000.0
-            * self.cost_per_thousand_embedding_tokens
-        )
+        total_cost = self.all_stats.total_llm_prompt_tokens / 1000.0 *self.cost_per_thousand_input_tokens_llm \
+        + self.all_stats.total_llm_completion_tokens / 1000.0 * self.cost_per_thousand_output_tokens_llm \
+        +self.all_stats.total_embedding_tokens / 1000.0 * self.cost_per_thousand_embedding_tokens
         return total_cost
-
+        
     def return_stats_dict(self) -> Dict[str, Any]:
         """
-        Generates and returns a dictionary containing various statistical data, including
-        counts, tokens, durations, and estimated costs. The data is aggregated from a
-        set of statistics managed within the class instance.
+        Compiles and returns a dictionary containing various statistics and metrics related to LLM
+        usage and embeddings. This includes information about token counts, duration, and associated
+        costs.
 
-        :return: A dictionary containing statistical information.
-        :rtype: Dict[str, Any]
+        Returns:
+            Dict[str, Any]: Dictionary containing the following keys and their associated values:
+                - 'total_llm_count': The total count of LLM calls.
+                - 'total_prompt_tokens': Total number of prompt tokens for all LLM calls.
+                - 'total_completion_tokens': Total number of completion tokens for all LLM calls.
+                - 'total_embedding_count': The total count of embedding operations performed.
+                - 'total_embedding_tokens': Total number of tokens processed during embeddings.
+                - 'total_llm_duration_millis': Total LLM execution duration in milliseconds.
+                - 'total_embedding_duration_millis': Total embedding operation duration in milliseconds.
+                - 'average_llm_duration_millis': Average duration of LLM executions in milliseconds.
+                - 'average_embedding_duration_millis': Average duration of embedding operations in
+                  milliseconds.
+                - 'total_llm_cost': Estimated total monetary cost associated with LLM usage.
         """
         stats_dict = {}
         stats_dict['total_llm_count'] = self.all_stats.total_llm_count
         stats_dict['total_prompt_tokens'] = self.all_stats.total_llm_prompt_tokens
-        stats_dict['total_completion_tokens'] = (
-            self.all_stats.total_llm_completion_tokens
-        )
+        stats_dict['total_completion_tokens'] = self.all_stats.total_llm_completion_tokens
         # Now embeddings count and total embedding tokens
         stats_dict['total_embedding_count'] = self.all_stats.total_embedding_count
         stats_dict['total_embedding_tokens'] = self.all_stats.total_embedding_tokens
         # Now duration data
-        stats_dict["total_llm_duration_millis"] = (
-            self.all_stats.total_llm_duration_millis
-        )
-        stats_dict["total_embedding_duration_millis"] = (
-            self.all_stats.total_embedding_duration_millis
-        )
-        stats_dict["average_llm_duration_millis"] = (
-            self.all_stats.average_llm_duration_millis
-        )
-        stats_dict["average_embedding_duration_millis"] = (
-            self.all_stats.average_embedding_duration_millis
-        )
+        stats_dict["total_llm_duration_millis"] = self.all_stats.total_llm_duration_millis
+        stats_dict["total_embedding_duration_millis"] = self.all_stats.total_embedding_duration_millis
+        stats_dict["average_llm_duration_millis"] = self.all_stats.average_llm_duration_millis
+        stats_dict["average_embedding_duration_millis"] = self.all_stats.average_embedding_duration_millis
         # Now  costs
         stats_dict['total_llm_cost'] = self.estimate_costs()
         return stats_dict
+        
 
-
-class FMObservabilityPublisher:
+class FMObservabilityPublisher():
     """
-    Manages a list of subscribers to periodically publish collected statistics
-    using a polling mechanism, and provides lifecycle management capabilities.
+    Manages publishing of observability statistics at regular intervals to subscribed
+    observers.
 
-    This class encapsulates the functionality needed for subscribing to
-    observability events, collecting related statistics periodically, and handling
-    publishing these statistics to the subscribers. It also supports integration
-    with context management for automated resource cleanup.
+    The FMObservabilityPublisher is designed to poll a queue for observability statistics
+    and notify registered subscribers. It uses a background thread to periodically invoke
+    the publishing mechanism. The class also implements context manager capabilities for
+    automatic resource management.
 
-    :ivar subscribers: List of subscribers to receive published statistics.
-        Subscribers must implement the FMObservabilitySubscriber interface.
-    :type subscribers: List[FMObservabilitySubscriber]
-    :ivar interval_seconds: Configurable time interval (in seconds) for publishing
-        statistics periodically.
-    :type interval_seconds: float
-    :ivar allow_continue: Flag to indicate if the continuous publishing process
-        is allowed or should be halted.
-    :type allow_continue: bool
-    :ivar poller: Instance of FMObservabilityQueuePoller that is responsible for
-        gathering statistical data.
-    :type poller: FMObservabilityQueuePoller
+    Attributes:
+        subscribers (List[FMObservabilitySubscriber]): A list of subscribers to be notified
+            when new observability statistics are available.
+        interval_seconds (float): The time interval, in seconds, between publishing
+            observability statistics.
+        allow_continue (bool): A flag indicating whether the publishing process should
+            continue. If set to False, the process will stop.
+        poller (FMObservabilityQueuePoller): The polling mechanism that retrieves data
+            from the observability queue.
     """
-
-    def __init__(
-        self, subscribers: List[FMObservabilitySubscriber] = [], interval_seconds=15.0
-    ):
+    def __init__(self, subscribers: List[FMObservabilitySubscriber]=[], interval_seconds=15.0):
         """
-        Initializes FMObservability, a system for managing observability with subscribers
-        and periodic publishing of statistics.
+        Initializes the FMObservabilityQueuePublisher class.
 
-        The constructor sets up a global observability queue, binds necessary handlers
-        to the callback manager, initializes subscribers, the publishing interval, and
-        a poller. It also starts a timer for periodic publishing of metrics or statistics.
+        This class is responsible for managing observability subscribers, configuring the
+        poller to process observability queue data, and periodically publishing statistics
+        to the registered subscribers. It also sets up handlers for token counting and
+        observability events.
 
-        :param subscribers: List of FMObservabilitySubscriber objects that will handle
-            observability data.
-        :param interval_seconds: The interval in seconds at which stats will be published.
-        :type interval_seconds: float
+        Args:
+            subscribers (List[FMObservabilitySubscriber], optional): A list of subscribers to
+                receive the observability data. Defaults to an empty list.
+            interval_seconds (float, optional): The interval in seconds for publishing
+                statistics to the subscribers. Defaults to 15.0.
         """
         global _fm_observability_queue
         _fm_observability_queue = Queue()
@@ -571,53 +531,49 @@ class FMObservabilityPublisher:
 
     def close(self):
         """
-        Disables the continuation state of the instance by setting the `allow_continue`
-        attribute to False. This method typically halts processes or terminates
-        iterations controlled by the `allow_continue` flag.
+        Disables the continuation functionality by updating the internal flag.
 
-        :return: None
+        This method prevents further continuation of a process by setting the
+        `allow_continue` attribute to `False`. Once invoked, the attribute will
+        indicate that continuation should not occur.
+
+        Attributes:
+            allow_continue (bool): Indicates whether continuation is permitted or not.
+                Set to `False` to disable continuation.
         """
         self.allow_continue = False
 
     def __enter__(self):
         """
-        Provides functionality for managing initialization of a context in a
-        with-statement block. This method is invoked upon entering the runtime
-        context.
+        Allows the use of the object with the context manager (with statement). Ensures
+        the proper setup and teardown of resources handled by the object.
 
-        :return: The instance of the object itself that implements the context
-                 manager protocol.
-        :rtype: self
+        Returns:
+            Self:
+                Returns the instance of the object, allowing its methods/attributes
+                to be accessible within the context.
         """
         return self
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        """
-        Handles the context manager exit functionality for a resource by ensuring
-        that it gets properly closed. This method is invoked when exiting the
-        runtime context related to the resource managed by the context manager.
-
-        :param exc_type: The exception type, if an exception occurred while
-            using the resource. Otherwise, it will be None.
-        :param exc_value: The exception instance, if an exception occurred while
-            using the resource. Otherwise, it will be None.
-        :param exc_traceback: The traceback object, if an exception occurred while
-            using the resource. Otherwise, it will be None.
-        :return: Always returns None to indicate that any exception
-            should be re-raised after cleanup.
-        """
         self.close()
 
     def publish_stats(self):
         """
-        Stop the current statistics polling, restart the poller, and dispatch new statistics
-        to all subscribers. The method schedules another polling cycle if allowed.
+        Handles the collection, restart, and publishing of statistics through a polling mechanism.
 
-        :raises: None
+        Starts a polling process to collect current statistics and ensures the continuity of the
+        polling cycle based on the specified interval if allowed. Independently notifies all
+        subscribers with the new statistics collected after each polling cycle.
 
-        :param None
+        Args:
+            None
 
-        :return: None
+        Raises:
+            None
+
+        Returns:
+            None
         """
         stats = self.poller.stop()
         self.poller = FMObservabilityQueuePoller()
@@ -635,25 +591,27 @@ def get_patched_llm_token_counts(
     token_counter: TokenCounter, payload: Dict[str, Any], event_id: str = ""
 ) -> TokenCountingEvent:
     """
-    Calculates and returns token counts for a given payload using a provided token counter.
-    It processes payloads that contain either a prompt and completion, or messages and a
-    response. Additionally, it attempts to retrieve token counts from pre-attached metadata
-    or computes the counts if metadata is unavailable or invalid.
+    Calculates and returns token counts for LLM inputs and outputs, properly handling
+    different types of event payloads and ensuring accurate token usage tracking.
 
-    :param token_counter: A utility for counting tokens in text or message objects.
-    :type token_counter: TokenCounter
-    :param payload: A dictionary containing the details of the LLM request/response. The
-        payload is expected to have either a `PROMPT` and `COMPLETION` or
-        `MESSAGES` and `RESPONSE` key.
-    :type payload: Dict[str, Any]
-    :param event_id: An optional unique identifier for the token counting event. Defaults
-        to an empty string if not provided.
-    :type event_id: str
-    :raises ValueError: If the payload does not contain required keys or contains invalid
-        token counts.
-    :return: A TokenCountingEvent containing details about the token counts for prompt
-        and completion strings/messages.
-    :rtype: TokenCountingEvent
+    This function examines the event payload to determine whether it contains a prompt and
+    completion or a list of messages and a response. It calculates token counts for these
+    inputs and outputs using the provided TokenCounter utility, either directly from the
+    payload or by estimating them.
+
+    Args:
+        token_counter: An object or utility used to count tokens in strings or messages.
+        payload: A dictionary containing event-related data, such as prompts, completions,
+            messages, and responses.
+        event_id: A unique identifier for the current event. Defaults to an empty string.
+
+    Returns:
+        TokenCountingEvent: An object encapsulating token count information for both prompt
+            and completion or messages and response.
+
+    Raises:
+        ValueError: Raised if the payload is invalid or does not contain the required
+            attributes for token counting.
     """
     from llama_index.core.llms import ChatMessage
 
@@ -687,12 +645,8 @@ def get_patched_llm_token_counts(
                 if usage is not None:
                     if not isinstance(usage, dict):
                         usage = dict(usage)
-                    messages_tokens = usage.get(
-                        "prompt_tokens", usage.get("input_tokens", 0)
-                    )
-                    response_tokens = usage.get(
-                        "completion_tokens", usage.get("output_tokens", 0)
-                    )
+                    messages_tokens = usage.get("prompt_tokens", usage.get("input_tokens", 0))
+                    response_tokens = usage.get("completion_tokens", usage.get("output_tokens", 0))
 
                 if messages_tokens == 0 or response_tokens == 0:
                     raise ValueError("Invalid token counts!")
@@ -724,39 +678,27 @@ def get_patched_llm_token_counts(
         raise ValueError(
             "Invalid payload! Need prompt and completion or messages and response."
         )
-
-
+    
 class BedrockEnabledTokenCountingHandler(TokenCountingHandler):
     """
-    Handles token counting and observability queue management in the context of
-    callbacks for specific events. It extends the TokenCountingHandler to provide
-    additional functionality tailored for use cases requiring direct association
-    with Bedrock-enabling mechanisms.
+    Handles token counting for systems utilizing Bedrock, extending functionality for
+    event-based processing.
 
-    The class manages token counting for specific event types (e.g., LLM and
-    Embedding events), allows the exclusion of certain events from processing, and
-    ensures that token count lists are cleared when they exceed a threshold. It
-    also integrates with an observability queue for structured monitoring and
-    debugging purposes.
+    Provides mechanisms to accurately count tokens used in language model (LLM) prompts
+    and completions, or for embeddings processing. Additionally ensures integration
+    with the observability queue to facilitate tracking and debugging.
 
-    :ivar tokenizer: Callable function responsible for tokenizing input strings
-        into a list of tokens. Defaults to None if not explicitly set.
-    :type tokenizer: Optional[Callable[[str], List]]
-    :ivar event_starts_to_ignore: List of event types to be ignored during
-        start event operations. This allows for filtering out unneeded
-        processing. Defaults to None if not explicitly set.
-    :type event_starts_to_ignore: Optional[List[CBEventType]]
-    :ivar event_ends_to_ignore: List of event types to be ignored during
-        end event operations. This provides a mechanism for tailoring token
-        counting behavior. Defaults to None if not explicitly set.
-    :type event_ends_to_ignore: Optional[List[CBEventType]]
-    :ivar verbose: A boolean flag determining whether verbose output is enabled.
-        This helps in logging and debugging by providing more detailed system
-        behavior information.
-    :type verbose: bool
-    :ivar logger: Logging instance for capturing debug, info, or error logs
-        during operation. If not provided, logging will be disabled.
-    :type logger: Optional[logging.Logger]
+    Attributes:
+        event_starts_to_ignore (Optional[List[CBEventType]]): List of event types to
+            be ignored at the start of events.
+        event_ends_to_ignore (Optional[List[CBEventType]]): List of event types to
+            be ignored at the end of events.
+        tokenizer (Optional[Callable[[str], List]]): Tokenizer function used
+            to split input into tokens.
+        verbose (bool): Flag indicating whether detailed information should
+            be logged.
+        logger (Optional[logging.Logger]): Logger instance for logging events
+            and information.
     """
 
     def __init__(
@@ -768,30 +710,32 @@ class BedrockEnabledTokenCountingHandler(TokenCountingHandler):
         logger: Optional[logging.Logger] = None,
     ):
         """
-        Initializes the class with the specified parameters to customize behavior,
-        particularly for handling tokenization and event filtering during execution.
+        Initializes the class with specified parameters. The provided parameters will
+        control the behavior of the callback system for token counting. This includes
+        the tokenizer to be used, events to be ignored during start and end operations,
+        verbosity level, and an optional logger for logging purposes.
 
-        :param tokenizer: A callable that takes a string input and tokenizes it into a list.
-            Default is None.
-        :param event_starts_to_ignore: A list of event start types (`CBEventType`) to ignore.
-            Default is None.
-        :param event_ends_to_ignore: A list of event end types (`CBEventType`) to ignore.
-            Default is None.
-        :param verbose: A boolean flag to enable or disable verbose output. Default is False.
-        :param logger: An optional logger instance for logging messages. Default is None.
+        Args:
+            tokenizer: Optional callable responsible for tokenizing input strings into
+                a list of tokens.
+            event_starts_to_ignore: Optional list of CBEventType items representing
+                event types to ignore when a start event occurs.
+            event_ends_to_ignore: Optional list of CBEventType items representing event
+                types to ignore when an end event occurs.
+            verbose: Boolean indicating whether to enable verbose output.
+            logger: Optional logging.Logger instance for logging callback-related
+                information.
+
         """
         import llama_index.core.callbacks.token_counting
-
-        llama_index.core.callbacks.token_counting.get_llm_token_counts = (
-            get_patched_llm_token_counts
-        )
+        llama_index.core.callbacks.token_counting.get_llm_token_counts = get_patched_llm_token_counts
 
         super().__init__(
-            tokenizer=tokenizer,
-            event_starts_to_ignore=event_starts_to_ignore,
-            event_ends_to_ignore=event_ends_to_ignore,
-            verbose=verbose,
-            logger=logger,
+            tokenizer=tokenizer, 
+            event_starts_to_ignore=event_starts_to_ignore, 
+            event_ends_to_ignore=event_ends_to_ignore, 
+            verbose=verbose, 
+            logger=logger
         )
 
     def on_event_end(
@@ -802,23 +746,26 @@ class BedrockEnabledTokenCountingHandler(TokenCountingHandler):
         **kwargs: Any,
     ) -> None:
         """
-        Handles the ending of an event, processes event payloads, and updates observability
-        queues if necessary. This method primarily processes LLM and EMBEDDING event types,
-        extracts relevant token count information, and dispatches them to the observability
-        queue. It also ensures that token count tracking is reset if their sizes exceed
-        the threshold limit.
+        Handles the conclusion of specified events by processing token counts if applicable
+        and updating the observability queue with event data. This method tracks token
+        counts for LLM and Embedding events, ensuring that their respective token usages
+        are appropriately logged. When certain thresholds for token count storage are exceeded,
+        the method will reset those counts.
 
-        :param event_type: The type of the event being ended (e.g., LLM, EMBEDDING).
-        :param payload: The payload data associated with the event, including tokens
-                        or other metadata. If None, no payload will be processed.
-        :param event_id: The unique identifier for the event. Useful for tracking specific
-                         events across the system.
-        :param kwargs: Any additional named parameters required for custom handling.
-        :return: None
+        Args:
+            event_type (CBEventType): Type of the event being concluded, such as LLM or
+                EMBEDDING.
+            payload (Optional[Dict[str, Any]]): Additional event-specific data payload. Can
+                be None if no payload accompanies the event.
+            event_id (str): Identifier of the event. Defaults to an empty string if not
+                provided.
+            **kwargs (Any): Additional keyword arguments for extensibility. These are not
+                directly utilized in this method.
         """
         super().on_event_end(event_type, payload, event_id, **kwargs)
-
+        
         event_payload = None
+        
         """Count the LLM or Embedding tokens as needed."""
         if (
             event_type == CBEventType.LLM
@@ -827,65 +774,57 @@ class BedrockEnabledTokenCountingHandler(TokenCountingHandler):
         ):
             event_payload = {
                 'llm_prompt_token_count': self.llm_token_counts[-1].prompt_token_count,
-                'llm_completion_token_count': self.llm_token_counts[
-                    -1
-                ].completion_token_count,
+                'llm_completion_token_count': self.llm_token_counts[-1].completion_token_count
             }
         elif (
             event_type == CBEventType.EMBEDDING
             and event_type not in self.event_ends_to_ignore
             and payload is not None
-        ):
+        ):  
             event_payload = {
-                'embedding_token_count': self.embedding_token_counts[
-                    -1
-                ].total_token_count
+                'embedding_token_count': self.embedding_token_counts[-1].total_token_count
             }
 
         if event_payload:
-
-            event = CBEvent(event_type=event_type, payload=event_payload, id_=event_id)
-
+            
+            event = CBEvent(
+                event_type = event_type, 
+                payload = event_payload, 
+                id_ = event_id
+            )
+            
             _fm_observability_queue.put(event)
 
         if len(self.llm_token_counts) > 1000 or len(self.embedding_token_counts) > 1000:
             self.reset_counts()
 
-
 class FMObservabilityHandler(BaseCallbackHandler):
     """
-    Handles observability for monitored events by managing in-flight event tracking and
-    trace sessions.
+    Handler for managing and tracking observability events.
 
-    This class extends the functionality of BaseCallbackHandler to provide specific
-    observability features for handling events. It keeps track of in-flight events, computes
-    metrics such as duration for completed events, and integrates with a queuing mechanism
-    for further processing. Additionally, it enables tracing sessions to facilitate monitoring
-    and debugging in distributed systems.
+    This class is a specialized callback handler used to monitor and manage events within a
+    workflow. It tracks the start and end of specific events, records event metadata,
+    and calculates the duration of event processing. The class provides methods to handle
+    event-start and event-end logic, ensuring accurate observability data while ignoring
+    specific event types based on configuration.
 
-    :ivar in_flight_events: Dictionary for tracking ongoing events with event info.
-    :type in_flight_events: dict
+    Attributes:
+        in_flight_events (dict): Stores events that are currently in progress. Each event is
+            tracked by its ID and contains associated metadata.
     """
-
     def __init__(self, event_starts_to_ignore=[], event_ends_to_ignore=[]):
         """
-        Represents an event tracker used to handle in-flight events and manage ignored
-        start and end events. This class is designed to store and track details
-        of ongoing events and contains the logic for keeping a record of events
-        specified under the categories of ignored starts or ends.
+        Initializes the object of the class with the given parameters, sets up the
+        container for in-flight events, and calls the parent class initializer.
 
-        This class initializes in-flight events and allows for the management
-        or extension of event tracking mechanisms.
-
-        :param event_starts_to_ignore: A list of event names or identifiers to be
-            ignored during the event start tracking. Defaults to an empty list.
-        :type event_starts_to_ignore: list
-        :param event_ends_to_ignore: A list of event names or identifiers to be
-            ignored during the event end tracking. Defaults to an empty list.
-        :type event_ends_to_ignore: list
+        Args:
+            event_starts_to_ignore (list, optional): A list of event start identifiers
+                that should be ignored. Defaults to an empty list.
+            event_ends_to_ignore (list, optional): A list of event end identifiers that
+                should be ignored. Defaults to an empty list.
         """
         super().__init__(event_starts_to_ignore, event_ends_to_ignore)
-        self.in_flight_events = {}
+        self.in_flight_events = {} 
 
     def on_event_start(
         self,
@@ -896,44 +835,44 @@ class FMObservabilityHandler(BaseCallbackHandler):
         **kwargs: Any,
     ) -> str:
         """
-        Handles the initiation of a start event by processing its associated payload
-        and capturing relevant details for in-flight tracking. It checks the event
-        type and payload, processes specific event data based on type, and stores the
-        event in a tracking dictionary.
+        Handles the start of an event by processing the given event type and payload and
+        storing event data if necessary. Returns the event identifier for the started
+        event.
 
-        :param event_type: The type of event being started.
-        :type event_type: CBEventType
-        :param payload: Optional dictionary containing additional details about the
-            event, may hold serialized data for specific event types.
-        :type payload: Optional[Dict[str, Any]]
-        :param event_id: A unique identifier for the event.
-        :type event_id: str
-        :param parent_id: An identifier indicating the parent event, if applicable.
-        :type parent_id: str
-        :param kwargs: Additional arbitrary keyword arguments for flexibility.
-        :type kwargs: Any
-        :return: The event ID of the initiated event.
-        :rtype: str
+        Args:
+            event_type (CBEventType): The type of the event being started, used to
+                determine processing and logging behavior.
+            payload (Optional[Dict[str, Any]]): The optional payload containing event
+                data. Specific processing is done if the payload includes certain keys
+                like 'MESSAGES' or a serialized model.
+            event_id (str): The unique identifier for the event being started.
+            parent_id (str): The unique identifier of the parent event, if any. This
+                allows for hierarchical event tracking.
+            **kwargs (Any): Additional optional key-value pairs that might be required
+                for specific event handling.
+
+        Returns:
+            str: The event identifier for the started event.
         """
         if event_type not in self.event_ends_to_ignore and payload is not None:
-            if (event_type == CBEventType.LLM and EventPayload.MESSAGES in payload) or (
-                event_type == CBEventType.EMBEDDING
-                and EventPayload.SERIALIZED in payload
+            if (
+                (event_type == CBEventType.LLM and EventPayload.MESSAGES in payload) or 
+                (event_type == CBEventType.EMBEDDING and EventPayload.SERIALIZED in payload)
             ):
                 serialized = payload.get(EventPayload.SERIALIZED, {})
                 ms = time.time_ns() // 1_000_000
                 event_payload = {
-                    'model': serialized.get(
-                        'model', serialized.get('model_name', 'unknown')
-                    ),
-                    'start': ms,
+                    'model': serialized.get('model', serialized.get('model_name', 'unknown')),
+                    'start': ms
                 }
-
+                
                 self.in_flight_events[event_id] = CBEvent(
-                    event_type=event_type, payload=event_payload, id_=event_id
+                    event_type = event_type, 
+                    payload = event_payload, 
+                    id_ = event_id
                 )
         return event_id
-
+    
     def on_event_end(
         self,
         event_type: CBEventType,
@@ -942,58 +881,62 @@ class FMObservabilityHandler(BaseCallbackHandler):
         **kwargs: Any,
     ) -> None:
         """
-        Handles the termination of an event and updates its metrics such as duration.
-        The function processes the event by checking whether it should be ignored and
-        ensures the appropriate payload keys are present based on the event type. If
-        the event is valid, its duration is calculated in milliseconds and the event
-        is staged for further processing by adding it to the observability queue.
+        Handles the end of an event and manages its corresponding operations, such as
+        removing it from the in-flight events, calculating its duration, and enqueuing
+        the completed event for further processing. This is done only for specific event
+        types and under certain conditions.
 
-        :param event_type: The type of the event. Must be of type CBEventType.
-        :param payload: The dictionary containing additional data about the event.
-            It is optional and defaults to None.
-        :param event_id: A unique identifier for the event. Defaults to an empty
-            string if not provided.
-        :param kwargs: Additional optional keyword arguments.
-        :return: None
+        Args:
+            event_type: The type of the event being processed.
+            payload: The detailed payload of the event, typically containing its data.
+            event_id: A unique identifier for the event being processed.
+            **kwargs: Additional optional parameters that may be passed for event handling.
+
         """
         if event_type not in self.event_ends_to_ignore and payload is not None:
-            if (event_type == CBEventType.LLM and EventPayload.MESSAGES in payload) or (
-                event_type == CBEventType.EMBEDDING
-                and EventPayload.EMBEDDINGS in payload
+            if (
+                (event_type == CBEventType.LLM and EventPayload.MESSAGES in payload) or 
+                (event_type == CBEventType.EMBEDDING and EventPayload.EMBEDDINGS in payload)
             ):
                 try:
                     event = self.in_flight_events.pop(event_id)
-
+                    
                     start_ms = event.payload['start']
                     end_ms = time.time_ns() // 1_000_000
                     event.payload['duration_millis'] = end_ms - start_ms
-
+                    
                     _fm_observability_queue.put(event)
                 except KeyError:
                     pass
 
     def reset_counts(self) -> None:
         """
-        Resets the in-flight events dictionary to an empty state.
+        Resets the in-flight events counter.
 
-        This method clears the `in_flight_events` attribute, which keeps track of
-        the events currently being processed. It resets it back to an empty dictionary,
-        effectively clearing all tracked in-flight events.
+        This method clears the `in_flight_events` dictionary, effectively resetting
+        any tracked events or counts. It is used to reinitialize or clear current
+        state information for tracking events in progress.
 
-        :return: None. The method does not return any value.
+        Attributes:
+            in_flight_events (dict): A dictionary that holds the current in-flight
+                events being tracked.
+
         """
-        self.in_flight_events = {}
-
+        self.in_flight_events = {} 
+        
     def start_trace(self, trace_id: Optional[str] = None) -> None:
         """
-        Starts a trace session, initializing it with the provided trace ID or generating
-        a new one if none is supplied. This is typically used to track operations or
-        activities across a distributed system or within an application for debugging
-        and monitoring purposes.
+        Starts a new trace with the given trace ID. If no trace ID is provided, a default or
+        system-generated trace identifier is used. This function facilitates the beginning
+        of tracking specific operations or sequences for logging and troubleshooting
+        purposes.
 
-        :param trace_id: Optional; The trace ID to be used for this trace session. If
-            omitted, the system will generate a new trace ID.
-        :return: None
+        Args:
+            trace_id (Optional[str]): The unique identifier for the trace. If None, a default
+                or system-generated trace identifier will be applied.
+
+        Returns:
+            None
         """
         pass
 
@@ -1003,16 +946,19 @@ class FMObservabilityHandler(BaseCallbackHandler):
         trace_map: Optional[Dict[str, List[str]]] = None,
     ) -> None:
         """
-        Ends the trace with the provided `trace_id` and cleans up the related
-        mapping from `trace_map`, if applicable. Used to signify the completion
-        of a trace session and optionally to maintain the integrity of a
-        trace-tracking system.
+        Ends an ongoing trace based on the provided trace identifier and updates the
+        trace map accordingly.
 
-        :param trace_id: An optional identifier for the trace to be ended. If not provided,
-            it assumes no specific trace ID is targeted.
-        :param trace_map: An optional dictionary of trace mappings where the trace ID
-            could be associated with one or multiple session identifiers. This structure
-            helps maintain a reference and cleanup of related associations.
-        :return: Nothing
+        This function allows marking the completion of a trace identified by `trace_id`.
+        It optionally accepts a trace mapping structure (`trace_map`) for updating its
+        state after ending the trace. If `trace_map` is provided, this function modifies
+        it to reflect the end of the specified trace.
+
+        Args:
+            trace_id: The unique identifier of the trace to be ended. If not provided,
+                no specific trace is targeted.
+            trace_map: A dictionary mapping trace identifiers to lists of related trace
+                details. If specified, this will be updated to reflect the ended trace.
         """
         pass
+

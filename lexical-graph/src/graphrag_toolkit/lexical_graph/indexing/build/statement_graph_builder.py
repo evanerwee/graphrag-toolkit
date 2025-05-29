@@ -14,8 +14,8 @@ from llama_index.core.schema import NodeRelationship
 logger = logging.getLogger(__name__)
 
 class StatementGraphBuilder(GraphBuilder):
-    """Handles the construction of graph representations specifically for
-    `Statement` entities.
+    """
+    Handles the construction of graph representations specifically for `Statement` entities.
 
     This class extends the `GraphBuilder` and provides functionality to build a graph representation
     from `Statement` nodes, integrating relationships and required metadata into the graph. It
@@ -28,7 +28,8 @@ class StatementGraphBuilder(GraphBuilder):
     """
     @classmethod
     def index_key(cls) -> str:
-        """Obtains the index key associated with the class.
+        """
+        Obtains the index key associated with the class.
 
         This method serves as a utility to retrieve a static key defining the
         index or identifying property of the class. It is useful in scenarios
@@ -41,21 +42,15 @@ class StatementGraphBuilder(GraphBuilder):
     
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
         """
-        Builds and executes a Cypher query based on the metadata and relationships of
-        the provided `node`, inserting or updating a statement node in the graph
-        database. The method validates the statement metadata and constructs the query
-        to create or update relationships and properties for the statement node.
+        Builds and inserts a `Statement` node into the graph database along with its associated relationships,
+        such as previous statements, topics, and chunks. This method validates the statement metadata, constructs
+        a Cypher query, and executes it to create or update the graph structure as necessary.
 
-        :param node: The `BaseNode` object containing metadata and relationships
-                     necessary to construct the query.
-        :type node: BaseNode
-        :param graph_client: The `GraphStore` instance used to interact with the graph
-                             database.
-        :type graph_client: GraphStore
-        :param kwargs: Additional keyword arguments that may be passed for future
-                       extensions or functionalities.
-        :type kwargs: Any
-        :return: None
+        Args:
+            node (BaseNode): The input node object containing metadata and relationships related to the statement.
+            graph_client (GraphStore): The client object responsible for executing queries on the graph database.
+            **kwargs (Any): Additional optional parameters that can be passed to the method.
+
         """
         statement_metadata = node.metadata.get('statement', {})
         
@@ -115,4 +110,4 @@ class StatementGraphBuilder(GraphBuilder):
                 graph_client.execute_query_with_retry(query, self._to_params(properties))
 
         else:
-            logger.warning(f'statement_id missing from statement node [node_id: {node.node_id}]')
+            logger.warning(f'statement_id missing from statement node [node_id: {node.node_id}]')   

@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import logging
-import abc
+import abc  
 import uuid
 from dataclasses import dataclass
 from tenacity import Retrying, stop_after_attempt, wait_random
@@ -18,73 +18,68 @@ logger = logging.getLogger(__name__)
 REDACTED = '**REDACTED**'
 NUM_CHARS_IN_DEBUG_RESULTS = 256
 
-
 def get_log_formatting(args):
     """
-    Retrieves and validates the log formatting configuration from the provided arguments.
+    Retrieves the log formatting configuration from the given arguments. If the
+    'log_formatting' key is not present in the `args` dictionary, a default
+    `RedactedGraphQueryLogFormatting` instance is used. Ensures the log formatting
+    object is an instance of `GraphQueryLogFormatting`.
 
-    This function extracts the `log_formatting` key from the `args` dictionary, if available,
-    or defaults to a `RedactedGraphQueryLogFormatting` instance. It ensures that the
-    retrieved or default log formatting is of type `GraphQueryLogFormatting`. If the type
-    does not comply, an exception is raised.
+    Args:
+        args (dict): A dictionary containing configuration parameters, including
+            an optional 'log_formatting' key.
 
-    :param args: A dictionary of arguments which may contain an override for
-        `log_formatting`. This parameter is expected to include the necessary
-        configuration for logging purposes.
-    :return: The validated or defaulted log formatting value. It is guaranteed to
-        be an instance of `GraphQueryLogFormatting`.
-    :rtype: GraphQueryLogFormatting
-    :raises ValueError: If `log_formatting` is present but not of type
-        `GraphQueryLogFormatting`.
+    Returns:
+        GraphQueryLogFormatting: The log formatting object retrieved from the
+        input dictionary, or the default `RedactedGraphQueryLogFormatting` if
+        not provided.
+
+    Raises:
+        ValueError: If the value associated with the 'log_formatting' key in the
+        input `args` dictionary is not an instance of `GraphQueryLogFormatting`.
     """
     log_formatting = args.pop('log_formatting', RedactedGraphQueryLogFormatting())
     if not isinstance(log_formatting, GraphQueryLogFormatting):
         raise ValueError('log_formatting must be of type GraphQueryLogFormatting')
     return log_formatting
 
-
 @dataclass
 class NodeId:
     """
-    Represents an identifier for a node with associated key and value.
+    Represents an identifier node with key-value pair attributes.
 
-    This class is used to define the identity of a node by specifying a key
-    and value, along with an optional flag indicating whether it is based
-    on a property. It provides a string representation of the node's value.
+    This class encapsulates a node identifier consisting of a key, value, and an
+    optional flag to determine if the identifier is based on properties. It can
+    be used to represent nodes with unique identifiers in various contexts.
 
-    :ivar key: The key associated with the node identifier.
-    :type key: str
-    :ivar value: The value associated with the node identifier.
-    :type value: str
-    :ivar is_property_based: Indicates whether the identifier is property-based.
-                           Defaults to True.
-    :type is_property_based: bool
+    Attributes:
+        key (str): The key associated with the node identifier.
+        value (str): The value corresponding to the key for the node identifier.
+        is_property_based (bool): Indicates whether the node is based on properties.
+            Defaults to True.
     """
-
-    key: str
-    value: str
-    is_property_based: bool = True
+    key:str
+    value:str
+    is_property_based:bool = True
 
     def __str__(self):
         return self.value
-
-
-def format_id(id_name: str):
+    
+def format_id(id_name:str):
     """
-    Formats an identifier string into a NodeId object.
+    Parses and formats the given ID string into a NodeId object.
 
-    The function parses an identifier string, typically containing sections
-    separated by a period ('.'). If the identifier consists of only one
-    section, it uses the same value for both the identifier and name
-    fields of the NodeId object. If the identifier contains multiple
-    sections separated by a period, it uses the second section as the
-    identifier and the entire input string as the name.
+    The function takes a string representing an ID and splits it by the delimiter '.'.
+    If the string does not contain the delimiter, it assumes the ID is standalone and
+    constructs a NodeId object where both the identifier and full ID are the same.
+    If the string contains the delimiter, it uses the second part of the split string
+    as the identifier and the entire string as the full ID.
 
-    :param id_name: The input identifier string to format.
-    :type id_name: str
+    Args:
+        id_name: A string representing a potentially delimited ID.
 
-    :return: A NodeId object with the parsed identifier and name.
-    :rtype: NodeId
+    Returns:
+        NodeId: An instance of NodeId containing the formatted identifier and full ID.
     """
     parts = id_name.split('.')
     if len(parts) == 1:
@@ -92,239 +87,174 @@ def format_id(id_name: str):
     else:
         return NodeId(parts[1], id_name)
 
-
 @dataclass
 class GraphQueryLogEntryParameters:
     """
-    Represents the parameters and related functionality for a graph query log entry.
+    Represents the parameters of a log entry for a graph query.
 
-    This class is a data structure that encapsulates the details of a graph query
-    log entry, including the query reference, the query itself, associated
-    parameters, and optional results. It also provides a utility method to format
-    queries with a query reference prefix.
+    This class is a container for details related to a graph query log entry,
+    such as the reference identifier, the query string, and optional associated
+    parameters or results. It is designed to provide structured access to these
+    elements, making it easier to manage and manipulate data regarding graph
+    queries.
 
-    :ivar query_ref: Reference identifier for the query.
-    :type query_ref: str
-    :ivar query: The SQL query string.
-    :type query: str
-    :ivar parameters: Parameters associated with the query.
-    :type parameters: str
-    :ivar results: The optional results of the query execution.
-    :type results: Optional[str]
+    Attributes:
+        query_ref (str): A reference identifier for the graph query.
+        query (str): The graph query string.
+        parameters (str): Parameters associated with the graph query.
+        results (Optional[str]): Optional results of the graph query, if available.
     """
-
-    query_ref: str
-    query: str
-    parameters: str
-    results: Optional[str] = None
+    query_ref:str
+    query:str
+    parameters:str
+    results:Optional[str]=None
 
     def format_query_with_query_ref(self, q):
         """
-        Formats a query string by appending a query reference as a comment at the
-        beginning of the string.
+        Formats the provided query by appending the query reference as a prefix.
 
-        :param q: The query string to format.
-        :type q: str
-        :return: The formatted query string with a query reference prepended.
-        :rtype: str
+        Args:
+            q: The SQL query to be formatted.
+
+        Returns:
+            A formatted string containing the query reference prefixed to the
+            original query.
         """
         return f'//query_ref: {self.query_ref}\n{q}'
 
-
 class GraphQueryLogFormatting(BaseModel):
     """
-    This class defines the structure for formatting log entries of graph query executions.
+    Abstract base class for formatting graph query log entries.
 
-    It serves as an abstract base class, ensuring that subclasses provide a specific
-    implementation for formatting query metadata such as query references, parameters,
-    and result sets into a structured log entry. The class enables consistent and
-    customizable logging of graph database query operations.
+    This class provides a blueprint for implementing custom formats for
+    logging graph query details. The purpose of this class is to ensure
+    a consistent structure for logging information about graph queries,
+    including the query reference, query string, associated parameters,
+    and potential results.
 
-    :ivar model_config: Configuration options for the BaseModel class.
-    :type model_config: Config
+    Attributes:
+        None
     """
-
     @abc.abstractmethod
-    def format_log_entry(
-        self,
-        query_ref: str,
-        query: str,
-        parameters: Dict[str, Any] = {},
-        results: Optional[List[Any]] = None,
-    ) -> GraphQueryLogEntryParameters:
+    def format_log_entry(self, query_ref:str, query:str, parameters:Dict[str,Any]={}, results:Optional[List[Any]]=None) -> GraphQueryLogEntryParameters:
         """
-        Formats a log entry for a graph query operation. This method is intended to
-        standardize the format of query logs for consistent logging and debugging
-        purposes. It is an abstract method and must be implemented in any subclass,
-        providing the specific logic for formatting.
+        Formats a log entry for a graph query execution.
 
-        :param query_ref: Unique reference identifier for the query being logged.
-        :Array query_ref:
-        :param query: The graph query that was executed.
-        :Array query:
-        :param parameters: A dictionary of parameters utilized in executing the query,
-            defaulting to an empty dictionary.
-        :Array parameters:
-        :param results: A list containing the query operation's results, optional and
-            defaults to None when no results are present.
-        :Array Resultado_result.describeSerializableparameters])/May) [:
-        :return: An instance of ``GraphQueryLogEntryParameters`` containing the
-            formatted log entry data.
-        :rtype: GraphQueryLogEntryParameters
+        This method must be implemented by a subclass and is responsible for
+        formatting the details of a graph query, including its reference, query
+        string, parameters, and execution results, into a specific structure
+        that conforms to `GraphQueryLogEntryParameters`. This allows for
+        consistent logging of query execution metadata.
+
+        Args:
+            query_ref: The reference identifier for the executed query.
+            query: The query string executed against the graph database.
+            parameters: A dictionary of parameters used in the query. Defaults
+                to an empty dictionary if no parameters are provided.
+            results: An optional list of results returned by the query
+                execution. Defaults to None if no results are returned.
+
+        Returns:
+            GraphQueryLogEntryParameters: The formatted log entry object
+            containing details about the query execution.
+
+        Raises:
+            NotImplementedError: If this method is not implemented by the
+            subclass.
         """
         raise NotImplementedError
-
-
+    
 class RedactedGraphQueryLogFormatting(GraphQueryLogFormatting):
-    """
-    Handles the formatting of logs related to graph queries by redacting sensitive
-    information in the query, parameters, and results.
-
-    This class extends `GraphQueryLogFormatting` and is responsible for creating
-    log entries containing redacted details for secure logging purposes. It is
-    designed to ensure that the logs remain informative while protecting sensitive
-    information.
-
-    :ivar REDACTED: A placeholder indicating that the corresponding information
-        has been redacted.
-    :type REDACTED: str
-    """
-    def format_log_entry(
-        self,
-        query_ref: str,
-        query: str,
-        parameters: Dict[str, Any] = {},
-        results: Optional[List[Any]] = None,
-    ) -> GraphQueryLogEntryParameters:
+    def format_log_entry(self, query_ref:str, query:str, parameters:Dict[str,Any]={}, results:Optional[List[Any]]=None) -> GraphQueryLogEntryParameters:
         """
-        Formats a log entry containing information about a graph query. The method
-        receives data concerning the query reference, the query text itself, parameters
-        associated with the query, and query results, then processes them to create a
-        log entry. Sensitive information (such as the query text, parameters and
-        results) is redacted for security purposes before inclusion in the log entry.
+        Formats and creates a new `GraphQueryLogEntryParameters` instance with
+        the given query reference, query, parameters, and results, while redacting
+        specified information.
 
-        :param query_ref: Reference ID of the query being logged.
-        :type query_ref: str
-        :param query: The original query text to be logged.
-        :type query: str
-        :param parameters: Dictionary containing any parameters used in the query.
-                           Defaults to an empty dictionary if no parameters provided.
-        :type parameters: Dict[str, Any], optional
-        :param results: List of results generated by the query execution.
-                        Defaults to None if not provided.
-        :type results: Optional[List[Any]]
-        :return: An instance of `GraphQueryLogEntryParameters` containing the redacted
-                 query, parameters, and results for logging purposes.
-        :rtype: GraphQueryLogEntryParameters
+        Args:
+            query_ref (str): A reference identifier for the query.
+            query (str): The query string to be logged.
+            parameters (Dict[str, Any], optional): A dictionary of parameters used
+                in the query. Defaults to an empty dictionary.
+            results (Optional[List[Any]], optional): A list of results generated by
+                the query. Defaults to None.
+
+        Returns:
+            GraphQueryLogEntryParameters: An instance containing the formatted and
+            redacted log entry details.
         """
-        return GraphQueryLogEntryParameters(
-            query_ref=query_ref, query=REDACTED, parameters=REDACTED, results=REDACTED
-        )
-
-
+        return GraphQueryLogEntryParameters(query_ref=query_ref, query=REDACTED, parameters=REDACTED, results=REDACTED)
+    
 class NonRedactedGraphQueryLogFormatting(GraphQueryLogFormatting):
-    """
-    Represents a log formatting implementation that formats log entries
-    for graph query executions without redacting any information.
-
-    This class extends the functionality of `GraphQueryLogFormatting`
-    to provide detailed log entries containing query references,
-    query strings, parameters, and results of graph queries. Truncation
-    is applied to the results if they exceed a predefined character limit.
-
-    :ivar NUM_CHARS_IN_DEBUG_RESULTS: Defines the maximum number of characters
-        allowed for displaying results in a log entry before truncation.
-    :type NUM_CHARS_IN_DEBUG_RESULTS: int
-    """
-    def format_log_entry(
-        self,
-        query_ref: str,
-        query: str,
-        parameters: Dict[str, Any] = {},
-        results: Optional[List[Any]] = None,
-    ) -> GraphQueryLogEntryParameters:
+    def format_log_entry(self, query_ref:str, query:str, parameters:Dict[str,Any]={}, results:Optional[List[Any]]=None) -> GraphQueryLogEntryParameters:
         """
-        Formats a log entry for a graph query operation. Converts the query reference, query,
-        parameters, and results into a structured log entry of type `GraphQueryLogEntryParameters`.
-        If the string representation of the results exceeds a predefined character limit, it is truncated
-        with an indication of the truncation.
+        Formats a log entry for a graph query execution, including the query reference,
+        query string, parameters used, and the results. Truncates the results string if
+        it exceeds a predefined character limit, appending a note of the truncated length.
 
-        :param query_ref: The reference identifier of the query.
-        :type query_ref: str
-        :param query: The query text to be logged.
-        :type query: str
-        :param parameters: A dictionary of parameters associated with the query. Defaults to an empty dictionary.
-        :type parameters: Dict[str, Any]
-        :param results: The results of the query operation, optionally provided. If omitted or None, it is skipped in formatting.
-        :type results: Optional[List[Any]]
-        :return: A `GraphQueryLogEntryParameters` object containing the formatted log entry.
-        :rtype: GraphQueryLogEntryParameters
+        Args:
+            query_ref: A string representing the unique reference or identifier for the query.
+            query: A string representing the graph query executed.
+            parameters: A dictionary containing key-value pairs representing query
+                parameters. Defaults to an empty dictionary.
+            results: An optional list containing the results of the query. Defaults to
+                None.
+
+        Returns:
+            GraphQueryLogEntryParameters: A dataclass representing the formatted log entry
+                with the provided query details and truncated results if applicable.
         """
         results_str = str(results)
         if len(results_str) > NUM_CHARS_IN_DEBUG_RESULTS:
             results_str = f'{results_str[:NUM_CHARS_IN_DEBUG_RESULTS]}... <{len(results_str) - NUM_CHARS_IN_DEBUG_RESULTS} more chars>'
-        return GraphQueryLogEntryParameters(
-            query_ref=query_ref,
-            query=query,
-            parameters=str(parameters),
-            results=results_str,
-        )
-
+        return GraphQueryLogEntryParameters(query_ref=query_ref, query=query, parameters=str(parameters), results=results_str)
 
 def on_retry_query(
-    logger: 'logging.Logger',
-    log_level: int,
-    log_entry_parameters: GraphQueryLogEntryParameters,
-    exc_info: bool = False,
+    logger:'logging.Logger',
+    log_level:int,
+    log_entry_parameters:GraphQueryLogEntryParameters,
+    exc_info:bool=False    
 ) -> Callable[[RetryCallState], None]:
     """
-    Logs information about a retried query using the provided logger, suitable
-    for integration with retry mechanisms. Outputs details about the retry
-    attempt, including timing, prior outcomes, and context-specific metadata.
+    Creates a logging function to log retry attempts for a query.
 
-    :param logger: Logging instance to use for outputting retry information.
-    :param log_level: Logging level to use when generating log entries (e.g.,
-        INFO, DEBUG).
-    :param log_entry_parameters: Instance of `GraphQueryLogEntryParameters`
-        storing query-related metadata, such as its reference, query string,
-        and parameters.
-    :param exc_info: Boolean flag indicating whether to include exception
-        details in log entries when the query fails. Defaults to False.
-    :return: Callable function that accepts a `RetryCallState` instance
-        and logs retry-related information.
+    This function is intended to generate a reusable logger callback to be used
+    with retry mechanisms like tenacity's RetryCallState. It logs the outcome
+    and decision for retrying, based on the query execution results or exceptions.
+
+    Args:
+        logger (logging.Logger): The logger instance used to log the retry information.
+        log_level (int): The logging level at which the retry attempt will be logged.
+        log_entry_parameters (GraphQueryLogEntryParameters): The metadata that identifies
+            the query, including query reference, parameters, and additional context.
+        exc_info (bool, optional): Indicates whether exception information should be
+            included in the logs if an exception is raised. Defaults to False.
+
+    Returns:
+        Callable[[RetryCallState], None]: A logging function that logs retry attempts
+        using the provided logger parameters and retry state.
     """
-
     def log_it(retry_state: 'RetryCallState') -> None:
         """
-        Logs information about a query retry process, including details about the retry
-        reason, the time to the next retry, and relevant query parameters. This is
-        intended to be used as a callback in retry logic to provide structured logging
-        for debugging or monitoring purposes.
+        Logs information about a query being retried using the provided logger. This function is intended to be used
+        in conjunction with a retry mechanism, logging relevant details about the retry attempt, such as the amount
+        of time until the next retry, the outcome of the prior attempt, and additional query-related metadata.
 
-        The function sets up a logging callback that generates a log entry for every retry
-        attempt made by the retry logic. The log entry contains details about the query,
-        reason for retry, time until the next retry attempt, and other configurable
-        parameters.
+        Args:
+            logger: The logger instance used for writing the log message. It is expected to support the standard
+                logging methods like `log(level, message, ...)`.
+            log_level: The logging level used when invoking the logger to output the retry information.
+            log_entry_parameters: An instance of `GraphQueryLogEntryParameters`, containing metadata about
+                the query being retried, such as reference identifiers, the query itself, and its associated parameters.
+            exc_info: A boolean indicating whether exception information should be included in the log entry if
+                the query execution raised an exception. Defaults to `False`.
 
-        :param logger: A logger instance used to log the retry information.
-        :type logger: logging.Logger
+        Returns:
+            A callable function that takes a `RetryCallState` object and logs the retry information.
 
-        :param log_level: The log level set for the retry log entries. This can be any standard
-            logging level such as logging.INFO, logging.WARNING, etc.
-        :type log_level: int
-
-        :param log_entry_parameters: An object encapsulating details of the query, its reference,
-            and any associated parameters. This is used to format the log message.
-        :type log_entry_parameters: GraphQueryLogEntryParameters
-
-        :param exc_info: A boolean flag indicating whether exception information should
-            be included in the logs if the retry is triggered by a failure.
-            Default is False.
-        :type exc_info: bool
-
-        :return: A callable function designed to be used as a callback in retry logic.
-            The returned callable logs detailed retry information whenever invoked.
-        :rtype: Callable[[RetryCallState], None]
+        Raises:
+            RuntimeError: If `retry_state.outcome` or `retry_state.next_action` attributes are not set before
+                invoking the inner logging function.
         """
         local_exc_info: BaseException | bool | None
 
@@ -349,199 +279,198 @@ def on_retry_query(
         logger.log(
             log_level,
             f'[{log_entry_parameters.query_ref}] Retrying query in {retry_state.next_action.sleep} seconds because it {verb} {value} [attempt: {retry_state.attempt_number}, query: {log_entry_parameters.query}, parameters: {log_entry_parameters.parameters}]',
-            exc_info=local_exc_info,
+            exc_info=local_exc_info
         )
 
     return log_it
 
-
 def on_query_failed(
-    logger: 'logging.Logger',
-    log_level: int,
-    max_attempts: int,
-    log_entry_parameters: GraphQueryLogEntryParameters,
+    logger:'logging.Logger',
+    log_level:int,
+    max_attempts:int,
+    log_entry_parameters:GraphQueryLogEntryParameters,
 ) -> Callable[['RetryCallState'], None]:
     """
-    Handles logging of query retries and failures after reaching defined arguments,
-    like the maximum retry attempts, providing contextual details about the query
-    failure and its associated parameters.
+    Handles logging for query failure during retries.
 
-    :param logger: The logger instance to output query failure logs.
-    :type logger: logging.Logger
-    :param log_level: Logging level (e.g., logging.INFO, logging.ERROR).
-    :param max_attempts: Defined maximum attempts before considering the operation failed.
-    :param log_entry_parameters: A `GraphQueryLogEntryParameters` object encapsulating
-        query information, reference, and associated parameters.
-    :type log_entry_parameters: GraphQueryLogEntryParameters
-    :return: A callable function for internal logging on retry or final query attempt failure.
-    :rtype: Callable[['RetryCallState'], None]
+    Logs information about a failed query attempt if the maximum number of retry
+    attempts has been reached. If the query raises an exception, details about
+    the exception are also logged. The log entry includes the query reference,
+    query string, associated parameters, and the reason for the final failure.
+
+    Args:
+        logger (logging.Logger): Logger instance to use for logging failure
+            information.
+        log_level (int): Log level used for logging the failure message.
+        max_attempts (int): Maximum number of retry attempts before failure is
+            logged.
+        log_entry_parameters (GraphQueryLogEntryParameters): Parameters used to
+            construct the log entry, including query reference, query string,
+            and related parameters.
+
+    Returns:
+        Callable[[RetryCallState], None]: A function to be called during each
+            retry attempt to check if logging is necessary for query failure.
     """
-
     def log_it(retry_state: 'RetryCallState') -> None:
         """
-        Logs query failures when the number of retry attempts reaches its maximum. The function
-        produces a log entry that includes the query reference, the number of retry attempts, the
-        cause of the failure, the query, and its parameters.
+        Handles logging of query retries and failures, specifically after reaching the
+        maximum allowed attempts, along with the associated exception details and query
+        parameters.
 
-        :param logger: A logger instance used to log the message.
-        :type logger: logging.Logger
-        :param log_level: The severity level at which the log message will be logged.
-        :type log_level: int
-        :param max_attempts: The maximum number of retry attempts before logging failure.
-        :type max_attempts: int
-        :param log_entry_parameters: Object containing the query reference, actual query,
-            and its parameters for logging.
-        :type log_entry_parameters: GraphQueryLogEntryParameters
-        :return: A callable function that processes the retry state and logs the relevant
-            information when the specified conditions are met.
-        :rtype: Callable[[RetryCallState], None]
+        Args:
+            logger: The logger instance to use for logging query failure information.
+            log_level: The logging level as an integer (e.g., logging.INFO, logging.ERROR).
+            max_attempts: The maximum number of retry attempts before considering a query
+                as failed.
+            log_entry_parameters: A `GraphQueryLogEntryParameters` object containing details
+                about the query, query reference, and associated parameters.
+
+        Returns:
+            Callable[['RetryCallState'], None]: A callable function that logs the details
+            of a failed query, processing the given retry state for contextual information.
         """
         if retry_state.attempt_number == max_attempts:
             ex: BaseException | bool | None
             if retry_state.outcome.failed:
                 ex = retry_state.outcome.exception()
-                verb, value = 'raised', f'{ex.__class__.__name__}: {ex}'
+                verb, value = 'raised', f'{ex.__class__.__name__}: {ex}'       
             logger.log(
                 log_level,
                 f'[{log_entry_parameters.query_ref}] Query failed after {retry_state.attempt_number} retries because it {verb} {value} [query: {log_entry_parameters.query}, parameters: {log_entry_parameters.parameters}]',
-                exc_info=ex,
+                exc_info=ex
             )
-
+        
     return log_it
-
 
 class GraphStore(BaseModel):
     """
+    Manages the storage and execution of graph queries with configurable retry logic
+    and logging functionality.
 
+    Detailed description:
+    This class provides methods to execute graph queries with retry mechanisms, log
+    formatting features, and utilities for handling node IDs and property assignments.
+    It is designed to interact with a graph database while ensuring resilience through
+    retry attempts and structured error logging.
+
+    Attributes:
+        log_formatting (GraphQueryLogFormatting): Handles the formatting of log entries
+            for executed queries.
+        tenant_id (TenantId): Represents the unique identifier of the tenant.
     """
+    log_formatting:GraphQueryLogFormatting = Field(default_factory=lambda: RedactedGraphQueryLogFormatting())
+    tenant_id:TenantId = Field(default_factory=lambda: TenantId())
 
-    log_formatting: GraphQueryLogFormatting = Field(
-        default_factory=lambda: RedactedGraphQueryLogFormatting()
-    )
-    tenant_id: TenantId = Field(default_factory=lambda: TenantId())
-
-    def execute_query_with_retry(
-        self,
-        query: str,
-        parameters: Dict[str, Any],
-        max_attempts=3,
-        max_wait=5,
-        **kwargs,
-    ):
+    def execute_query_with_retry(self, query:str, parameters:Dict[str, Any], max_attempts=3, max_wait=5, **kwargs):
         """
-        Executes a SQL query with retry logic based on the provided maximum number of attempts and
-        maximum wait time between retries. This method ensures that transient failures while executing
-        a SQL query are handled by retrying the operation according to the configured strategy.
+        Executes a database query with a retry mechanism, allowing multiple attempts with delays between them.
 
-        :param query: The SQL query string to be executed.
-        :type query: str
-        :param parameters: The parameters to be bound to the SQL query execution.
-        :type parameters: Dict[str, Any]
-        :param max_attempts: The maximum number of attempts to retry the SQL query execution
-            if it fails. Default is 3.
-        :type max_attempts: int, optional
-        :param max_wait: The maximum wait time, in seconds, between retry attempts. Default is 5.
-        :type max_wait: int, optional
-        :param kwargs: Additional keyword arguments passed to the query execution.
-        :type kwargs: dict, optional
-        :return: None
+        This method provides a mechanism to execute a query on a database reliably, allowing retries in the event
+        of transient failures or network issues. Each retry includes logging related to the attempt, along with a
+        unique correlation ID for tracing purposes.
+
+        Args:
+            query:
+                The SQL query string to be executed.
+            parameters:
+                A dictionary of query parameters to bind to the SQL query.
+            max_attempts:
+                The maximum number of retry attempts allowed, including the initial attempt. Default is 3.
+            max_wait:
+                The maximum wait time in seconds between retry attempts. The exact wait is randomized between 0
+                and this value. Default is 5.
+            **kwargs:
+                Additional parameters that may include a pre-specified 'correlation_id'. Any such value will be
+                included in the logging and supplemented with a unique suffix.
+
         """
         correlation_id = uuid.uuid4().hex[:5]
         if 'correlation_id' in kwargs:
             correlation_id = f'{kwargs["correlation_id"]}/{correlation_id}'
         kwargs['correlation_id'] = correlation_id
 
-        log_entry_parameters = self.log_formatting.format_log_entry(
-            f'{correlation_id}/*', query, parameters
-        )
+        log_entry_parameters = self.log_formatting.format_log_entry(f'{correlation_id}/*', query, parameters)
 
         attempt_number = 0
         for attempt in Retrying(
-            stop=stop_after_attempt(max_attempts),
+            stop=stop_after_attempt(max_attempts), 
             wait=wait_random(min=0, max=max_wait),
-            before_sleep=on_retry_query(logger, logging.WARNING, log_entry_parameters),
-            after=on_query_failed(
-                logger, logging.WARNING, max_attempts, log_entry_parameters
-            ),
-            reraise=True,
+            before_sleep=on_retry_query(logger, logging.WARNING, log_entry_parameters), 
+            after=on_query_failed(logger, logging.WARNING, max_attempts, log_entry_parameters),
+            reraise=True
         ):
             with attempt:
                 attempt_number += 1
                 attempt.retry_state.attempt_number
                 self.execute_query(query, parameters, **kwargs)
 
-    def _logging_prefix(self, query_id: str, correlation_id: Optional[str] = None):
+    def _logging_prefix(self, query_id:str, correlation_id:Optional[str]=None):
         """
-        Generates a logging prefix string based on the provided query ID and optional correlation ID.
+        Generates a logging prefix by combining the query ID with an optional correlation ID.
 
-        This function is used to construct a standardized prefix that can be
-        included in log messages, helping to correlate log data with specific
-        queries or operations. The prefix includes the correlation ID if provided,
-        followed by the query ID, separated by a forward slash. If no correlation
-        ID is provided, only the query ID is included in the prefix.
+        The method returns a string that concatenates the correlation ID and query ID, separated by
+        a forward slash, if a correlation ID is provided. Otherwise, it only returns the query ID.
 
-        :param query_id: Identifier for the query.
-        :type query_id: str
-        :param correlation_id: Optional identifier used for correlating specific queries or operations.
-        :type correlation_id: Optional[str]
-        :return: A logging prefix string in the format `correlation_id/query_id` or `query_id`
-        :rtype: str
+        Args:
+            query_id: The unique identifier for the query.
+            correlation_id: An optional unique identifier for correlating logs or transactions.
+
+        Returns:
+            str: The constructed logging prefix based on the available identifiers.
         """
         return f'{correlation_id}/{query_id}' if correlation_id else f'{query_id}'
-
-    def node_id(self, id_name: str) -> NodeId:
+    
+    def node_id(self, id_name:str) -> NodeId:
         """
-        Generates a NodeId object based on the given identifier name string.
+        Formats a given identifier name into a NodeId object.
 
-        This function takes a string id_name and formats it into a NodeId
-        object. It ensures the input is processed appropriately to return an
-        instance of NodeId, which represents a structured or encoded identifier.
+        This method takes an identifier name, processes it, and returns a NodeId
+        object. The output ensures the identifier is in the correct format
+        for consistent usage within the application.
 
-        :param id_name: The identifier name string to be formatted into a
-            NodeId object.
-        :type id_name: str
-        :return: A NodeId object representing the formatted identifier.
-        :rtype: NodeId
+        Args:
+            id_name (str): The identifier name to be formatted.
+
+        Returns:
+            NodeId: The formatted identifier.
         """
         return format_id(id_name)
-
-    def property_assigment_fn(self, key: str, value: Any) -> Callable[[str], str]:
+    
+    def property_assigment_fn(self, key:str, value:Any) -> Callable[[str], str]:
         """
-        Assigns a value to a key through a lambda function, returning a callable.
+        Assigns a value to a key and returns a callable that processes a string.
 
-        The callable returned by this function takes a string as input and returns
-        the same string. This provides a way to structure value assignments in a
-        decorative or functional manner while maintaining flexibility in code execution.
+        This function is used to create a lambda function that captures the input
+        parameters and processes an additional string based on the implementation of
+        the returned function.
 
-        :param key: The key to which the value should be assigned.
-        :type key: str
-        :param value: The value to associate with the given key.
-        :type value: Any
-        :return: A callable function that takes a string as an argument and returns it unchanged.
-        :rtype: Callable[[str], str]
+        Args:
+            key: The key to which the value is assigned.
+            value: The value to be assigned to the specified key.
+
+        Returns:
+            Callable[[str], str]: A callable that takes a string as input and returns
+            a string after processing. The exact processing implemented in the
+            returned callable depends on the specific implementation.
         """
         return lambda x: x
-
+    
     @abc.abstractmethod
-    def execute_query(
-        self, cypher, parameters={}, correlation_id=None
-    ) -> Dict[str, Any]:
+    def execute_query(self, cypher, parameters={}, correlation_id=None) -> Dict[str, Any]:
         """
-        Executes a given Cypher query on the database with the provided parameters and
-        optional correlation ID. This method is abstract and must be implemented by
-        subclasses to specify the behavior for query execution.
+        Executes a Cypher query on a connected database and returns the result as a dictionary.
 
-        :param cypher: The Cypher query string to be executed.
-        :type cypher: str
-        :param parameters: A dictionary of parameters to pass into the Cypher query.
-                           Defaults to an empty dictionary.
-        :type parameters: dict
-        :param correlation_id: An optional identifier to correlate logs or tracing
-                               information. Defaults to None if not provided.
-        :type correlation_id: str, optional
-        :return: A dictionary containing the result of the query execution, which may
-                 include data fields, metadata, or other relevant information.
-        :rtype: Dict[str, Any]
-        :raises NotImplementedError: If the method is not implemented by a subclass.
+        Args:
+            cypher: The Cypher query string to be executed.
+            parameters: Optional dictionary of parameters to be passed into the Cypher query.
+            correlation_id: Optional identifier for correlating logs or tracing execution flows.
+
+        Returns:
+            A dictionary containing the results of the executed Cypher query.
         """
         raise NotImplementedError
+
+
+
+    

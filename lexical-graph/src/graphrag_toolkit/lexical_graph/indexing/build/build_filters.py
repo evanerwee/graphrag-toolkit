@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 DEFAULT_BUILD_FILTER = lambda s: False
 
 class BuildFilters(BaseModel):
-    """BuildFilters manages filtering logic for topics, statements, and source
-    metadata.
+    """
+    BuildFilters manages filtering logic for topics, statements, and source metadata.
 
     This class integrates customizable filtering functions to determine whether specific
     topics or statements should be ignored, as well as functionality to process and
@@ -37,12 +37,12 @@ class BuildFilters(BaseModel):
                  statement_filter_fn:Callable[[str], bool]=None,
                  source_filters:Optional[MetadataFiltersType]=None
         ):
-        """Initializes a filter configuration for topics, statements, and
-        sources. This constructor allows the customization or application of
-        filtering logic for different aspects such as topics, statements, and
-        source metadata within a specific context. Default filter functions and
-        a source filter related configuration are provided if no custom logic
-        is supplied.
+        """
+        Initializes a filter configuration for topics, statements, and sources. This
+        constructor allows the customization or application of filtering logic for
+        different aspects such as topics, statements, and source metadata within a
+        specific context. Default filter functions and a source filter related
+        configuration are provided if no custom logic is supplied.
 
         Args:
             topic_filter_fn (Callable[[str], bool], optional): The filtering function
@@ -62,8 +62,8 @@ class BuildFilters(BaseModel):
         )
 
     def ignore_topic(self, topic:str) -> bool:
-        """Determines whether a given topic should be ignored by applying a
-        filter function.
+        """
+        Determines whether a given topic should be ignored by applying a filter function.
 
         This method uses a predefined filter function to decide if a given topic should
         be ignored. If the filter function evaluates the topic as suitable for ignoring,
@@ -82,8 +82,9 @@ class BuildFilters(BaseModel):
         return result
     
     def ignore_statement(self, statement:str) -> bool:
-        """Determines whether a given statement should be ignored based on a
-        filtering function and logs the ignored statement.
+        """
+        Determines whether a given statement should be ignored based on a filtering
+        function and logs the ignored statement.
 
         This method evaluates a statement using a predefined filtering function. If the
         statement is deemed to require ignoring, it logs the action and returns a boolean
@@ -101,9 +102,10 @@ class BuildFilters(BaseModel):
         return result
     
     def filter_source_metadata_dictionary(self, d:Dict[str, Any]) -> bool:
-        """Filters the given source metadata dictionary through predefined
-        source filters, and returns a boolean indicating if it passes the
-        filtering criteria.
+        """
+        Filters the given source metadata dictionary through predefined source
+        filters, and returns a boolean indicating if it passes the filtering
+        criteria.
 
         Args:
             d (Dict[str, Any]): The source metadata dictionary to be filtered.

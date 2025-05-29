@@ -15,7 +15,8 @@ from llama_index.core.schema import BaseNode
 logger = logging.getLogger(__name__)
 
 class FactGraphBuilder(GraphBuilder):
-    """Builds fact-related nodes and relationships in the graph database.
+    """
+    Builds fact-related nodes and relationships in the graph database.
 
     This class is responsible for implementing the logic to construct and insert
     fact-related nodes and their relationships into the graph database. It utilizes
@@ -26,7 +27,8 @@ class FactGraphBuilder(GraphBuilder):
     """
     @classmethod
     def index_key(cls) -> str:
-        """Provides a method to retrieve the index key for the class.
+        """
+        Provides a method to retrieve the index key for the class.
 
         This method is a class-level utility that returns a predefined string
         representing the index key. It encapsulates the logic for fetching the
@@ -36,10 +38,10 @@ class FactGraphBuilder(GraphBuilder):
             str: The index key associated with the class, which is 'fact'.
         """
         return 'fact'
-
+    
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
-        """Builds and processes the relationships and properties for a fact
-        node within a graph database.
+        """
+        Builds and processes the relationships and properties for a fact node within a graph database.
 
         This function is responsible for validating metadata of a node, constructing query statements to
         add nodes and relationships to the graph database, and executing those queries. The function also
@@ -51,12 +53,14 @@ class FactGraphBuilder(GraphBuilder):
                 graph database as a fact.
             graph_client (GraphStore): The client used to interact with the graph database, providing methods
                 for query execution and schema utility functions.
-            kwargs (Any): Additional parameters for customization, such as include_domain_labels to
+            **kwargs (Any): Additional parameters for customization, such as 'include_domain_labels' to
                 determine whether domain labels for entities should be included in the queries.
 
         Raises:
-            KeyError: If required keys such as include_domain_labels are missing from the kwargs or metadata is incomplete.
-            ValidationError: If the metadata provided in the node is invalid or does not match the expected structure for fact validation.
+            KeyError: If required keys such as 'include_domain_labels' are missing from the kwargs or
+                metadata is incomplete.
+            ValidationError: If the metadata provided in the node is invalid or does not match the expected
+                structure for fact validation.
         """
         fact_metadata = node.metadata.get('fact', {})
         include_domain_labels = kwargs['include_domain_labels']
@@ -64,7 +68,7 @@ class FactGraphBuilder(GraphBuilder):
         if fact_metadata:
 
             fact = Fact.model_validate(fact_metadata)
-
+        
             logger.debug(f'Inserting fact [fact_id: {fact.factId}]')
 
             statements = [
@@ -72,7 +76,7 @@ class FactGraphBuilder(GraphBuilder):
                 'UNWIND $params AS params'
             ]
 
-
+            
             statements.extend([
                 f'MERGE (statement:`__Statement__`{{{graph_client.node_id("statementId")}: params.statement_id}})',
                 f'MERGE (fact:`__Fact__`{{{graph_client.node_id("factId")}: params.fact_id}})',
@@ -108,9 +112,9 @@ class FactGraphBuilder(GraphBuilder):
                 properties.update({                
                     'o_id': fact.object.entityId
                 })
-
+        
             query = '\n'.join(statements)
-
+                
             graph_client.execute_query_with_retry(query, self._to_params(properties), max_attempts=5, max_wait=7)
 
             statements = [
@@ -128,7 +132,7 @@ class FactGraphBuilder(GraphBuilder):
             }
 
             query = '\n'.join(statements)
-
+                
             graph_client.execute_query_with_retry(query, self._to_params(properties))
 
             if fact.object:
@@ -137,7 +141,7 @@ class FactGraphBuilder(GraphBuilder):
                     '// insert connection to next facts',
                     'UNWIND $params AS params'
                 ]
-
+            
                 statements.extend([
                     f'MATCH (fact:`__Fact__`{{{graph_client.node_id("factId")}: params.fact_id}})<-[:`__OBJECT__`]-(:`__Entity__`)-[:`__SUBJECT__`]->(nextFact:`__Fact__`)',
                     'MERGE (fact)-[:`__NEXT__`]->(nextFact)'
@@ -148,9 +152,9 @@ class FactGraphBuilder(GraphBuilder):
                 }
 
                 query = '\n'.join(statements)
-
+                    
                 graph_client.execute_query_with_retry(query, self._to_params(properties))
-
+           
 
         else:
             logger.warning(f'fact_id missing from fact node [node_id: {node.node_id}]')

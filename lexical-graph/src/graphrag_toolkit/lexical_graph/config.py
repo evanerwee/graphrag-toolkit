@@ -1,8 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-_unspecified = object()
-
 import os
 import json
 import boto3
@@ -16,10 +14,6 @@ from llama_index.embeddings.bedrock import BedrockEmbedding
 from llama_index.core.settings import Settings
 from llama_index.core.llms import LLM
 from llama_index.core.base.embeddings.base import BaseEmbedding
-
-from graphrag_toolkit.lexical_graph.logging import logging
-
-logger = logging.getLogger(__name__)
 
 LLMType = Union[LLM, str]
 EmbeddingType = Union[BaseEmbedding, str]
@@ -40,10 +34,9 @@ DEFAULT_INCLUDE_DOMAIN_LABELS = False
 DEFAULT_ENABLE_CACHE = False
 DEFAULT_METADATA_DATETIME_SUFFIXES = ['_date', '_datetime']
 
-
 def _is_json_string(s):
-    """Determines if a given string is a valid JSON string by attempting to
-    parse it.
+    """
+    Determines if a given string is a valid JSON string by attempting to parse it.
 
     This function attempts to parse the provided string as JSON. If the parsing
     is successful, it concludes that the string is a valid JSON. Otherwise,
@@ -64,18 +57,21 @@ def _is_json_string(s):
 
 def string_to_bool(s, default_value: bool):
     """
-    Converts a string representation of a boolean to an actual boolean value.
-    The function takes a string input and checks if it can be interpreted as
-    a boolean. If the string is empty or None, the provided default value will
-    be returned. Otherwise, the comparison logic is case-insensitive to determine
-    if the string represents a "true" boolean value.
+    Convert a string to a boolean value.
 
-    :param s: The string input to be evaluated. It might contain a textual
-        representation of a boolean.
-    :param default_value: Default boolean value to return if the string is empty
+    This function converts a given string to a boolean by checking if its
+    lowercase form matches 'true'. If the input string is empty or None,
+    it returns the provided default boolean value.
+
+    Args:
+        s: Input string to be converted to a boolean.
+        default_value: Default boolean value to return if the input string
+        is None or empty.
+
+    Returns:
+        A boolean value - True if the string equals 'true' (case-insensitive),
+        False otherwise, or the default_value if the input string is empty
         or None.
-    :return: A boolean value derived from the given string or the default value
-        if the input string is empty or None.
     """
     if not s:
         return default_value
@@ -85,11 +81,11 @@ def string_to_bool(s, default_value: bool):
 
 @dataclass
 class _GraphRAGConfig:
-    """Configuration class for managing parameters and clients in a Graph-based
-    RAG (Retrieve and Generate) system. This class encapsulates the
-    configuration necessary for interacting with AWS services, LLM-based
-    extractions, and embeddable models while providing utility properties and
-    methods to simplify access and management.
+    """
+    Configuration class for managing parameters and clients in a Graph-based RAG (Retrieve and Generate)
+    system. This class encapsulates the configuration necessary for interacting with AWS services, LLM-based
+    extractions, and embeddable models while providing utility properties and methods to simplify access
+    and management.
 
     Attributes:
         _aws_profile (Optional[str]): The AWS profile name to be utilized for authentication.
@@ -114,17 +110,12 @@ class _GraphRAGConfig:
         _enable_cache (Optional[bool]): Boolean flag to enable or disable caching mechanisms.
         _metadata_datetime_suffixes (Optional[List[str]]): List of datetime suffixes included in metadata handling.
     """
-
     _aws_profile: Optional[str] = None
     _aws_region: Optional[str] = None
     _aws_clients: Dict = field(default_factory=dict)  # Use field() for mutable default
 
-    _boto3_session: Optional[boto3.Session] = field(
-        default=None, init=False, repr=False
-    )
-    _aws_valid_services: Optional[Set[str]] = field(
-        default=None, init=False, repr=False
-    )
+    _boto3_session: Optional[boto3.Session] = field(default=None, init=False, repr=False)
+    _aws_valid_services: Optional[Set[str]] = field(default=None, init=False, repr=False)
     _session: Optional[boto3.Session] = field(default=None, init=False, repr=False)
 
     _extraction_llm: Optional[LLM] = None
@@ -143,46 +134,27 @@ class _GraphRAGConfig:
     _enable_cache: Optional[bool] = None
     _metadata_datetime_suffixes: Optional[List[str]] = None
 
-    _system_prompt_arn: Optional[str] = None
-    _user_prompt_arn: Optional[str] = None
-    _response_prompt_arn: Optional[str] = None
-
-    _system_prompt: Optional[str] = None
-    _user_prompt: Optional[str] = None
-
-    def _resolve_prompt_arn(self, value: str) -> str:
-        """
-        Resolve a prompt identifier into a full Bedrock prompt ARN.
-
-        If the value is already a full ARN, it is returned as-is.
-        Otherwise, assume it's a short name and construct the ARN using:
-        - the configured AWS region (from self.aws_region)
-        - the current AWS account ID (via STS)
-
-        :param value: Full ARN or short name (e.g., "my-prompt")
-        :return: Full ARN string
-        """
-        if value.startswith("arn:aws:bedrock:"):
-            return value
-
-        sts = self._get_or_create_client("sts")
-        account_id = sts.get_caller_identity()["Account"]
-        return f"arn:aws:bedrock:{self.aws_region}:{account_id}:prompt/{value}"
     def _get_or_create_client(self, service_name: str) -> boto3.client:
         """
-        Retrieve or create a boto3 client for the specified AWS service. The method
-        maintains a cache of previously created clients to avoid redundant
-        initialization. If the requested client exists in the cache, it is returned.
-        Otherwise, a new boto3 session is created using the specified AWS region and
-        profile, and the client is initialized and stored in the cache.
+        Creates or retrieves a boto3 client for a specified AWS service. This method
+        maintains an internal cache of AWS clients to avoid creating multiple clients
+        for the same service. If the requested client is not already cached, a new boto3
+        client is created using the provided AWS region and profile, or their corresponding
+        fallbacks.
 
-        :param service_name: Name of the AWS service for which the boto3 client needs
-            to be retrieved or created.
-        :type service_name: str
-        :return: An instance of boto3 client for the specified AWS service.
-        :rtype: boto3.client
-        :raises AttributeError: If a boto3 client cannot be created due to an error in
-            session initialization or client creation.
+        Parameters:
+        service_name : str
+            The name of the AWS service for which a client is required. Examples include
+            's3', 'ec2', etc.
+
+        Returns:
+        boto3.client
+            The boto3 client for the specified AWS service.
+
+        Raises:
+        AttributeError
+            If the boto3 client cannot be created due to an error, such as invalid AWS
+            credentials or an invalid service name.
         """
         if service_name in self._aws_clients:
             return self._aws_clients[service_name]
@@ -208,115 +180,36 @@ class _GraphRAGConfig:
                 f"Original error: {str(e)}"
             ) from e
 
-    def fetch_bedrock_prompt_text(self, prompt_identifier: str) -> str:
-        """
-        Retrieves the prompt text from a Bedrock Agent prompt.
-
-        Accepts either a full ARN or a short prompt name and returns the prompt's template text.
-        """
-        if not prompt_identifier.startswith("arn:"):
-            try:
-                sts_client = self._get_or_create_client("sts")
-                account_id = sts_client.get_caller_identity()["Account"]
-                prompt_identifier = f"arn:aws:bedrock:{self.aws_region}:{account_id}:prompt/{prompt_identifier}"
-            except Exception as e:
-                raise RuntimeError(f"Failed to construct ARN from short prompt name: {e}") from e
-
-        try:
-            response = self._get_or_create_client("bedrock-agent").get_prompt(
-                promptIdentifier=prompt_identifier
-            )
-
-            # ✅ Extract only the text from the default variant
-            return response["variants"][0]["templateConfiguration"]["text"]["text"]
-
-        except Exception as e:
-            raise RuntimeError(
-                f"Failed to retrieve Bedrock prompt for identifier '{prompt_identifier}': {e}"
-            ) from e
-
-    @property
-    def system_prompt(self) -> Optional[str]:
-        if self._system_prompt:
-            return self._system_prompt
-
-        self._system_prompt_arn = self._system_prompt_arn or os.environ.get("SYSTEM_PROMPT_ARN")
-        if self._system_prompt_arn:
-            try:
-                self._system_prompt = self.fetch_bedrock_prompt_text(self._system_prompt_arn)
-            except Exception as e:
-                logger.warning(f"Failed to fetch system prompt from ARN: {e}")
-
-        return self._system_prompt
-
-    @system_prompt.setter
-    def system_prompt(self, value: str):
-        self._system_prompt = value
-        self._system_prompt_arn = None  # clear ARN resolution
-
-    @property
-    def user_prompt(self) -> Optional[str]:
-        if self._user_prompt:
-            return self._user_prompt
-
-        self._user_prompt_arn = self._user_prompt_arn or os.environ.get("USER_PROMPT_ARN")
-        if self._user_prompt_arn:
-            try:
-                self._user_prompt = self.fetch_bedrock_prompt_text(self._user_prompt_arn)
-            except Exception as e:
-                logger.warning(f"Failed to fetch user prompt from ARN: {e}")
-
-        return self._user_prompt
-
-    @user_prompt.setter
-    def user_prompt(self, value: str):
-        self._user_prompt = value
-        self._user_prompt_arn = None
-
-    @property
-    def response_prompt_arn(self) -> Optional[str]:
-        """
-        Retrieves the prompt template ARN for Bedrock-managed response prompts.
-        Falls back to the environment variable RESPONSE_PROMPT_ARN if not set.
-        """
-        if self._response_prompt_arn is None:
-            self._response_prompt_arn = os.environ.get('RESPONSE_PROMPT_ARN')
-        return self._response_prompt_arn
-
-    @response_prompt_arn.setter
-    def response_prompt_arn(self, arn: str) -> None:
-        """
-        Sets the response prompt ARN to use for Bedrock-managed templates.
-        """
-        self._response_prompt_arn = arn
-
-    @property
-    def bedrock_agent(self):
-        """
-        Returns the boto3 client for Bedrock Agent (used to fetch prompts, agents, etc.).
-        """
-        return self._get_or_create_client("bedrock-agent")
-
     @property
     def session(self) -> Boto3Session:
         """
-        Provides the `session` property which initializes and retrieves a boto3 session
-        based on the AWS profile and region configuration. If the session is not already
-        initialized, it attempts to create a new boto3 session using either an explicitly
-        set profile or the default AWS configuration, including environment variables.
+        Initializes and manages a Boto3 session. This property lazily initializes
+        a Boto3 session the first time it is accessed. It uses an explicitly
+        defined AWS profile if provided or falls back to the default configuration
+        or environment variables. The session is cached for future accesses unless
+        explicitly reset.
 
-        :raises RuntimeError: If an error occurs during the initialization of the boto3
-            session, providing details on the profile, region, and underlying error.
+        If initialization fails, it raises a runtime error containing information
+        about the profile and region being used.
 
-        :return: The active boto3 session instance.
-        :rtype: Boto3Session
+        Attributes:
+            aws_profile (str): AWS profile name to initialize the session with. If None,
+                environment variables or the default configuration will be used.
+            aws_region (str): AWS region to initialize the session with.
+
+        Returns:
+            Boto3Session: An initialized Boto3 session object.
+
+        Raises:
+            RuntimeError: If the session fails to initialize due to an error.
         """
         if not hasattr(self, "_boto3_session") or self._boto3_session is None:
             try:
                 # Prefer explicitly set profile
                 if self.aws_profile:
                     self._boto3_session = Boto3Session(
-                        profile_name=self.aws_profile, region_name=self.aws_region
+                        profile_name=self.aws_profile,
+                        region_name=self.aws_region
                     )
                 else:
                     # Use environment variables or default config
@@ -334,52 +227,56 @@ class _GraphRAGConfig:
     @property
     def s3(self):
         """
-        Provides access to the S3 client through a property. The client is lazily created
-        if it does not already exist, enabling on-demand usage without initializing it
-        immediately.
+        Provides a read-only property to access the S3 client by retrieving or creating an
+        instance of the client. The method `_get_or_create_client` is responsible for
+        handling client instantiation and retrieval, ensuring the S3 client is only
+        created when required.
 
-        :return: An S3 client initialized and ready for interaction.
-        :rtype: Any
+        Returns:
+            Any: The S3 client instance. The exact type is dependent on the implementation
+            of `_get_or_create_client`.
         """
         return self._get_or_create_client("s3")
 
     @property
     def bedrock(self):
         """
-        Provides a property to access a specific client.
+        Provides a property to access the 'bedrock' client. This client is managed internally
+        and created on demand, ensuring minimal resource usage unless explicitly required.
 
-        This property allows fetching or creating a specific client instance called
-        'bedrock' using an internal utility method. It ensures the 'bedrock' client
-        is instantiated and available for further usage when accessed.
-
-        :return: The instance of the 'bedrock' client.
-        :rtype: Any
+        Returns
+        -------
+        Any
+            The 'bedrock' client instance, either previously created or newly initialized.
         """
         return self._get_or_create_client("bedrock")
 
     @property
     def rds(self):
         """
-        Retrieves or creates the Amazon RDS client instance.
+        Provides a property `rds` that retrieves an RDS client instance. The client
+        is created if not already available, allowing users to interact with RDS
+        services conveniently through the exposed interface.
 
-        This property method checks if an Amazon RDS client already exists;
-        if not, it creates one and returns it.
-
-        :return: An Amazon RDS client instance.
-        :rtype: boto3.client
+        Returns
+        -------
+        Any
+            A client instance for interacting with RDS services.
         """
         return self._get_or_create_client("rds")
 
     @property
     def aws_profile(self) -> Optional[str]:
         """
-        Retrieves the AWS profile name used for authentication. If the profile
-        is not already set, it attempts to retrieve it from the environmental
-        variable `AWS_PROFILE`.
+        Gets the AWS profile name from the environment or caches it on first call.
 
-        :return: The name of the AWS profile used for authentication or `None`
-            if it is not set in the environment and the internal attribute is unset.
-        :rtype: Optional[str]
+        This method retrieves the AWS profile currently set in the environment
+        variable 'AWS_PROFILE'. If the profile name is not already cached, it
+        fetches it from the environment and caches the value for future use.
+
+
+        Returns:
+            Optional[str]: The AWS profile name if set, otherwise None.
         """
         if self._aws_profile is None:
             self._aws_profile = os.environ.get("AWS_PROFILE")
@@ -388,27 +285,19 @@ class _GraphRAGConfig:
     @aws_profile.setter
     def aws_profile(self, profile: str) -> None:
         """
-        Sets the AWS profile to use for connections. Clears the existing AWS clients
-        to ensure new connections are established with the updated profile.
+        Sets the AWS profile to be used and clears any cached AWS clients.
+        This ensures that any previously generated clients are regenerated
+        with the newly set profile.
 
-        :param profile: The name of the AWS profile to set.
-        :type profile: str
-        :return: None
+        Parameters:
+            profile (str): The new AWS profile to be set.
         """
         self._aws_profile = profile
         self._aws_clients.clear()  # Clear old clients to force regeneration
 
     @property
     def aws_region(self) -> str:
-        """
-        A property to retrieve the AWS region used by the application. The region is resolved
-        from the `AWS_REGION` environment variable or the default region configured in the
-        `boto3` session. If the `_aws_region` attribute has been set already, the cached value
-        will be returned. Otherwise, it initializes the attribute with the resolved AWS region.
-
-        :return: The AWS region as a string.
-        :rtype: str
-        """
+        """Returns the AWS region, resolved from internal value or environment."""
         if self._aws_region is None:
             self._aws_region = os.environ.get("AWS_REGION", boto3.Session().region_name)
         return self._aws_region
@@ -416,13 +305,12 @@ class _GraphRAGConfig:
     @aws_region.setter
     def aws_region(self, region: str) -> None:
         """
-        Sets the AWS region for the instance and clears any cached AWS clients.
-        This allows the instance to work with the specified AWS region and resets
-        the state of any previously initialized AWS SDK clients.
+        Sets the AWS region to be used for AWS service interactions. Assigning a new region
+        will automatically reset cached AWS clients, ensuring that subsequent AWS service
+        requests are directed to the specified region.
 
-        :param region: AWS region to set for the instance
-        :type region: str
-
+        Args:
+            region (str): The AWS region to be set, e.g., "us-west-1", "eu-central-1".
         """
         self._aws_region = region
         self._aws_clients.clear()  # Optional: reset clients if a region changes
@@ -430,122 +318,119 @@ class _GraphRAGConfig:
     @property
     def extraction_num_workers(self) -> int:
         """
-        Computes and retrieves the number of extraction workers. If the number
-        of extraction workers is not already set, it assigns a default value
-        obtained from an environment variable or a predefined constant.
+        Retrieves the number of workers assigned for the extraction process.
 
-        :return: The current number of extraction workers.
-        :rtype: int
+        If no value has been explicitly set, it assigns and returns the default
+        number of workers, which is obtained from the environment variable
+        `EXTRACTION_NUM_WORKERS`. If the environment variable is not set, the
+        default value of `DEFAULT_EXTRACTION_NUM_WORKERS` is used.
+
+        Returns:
+            int: The number of extraction workers.
         """
         if self._extraction_num_workers is None:
-            self.extraction_num_workers = int(
-                os.environ.get('EXTRACTION_NUM_WORKERS', DEFAULT_EXTRACTION_NUM_WORKERS)
-            )
+            self.extraction_num_workers = int(os.environ.get('EXTRACTION_NUM_WORKERS', DEFAULT_EXTRACTION_NUM_WORKERS))
 
         return self._extraction_num_workers
 
     @extraction_num_workers.setter
     def extraction_num_workers(self, num_workers: int) -> None:
         """
-        Sets the number of workers used for data extraction.
+        Sets the number of workers used for the extraction process.
 
-        This method allows configuring the number of workers that will be utilized
-        to perform data extraction operations. The parameter specified will directly
-        affect performance and resource allocation during these operations.
+        The `extraction_num_workers` setter method allows configuring the number
+        of concurrent workers available for the extraction process. It ensures
+        that the provided value is stored in the internal `_extraction_num_workers`
+        attribute.
 
-        :param num_workers: The number of workers to use for extraction.
-        :type num_workers: int
-        :return: None
-        :rtype: None
+        Args:
+            num_workers (int): The number of workers to be utilized for extraction.
         """
         self._extraction_num_workers = num_workers
 
     @property
     def extraction_num_threads_per_worker(self) -> int:
         """
-        Retrieves the number of threads allocated for each worker performing the
-        extraction process. If the value is not explicitly set, it attempts to
-        read the configuration from the environment variable
-        'EXTRACTION_NUM_THREADS_PER_WORKER'. If the environment variable is not
-        set, defaults to a predefined constant value.
+        Gets the number of threads allocated per worker for the extraction process.
 
-        :return: The number of threads set for each extraction worker.
-        :rtype: int
+        This property retrieves the number of threads allocated per worker for data
+        extraction. If the number of threads has not been manually set, it defaults
+        to the value specified in the environment variable
+        'EXTRACTION_NUM_THREADS_PER_WORKER'. If the environment variable is not set,
+        it will use the application's default value defined by
+        `DEFAULT_EXTRACTION_NUM_THREADS_PER_WORKER`.
+
+        Returns:
+            int: The number of threads allocated per worker for extraction.
         """
         if self._extraction_num_threads_per_worker is None:
             self.extraction_num_threads_per_worker = int(
-                os.environ.get(
-                    'EXTRACTION_NUM_THREADS_PER_WORKER',
-                    DEFAULT_EXTRACTION_NUM_THREADS_PER_WORKER,
-                )
-            )
+                os.environ.get('EXTRACTION_NUM_THREADS_PER_WORKER', DEFAULT_EXTRACTION_NUM_THREADS_PER_WORKER))
 
         return self._extraction_num_threads_per_worker
 
     @extraction_num_threads_per_worker.setter
     def extraction_num_threads_per_worker(self, num_threads: int) -> None:
         """
-        Sets the number of threads used per worker during the extraction process.
+        Sets the number of extraction threads per worker.
 
-        This method adjusts the number of threads for each worker responsible
-        for the data extraction task.
+        This setter method updates the number of threads to be used for
+        extraction processes per worker. It ensures that the configured
+        number of threads can be dynamically changed for optimization
+        or resource management purposes.
 
-        :param num_threads: Number of threads to be assigned per worker.
-        :type num_threads: int
-        :return: None
+        Args:
+            num_threads (int): The number of threads to be allocated for
+                each worker during extraction operations.
         """
         self._extraction_num_threads_per_worker = num_threads
 
     @property
     def extraction_batch_size(self) -> int:
         """
-        A property that retrieves the extraction batch size configuration for the application.
-        If the value is not already set, it attempts to retrieve it from the environment
-        variable 'EXTRACTION_BATCH_SIZE'. If the environment variable is not defined, a
-        default value is used.
+        Gets or sets the batch size for data extraction operations. The batch size is determined
+        by an environment variable 'EXTRACTION_BATCH_SIZE'. If this variable is not set, a default
+        value 'DEFAULT_EXTRACTION_BATCH_SIZE' is applied. This property ensures that the batch size
+        is retrieved or initialized appropriately whenever accessed.
 
-        :raises ValueError: If the environment variable 'EXTRACTION_BATCH_SIZE' contains
-                            a non-integer value or if it cannot be properly parsed.
-
-        :rtype: int
-        :return: The batch size to be used for extraction operations. Defaults to the
-                 value specified in `DEFAULT_EXTRACTION_BATCH_SIZE` if not set.
+        Returns:
+            int: The configured batch size for extraction operations. If not already configured,
+            initializes it using an environment variable or a default value.
         """
         if self._extraction_batch_size is None:
-            self.extraction_batch_size = int(
-                os.environ.get('EXTRACTION_BATCH_SIZE', DEFAULT_EXTRACTION_BATCH_SIZE)
-            )
+            self.extraction_batch_size = int(os.environ.get('EXTRACTION_BATCH_SIZE', DEFAULT_EXTRACTION_BATCH_SIZE))
 
         return self._extraction_batch_size
 
     @extraction_batch_size.setter
     def extraction_batch_size(self, batch_size: int) -> None:
         """
-        Sets the batch size for extraction operations. This setter method updates the value of
-        the private variable ``_extraction_batch_size`` which is responsible for storing the
-        batch size to be used during extraction processes.
+        Sets the extraction batch size for the process.
 
-        :param batch_size: The size of the batch to be used for data extraction operations.
-        :type batch_size: int
-        :return: None
+        The extraction batch size determines the number of items to be
+        processed in each batch. This allows for customization of workload
+        distribution based on available resources and specific performance
+        considerations for the task.
+
+        Args:
+            batch_size (int): The size of the extraction batch. Must be an
+                integer representing the number of items in a batch.
         """
         self._extraction_batch_size = batch_size
 
     @property
     def build_num_workers(self) -> int:
         """
-        Provides property access to the number of build workers configured in the environment.
-        If not already set, this property attempts to retrieve the number of workers from the
-        environment variable 'BUILD_NUM_WORKERS'. Defaults to a predefined constant
-        (DEFAULT_BUILD_NUM_WORKERS) if the environment variable is not found or invalid.
+        Gets the number of workers to be used for the build process. This property fetches
+        the value from the environment variable `BUILD_NUM_WORKERS`, if available, or
+        defaults to a predefined constant `DEFAULT_BUILD_NUM_WORKERS`. The value is cached
+        for subsequent accesses.
 
-        :return: The number of build workers as an integer.
-        :rtype: int
+        Returns:
+            int: The number of workers to be used for the build process.
         """
         if self._build_num_workers is None:
-            self.build_num_workers = int(
-                os.environ.get('BUILD_NUM_WORKERS', DEFAULT_BUILD_NUM_WORKERS)
-            )
+            self.build_num_workers = int(os.environ.get('BUILD_NUM_WORKERS', DEFAULT_BUILD_NUM_WORKERS))
 
         return self._build_num_workers
 
@@ -554,196 +439,180 @@ class _GraphRAGConfig:
         """
         Sets the number of workers to be used for building processes.
 
-        This function allows the adjustment of the number of workers utilized
-        during a build process, enabling control over the parallelization of
-        tasks. The setter updates the internal attribute `_build_num_workers`
-        to reflect the supplied value.
+        This setter method assigns the provided value to the internal
+        attribute _build_num_workers, which represents the number of
+        workers utilized in building or processing tasks.
 
-        :param num_workers: The number of workers to set.
-        :type num_workers: int
+        Args:
+            num_workers (int): The number of workers to be used. This value
+                determines the concurrency level during execution.
         """
         self._build_num_workers = num_workers
 
     @property
     def build_batch_size(self) -> int:
         """
-        This property retrieves the batch size used for the build process. If the batch size
-        has not been set, it initializes the value by fetching it from the environment
-        variable 'BUILD_BATCH_SIZE'. If the environment variable is not set, it defaults
-        to 'DEFAULT_BUILD_BATCH_SIZE'.
+        Gets the build batch size for the process. The build batch size can be dynamically
+        retrieved from an environment variable or falls back to a default value if not set.
 
-        :return: The batch size used for the build process.
-        :rtype: int
+        Returns:
+            int: The batch size used during the build process.
         """
         if self._build_batch_size is None:
-            self.build_batch_size = int(
-                os.environ.get('BUILD_BATCH_SIZE', DEFAULT_BUILD_BATCH_SIZE)
-            )
+            self.build_batch_size = int(os.environ.get('BUILD_BATCH_SIZE', DEFAULT_BUILD_BATCH_SIZE))
 
         return self._build_batch_size
 
     @build_batch_size.setter
     def build_batch_size(self, batch_size: int) -> None:
         """
-        Sets the value of the build batch size. This defines the size of the batch
-        used during the build process.
+        Sets the batch size for the build process.
 
-        :param batch_size: The size of the batch for building process.
-        :type batch_size: int
-        :return: None
-        :rtype: None
+        This property setter method allows updating the current batch size, which
+        is used during the build process. The value must be an integer.
+
+        Args:
+            batch_size: The batch size to be set for the build process. Must be a
+                positive integer indicating the number of items per batch.
         """
         self._build_batch_size = batch_size
 
     @property
     def build_batch_write_size(self) -> int:
         """
-        Gets or sets the size of the batch write for the build process.
+        Gets the batch write size for the build process.
 
-        This property checks if the `_build_batch_write_size` is `None` and, in such
-        a case, sets it to the value fetched from the environment variable
-        'BUILD_BATCH_WRITE_SIZE' or a default value (`DEFAULT_BUILD_BATCH_WRITE_SIZE`)
-        if the environment variable is not set. This allows dynamic configuration
-        of the batch write size during runtime.
+        This property retrieves the value of `_build_batch_write_size`. If its value is
+        `None`, it sets `_build_batch_write_size` to the integer value specified in the
+        environment variable `BUILD_BATCH_WRITE_SIZE`. If this environment variable is not
+        set, it defaults to the value of `DEFAULT_BUILD_BATCH_WRITE_SIZE`.
 
-        :return: The batch write size used during the build process.
-        :rtype: int
+        Returns:
+            int: The configured batch write size for the build process.
         """
         if self._build_batch_write_size is None:
-            self.build_batch_write_size = int(
-                os.environ.get('BUILD_BATCH_WRITE_SIZE', DEFAULT_BUILD_BATCH_WRITE_SIZE)
-            )
+            self.build_batch_write_size = int(os.environ.get('BUILD_BATCH_WRITE_SIZE', DEFAULT_BUILD_BATCH_WRITE_SIZE))
 
         return self._build_batch_write_size
 
     @build_batch_write_size.setter
     def build_batch_write_size(self, batch_size: int) -> None:
         """
-        Sets the batch write size for building operations.
+        Sets the size of the batch for writing during the build process. This property
+        controls how many entries are processed in a single batch when writing data.
 
-        This property allows the user to configure the size of each batch write
-        operation when building data. The batch size directly affects the number
-        of records processed in a single operation, enabling optimization for
-        performance or resource limitations.
-
-        :param batch_size: The size of each batch to be written during the build
-            process.
-        :type batch_size: int
-        :return: None
-        :rtype: None
+        Args:
+            batch_size: Number of entries in a single batch for the write process.
         """
         self._build_batch_write_size = batch_size
 
     @property
     def batch_writes_enabled(self) -> bool:
         """
-        Determines if batch writes are enabled.
+        Determines whether batch writes are enabled based on an environment variable.
 
-        This property checks the ``_batch_writes_enabled`` attribute. If it is ``None``,
-        it attempts to derive the value from the environment variable ``BATCH_WRITES_ENABLED``.
-        If the environment variable is not set, a default value is used. The result is cached in
-        ``_batch_writes_enabled``.
+        The `batch_writes_enabled` property retrieves the value indicating whether batch
+        writes are enabled. By default, it fetches and converts the value of the
+        environment variable `BATCH_WRITES_ENABLED`. If this environment variable is not
+        set, it will use the `DEFAULT_BATCH_WRITES_ENABLED` constant as the default value.
+        The property automatically converts the environment variable value to a boolean.
 
-        :return: Whether batch writes are enabled
-        :rtype: bool
+        Attributes:
+            _batch_writes_enabled: Cached value for the batch writes enabled status,
+                computed once based on the environment variable.
+
+        Returns:
+            bool: A boolean value indicating whether batch writes are enabled.
         """
         if self._batch_writes_enabled is None:
-            self.batch_writes_enabled = string_to_bool(
-                os.environ.get('BATCH_WRITES_ENABLED'), DEFAULT_BATCH_WRITES_ENABLED
-            )
+            self.batch_writes_enabled = string_to_bool(os.environ.get('BATCH_WRITES_ENABLED'),
+                                                       DEFAULT_BATCH_WRITES_ENABLED)
 
         return self._batch_writes_enabled
 
     @batch_writes_enabled.setter
     def batch_writes_enabled(self, batch_writes_enabled: bool) -> None:
-        """
-        Sets whether batch writes are enabled.
-
-        This property controls if the batch writing feature of the system is
-        activated. When enabled, write operations may be grouped and performed
-        more efficiently.
-
-        :param batch_writes_enabled: Indicates whether batch writes are enabled.
-        :type batch_writes_enabled: bool
-        :return: None
-        """
         self._batch_writes_enabled = batch_writes_enabled
 
     @property
     def include_domain_labels(self) -> bool:
         """
-        Indicates whether domain labels should be included in processing. This
-        property provides lazy initialization by checking the `INCLUDE_DOMAIN_LABELS`
-        environment variable. If it is not set, a default value is used defined by
-        `DEFAULT_INCLUDE_DOMAIN_LABELS`.
+        Property to retrieve or compute the value indicating whether domain labels
+        should be included. The value is initially derived from an environment variable
+        and a default setting. The environment variable `INCLUDE_DOMAIN_LABELS` is
+        checked, and its string value is converted to a boolean. If not provided, the
+        default value `DEFAULT_INCLUDE_DOMAIN_LABELS` is used. Once computed, the value
+        is cached for subsequent accesses.
 
-        :raises AttributeError: If the property fails to initialize correctly.
-        :return: The current state indicating whether domain labels are included.
-        :rtype: bool
+        Returns:
+            bool: The value indicating whether domain labels should be included.
         """
         if self._include_domain_labels is None:
-            self.include_domain_labels = string_to_bool(
-                os.environ.get('INCLUDE_DOMAIN_LABELS'), DEFAULT_INCLUDE_DOMAIN_LABELS
-            )
+            self.include_domain_labels = string_to_bool(os.environ.get('INCLUDE_DOMAIN_LABELS'),
+                                                        DEFAULT_INCLUDE_DOMAIN_LABELS)
         return self._include_domain_labels
 
     @include_domain_labels.setter
     def include_domain_labels(self, include_domain_labels: bool) -> None:
         """
-        Sets the value of the `include_domain_labels` attribute. This attribute determines
-        whether domain labels are included in the specified operation or context where
-        this attribute is used.
+        Setter for the `include_domain_labels` attribute of the class.
 
-        :param include_domain_labels: Boolean value to set the attribute. If set to ``True``,
-            domain labels will be included. Otherwise, they will be excluded.
+        This setter method assigns a value to the underlying private
+        attribute `_include_domain_labels`, which stores a boolean value
+        indicating whether domain labels should be included.
 
-        :rtype: None
+        Args:
+            include_domain_labels (bool): A boolean specifying whether domain
+                labels should be included.
         """
         self._include_domain_labels = include_domain_labels
 
     @property
     def enable_cache(self) -> bool:
         """
-        A property that determines whether caching is enabled based on an environment
-        variable. If the caching setting has not yet been initialized, it reads the
-        value from the environment and sets it to a default value if the environment
-        variable is not found.
+        Indicates whether the caching mechanism is enabled for the application. This
+        property evaluates an environment variable to determine the cache status. If
+        the environment variable is not set, a default value is used.
 
-        :raises ValueError: If the environment variable is provided in an invalid format.
+        Attributes:
+            _enable_cache (bool, optional): Internal cache value that stores the
+                evaluated result of the `ENABLE_CACHE` environment variable.
 
-        :return: A boolean indicating if caching is enabled.
-        :rtype: bool
+        Returns:
+            bool: True if caching is enabled, False otherwise.
         """
         if self._enable_cache is None:
-            self.enable_cache = string_to_bool(
-                os.environ.get('ENABLE_CACHE'), DEFAULT_ENABLE_CACHE
-            )
+            self.enable_cache = string_to_bool(os.environ.get('ENABLE_CACHE'), DEFAULT_ENABLE_CACHE)
         return self._enable_cache
 
     @enable_cache.setter
     def enable_cache(self, enable_cache: bool) -> None:
         """
-        Sets the cache enabling state for the object.
+        Sets the value of the enable_cache attribute.
 
-        This method is the setter function for the ``enable_cache``
-        property, allowing the user to enable or disable caching
-        depending on the provided value.
+        This property setter allows modifying the internal `_enable_cache`
+        attribute, which likely controls whether caching is enabled or
+        disabled within the class where this property is defined.
 
-        :param enable_cache: Indicates whether caching should
-            be enabled or disabled.
-        :type enable_cache: bool
-        :return: None
+        Args:
+            enable_cache: New value to assign to the `_enable_cache` attribute.
         """
         self._enable_cache = enable_cache
 
     @property
     def metadata_datetime_suffixes(self) -> List[str]:
         """
-        Provides access to a list of metadata datetime suffixes. If the suffixes have
-        not been explicitly set, a default value is initialized and returned.
+        Gets the list of datetime suffixes for metadata.
 
-        :return: A list of strings containing metadata datetime suffixes.
-        :rtype: List[str]
+        This property retrieves the list of datetime suffixes used in metadata.
+        If the value has not been set explicitly, it defaults to a predefined
+        set of datetime suffixes.
+
+        Returns:
+            List[str]: A list of datetime suffix strings.
+
+        Raises:
+            None.
         """
         if self._metadata_datetime_suffixes is None:
             self.metadata_datetime_suffixes = DEFAULT_METADATA_DATETIME_SUFFIXES
@@ -752,34 +621,44 @@ class _GraphRAGConfig:
     @metadata_datetime_suffixes.setter
     def metadata_datetime_suffixes(self, metadata_datetime_suffixes: List[str]) -> None:
         """
-        Sets the metadata datetime suffixes for the instance. This property allows
-        assigning or updating the list of datetime suffixes related to metadata.
-        The setter method updates the internal representation of the suffixes.
+        Sets the metadata datetime suffixes for the instance.
 
-        :param metadata_datetime_suffixes: A list of strings representing the
-            metadata datetime suffixes.
-        :type metadata_datetime_suffixes: List[str]
+        This property setter updates the list of metadata datetime suffixes used
+        for customization or configuration within the instance. These suffixes
+        are adjustable to cater to specific metadata requirements.
+
+        Args:
+            metadata_datetime_suffixes (List[str]): A list containing suffixes for
+                metadata datetime configurations.
+
         """
         self._metadata_datetime_suffixes = metadata_datetime_suffixes
 
     def _to_llm(self, llm: LLMType):
         """
-        Converts the given LLM input to an LLM instance.
+        Converts the given LLMType into an instance of LLM or BedrockConverse.
 
-        If the input is an instance of the LLM class, it returns the input directly.
-        If the input is a JSON string, it parses the string to extract configuration
-        details and creates an instance of BedrockConverse with the specified parameters.
-        Otherwise, it assumes the input is the model name and creates a BedrockConverse
-        instance using default values.
+        The method accepts an LLM or a string representation of configuration,
+        and converts it to an appropriate instance of BedrockConverse based
+        on the provided details. If `llm` is already an instance of LLM, it
+        is returned directly. When `llm` is a valid JSON string, a
+        BedrockConverse instance is initialized with the extracted
+        configuration. Otherwise, a default BedrockConverse instance
+        is created using specified attributes such as AWS profile and
+        region.
 
-        :param llm: The LLM input which can be an instance of LLM, a JSON string
-            with configuration details, or a model name string.
-        :type llm: LLMType
-        :return: An instance of LLM, specifically a BedrockConverse object unless the input is
-            an instance of LLM.
-        :rtype: LLM
+        Args:
+            llm: An instance of LLMType which could be an LLM instance,
+                a JSON string containing configuration details, or a simple
+                string representing the model.
 
-        :raises ValueError: If there is an error initializing a BedrockConverse instance.
+        Returns:
+            LLM: The processed LLM instance or an instance of BedrockConverse
+            initialized based on the provided parameters.
+
+        Raises:
+            ValueError: If BedrockConverse initialization fails due to
+                invalid input or unexpected errors during processing.
         """
         if isinstance(llm, LLM):
             return llm
@@ -802,7 +681,7 @@ class _GraphRAGConfig:
                     botocore_session=botocore_session,
                     region_name=config.get('region_name', region),
                     profile_name=config.get('profile_name', profile),
-                    max_retries=50,
+                    max_retries=50
                 )
 
             else:
@@ -813,7 +692,7 @@ class _GraphRAGConfig:
                     botocore_session=botocore_session,
                     region_name=region,
                     profile_name=profile,
-                    max_retries=50,
+                    max_retries=50
                 )
 
         except Exception as e:
@@ -822,33 +701,36 @@ class _GraphRAGConfig:
     @property
     def extraction_llm(self) -> LLM:
         """
-        Provides access to the extraction language model (LLM) instance, initializing it
-        if not already set. The property retrieves the current LLM instance tied to
-        extraction tasks or initializes it with a value from the environment variable
-        `EXTRACTION_MODEL`, defaulting to a pre-defined model if the variable is
-        unset.
+        Property to retrieve or initialize the LLM (Language Learning Model) for extraction.
 
-        :raises ValueError: When there is an invalid assignment to the extraction_llm
-            attribute during initialization.
-        :rtype: LLM
-        :return: The current instance of the extraction language model (LLM).
+        Provides access to the `LLM` instance used for data extraction tasks. If the
+        extraction model has not previously been set, it initializes the model based on
+        the environment variable `EXTRACTION_MODEL`. If the environment variable is not
+        defined, it defaults to the `DEFAULT_EXTRACTION_MODEL`.
+
+        Attributes:
+            extraction_llm (LLM): The LLM instance utilized for extraction purposes.
+
+        Returns:
+            LLM: The language learning model used for extraction workflows.
         """
         if self._extraction_llm is None:
-            self.extraction_llm = os.environ.get(
-                'EXTRACTION_MODEL', DEFAULT_EXTRACTION_MODEL
-            )
+            self.extraction_llm = os.environ.get('EXTRACTION_MODEL', DEFAULT_EXTRACTION_MODEL)
         return self._extraction_llm
 
     @extraction_llm.setter
     def extraction_llm(self, llm: LLMType) -> None:
-        """
-        Sets the `extraction_llm` attribute for the instance. This setter method converts the provided
-        parameter to the appropriate LLM format and sets it as an internal attribute. If the LLM instance
-        has a `callback_manager` attribute, it is assigned the global callback manager from the settings.
+        """Sets the extraction_llm property with a given LLM instance.
 
-        :param llm: The LLM instance to be set as the `extraction_llm`. It will be processed
-            into the appropriate format using the `_to_llm` method.
-        :type llm: LLMType
+        This setter method assigns the provided LLM instance to the
+        internal `_extraction_llm` attribute after processing it via
+        a helper method `_to_llm`. Additionally, if the provided LLM
+        supports a `callback_manager` attribute, it is set to use
+        the global `Settings.callback_manager`.
+
+        Args:
+            llm: An instance of LLMType that represents the language
+                model to be set.
         """
 
         self._extraction_llm = self._to_llm(llm)
@@ -858,13 +740,16 @@ class _GraphRAGConfig:
     @property
     def response_llm(self) -> LLM:
         """
-        Returns the LLM object used for responses. If the _response_llm attribute
-        is not already set, it initializes the response model using the value from
-        the 'RESPONSE_MODEL' environment variable, or defaults to
-        DEFAULT_RESPONSE_MODEL if the environment variable is not set.
+        Gets the response language model (LLM) instance. If the response LLM is not already set, it initializes it
+        using the value of the 'RESPONSE_MODEL' environment variable; if not defined, defaults to
+        `DEFAULT_RESPONSE_MODEL`. This ensures lazy initialization of the response LLM.
 
-        :return: The LLM object used for responses.
-        :rtype: LLM
+        Attributes:
+            response_llm (LLM): Instance of the response language model. If it is not
+                defined, it retrieves the value from the environment or the default value.
+
+        Returns:
+            LLM: The response language model instance.
         """
         if self._response_llm is None:
             self.response_llm = os.environ.get('RESPONSE_MODEL', DEFAULT_RESPONSE_MODEL)
@@ -873,17 +758,27 @@ class _GraphRAGConfig:
     @response_llm.setter
     def response_llm(self, llm: LLMType) -> None:
         """
-        Sets the response language model (LLM) instance for the object.
+        Setter for the response_llm attribute, allowing the setup of a language learning model
+        (LLM) by interpreting input as either an instance of an LLM class, a JSON string
+        representation of configuration, or a model identifier string. The method also handles
+        optional configurations such as temperature, token limits, and AWS-specific details.
 
-        The method assigns a suitable LLM instance to the internal attribute based on the input
-        and ensures its compatibility by converting it, if necessary. Additionally, it checks
-        if the response LLM contains a callback manager and aligns it with the global settings
-        callback manager.
+        Attributes:
+            aws_profile: str
+                The AWS profile name to be used with the LLM if specified.
+            aws_region: str
+                The AWS region name to be used with the LLM if specified.
+            _response_llm: BedrockConverse or LLM
+                The internal attribute holding the initialized LLM.
 
-        :param llm: LLM instance or a compatible input that can be converted to an LLM.
-        :type llm: LLMType
-        :return: None
-        :rtype: None
+        Parameters:
+            llm: LLMType
+                A model object, JSON string, or model identifier to configure an LLM. May contain
+                additional configuration parameters when provided as a JSON string.
+
+        Raises:
+            ValueError: If the initialization of BedrockConverse fails due to invalid input or
+            other errors.
         """
 
         self._response_llm = self._to_llm(llm)
@@ -893,36 +788,40 @@ class _GraphRAGConfig:
     @property
     def embed_model(self) -> BaseEmbedding:
         """
-        Retrieves the embedding model. If the embedding model has not been set yet, it initializes it by
-        trying to retrieve the model name from the 'EMBEDDINGS_MODEL' environment variable. If no environment
-        variable is found, it defaults to the pre-defined constant.
+        Property that retrieves the embedding model used for processing data.
 
-        :return: The embedding model instance.
-        :rtype: BaseEmbedding
+        This property either retrieves the existing embedding model or initializes
+        it based on the environment variable `EMBEDDINGS_MODEL`. If the environment
+        variable is not set, a default embedding model defined by
+        `DEFAULT_EMBEDDINGS_MODEL` is used. This allows for flexible and configurable
+        model initialization.
+
+        Returns:
+            BaseEmbedding: The embedding model instance.
         """
         if self._embed_model is None:
-            self.embed_model = os.environ.get(
-                'EMBEDDINGS_MODEL', DEFAULT_EMBEDDINGS_MODEL
-            )
+            self.embed_model = os.environ.get('EMBEDDINGS_MODEL', DEFAULT_EMBEDDINGS_MODEL)
 
         return self._embed_model
 
     @embed_model.setter
     def embed_model(self, embed_model: EmbeddingType) -> None:
         """
-        Sets the embedding model for the instance. Handles the initialization of
-        the `BedrockEmbedding` model if the provided embedding model is a string,
-        allowing configuration through JSON string inputs or direct model names.
-        It also handles fallback logic for using existing `boto3` session attributes,
-        AWS profile, and region settings. Furthermore, it supports setting a custom
-        callback manager if applicable.
+        Sets the embed_model attribute of the instance. The embed_model can either
+        be a string (indicating the name or configuration of the embedding model)
+        or an instance of an embedding type. Depending on the input, it configures
+        or assigns the specified embedding model along with AWS-related settings
+        and session management.
 
-        :param embed_model: The embedding model to be set for the instance. This can
-            either be an instance of `EmbeddingType` or a string representing the
-            model name. JSON string input is supported for specifying model-specific
-            configurations.
-        :type embed_model: EmbeddingType
-        :return: None
+        Args:
+            embed_model (EmbeddingType): Specifies the embedding model to be used.
+                It can be provided as a string (indicating either the model name or
+                a JSON string containing detailed configuration) or as an
+                EmbeddingType instance.
+
+        Raises:
+            ValueError: If a JSON string provided via `embed_model` does not conform
+                to the expected structure or lacks required fields during parsing.
         """
         if isinstance(embed_model, str):
 
@@ -947,7 +846,7 @@ class _GraphRAGConfig:
                     botocore_session=botocore_session,
                     region_name=config.get('region_name', region),
                     profile_name=config.get('profile_name', profile),
-                    botocore_config=botocore_config,
+                    botocore_config=botocore_config
                 )
             else:
                 self._embed_model = BedrockEmbedding(
@@ -955,7 +854,7 @@ class _GraphRAGConfig:
                     botocore_session=botocore_session,
                     region_name=region,
                     profile_name=profile,
-                    botocore_config=botocore_config,
+                    botocore_config=botocore_config
                 )
         else:
             self._embed_model = embed_model
@@ -966,66 +865,61 @@ class _GraphRAGConfig:
     @property
     def embed_dimensions(self) -> int:
         """
-        Gets or sets the embedding dimensions used within the application. Embedding
-        dimensions are typically used in machine learning or natural language
-        processing models to represent the size of the vector space for embeddings.
+        Gets the dimensions of embeddings.
 
-        This property retrieves the current value of embedding dimensions or sets it
-        based on an environment variable or a predefined default if the dimensions
-        are not already set.
+        This property retrieves the dimensionality of embeddings used in a system.
+        If the value is not currently set, it will lazily initialize by fetching the
+        value from the environment variable 'EMBEDDINGS_DIMENSIONS', falling back to
+        a predefined default value if the environment variable is not set.
 
-        :raise ValueError: If the `EMBEDDINGS_DIMENSIONS` environmental variable is
-            set but not a valid integer value.
-
-        :return: An integer indicating the size of embedding dimensions.
-        :rtype: int
+        Returns:
+            int: The dimensions of embeddings.
         """
         if self._embed_dimensions is None:
-            self.embed_dimensions = int(
-                os.environ.get('EMBEDDINGS_DIMENSIONS', DEFAULT_EMBEDDINGS_DIMENSIONS)
-            )
+            self.embed_dimensions = int(os.environ.get('EMBEDDINGS_DIMENSIONS', DEFAULT_EMBEDDINGS_DIMENSIONS))
 
         return self._embed_dimensions
 
     @embed_dimensions.setter
     def embed_dimensions(self, embed_dimensions: int) -> None:
         """
-        Sets the value of the embedding dimensions.
+        Sets the embed_dimensions attribute of the object.
 
-        :param embed_dimensions: The number of dimensions to set for the embedding. This
-            value determines the dimensionality of the embedding space and must be an
-            integer.
-        :return: None
+        This setter method assigns the value provided to the private
+        attribute _embed_dimensions. It is expected that the value is
+        an integer specifying dimensions for embedding.
+
+        Args:
+            embed_dimensions (int): The embedding dimensions to be
+                assigned to the instance.
         """
         self._embed_dimensions = embed_dimensions
 
     @property
     def reranking_model(self) -> str:
         """
-        Retrieve the reranking model configuration. If no explicit reranking
-        model is set, it attempts to fetch the model name from the environment
-        variable 'RERANKING_MODEL'. If the environment variable is not found,
-        a default value will be used.
+        Gets the reranking model used for the system. The model is retrieved from an
+        environment variable if available, otherwise a default model is used. This allows for
+        flexibility and configurability in selecting the reranking model without hardcoding
+        the value.
 
-        :return: The name of the reranking model as a string.
-        :rtype: str
+        Returns:
+            str: The name or identifier of the reranking model being used.
         """
         if self._reranking_model is None:
-            self._reranking_model = os.environ.get(
-                'RERANKING_MODEL', DEFAULT_RERANKING_MODEL
-            )
+            self._reranking_model = os.environ.get('RERANKING_MODEL', DEFAULT_RERANKING_MODEL)
 
         return self._reranking_model
 
     @reranking_model.setter
     def reranking_model(self, reranking_model: str) -> None:
         """
-        Sets the reranking model used for the instance. This method allows for configuring
-        the model to be applied when reranking tasks are performed.
+        Sets the reranking model used for the process. This allows the user to customize the underlying
+        model used for reranking operations within the application. The process ensures the provided
+        value is stored internally for consistent accessibility.
 
-        :param reranking_model: The name of the reranking model to be assigned.
-        :type reranking_model: str
-        :return: None
+        Args:
+            reranking_model (str): The name or identifier for the reranking model to be used.
         """
         self._reranking_model = reranking_model
 

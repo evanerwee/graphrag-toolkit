@@ -15,10 +15,10 @@ from llama_index.core.schema import BaseNode
 logger = logging.getLogger(__name__)
 
 class EntityGraphBuilder(GraphBuilder):
-    """Handles the process of building and interacting with a graph database
-    for entity and fact data representation. Supports operations to insert and
-    manage entities and their relationships in the graph structure. Provides
-    mechanisms for integrating metadata into the graph storage system.
+    """
+    Handles the process of building and interacting with a graph database for entity and fact data
+    representation. Supports operations to insert and manage entities and their relationships in the
+    graph structure. Provides mechanisms for integrating metadata into the graph storage system.
 
     This class is designed to work with a specific graph storage client and encapsulates the logic
     necessary for mapping entities and facts from node data to a graph database, considering the domain
@@ -30,8 +30,8 @@ class EntityGraphBuilder(GraphBuilder):
     """
     @classmethod
     def index_key(cls) -> str:
-        """Provides a method to retrieve the index key associated with the
-        class.
+        """
+        Provides a method to retrieve the index key associated with the class.
 
         This method is a class-level function that returns the index
         key string associated with the class. It can be used to
@@ -42,10 +42,10 @@ class EntityGraphBuilder(GraphBuilder):
             str: The index key associated with the class.
         """
         return 'fact'
-
+    
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
-        """Processes a given node and builds the corresponding entities in the
-        graph database.
+        """
+        Processes a given node and builds the corresponding entities in the graph database.
 
         This method extracts fact metadata from the provided node to construct nodes and
         relationships in a graph database using Cypher queries. It validates the fact
@@ -59,7 +59,8 @@ class EntityGraphBuilder(GraphBuilder):
         Args:
             node (BaseNode): The node from which fact metadata is to be extracted.
             graph_client (GraphStore): The graph database client to execute queries.
-            \\*\\*kwargs (Any): Additional options, such as include_domain_labels, which determines whether domain-specific labels are added to the entities.
+            **kwargs (Any): Additional options, such as `include_domain_labels`, which
+                determines whether domain-specific labels are added to the entities.
         """
         fact_metadata = node.metadata.get('fact', {})
         include_domain_labels = kwargs['include_domain_labels']
@@ -67,7 +68,7 @@ class EntityGraphBuilder(GraphBuilder):
         if fact_metadata:
 
             fact = Fact.model_validate(fact_metadata)
-
+        
             logger.debug(f'Inserting entities for fact [fact_id: {fact.factId}]')
 
             statements = [
@@ -110,11 +111,11 @@ class EntityGraphBuilder(GraphBuilder):
                     'o_search_str': search_string_from(fact.object.value),
                     'oc': fact.object.classification or DEFAULT_CLASSIFICATION
                 })
-
+        
             query = '\n'.join(statements)
-
+                
             graph_client.execute_query_with_retry(query, self._to_params(properties), max_attempts=5, max_wait=7)
-
+           
 
         else:
             logger.warning(f'fact_id missing from fact node [node_id: {node.node_id}]')

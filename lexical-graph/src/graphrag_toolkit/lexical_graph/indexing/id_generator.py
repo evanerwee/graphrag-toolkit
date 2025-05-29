@@ -8,118 +8,111 @@ from graphrag_toolkit.lexical_graph import TenantId
 
 from llama_index.core.bridge.pydantic import BaseModel, Field
 
-
 class IdGenerator(BaseModel):
     """
-    This class provides functionality to generate various unique identifiers,
-    tailored for tenant-specific operations. It centralizes the creation of hash-based
-    identifiers, node identifiers, and tenant-specific rewrites of IDs.
+    A class responsible for generating unique and tenant-specific identifiers.
 
-    The class incorporates methods for creating source and chunk identifiers using
-    text and metadata inputs, as well as methods for tenant-specific operations
-    like rewriting IDs or generating node identifiers. It heavily relies on hashing
-    mechanisms to ensure uniqueness and compactness of the generated identifiers.
+    The `IdGenerator` class is designed to create various types of identifiers,
+    such as source IDs, chunk IDs, node IDs, and tenant-specific rewritten IDs.
+    It uses hashing techniques for creating compact and unique representations
+    of input values. The class also integrates with a tenant system to ensure
+    that identifiers are applied in the context of a particular tenant.
 
-    :ivar tenant_id: Represents the unique tenant identifier associated with
-        the object. It determines tenant-specific ID formatting and rewriting.
-    :type tenant_id: TenantId
+    Attributes:
+        tenant_id (TenantId): The tenant context that is used for generating
+            tenant-specific IDs and rewriting ID values.
     """
-
-    tenant_id: TenantId
-
-    def __init__(self, tenant_id: TenantId = None):
-        """
-        Initializes a new instance of the class with a given tenant ID.
-
-        :param tenant_id: Identifies the tenant. Defaults to a new instance
-                          of the TenantId class if not provided.
-        :type tenant_id: TenantId
-        """
+    tenant_id:TenantId
+    
+    def __init__(self, tenant_id:TenantId=None):
         super().__init__(tenant_id=tenant_id or TenantId())
 
     def _get_hash(self, s):
         """
-        Compute the MD5 hash of a given string and return its hexadecimal digest.
+        Generates an MD5 hash for a given string.
 
-        The '_get_hash' function takes a string input, encodes it in UTF-8,
-        computes its MD5 hash, and returns the resulting value as a hexadecimal
-        representation. This can be useful for ensuring data integrity, creating
-        unique keys, or verifying content.
+        This private method computes the MD5 hash of a provided string and returns its
+        hexadecimal representation. It is used internally to generate unique hashed
+        values based on string inputs.
 
-        :param s: The input string to be hashed.
-        :type s: str
-        :return: The hexadecimal MD5 digest of the input string.
-        :rtype: str
+        Args:
+            s: The input string to be hashed.
+
+        Returns:
+            The hexadecimal representation of the MD5 hash of the input string.
         """
         return hashlib.md5(s.encode('utf-8')).digest().hex()
 
-    def create_source_id(self, text: str, metadata_str: str):
+    def create_source_id(self, text:str, metadata_str:str):
         """
-        Generates a unique source identifier based on the hashes of the given text
-        and metadata strings. This method combines portions of the hashed values
-        from the provided input strings to create the source ID in a specific format.
+        Generates a unique source identifier by combining hashed representations of a text
+        and its associated metadata.
 
-        :param text: The main text input to be used as part of the source ID.
-        :type text: str
-        :param metadata_str: Additional metadata to be included in the source ID
-            generation.
-        :type metadata_str: str
-        :return: A formatted string representing the unique source identifier
-            generated from the text and metadata inputs.
-        :rtype: str
+        This function is part of an identifier creation mechanism that hashes input strings
+        and formats the resulting substrings into a specific pattern for source identification.
+        The creation of the source ID involves truncating the hashed values to predefined lengths
+        for compactness and uniqueness.
+
+        Args:
+            text: The primary content or body for which the source identifier is generated.
+            metadata_str: Additional metadata or descriptive information related to the primary content.
+
+        Returns:
+            str: A formatted string representing the unique source identifier, combining
+            hashed substrings derived from the input text and metadata.
+
         """
         return f"aws::{self._get_hash(text)[:8]}:{self._get_hash(metadata_str)[:4]}"
-
-    def create_chunk_id(self, source_id: str, text: str, metadata_str: str):
+        
+    def create_chunk_id(self, source_id:str, text:str, metadata_str:str):
         """
-        Generate a unique chunk identifier based on the provided source identifier, text, and metadata string.
+        Generates a unique chunk identifier by combining a source ID, a hash of the given text,
+        and associated metadata.
 
-        This method generates a unique identifier for a chunk by combining the given
-        source ID, the concatenated content of `text` and `metadata_str`, and hashing
-        their combination. The resulting identifier ensures uniqueness while preserving
-        a consistent format.
+        Args:
+            source_id (str): The identifier of the source content.
+            text (str): The primary content or text that needs to be identified.
+            metadata_str (str): The metadata string used for constructing the identifier.
 
-        :param source_id: A string representing the identifier of the source.
-        :param text: The chunk's text content, used as part of the identifier.
-        :param metadata_str: Metadata related to the chunk, included in the hash.
-        :return: A string representing the unique chunk identifier.
+        Returns:
+            str: A uniquely generated chunk identifier based on the given inputs.
         """
         return f'{source_id}:{self._get_hash(text + metadata_str)[:8]}'
-
-    def rewrite_id_for_tenant(self, id_value: str):
+    
+    def rewrite_id_for_tenant(self, id_value:str):
         """
-        Rewrites the given ID for the tenant associated with the current instance. This method
-        utilizes the tenant's rewrite_id functionality to return the adjusted ID.
+        Rewrites the provided ID with the tenant-specific ID format.
 
-        :param id_value: The original ID string that needs to be rewritten for the tenant.
-        :type id_value: str
-        :return: The rewritten ID string adjusted for the tenant.
-        :rtype: str
+        This method utilizes the tenant's specific implementation of ID
+        rewriting to convert the given ID to a tenant-specific format.
+
+        Args:
+            id_value: The original ID to be rewritten.
+
+        Returns:
+            str: The tenant-specific rewritten ID.
         """
         return self.tenant_id.rewrite_id(id_value)
 
-    def create_node_id(self, node_type: str, v1: str, v2: Optional[str] = None) -> str:
+    def create_node_id(self, node_type:str, v1:str, v2:Optional[str]=None) -> str:
         """
-        Generates a unique identifier for a node based on its type and associated values.
-        The method creates a formatted string that combines the provided `node_type`,
-        `v1`, and optionally `v2`, lowercase and spaces replaced by underscores.
-        It then computes a hash of the formatted string using tenant-specific hashing logic.
+        Creates a unique identifier for a specific node based on the provided parameters.
 
-        :param node_type: Represents the type of the node, case insensitive.
-        :param v1: Primary identifier or component for the node.
-        :param v2: Optional secondary identifier or component for the node, which adds
-            specificity to the generated node ID if provided.
-        :return: A hash string representing the unique node identifier.
+        The function generates a hashable string using the `node_type`, `v1`, and
+        optionally `v2` parameters. The parameters are formatted to lower case and
+        spaces are replaced with underscores for consistency. If `v2` is provided,
+        it is included in the resulting identifier; otherwise, it is excluded.
+
+        Args:
+            node_type: A string representing the type of the node.
+            v1: A string specifying the first variable or identifier in the node's identity.
+            v2: An optional string specifying the second variable or identifier
+                in the node's identity.
+
+        Returns:
+            A string containing a unique hash-based identifier for the node.
         """
         if v2:
-            return self._get_hash(
-                self.tenant_id.format_hashable(
-                    f"{node_type.lower()}::{v1.lower().replace(' ', '_')}::{v2.lower().replace(' ', '_')}"
-                )
-            )
+            return self._get_hash(self.tenant_id.format_hashable(f"{node_type.lower()}::{v1.lower().replace(' ', '_')}::{v2.lower().replace(' ', '_')}"))
         else:
-            return self._get_hash(
-                self.tenant_id.format_hashable(
-                    f"{node_type.lower()}::{v1.lower().replace(' ', '_')}"
-                )
-            )
+            return self._get_hash(self.tenant_id.format_hashable(f"{node_type.lower()}::{v1.lower().replace(' ', '_')}"))

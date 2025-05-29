@@ -1,0 +1,169 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+import concurrent.futures
+import re
+import logging
+
+from pydantic import Field
+from typing import List, Optional
+
+from llama_index.core.postprocessor.types import BaseNodePostprocessor
+from llama_index.core.schema import NodeWithScore, QueryBundle, TextNode
+from llama_index.core.prompts import ChatPromptTemplate
+from llama_index.core.llms import ChatMessage, MessageRole
+
+from graphrag_toolkit.lexical_graph import GraphRAGConfig
+from graphrag_toolkit.lexical_graph.utils import LLMCache, LLMCacheType
+from graphrag_toolkit.lexical_graph.retrieval.prompts import (
+    ENHANCE_STATEMENT_SYSTEM_PROMPT,
+    ENHANCE_STATEMENT_USER_PROMPT,
+)
+
+logger = logging.getLogger(__name__)
+
+
+class StatementEnhancementPostProcessor(BaseNodePostprocessor):
+    """
+    Enhances text statements within nodes using a language model (LLM) to improve
+    their clarity, completeness, or quality.
+
+    This class processes nodes containing textual statements and metadata. The
+    primary functionality is enhancing text through the use of a large language
+    model (LLM). It provides configurable options such as maximum concurrency,
+    customizable system and user prompts, and a predefined language model
+    interaction template.
+
+    :ivar llm: An optional cache for the large language model. Defaults to None, in
+        which case a new cache instance is initialized with default settings.
+    :type llm: Optional[LLMCache]
+    :ivar max_concurrent: The maximum number of nodes processed concurrently. This
+        attribute determines the threading pool size utilized in processing.
+    :type max_concurrent: int
+    :ivar system_prompt: The default system prompt message content, which is used
+        as the initial SYSTEM role text in the chat template.
+    :type system_prompt: str
+    :ivar user_prompt: The default user prompt message content, which is used as
+        the USER role text in the chat template.
+    :type user_prompt: str
+    :ivar enhance_template: A chat prompt template initialized with system and user
+        prompt messages. It serves as the format for interacting with the LLM.
+    :type enhance_template: ChatPromptTemplate
+    """
+
+    llm: Optional[LLMCache] = Field(default=None)
+    max_concurrent: int = Field(default=10)
+    system_prompt: str = Field(default=ENHANCE_STATEMENT_SYSTEM_PROMPT)
+    user_prompt: str = Field(default=ENHANCE_STATEMENT_USER_PROMPT)
+    enhance_template: ChatPromptTemplate = Field(default=None)
+
+    def __init__(
+        self,
+        llm: LLMCacheType = None,
+        system_prompt: str = ENHANCE_STATEMENT_SYSTEM_PROMPT,
+        user_prompt: str = ENHANCE_STATEMENT_USER_PROMPT,
+        max_concurrent: int = 10,
+    ) -> None:
+        """Initializes an instance of the class with an optional large language
+        model (LLM) cache, a system prompt, a user prompt, and a configurable
+        maximum number of concurrent executions. The system and user prompts
+        initialize a chat template with predefined message roles and content.
+
+        Args:
+            llm: An optional large language model cache of type LLMCacheType. If none is
+                provided, a new LLMCache instance is initialized with default settings.
+            system_prompt: A string representing the system prompt used to initialize the
+                chat template with a SYSTEM role message.
+            user_prompt: A string representing the user prompt used to initialize the chat
+                template with a USER role message.
+            max_concurrent: An integer specifying the maximum number of concurrent
+                executions allowed.
+        """
+        super().__init__()
+        self.llm = (
+            llm
+            if llm and isinstance(llm, LLMCache)
+            else LLMCache(
+                llm=llm or GraphRAGConfig.response_llm,
+                enable_cache=GraphRAGConfig.enable_cache,
+            )
+        )
+        self.max_concurrent = max_concurrent
+        self.system_prompt = system_prompt
+        self.user_prompt = user_prompt
+
+        self.enhance_template = ChatPromptTemplate(
+            message_templates=[
+                ChatMessage(role=MessageRole.SYSTEM, content=system_prompt),
+                ChatMessage(role=MessageRole.USER, content=user_prompt),
+            ]
+        )
+
+    def enhance_statement(self, node: NodeWithScore) -> NodeWithScore:
+        """Enhances the statement of the input node by generating a modified
+        version of the statement using a large language model (LLM). This
+        method updates the node with the enhanced statement if the enhancement
+        is successful. If an error occurs or the enhancement is unsuccessful,
+        the original node is returned as-is.
+
+        Args:
+            node (NodeWithScore): The input node containing a text statement and
+                associated metadata to enhance.
+
+        Returns:
+            NodeWithScore: A node object that includes the modified statement if
+                successful, or the original node if the enhancement process fails.
+        """
+        try:
+            response = self.llm.predict(
+                prompt=self.enhance_template,
+                statement=node.node.metadata['statement']['value'],
+                context=node.node.metadata['chunk']['value'],
+            )
+            pattern = r'<modified_statement>(.*?)</modified_statement>'
+            match = re.search(pattern, response, re.DOTALL)
+
+            if match:
+                enhanced_text = match.group(1).strip()
+                new_node = TextNode(
+                    text=enhanced_text,
+                    metadata={
+                        'statement': node.node.metadata['statement'],
+                        'chunk': node.node.metadata['chunk'],
+                        'source': node.node.metadata['source'],
+                        'search_type': node.node.metadata.get('search_type'),
+                    },
+                )
+                return NodeWithScore(node=new_node, score=node.score)
+
+            return node
+
+        except Exception as e:
+            logger.error(f"Error enhancing statement: {e}")
+            return node
+
+    def _postprocess_nodes(
+        self,
+        nodes: List[NodeWithScore],
+        query_bundle: Optional[QueryBundle] = None,
+    ) -> List[NodeWithScore]:
+        """Post-processes a list of nodes by applying enhancements
+        concurrently.
+
+        This method takes a list of nodes, processes each node through the
+        `enhance_statement` method, and returns the processed nodes as a list. It uses
+        a thread pool to handle the parallel execution, improving performance.
+
+        Args:
+            nodes: A list of `NodeWithScore` objects that need to be processed.
+            query_bundle: Optional; A `QueryBundle` object providing additional
+                context or criteria for processing nodes.
+
+        Returns:
+            A list of `NodeWithScore` objects after being processed through the
+            `enhance_statement` method.
+        """
+        with concurrent.futures.ThreadPoolExecutor(
+            max_workers=self.max_concurrent
+        ) as executor:
+            return list(executor.map(self.enhance_statement, nodes))

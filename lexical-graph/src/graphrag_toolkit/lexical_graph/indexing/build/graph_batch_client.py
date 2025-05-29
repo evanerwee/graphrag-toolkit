@@ -6,34 +6,35 @@ from graphrag_toolkit.lexical_graph.storage.graph import GraphStore
 
 class GraphBatchClient():
     """
-    Manages the graph client and facilitates batch processing of operations, such
-    as writes.
+    Handles batched operations with a graph store client.
 
-    This class is designed to streamline and optimize operations with a graph
-    client by enabling batch processing. It allows configuration for batch write
-    functionality and maintains data structures for batched operations. It also
-    keeps track of all nodes processed. The class is intended to enhance
-    efficiency in working with the graph store by aggregating and managing
-    operations effectively, including retries for query execution.
+    GraphBatchClient is designed for handling operations in batches to optimize performance
+    when interacting with a GraphStore. It enables batching of writes and efficient processing
+    of graph queries, with support for retrying queries.
 
-    :ivar graph_client: The graph client instance used for interacting with the
-        graph store.
-    :ivar batch_writes_enabled: Boolean flag indicating whether batch writing is
-        enabled or not.
-    :ivar batch_write_size: The number of items included in a single batch during
-        batch operations.
-    :ivar batches: Dictionary to store batched query operations, where keys
-        represent query strings and values are lists of parameters.
-    :ivar all_nodes: List to track all nodes processed during operations.
+    Attributes:
+        graph_client (GraphStore): The underlying graph store client used for executing
+            queries and node operations.
+        batch_writes_enabled (bool): Flag indicating whether batch writes are enabled.
+        batch_write_size (int): The maximum number of entries in a batch.
+        batches (dict): A mapping of queries to their associated batched parameters.
+        all_nodes (list): A collection of all nodes processed for yielding.
     """
     def __init__(self, graph_client:GraphStore, batch_writes_enabled:bool, batch_write_size:int):
         """
-        Initializes the instance with the required parameters and sets up attributes for managing
-        graph-related operations, potential batch processing, and tracking nodes.
+        Initializes an instance of the class that manages the graph client and facilitates
+        batch processing of operations, such as writes. This class maintains a reference
+        to a graph client, enables or disables batch writes, and configures batch write
+        sizes. Additionally, it holds data structures for managing batched operations
+        and tracking all nodes processed.
 
-        :param graph_client: The client instance used to interact with the graph database.
-        :param batch_writes_enabled: Flag indicating whether batch writing is enabled.
-        :param batch_write_size: The size limit for a single batch in batch writing.
+        Args:
+            graph_client: The graph client instance used for interacting with the graph
+                store.
+            batch_writes_enabled: A boolean flag indicating whether batch writing is
+                enabled or not.
+            batch_write_size: The number of items to include in a single batch when
+                performing batch operations.
         """
         self.graph_client = graph_client
         self.batch_writes_enabled = batch_writes_enabled
@@ -44,63 +45,57 @@ class GraphBatchClient():
     @property
     def tenant_id(self):
         """
-        This property retrieves the tenant identifier associated with the
-        graph client instance. The tenant identifier is a unique value that
-        is used within the context of a multi-tenant system for identifying
-        a specific tenant or organization.
+        Getter method for retrieving the tenant ID associated with the graph client.
 
-        :return: The tenant identifier linked to the graph client.
-        :rtype: str
+        The tenant ID identifies the tenant to which the current graph client is bound.
+
+        Returns:
+            str: The tenant ID of the associated graph client.
         """
         return self.graph_client.tenant_id
 
     def node_id(self, id_name:str):
         """
-        Returns the unique identifier for a node based on the provided name.
+        Fetches the node ID by a given name using the graph client.
 
-        This method takes a name identifier and retrieves the unique node identifier
-        from the internal graph client. It is useful for associating external entities
-        with their corresponding internal node representation.
+        This function utilizes the `graph_client` to retrieve the unique node ID
+        associated with the provided name. It acts as a proxy to the `node_id()`
+        method of the `graph_client`.
 
-        :param id_name: Name identifier of the node
-        :type id_name: str
-        :return: Unique identifier for the node
-        :rtype: object
+        Args:
+            id_name (str): The name of the node for which the ID is requested.
+
+        Returns:
+            Any: The ID of the node as returned by the `graph_client`.
         """
         return self.graph_client.node_id(id_name)
     
     def property_assigment_fn(self, key:str, value:Any) -> Callable[[str], str]:
         """
-        Assigns a property to a specified key and value pair, utilizing the provided
-        graph client to handle the operation. The function ensures a callable result
-        is returned upon execution.
+        Assigns a property to a specified key and returns a function to retrieve the property.
 
-        :param key: The identifier for which the property is being assigned.
-        :type key: str
-        :param value: The data or information to associate with the given key in
-                      the property assignment.
-        :type value: Any
-        :return: A callable function that takes a string as input and returns a
-                 string output after performing the property assignment.
-        :rtype: Callable[[str], str
+        Args:
+            key (str): The key to which the property will be assigned.
+            value (Any): The value of the property to be assigned.
+
+        Returns:
+            Callable[[str], str]: A function that takes a key and retrieves the assigned property
+            value as a string.
         """
         return self.graph_client.property_assigment_fn(key, value)
     
     def execute_query_with_retry(self, query:str, properties:Dict[str, Any], **kwargs):
         """
-        Executes a query with retry logic. If batch writes are enabled, the query and
-        its parameters are added to a batch for later execution. Otherwise, the query
-        is immediately executed using the configured graph client.
+        Executes a query with retry logic. Supports batch processing of queries if
+        batch writes are enabled. When batch writes are enabled, properties are grouped
+        and stored in a batch for the given query. Otherwise, the query is executed
+        immediately with the provided properties and additional arguments.
 
-        :param query: The Cypher query to execute.
-        :type query: str
-        :param properties: A dictionary of properties associated with the query,
-                           typically including parameters to bind during the query
-                           execution.
-        :type properties: Dict[str, Any]
-        :param kwargs: Additional optional parameters passed to control the query
-                       execution behavior.
-        :return: None
+        Args:
+            query: The query string to be executed against the database.
+            properties: A dictionary containing parameters or other properties required
+                for executing the query. Must include 'params' if batching is enabled.
+            **kwargs: Arbitrary keyword arguments that may affect query execution.
         """
         if not self.batch_writes_enabled:
             self.graph_client.execute_query_with_retry(query, properties, **kwargs)
@@ -111,14 +106,21 @@ class GraphBatchClient():
 
     def allow_yield(self, node):
         """
-        Determines if the computational process should yield or continue without yielding
-        based on the batch writes configuration and the given node.
+        Determines whether the given node should be processed immediately or added to a batch
+        if batch writes are enabled.
 
-        :param node: The node being processed in the computational operation.
-        :type node: Any
-        :return: A boolean value indicating whether the process is allowed to yield
-                 (`True`) or not (`False`).
-        :rtype: bool
+        This function evaluates the system's current mode of handling nodes and either appends
+        the node to a pending batch queue when batch writes are enabled or permits immediate
+        processing. If batch writes are enabled, the `all_nodes` list is updated with the
+        given node. The function determines and returns whether yielding the node is allowed.
+
+        Args:
+            node: The node to process, either by immediate evaluation or batching, depending
+                on the `batch_writes_enabled` state.
+
+        Returns:
+            bool: False if the node is added to the batch queue (batch write mode is enabled),
+            True otherwise, allowing the node to be processed immediately.
         """
         if self.batch_writes_enabled:
             self.all_nodes.append(node)
@@ -128,13 +130,18 @@ class GraphBatchClient():
         
     def apply_batch_operations(self):
         """
-        Apply batch operations on stored queries and parameters. This method processes batched query
-        parameters, removes duplicates, divides them into chunks of a predefined size, and executes each
-        chunk using the configured graph client. It ensures retries with limited attempts and wait time
-        in case of execution failures. Returns all processed nodes.
+        Executes batch operations by processing stored queries and parameters, deduplicating
+        them, and executing the queries in chunks according to the defined batch size.
 
-        :return: All nodes processed after executing the batch operations
-        :rtype: list
+        Executes queries in retries to handle transient errors, ensuring robust and reliable
+        execution. Returns the resulting nodes from the performed operations.
+
+        Raises:
+            Any exceptions raised during the execution of queries are managed internally
+            and retried up to the specified maximum attempts.
+
+        Returns:
+            list: A list of all nodes resulting from the operations.
         """
         for query, parameters in self.batches.items():
 
@@ -154,11 +161,15 @@ class GraphBatchClient():
   
     def _dedup(self, parameters:List):
         """
-        Removes duplicate parameters from the provided list while preserving case sensitivity
-        and retains one unique entry based on a lowercased string representation as a key.
+        Removes duplicate entries from the input list based on case-insensitive string
+        representation and maintains the last occurrence of each unique entry.
 
-        :param parameters: List of parameters of any type to be deduplicated
-        :return: A list containing unique parameters based on case-insensitive comparisons
+        Args:
+            parameters (List): A list of elements which may contain duplicates.
+
+        Returns:
+            List: A list containing unique elements from the input, preserving the last
+            occurrence order.
         """
         params_map = {}
         for p in parameters:
@@ -167,33 +178,30 @@ class GraphBatchClient():
     
     def __enter__(self):
         """
-        Manages context entering actions for a class or object. When used in a
-        with-statement, this method is automatically invoked to allow the
-        class or object to define the set-up behavior for the context.
+        Handles the setup operations for a context manager. This method is invoked
+        automatically when the context manager is entered using the `with` statement,
+        and it ensures that any necessary initialization logic for the context is
+        executed.
 
-        :return: Returns the context-managed object.
-        :rtype: Same class as the object implementing this method
+        Returns:
+            self: Returns the context manager instance to enable usage within the
+            `with` statement.
         """
         return self
 
     def __exit__(self, exception_type, exception_value, exception_traceback):
         """
-        Handles the exit from a runtime context, such as that created by the
-        `with` statement. It allows cleanup actions or resource finalization,
-        and provides a mechanism to suppress exceptions if necessary.
+        Handles the exit of a context manager by suppressing exceptions or performing cleanup
+        operations when the context is exited.
 
-        :param exception_type: The class of the exception, if an exception was raised.
-            Otherwise, `None` if no exception occurred.
-        :type exception_type: Optional[Type[BaseException]]
-        :param exception_value: The instance of the exception raised, or
-            `None` if no exception occurred.
-        :type exception_value: Optional[BaseException]
-        :param exception_traceback: A traceback object providing details of
-            where the exception was raised, or `None` if no exception occurred.
-        :type exception_traceback: Optional[TracebackType]
-        :return: Indicates whether the exception should be suppressed or propagated.
-            `True` suppresses the exception, while `False` propagates it outward.
-        :rtype: bool
+        Args:
+            exception_type: The type of exception class that was raised, if any. If no
+                exception was raised, this value will be None.
+            exception_value: The value of the exception that was raised, if any. If no
+                exception was raised, this value will be None.
+            exception_traceback: The traceback object associated with the raised
+                exception, if any. If no exception was raised, this value will be None.
         """
         pass
 
+    

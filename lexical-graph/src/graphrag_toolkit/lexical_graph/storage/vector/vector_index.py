@@ -16,11 +16,9 @@ from graphrag_toolkit.lexical_graph.storage.constants import ALL_EMBEDDING_INDEX
 
 logger = logging.getLogger(__name__)
 
-
-def to_embedded_query(
-    query_bundle: QueryBundle, embed_model: EmbeddingType
-) -> QueryBundle:
-    """Converts a query bundle into an embedded query if not already embedded.
+def to_embedded_query(query_bundle:QueryBundle, embed_model:EmbeddingType) -> QueryBundle:
+    """
+    Converts a query bundle into an embedded query if not already embedded.
 
     This function takes a query bundle and an embedding model as input. It checks
     if the query bundle already contains an embedding. If the embedding is missing,
@@ -39,12 +37,13 @@ def to_embedded_query(
     """
     if query_bundle.embedding:
         return query_bundle
-
-    query_bundle.embedding = embed_model.get_agg_embedding_from_queries(
-        query_bundle.embedding_strs
-    )
-    return query_bundle
-
+    
+    query_bundle.embedding = (
+        embed_model.get_agg_embedding_from_queries(
+            query_bundle.embedding_strs
+        )
+    ) 
+    return query_bundle   
 
 class VectorIndex(BaseModel):
     """Represents a vector-based index for storing and retrieving embeddings.
@@ -62,18 +61,17 @@ class VectorIndex(BaseModel):
         generated using the TenantId default factory.
         writeable (bool): A flag indicating if the index is in writable mode. Defaults to True.
     """
-
     index_name: str
-    tenant_id: TenantId = Field(default_factory=lambda: TenantId())
-    writeable: bool = True
+    tenant_id:TenantId = Field(default_factory=lambda: TenantId())
+    writeable:bool = True
 
     @field_validator('index_name')
     def validate_option(cls, v):
-        """Validates the 'index_name' field to ensure it matches one of the
-        allowed values defined in 'ALL_EMBEDDING_INDEXES'. This validation
-        method is used to guarantee that the input for 'index_name' is
-        appropriate for its intended use. If the value is invalid, an exception
-        is raised to prevent incorrect configurations.
+        """
+        Validates the 'index_name' field to ensure it matches one of the allowed values
+        defined in 'ALL_EMBEDDING_INDEXES'. This validation method is used to guarantee
+        that the input for 'index_name' is appropriate for its intended use. If the value
+        is invalid, an exception is raised to prevent incorrect configurations.
 
         Args:
             v: The value of the 'index_name' field to be validated.
@@ -85,14 +83,12 @@ class VectorIndex(BaseModel):
             ValueError: If 'v' is not one of the predefined options in 'ALL_EMBEDDING_INDEXES'.
         """
         if v not in ALL_EMBEDDING_INDEXES:
-            raise ValueError(
-                f'Invalid index_name: must be one of {ALL_EMBEDDING_INDEXES}'
-            )
+            raise ValueError(f'Invalid index_name: must be one of {ALL_EMBEDDING_INDEXES}')
         return v
-
+    
     def underlying_index_name(self) -> str:
-        """Determines the underlying index name based on the tenant
-        configuration.
+        """
+        Determines the underlying index name based on the tenant configuration.
 
         This method evaluates whether the current tenant is the default tenant. If the
         tenant is default, it directly returns the stored index name. Otherwise, it
@@ -106,11 +102,12 @@ class VectorIndex(BaseModel):
             return self.index_name
         else:
             return self.tenant_id.format_index_name(self.index_name)
-
+    
     @abc.abstractmethod
-    def add_embeddings(self, nodes: Sequence[BaseNode]) -> Sequence[BaseNode]:
-        """Provides an interface for implementing the method to add embeddings
-        to a sequence of nodes.
+    def add_embeddings(self, nodes:Sequence[BaseNode]) -> Sequence[BaseNode]:
+        """
+        Provides an interface for implementing the method to add embeddings to
+        a sequence of nodes.
 
         Args:
             nodes: A sequence of BaseNode instances to which embeddings will
@@ -125,20 +122,15 @@ class VectorIndex(BaseModel):
                 class.
         """
         raise NotImplementedError
-
+    
     @abc.abstractmethod
-    def top_k(
-        self,
-        query_bundle: QueryBundle,
-        top_k: int = 5,
-        filter_config: Optional[FilterConfig] = None,
-    ) -> Sequence[Dict[str, Any]]:
-        """Abstract method to retrieve the top-k relevant items based on a
-        query. Implementing classes are expected to define the logic for
-        fetching the most relevant results given a query bundle, a specified
-        number of top results, and an optional filter configuration. This
-        method should return a sequence of dictionaries where each dictionary
-        represents a matched item.
+    def top_k(self, query_bundle:QueryBundle, top_k:int=5, filter_config:Optional[FilterConfig]=None) -> Sequence[Dict[str, Any]]:
+        """
+        Abstract method to retrieve the top-k relevant items based on a query. Implementing
+        classes are expected to define the logic for fetching the most relevant results
+        given a query bundle, a specified number of top results, and an optional filter
+        configuration. This method should return a sequence of dictionaries where each
+        dictionary represents a matched item.
 
         Args:
             query_bundle: Encapsulates all necessary query-related data used to fetch the
@@ -158,9 +150,9 @@ class VectorIndex(BaseModel):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_embeddings(self, ids: List[str] = []) -> Sequence[Dict[str, Any]]:
-        """Abstract method for retrieving embeddings associated with a given
-        list of IDs.
+    def get_embeddings(self, ids:List[str]=[]) -> Sequence[Dict[str, Any]]:
+        """
+        Abstract method for retrieving embeddings associated with a given list of IDs.
 
         This method must be implemented in subclasses, and its implementation should
         return embeddings for the provided list of IDs. The embeddings are expected to

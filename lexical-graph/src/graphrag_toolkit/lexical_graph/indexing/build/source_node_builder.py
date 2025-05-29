@@ -11,8 +11,8 @@ from graphrag_toolkit.lexical_graph.indexing.constants import TOPICS_KEY
 from graphrag_toolkit.lexical_graph.storage.constants import INDEX_KEY
 
 class SourceNodeBuilder(NodeBuilder):
-    """Handles the construction of source-related nodes with metadata and
-    specific configurations.
+    """
+    Handles the construction of source-related nodes with metadata and specific configurations.
 
     This class extends the NodeBuilder and is designed to process a list of nodes to derive and
     construct nodes that represent source information. The class makes use of metadata keys and
@@ -25,8 +25,8 @@ class SourceNodeBuilder(NodeBuilder):
     """
     @classmethod
     def name(cls) -> str:
-        """Provides the class method to return the name of the implementing
-        builder.
+        """
+        Provides the class method to return the name of the implementing builder.
 
         This method is a utility function typically used in identifying the specific
         implementation of a node builder in a larger system. It ensures that each
@@ -39,10 +39,11 @@ class SourceNodeBuilder(NodeBuilder):
     
     @classmethod
     def metadata_keys(cls) -> List[str]:
-        """Returns a list of keys that represent metadata identifiers used
-        within the context of this class. Metadata keys are utilized as
-        standardized identifiers to retrieve or interact with specific metadata
-        attributes governed by the class.
+        """
+        Returns a list of keys that represent metadata identifiers used within
+        the context of this class. Metadata keys are utilized as standardized
+        identifiers to retrieve or interact with specific metadata attributes
+        governed by the class.
 
         Returns:
             List[str]: A list of strings where each string is a metadata key.
@@ -50,10 +51,10 @@ class SourceNodeBuilder(NodeBuilder):
         return [TOPICS_KEY]
     
     def build_nodes(self, nodes:List[BaseNode]):
-        """Builds and returns a list of TextNode objects corresponding to
-        source nodes derived from the input `nodes`. The constructed nodes
-        contain processed metadata and mapping information required for
-        indexing and logical relationships.
+        """
+        Builds and returns a list of TextNode objects corresponding to source nodes derived
+        from the input `nodes`. The constructed nodes contain processed metadata and
+        mapping information required for indexing and logical relationships.
 
         Args:
             nodes (List[BaseNode]): A list of `BaseNode` objects from which the source

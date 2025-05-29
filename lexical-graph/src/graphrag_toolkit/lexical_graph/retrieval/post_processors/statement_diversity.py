@@ -11,7 +11,7 @@ from pydantic import Field
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from graphrag_toolkit.lexical_graph.errors import ModelError
+from graphrag_toolkit.lexical_graph import ModelError
 from graphrag_toolkit.lexical_graph.retrieval.model import SearchResult
 
 from llama_index.core.postprocessor.types import BaseNodePostprocessor
@@ -19,9 +19,9 @@ from llama_index.core.schema import NodeWithScore, QueryBundle, BaseNode
 
 logger = logging.getLogger(__name__)
 
-
-def _all_text(node: BaseNode) -> str:
-    """Extracts the textual content of a given node.
+def _all_text(node:BaseNode) -> str:
+    """
+    Extracts the textual content of a given node.
 
     This function retrieves the text attribute from the provided node object.
     The function assumes the node has a text attribute which contains the
@@ -36,10 +36,10 @@ def _all_text(node: BaseNode) -> str:
     """
     return node.text
 
-
-def _topics_and_statements(node: BaseNode) -> str:
-    """Constructs a string containing topics and statements retrieved from a
-    given node's text by validating it against a model.
+def _topics_and_statements(node:BaseNode) -> str:
+    """
+    Constructs a string containing topics and statements retrieved from a given node's text by
+    validating it against a model.
 
     The function processes textual data from a provided node, extracting the topic and associated
     statements from it. The resulting topic and statements are combined into a single string, where
@@ -61,9 +61,9 @@ def _topics_and_statements(node: BaseNode) -> str:
         lines.append(statement)
     return '\n'.join(lines)
 
-
-def _topics(node: BaseNode) -> str:
-    """Processes a given node to extract and return the topic information.
+def _topics(node:BaseNode) -> str:
+    """
+    Processes a given node to extract and return the topic information.
 
     This function takes a node object, validates its text content as a JSON
     representation of a `SearchResult`, and extracts the associated topic.
@@ -82,11 +82,9 @@ def _topics(node: BaseNode) -> str:
     search_result = SearchResult.model_validate_json(node.text)
     return search_result.topic
 
-
 ALL_TEXT = _all_text
 TOPICS_AND_STATEMENTS = _topics_and_statements
 TOPICS = _topics
-
 
 class StatementDiversityPostProcessor(BaseNodePostprocessor):
     """Postprocessor for ensuring diversity among statements.
@@ -107,18 +105,18 @@ class StatementDiversityPostProcessor(BaseNodePostprocessor):
         text_fn (Callable[[BaseNode], str]): Callable function used to extract text
             from a given node.
     """
-
+    
     similarity_threshold: float = Field(default=0.975)
     nlp: Any = Field(default=None)
     text_fn: Callable[[BaseNode], str] = Field(default=None)
 
-    def __init__(self, similarity_threshold: float = 0.975, text_fn=None):
-        """Initializes an instance of the class with the specified similarity
-        threshold and text function. Loads the spaCy language model for text
-        processing, specifically disabling named entity recognition and
-        parsing, but adding a sentence segmenter. If the required spaCy model
-        is not found, raises a ModelError with instructions to install the
-        missing model.
+    def __init__(self, similarity_threshold: float = 0.975, text_fn = None):
+        """
+        Initializes an instance of the class with the specified similarity threshold and
+        text function. Loads the spaCy language model for text processing, specifically
+        disabling named entity recognition and parsing, but adding a sentence segmenter.
+        If the required spaCy model is not found, raises a ModelError with instructions
+        to install the missing model.
 
         Args:
             similarity_threshold (float): The threshold for similarity comparison, which should
@@ -131,22 +129,21 @@ class StatementDiversityPostProcessor(BaseNodePostprocessor):
                 cannot be loaded, an exception is raised.
         """
         super().__init__(
-            similarity_threshold=similarity_threshold, text_fn=text_fn or ALL_TEXT
+            similarity_threshold=similarity_threshold,
+            text_fn = text_fn or ALL_TEXT
         )
         try:
             self.nlp = spacy.load("en_core_web_sm", disable=['ner', 'parser'])
             self.nlp.add_pipe('sentencizer')
         except OSError:
-            raise ModelError(
-                "Please install the spaCy model using: python -m spacy download en_core_web_sm"
-            )
+            raise ModelError("Please install the spaCy model using: python -m spacy download en_core_web_sm")
 
     def preprocess_texts(self, texts: List[str]) -> List[str]:
-        """Preprocesses a list of texts by tokenizing, lemmatizing, and
-        replacing numeric values with specific placeholders. This method
-        removes stopwords and punctuations, converts tokens to lowercase,
-        normalizes numbers by replacing them with placeholders, and generates a
-        list of preprocessed strings.
+        """
+        Preprocesses a list of texts by tokenizing, lemmatizing, and replacing numeric
+        values with specific placeholders. This method removes stopwords and
+        punctuations, converts tokens to lowercase, normalizes numbers by replacing
+        them with placeholders, and generates a list of preprocessed strings.
 
         Args:
             texts (List[str]): A list of textual inputs to preprocess by tokenizing,
@@ -160,12 +157,12 @@ class StatementDiversityPostProcessor(BaseNodePostprocessor):
         """
         preprocessed_texts = []
         float_pattern = re.compile(r'\d+\.\d+')
-
+        
         for text in texts:
             doc = self.nlp(text)
             tokens = []
             for token in doc:
-                if token.like_num:
+                if token.like_num: 
                     if float_pattern.match(token.text):
                         tokens.append(f"FLOAT_{token.text}")
                     else:
@@ -174,14 +171,14 @@ class StatementDiversityPostProcessor(BaseNodePostprocessor):
                     tokens.append(token.lemma_.lower())
             preprocessed_texts.append(' '.join(tokens))
         return preprocessed_texts
-
+    
     def _postprocess_nodes(
         self,
         nodes: List[NodeWithScore],
         query_bundle: Optional[QueryBundle] = None,
     ) -> List[NodeWithScore]:
-        """Post-processes a list of nodes by removing duplicates based on text
-        similarity.
+        """
+        Post-processes a list of nodes by removing duplicates based on text similarity.
 
         This method preprocesses the given list of nodes and filters out nodes that have
         a high textual similarity. It uses TF-IDF vectorization combined with cosine similarity
@@ -201,7 +198,7 @@ class StatementDiversityPostProcessor(BaseNodePostprocessor):
         """
         if not nodes:
             return nodes
-
+            
         # Preprocess texts
         texts = [self.text_fn(node.node) for node in nodes]
         preprocessed_texts = self.preprocess_texts(texts)
@@ -221,9 +218,7 @@ class StatementDiversityPostProcessor(BaseNodePostprocessor):
                 already_selected[idx] = True
 
                 # Find similar statements
-                similar_indices = np.where(
-                    cosine_sim_matrix[idx] > self.similarity_threshold
-                )[0]
+                similar_indices = np.where(cosine_sim_matrix[idx] > self.similarity_threshold)[0]
                 for sim_idx in similar_indices:
                     if not already_selected[sim_idx]:
                         logger.debug(

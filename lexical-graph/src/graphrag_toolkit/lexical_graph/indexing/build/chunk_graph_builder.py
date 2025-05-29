@@ -13,8 +13,8 @@ from llama_index.core.schema import NodeRelationship
 logger = logging.getLogger(__name__)
 
 class ChunkGraphBuilder(GraphBuilder):
-    """Class responsible for building and managing a graph representation for
-    chunks.
+    """Class responsible for building and managing a graph representation
+    for chunks.
 
     The ChunkGraphBuilder class specializes in generating graph structures
     that represent "chunks" from input nodes. It retrieves metadata,
@@ -27,27 +27,28 @@ class ChunkGraphBuilder(GraphBuilder):
     Attributes:
         _some_attribute (type): Description of an attribute (if any). Replace
         or expand this list with specific attributes used by the class.
+
     """
     @classmethod
     def index_key(cls) -> str:
-        """Returns a string key that identifies the index used within a given
-        context.
+        """
+        Returns a string key that identifies the index used within a given context.
 
         Returns:
             str: A string representing the index key 'chunk'.
         """
         return 'chunk'
-
+    
     def build(self, node:BaseNode, graph_client: GraphStore, **kwargs:Any):
-        """Builds and inserts a chunk node along with its relationships into a
-        graph database. Handles the insertion of child, parent, previous, next,
-        and source relationships. If a chunk ID or required relationship
-        information is missing, the function logs warnings.
+        """
+        Builds and inserts a chunk node along with its relationships into a graph database. Handles the
+        insertion of child, parent, previous, next, and source relationships. If a chunk ID or required
+        relationship information is missing, the function logs warnings.
 
         Args:
-            node: The BaseNode object containing chunk data and its relationships.
-            graph_client: The GraphStore interface to interact with the graph database.
-            \\*\\*kwargs: Additional optional parameters for configuring the operation.
+            node: The node object containing chunk data and its relationships.
+            graph_client: The graph client interface to interact with the graph database.
+            **kwargs: Additional optional parameters for configuring the operation.
         """
         chunk_metadata = node.metadata.get('chunk', {})
         chunk_id = chunk_metadata.get('chunkId', None)
@@ -65,11 +66,11 @@ class ChunkGraphBuilder(GraphBuilder):
                 f'MERGE (chunk:`__Chunk__`{{{graph_client.node_id("chunkId")}: params.chunk_id}})',
                 'ON CREATE SET chunk.value = params.text ON MATCH SET chunk.value = params.text'
             ])
-
+            
             source_info = node.relationships.get(NodeRelationship.SOURCE, None)
 
             if source_info:
-
+                
                 source_id = source_info.node_id
 
                 statements.extend([
@@ -84,11 +85,11 @@ class ChunkGraphBuilder(GraphBuilder):
                 }
             else:
                 logger.warning(f'source_id missing from chunk node [node_id: {chunk_id}]')
-
+            
             key_index = 0
-
+            
             for node_relationship,relationship_info in node.relationships.items():
-
+                
                 key_index += 1
                 key = f'node_relationship_{key_index}'
                 node_id = relationship_info.node_id
@@ -106,7 +107,7 @@ class ChunkGraphBuilder(GraphBuilder):
                 elif node_relationship == NodeRelationship.NEXT:
                     statements.append(f'MERGE (next:`__Chunk__`{{{graph_client.node_id("chunkId")}: params.{key}}})')
                     statements.append('MERGE (chunk)-[:`__NEXT__`]->(next)')
-
+                            
             query = '\n'.join(statements)
 
             graph_client.execute_query_with_retry(query, self._to_params(properties), max_attempts=5, max_wait=7)

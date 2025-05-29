@@ -12,7 +12,8 @@ from graphrag_toolkit.lexical_graph.indexing.constants import TOPICS_KEY
 from graphrag_toolkit.lexical_graph.storage.constants import INDEX_KEY
 
 class ChunkNodeBuilder(NodeBuilder):
-    """Builder class for creating chunk nodes from a list of base nodes.
+    """
+    Builder class for creating chunk nodes from a list of base nodes.
 
     This class is responsible for constructing chunk nodes by copying the base
     nodes' structure, modifying their metadata, and setting specific attributes
@@ -27,7 +28,8 @@ class ChunkNodeBuilder(NodeBuilder):
     """
     @classmethod
     def name(cls) -> str:
-        """Provides a class method to retrieve the name of the class.
+        """
+        Provides a class method to retrieve the name of the class.
 
         This method is designed to return a string representation of the class
         name. It does not take any external arguments, and its use is intended
@@ -40,7 +42,8 @@ class ChunkNodeBuilder(NodeBuilder):
     
     @classmethod
     def metadata_keys(cls) -> List[str]:
-        """Gets the list of metadata keys relevant for the class.
+        """
+        Gets the list of metadata keys relevant for the class.
 
         This method provides a list of keys used to access specific metadata
         pertaining to the class. It ensures a consistent mechanism to reference
@@ -52,9 +55,9 @@ class ChunkNodeBuilder(NodeBuilder):
         return [TOPICS_KEY]
     
     def build_nodes(self, nodes:List[BaseNode]):
-        """Constructs and returns a list of processed chunk nodes by iterating
-        through a list of input nodes, applying transformations, and filtering
-        metadata.
+        """
+        Constructs and returns a list of processed chunk nodes by iterating through
+        a list of input nodes, applying transformations, and filtering metadata.
 
         Args:
             nodes (List[BaseNode]): A list of input nodes that need to be processed

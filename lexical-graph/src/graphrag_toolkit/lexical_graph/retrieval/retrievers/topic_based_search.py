@@ -9,86 +9,80 @@ from graphrag_toolkit.lexical_graph.metadata import FilterConfig
 from graphrag_toolkit.lexical_graph.retrieval.model import SearchResultCollection
 from graphrag_toolkit.lexical_graph.storage.vector.vector_store import VectorStore
 from graphrag_toolkit.lexical_graph.storage.graph import GraphStore
-from graphrag_toolkit.lexical_graph.retrieval.processors import (
-    ProcessorBase,
-    ProcessorArgs,
-)
-from graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever import (
-    TraversalBasedBaseRetriever,
-)
-from graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils import (
-    get_diverse_vss_elements,
-)
+from graphrag_toolkit.lexical_graph.retrieval.processors import ProcessorBase, ProcessorArgs
+from graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever import TraversalBasedBaseRetriever
+from graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils import get_diverse_vss_elements
 
 from llama_index.core.schema import QueryBundle
 from llama_index.core.vector_stores.types import MetadataFilters
 
 logger = logging.getLogger(__name__)
 
-
 class TopicBasedSearch(TraversalBasedBaseRetriever):
-    """A retriever class implementing topic-based search within a knowledge graph.
+    """
+    A retriever class implementing topic-based search within a knowledge graph.
 
-    The TopicBasedSearch class specializes in retrieving information from a graph database
-    using a topic-based approach. It extends the TraversalBasedBaseRetriever to provide
-    functionality specific to exploring the graph based on topic relationships. The retriever
-    employs both a graph store for hierarchical relationships and a vector store for semantic queries.
-
-    This is particularly useful in scenarios where topic-centric information organization
-    and retrieval are required.
+    The `TopicBasedSearch` class specializes in retrieving information from a
+    graph database using a topic-based approach. It extends the
+    `TraversalBasedBaseRetriever` to provide functionality specific to exploring
+    the graph based on topic relationships. The retriever employs both a graph
+    store for hierarchical relationships and a vector store for semantic queries.
+    This is particularly useful in scenarios where topic-centric information
+    organization and retrieval are required.
 
     Attributes:
-        graph_store (GraphStore): An instance of the backing graph database used to execute
-            Cypher queries.
-        vector_store (VectorStore): A vector store used for semantic representation and querying.
-        processor_args (Optional[ProcessorArgs]): Optional arguments for configuring
-            preprocessing workflows.
-        processors (Optional[List[Type[ProcessorBase]]]): A list of processor classes for
-            custom data preprocessing.
-        filter_config (FilterConfig): Configuration for how filtering should be applied to
-            retrieve results.
-
+        graph_store (GraphStore): An instance of the backing graph database used to
+            execute cypher queries.
+        vector_store (VectorStore): A vector store used for semantic representation
+            and querying.
+        processor_args (Optional[ProcessorArgs]): Optional arguments for
+            configuring preprocessing workflows.
+        processors (Optional[List[Type[ProcessorBase]]]): A list of processor
+            classes for custom data preprocessing.
+        filter_config (FilterConfig): Configuration for how filtering should be
+            applied to retrieve results.
     """
-
-    def __init__(
-        self,
-        graph_store: GraphStore,
-        vector_store: VectorStore,
-        processor_args: Optional[ProcessorArgs] = None,
-        processors: Optional[List[Type[ProcessorBase]]] = None,
-        filter_config: FilterConfig = None,
-        **kwargs,
-    ):
-        """Initializes an instance of the class with specified configurations for graph storage, vector storage, processing arguments, processors, and filter configuration.
-
-        This constructor also accepts additional keyword arguments to support customization or extension.
+    def __init__(self,
+                 graph_store:GraphStore,
+                 vector_store:VectorStore,
+                 processor_args:Optional[ProcessorArgs]=None,
+                 processors:Optional[List[Type[ProcessorBase]]]=None,
+                 filter_config:FilterConfig=None,
+                 **kwargs):
+        """
+        Initializes an instance of the class with specified configurations for graph storage, vector
+        storage, processing arguments, processors, and filter configuration. This constructor
+        also accepts additional keyword arguments to support customization or extension.
 
         Args:
-            graph_store (GraphStore): The object responsible for storing and managing graph data.
-            vector_store (VectorStore): The storage system designed to handle vectorized data.
-            processor_args (Optional[ProcessorArgs]): Optional settings or configurations relevant to data processing. Defaults to None.
-            processors (Optional[List[Type[ProcessorBase]]]): Optional list of processor types used for performing specific processing tasks. Defaults to None.
-            filter_config (Optional[FilterConfig]): Configuration object that defines filtering rules or settings. Defaults to None.
-            kwargs (dict): Additional keyword arguments for further customization or extension of functionality.
-
+            graph_store: The object responsible for storing and managing graph data.
+            vector_store: The storage system designed to handle vectorized data.
+            processor_args: Optional settings or configurations relevant to data processing,
+                provided as `ProcessorArgs`. Defaults to None.
+            processors: Optional list of `ProcessorBase` types used for performing specific
+                processing tasks. Defaults to None.
+            filter_config: Configuration object that defines filtering rules or settings
+                as `FilterConfig`. Defaults to None.
+            **kwargs: Additional keyword arguments for further customization or
+                extension of functionality.
         """
         super().__init__(
-            graph_store=graph_store,
+            graph_store=graph_store, 
             vector_store=vector_store,
             processor_args=processor_args,
             processors=processors,
             filter_config=filter_config,
-            **kwargs,
+            **kwargs
         )
-
+    
     def topic_based_graph_search(self, topic_id):
-        """Performs a graph search based on a specific topic ID. The method
-        uses a Cypher query to traverse a graph database, retrieving relevant
-        __Fact__ and associated __Statement__ nodes connected to a specific
-        topic.
+        """
+        Performs a graph search based on a specific topic ID. The method uses a Cypher
+        query to traverse a graph database, retrieving relevant `__Fact__` and associated
+        `__Statement__` nodes connected to a specific topic.
 
-        The query traverses relationships such as __NEXT__, __SUPPORTS__, and
-        __BELONGS_TO__ to ensure that all relevant nodes and their connections are
+        The query traverses relationships such as `__NEXT__`, `__SUPPORTS__`, and
+        `__BELONGS_TO__` to ensure that all relevant nodes and their connections are
         retrieved based on the provided topic ID and query limits.
 
         Args:
@@ -101,26 +95,25 @@ class TopicBasedSearch(TraversalBasedBaseRetriever):
         Raises:
             Any error or exception raised by the `self.graph_store.execute_query` method.
         """
-        cypher = self.create_cypher_query(
-            f'''
+        cypher = self.create_cypher_query(f'''
         // topic-based graph search                                  
         MATCH (f:`__Fact__`)-[:`__NEXT__`*0..1]-(:`__Fact__`)-[:`__SUPPORTS__`]->(:`__Statement__`)-[:`__BELONGS_TO__`]->(tt:`__Topic__`)
         WHERE {self.graph_store.node_id("tt.topicId")} = $topicId
         WITH f LIMIT $statementLimit
         MATCH (f)-[:`__SUPPORTS__`]->(:`__Statement__`)-[:`__PREVIOUS__`*0..2]-(l:`__Statement__`)-[:`__BELONGS_TO__`]->(t:`__Topic__`)
-        '''
-        )
-
+        ''')
+                                  
         properties = {
             'topicId': topic_id,
             'limit': self.args.query_limit,
-            'statementLimit': self.args.intermediate_limit,
+            'statementLimit': self.args.intermediate_limit
         }
-
+                                          
         return self.graph_store.execute_query(cypher, properties)
 
     def get_start_node_ids(self, query_bundle: QueryBundle) -> List[str]:
-        """Retrieves the start node IDs based on a topic-based search.
+        """
+        Retrieves the start node IDs based on a topic-based search.
 
         This method extracts a list of start node IDs by performing
         a topic-based search using the provided query bundle and various
@@ -136,18 +129,15 @@ class TopicBasedSearch(TraversalBasedBaseRetriever):
         """
         logger.debug('Getting start node ids for topic-based search...')
 
-        topics = get_diverse_vss_elements(
-            'topic', query_bundle, self.vector_store, self.args, self.filter_config
-        )
-
+        topics = get_diverse_vss_elements('topic', query_bundle, self.vector_store, self.args, self.filter_config)
+        
         return [topic['topic']['topicId'] for topic in topics]
-
-    def do_graph_search(
-        self, query_bundle: QueryBundle, start_node_ids: List[str]
-    ) -> SearchResultCollection:
-        """Executes a graph-based search leveraging a multi-threaded approach
-        to perform topic-based searches starting from a given set of node IDs
-        and consolidates the results into a unified collection.
+    
+    def do_graph_search(self, query_bundle: QueryBundle, start_node_ids:List[str]) -> SearchResultCollection:
+        """
+        Executes a graph-based search leveraging a multi-threaded approach to perform
+        topic-based searches starting from a given set of node IDs and consolidates
+        the results into a unified collection.
 
         Args:
             query_bundle: Encapsulates information about the search query, including
@@ -163,38 +153,34 @@ class TopicBasedSearch(TraversalBasedBaseRetriever):
         topic_ids = start_node_ids
 
         logger.debug('Running topic-based search...')
-
+        
         search_results = []
-
-        with concurrent.futures.ThreadPoolExecutor(
-            max_workers=self.args.num_workers
-        ) as executor:
+        
+        with concurrent.futures.ThreadPoolExecutor(max_workers=self.args.num_workers) as executor:
 
             futures = [
                 executor.submit(self.topic_based_graph_search, topic_id)
                 for topic_id in topic_ids
             ]
-
+            
             executor.shutdown()
 
             for future in futures:
                 for result in future.result():
                     search_results.append(result)
-
-        search_results_collection = self._to_search_results_collection(search_results)
-
+                    
+        search_results_collection = self._to_search_results_collection(search_results) 
+        
         retriever_name = type(self).__name__
-        if retriever_name in self.args.debug_results and logger.isEnabledFor(
-            logging.DEBUG
-        ):
-            logger.debug(
-                f'''Topic-based results: {search_results_collection.model_dump_json(
+        if retriever_name in self.args.debug_results and logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f'''Topic-based results: {search_results_collection.model_dump_json(
                     indent=2, 
                     exclude_unset=True, 
                     exclude_defaults=True, 
                     exclude_none=True, 
                     warnings=False)
-                }'''
-            )
-
+                }''')
+                   
+        
         return search_results_collection
+    

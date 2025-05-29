@@ -9,20 +9,11 @@ from dataclasses import dataclass
 
 from llama_index.core.bridge.pydantic import PrivateAttr
 from llama_index.core.schema import BaseNode, NodeWithScore, QueryBundle
-from llama_index.core.vector_stores.types import (
-    VectorStoreQueryResult,
-    VectorStoreQueryMode,
-    MetadataFilters,
-    MetadataFilter,
-)
+from llama_index.core.vector_stores.types import  VectorStoreQueryResult, VectorStoreQueryMode, MetadataFilters, MetadataFilter
 from llama_index.core.indices.utils import embed_nodes
 from llama_index.core.vector_stores.types import MetadataFilters
 
-from graphrag_toolkit.lexical_graph.metadata import (
-    FilterConfig,
-    is_datetime_key,
-    format_datetime,
-)
+from graphrag_toolkit.lexical_graph.metadata import FilterConfig, is_datetime_key, format_datetime
 from graphrag_toolkit.lexical_graph.config import GraphRAGConfig, EmbeddingType
 from graphrag_toolkit.lexical_graph.storage.vector import VectorIndex, to_embedded_query
 from graphrag_toolkit.lexical_graph.storage.constants import INDEX_KEY
@@ -42,58 +33,48 @@ except ImportError as e:
 
 
 def _get_opensearch_version(self) -> str:
-    """
-    Retrieves the OpenSearch version in use.
-
-    The method fetches the OpenSearch version from a hypothetical asynchronous
-    client and returns it. The current implementation assumes the version is
-    statically defined as '2.0.9'. This method is designed to return a string
-    representation of the OpenSearch version.
-
-    :return: The OpenSearch version string.
-    :rtype: str
-    """
-    # info = asyncio_run(self._os_async_client.info())
+    #info = asyncio_run(self._os_async_client.info())
     return '2.0.9'
 
-
-import llama_index.vector_stores.opensearch
-
-llama_index.vector_stores.opensearch.OpensearchVectorClient._get_opensearch_version = (
-    _get_opensearch_version
-)
-
+import llama_index.vector_stores.opensearch 
+llama_index.vector_stores.opensearch.OpensearchVectorClient._get_opensearch_version = _get_opensearch_version
 
 @dataclass
 class DummyAuth:
     """
-    Represents a dummy authentication class.
+    Represents an authentication provider for a specific service.
 
-    This class serves as a basic example or placeholder for authentication logic
-    and functionality. It is not intended for production use and may require
-    modification based on specific authentication needs.
+    This class is used to manage and represent the authentication details specific
+    to a given service. It acts as a container for storing information related to
+    the service requiring authentication.
 
-    :ivar service: The name of the service requiring authentication.
-    :type service: str
+    Attributes:
+        service (str): The name of the service for which authentication is being
+            provided.
     """
-
-    service: str
-
+    service:str
 
 def create_os_client(endpoint, **kwargs):
     """
-    Creates and returns an OpenSearch client. The client is configured to use AWS
-    Signature Version 4 for authentication, and it includes specific settings
-    for SSL/TLS, connection retries, and timeouts. Configuration is based on
-    the session and region provided by the `GraphRAGConfig`.
+    Creates an OpenSearch client configured to use AWS Signature Version 4
+    authentication.
 
-    :param endpoint: The Amazon OpenSearch Service endpoint to connect to.
-    :type endpoint: str
-    :param kwargs: Additional keyword arguments that will be passed directly
-        to the OpenSearch client.
-    :return: An OpenSearch client configured with AWS SigV4 authentication
-        and additional connection parameters.
-    :rtype: OpenSearch
+    The function utilizes AWS credentials from a pre-configured session and region
+    information. It signs requests using Urllib3-based AWS Signature V4
+    authentication. The client is initialized with specific connection properties
+    like SSL usage, certificate verification, timeout, retry settings, and any
+    additional keyword arguments provided.
+
+    Args:
+        endpoint: str
+            The OpenSearch endpoint URL to connect to.
+        **kwargs: Any
+            Additional keyword arguments passed to the OpenSearch client.
+
+    Returns:
+        OpenSearch
+            A configured client instance for interacting with OpenSearch.
+
     """
     session = GraphRAGConfig.session
     region = GraphRAGConfig.aws_region
@@ -111,24 +92,23 @@ def create_os_client(endpoint, **kwargs):
         timeout=300,
         max_retries=10,
         retry_on_timeout=True,
-        **kwargs,
+        **kwargs
     )
-
 
 def create_os_async_client(endpoint, **kwargs):
     """
-    Creates an asynchronous OpenSearch client configured with the provided
-    endpoint, AWS credentials, and additional optional parameters. The client
-    utilizes AWS Signature Version 4 for authentication and is pre-configured
-    to handle connections securely with SSL and certificate verification.
+    Creates an asynchronous OpenSearch client.
 
-    :param endpoint: The endpoint URL for the OpenSearch service.
-    :type endpoint: str
-    :param kwargs: Additional optional parameters to customize the OpenSearch
-        client configuration, such as custom timeouts, connection settings, etc.
-    :return: An AsyncOpenSearch object initialized with the specified
-        configurations.
-    :rtype: AsyncOpenSearch
+    This function configures and returns an instance of the AsyncOpenSearch client,
+    configured for secure communication with the specified endpoint. The client
+    leverages AWS Signature Version 4 for authentication.
+
+    Args:
+        endpoint: The URL of the OpenSearch cluster endpoint.
+        **kwargs: Optional parameters for customizing the AsyncOpenSearch client.
+
+    Returns:
+        AsyncOpenSearch: An instantiated asynchronous OpenSearch client.
     """
     session = GraphRAGConfig.session
     region = GraphRAGConfig.aws_region
@@ -146,31 +126,27 @@ def create_os_async_client(endpoint, **kwargs):
         timeout=300,
         max_retries=10,
         retry_on_timeout=True,
-        **kwargs,
+        **kwargs
     )
-
+    
 
 def index_exists(endpoint, index_name, dimensions, writeable) -> bool:
     """
-    Checks if the specified OpenSearch index exists. If it does not exist and the `writeable`
-    parameter is True, it creates the index with the given configuration.
+    Checks if an OpenSearch index exists, and optionally creates it if it does not exist.
 
-    The function uses the OpenSearch client to check for the existence of the index. If the
-    index does not exist and is required to be created, it configures the index with specific
-    settings optimized for k-nearest neighbor (k-NN) search, including defining the embedding
-    field and the required settings for the search method. The function ensures proper cleanup
-    of the OpenSearch client regardless of errors or success.
+    This function uses the specified endpoint to establish a connection to an
+    OpenSearch client. If the index specified by `index_name` does not exist and
+    the `writeable` flag is True, it will create an index using the provided
+    dimensions and a predefined method for handling knn_vector elements.
 
-    :param endpoint: The OpenSearch cluster endpoint.
-    :type endpoint: str
-    :param index_name: The name of the index to check or create.
-    :type index_name: str
-    :param dimensions: The dimensionality of the embedding vector for the index configuration.
-    :type dimensions: int
-    :param writeable: Whether to create the index if it does not exist.
-    :type writeable: bool
-    :return: True if the index exists or was created successfully, otherwise False.
-    :rtype: bool
+    Args:
+        endpoint: The OpenSearch endpoint to connect to.
+        index_name: The name of the index to check for existence.
+        dimensions: The number of dimensions for the knn_vector in the index.
+        writeable: Flag indicating whether to create the index if it does not exist.
+
+    Returns:
+        bool: True if the index exists (or is created successfully), False otherwise.
     """
     client = create_os_client(endpoint, pool_maxsize=1)
 
@@ -192,7 +168,7 @@ def index_exists(endpoint, index_name, dimensions, writeable) -> bool:
                     "method": method,
                 },
             }
-        },
+        }
     }
 
     index_exists = False
@@ -200,9 +176,7 @@ def index_exists(endpoint, index_name, dimensions, writeable) -> bool:
     try:
         index_exists = client.indices.exists(index_name)
         if not index_exists and writeable:
-            logger.debug(
-                f'Creating OpenSearch index [index_name: {index_name}, endpoint: {endpoint}]'
-            )
+            logger.debug(f'Creating OpenSearch index [index_name: {index_name}, endpoint: {endpoint}]')
             client.indices.create(index=index_name, body=idx_conf)
             index_exists = True
     except RequestError as e:
@@ -214,106 +188,92 @@ def index_exists(endpoint, index_name, dimensions, writeable) -> bool:
         client.close()
 
     return index_exists
-
-
+        
+    
 def create_opensearch_vector_client(endpoint, index_name, dimensions, embed_model):
     """
-    Creates and initializes an OpenSearch vector client with specified configurations.
+    Creates an OpenSearch vector client for interacting with an OpenSearch cluster.
 
-    The function attempts to create an instance of the OpensearchVectorClient. If a
-    connection attempt fails due to an error, the function retries up to three times before
-    raising the exception. It configures the client with specific text and embedding fields,
-    a synchronous HTTP client, and an asynchronous HTTP client for communication with the
-    OpenSearch service.
+    This function initializes and configures the `OpensearchVectorClient`, which is
+    used for storing, managing, and querying vectors in an OpenSearch index. It includes
+    a retry mechanism to handle transient errors during the client initialization process.
 
-    :param endpoint: The endpoint URL of the OpenSearch service.
-    :type endpoint: str
-    :param index_name: The name of the index to use in OpenSearch.
-    :type index_name: str
-    :param dimensions: The number of dimensions for vector embeddings.
-    :type dimensions: int
-    :param embed_model: The name or type of the embedding model to use.
-    :type embed_model: str
-    :return: An instance of OpensearchVectorClient, configured and connected.
-    :rtype: OpensearchVectorClient
-    :raises NotFoundError: If the OpenSearch vector client could not be created within the
-        retry limit due to errors such as missing configurations or invalid endpoint.
+    Args:
+        endpoint: Endpoint URL of the OpenSearch cluster.
+        index_name: Name of the index to be used for storing vectors.
+        dimensions: Dimensions of the vector space used for embeddings.
+        embed_model: Embedding model associated with the vectors.
+
+    Returns:
+        OpensearchVectorClient: A configured OpenSearch vector client instance.
+
+    Raises:
+        NotFoundError: If the client cannot be initialized after exceeding the maximum
+            retry attempts.
     """
     text_field = 'value'
     embedding_field = 'embedding'
 
-    logger.debug(
-        f'Creating OpenSearch vector client [endpoint: {endpoint}, index_name={index_name}, embed_model={embed_model}, dimensions={dimensions}]'
-    )
-
+    logger.debug(f'Creating OpenSearch vector client [endpoint: {endpoint}, index_name={index_name}, embed_model={embed_model}, dimensions={dimensions}]')
+ 
     client = None
     retry_count = 0
     while not client:
         try:
             client = OpensearchVectorClient(
-                endpoint,
-                index_name,
-                dimensions,
-                embedding_field=embedding_field,
-                text_field=text_field,
+                endpoint, 
+                index_name, 
+                dimensions, 
+                embedding_field=embedding_field, 
+                text_field=text_field, 
                 os_client=create_os_client(endpoint),
                 os_async_client=create_os_async_client(endpoint),
-                http_auth=DummyAuth(service='aoss'),
+                http_auth=DummyAuth(service='aoss')
             )
         except NotFoundError as err:
             retry_count += 1
-            logger.warning(
-                f'Error while creating OpenSearch vector client [retry_count: {retry_count}, error: {err}]'
-            )
+            logger.warning(f'Error while creating OpenSearch vector client [retry_count: {retry_count}, error: {err}]')
             if retry_count > 3:
                 raise err
-
-    logger.debug(
-        f'Created OpenSearch vector client [client: {client}, retry_count: {retry_count}]'
-    )
-
+                
+    logger.debug(f'Created OpenSearch vector client [client: {client}, retry_count: {retry_count}]')
+            
     return client
-
-
-class DummyOpensearchVectorClient:
-    """Represents a dummy client for handling vector-based search operations
-    integrated with an OpenSearch backend.
-
-    This class provides a simulated implementation for indexing and querying
-    vector-based data within a datastore. It is designed for testing or
-    placeholder purposes and does not connect to an actual OpenSearch instance.
-    The primary functionalities include indexing data and executing queries
-    against a vector-based data store, returning simulated results. The class
-    can be extended or integrated with actual OpenSearch APIs for full
-    functionality.
-
-    :ivar _os_async_client: An internal attribute representing the backend
-        asynchronous OpenSearch client. For the dummy implementation, this is
-        initialized to ``None``.
-    :type _os_async_client: Any
+        
+class DummyOpensearchVectorClient():
     """
+    A client for interfacing with an OpenSearch vector store.
 
+    The DummyOpensearchVectorClient is designed as a placeholder implementation of a
+    vector client for OpenSearch. It provides methods to index content and query vectors
+    against the OpenSearch store. This implementation does not perform actual indexing
+    or querying but serves as a template for a functional OpenSearch vector client.
+
+    Attributes:
+        _os_async_client (Optional): Asynchronous OpenSearch client instance.
+    """
     def __init__(self):
         self._os_async_client = None
 
     def index_results(self, nodes: List[BaseNode], **kwargs: Any) -> List[str]:
         """
-        Indexes the given nodes and returns a list of identifiers for the indexed nodes.
+        Indexes the provided nodes and returns a list of their identifiers.
 
-        This method processes a list of nodes and, optionally, additional keyword arguments to
-        index the nodes. The function will return a list of identifiers corresponding to the
-        successfully indexed nodes. Each node is expected to follow the structure defined by
-        the `BaseNode` type.
+        The method is responsible for processing a list of nodes, performing the
+        necessary indexing, and returning a list of unique identifiers corresponding
+        to the indexed nodes. Additional parameters can be passed through **kwargs for
+        custom configurations or behaviors during the indexing process.
 
-        :param nodes: A list of nodes of type `BaseNode` that are to be indexed.
-        :type nodes: List[BaseNode]
-        :param kwargs: Additional keyword arguments that may be used for indexing.
-        :type kwargs: Any
-        :return: A list of strings representing identifiers for the indexed nodes.
-        :rtype: List[str]
+        Args:
+            nodes: A list of nodes to be indexed.
+            **kwargs: Arbitrary keyword arguments for additional configuration.
+
+        Returns:
+            A list of strings, where each string is the unique identifier of a
+            successfully indexed node.
+
         """
         return []
-
     def query(
         self,
         query_mode: VectorStoreQueryMode,
@@ -323,170 +283,178 @@ class DummyOpensearchVectorClient:
         filters: Optional[MetadataFilters] = None,
     ) -> VectorStoreQueryResult:
         """
-        Execute a query in the vector store using a specified query mode. The query can be conducted
-        either with a query string or a query embedding. Optionally, additional filters can be applied
-        to refine the query results. The method retrieves a specified number of results, sorted
-        based on similarity.
+        Executes a query on a vector store and returns the results based on the specified mode, query
+        parameters, and additional filters. The function supports different query mechanisms and allows users
+        to search using text strings or embeddings. It retrieves matching nodes, their similarities, and unique
+        identifiers.
 
-        :param query_mode: The mode in which the query will be processed. This determines how
-            the query is interpreted and executed within the vector store.
-        :param query_str: The textual query string used for searching, if applicable.
-        :param query_embedding: A list of floats representing the query embedding.
-        :param k: The number of top results to retrieve based on similarity.
-        :param filters: Additional metadata filters applied to refine the search query.
-        :return: A `VectorStoreQueryResult` instance containing the nodes, their corresponding
-            similarities, and IDs returned from the query.
+        Args:
+            query_mode: The mode in which the query should be executed. Defines how the search is processed,
+                e.g., similarity-based or keyword-based.
+            query_str: An optional text string to query. Only applicable for modes that support text-based
+                searching.
+            query_embedding: A list of floats representing the query embedding. Used in similarity-based
+                searching.
+            k: The number of top results to retrieve. Determines how many matching entries are returned.
+            filters: Optional metadata filters to narrow down the search results based on specific criteria.
+
+        Returns:
+            VectorStoreQueryResult: An object containing nodes that match the query, their similarity scores,
+            and unique identifiers.
         """
         return VectorStoreQueryResult(nodes=[], similarities=[], ids=[])
-
-
+        
+    
 class OpenSearchIndex(VectorIndex):
     """
-    Represents an OpenSearch index used for vector-based search and data storage.
+    Represents an OpenSearch-based vector index for storing and querying embeddings.
 
-    This class provides methods and properties to interact with an OpenSearch index
-    designed for handling vector embeddings. It includes functionalities such as
-    embedding addition, result conversion, and metadata filter updates. The
-    OpenSearchIndex class enables seamless management of vector data, allowing for
-    efficient search and retrieval operations. It also incorporates support for
-    custom embedding models and dimensional configurations.
+    This class inherits from `VectorIndex` and provides functionality specific to
+    OpenSearch for creating, managing, and querying embeddings. OpenSearch enables
+    vector searches with scoring and filtering mechanisms. This class supports
+    integration with various embedding models and configurations. The primary
+    use-case is to host embeddings in an OpenSearch-compatible format and allow
+    efficient retrieval or querying.
 
-    :ivar endpoint: The URL endpoint for the OpenSearch instance.
-    :type endpoint: str
-    :ivar index_name: The name of the OpenSearch index.
-    :type index_name: str
-    :ivar dimensions: The number of dimensions for vector embeddings in the index.
-    :type dimensions: int
-    :ivar embed_model: The embedding model used for generating embeddings.
-    :type embed_model: EmbeddingType
-    :ivar _client: An instance of the OpenSearch vector client, either initialized
-        dynamically or set to None by default. This is considered a private
-        attribute and is excluded from serialization.
-    :type _client: OpensearchVectorClient
+    Attributes:
+        endpoint (str): The endpoint URL for the OpenSearch service.
+        index_name (str): The name of the index in OpenSearch.
+        dimensions (int): The dimensionality of the embedding vectors.
+        embed_model (EmbeddingType): The model used for generating embeddings.
+        _client (OpensearchVectorClient): Private attribute representing a
+            client instance for interacting with OpenSearch, initialized on demand.
     """
-
     @staticmethod
     def for_index(index_name, endpoint, embed_model=None, dimensions=None):
         """
-        Creates and returns an instance of the OpenSearchIndex class configured for a
-        specific index. This method derives default values for certain parameters
-        from the GraphRAGConfig if they are not explicitly provided.
+        Creates and returns an instance of OpenSearchIndex using the provided parameters.
 
-        :param index_name: The name of the OpenSearch index.
-        :type index_name: str
-        :param endpoint: The endpoint URL for the OpenSearch service.
-        :type endpoint: str
-        :param embed_model: Optional embedding model to use for the index configuration.
-        :type embed_model: Optional[str]
-        :param dimensions: Optional dimensionality for the embedded vectors.
-        :type dimensions: Optional[int]
-        :return: An instance of OpenSearchIndex that is configured with the specified
-            or derived settings.
-        :rtype: OpenSearchIndex
+        This method allows the configuration of an OpenSearch index by specifying its
+        name, endpoint, optional embedding model, and dimensions. It ensures fallback
+        to default embedding model and dimensions defined in the GraphRAGConfig class
+        when not explicitly passed as arguments.
+
+        Args:
+            index_name (str): The name of the OpenSearch index to be created or
+                retrieved.
+            endpoint (str): The endpoint URL for the OpenSearch instance.
+            embed_model (Optional[str]): The embedding model to be used. Defaults to
+                the configuration specified in GraphRAGConfig.
+            dimensions (Optional[int]): The dimensions to be used for the embeddings.
+                Defaults to the configuration specified in GraphRAGConfig.
+
+        Returns:
+            OpenSearchIndex: An instance of OpenSearchIndex initialized with the
+                specified or default parameters.
         """
         embed_model = embed_model or GraphRAGConfig.embed_model
         dimensions = dimensions or GraphRAGConfig.embed_dimensions
 
-        return OpenSearchIndex(
-            index_name=index_name,
-            endpoint=endpoint,
-            dimensions=dimensions,
-            embed_model=embed_model,
-        )
-
+        return OpenSearchIndex(index_name=index_name, endpoint=endpoint, dimensions=dimensions, embed_model=embed_model)
+    
     class Config:
+        """Handles configuration settings and specifies validation rules.
+
+        The Config class defines specific configuration behaviors and settings
+        used in the application. It is commonly utilized to enforce specific
+        rules or facilitate custom behavior when working with certain
+        types of data or attributes.
+
+        Attributes:
+            arbitrary_types_allowed (bool): Indicates whether the
+                configuration will allow arbitrary types.
         """
-        Config class for specifying configuration options.
-
-        This class provides settings that can be used to configure how objects
-        behave within a certain context. The `arbitrary_types_allowed` attribute
-        determines whether arbitrary types can be allowed in specific settings.
-
-        :ivar arbitrary_types_allowed: Indicates if arbitrary types are permitted.
-        :type arbitrary_types_allowed: bool
-        """
-
         arbitrary_types_allowed = True
 
-    endpoint: str
-    index_name: str
-    dimensions: int
-    embed_model: EmbeddingType
+    endpoint:str
+    index_name:str
+    dimensions:int
+    embed_model:EmbeddingType
 
     _client: OpensearchVectorClient = PrivateAttr(default=None)
 
     def __getstate__(self):
         """
-        Returns the internal state of the current object instance for the purpose
-        of serialization. This method modifies the state by setting the `_client`
-        attribute to `None`, ensuring that the `client` reference is not serialized.
+        Serializes the current state of the object while excluding the client attribute.
 
-        :return: The picklable state of the object.
-        :rtype: dict
+        This method overrides the default __getstate__ method to ensure the _client
+        attribute is set to None during the serialization process. It returns the
+        state from the superclass's implementation of __getstate__.
+
+        Returns:
+            dict: The serialized state of the object.
         """
         self._client = None
         return super().__getstate__()
-
+        
     @property
     def client(self) -> OpensearchVectorClient:
         """
-        Retrieves or initializes the OpenSearch client for vector operations. If the client
-        is not already initialized, this property dynamically checks whether the required
-        index exists on the specified endpoint with the given parameters. If the index exists,
-        it creates a new client for OpenSearch vector operations. If the index does not exist,
-        a dummy client is initialized for compatibility.
+        Retrieves or creates an OpenSearch vector client for interacting with the
+        specified index. Ensures that the client is initialized appropriately,
+        either as an actual OpenSearch vector client or as a dummy client,
+        based on the index's existence and configuration.
 
-        :raises None: The method does not explicitly raise exceptions.
-        :return: Returns an instance of `OpensearchVectorClient` or `DummyOpensearchVectorClient`
-                 depending on the outcome of the index check.
-        :rtype: OpensearchVectorClient
+        Attributes:
+            client (OpensearchVectorClient): Provides access to the OpenSearch
+                vector client instance.
+
+        Returns:
+            OpensearchVectorClient: The initialized or cached OpenSearch vector
+                client instance.
         """
+        if self._client:
+            if self._client._index != self.underlying_index_name():
+                self._client = None
+
         if not self._client:
-            if index_exists(
-                self.endpoint,
-                self.underlying_index_name(),
-                self.dimensions,
-                self.writeable,
-            ):
+            if index_exists(self.endpoint, self.underlying_index_name(), self.dimensions, self.writeable):
                 self._client = create_opensearch_vector_client(
-                    self.endpoint,
-                    self.underlying_index_name(),
-                    self.dimensions,
-                    self.embed_model,
+                    self.endpoint, 
+                    self.underlying_index_name(), 
+                    self.dimensions, 
+                    self.embed_model
                 )
             else:
                 self._client = DummyOpensearchVectorClient()
         return self._client
-
+        
     def _clean_id(self, s):
         """
-        Generates a cleaned version of a given string by removing all non-alphanumeric
-        characters. The function iterates through the input string and retains only
-        alphanumeric characters.
+        Cleans and normalizes a given string by removing all non-alphanumeric characters.
 
-        :param s: The input string to be cleaned
-        :type s: str
-        :return: A string that contains only alphanumeric characters from the input
-        :rtype: str
+        This method processes the input string by iterating over each character and filtering
+        out any character that is not alphanumeric. The resulting string, consisting only of
+        alphanumeric characters, is returned as the cleaned string.
+
+        Args:
+            s: A string input that needs to be cleaned of non-alphanumeric characters.
+
+        Returns:
+            A string containing only alphanumeric characters from the input string.
         """
         return ''.join(c for c in s if c.isalnum())
-
+    
     def _to_top_k_result(self, r):
         """
-        Converts the given result object into a top-k result dictionary format. The
-        transformation involves extracting pertinent data from the metadata of the
-        result object and structuring it into a dictionary. If specific keys such as
-        INDEX_KEY are present in the metadata, their associated values are added
-        to the resulting dictionary. Otherwise, all metadata key-value pairs are
-        included in the result.
+        Converts the input result object into a standardized top-k result format. The
+        function processes metadata from the given result object and extracts relevant
+        information to construct a dictionary representation that adheres to the top-k
+        result structure.
 
-        :param r: Result object containing a score and metadata.
-        :type r: Result
-        :return: A dictionary representing the transformed top-k result, including
-                 score and relevant metadata.
-        :rtype: dict
+        Args:
+            r: A result object containing metadata, score, and other related information
+                extracted from an operation.
+
+        Returns:
+            dict: A dictionary containing the standardized top-k result information.
+            It includes the score of the result, and metadata extracted under specific
+            keys such as index or source. Additional metadata is included in the resultant
+            dictionary, depending on its availability in the input object.
         """
-        result = {'score': r.score}
+        result = {
+            'score': r.score 
+        }
 
         if INDEX_KEY in r.metadata:
             index_name = r.metadata[INDEX_KEY]['index']
@@ -494,28 +462,27 @@ class OpenSearchIndex(VectorIndex):
             if 'source' in r.metadata:
                 result['source'] = r.metadata['source']
         else:
-            for k, v in r.metadata.items():
+            for k,v in r.metadata.items():
                 result[k] = v
-
+            
         return result
-
+        
     def _to_get_embedding_result(self, hit):
         """
-        Processes a given hit data object to extract and format embedding result information.
+        Converts a hit object from a search result into a structured embedding result.
 
-        The function extracts specific fields from the `_source` attribute of the input
-        hit object, which represents a database record. It parses the 'metadata' field as
-        JSON and formats the result with key fields such as 'id', 'value', 'embedding',
-        and additional metadata. Fields with the key `INDEX_KEY` in metadata are skipped.
+        This method processes the provided `hit` object to extract and organize relevant
+        fields into a structured `result` dictionary. It includes the ID, value, and embedding
+        from the source, along with additional metadata extracted from the `_node_content`.
 
-        :param hit: A dictionary representing a database record that contains `_source`
-            with fields like 'metadata', 'id', 'value', and 'embedding'.
-        :type hit: dict
+        Args:
+            hit: Dict representing the search result object. It is expected to have a `_source`
+                key containing the primary data, which includes an `id`, `value`, `embedding`,
+                and `metadata`.
 
-        :return: A dictionary containing the formatted result data for the embedding,
-            including 'id', 'value', 'embedding', and additional metadata fields from
-            the original record, excluding fields with the key `INDEX_KEY`.
-        :rtype: dict
+        Returns:
+            Dict: A dictionary containing the `id`, `value`, `embedding`, and any additional
+            metadata fields, excluding the `INDEX_KEY` field.
         """
         source = hit['_source']
         data = json.loads(source['metadata']['_node_content'])
@@ -523,63 +490,79 @@ class OpenSearchIndex(VectorIndex):
         result = {
             'id': source['id'],
             'value': source['value'],
-            'embedding': source['embedding'],
+            'embedding': source['embedding']
         }
 
-        for k, v in data['metadata'].items():
+        for k,v in data['metadata'].items():
             if k != INDEX_KEY:
                 result[k] = v
-
+            
         return result
 
     def add_embeddings(self, nodes):
         """
-        Adds embeddings to the provided nodes by assigning an embedding for each node
-        using the specified embedding model and indexing the updated nodes in the data store.
+        Adds embeddings to the given nodes and stores them in the index.
 
-        :param nodes: List of nodes to which embeddings are added. Each node should have a
-                      unique `node_id` and support embedding updates.
-        :type nodes: list[BaseNode]
+        This method takes a list of nodes, generates embeddings for them using the
+        embedding model, and stores the updated nodes with embeddings into the index.
+        The operation is performed only if the index is writable; otherwise, an
+        `IndexError` is raised.
 
-        :return: The list of nodes with updated embeddings.
-        :rtype: list[BaseNode]
+        Args:
+            nodes: List[BaseNode]
+                A list of node objects to which embeddings will be added. Each node
+                must have a `node_id` that maps to their corresponding embedding.
 
-        :raises IndexError: If the current index is marked as read-only.
+        Returns:
+            List[BaseNode]:
+                The list of nodes with updated embeddings.
+
+        Raises:
+            IndexError:
+                If the index is marked as read-only.
         """
         if not self.writeable:
             raise IndexError(f'Index {self.index_name()} is read-only')
 
-        id_to_embed_map = embed_nodes(nodes, self.embed_model)
+        id_to_embed_map = embed_nodes(
+            nodes, self.embed_model
+        )
 
         docs = []
 
         for node in nodes:
 
-            doc: BaseNode = node.copy()
+            doc:BaseNode = node.copy()
             doc.embedding = id_to_embed_map[node.node_id]
 
             docs.append(doc)
 
         if docs:
             self.client.index_results(docs)
-
+        
         return nodes
-
-    def _update_filters_recursive(self, filters: MetadataFilters):
+    
+    def _update_filters_recursive(self, filters:MetadataFilters):
         """
-        Recursively updates the filters' keys and values to proper format. Specifically,
-        it prepends 'source.metadata.' to the key for each MetadataFilter and formats
-        the value if the key represents a datetime field. It also processes nested
-        MetadataFilters.
+        Recursively updates metadata filters to convert keys to a consistent format and updates
+        values for datetime-specific keys.
 
-        :param filters: An instance of MetadataFilters containing nested filters or
-            MetadataFilter objects to be updated.
-        :type filters: MetadataFilters
-        :return: A modified instance of MetadataFilters with updated keys and, if
-            applicable, formatted datetime values.
-        :rtype: MetadataFilters
-        :raises ValueError: If an unexpected filter type is encountered during the
-            update.
+        This method iterates over a given `MetadataFilters` object and modifies each filter
+        contained within it. If a filter is of type `MetadataFilter`, its `key` is updated
+        to a prefixed format, and if its key pertains to a datetime, its `value` is formatted
+        accordingly. If a filter is itself a `MetadataFilters` instance, the method calls
+        itself recursively to process nested filters. An error is raised if an unexpected
+        filter type is encountered.
+
+        Args:
+            filters (MetadataFilters): The metadata filters to be recursively updated.
+
+        Returns:
+            MetadataFilters: The updated metadata filters with all keys processed
+                and datetime-specific values formatted.
+
+        Raises:
+            ValueError: If a filter is found with an unexpected type.
         """
         for f in filters.filters:
             if isinstance(f, MetadataFilter):
@@ -591,53 +574,55 @@ class OpenSearchIndex(VectorIndex):
             else:
                 raise ValueError(f'Unexpected filter type: {type(f)}')
         return filters
-
-    def _get_metadata_filters(self, filter_config: FilterConfig):
+                
+    def _get_metadata_filters(self, filter_config:FilterConfig):
         """
-        Retrieve and process metadata filters based on the given filter configuration.
+        Retrieves and processes metadata filters based on the provided filter configuration.
 
-        This method takes a filter configuration containing source filters, processes
-        them recursively, and returns a deep copy of the updated filters. If no
-        valid configuration or source filters are provided, the method returns None.
+        This function checks if the given filter configuration object and its source filters are
+        valid. If valid, it creates a deep copy of the source filters from the configuration,
+        applies recursive updates, and logs the resulting filters in JSON format. The updated
+        filters are returned, or `None` if the filter configuration is invalid or empty.
 
-        :param filter_config: Configuration object containing the source filters.
-                              Expected to be of type FilterConfig.
-        :return: A processed and deep-copied version of the source filters if present,
-                 updated recursively, or None if no valid input is provided.
+        Args:
+            filter_config (FilterConfig): The filter configuration object containing source filters
+                to be processed. If this parameter is `None` or lacks source filters, the function
+                will return `None`.
+
+        Returns:
+            SourceFilters | None: A deep copy of the updated source filters if valid, or `None` if
+                the provided filter configuration is invalid or lacks source filters.
         """
         if not filter_config or not filter_config.source_filters:
             return None
-
-        filters_copy = filter_config.source_filters.model_copy(deep=True)
+        
+        filters_copy = filter_config.source_filters.model_copy(deep=True) 
         filters_copy = self._update_filters_recursive(filters_copy)
-
+                
         logger.debug(f'filters: {filters_copy.model_dump_json()}')
 
         return filters_copy
-
-    def top_k(
-        self,
-        query_bundle: QueryBundle,
-        top_k: int = 5,
-        filter_config: Optional[FilterConfig] = None,
-    ):
+    
+    def top_k(self, query_bundle:QueryBundle, top_k:int=5, filter_config:Optional[FilterConfig]=None):
         """
-        Retrieve the top k results from the vector store based on the provided query
-        bundle. The query is converted to an embedded query, executed against the
-        vector store, and the resulting nodes are ranked with a similarity score.
-        If the filter configuration is provided, it applies the metadata filters
-        to refine the query results.
+        Fetches the top-k most relevant nodes for a given query bundle by querying a vector store.
 
-        :param query_bundle: Structured query information containing the query string
-            and embeddings for the vector store search.
-        :type query_bundle: QueryBundle
-        :param top_k: Number of top results to retrieve. Defaults to 5.
-        :type top_k: int, optional
-        :param filter_config: Optional filter configuration for metadata-based filtering
-            in the vector store.
-        :type filter_config: Optional[FilterConfig]
-        :return: A list of top k scored nodes transformed into the desired result format.
-        :rtype: List[Any]
+        This method processes a query bundle to extract query information and embeddings. It then
+        interacts with the vector store client to retrieve the top-k most relevant nodes based on
+        similarities to the query embedding. If no results are available or the vector store does not
+        exist for a non-default tenant, it handles the scenario gracefully. The returned result is a
+        list of nodes with their respective relevance scores processed into a finalized format.
+
+        Args:
+            query_bundle (QueryBundle): The query bundle containing the query string and its embedding
+                for similarity computation.
+            top_k (int): The maximum number of top relevant nodes to retrieve. Defaults to 5.
+            filter_config (Optional[FilterConfig]): An optional configuration to apply additional
+                filtering criteria while fetching nodes.
+
+        Returns:
+            List[TopKResult]: A list of processed results containing the top-k nodes ordered by
+                relevance score.
         """
         query_bundle = to_embedded_query(query_bundle, self.embed_model)
 
@@ -645,66 +630,68 @@ class OpenSearchIndex(VectorIndex):
 
         try:
 
-            results: VectorStoreQueryResult = self.client.query(
+            results:VectorStoreQueryResult = self.client.query(
                 VectorStoreQueryMode.DEFAULT,
                 query_str=query_bundle.query_str,
                 query_embedding=query_bundle.embedding,
                 k=top_k,
-                filters=self._get_metadata_filters(filter_config),
+                filters=self._get_metadata_filters(filter_config)
             )
 
-            scored_nodes.extend(
-                [
-                    NodeWithScore(node=node, score=score)
-                    for node, score in zip(results.nodes, results.similarities)
-                ]
-            )
+            scored_nodes.extend([
+                NodeWithScore(node=node, score=score)
+                for node, score in zip(results.nodes, results.similarities)
+            ])
 
         except NotFoundError as e:
             if self.tenant_id.is_default_tenant():
                 raise e
             else:
-                logger.warning(
-                    f'Multi-tenant index {self.underlying_index_name()} does not exist'
-                )
+                logger.warning(f'Multi-tenant index {self.underlying_index_name()} does not exist')
 
         return [self._to_top_k_result(node) for node in scored_nodes]
 
     # opensearch has a limit of 10,000 results per search, so we use this to paginate the search
     def paginated_search(self, query, page_size=10000, max_pages=None):
         """
-        Executes a paginated search query on the underlying index and yields the results
-        page by page. The function supports setting a limit on the number of pages to fetch
-        and controlling the maximum number of results returned per page.
+        Executes a paginated search on the specified Elasticsearch index and yields
+        the results page by page. Designed to handle large datasets by leveraging
+        the `search_after` parameter of Elasticsearch, allowing seamless scrolling
+        through data without encountering size limitations. By setting a maximum
+        number of pages, users can limit the extent of data retrieval.
 
-        The method utilizes the Elasticsearch `search_after` mechanism for better performance
-        when paginating over a large result set.
+        Args:
+            query: The Elasticsearch query used to filter the documents to be retrieved.
+            page_size: The number of documents to be retrieved in each page. Defaults to 10000.
+            max_pages: Optional; The maximum number of pages to retrieve. If None, all
+                pages are retrieved until the dataset is fully processed.
 
-        :param query: The search query to execute.
-        :type query: dict
-        :param page_size: Optional. Number of results to return per page. Defaults to 10000.
-        :type page_size: int
-        :param max_pages: Optional. Maximum number of pages to retrieve. If None, all results
-            are fetched until exhaustion.
-        :type max_pages: int, optional
-        :return: Yields a list of search hits for each page.
-        :rtype: generator
+        Yields:
+            list: A list of documents retrieved for each page.
         """
         client = self.client._os_client
 
         if not client:
             pass
-
+        
+        
         search_after = None
         page = 0
-
+        
         while True:
-            body = {"size": page_size, "query": query, "sort": [{"_id": "asc"}]}
-
+            body = {
+                "size": page_size,
+                "query": query,
+                "sort": [{"_id": "asc"}]
+            }
+            
             if search_after:
                 body["search_after"] = search_after
-
-            response = client.search(index=self.underlying_index_name(), body=body)
+                
+            response = client.search(
+                index=self.underlying_index_name(),
+                body=body
+            )
 
             hits = response['hits']['hits']
             if not hits:
@@ -718,45 +705,44 @@ class OpenSearchIndex(VectorIndex):
             if max_pages and page >= max_pages:
                 break
 
-    def get_all_embeddings(self, query: str, max_results=None):
+    def get_all_embeddings(self, query:str, max_results=None):
         """
-        Fetches all embeddings for a given query using paginated search and processes
-        them into a structured format. Pagination is handled internally and the results
-        are limited by the specified maximum number of results, if provided. Each
-        embedding is retrieved and transformed using the `_to_get_embedding_result` method.
+        Retrieves all embeddings for a given query, optionally limiting the maximum number of
+        results returned. This method performs a paginated search using the query parameter and
+        accumulates embeddings from each page. If a maximum result count is specified, the
+        search halts once the threshold is reached.
 
-        :param query: The search query string to retrieve embeddings for.
-        :type query: str
-        :param max_results: Optional limit on the maximum number of results to retrieve.
-            If set to None, all results will be retrieved without a limit.
-        :type max_results: int, optional
-        :return: A list of transformed embeddings based on the search query, limited by
-            the specified maximum results if given.
-        :rtype: list
+        Args:
+            query (str): The search query string used to retrieve embeddings.
+            max_results (int, optional): The maximum number of embedding results to retrieve.
+                If not specified, all matching results will be retrieved.
+
+        Returns:
+            list: A list containing all embeddings retrieved based on the search query and
+            provided constraints.
         """
         all_results = []
-
+        
         for page in self.paginated_search(query, page_size=10000):
             all_results.extend(self._to_get_embedding_result(hit) for hit in page)
             if max_results and len(all_results) >= max_results:
                 all_results = all_results[:max_results]
                 break
-
+        
         return all_results
-
-    def get_embeddings(self, ids: List[str] = []):
+    
+    def get_embeddings(self, ids:List[str]=[]):
         """
-        Fetch embeddings corresponding to the given list of IDs. The function
-        builds a query to search for embeddings matching the provided IDs and
-        retrieves all associated embeddings. The IDs are cleaned to align with
-        system requirements before being used in the query.
+        Fetches the embeddings for the provided IDs using a specified query format to
+        retrieve the relevant data from the metadata index. The method constructs a
+        query with unique and cleaned IDs, performs a search, and returns the results.
 
-        :param ids: A list of unique identifiers for which the embeddings are
-            to be fetched.
-        :type ids: List[str]
+        Args:
+            ids (List[str], optional): A list of unique identifiers for which embeddings
+                are to be retrieved. Defaults to an empty list.
 
-        :return: A collection of embeddings retrieved based on the input IDs.
-        :rtype: Any
+        Returns:
+            List: A list of embedding data corresponding to the provided IDs.
         """
         query = {
             "terms": {
@@ -765,5 +751,5 @@ class OpenSearchIndex(VectorIndex):
         }
 
         results = self.get_all_embeddings(query, max_results=len(ids) * 2)
-
+        
         return results
