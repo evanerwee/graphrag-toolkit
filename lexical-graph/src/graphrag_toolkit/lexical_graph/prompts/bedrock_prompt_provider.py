@@ -24,7 +24,7 @@ class BedrockPromptProvider(PromptProvider):
         try:
             kwargs = {"promptIdentifier": prompt_arn}
             if version:
-                kwargs["version"] = version
+                kwargs["promptVersion"] = version
 
             response = self.config.bedrock.get_prompt(**kwargs)
 
