@@ -16,12 +16,13 @@ logger = logging.getLogger(__name__)
 # ------------------------------------------------------------------------------
 # AWSConfig – base for config classes needing AWS session/client support
 # ------------------------------------------------------------------------------
-@dataclass
+@dataclass(init=True, kw_only=True)
 class AWSConfig(ABC):
-    _aws_profile: Optional[str] = None
-    _aws_region: Optional[str] = None
+    aws_profile: Optional[str] = None
+    aws_region: Optional[str] = None
     _aws_clients: Dict[str, Any] = field(default_factory=dict)
-    _boto3_session: Optional[boto3.Session] = field(default=None, init=False)
+    _boto3_session: Optional[Boto3Session] = field(default=None, init=False)
+
 
     @property
     def session(self) -> Boto3Session:
@@ -43,26 +44,6 @@ class AWSConfig(ABC):
         return client
 
     @property
-    def aws_profile(self) -> Optional[str]:
-        if self._aws_profile is None:
-            self._aws_profile = os.environ.get("AWS_PROFILE")
-        return self._aws_profile
-
-    @aws_profile.setter
-    def aws_profile(self, value: Optional[str]):
-        self._aws_profile = value
-
-    @property
-    def aws_region(self) -> str:
-        if self._aws_region is None:
-            self._aws_region = os.environ.get("AWS_REGION", self.session.region_name)
-        return self._aws_region
-
-    @aws_region.setter
-    def aws_region(self, value: Optional[str]):
-        self._aws_region = value
-
-    @property
     def s3(self) -> Any:
         return self._get_or_create_client("s3")
 
@@ -78,7 +59,7 @@ class AWSConfig(ABC):
 # ------------------------------------------------------------------------------
 # ProviderConfig – abstract interface for building PromptProviders
 # ------------------------------------------------------------------------------
-@dataclass
+@dataclass(kw_only=True)
 class ProviderConfig(AWSConfig):
     @abstractmethod
     def build(self) -> PromptProvider:
@@ -106,7 +87,6 @@ class BedrockPromptProviderConfig(ProviderConfig):
     def _resolve_prompt_arn(self, identifier: str) -> str:
         if identifier.startswith("arn:aws:bedrock:"):
             return identifier
-
         account_id = self.sts.get_caller_identity()["Account"]
         return f"arn:aws:bedrock:{self.aws_region}:{account_id}:prompt/{identifier}"
 
@@ -124,10 +104,13 @@ class BedrockPromptProviderConfig(ProviderConfig):
 # ------------------------------------------------------------------------------
 # S3PromptProviderConfig
 # ------------------------------------------------------------------------------
-@dataclass
+@dataclass(kw_only=True)
 class S3PromptProviderConfig(ProviderConfig):
     bucket: str = field(default_factory=lambda: os.environ["PROMPT_S3_BUCKET"])
     prefix: str = field(default_factory=lambda: os.getenv("PROMPT_S3_PREFIX", "prompts/"))
+    system_prompt_file: str = "system_prompt.txt"
+    user_prompt_file: str = "user_prompt.txt"
+
 
     def build(self) -> PromptProvider:
         from graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider import S3PromptProvider
@@ -212,6 +195,3 @@ class StaticPromptProviderConfig:
 # 10. Bedrock Caching with Prompt Versioning
 #     - Cache based on (ARN, version) tuple.
 #     - Useful when managing multiple versions in experiments or A/B testing.
-
-
-
