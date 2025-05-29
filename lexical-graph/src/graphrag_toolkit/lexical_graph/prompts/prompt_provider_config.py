@@ -92,13 +92,7 @@ class BedrockPromptProviderConfig(ProviderConfig):
 
     def build(self) -> PromptProvider:
         from graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider import BedrockPromptProvider
-        return BedrockPromptProvider(
-            config=self,
-            system_prompt_arn=self.system_prompt_arn,
-            user_prompt_arn=self.user_prompt_arn,
-            system_prompt_version=self.system_prompt_version,
-            user_prompt_version=self.user_prompt_version,
-        )
+        return BedrockPromptProvider(config=self)
 
 
 # ------------------------------------------------------------------------------

@@ -6,7 +6,7 @@ from graphrag_toolkit.lexical_graph.prompts.prompt_provider_config import (
     BedrockPromptProviderConfig,
     S3PromptProviderConfig,
     FilePromptProviderConfig,
-    StaticPromptProviderConfig,  # ✅ Correct import
+    StaticPromptProviderConfig,
 )
 from graphrag_toolkit.lexical_graph.logging import logging
 
@@ -26,4 +26,4 @@ class PromptProviderFactory:
             return FilePromptProviderConfig().build()
         else:
             # Final fallback to static default prompts
-            return StaticPromptProvider()
+            return StaticPromptProviderConfig().build()

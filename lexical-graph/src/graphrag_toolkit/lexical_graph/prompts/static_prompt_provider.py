@@ -21,6 +21,8 @@ class StaticPromptProvider(PromptProvider):
         """
         self._system_prompt = ANSWER_QUESTION_SYSTEM_PROMPT
         self._user_prompt = ANSWER_QUESTION_USER_PROMPT
+        logger.debug(f"System Prompt (truncated): {self._system_prompt[:60]}...")
+        logger.debug(f"User Prompt (truncated): {self._user_prompt[:60]}...")
 
     def get_system_prompt(self) -> str:
         """

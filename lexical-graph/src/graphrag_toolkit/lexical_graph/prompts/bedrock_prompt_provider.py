@@ -11,6 +11,15 @@ class BedrockPromptProvider(PromptProvider):
     def __init__(self, config: BedrockPromptProviderConfig):
         self.config = config
 
+        logger.info(
+            f"[Prompt Debug] Using BedrockPromptProvider with:\n"
+            f"  system_prompt_arn={config.system_prompt_arn} "
+            f"(resolved={config.resolved_system_prompt_arn}, version={config.system_prompt_version})\n"
+            f"  user_prompt_arn={config.user_prompt_arn} "
+            f"(resolved={config.resolved_user_prompt_arn}, version={config.user_prompt_version})\n"
+            f"  region={config.aws_region}, profile={config.aws_profile}"
+        )
+
     def _load_prompt(self, prompt_arn: str, version: str = None) -> str:
         try:
             kwargs = {"promptIdentifier": prompt_arn}

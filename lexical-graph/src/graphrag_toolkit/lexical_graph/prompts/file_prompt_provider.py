@@ -17,6 +17,11 @@ class FilePromptProvider(PromptProvider):
         self.system_prompt_file = system_prompt_file
         self.user_prompt_file = user_prompt_file
 
+        logger.info(f"[Prompt Debug] Initialized FilePromptProvider")
+        logger.info(f"[Prompt Debug] Base path: {self.config.base_path}")
+        logger.info(f"[Prompt Debug] System prompt file: {self.system_prompt_file}")
+        logger.info(f"[Prompt Debug] User prompt file: {self.user_prompt_file}")
+
     def _load_prompt(self, filename: str) -> str:
         path = os.path.join(self.config.base_path, filename)
         if not os.path.exists(path):
