@@ -88,6 +88,21 @@ class BedrockPromptProviderConfig(ProviderConfig):
     system_prompt_version: Optional[str] = field(default_factory=lambda: os.getenv("SYSTEM_PROMPT_VERSION"))
     user_prompt_version: Optional[str] = field(default_factory=lambda: os.getenv("USER_PROMPT_VERSION"))
 
+    @property
+    def resolved_system_prompt_arn(self) -> str:
+        return self._resolve_prompt_arn(self.system_prompt_arn)
+
+    @property
+    def resolved_user_prompt_arn(self) -> str:
+        return self._resolve_prompt_arn(self.user_prompt_arn)
+
+    def _resolve_prompt_arn(self, identifier: str) -> str:
+        if identifier.startswith("arn:aws:bedrock:"):
+            return identifier
+
+        account_id = self.sts.get_caller_identity()["Account"]
+        return f"arn:aws:bedrock:{self.aws_region}:{account_id}:prompt/{identifier}"
+
     def build(self) -> PromptProvider:
         from graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider import BedrockPromptProvider
         return BedrockPromptProvider(

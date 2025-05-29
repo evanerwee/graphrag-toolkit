@@ -24,7 +24,8 @@ class S3PromptProvider(PromptProvider):
         """
         key = f"{self.config.prefix.rstrip('/')}/{filename}"
         logger.info(f"[Prompt Debug] Loading prompt from S3: s3://{self.config.bucket}/{key}")
-        response = self.config.s3.get_object(Bucket=self.config.bucket, Key=key)
+        s3_client = self.config.s3  # now uses session-aware config
+        response = s3_client.get_object(Bucket=self.config.bucket, Key=key)
         return response["Body"].read().decode("utf-8").rstrip()
 
     def get_system_prompt(self) -> str:
