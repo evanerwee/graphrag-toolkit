@@ -1,0 +1,7 @@
+falkordb_graph_store_factory module
+===================================
+
+.. automodule:: graphrag_toolkit.lexical_graph.storage.graph.falkordb.falkordb_graph_store_factory
+   :members:
+   :undoc-members:
+   :show-inheritance:

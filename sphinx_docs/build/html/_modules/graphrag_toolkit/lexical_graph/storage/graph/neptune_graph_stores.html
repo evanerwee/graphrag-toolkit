@@ -1,0 +1,905 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../../../index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="../../../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../../../_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../../../_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-model.html">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/querying.html">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/metadata-filtering.html">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</span>
+<span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">botocore.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span><span class="p">,</span> <span class="n">PackageNotFoundError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dateutil.parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">GraphStoreFactoryMethod</span><span class="p">,</span>
+    <span class="n">GraphStore</span><span class="p">,</span>
+    <span class="n">NodeId</span><span class="p">,</span>
+    <span class="n">get_log_formatting</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_datetime</span><span class="p">,</span> <span class="n">is_datetime_key</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.bridge.pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateAttr</span>
+
+<span class="n">NEPTUNE_ANALYTICS</span> <span class="o">=</span> <span class="s1">&#39;neptune-graph://&#39;</span>
+<span class="n">NEPTUNE_DATABASE</span> <span class="o">=</span> <span class="s1">&#39;neptune-db://&#39;</span>
+<span class="n">NEPTUNE_DB_DNS</span> <span class="o">=</span> <span class="s1">&#39;neptune.amazonaws.com&#39;</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="format_id_for_neptune">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.format_id_for_neptune">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">format_id_for_neptune</span><span class="p">(</span><span class="n">id_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Formats an identifier string into an instance of `NodeId`, tailoring</span>
+<span class="sd">    the format based on the input string structure. The input can</span>
+<span class="sd">    contain a single segment or segments separated by a period,</span>
+<span class="sd">    and the function processes these segments to construct and</span>
+<span class="sd">    return a corresponding `NodeId` object.</span>
+
+<span class="sd">    :param id_name: The identifier string to format, which can be a</span>
+<span class="sd">        single word or composed of segments separated by periods.</span>
+<span class="sd">    :type id_name: str</span>
+<span class="sd">    :return: A `NodeId` instance where the segments of the `id_name`</span>
+<span class="sd">        are appropriately structured into the `NodeId` fields.</span>
+<span class="sd">    :rtype: NodeId</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">id_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">NodeId</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;`~id`&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">NodeId</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;id(</span><span class="si">{</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_config">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.create_config">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_config</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates and returns a configuration object for the system.</span>
+
+<span class="sd">    This function attempts to determine the version of the</span>
+<span class="sd">    `graphrag-toolkit-lexical-graph` package. If the package is not available,</span>
+<span class="sd">    the version falls back to &#39;unknown&#39;. An optional configuration string in JSON</span>
+<span class="sd">    format can be provided, which is parsed and merged with the default</span>
+<span class="sd">    configuration.</span>
+
+<span class="sd">    :param config: A JSON-formatted string containing configuration values</span>
+<span class="sd">        (optional).</span>
+<span class="sd">    :type config: Optional[str]</span>
+<span class="sd">    :return: A populated `Config` object with merged configuration values.</span>
+<span class="sd">    :rtype: Config</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">toolkit_version</span> <span class="o">=</span> <span class="s1">&#39;unknown&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">toolkit_version</span> <span class="o">=</span> <span class="n">version</span><span class="p">(</span><span class="s1">&#39;graphrag-toolkit-lexical-graph&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="n">config_args</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">config</span><span class="p">:</span>
+        <span class="n">config_args</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Config</span><span class="p">(</span>
+        <span class="n">retries</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;total_max_attempts&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;standard&#39;</span><span class="p">},</span>
+        <span class="n">read_timeout</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+        <span class="n">user_agent_appid</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;graphrag-toolkit-lexical-graph-</span><span class="si">{</span><span class="n">toolkit_version</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">config_args</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_property_assigment_fn_for_neptune">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.create_property_assigment_fn_for_neptune">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_property_assigment_fn_for_neptune</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a property assignment function for Neptune based on the given key and value. The function</span>
+<span class="sd">    generated will determine how the property is formatted or transformed when assigned,</span>
+<span class="sd">    depending on whether the key corresponds to a datetime or a generic property.</span>
+
+<span class="sd">    :param key: The key name of the property.</span>
+<span class="sd">    :type key: str</span>
+<span class="sd">    :param value: The value associated with the property, which may be validated or transformed.</span>
+<span class="sd">    :type value: Any</span>
+<span class="sd">    :return: A callable function that accepts a string representing the property identifier</span>
+<span class="sd">        and returns a formatted string for property assignment.</span>
+<span class="sd">    :rtype: Callable[[str], str]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_datetime_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">format_datetime</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;datetime(</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">)&#39;</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span></div>
+
+
+
+<div class="viewcode-block" id="NeptuneAnalyticsGraphStoreFactory">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsGraphStoreFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NeptuneAnalyticsGraphStoreFactory</span><span class="p">(</span><span class="n">GraphStoreFactoryMethod</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factory class for creating instances of NeptuneAnalyticsClient based on specific graph</span>
+<span class="sd">    information.</span>
+
+<span class="sd">    This class provides a factory method for initializing a graph connection</span>
+<span class="sd">    to `NeptuneAnalytics`. It evaluates the given graph information and decides whether</span>
+<span class="sd">    to create and return a `NeptuneAnalyticsClient` instance based on predefined matching</span>
+<span class="sd">    criteria.</span>
+
+<span class="sd">    :ivar NEPTUNE_ANALYTICS: A prefix used for checking whether the provided</span>
+<span class="sd">        graph information corresponds to a Neptune Analytics graph.</span>
+<span class="sd">    :type NEPTUNE_ANALYTICS: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NeptuneAnalyticsGraphStoreFactory.try_create">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsGraphStoreFactory.try_create">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphStore</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to create a `GraphStore` instance based on the provided graph information</span>
+<span class="sd">        string. If the `graph_info` string starts with the predefined `NEPTUNE_ANALYTICS`</span>
+<span class="sd">        prefix, this function initializes a `NeptuneAnalyticsClient` using the deriving</span>
+<span class="sd">        specific details and configuration provided in `kwargs`. Otherwise, it returns None.</span>
+
+<span class="sd">        :param graph_info: A string containing the information about the graph. It is</span>
+<span class="sd">            expected to possibly contain the `NEPTUNE_ANALYTICS` prefix.</span>
+<span class="sd">        :type graph_info: str</span>
+<span class="sd">        :param kwargs: Additional keyword arguments that may include optional configuration</span>
+<span class="sd">            parameters, such as &#39;config&#39;, which defines specific setup details for the</span>
+<span class="sd">            client.</span>
+<span class="sd">        :type kwargs: dict</span>
+<span class="sd">        :return: A `NeptuneAnalyticsClient` instance if the graph information matches</span>
+<span class="sd">            the `NEPTUNE_ANALYTICS` criteria. Returns None otherwise.</span>
+<span class="sd">        :rtype: GraphStore or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">graph_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">NEPTUNE_ANALYTICS</span><span class="p">):</span>
+
+            <span class="n">graph_id</span> <span class="o">=</span> <span class="n">graph_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">NEPTUNE_ANALYTICS</span><span class="p">)</span> <span class="p">:]</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="p">{})</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Opening Neptune Analytics graph [graph_id: </span><span class="si">{</span><span class="n">graph_id</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">NeptuneAnalyticsClient</span><span class="p">(</span>
+                <span class="n">graph_id</span><span class="o">=</span><span class="n">graph_id</span><span class="p">,</span>
+                <span class="n">log_formatting</span><span class="o">=</span><span class="n">get_log_formatting</span><span class="p">(</span><span class="n">kwargs</span><span class="p">),</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">config</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NeptuneDatabaseGraphStoreFactory">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseGraphStoreFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NeptuneDatabaseGraphStoreFactory</span><span class="p">(</span><span class="n">GraphStoreFactoryMethod</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factory class responsible for creating instances of GraphStore configured specifically</span>
+<span class="sd">    for Neptune database connections. This class interprets provided graph database</span>
+<span class="sd">    identifiers or URLs, optionally processes configuration arguments, and initializes</span>
+<span class="sd">    a Neptune database client if the connection information is valid.</span>
+
+<span class="sd">    Designed to handle multiple ways of identifying Neptune database instances</span>
+<span class="sd">    and allows for flexible customization of connection parameters.</span>
+
+<span class="sd">    :ivar graph_endpoint: The resolved or processed endpoint URL of the Neptune database.</span>
+<span class="sd">    :type graph_endpoint: str or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NeptuneDatabaseGraphStoreFactory.try_create">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseGraphStoreFactory.try_create">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphStore</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to create and return a NeptuneDatabaseClient instance based on the given</span>
+<span class="sd">        graph_info string. Determines the appropriate endpoint and configuration details</span>
+<span class="sd">        for the Neptune database, and initializes the client if a valid endpoint can</span>
+<span class="sd">        be identified. If the input graph_info does not match expected patterns or no</span>
+<span class="sd">        valid endpoint is found, returns None without any instantiation.</span>
+
+<span class="sd">        :param graph_info: The string containing information about the graph database,</span>
+<span class="sd">            including the possible endpoint or DNS details.</span>
+<span class="sd">        :param kwargs: Keyword arguments that can include additional configurations,</span>
+<span class="sd">            such as &#39;endpoint_url&#39;, &#39;port&#39;, and &#39;config&#39;.</span>
+<span class="sd">        :return: An instance of NeptuneDatabaseClient if a valid database endpoint</span>
+<span class="sd">            is determined, otherwise None.</span>
+<span class="sd">        :rtype: GraphStore or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">graph_endpoint</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">graph_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">NEPTUNE_DATABASE</span><span class="p">):</span>
+            <span class="n">graph_endpoint</span> <span class="o">=</span> <span class="n">graph_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">NEPTUNE_DATABASE</span><span class="p">)</span> <span class="p">:]</span>
+        <span class="k">elif</span> <span class="n">graph_info</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">NEPTUNE_DB_DNS</span><span class="p">):</span>
+            <span class="n">graph_endpoint</span> <span class="o">=</span> <span class="n">graph_info</span>
+        <span class="k">elif</span> <span class="n">NEPTUNE_DB_DNS</span> <span class="ow">in</span> <span class="n">graph_info</span><span class="p">:</span>
+            <span class="n">graph_endpoint</span> <span class="o">=</span> <span class="n">graph_info</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;https://&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">graph_endpoint</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Opening Neptune database [endpoint: </span><span class="si">{</span><span class="n">graph_endpoint</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+            <span class="n">endpoint_url</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;endpoint_url&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">port</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">,</span> <span class="mi">8182</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">endpoint_url</span><span class="p">:</span>
+                <span class="n">endpoint_url</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="n">graph_endpoint</span><span class="si">}</span><span class="s1">&#39;</span>
+                    <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">graph_endpoint</span>
+                    <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="n">graph_endpoint</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="p">)</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="k">return</span> <span class="n">NeptuneDatabaseClient</span><span class="p">(</span>
+                <span class="n">endpoint_url</span><span class="o">=</span><span class="n">endpoint_url</span><span class="p">,</span>
+                <span class="n">log_formatting</span><span class="o">=</span><span class="n">get_log_formatting</span><span class="p">(</span><span class="n">kwargs</span><span class="p">),</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">config</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NeptuneAnalyticsClient">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NeptuneAnalyticsClient</span><span class="p">(</span><span class="n">GraphStore</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a client for interacting with a Neptune Graph database system.</span>
+
+<span class="sd">    This class provides an interface for managing and interacting with Neptune-powered</span>
+<span class="sd">    graph databases. It supports features such as client initialization, node ID</span>
+<span class="sd">    formatting, property assignment functions, and Cypher query executions, while</span>
+<span class="sd">    abstracting away implementation-specific details for easier use.</span>
+
+<span class="sd">    :ivar graph_id: The unique identifier of the Neptune graph instance.</span>
+<span class="sd">    :type graph_id: str</span>
+<span class="sd">    :ivar config: Optional configuration settings for the Neptune graph client.</span>
+<span class="sd">    :type config: Optional[str]</span>
+<span class="sd">    :ivar _client: Internal storage for the initialized Neptune Graph API client.</span>
+<span class="sd">    :type _client: Optional[Any]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">graph_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the Neptune graph client. If the client is not previously initialized,</span>
+<span class="sd">        it creates a new client instance using the defined session and configuration.</span>
+
+<span class="sd">        :raises AttributeError: If the session or configuration is improperly defined.</span>
+
+<span class="sd">        :return: The initialized or existing client instance.</span>
+<span class="sd">        :rtype: typing.Any</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">session</span> <span class="o">=</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">session</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+                <span class="s1">&#39;neptune-graph&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">create_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
+
+<div class="viewcode-block" id="NeptuneAnalyticsClient.node_id">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.node_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeId</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Formats the given node identifier for compatibility with Neptune&#39;s expected format.</span>
+
+<span class="sd">        :param id_name: The identifier of the node that needs to be formatted.</span>
+<span class="sd">        :type id_name: str</span>
+<span class="sd">        :return: A `NodeId` object representing the formatted node identifier.</span>
+<span class="sd">        :rtype: NodeId</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">format_id_for_neptune</span><span class="p">(</span><span class="n">id_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NeptuneAnalyticsClient.property_assigment_fn">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.property_assigment_fn">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a function that assigns a specific property to a Neptune object.</span>
+
+<span class="sd">        This function generates a callable that associates a given key-value pair with</span>
+<span class="sd">        a Neptune property. It facilitates creating dynamic property assignment</span>
+<span class="sd">        functions for Neptune objects.</span>
+
+<span class="sd">        :param key: The key of the property to be assigned.</span>
+<span class="sd">        :type key: str</span>
+<span class="sd">        :param value: The value of the property to be assigned.</span>
+<span class="sd">        :type value: Any</span>
+<span class="sd">        :return: A callable function that accepts a string input and applies the key-value</span>
+<span class="sd">                 property assignment for the Neptune object.</span>
+<span class="sd">        :rtype: Callable[[str], str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">create_property_assigment_fn_for_neptune</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NeptuneAnalyticsClient.execute_query">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.execute_query">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span> <span class="n">correlation_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes a Cypher query against a database and returns the results. The function logs the query</span>
+<span class="sd">        and execution details, including the time taken to process the query. If debug logging is enabled,</span>
+<span class="sd">        it logs more detailed information about the response.</span>
+
+<span class="sd">        :param cypher: The Cypher query to be executed, as a string.</span>
+<span class="sd">        :type cypher: str</span>
+<span class="sd">        :param parameters: A dictionary of parameters to bind to the Cypher query. Defaults to an empty</span>
+<span class="sd">            dictionary.</span>
+<span class="sd">        :type parameters: dict, optional</span>
+<span class="sd">        :param correlation_id: Optional identifier used to correlate the request in logs. If not provided,</span>
+<span class="sd">            this is set to None.</span>
+<span class="sd">        :type correlation_id: str, optional</span>
+<span class="sd">        :return: The results of the query execution, parsed as a JSON object.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+
+        <span class="n">request_log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span>
+        <span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] Query: [query: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s1">, parameters: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s1">]&#39;</span>
+        <span class="p">)</span>
+
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span>
+            <span class="n">graphIdentifier</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_id</span><span class="p">,</span>
+            <span class="n">queryString</span><span class="o">=</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">format_query_with_query_ref</span><span class="p">(</span>
+                <span class="n">cypher</span>
+            <span class="p">),</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+            <span class="n">language</span><span class="o">=</span><span class="s1">&#39;OPEN_CYPHER&#39;</span><span class="p">,</span>
+            <span class="n">planCache</span><span class="o">=</span><span class="s1">&#39;DISABLED&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;payload&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">())[</span><span class="s1">&#39;results&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+            <span class="n">response_log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span>
+                <span class="n">cypher</span><span class="p">,</span>
+                <span class="n">parameters</span><span class="p">,</span>
+                <span class="n">results</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s1">ms Results: [</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">results</span><span class="si">}</span><span class="s1">]&#39;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NeptuneDatabaseClient">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NeptuneDatabaseClient</span><span class="p">(</span><span class="n">GraphStore</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A client for interacting with the Neptune Data service using openCypher queries.</span>
+
+<span class="sd">    This class provides methods for formatting identifiers, creating property assignment</span>
+<span class="sd">    functions, and executing openCypher queries. It manages client initialization lazily,</span>
+<span class="sd">    ensuring efficient access to the Neptune Data service. The class is designed to handle</span>
+<span class="sd">    dynamic endpoint URLs and configurations, allowing for flexible integration.</span>
+
+<span class="sd">    :ivar endpoint_url: The endpoint URL for the `neptunedata` service.</span>
+<span class="sd">    :type endpoint_url: str</span>
+<span class="sd">    :ivar config: Optional configuration for the client setup. Defaults to None.</span>
+<span class="sd">    :type config: Optional[str]</span>
+<span class="sd">    :ivar _client: The internal client instance for interacting with the `neptunedata` service.</span>
+<span class="sd">        Initialized lazily when accessed.</span>
+<span class="sd">    :type _client: Optional[Any]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">endpoint_url</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides the AWS Neptune data client associated with the current object. This property</span>
+<span class="sd">        initializes the client if it does not already exist, leveraging configuration details</span>
+<span class="sd">        such as the endpoint URL and session settings.</span>
+
+<span class="sd">        :return: The initialized or previously existing AWS Neptune data client</span>
+<span class="sd">        :rtype: boto3.client</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">session</span> <span class="o">=</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">session</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+                <span class="s1">&#39;neptunedata&#39;</span><span class="p">,</span>
+                <span class="n">endpoint_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint_url</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">create_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
+
+<div class="viewcode-block" id="NeptuneDatabaseClient.node_id">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.node_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeId</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Formats the provided identifier to match the required format for Neptune.</span>
+
+<span class="sd">        :param id_name: The identifier that needs to be formatted for Neptune.</span>
+<span class="sd">        :type id_name: str</span>
+<span class="sd">        :return: A properly formatted NodeId object, adhering to the format expected</span>
+<span class="sd">            by Neptune.</span>
+<span class="sd">        :rtype: NodeId</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">format_id_for_neptune</span><span class="p">(</span><span class="n">id_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NeptuneDatabaseClient.property_assigment_fn">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.property_assigment_fn">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a property assignment function for Neptune API usage. The generated</span>
+<span class="sd">        function can be used to set properties associated with a Neptune object.</span>
+
+<span class="sd">        :param key: A string representing the key of the property to assign.</span>
+<span class="sd">        :param value: The value of any type to be associated with the provided key.</span>
+<span class="sd">        :return: A callable function that takes a single string parameter and returns</span>
+<span class="sd">            a string representing the outcome of the property assignment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">create_property_assigment_fn_for_neptune</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NeptuneDatabaseClient.execute_query">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.execute_query">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span> <span class="n">correlation_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes a cypher query with the provided parameters and logs the request and response</span>
+<span class="sd">        details for debugging purposes. It uses a unique query identifier for each execution</span>
+<span class="sd">        and measures the execution time. The results of the query are returned after execution.</span>
+
+<span class="sd">        :param cypher: The cypher query to execute.</span>
+<span class="sd">        :type cypher: str</span>
+<span class="sd">        :param parameters: A dictionary of parameters to be used within the cypher query.</span>
+<span class="sd">            Defaults to an empty dictionary.</span>
+<span class="sd">        :type parameters: dict, optional</span>
+<span class="sd">        :param correlation_id: An optional identifier used to correlate log entries</span>
+<span class="sd">            with specific requests. Defaults to None.</span>
+<span class="sd">        :type correlation_id: str, optional</span>
+<span class="sd">        :return: The results of the executed cypher query.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+
+        <span class="n">request_log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">params</span>
+        <span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] Query: [query: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s1">, parameters: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s1">]&#39;</span>
+        <span class="p">)</span>
+
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">execute_open_cypher_query</span><span class="p">(</span>
+            <span class="n">openCypherQuery</span><span class="o">=</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">format_query_with_query_ref</span><span class="p">(</span>
+                <span class="n">cypher</span>
+            <span class="p">),</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+            <span class="n">response_log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span>
+                <span class="n">cypher</span><span class="p">,</span>
+                <span class="n">parameters</span><span class="p">,</span>
+                <span class="n">results</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s1">ms Results: [</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">results</span><span class="si">}</span><span class="s1">]&#39;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+</div>
+
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>

@@ -1,0 +1,557 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="FalkorDB as a Graph Store" href="graph-store-falkor-db.html" /><link rel="prev" title="Storage Model" href="storage-model.html" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>Graph Model - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="querying.html">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="metadata-filtering.html">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../falkordb/falkordb.html">falkordb package</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="graph-model">
+<h1>Graph Model<a class="headerlink" href="#graph-model" title="Link to this heading">¶</a></h1>
+<section id="topics">
+<h2>Topics<a class="headerlink" href="#topics" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="overview.html"><span class="doc std std-doc">Overview</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#a-three-tiered-lexical-graph"><span class="xref myst">A three-tiered lexical graph</span></a></p></li>
+<li><p><a class="reference internal" href="#units-of-context"><span class="xref myst">Units of context</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#lineage-tier"><span class="xref myst">Lineage tier</span></a></p></li>
+<li><p><a class="reference internal" href="#entity-relationship-tier"><span class="xref myst">Entity-Relationship tier</span></a></p></li>
+<li><p><a class="reference internal" href="#summarisation-tier"><span class="xref myst">Summarisation tier</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.Statement.facts" title="graphrag_toolkit.lexical_graph.retrieval.model.Statement.facts"><span class="xref myst py py-attr">Facts</span></a></p></li>
+<li><p><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.statements" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.statements"><span class="xref myst py py-attr">Statements</span></a></p></li>
+<li><p><a class="reference internal" href="../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.topics" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult.topics"><span class="xref myst py py-attr">Topics</span></a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The lexical-graph uses a form of hierarchical <a class="reference external" href="https://graphr.ag/reference/knowledge-graph/lexical-graph-hierarchical-structure/">lexical graph</a>, auto-generated from unstructured sources, whose job is to help question-answering systems retrieve information which is <em>semantically dissimilar from the question</em>, but nonetheless <em>relevant to the answer</em>.</p>
+<section id="a-three-tiered-lexical-graph">
+<h3>A three-tiered lexical graph<a class="headerlink" href="#a-three-tiered-lexical-graph" title="Link to this heading">¶</a></h3>
+<p>The lexical graph has three tiers:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#lineage-tier"><span class="xref myst"><strong>Lineage</strong></span></a> - Sources, chunks, and the relations between them.</p></li>
+<li><p><a class="reference internal" href="#summarisation-tier"><span class="xref myst"><strong>Summarisation</strong></span></a> - Hierarchical summarisations and lexical units at different levels of granularity.</p></li>
+<li><p><a class="reference internal" href="#entity-relationship-tier"><span class="xref myst"><strong>Entity-Relationship</strong></span></a> - Individual entities and relations extracted from the underlying sources.</p></li>
+</ul>
+<p><img alt="Lexical graph" src="../../_images/lexical-graph.png" /></p>
+</section>
+<section id="units-of-context">
+<h3>Units of context<a class="headerlink" href="#units-of-context" title="Link to this heading">¶</a></h3>
+<p>When using a lexical graph in a RAG application, the question arises: what size lexical unit should form the basis of the context?</p>
+<p>For many RAG applications, the primary unit of context is the <em>chunk</em>: that is, the context window is formed of one or more chunks retrieved from the corpus. Different chunking strategies produce differently sized chunks: there’s no one-size-fits-all definition of a chunk. For the purpose of this documentation, however, we take a chunk to be something larger than an individual sentence, but smaller than an entire document.</p>
+<p>For the graphrag-toolkit, the primary unit of context is not the chunk, but the <em>statement</em>, which is a standalone assertion or proposition. Source documents are broken into chunks, and from these chunks are extracted statements. Statements are thematically grouped by topic, and supported by facts. At question-answering time, the lexical-graph <a class="reference internal" href="querying.html"><span class="std std-doc">retrieves</span></a> groups of statements (and sometimes topics and/or facts), and presents them in the context window to the LLM.</p>
+<p>Graphs can help question-answering systems retrieve information which is semantically dissimilar from the question, but nonetheless relevant to the answer. Retrieval through semantic similarity remains an important strategy, and context that is semantically similar to the question will often comprise the foundation of a good answer. But similarity-based retrieval is not always sufficient for generating a nuanced response, and in many circumstances it will also be necessary to find and return information that cannot be found by vector similarity search alone, in order to present the LLM with a more differentiated context that can help it develop comparisons, arguments, and summaries. The relationships in a graph provide a means by which a retrieval process can find this additional relevant information.</p>
+<p>Graph topology and the degree of connectivity in the graph play an important role in finding relevant information. If everything is linked to everything else, it becomes difficult to extract particularly relevant units of context from within a sea of irrelevancy. If, on the other hand, linking between elements in the graph is low, there are relatively few opportunities for discovering golden nuggets of relevant but nonetheless semantically dissimilar information. The graphrag-toolkit’s graph model assigns local and global connectivity roles to different elements in the graph: topics provide thematic connectivity between statements derived from the same source; facts provide connectivity between statements derived from different sources.</p>
+</section>
+</section>
+<section id="lineage-tier">
+<h2>Lineage tier<a class="headerlink" href="#lineage-tier" title="Link to this heading">¶</a></h2>
+<p>This tier consists of <code class="docutils literal notranslate"><span class="pre">__Source__</span></code> nodes and <code class="docutils literal notranslate"><span class="pre">__Chunk__</span></code> nodes. A source node contains metadata describing a source document (e.g. author, URL, publication date). The exact metadata varies depending on the source. Chunks contain the actual chunked text (and its embedding). Chunks are linked to previous, next, parent and child chunks.</p>
+</section>
+<section id="entity-relationship-tier">
+<h2>Entity-Relationship tier<a class="headerlink" href="#entity-relationship-tier" title="Link to this heading">¶</a></h2>
+<p>This consists of <code class="docutils literal notranslate"><span class="pre">__Entity__</span></code> nodes and <code class="docutils literal notranslate"><span class="pre">__RELATION__</span></code> relationships. Entities have a value (e.g. ‘Amazon’) and a classification (e.g. ‘Company’). Relationships have a value (e.g. ‘WORKS_FOR’).</p>
+<p>The entities in the entity-relationship tier act as entry points into the graph for bottom-up, keyword-based (exact match) searches.</p>
+<p>Every entity is associated with at least one <code class="docutils literal notranslate"><span class="pre">__Fact__</span></code>, either as a <code class="docutils literal notranslate"><span class="pre">__SUBJECT__</span></code> or <code class="docutils literal notranslate"><span class="pre">__OBJECT__</span></code>. Entities can fulfill multiple roles: an entity may act as the subject for one fact, and the object for another fact.</p>
+<p>Extraction uses a lightly guided strategy whereby the extraction process is seeded with a list of preferred entity classifications. The LLM is instructed to use an existing classification from the list before creating new ones. Any new classifications introduced by the LLM are then carried forward to subsequent invocations. This approach reduces but doesn’t eliminate unwanted variations in entity classification.</p>
+<p>Relationship values are currently unguided (though relatively concise).</p>
+</section>
+<section id="summarisation-tier">
+<h2>Summarisation tier<a class="headerlink" href="#summarisation-tier" title="Link to this heading">¶</a></h2>
+<p>This currently comprises <code class="docutils literal notranslate"><span class="pre">__Topic__</span></code>, <code class="docutils literal notranslate"><span class="pre">__Statement__</span></code> and <code class="docutils literal notranslate"><span class="pre">__Fact__</span></code> nodes. Proceeding from the bottom up:</p>
+<section id="facts">
+<h3>Facts<a class="headerlink" href="#facts" title="Link to this heading">¶</a></h3>
+<p>A fact summarises a single triplet or triple-like unit of meaning. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Property</span> <span class="n">Graph</span> <span class="n">model</span> <span class="n">ACCESSED</span> <span class="n">WITH</span> <span class="n">openCypher</span>
+</pre></div>
+</div>
+<p>There are two types of fact: subject-predicate-object (SPO) facts, and subject-predicate-complement (SPC) facts. SPO facts are connected to entities in the subject and object positions. SPC facts are connected to subject entities only. Here’s an example of an SPC fact:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Neptune</span> <span class="n">Analytics</span> <span class="n">PURPOSE</span> <span class="n">analyze</span> <span class="n">graph</span> <span class="n">data</span>
+</pre></div>
+</div>
+<p>SPO facts are connected to other facts via <code class="docutils literal notranslate"><span class="pre">__NEXT__</span></code> relationships, where the object entity of a first fact acts as the subject entity for a subsequent fact.</p>
+<p>Facts provide <em>connectivity across different sources</em>. It’s not uncommon for an individual fact to be mentioned multiple times in the underlying corpus: for example, in a news articles dataset, a particular fact might be repeated in different news articles reporting on the same story. In the graph, there will be a single node to represent this specific fact. From this node it is then possible to traverse via statements, topics and chunks to all the places where that particular fact is mentioned.</p>
+<p>Every fact <code class="docutils literal notranslate"><span class="pre">__SUPPORTS__</span></code> at least one statement. A fact can support multiple statements, belonging to the same or different topics and sources.</p>
+<p>Facts can, optionally, be embedded – and so as well as enhancing connectivity, they can also be used to provide a low-level, vector-based entry point into the graph.</p>
+</section>
+<section id="statements">
+<h3>Statements<a class="headerlink" href="#statements" title="Link to this heading">¶</a></h3>
+<p>A statement or assertion extracted from the underlying sources. Statements are the <em>primary unit of context returned to the question-answering LLM in the context window</em> – that is, the context comprises collections of statements grouped by source and topic.</p>
+<p>Statements are typically associated with one or more facts (both SPO and SPC facts). For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Statement</span>
+<span class="o">---------</span>
+<span class="n">Neptune</span> <span class="n">supports</span> <span class="nb">open</span> <span class="n">graph</span> <span class="n">APIs</span> <span class="k">for</span> <span class="nb">property</span> <span class="n">graphs</span> <span class="p">(</span><span class="n">Gremlin</span> <span class="ow">and</span> <span class="n">openCypher</span><span class="p">)</span> <span class="ow">and</span> <span class="n">RDF</span> <span class="n">graphs</span> <span class="p">(</span><span class="n">SPARQL</span><span class="p">)</span>
+
+<span class="n">Facts</span>
+<span class="o">-----</span>
+<span class="n">SPARQL</span> <span class="n">FOR</span> <span class="n">RDF</span> <span class="n">graphs</span>
+<span class="n">SPARQL</span> <span class="n">API</span> <span class="n">FOR</span> <span class="n">RDF</span> <span class="n">graphs</span>
+<span class="n">openCypher</span> <span class="n">API</span> <span class="n">FOR</span> <span class="nb">property</span> <span class="n">graphs</span>
+<span class="n">Gremlin</span> <span class="n">FOR</span> <span class="nb">property</span> <span class="n">graphs</span>
+<span class="n">Gremlin</span> <span class="n">API</span> <span class="n">FOR</span> <span class="nb">property</span> <span class="n">graphs</span>
+<span class="n">openCypher</span> <span class="n">FOR</span> <span class="nb">property</span> <span class="n">graphs</span>
+</pre></div>
+</div>
+<p>In some circumstances a statement may include one or more contextual <em>details</em> in addition to, or instead of, any associated facts. These contextual details take the same triplet form as facts, but they lack any entity (subject or object) relations, and so are inlined as a property in the statement node.</p>
+<p>Statements are grouped beneath topics (see below). Within a particular topic, statements are also joined in a linked list via <code class="docutils literal notranslate"><span class="pre">__PREVIOUS__</span></code> relationships, making it easy to retrieve previous (and subsequent) statements belonging to the same underlying source.</p>
+<p>Statements act as the primary unit of context for question answering. They are connected transitively to other statements via both facts and topics.</p>
+<p>Statements can, optionally, be embedded, and so can act as higher-level entry points in the graph based on a vector search. The semantic-guided retriever uses statement embeddings to guide its search strategies. Statement embeddings also allow statements to be used in a ‘baseline RAG’ manner to retrieve relatively small pieces of context for answering simple questions.</p>
+</section>
+<section id="id1">
+<h3>Topics<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<p>A topic is a theme or area of focus within a specific source document. Source documents will typically have several topics. For example, one of the source documents in our Neptune documentation example has the following topics:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Neptune</span> <span class="n">Analytics</span>
+<span class="n">Loading</span> <span class="n">Graph</span> <span class="n">Data</span> <span class="n">into</span> <span class="n">Amazon</span> <span class="n">Neptune</span> <span class="n">Analytics</span>
+</pre></div>
+</div>
+<p>Topics are scoped to individual source documents so as to provide connectivity across chunks within a single source. It’s common for several chunks from the same source to be connected to the same topic.</p>
+<p>Topics increase <em>connectivity between relevant chunks within a single source</em>, and provide a simple document-level summary mechanism.</p>
+<p>Topics can, optionally, be embedded, and so can act as higher-level entry points in the graph based on a vector search. A topic embedding represents the topic name and all the statements belonging to that topic.</p>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="graph-store-falkor-db.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">FalkorDB as a Graph Store</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="storage-model.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Storage Model</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="sidebar-div show-div-md justify-content-left">
+            <label class="nav-close-icon" id="toc-menu-close" for="__toc" tabindex="0">
+                <div class="visually-hidden">Toggle site table of content right sidebar</div>
+                <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+            </label>
+        </div>
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Graph Model</a><ul>
+<li><a class="reference internal" href="#topics">Topics</a></li>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#a-three-tiered-lexical-graph">A three-tiered lexical graph</a></li>
+<li><a class="reference internal" href="#units-of-context">Units of context</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lineage-tier">Lineage tier</a></li>
+<li><a class="reference internal" href="#entity-relationship-tier">Entity-Relationship tier</a></li>
+<li><a class="reference internal" href="#summarisation-tier">Summarisation tier</a><ul>
+<li><a class="reference internal" href="#facts">Facts</a></li>
+<li><a class="reference internal" href="#statements">Statements</a></li>
+<li><a class="reference internal" href="#id1">Topics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>

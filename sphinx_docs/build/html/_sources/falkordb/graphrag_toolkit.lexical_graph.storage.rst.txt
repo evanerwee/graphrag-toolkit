@@ -1,0 +1,18 @@
+graphrag\_toolkit.lexical\_graph.storage package
+================================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   graphrag_toolkit.lexical_graph.storage.graph
+
+Module contents
+---------------
+
+.. automodule:: graphrag_toolkit.lexical_graph.storage
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,731 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="graphrag_toolkit.lexical_graph.storage package" href="graphrag_toolkit.lexical_graph.storage.html" /><link rel="prev" title="graphrag_toolkit.lexical_graph.retrieval.retrievers package" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>graphrag_toolkit.lexical_graph.retrieval.utils package - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/graph-model.html">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/querying.html">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/metadata-filtering.html">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="md/lexical-graph/faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">graphrag_toolkit</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="graphrag_toolkit.html">graphrag_toolkit package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 current has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5 current current-page"><a class="current reference internal" href="#">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="falkordb/falkordb.html">falkordb package</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="graphrag-toolkit-lexical-graph-retrieval-utils-package">
+<h1>graphrag_toolkit.lexical_graph.retrieval.utils package<a class="headerlink" href="#graphrag-toolkit-lexical-graph-retrieval-utils-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition">
+<span id="graphrag-toolkit-lexical-graph-retrieval-utils-query-decomposition-module"></span><h2>graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition module<a class="headerlink" href="#module-graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.</span></span><span class="sig-name descname"><span class="pre">QueryDecomposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LLM</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><span class="pre">LLMCache</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identify_multipart_question_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\nCan</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">question</span> <span class="pre">potentially</span> <span class="pre">be</span> <span class="pre">answered</span> <span class="pre">with</span> <span class="pre">details</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">entity?</span> <span class="pre">Answer</span> <span class="pre">YES</span> <span class="pre">if,</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">simplest</span> <span class="pre">case,</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">entity</span> <span class="pre">might</span> <span class="pre">suffice.</span> <span class="pre">Otherwise,</span> <span class="pre">answer</span> <span class="pre">NO.\n\nHere</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">question:\n\n{question}\n\nDo</span> <span class="pre">not</span> <span class="pre">provide</span> <span class="pre">any</span> <span class="pre">other</span> <span class="pre">explanatory</span> <span class="pre">text.\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_subqueries_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\nDecompose</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">question</span> <span class="pre">into</span> <span class="pre">at</span> <span class="pre">most</span> <span class="pre">{max_subqueries}</span> <span class="pre">simpler,</span> <span class="pre">standalone</span> <span class="pre">questions</span> <span class="pre">-</span> <span class="pre">fewer,</span> <span class="pre">if</span> <span class="pre">possible.</span> <span class="pre">Each</span> <span class="pre">question</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">self-contained,</span> <span class="pre">and</span> <span class="pre">MUST</span> <span class="pre">NOT</span> <span class="pre">depend</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">answer</span> <span class="pre">to</span> <span class="pre">any</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">other</span> <span class="pre">questions.</span> <span class="pre">Avoid</span> <span class="pre">generalized</span> <span class="pre">questions</span> <span class="pre">that</span> <span class="pre">do</span> <span class="pre">not</span> <span class="pre">preserve</span> <span class="pre">relevant</span> <span class="pre">details</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">original</span> <span class="pre">question.</span> <span class="pre">If</span> <span class="pre">the</span> <span class="pre">original</span> <span class="pre">question</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">broken</span> <span class="pre">down</span> <span class="pre">into</span> <span class="pre">anything</span> <span class="pre">simpler,</span> <span class="pre">simply</span> <span class="pre">respond</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">original</span> <span class="pre">question:\n\nHere</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">question:\n\n{question}\n\nPut</span> <span class="pre">the</span> <span class="pre">questions</span> <span class="pre">on</span> <span class="pre">separate</span> <span class="pre">lines.</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">provide</span> <span class="pre">any</span> <span class="pre">other</span> <span class="pre">explanatory</span> <span class="pre">text.</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">surround</span> <span class="pre">the</span> <span class="pre">output</span> <span class="pre">with</span> <span class="pre">tags.\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_subqueries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/query_decomposition.html#QueryDecomposition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handles query decomposition for identifying and extracting subqueries
+from a primary query.</p>
+<p>This class is responsible for breaking down a complex query into simpler subqueries using
+a language model (LLM). It aims to identify multipart questions and decompose them when necessary.
+This process enables better handling and response generation for large or intricate queries.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>llm (LLMCacheType): The language model used for identifying multipart</dt><dd><p>questions and extracting subqueries. Defaults to the specified
+<cite>llm</cite> instance or creates a new one using <cite>GraphRAGConfig</cite>.</p>
+</dd>
+<dt>identify_multipart_question_template (str): A template prompt</dt><dd><p>used to identify whether a query is multipart.</p>
+</dd>
+<dt>extract_subqueries_template (str): A template prompt used to extract</dt><dd><p>subqueries from a multipart query.</p>
+</dd>
+<dt>max_subqueries (int): Maximum number of subqueries that can be extracted</dt><dd><p>from a single query. Defaults to 2.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition.decompose_query">
+<span class="sig-name descname"><span class="pre">decompose_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">QueryBundle</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/query_decomposition.html#QueryDecomposition.decompose_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition.decompose_query" title="Link to this definition">¶</a></dt>
+<dd><p>Decomposes a query into subqueries if it is identified as a
+multipart question.</p>
+<p>This method takes a query encapsulated in a QueryBundle object and decomposes
+it into smaller subqueries if the original query exceeds the single question
+threshold and is determined to be a multipart question. If not, the original
+query is returned as a single-element list.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>query_bundle (QueryBundle): The input query bundle containing the</dt><dd><p>query string and any associated metadata.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[QueryBundle]: A list of QueryBundle objects representing the</dt><dd><p>subqueries. If decomposition is not performed, the original
+query bundle is returned as a single-element list.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils">
+<span id="graphrag-toolkit-lexical-graph-retrieval-utils-statement-utils-module"></span><h2>graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils module<a class="headerlink" href="#module-graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">SharedEmbeddingCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#SharedEmbeddingCache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>SharedEmbeddingCache manages a cache for embeddings, which are fetched
+from a vector store with retry logic. It ensures efficient retrieval of
+embeddings, minimizing repeated calls to the external data source.</p>
+<p>This class is designed to store and manage embeddings in a thread-safe manner.
+It keeps track of requested embeddings in cache, and when requested embeddings
+are missing, these are fetched and cached for future use. The class includes
+retry logic to handle transient failures during fetching operations.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>vector_store (VectorStore): The vector store containing statement indexes</dt><dd><p>and embeddings.</p>
+</dd>
+<dt>_cache (Dict[str, np.ndarray]): A dictionary acting as an internal cache</dt><dd><p>to store embeddings by their statement IDs.</p>
+</dd>
+<dt>_lock (threading.Lock): A lock to ensure thread-safe access to the cache or</dt><dd><p>updates.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache.get_embeddings">
+<span class="sig-name descname"><span class="pre">get_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#SharedEmbeddingCache.get_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache.get_embeddings" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieves the embeddings for the provided statement identifiers. The
+method first attempts to fetch embeddings from the internal cache. If
+any requested embeddings are not found in the cache, it tries to fetch
+them using an external method, updates the cache, and returns all the
+collected embeddings. If fetching new embeddings fails, the method
+returns only the embeddings retrieved from the cache.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>statement_ids (List[str]): A list of statement identifiers for which embeddings are needed.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Dict[str, np.ndarray]: A dictionary mapping each statement identifier to its
+corresponding embedding as a NumPy array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.cosine_similarity">
+<span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">cosine_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_embedding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_embeddings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#cosine_similarity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.cosine_similarity" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the cosine similarity between a query embedding and a set of
+statement embeddings.</p>
+<p>This function calculates the cosine similarity between a provided query
+embedding and a list of statement embeddings. The function returns a tuple
+consisting of similarity scores and the corresponding statement IDs. If the
+list of statement embeddings is empty, it returns an empty array and an empty
+list.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>query_embedding: A 1D array-like structure representing the vector</dt><dd><p>embedding of the query.</p>
+</dd>
+<dt>statement_embeddings: A dictionary where keys are statement IDs and</dt><dd><p>values are 1D array-like structures representing the vector embeddings
+of the corresponding statements.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>tuple: A tuple containing:</dt><dd><dl class="simple">
+<dt>similarities (numpy.ndarray): An array of cosine similarity scores</dt><dd><p>between the query embedding and each of the statement embeddings.</p>
+</dd>
+<dt>statement_ids (list): A list of IDs corresponding to the statement</dt><dd><p>embeddings provided in the input.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><dl class="simple">
+<dt>ValueError: If query_embedding or any of the values in</dt><dd><p>statement_embeddings cannot be converted to a 1D numpy array.</p>
+</dd>
+<dt>ZeroDivisionError: If any embedding has zero magnitude causing a division</dt><dd><p>by zero during normalization.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_free_memory">
+<span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">get_free_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gpu_index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#get_free_memory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_free_memory" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieves the amount of free memory on a specific GPU device in
+megabytes (MB). This function uses the NVIDIA Management Library (NVML) to
+query the memory information of the GPU specified by its index.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>gpu_index (int): The index of the GPU device for which the free memory</dt><dd><p>needs to be retrieved.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>int: The amount of free memory on the specified GPU in megabytes (MB).</p>
+</dd>
+<dt>Raises:</dt><dd><dl class="simple">
+<dt>ImportError: If the <cite>pynvml</cite> library is not installed, an ImportError is</dt><dd><p>raised instructing the user to install the library.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_statements_query">
+<span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">get_statements_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_store</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#get_statements_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_statements_query" title="Link to this definition">¶</a></dt>
+<dd><p>Generates and executes a Cypher query to fetch detailed information
+about statements and their associated chunks and sources from the graph
+database.</p>
+<p>The function retrieves data such as statement IDs, chunk details, and source
+metadata for a list of given statement IDs. It ensures that the results are
+aligned with the requested statement IDs for accuracy.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>graph_store: An instance of a graph database store that provides methods</dt><dd><p>to handle node IDs and execute queries.</p>
+</dd>
+<dt>statement_ids: A list of statement IDs for which the details are to be</dt><dd><p>retrieved.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>list: A list of statement records where each record contains statement</dt><dd><p>details, along with associated chunk and source information.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_free_gpus">
+<span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">get_top_free_gpus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#get_top_free_gpus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_free_gpus" title="Link to this definition">¶</a></dt>
+<dd><p>Gets indices of the top <cite>n</cite> GPUs based on free memory in descending
+order.</p>
+<p>This function utilizes the PyTorch library to check the amount of free memory
+available on each GPU. It returns the indices of the GPUs with the highest
+free memory. If the PyTorch library is not installed, an ImportError will
+be raised, providing guidance on how to install it.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>n (int, optional): The number of top GPUs to return based on free memory.</dt><dd><p>Defaults to 2.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>list[int]: A list of integers representing the indices of GPUs with the</dt><dd><p>most free memory.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><p>ImportError: If the torch package is not installed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_k">
+<span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">get_top_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_embedding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_embeddings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#get_top_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_k" title="Link to this definition">¶</a></dt>
+<dd><p>Fetches the top K most similar statement embeddings based on the
+cosine similarity between a query embedding and a list of statement
+embeddings. This function computes the similarity of the query embedding
+to each statement embedding and returns the top K highest scoring
+similarities and their respective statement IDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query_embedding</strong> – A 1-dimensional array-like object representing
+the embedding vector of the query.</p></li>
+<li><p><strong>statement_embeddings</strong> – A 2-dimensional array-like object where each
+row represents the embedding vector of a statement.</p></li>
+<li><p><strong>top_k</strong> – An integer representing the number of top similarities to return.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tuples where each tuple contains:
+- A float indicating the similarity score.
+- The ID of the statement corresponding to the similarity score.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils">
+<span id="graphrag-toolkit-lexical-graph-retrieval-utils-vector-utils-module"></span><h2>graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils module<a class="headerlink" href="#module-graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.get_diverse_vss_elements">
+<span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.</span></span><span class="sig-name descname"><span class="pre">get_diverse_vss_elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/vector_utils.html#get_diverse_vss_elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.get_diverse_vss_elements" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieve a diverse set of elements from a vector search store (VSS) based on the specified top-k
+and diversity factor. This function ensures that elements are sampled from different sources
+based on their diversity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index_name</strong> (<em>str</em>) – The name of the index to query.</p></li>
+<li><p><strong>query_bundle</strong> (<em>QueryBundle</em>) – The query information used to fetch results from the vector store.</p></li>
+<li><p><strong>vector_store</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><em>VectorStore</em></a>) – The vector store to query for elements.</p></li>
+<li><p><strong>args</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><em>ProcessorArgs</em></a>) – Arguments containing settings for the query, including top-k and diversity factor.</p></li>
+<li><p><strong>filter_config</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><em>FilterConfig</em></a><em>]</em>) – Optional filter configuration to apply additional constraints on the query.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of diverse elements retrieved from the vector search store.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-graphrag_toolkit.lexical_graph.retrieval.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-graphrag_toolkit.lexical_graph.retrieval.utils" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="graphrag_toolkit.lexical_graph.storage.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">graphrag_toolkit.lexical_graph.storage package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">graphrag_toolkit.lexical_graph.retrieval.retrievers package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="sidebar-div show-div-md justify-content-left">
+            <label class="nav-close-icon" id="toc-menu-close" for="__toc" tabindex="0">
+                <div class="visually-hidden">Toggle site table of content right sidebar</div>
+                <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+            </label>
+        </div>
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">graphrag_toolkit.lexical_graph.retrieval.utils package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition">graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition module</a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition</span></code></a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition.decompose_query"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose_query()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils module</a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache"><code class="docutils literal notranslate"><span class="pre">SharedEmbeddingCache</span></code></a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache.get_embeddings"><code class="docutils literal notranslate"><span class="pre">SharedEmbeddingCache.get_embeddings()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.cosine_similarity"><code class="docutils literal notranslate"><span class="pre">cosine_similarity()</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_free_memory"><code class="docutils literal notranslate"><span class="pre">get_free_memory()</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_statements_query"><code class="docutils literal notranslate"><span class="pre">get_statements_query()</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_free_gpus"><code class="docutils literal notranslate"><span class="pre">get_top_free_gpus()</span></code></a></li>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_k"><code class="docutils literal notranslate"><span class="pre">get_top_k()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils">graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils module</a><ul>
+<li><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.get_diverse_vss_elements"><code class="docutils literal notranslate"><span class="pre">get_diverse_vss_elements()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-graphrag_toolkit.lexical_graph.retrieval.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=f731707b"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>

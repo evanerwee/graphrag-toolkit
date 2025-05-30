@@ -1,0 +1,967 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes - graphrag-toolkit 3.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=5c2e0e83" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/dark_light_mode.css?v=33639cc8" />
+    
+    
+<script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+<link href="https://prod.assets.shortbread.aws.dev/shortbread.css" rel="stylesheet">
+</head>
+  <body>
+     
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path class="icon-opacity" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line class="icon-opacity" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line class="icon-opacity" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line class="icon-opacity" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line class="icon-opacity" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line class="icon-opacity" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line class="icon-opacity" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line class="icon-opacity" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line class="icon-opacity" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle class="icon-opacity" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <title>Close Menu</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+            <line x1="2" y1="22" x2="22" y2="2"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+    </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" id="nav-menu-open" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../../../index.html"><div class="brand">graphrag-toolkit 3.6.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" id="toc-menu-open-sm" for="__toc" tabindex="0">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-div show-div-sm justify-content-right">
+    <label class="nav-close-icon" id="nav-menu-close" for="__navigation" tabindex="0">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-close"></use></svg></i>
+    </label>
+</div><a class="sidebar-brand" href="../../../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../../../_static/logos/aws_light_theme_logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../../../_static/logos/aws_dark_theme_logo.svg" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">graphrag-toolkit 3.6.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-div">
+    <p class="sidebar-heading">Feedback</p>
+    <p class="sidebar-text">
+        Do you have a suggestion to improve this website or graphrag-toolkit?
+        <a href="https://github.com/awslabs/graphrag-toolkit/issues">Give us feedback</a>.
+    </p>
+</div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">README and Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/README.html">Lexical Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/storage-model.html">Storage Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Graph Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-model.html">Graph Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-store-falkor-db.html">FalkorDB as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-store-neptune-analytics.html">Neptune Analytics as a Graph Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/graph-store-neptune-db.html">Neptune Database as a Graph Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vector Store</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/vector-store-neptune-analytics.html">Neptune Analytics as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/vector-store-opensearch-serverless.html">Amazon OpenSearch Serverless as a Vector Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/vector-store-postgres.html">Postgres as a Vector Store</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/security.html">Security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Querying</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/querying.html">Querying</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Multi-tenancy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/metadata-filtering.html">Metadata Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/indexing.html">Indexing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indexing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/multi-tenancy.html">Multi-Tenancy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/aws-profile.html">Using AWS Profiles in <code class="docutils literal notranslate"><span class="pre">GraphRAGConfig</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/batch-extraction.html">Batch Extraction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Batch Extraction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/hybrid-deployment.html">Hybrid Deployment</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../md/lexical-graph/faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lexical Graph API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.html">graphrag_toolkit.lexical_graph.indexing package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.indexing package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html">graphrag_toolkit.lexical_graph.indexing.build package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html">graphrag_toolkit.lexical_graph.indexing.extract package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.load.html">graphrag_toolkit.lexical_graph.indexing.load package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html">graphrag_toolkit.lexical_graph.storage.vector package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.utils.html">graphrag_toolkit.lexical_graph.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../falkordb/falkordb.html">falkordb package</a></li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" id="toc-menu-open-md" for="__toc" tabindex="0">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</span>
+<span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FilterConfig</span><span class="p">,</span>
+    <span class="n">type_name_for_key_value</span><span class="p">,</span>
+    <span class="n">format_datetime</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStoreFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">GraphStore</span><span class="p">,</span>
+    <span class="n">MultiTenantGraphStore</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph.graph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">node_result</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NeptuneAnalyticsClient</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">VectorIndex</span><span class="p">,</span>
+    <span class="n">VectorIndexFactoryMethod</span><span class="p">,</span>
+    <span class="n">to_embedded_query</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.indices.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">embed_nodes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FilterCondition</span><span class="p">,</span>
+    <span class="n">FilterOperator</span><span class="p">,</span>
+    <span class="n">MetadataFilter</span><span class="p">,</span>
+    <span class="n">MetadataFilters</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">NEPTUNE_ANALYTICS</span> <span class="o">=</span> <span class="s1">&#39;neptune-graph://&#39;</span>
+
+
+<div class="viewcode-block" id="to_opencypher_operator">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.to_opencypher_operator">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_opencypher_operator</span><span class="p">(</span>
+    <span class="n">operator</span><span class="p">:</span> <span class="n">FilterOperator</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transforms a `FilterOperator` into its corresponding OpenCypher operator and a</span>
+<span class="sd">    value formatter function. This function maps a custom filter operator to OpenCypher&#39;s</span>
+<span class="sd">    expression syntax, ensuring compatibility between logical filtering operations</span>
+<span class="sd">    in Python code and OpenCypher queries.</span>
+
+<span class="sd">    :param operator: A `FilterOperator` instance that specifies the logical operation</span>
+<span class="sd">        to be mapped to its OpenCypher equivalent.</span>
+
+<span class="sd">    :return: A tuple containing the OpenCypher representation of the operator as a</span>
+<span class="sd">        string, and a callable function to format values associated with the operator.</span>
+
+<span class="sd">    :raises ValueError: If the provided operator is not supported or cannot be mapped</span>
+<span class="sd">        to an OpenCypher operator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">default_value_formatter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+
+    <span class="n">operator_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">EQ</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">GT</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">LT</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">NE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&lt;&gt;&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">GTE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&gt;=&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">LTE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&lt;=&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
+        <span class="c1"># FilterOperator.IN: (&#39;in&#39;, default_value_formatter),  # In array (string or number)</span>
+        <span class="c1"># FilterOperator.NIN: (&#39;nin&#39;, default_value_formatter),  # Not in array (string or number)</span>
+        <span class="c1"># FilterOperator.ANY: (&#39;any&#39;, default_value_formatter),  # Contains any (array of strings)</span>
+        <span class="c1"># FilterOperator.ALL: (&#39;all&#39;, default_value_formatter),  # Contains all (array of strings)</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">TEXT_MATCH</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;CONTAINS&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">TEXT_MATCH_INSENSITIVE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;CONTAINS&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span>
+        <span class="c1"># FilterOperator.CONTAINS: (&#39;contains&#39;, default_value_formatter),  # metadata array contains value (string or number)</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">IS_EMPTY</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s1">&#39;IS NULL&#39;</span><span class="p">,</span>
+            <span class="n">default_value_formatter</span><span class="p">,</span>
+        <span class="p">),</span>  <span class="c1"># the field is not exist or empty (null or empty array)</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">operator</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">operator_map</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported filter operator: </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">operator_map</span><span class="p">[</span><span class="n">operator</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="formatter_for_type">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.formatter_for_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">formatter_for_type</span><span class="p">(</span><span class="n">type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a formatter function for the specified type name. The formatter</span>
+<span class="sd">    function converts input values to a specific string or format based on</span>
+<span class="sd">    the provided type name. Supported type names include &#39;text&#39;, &#39;timestamp&#39;,</span>
+<span class="sd">    and &#39;number&#39;.</span>
+
+<span class="sd">    :param type_name: Specifies the type of formatting to be applied.</span>
+<span class="sd">        - &#39;text&#39;: Formats input values as quoted strings.</span>
+<span class="sd">        - &#39;timestamp&#39;: Formats input values using a datetime representation.</span>
+<span class="sd">        - &#39;number&#39;: Returns the input value as-is without modification.</span>
+<span class="sd">    :return: A callable that formats input values based on the type-specific</span>
+<span class="sd">        formatting rules.</span>
+<span class="sd">    :raises ValueError: If an unsupported type name is provided.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+    <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;datetime(&#39;</span><span class="si">{</span><span class="n">format_datetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
+    <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s1">&#39;number&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported type name: </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="parse_metadata_filters_recursive">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.parse_metadata_filters_recursive">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_metadata_filters_recursive</span><span class="p">(</span><span class="n">metadata_filters</span><span class="p">:</span> <span class="n">MetadataFilters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively parses a MetadataFilters object into an OpenCypher-compatible filter expression string.</span>
+
+<span class="sd">    This function processes a MetadataFilters object consisting of multiple filtering conditions and</span>
+<span class="sd">    evaluates them recursively to produce a valid OpenCypher filter string representation. Each filter</span>
+<span class="sd">    is interpreted and formatted according to the specified condition, operator, and values provided</span>
+<span class="sd">    in the MetadataFilters object.</span>
+
+<span class="sd">    Key operations handled include processing the MetadataFilter and MetadataFilters instances, mapping</span>
+<span class="sd">    filter conditions such as AND, OR, and NOT, and generating properly formatted expressions. If certain</span>
+<span class="sd">    cases like unsupported filter conditions or invalid input types are encountered, the function raises</span>
+<span class="sd">    appropriate exceptions.</span>
+
+<span class="sd">    :param metadata_filters: A MetadataFilters object representing the filtering conditions</span>
+<span class="sd">        to be evaluated recursively.</span>
+<span class="sd">    :type metadata_filters: MetadataFilters</span>
+<span class="sd">    :return: A string representation of the OpenCypher-compatible parsed filter.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises ValueError: Raises an exception for invalid metadata filter types, unsupported conditions,</span>
+<span class="sd">        or unexpected mismatches between filter conditions and MetadataFilter object types.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_key</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursively parses metadata filters and converts them into a</span>
+<span class="sd">        formatted string.</span>
+
+<span class="sd">        This function takes a MetadataFilters object and iteratively processes it,</span>
+<span class="sd">        transforming its content into a specific string format for further usage.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metadata_filters: The MetadataFilters object that contains the filtering</span>
+<span class="sd">                criteria to be processed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A string that represents the parsed and formatted metadata filters based</span>
+<span class="sd">            on the provided input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;source.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">metadata_filter_to_opencypher_filter</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">MetadataFilter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recursively parses a tree of metadata filters into an OpenCypher string representation.</span>
+<span class="sd">        Each metadata filter is converted based on its operator and associated key-value pair.</span>
+
+<span class="sd">        :param metadata_filters: The root node of metadata filters to parse, containing nested</span>
+<span class="sd">            conditions for filtering metadata.</span>
+<span class="sd">        :type metadata_filters: MetadataFilters</span>
+<span class="sd">        :return: An OpenCypher string representation of the metadata filters.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">to_key</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">operator_formatter</span><span class="p">)</span> <span class="o">=</span> <span class="n">to_opencypher_operator</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">operator</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">operator</span> <span class="o">==</span> <span class="n">FilterOperator</span><span class="o">.</span><span class="n">IS_EMPTY</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">type_name</span> <span class="o">=</span> <span class="n">type_name_for_key_value</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">type_formatter</span> <span class="o">=</span> <span class="n">formatter_for_type</span><span class="p">(</span><span class="n">type_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">operator</span> <span class="o">==</span> <span class="n">FilterOperator</span><span class="o">.</span><span class="n">TEXT_MATCH_INSENSITIVE</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.toLower() </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">type_formatter</span><span class="p">(</span><span class="n">operator_formatter</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">type_formatter</span><span class="p">(</span><span class="n">operator_formatter</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="n">condition</span> <span class="o">=</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="n">filter_strs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">metadata_filter</span> <span class="ow">in</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">,</span> <span class="n">MetadataFilter</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">NOT</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Expected MetadataFilters for FilterCondition.NOT, but found MetadataFilter&#39;</span>
+                <span class="p">)</span>
+            <span class="n">filter_strs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metadata_filter_to_opencypher_filter</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">,</span> <span class="n">MetadataFilters</span><span class="p">):</span>
+            <span class="n">filter_strs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parse_metadata_filters_recursive</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid metadata filter type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">NOT</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(NOT </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filter_strs</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="k">elif</span> <span class="p">(</span>
+        <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">AND</span>
+        <span class="ow">or</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">OR</span>
+    <span class="p">):</span>
+        <span class="n">condition</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{</span><span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s1"> &#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">condition</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filter_strs</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported filters condition: </span><span class="si">{</span><span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="filter_config_to_opencypher_filters">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.filter_config_to_opencypher_filters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_config_to_opencypher_filters</span><span class="p">(</span><span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a given FilterConfig object into a string of OpenCypher filters.</span>
+<span class="sd">    Processes the provided filter configuration and generates a recursive representation</span>
+<span class="sd">    of the metadata filters in OpenCypher format.</span>
+
+<span class="sd">    :param filter_config: Input filter configuration object containing the necessary</span>
+<span class="sd">        source filters for translation.</span>
+<span class="sd">    :type filter_config: FilterConfig</span>
+<span class="sd">    :return: A string representing the OpenCypher filters, or an empty string if the</span>
+<span class="sd">        provided filter_config is None or contains no source filters.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">filter_config</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">filter_config</span><span class="o">.</span><span class="n">source_filters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">parse_metadata_filters_recursive</span><span class="p">(</span><span class="n">filter_config</span><span class="o">.</span><span class="n">source_filters</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="NeptuneAnalyticsVectorIndexFactory">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NeptuneAnalyticsVectorIndexFactory</span><span class="p">(</span><span class="n">VectorIndexFactoryMethod</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a factory for creating Neptune Analytics vector indices.</span>
+
+<span class="sd">    This class provides a method to attempt the creation of Neptune Analytics vector</span>
+<span class="sd">    indices based on a given configuration and list of index names. It examines the</span>
+<span class="sd">    provided vector index information to determine if it matches the Neptune Analytics</span>
+<span class="sd">    configuration format and initializes the indices accordingly.</span>
+
+<span class="sd">    :ivar NEPTUNE_ANALYTICS: The prefix used to identify Neptune Analytics configurations.</span>
+<span class="sd">    :type NEPTUNE_ANALYTICS: str</span>
+<span class="sd">    :ivar logger: Logger instance for tracking the creation process and debugging details.</span>
+<span class="sd">    :type logger: logging.Logger</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NeptuneAnalyticsVectorIndexFactory.try_create">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory.try_create">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">index_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">vector_index_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorIndex</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to create a list of vector indexes based on the provided index names</span>
+<span class="sd">        and vector index information. If the vector index information starts with a</span>
+<span class="sd">        specific prefix (NEPTUNE_ANALYTICS), a graph ID is extracted, and the relevant</span>
+<span class="sd">        NeptuneIndexes are opened and returned. If the prefix is not found, None is</span>
+<span class="sd">        returned.</span>
+
+<span class="sd">        :param index_names: A list of index names to be created.</span>
+<span class="sd">        :type index_names: List[str]</span>
+<span class="sd">        :param vector_index_info: A string containing information about the vector</span>
+<span class="sd">            index. This may include a specific prefix (NEPTUNE_ANALYTICS) that</span>
+<span class="sd">            identifies the type of index.</span>
+<span class="sd">        :param kwargs: Additional keyword argument parameters passed to the creation</span>
+<span class="sd">            of the vector indexes.</span>
+<span class="sd">        :return: A list of vector indexes created for the specified index names, or</span>
+<span class="sd">            None if the provided vector index information does not meet the expected</span>
+<span class="sd">            criteria.</span>
+<span class="sd">        :rtype: List[VectorIndex] or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">graph_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">NEPTUNE_ANALYTICS</span><span class="p">):</span>
+            <span class="n">graph_id</span> <span class="o">=</span> <span class="n">vector_index_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">NEPTUNE_ANALYTICS</span><span class="p">)</span> <span class="p">:]</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Opening Neptune Analytics vector indexes [index_names: </span><span class="si">{</span><span class="n">index_names</span><span class="si">}</span><span class="s1">, graph_id: </span><span class="si">{</span><span class="n">graph_id</span><span class="si">}</span><span class="s1">]&#39;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="n">NeptuneIndex</span><span class="o">.</span><span class="n">for_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">,</span> <span class="n">vector_index_info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">index_name</span> <span class="ow">in</span> <span class="n">index_names</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NeptuneIndex">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NeptuneIndex</span><span class="p">(</span><span class="n">VectorIndex</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents an index in a Neptune graph database that allows for efficient</span>
+<span class="sd">    querying, embedding, and retrieval of graph node data.</span>
+
+<span class="sd">    This class provides functionality to create, configure, and interact with</span>
+<span class="sd">    indexes in a Neptune graph database. It supports embedding models for</span>
+<span class="sd">    generating vector embeddings for nodes, fetching top-k results based on</span>
+<span class="sd">    similarity scores, and retrieving embeddings based on node IDs. The class</span>
+<span class="sd">    is particularly useful for tasks requiring graph-based data retrieval</span>
+<span class="sd">    with embedding-based searches and filtering capabilities.</span>
+
+<span class="sd">    :ivar neptune_client: The underlying Neptune analytics client instance used</span>
+<span class="sd">        for executing queries and interacting with the database.</span>
+<span class="sd">    :type neptune_client: NeptuneAnalyticsClient</span>
+<span class="sd">    :ivar embed_model: The embedding model utilized to compute vector embeddings.</span>
+<span class="sd">    :type embed_model: Any</span>
+<span class="sd">    :ivar dimensions: The dimensionality of the embeddings generated by the</span>
+<span class="sd">        embedding model.</span>
+<span class="sd">    :type dimensions: int</span>
+<span class="sd">    :ivar id_name: The identifier name for nodes stored in the indexed graph.</span>
+<span class="sd">    :type id_name: str</span>
+<span class="sd">    :ivar label: Label or tag associated with the nodes in the graph.</span>
+<span class="sd">    :type label: str</span>
+<span class="sd">    :ivar path: The Cypher query path used to navigate through the graph.</span>
+<span class="sd">    :type path: str</span>
+<span class="sd">    :ivar return_fields: The string representation of node fields to be included</span>
+<span class="sd">        in the query responses.</span>
+<span class="sd">    :type return_fields: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NeptuneIndex.for_index">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.for_index">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">for_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">,</span> <span class="n">graph_id</span><span class="p">,</span> <span class="n">embed_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides a static method to create a specialized `NeptuneIndex` object tailored for</span>
+<span class="sd">        querying specific indices in a graph database using NeptuneDB. This method allows</span>
+<span class="sd">        configuration of the index type, associated graph, embedding model, and dimensions,</span>
+<span class="sd">        while determining the appropriate structure and fields for the query based on the</span>
+<span class="sd">        index type.</span>
+
+<span class="sd">        The method accepts parameters to define the index name, the graph identifier,</span>
+<span class="sd">        embedding model details, and any additional keyword arguments necessary for the</span>
+<span class="sd">        graph store connection. Depending on the index type, it builds the query path and</span>
+<span class="sd">        return fields dynamically, with specialized cases for certain well-known index names.</span>
+<span class="sd">        An error is raised for unsupported or invalid index names.</span>
+
+<span class="sd">        :param index_name: The name of the index to query (e.g., &#39;chunk&#39;, &#39;statement&#39;, &#39;topic&#39;),</span>
+<span class="sd">            which also determines the type of entity being queried.</span>
+<span class="sd">        :type index_name: str</span>
+<span class="sd">        :param graph_id: The unique identifier for the graph within the database.</span>
+<span class="sd">        :type graph_id: str</span>
+<span class="sd">        :param embed_model: Optional. The embedding model to use for indexing. If not provided,</span>
+<span class="sd">            the default model from the `GraphRAGConfig` is used.</span>
+<span class="sd">        :type embed_model: Optional[Any]</span>
+<span class="sd">        :param dimensions: Optional. The dimensions of the embedding vector space. If not</span>
+<span class="sd">            provided, the default dimensions from the `GraphRAGConfig` are used.</span>
+<span class="sd">        :type dimensions: Optional[int]</span>
+<span class="sd">        :param kwargs: Additional keyword arguments needed for constructing the graph store client.</span>
+<span class="sd">        :type kwargs: dict</span>
+<span class="sd">        :return: A `NeptuneIndex` instance configured for the specified index type and graph ID.</span>
+<span class="sd">        :rtype: NeptuneIndex</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">index_name</span> <span class="o">=</span> <span class="n">index_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">neptune_client</span><span class="p">:</span> <span class="n">GraphStore</span> <span class="o">=</span> <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span>
+            <span class="n">graph_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="n">embed_model</span> <span class="o">=</span> <span class="n">embed_model</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">embed_model</span>
+        <span class="n">dimensions</span> <span class="o">=</span> <span class="n">dimensions</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">embed_dimensions</span>
+        <span class="n">id_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">Id&#39;</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;__</span><span class="si">{</span><span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span><span class="si">}</span><span class="s1">__&#39;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">)&#39;</span>
+        <span class="n">return_fields</span> <span class="o">=</span> <span class="n">node_result</span><span class="p">(</span>
+            <span class="n">index_name</span><span class="p">,</span> <span class="n">neptune_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">id_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">index_name</span> <span class="o">==</span> <span class="s1">&#39;chunk&#39;</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;(chunk)-[:`__EXTRACTED_FROM__`]-&gt;(source:`__Source__`)&#39;</span>
+            <span class="n">return_fields</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;source:</span><span class="se">{{</span><span class="s2">sourceId: </span><span class="si">{</span><span class="n">neptune_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s1">&#39;source.sourceId&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">node_result</span><span class="p">(</span><span class="s1">&#39;source&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">key_name</span><span class="o">=</span><span class="s1">&#39;metadata&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">}}</span><span class="s2">,</span><span class="se">\n</span><span class="si">{</span><span class="n">node_result</span><span class="p">(</span><span class="s1">&#39;chunk&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">neptune_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s1">&#39;chunk.chunkId&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">[])</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="n">index_name</span> <span class="o">==</span> <span class="s1">&#39;statement&#39;</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;(statement)-[:`__MENTIONED_IN__`]-&gt;(:`__Chunk__`)-[:`__EXTRACTED_FROM__`]-&gt;(source:`__Source__`)&#39;</span>
+        <span class="k">elif</span> <span class="n">index_name</span> <span class="o">==</span> <span class="s1">&#39;topic&#39;</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;(topic)-[:`__MENTIONED_IN__`]-&gt;(:`__Chunk__`)-[:`__EXTRACTED_FROM__`]-&gt;(source:`__Source__`)&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid index name: </span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">NeptuneIndex</span><span class="p">(</span>
+            <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
+            <span class="n">neptune_client</span><span class="o">=</span><span class="n">neptune_client</span><span class="p">,</span>
+            <span class="n">embed_model</span><span class="o">=</span><span class="n">embed_model</span><span class="p">,</span>
+            <span class="n">dimensions</span><span class="o">=</span><span class="n">dimensions</span><span class="p">,</span>
+            <span class="n">id_name</span><span class="o">=</span><span class="n">id_name</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+            <span class="n">return_fields</span><span class="o">=</span><span class="n">return_fields</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="n">neptune_client</span><span class="p">:</span> <span class="n">NeptuneAnalyticsClient</span>
+    <span class="n">embed_model</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">dimensions</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">id_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">return_fields</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_neptune_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the Neptune database client instance for the tenant. This method checks</span>
+<span class="sd">        whether the tenant is a default tenant or a specific one and provides the</span>
+<span class="sd">        corresponding Neptune client.</span>
+
+<span class="sd">        If the tenant is the default, it directly returns the configured `neptune_client`.</span>
+<span class="sd">        Otherwise, it wraps the `neptune_client` for multi-tenant support using</span>
+<span class="sd">        `MultiTenantGraphStore`.</span>
+
+<span class="sd">        :return: The Neptune database client, either directly or wrapped for the</span>
+<span class="sd">            corresponding tenant.</span>
+<span class="sd">        :rtype: NeptuneClient or MultiTenantGraphStore</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="o">.</span><span class="n">is_default_tenant</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">neptune_client</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">MultiTenantGraphStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">neptune_client</span><span class="p">,</span> <span class="n">tenant_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="NeptuneIndex.add_embeddings">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.add_embeddings">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds embeddings to provided nodes and updates the Neptune database with the</span>
+<span class="sd">        embeddings using a specific query.</span>
+
+<span class="sd">        The method assumes that the class is working with a Neptune database setup</span>
+<span class="sd">        and uses an embedding model to process nodes.</span>
+
+<span class="sd">        The process involves:</span>
+<span class="sd">            1. Adding metadata to the nodes.</span>
+<span class="sd">            2. Generating embeddings using the embedding model.</span>
+<span class="sd">            3. Executing a Cypher query for each node to update the Neptune database</span>
+<span class="sd">               with the embedding information.</span>
+<span class="sd">            4. Cleaning up metadata after processing is complete.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nodes: List of nodes to which embeddings will be added. Each node should be</span>
+<span class="sd">                structured and compatible with the embedding model and Neptune database setup.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The list of nodes with their information potentially updated after processing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">underlying_index_name</span><span class="p">()</span>
+
+        <span class="n">id_to_embed_map</span> <span class="o">=</span> <span class="n">embed_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_model</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+
+            <span class="n">statement</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;MATCH (n:`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">`) WHERE </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">neptune_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s1">&#39;n.</span><span class="si">{self.id_name}</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> = $nodeId&quot;</span>
+
+            <span class="n">embedding</span> <span class="o">=</span> <span class="n">id_to_embed_map</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">]</span>
+
+            <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">statement</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s1">&#39;WITH n CALL neptune.algo.vectors.upsert(n, </span><span class="si">{</span><span class="n">embedding</span><span class="si">}</span><span class="s1">) YIELD success RETURN success&#39;</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nodeId&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">,</span> <span class="s1">&#39;embedding&#39;</span><span class="p">:</span> <span class="n">embedding</span><span class="p">}</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_neptune_client</span><span class="p">()</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+
+            <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">nodes</span></div>
+
+
+<div class="viewcode-block" id="NeptuneIndex.top_k">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.top_k">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">top_k</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span>
+        <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes a top-K query against a graph database using a given query embedding. The query retrieves</span>
+<span class="sd">        the top-K results based on similarity scores computed from vector embeddings. The function can</span>
+<span class="sd">        filter results using a `FilterConfig` object, modify the query context with a tenant-specific</span>
+<span class="sd">        label, and limit the results based on the top-K value.</span>
+
+<span class="sd">        :param query_bundle: The query bundle that includes query string and embeddings.</span>
+<span class="sd">        :type query_bundle: QueryBundle</span>
+<span class="sd">        :param top_k: The number of top results to retrieve. Defaults to 5.</span>
+<span class="sd">        :type top_k: int</span>
+<span class="sd">        :param filter_config: An optional filter configuration to restrict query results. Defaults to None.</span>
+<span class="sd">        :type filter_config: Optional[FilterConfig]</span>
+<span class="sd">        :return: A list of top-K results, with each result including a score and specified return fields.</span>
+<span class="sd">        :rtype: List[Dict[str, Any]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;index: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">underlying_index_name</span><span class="p">()</span><span class="si">}</span>
+
+<span class="si">{</span><span class="n">query_bundle</span><span class="o">.</span><span class="n">query_str</span><span class="si">}</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+        <span class="n">query_bundle</span> <span class="o">=</span> <span class="n">QueryBundle</span><span class="p">(</span><span class="n">query_str</span><span class="o">=</span><span class="n">query_str</span><span class="p">)</span>
+        <span class="n">query_bundle</span> <span class="o">=</span> <span class="n">to_embedded_query</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_model</span><span class="p">)</span>
+
+        <span class="n">tenant_specific_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="o">.</span><span class="n">format_label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="n">where_clause</span> <span class="o">=</span> <span class="n">filter_config_to_opencypher_filters</span><span class="p">(</span><span class="n">filter_config</span><span class="p">)</span>
+        <span class="n">where_clause</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;WHERE </span><span class="si">{</span><span class="n">where_clause</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">where_clause</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;filter: </span><span class="si">{</span><span class="n">where_clause</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">cypher</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        CALL neptune.algo.vectors.topKByEmbedding(</span>
+<span class="s1">            </span><span class="si">{</span><span class="n">query_bundle</span><span class="o">.</span><span class="n">embedding</span><span class="si">}</span><span class="s1">,</span>
+<span class="s1">            </span><span class="se">{{</span><span class="s1">   </span>
+<span class="s1">                topK: </span><span class="si">{</span><span class="n">top_k</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">5</span><span class="si">}</span><span class="s1">,</span>
+<span class="s1">                concurrency: 4</span>
+<span class="s1">            </span><span class="se">}}</span>
+<span class="s1">        )</span>
+<span class="s1">        YIELD node, score       </span>
+<span class="s1">        WITH node as </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s1">, score WHERE &#39;</span><span class="si">{</span><span class="n">tenant_specific_label</span><span class="si">}</span><span class="s1">&#39; in labels(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s1">) </span>
+<span class="s1">        WITH </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s1">, score ORDER BY score ASC LIMIT </span><span class="si">{</span><span class="n">top_k</span><span class="si">}</span>
+<span class="s1">        MATCH </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span>
+<span class="s1">        </span><span class="si">{</span><span class="n">where_clause</span><span class="si">}</span>
+<span class="s1">        RETURN </span><span class="se">{{</span>
+<span class="s1">            score: score,</span>
+<span class="s1">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">return_fields</span><span class="si">}</span>
+<span class="s1">        </span><span class="se">}}</span><span class="s1"> AS result ORDER BY result.score ASC LIMIT </span><span class="si">{</span><span class="n">top_k</span><span class="si">}</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_neptune_client</span><span class="p">()</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="NeptuneIndex.get_embeddings">
+<a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.get_embeddings">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches embeddings for the given IDs by executing cypher queries against a</span>
+<span class="sd">        Neptune database. The function calculates embeddings for specified nodes,</span>
+<span class="sd">        filters them based on the tenant-specific label, and matches the defined</span>
+<span class="sd">        path to retrieve associated data.</span>
+
+<span class="sd">        :param ids: List of unique node IDs for which embeddings are retrieved.</span>
+<span class="sd">        :type ids: List[str]</span>
+<span class="sd">        :return: List of dictionaries containing embeddings and additional fields</span>
+<span class="sd">                 returned by the query.</span>
+<span class="sd">        :rtype: List[dict]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_results</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">tenant_specific_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="o">.</span><span class="n">format_label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
+
+            <span class="n">cypher</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            MATCH (n:`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s1">`)  WHERE </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">neptune_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s1">&#39;n.</span><span class="si">{self.id_name}</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s1"> = $elementId</span>
+<span class="s1">            CALL neptune.algo.vectors.get(</span>
+<span class="s1">                n</span>
+<span class="s1">            )</span>
+<span class="s1">            YIELD node, embedding       </span>
+<span class="s1">            WITH node as </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s1">, embedding WHERE &#39;</span><span class="si">{</span><span class="n">tenant_specific_label</span><span class="si">}</span><span class="s1">&#39; in labels(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s1">) </span>
+<span class="s1">            MATCH </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span>
+<span class="s1">            RETURN </span><span class="se">{{</span>
+<span class="s1">                embedding: embedding,</span>
+<span class="s1">                </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">return_fields</span><span class="si">}</span>
+<span class="s1">            </span><span class="se">}}</span><span class="s1"> AS result</span>
+<span class="s1">            &#39;&#39;&#39;</span>
+
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;elementId&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">}</span>
+
+            <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_neptune_client</span><span class="p">()</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                <span class="n">all_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">all_results</span></div>
+</div>
+
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Amazon Web Services, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+            
+            <div class="legal-info">
+                <a href="https://aws.amazon.com/privacy">Privacy</a> | 
+                <a href="https://aws.amazon.com/terms">Site Terms</a> | 
+                <a href="#" id="cookie-button-link">Cookie preferences</a>
+            </div>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/awslabs/graphrag-toolkit" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
+    </body>
+</html>
