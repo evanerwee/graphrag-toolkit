@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -343,25 +346,19 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">get_top_k</span><span class="p">,</span>
-    <span class="n">SharedEmbeddingCache</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SemanticGuidedBaseRetriever</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_top_k</span><span class="p">,</span> <span class="n">SharedEmbeddingCache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="n">SemanticGuidedBaseRetriever</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">NodeWithScore</span><span class="p">,</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">TextNode</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="SemanticBeamGraphSearch">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search.SemanticBeamGraphSearch">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SemanticBeamGraphSearch</span><span class="p">(</span><span class="n">SemanticGuidedBaseRetriever</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class that implements a semantic-guided beam search algorithm on a</span>
-<span class="sd">    graph-based data store, facilitating retrieval tasks involving entity</span>
-<span class="sd">    relationships and embedding-based similarity.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class that implements a semantic-guided beam search algorithm on a graph-based data store,</span>
+<span class="sd">    facilitating retrieval tasks involving entity relationships and embedding-based similarity.</span>
 
 <span class="sd">    The `SemanticBeamGraphSearch` class builds upon a base retriever to utilize a combination of graph-based</span>
 <span class="sd">    neighbor expansion and beam search heuristic optimization. It is designed to process queries, traverse</span>
@@ -374,24 +371,22 @@
 <span class="sd">        max_depth (int): Maximum number of graph traversal levels during beam search.</span>
 <span class="sd">        beam_width (int): Number of candidate states to consider at each step in the beam search.</span>
 <span class="sd">        shared_nodes (Optional[List[NodeWithScore]]): Initial shared nodes to derive the starting points.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">,</span>
-        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span>
-        <span class="n">embedding_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SharedEmbeddingCache</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="n">beam_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="n">shared_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">,</span>
+        <span class="n">graph_store</span><span class="p">:</span><span class="n">GraphStore</span><span class="p">,</span>
+        <span class="n">embedding_cache</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">SharedEmbeddingCache</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_depth</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">beam_width</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">shared_nodes</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">filter_config</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes a class that manages the connection between a vector</span>
-<span class="sd">        store, a graph store, and an optional embedding cache, allowing complex</span>
-<span class="sd">        data structure processing through specific search depth and beam width</span>
-<span class="sd">        configurations.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a class that manages the connection between a vector store, a graph store, and</span>
+<span class="sd">        an optional embedding cache, allowing complex data structure processing through specific</span>
+<span class="sd">        search depth and beam width configurations.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            vector_store: The storage facility adhering to the VectorStore interface for</span>
@@ -419,9 +414,9 @@
 <div class="viewcode-block" id="SemanticBeamGraphSearch.get_neighbors">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search.SemanticBeamGraphSearch.get_neighbors">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetches the neighboring statement IDs in the graph, where</span>
-<span class="sd">        neighboring statements are associated with any entities connected to</span>
-<span class="sd">        the given statement.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches the neighboring statement IDs in the graph, where neighboring statements are associated</span>
+<span class="sd">        with any entities connected to the given statement.</span>
 
 <span class="sd">        This method queries the graph database to identify entities that are directly linked to the</span>
 <span class="sd">        provided statement and retrieves other statements supported by these entities.</span>
@@ -440,20 +435,20 @@
 <span class="s2">        MATCH (entity)-[:`__SUBJECT__`|`__OBJECT__`]-&gt;(:`__Fact__`)-[:`__SUPPORTS__`]-&gt;(e_neighbors:`__Statement__`)</span>
 <span class="s2">        RETURN DISTINCT </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s1">&#39;e_neighbors.statementId&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> as statementId</span>
 <span class="s2">        &quot;&quot;&quot;</span>
-
-        <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span>
-            <span class="n">cypher</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;statementId&#39;</span><span class="p">:</span> <span class="n">statement_id</span><span class="p">}</span>
-        <span class="p">)</span>
+        
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;statementId&#39;</span><span class="p">:</span> <span class="n">statement_id</span><span class="p">})</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="SemanticBeamGraphSearch.beam_search">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search.SemanticBeamGraphSearch.beam_search">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">beam_search</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">query_embedding</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">start_statement_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">,</span> 
+        <span class="n">query_embedding</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">start_statement_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>  <span class="c1"># [(statement_id, path), ...]</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs a beam search to find the most relevant paths based on the</span>
-<span class="sd">        provided query embedding.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs a beam search to find the most relevant paths based on the provided query embedding.</span>
 
 <span class="sd">        The search starts from given initial statement IDs and explores their neighbors up to a maximum</span>
 <span class="sd">        depth. It uses a priority queue to ensure that the paths with the highest similarity scores</span>
@@ -466,8 +461,9 @@
 <span class="sd">            start_statement_ids (List[str]): A list of statement IDs to start the beam search from.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            List[Tuple[str, List[str]]]: A list of tuples where each tuple consists of a statement ID and its corresponding path of IDs that led to it. The length of the returned list does not exceed the beam width.</span>
-
+<span class="sd">            List[Tuple[str, List[str]]]: A list of tuples where each tuple consists of a statement ID</span>
+<span class="sd">            and its corresponding path of IDs that led to it. The length of the returned list does</span>
+<span class="sd">            not exceed the beam width.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">visited</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -476,7 +472,9 @@
         <span class="c1"># Get initial embeddings and scores</span>
         <span class="n">start_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_cache</span><span class="o">.</span><span class="n">get_embeddings</span><span class="p">(</span><span class="n">start_statement_ids</span><span class="p">)</span>
         <span class="n">start_scores</span> <span class="o">=</span> <span class="n">get_top_k</span><span class="p">(</span>
-            <span class="n">query_embedding</span><span class="p">,</span> <span class="n">start_embeddings</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">start_statement_ids</span><span class="p">)</span>
+            <span class="n">query_embedding</span><span class="p">,</span>
+            <span class="n">start_embeddings</span><span class="p">,</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">start_statement_ids</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="c1"># Initialize queue with start statements</span>
@@ -494,33 +492,35 @@
 
             <span class="k">if</span> <span class="n">depth</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_depth</span><span class="p">:</span>
                 <span class="n">neighbor_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">current_id</span><span class="p">)</span>
-
+                
                 <span class="k">if</span> <span class="n">neighbor_ids</span><span class="p">:</span>
                     <span class="c1"># Get embeddings for neighbors using shared cache</span>
-                    <span class="n">neighbor_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_cache</span><span class="o">.</span><span class="n">get_embeddings</span><span class="p">(</span>
-                        <span class="n">neighbor_ids</span>
-                    <span class="p">)</span>
-
+                    <span class="n">neighbor_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_cache</span><span class="o">.</span><span class="n">get_embeddings</span><span class="p">(</span><span class="n">neighbor_ids</span><span class="p">)</span>
+                    
                     <span class="c1"># Score neighbors</span>
                     <span class="n">scored_neighbors</span> <span class="o">=</span> <span class="n">get_top_k</span><span class="p">(</span>
-                        <span class="n">query_embedding</span><span class="p">,</span> <span class="n">neighbor_embeddings</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beam_width</span>
+                        <span class="n">query_embedding</span><span class="p">,</span>
+                        <span class="n">neighbor_embeddings</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">beam_width</span>
                     <span class="p">)</span>
 
                     <span class="c1"># Add neighbors to queue</span>
                     <span class="k">for</span> <span class="n">similarity</span><span class="p">,</span> <span class="n">neighbor_id</span> <span class="ow">in</span> <span class="n">scored_neighbors</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">neighbor_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
                             <span class="n">new_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="p">[</span><span class="n">neighbor_id</span><span class="p">]</span>
-                            <span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="o">-</span><span class="n">similarity</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">neighbor_id</span><span class="p">,</span> <span class="n">new_path</span><span class="p">))</span>
+                            <span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span>
+                                <span class="p">(</span><span class="o">-</span><span class="n">similarity</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">neighbor_id</span><span class="p">,</span> <span class="n">new_path</span><span class="p">)</span>
+                            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">results</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves nodes relevant to a query by performing an initial</span>
-<span class="sd">        extraction of statement IDs either from shared nodes or through a</span>
-<span class="sd">        fallback vector similarity search, followed by a beam search to further</span>
-<span class="sd">        refine the results. Constructs new nodes for any statements not already</span>
-<span class="sd">        processed.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves nodes relevant to a query by performing an initial extraction of</span>
+<span class="sd">        statement IDs either from shared nodes or through a fallback vector similarity</span>
+<span class="sd">        search, followed by a beam search to further refine the results. Constructs</span>
+<span class="sd">        new nodes for any statements not already processed.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            query_bundle (QueryBundle): The input query packaged as a QueryBundle</span>
@@ -535,29 +535,36 @@
         <span class="n">initial_statement_ids</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_nodes</span><span class="p">:</span>
             <span class="n">initial_statement_ids</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">n</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_nodes</span>
+                <span class="n">n</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span> 
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_nodes</span>
             <span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Fallback to vector similarity</span>
             <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span><span class="o">.</span><span class="n">get_index</span><span class="p">(</span><span class="s1">&#39;statement&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">top_k</span><span class="p">(</span>
                 <span class="n">query_bundle</span><span class="p">,</span>
                 <span class="n">top_k</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_width</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
-                <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="p">,</span>
+                <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span>
             <span class="p">)</span>
-            <span class="n">initial_statement_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+            <span class="n">initial_statement_ids</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">r</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span>
+            <span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>    
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;initial_statement_ids: </span><span class="si">{</span><span class="n">initial_statement_ids</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num initial_statement_ids: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">initial_statement_ids</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">initial_statement_ids</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
 
         <span class="c1"># 2. Perform beam search</span>
-        <span class="n">beam_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beam_search</span><span class="p">(</span><span class="n">query_bundle</span><span class="o">.</span><span class="n">embedding</span><span class="p">,</span> <span class="n">initial_statement_ids</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
+        <span class="n">beam_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beam_search</span><span class="p">(</span>
+            <span class="n">query_bundle</span><span class="o">.</span><span class="n">embedding</span><span class="p">,</span>
+            <span class="n">initial_statement_ids</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>  
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;beam_results: </span><span class="si">{</span><span class="n">beam_results</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num beam_results: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">beam_results</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -573,12 +580,12 @@
                         <span class="s1">&#39;statement&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;statementId&#39;</span><span class="p">:</span> <span class="n">statement_id</span><span class="p">},</span>
                         <span class="s1">&#39;search_type&#39;</span><span class="p">:</span> <span class="s1">&#39;beam_search&#39;</span><span class="p">,</span>
                         <span class="s1">&#39;depth&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">),</span>
-                        <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span><span class="p">,</span>
-                    <span class="p">},</span>
+                        <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span>
+                    <span class="p">}</span>
                 <span class="p">)</span>
                 <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NodeWithScore</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="mf">0.0</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>      
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;nodes: </span><span class="si">{</span><span class="n">nodes</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num nodes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>

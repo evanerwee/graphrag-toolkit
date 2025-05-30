@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -349,42 +352,29 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMCache</span><span class="p">,</span> <span class="n">LLMCacheType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ENHANCE_STATEMENT_SYSTEM_PROMPT</span><span class="p">,</span>
-    <span class="n">ENHANCE_STATEMENT_USER_PROMPT</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ENHANCE_STATEMENT_SYSTEM_PROMPT</span><span class="p">,</span> <span class="n">ENHANCE_STATEMENT_USER_PROMPT</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
 
 <div class="viewcode-block" id="StatementEnhancementPostProcessor">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StatementEnhancementPostProcessor</span><span class="p">(</span><span class="n">BaseNodePostprocessor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Enhances text statements within nodes using a language model (LLM) to improve</span>
-<span class="sd">    their clarity, completeness, or quality.</span>
+<span class="sd">    Post-processes nodes to enhance their statements using provided language model and templates.</span>
 
-<span class="sd">    This class processes nodes containing textual statements and metadata. The</span>
-<span class="sd">    primary functionality is enhancing text through the use of a large language</span>
-<span class="sd">    model (LLM). It provides configurable options such as maximum concurrency,</span>
-<span class="sd">    customizable system and user prompts, and a predefined language model</span>
-<span class="sd">    interaction template.</span>
+<span class="sd">    The `StatementEnhancementPostProcessor` class is responsible for enhancing textual statements</span>
+<span class="sd">    associated with nodes. This class utilizes a language model and specific templates to improve</span>
+<span class="sd">    the quality or formatting of the statements based on the provided chunk context. The enhancement</span>
+<span class="sd">    is performed concurrently on multiple nodes for efficiency.</span>
 
-<span class="sd">    :ivar llm: An optional cache for the large language model. Defaults to None, in</span>
-<span class="sd">        which case a new cache instance is initialized with default settings.</span>
-<span class="sd">    :type llm: Optional[LLMCache]</span>
-<span class="sd">    :ivar max_concurrent: The maximum number of nodes processed concurrently. This</span>
-<span class="sd">        attribute determines the threading pool size utilized in processing.</span>
-<span class="sd">    :type max_concurrent: int</span>
-<span class="sd">    :ivar system_prompt: The default system prompt message content, which is used</span>
-<span class="sd">        as the initial SYSTEM role text in the chat template.</span>
-<span class="sd">    :type system_prompt: str</span>
-<span class="sd">    :ivar user_prompt: The default user prompt message content, which is used as</span>
-<span class="sd">        the USER role text in the chat template.</span>
-<span class="sd">    :type user_prompt: str</span>
-<span class="sd">    :ivar enhance_template: A chat prompt template initialized with system and user</span>
-<span class="sd">        prompt messages. It serves as the format for interacting with the LLM.</span>
-<span class="sd">    :type enhance_template: ChatPromptTemplate</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        llm (Optional[LLMCache]): Language model cache used for enhancing statements. Defaults to</span>
+<span class="sd">            `None`, in which case a default LLM configuration is used.</span>
+<span class="sd">        max_concurrent (int): Maximum number of nodes to process concurrently. Defaults to 10.</span>
+<span class="sd">        system_prompt (str): System-level prompt used as part of the enhancement template.</span>
+<span class="sd">        user_prompt (str): User-level prompt used as part of the enhancement template.</span>
+<span class="sd">        enhance_template (ChatPromptTemplate): Template used to structure the prompts for the</span>
+<span class="sd">            language model.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMCache</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -395,15 +385,16 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">llm</span><span class="p">:</span> <span class="n">LLMCacheType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">llm</span><span class="p">:</span><span class="n">LLMCacheType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">system_prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ENHANCE_STATEMENT_SYSTEM_PROMPT</span><span class="p">,</span>
         <span class="n">user_prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ENHANCE_STATEMENT_USER_PROMPT</span><span class="p">,</span>
-        <span class="n">max_concurrent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">max_concurrent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of the class with an optional large language</span>
-<span class="sd">        model (LLM) cache, a system prompt, a user prompt, and a configurable</span>
-<span class="sd">        maximum number of concurrent executions. The system and user prompts</span>
-<span class="sd">        initialize a chat template with predefined message roles and content.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes an instance of the class with an optional large language model (LLM)</span>
+<span class="sd">        cache, a system prompt, a user prompt, and a configurable maximum number of</span>
+<span class="sd">        concurrent executions. The system and user prompts initialize a chat template with</span>
+<span class="sd">        predefined message roles and content.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            llm: An optional large language model cache of type LLMCacheType. If none is</span>
@@ -416,33 +407,27 @@
 <span class="sd">                executions allowed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">llm</span>
-            <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span>
-            <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
-                <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">response_llm</span><span class="p">,</span>
-                <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span><span class="p">,</span>
-            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="n">llm</span> <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span> <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
+            <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">response_llm</span><span class="p">,</span>
+            <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_concurrent</span> <span class="o">=</span> <span class="n">max_concurrent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">system_prompt</span> <span class="o">=</span> <span class="n">system_prompt</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_prompt</span> <span class="o">=</span> <span class="n">user_prompt</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">enhance_template</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="p">(</span>
-            <span class="n">message_templates</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">SYSTEM</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">),</span>
-                <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">user_prompt</span><span class="p">),</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">enhance_template</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="p">(</span><span class="n">message_templates</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">SYSTEM</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">),</span>
+            <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">user_prompt</span><span class="p">),</span>
+        <span class="p">])</span>
 
 <div class="viewcode-block" id="StatementEnhancementPostProcessor.enhance_statement">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.enhance_statement">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">enhance_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">NodeWithScore</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeWithScore</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enhances the statement of the input node by generating a modified</span>
-<span class="sd">        version of the statement using a large language model (LLM). This</span>
-<span class="sd">        method updates the node with the enhanced statement if the enhancement</span>
-<span class="sd">        is successful. If an error occurs or the enhancement is unsuccessful,</span>
-<span class="sd">        the original node is returned as-is.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enhances the statement of the input node by generating a modified version of the</span>
+<span class="sd">        statement using a large language model (LLM). This method updates the node with</span>
+<span class="sd">        the enhanced statement if the enhancement is successful. If an error occurs or</span>
+<span class="sd">        the enhancement is unsuccessful, the original node is returned as-is.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            node (NodeWithScore): The input node containing a text statement and</span>
@@ -460,22 +445,22 @@
             <span class="p">)</span>
             <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&lt;modified_statement&gt;(.*?)&lt;/modified_statement&gt;&#39;</span>
             <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
-
+            
             <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
                 <span class="n">enhanced_text</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
                 <span class="n">new_node</span> <span class="o">=</span> <span class="n">TextNode</span><span class="p">(</span>
-                    <span class="n">text</span><span class="o">=</span><span class="n">enhanced_text</span><span class="p">,</span>
+                    <span class="n">text</span><span class="o">=</span><span class="n">enhanced_text</span><span class="p">,</span>  
                     <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
-                        <span class="s1">&#39;statement&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;statement&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">],</span> 
                         <span class="s1">&#39;chunk&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;chunk&#39;</span><span class="p">],</span>
                         <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span>
-                        <span class="s1">&#39;search_type&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;search_type&#39;</span><span class="p">),</span>
-                    <span class="p">},</span>
+                        <span class="s1">&#39;search_type&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;search_type&#39;</span><span class="p">)</span>
+                    <span class="p">}</span>
                 <span class="p">)</span>
                 <span class="k">return</span> <span class="n">NodeWithScore</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">new_node</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
-
+            
             <span class="k">return</span> <span class="n">node</span>
-
+            
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error enhancing statement: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">node</span></div>
@@ -486,8 +471,8 @@
         <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">],</span>
         <span class="n">query_bundle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QueryBundle</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Post-processes a list of nodes by applying enhancements</span>
-<span class="sd">        concurrently.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Post-processes a list of nodes by applying enhancements concurrently.</span>
 
 <span class="sd">        This method takes a list of nodes, processes each node through the</span>
 <span class="sd">        `enhance_statement` method, and returns the processed nodes as a list. It uses</span>
@@ -502,11 +487,10 @@
 <span class="sd">            A list of `NodeWithScore` objects after being processed through the</span>
 <span class="sd">            `enhance_statement` method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span>
-            <span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_concurrent</span>
-        <span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_concurrent</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">enhance_statement</span><span class="p">,</span> <span class="n">nodes</span><span class="p">))</span></div>
 
+        
 </pre></div>
         </article>
       </div>

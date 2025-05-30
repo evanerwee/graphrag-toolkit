@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -347,73 +350,64 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="get_diverse_vss_elements">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.get_diverse_vss_elements">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_diverse_vss_elements</span><span class="p">(</span>
-    <span class="n">index_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span>
-    <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">,</span>
-    <span class="n">args</span><span class="p">:</span> <span class="n">ProcessorArgs</span><span class="p">,</span>
-    <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">],</span>
-<span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_diverse_vss_elements</span><span class="p">(</span><span class="n">index_name</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span><span class="n">ProcessorArgs</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Retrieve a diverse set of elements from a vector search store (VSS) based on the specified top-k</span>
-<span class="sd">    and diversity factor. This function ensures that elements are sampled from different sources</span>
-<span class="sd">    based on their diversity.</span>
+<span class="sd">    Retrieve diverse elements from a vector search system (VSS) by applying a diversity</span>
+<span class="sd">    factor to limit redundancy among results.</span>
 
-<span class="sd">    :param index_name: The name of the index to query.</span>
-<span class="sd">    :type index_name: str</span>
-<span class="sd">    :param query_bundle: The query information used to fetch results from the vector store.</span>
-<span class="sd">    :type query_bundle: QueryBundle</span>
-<span class="sd">    :param vector_store: The vector store to query for elements.</span>
-<span class="sd">    :type vector_store: VectorStore</span>
-<span class="sd">    :param args: Arguments containing settings for the query, including top-k and diversity factor.</span>
-<span class="sd">    :type args: ProcessorArgs</span>
-<span class="sd">    :param filter_config: Optional filter configuration to apply additional constraints on the query.</span>
-<span class="sd">    :type filter_config: Optional[FilterConfig]</span>
-<span class="sd">    :return: A list of diverse elements retrieved from the vector search store.</span>
-<span class="sd">    :rtype: List[dict]</span>
+<span class="sd">    This function queries a vector store using the provided query, index, and filter</span>
+<span class="sd">    configuration, then applies a diversity mechanism to return results with more</span>
+<span class="sd">    heterogeneity. The diversity factor determines the level of diversification among</span>
+<span class="sd">    the results.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        index_name (str): Name of the index to search in the vector store.</span>
+<span class="sd">        query_bundle (QueryBundle): Query object containing the necessary details for</span>
+<span class="sd">            executing the search.</span>
+<span class="sd">        vector_store (VectorStore): Vector store instance to query for retrieving the</span>
+<span class="sd">            elements.</span>
+<span class="sd">        args (ProcessorArgs): Arguments object containing configurations for top-k</span>
+<span class="sd">            results and the diversity factor.</span>
+<span class="sd">        filter_config (Optional[FilterConfig]): Optional filter configuration to</span>
+<span class="sd">            refine the query results.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: A list of diverse elements from the vector store result set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">diversity_factor</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">vss_diversity_factor</span>
     <span class="n">vss_top_k</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">vss_top_k</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">diversity_factor</span> <span class="ow">or</span> <span class="n">diversity_factor</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">get_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">top_k</span><span class="p">(</span>
-            <span class="n">query_bundle</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="n">vss_top_k</span><span class="p">,</span> <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">get_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">top_k</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="n">vss_top_k</span><span class="p">,</span> <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">)</span>
 
     <span class="n">top_k</span> <span class="o">=</span> <span class="n">vss_top_k</span> <span class="o">*</span> <span class="n">diversity_factor</span>
-
-    <span class="n">elements</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">get_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">top_k</span><span class="p">(</span>
-        <span class="n">query_bundle</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="n">top_k</span><span class="p">,</span> <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span>
-    <span class="p">)</span>
-
+        
+    <span class="n">elements</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">get_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">top_k</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="n">top_k</span><span class="p">,</span> <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">)</span>
+        
     <span class="n">source_map</span> <span class="o">=</span> <span class="p">{}</span>
-
+        
     <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
         <span class="n">source_id</span> <span class="o">=</span> <span class="n">element</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">][</span><span class="s1">&#39;sourceId&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">source_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">source_map</span><span class="p">:</span>
             <span class="n">source_map</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
         <span class="n">source_map</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
-
+            
     <span class="n">elements_by_source</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
-
+        
     <span class="k">for</span> <span class="n">source_elements</span> <span class="ow">in</span> <span class="n">source_map</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
         <span class="n">elements_by_source</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">source_elements</span><span class="p">)</span>
-
+        
     <span class="n">diverse_elements</span> <span class="o">=</span> <span class="p">[]</span>
-
+        
     <span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <span class="n">elements_by_source</span><span class="o">.</span><span class="n">empty</span><span class="p">())</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">diverse_elements</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">vss_top_k</span><span class="p">:</span>
         <span class="n">source_elements</span> <span class="o">=</span> <span class="n">elements_by_source</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="n">diverse_elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">source_elements</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">source_elements</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
             <span class="n">elements_by_source</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">source_elements</span><span class="p">)</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s1">&#39;Diverse </span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">s:</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">--------------</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">diverse_elements</span><span class="p">])</span>
-    <span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Diverse </span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">s:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">--------------</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">diverse_elements</span><span class="p">]))</span>
 
     <span class="k">return</span> <span class="n">diverse_elements</span></div>
 

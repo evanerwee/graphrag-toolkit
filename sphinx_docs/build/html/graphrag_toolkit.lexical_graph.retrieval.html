@@ -5,7 +5,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="graphrag_toolkit.lexical_graph.retrieval.post_processors package" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html" /><link rel="prev" title="graphrag_toolkit.lexical_graph.indexing.utils package" href="graphrag_toolkit.lexical_graph.indexing.utils.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="graphrag_toolkit.lexical_graph.retrieval.post_processors package" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html" /><link rel="prev" title="graphrag_toolkit.lexical_graph.protocols package" href="graphrag_toolkit.lexical_graph.protocols.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.retrieval package - graphrag-toolkit 3.6.1 documentation</title>
@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 current has-children current-page"><a class="current reference internal" href="#">graphrag_toolkit.lexical_graph.retrieval package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -617,6 +620,19 @@
 <li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html#module-graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary">graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html#graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary.GraphSummary"><code class="docutils literal notranslate"><span class="pre">GraphSummary</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html#graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary.GraphSummary.create_graph_summary"><code class="docutils literal notranslate"><span class="pre">GraphSummary.create_graph_summary()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html#graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary.get_domain"><code class="docutils literal notranslate"><span class="pre">get_domain()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html#module-graphrag_toolkit.lexical_graph.retrieval.summary">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html#module-graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition">graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition module</a><ul>
@@ -657,17 +673,19 @@
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Chunk">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">Chunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunkId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#Chunk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a Chunk model with strict configuration.</p>
-<p>This class defines a chunk structure with attributes such as its unique
-identifier, an optional value, and an optional score. It is primarily used
-to store and manage data related to individual chunks within a dataset or
-system. The class ensures strict validation of its structure via the
-inherited <cite>ConfigDict</cite> strict mode.</p>
-<dl class="simple">
-<dt>Attributes:</dt><dd><p>chunkId (str): A unique identifier for the chunk.
-value (Optional[str]): An optional value associated with the chunk.
-score (Optional[float]): An optional score indicating some metric
-related to the chunk.</p>
+<p>Represents a single unit or segment of data with an associated identifier, optional value,
+and score.</p>
+<p>This class is used to encapsulate data chunks with a unique identifier. These chunks may
+optionally include a value and a numerical score, where the score represents some measure
+of relevance or quality. This design follows strict configuration rules as defined by its
+base configuration model.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>chunkId (str): The unique identifier for the data chunk.
+value (Optional[str]): The optional value or content of the data chunk. Default is None.
+score (Optional[float]): The optional score or weight assigned to the data chunk.</p>
+<blockquote>
+<div><p>Default is None.</p>
+</div></blockquote>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -701,17 +719,20 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Entity">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">Entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">entityId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classification</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#Entity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Entity" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents an entity model with specific configurations and attributes.</p>
-<p>This class defines an entity structure with attributes for ID, value, and
-classification. It enforces strict configuration settings through a model
-configuration and supports aliasing for specific fields. Typically used to
-represent structured data objects with validation in applications requiring
-strict field type adherence.</p>
-<dl class="simple">
+<p>Represents an entity with specific attributes and configuration.</p>
+<p>This class is designed to represent an entity with an identifier, value, and
+classification. It enforces a strict configuration model to validate and
+ensure the integrity of its data. The classification attribute supports aliasing
+for flexible data input. Intended for structured data modeling, this class
+inherits from <cite>BaseModel</cite>, leveraging Pydantic’s data validation and parsing
+capabilities.</p>
+<dl>
 <dt>Attributes:</dt><dd><p>entityId (str): Unique identifier for the entity.
-value (str): Value or content associated with the entity.
-classification (str): Category or classification of the entity, supporting alias
-fields such as ‘class’ or ‘classification’.</p>
+value (str): The value associated with the entity.
+classification (str): Classification or category of the entity. It supports</p>
+<blockquote>
+<div><p>aliasing through ‘class’ or ‘classification’ during data input.</p>
+</div></blockquote>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -780,15 +801,23 @@ validated to form a valid model.</p>
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">SearchResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source" title="graphrag_toolkit.lexical_graph.retrieval.model.Source"><span class="pre">Source</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">topics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic" title="graphrag_toolkit.lexical_graph.retrieval.model.Topic"><span class="pre">Topic</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement" title="graphrag_toolkit.lexical_graph.retrieval.model.Statement"><span class="pre">Statement</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#SearchResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Represents the result of a search operation.</p>
-<p>This class models the result of a search operation, including the source of
-the result, relevant topics, selected topic, associated statements, and an
-optional score indicating the quality or relevance of the result.</p>
+<p>This class encapsulates details about the outcome of a search operation,
+including the source of the result, associated topics, an optional single
+topic, a list of statements, and an optional score indicating relevance. It
+is designed to enforce strict model configuration validation.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>source (SourceType): The origin or type of the search result.
+topics (List[Topic]): List of topics related to the search result.
+topic (Optional[str]): A single optional topic associated with the search</p>
+<blockquote>
+<div><p>result.</p>
+</div></blockquote>
 <dl class="simple">
-<dt>Attributes:</dt><dd><p>source (SourceType): The source from which the search result was obtained.
-topics (List[Topic]): A list of topics relevant to the search result.
-topic (Optional[str]): An optional single selected topic associated with the search result.
-statements (List[StatementType]): A list of statements relevant to the search result.
-score (Optional[float]): An optional score indicating the quality or relevance of the search result.</p>
+<dt>statements (List[StatementType]): A collection of statements returned</dt><dd><p>from the search.</p>
+</dd>
+<dt>score (Optional[float]): The optional score indicating the relevance of</dt><dd><p>the search result.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -832,18 +861,21 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">SearchResultCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult"><span class="pre">SearchResult</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity" title="graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity"><span class="pre">ScoredEntity</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#SearchResultCollection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a collection of search results and associated scored
-entities.</p>
+<p>Represents a collection of search results and associated scored entities.</p>
 <p>The class is designed to store and manage a list of search results and
 a list of scored entities resulting from a search operation. It provides
 methods to add search results and entities, as well as to replace
 the current set of search results with a new set.</p>
-<dl class="simple">
-<dt>Attributes:</dt><dd><p>model_config: Configuration settings for the model. The strict setting
-ensures that data types and structures are strictly enforced.
-results (List[SearchResult]): A list of search result objects.
-entities (List[ScoredEntity]): A list of scored entities associated
-with the search results.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>model_config: Configuration settings for the model. The strict setting</dt><dd><p>ensures that data types and structures are strictly enforced.</p>
+</dd>
+</dl>
+<p>results (List[SearchResult]): A list of search result objects.
+entities (List[ScoredEntity]): A list of scored entities associated</p>
+<blockquote>
+<div><p>with the search results.</p>
+</div></blockquote>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -853,8 +885,8 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.add_entity">
 <span class="sig-name descname"><span class="pre">add_entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity" title="graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity"><span class="pre">ScoredEntity</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#SearchResultCollection.add_entity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.add_entity" title="Link to this definition">¶</a></dt>
-<dd><p>Adds an entity to the list of entities, either merging it with an
-existing entity or appending it as a new entry.</p>
+<dd><p>Adds an entity to the list of entities, either merging it with an existing entity
+or appending it as a new entry.</p>
 <p>If the entity already exists in the list (based on a matching <cite>entityId</cite>),
 its score is incremented by the score of the added entity. Otherwise, the
 new entity is appended to the list.</p>
@@ -873,8 +905,10 @@ results maintained by the instance. It is intended to manage the
 storage of search results during execution, ensuring they are added
 in the order they are received.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>result: A SearchResult object representing the search result
-to be added to the list of results.</p>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>result: A SearchResult object representing the search result</dt><dd><p>to be added to the list of results.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -898,13 +932,14 @@ to be added to the list of results.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.with_new_results">
 <span class="sig-name descname"><span class="pre">with_new_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResult"><span class="pre">SearchResult</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#SearchResultCollection.with_new_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.with_new_results" title="Link to this definition">¶</a></dt>
-<dd><p>Updates the current object with new search results and returns the
-updated object. This allows for fluent interface pattern by returning
-the instance itself after updating its state with the provided search
-results.</p>
+<dd><p>Updates the current object with new search results and returns the updated object. This allows for
+fluent interface pattern by returning the instance itself after updating its state with the provided
+search results.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>results (List[SearchResult]): A list of SearchResult objects to update the instance’s current
-results data.</p>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>results (List[SearchResult]): A list of SearchResult objects to update the instance’s current</dt><dd><p>results data.</p>
+</dd>
+</dl>
 </dd>
 <dt>Returns:</dt><dd><p>The current instance with the updated results.</p>
 </dd>
@@ -917,14 +952,17 @@ results data.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Source">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">Source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">sourceId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#Source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Source" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a source entity with a unique identifier and associated
-metadata.</p>
+<p>Represents a source entity with a unique identifier and associated metadata.</p>
 <p>This class is used to encapsulate information about a data source, including a
 unique identifier (sourceId) and optional metadata as key-value pairs. It ensures
 that data adheres to a strict schema through its configuration.</p>
-<dl class="simple">
+<dl>
 <dt>Attributes:</dt><dd><p>sourceId (str): A unique identifier for the source.
-metadata (Dict[str, str]): A dictionary representing additional information about the source, where keys and values are both strings. Defaults to an empty dictionary.</p>
+metadata (Dict[str, str]): A dictionary representing additional information</p>
+<blockquote>
+<div><p>about the source, where keys and values are both strings. Defaults to an
+empty dictionary.</p>
+</div></blockquote>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -953,21 +991,22 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Statement">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">Statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">statementId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">details</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunkId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#Statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a statement model with associated attributes for processing
-statements, their details, facts, and related metadata.</p>
-<p>The <cite>Statement</cite> class is intended to model a structured statement object, allowing the
-definition of a main statement, optional metadata such as statement ID, related facts,
-chunk reference, calculated score, and an alternative string representation of the
-statement. This model ensures strict validation of its attributes and enforces data
-consistency.</p>
-<dl class="simple">
-<dt>Attributes:</dt><dd><p>statementId (Optional[str]): Optional unique identifier of the statement.
+<p>Represents a statement model with associated metadata and attributes.</p>
+<p>This class encapsulates the concept of a statement, which includes its content,
+associated facts, optional details, scoring information, and other metadata.
+It provides a structure for organizing and managing statement-related data
+within the context of the application.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>statementId (Optional[str]): The unique identifier of the statement.
 statement (str): The main content of the statement.
-facts (List[str]): A list of related factual statements.
-details (Optional[str]): Additional details or explanations for the statement.
-chunkId (Optional[str]): Identifier for the chunk to which this statement belongs.
-score (Optional[float]): Optional score or relevance metric for the statement.
-statement_str (Optional[str]): Optional alternative string representation of the statement.</p>
+facts (List[str]): A list of facts associated with the statement.
+details (Optional[str]): Additional details about the statement.
+chunkId (Optional[str]): An identifier for the chunk the statement is a part of.
+score (Optional[float]): The score associated with the statement, indicating</p>
+<blockquote>
+<div><p>its relevance or confidence.</p>
+</div></blockquote>
+<p>statement_str (Optional[str]): A string representation of the statement.</p>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1021,16 +1060,26 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.model.Topic">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.model.</span></span><span class="sig-name descname"><span class="pre">Topic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">topic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Chunk" title="graphrag_toolkit.lexical_graph.retrieval.model.Chunk"><span class="pre">Chunk</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.model.Statement" title="graphrag_toolkit.lexical_graph.retrieval.model.Statement"><span class="pre">Statement</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/model.html#Topic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.model.Topic" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a topic containing related chunks and statements.</p>
-<p>This class defines a topic with associated chunks and statements. It can
-be used to organize data relevant to a particular subject, ensuring
-relationships and groupings are maintained for further processing or
-analysis.</p>
+<p>Represents a topic within a specific context.</p>
+<p>This class encapsulates the details of a topic, including its name, associated
+chunks, and related statements. It is used as a fundamental data structure to
+organize and manage topic information. The <cite>model_config</cite> attribute ensures
+that the class operates in strict mode, enforcing stricter validation and
+runtime rules when used within the application.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>model_config (ConfigDict): Configuration for the model with strict mode</dt><dd><p>enabled.</p>
+</dd>
+</dl>
+<p>topic (str): The main title or name of the topic.
+chunks (List[Chunk]): A collection of chunks associated with the topic.</p>
+<blockquote>
+<div><p>By default, it is an empty list.</p>
+</div></blockquote>
 <dl class="simple">
-<dt>Attributes:</dt><dd><p>model_config (ConfigDict): Configuration settings for model behavior, enforcing strict type checks.
-topic (str): The main subject of the topic.
-chunks (List[Chunk]): A collection of associated chunks related to the topic.
-statements (List[StatementType]): Statements or assertions associated with the topic.</p>
+<dt>statements (List[StatementType]): A collection of statements related to</dt><dd><p>the topic. By default, it is an empty list.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1083,14 +1132,14 @@ validated to form a valid model.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="graphrag_toolkit.lexical_graph.indexing.utils.html">
+          <a class="prev-page" href="graphrag_toolkit.lexical_graph.protocols.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">graphrag_toolkit.lexical_graph.indexing.utils package</div>
+                <div class="title">graphrag_toolkit.lexical_graph.protocols package</div>
                 
               </div>
             </a>

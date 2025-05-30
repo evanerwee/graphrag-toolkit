@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -345,42 +348,25 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.vector_store</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">TraversalBasedBaseRetriever</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">QueryDecomposition</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_context_search</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">EntityContextSearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ChunkBasedSearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_entity_search</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">KeywordEntitySearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SearchResultCollection</span><span class="p">,</span>
-    <span class="n">SearchResult</span><span class="p">,</span>
-    <span class="n">ScoredEntity</span><span class="p">,</span>
-    <span class="n">Entity</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="n">TraversalBasedBaseRetriever</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryDecomposition</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_context_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntityContextSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChunkBasedSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_entity_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeywordEntitySearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">SearchResult</span><span class="p">,</span> <span class="n">ScoredEntity</span><span class="p">,</span> <span class="n">Entity</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">NodeWithScore</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">TraversalBasedRetrieverType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">TraversalBasedBaseRetriever</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">]</span>
-<span class="p">]</span>
-
+<span class="n">TraversalBasedRetrieverType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">]]</span>
 
 <div class="viewcode-block" id="WeightedTraversalBasedRetriever">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.WeightedTraversalBasedRetriever">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">WeightedTraversalBasedRetriever</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A retriever class that assigns a weight to a traversal-based retriever.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A retriever class that assigns a weight to a traversal-based retriever.</span>
 
 <span class="sd">    This class is used to assign a specific weight to a `TraversalBasedRetrieverType` instance.</span>
 <span class="sd">    It is helpful when combining multiple retrievers with varied importance levels.</span>
@@ -392,60 +378,48 @@
 <span class="sd">        weight (float): A multiplier to adjust the significance of the retriever&#39;s</span>
 <span class="sd">            results. Defaults to 1.0.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">retriever</span><span class="p">:</span> <span class="n">TraversalBasedRetrieverType</span>
-    <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span></div>
-
+    <span class="n">retriever</span><span class="p">:</span><span class="n">TraversalBasedRetrieverType</span>
+    <span class="n">weight</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">1.0</span></div>
 
 
 <span class="n">DEFAULT_TRAVERSAL_BASED_RETRIEVERS</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">WeightedTraversalBasedRetriever</span><span class="p">(</span><span class="n">retriever</span><span class="o">=</span><span class="n">ChunkBasedSearch</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
-    <span class="n">WeightedTraversalBasedRetriever</span><span class="p">(</span><span class="n">retriever</span><span class="o">=</span><span class="n">EntityContextSearch</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+    <span class="n">WeightedTraversalBasedRetriever</span><span class="p">(</span><span class="n">retriever</span><span class="o">=</span><span class="n">ChunkBasedSearch</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span> 
+    <span class="n">WeightedTraversalBasedRetriever</span><span class="p">(</span><span class="n">retriever</span><span class="o">=</span><span class="n">EntityContextSearch</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="p">]</span>
 
-<span class="n">WeightedTraversalBasedRetrieverType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">WeightedTraversalBasedRetriever</span><span class="p">,</span>
-    <span class="n">TraversalBasedBaseRetriever</span><span class="p">,</span>
-    <span class="n">Type</span><span class="p">[</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">],</span>
-<span class="p">]</span>
-
+<span class="n">WeightedTraversalBasedRetrieverType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">WeightedTraversalBasedRetriever</span><span class="p">,</span> <span class="n">TraversalBasedBaseRetriever</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">]]</span>
 
 <div class="viewcode-block" id="CompositeTraversalBasedRetriever">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CompositeTraversalBasedRetriever</span><span class="p">(</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages traversal-based retrieval across graph and vector stores.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles composite traversal-based retrieval with decomposition and weighting of sub-retrievers.</span>
 
-<span class="sd">    This class integrates weighted retrievers, query decomposition, and filtering</span>
-<span class="sd">    configurations to perform complex search queries over graph and vector data.</span>
-
-<span class="sd">    The retriever combines results from multiple specialized retrievers, each with</span>
-<span class="sd">    its own weight to prioritize certain types of results. It can also decompose</span>
-<span class="sd">    complex queries into simpler subqueries for more effective retrieval.</span>
+<span class="sd">    This class is a specialized retriever that integrates multiple weighted traversal-based retrievers.</span>
+<span class="sd">    It allows for query decomposition into subqueries and combines the results from different retrieval</span>
+<span class="sd">    strategies, providing a unified search result. It supports advanced configurations such as</span>
+<span class="sd">    graph-based and vector-based retrieval integrations. The retrieval process leverages the</span>
+<span class="sd">    functionality of `TraversalBasedBaseRetriever` while enabling dynamic interaction with sub-retrievers</span>
+<span class="sd">    and query decomposition mechanisms.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        graph_store (GraphStore): Storage for graph data.</span>
-<span class="sd">        vector_store (VectorStore): Storage for vector data.</span>
-<span class="sd">        weighted_retrievers (List[WeightedTraversalBasedRetrieverType]): Weighted retrievers.</span>
-<span class="sd">        query_decomposition (QueryDecomposition): Tool for breaking down queries.</span>
-<span class="sd">        filter_config (FilterConfig): Configuration for filtering results.</span>
+<span class="sd">        query_decomposition (QueryDecomposition): Mechanism for decomposing queries into subqueries.</span>
+<span class="sd">        weighted_retrievers (List[WeightedTraversalBasedRetrieverType]): A list of retrievers with</span>
+<span class="sd">            associated weights for weighted retrievals.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span>
-        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">,</span>
-        <span class="n">retrievers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">WeightedTraversalBasedRetrieverType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">query_decomposition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QueryDecomposition</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of a class that manages graph and vector</span>
-<span class="sd">        stores, combines them with optional retrievers, a query decomposition</span>
-<span class="sd">        mechanism, and a filter configuration. This class is designed to</span>
-<span class="sd">        perform tasks involving traversal across a graph-like structure with</span>
-<span class="sd">        weighted retrievers as well as facilitate query decomposition for</span>
-<span class="sd">        enhanced search capabilities. Additional configurations can be set via</span>
-<span class="sd">        keyword arguments.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">graph_store</span><span class="p">:</span><span class="n">GraphStore</span><span class="p">,</span> 
+                 <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">,</span>
+                 <span class="n">retrievers</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">WeightedTraversalBasedRetrieverType</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">query_decomposition</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">QueryDecomposition</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">filter_config</span><span class="p">:</span><span class="n">FilterConfig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes an instance of a class that manages graph and vector stores, combines them</span>
+<span class="sd">        with optional retrievers, a query decomposition mechanism, and a filter configuration.</span>
+<span class="sd">        This class is designed to perform tasks involving traversal across a graph-like structure</span>
+<span class="sd">        with weighted retrievers as well as facilitate query decomposition for enhanced search</span>
+<span class="sd">        capabilities. Additional configurations can be set via keyword arguments.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            graph_store: The storage mechanism for managing a graph-like data structure.</span>
@@ -460,23 +434,20 @@
 <span class="sd">            **kwargs: Additional keyword arguments to configure other settings or behavior.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span> 
             <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
             <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">query_decomposition</span> <span class="o">=</span> <span class="n">query_decomposition</span> <span class="ow">or</span> <span class="n">QueryDecomposition</span><span class="p">(</span>
-            <span class="n">max_subqueries</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">max_subqueries</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">weighted_retrievers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">WeightedTraversalBasedRetrieverType</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">retrievers</span> <span class="ow">or</span> <span class="n">DEFAULT_TRAVERSAL_BASED_RETRIEVERS</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query_decomposition</span> <span class="o">=</span> <span class="n">query_decomposition</span> <span class="ow">or</span> <span class="n">QueryDecomposition</span><span class="p">(</span><span class="n">max_subqueries</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">max_subqueries</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weighted_retrievers</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">WeightedTraversalBasedRetrieverType</span><span class="p">]</span> <span class="o">=</span> <span class="n">retrievers</span> <span class="ow">or</span> <span class="n">DEFAULT_TRAVERSAL_BASED_RETRIEVERS</span>
 
 <div class="viewcode-block" id="CompositeTraversalBasedRetriever.get_start_node_ids">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever.get_start_node_ids">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_start_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the starting node IDs for a given query.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the starting node IDs for a given query.</span>
 
 <span class="sd">        This function computes and returns the initial set of node</span>
 <span class="sd">        identifiers that are relevant for the input query. The</span>
@@ -493,16 +464,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_search_results_for_query</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a collection of search results based on a given query</span>
-<span class="sd">        bundle, utilizing various retrievers and employing weighted retriever</span>
-<span class="sd">        configurations to process the query. This method coordinates multiple</span>
-<span class="sd">        stages, including entity extraction, retriever configuration, and</span>
-<span class="sd">        parallel query execution, to aggregate and return relevant search</span>
-<span class="sd">        results and associated entities.</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_search_results_for_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates a collection of search results based on a given query bundle, utilizing</span>
+<span class="sd">        various retrievers and employing weighted retriever configurations to process the</span>
+<span class="sd">        query. This method coordinates multiple stages, including entity extraction,</span>
+<span class="sd">        retriever configuration, and parallel query execution, to aggregate and return</span>
+<span class="sd">        relevant search results and associated entities.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            query_bundle (QueryBundle): The input query bundle containing the query to</span>
@@ -514,103 +483,90 @@
 <span class="sd">            extracted from the query input. The results include relevant search matches</span>
 <span class="sd">            processed by the configured retrievers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">def</span><span class="w"> </span><span class="nf">weighted_arg</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">factor</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Calculates a weighted argument value based on input parameters.</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Represents a retrieval mechanism that relies on traversals across various components</span>
+<span class="sd">            within a query or document-based system. This class extends the functionality</span>
+<span class="sd">            provided by TraversalBasedBaseRetriever and customizes the search result retrieval</span>
+<span class="sd">            process by implementing a specific query evaluation mechanism.</span>
 
-<span class="sd">            This function computes a multiplier based on weight and factor,</span>
-<span class="sd">            then applies it to the input value v.</span>
+<span class="sd">            Methods:</span>
+<span class="sd">                _get_search_results_for_query: Retrieves search results for a given query</span>
+<span class="sd">                                               bundle based on a customized scoring and</span>
+<span class="sd">                                               weighted approach.</span>
 
-<span class="sd">            Args:</span>
-<span class="sd">                v: The base value to be weighted</span>
-<span class="sd">                weight: The weight factor to apply</span>
-<span class="sd">                factor: An additional scaling factor</span>
-
-<span class="sd">            Returns:</span>
-<span class="sd">                The weighted value, ceiling rounded to the nearest integer</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">multiplier</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">)</span>
+            <span class="k">return</span>  <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">)</span>
 
         <span class="n">retrievers</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="c1"># get entities</span>
         <span class="n">keyword_entity_search</span> <span class="o">=</span> <span class="n">KeywordEntitySearch</span><span class="p">(</span>
-            <span class="n">graph_store</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">graph_store</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span> 
             <span class="n">max_keywords</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">max_keywords</span><span class="p">,</span>
             <span class="n">expand_entities</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">expand_entities</span><span class="p">,</span>
-            <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="p">,</span>
+            <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span>
         <span class="p">)</span>
 
         <span class="n">entity_search_results</span> <span class="o">=</span> <span class="n">keyword_entity_search</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span>
 
         <span class="n">entities</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">ScoredEntity</span><span class="p">(</span>
-                <span class="n">entity</span><span class="o">=</span><span class="n">Entity</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
-                <span class="n">score</span><span class="o">=</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
+                <span class="n">entity</span><span class="o">=</span><span class="n">Entity</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> 
+                <span class="n">score</span><span class="o">=</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">score</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">entity_search_result</span> <span class="ow">in</span> <span class="n">entity_search_results</span>
         <span class="p">]</span>
 
         <span class="k">for</span> <span class="n">wr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_retrievers</span><span class="p">:</span>
-
+            
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">wr</span><span class="p">,</span> <span class="n">WeightedTraversalBasedRetriever</span><span class="p">):</span>
                 <span class="n">wr</span> <span class="o">=</span> <span class="n">WeightedTraversalBasedRetriever</span><span class="p">(</span><span class="n">retriever</span><span class="o">=</span><span class="n">wr</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-
+            
             <span class="n">sub_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 
-            <span class="n">sub_args</span><span class="p">[</span><span class="s1">&#39;intermediate_limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weighted_arg</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">intermediate_limit</span><span class="p">,</span> <span class="n">wr</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">2</span>
-            <span class="p">)</span>
-            <span class="n">sub_args</span><span class="p">[</span><span class="s1">&#39;limit_per_query&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weighted_arg</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">query_limit</span><span class="p">,</span> <span class="n">wr</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">1</span>
-            <span class="p">)</span>
+            <span class="n">sub_args</span><span class="p">[</span><span class="s1">&#39;intermediate_limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weighted_arg</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">intermediate_limit</span><span class="p">,</span> <span class="n">wr</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">sub_args</span><span class="p">[</span><span class="s1">&#39;limit_per_query&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weighted_arg</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">query_limit</span><span class="p">,</span> <span class="n">wr</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-            <span class="n">retriever</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">wr</span><span class="o">.</span><span class="n">retriever</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">wr</span><span class="o">.</span><span class="n">retriever</span><span class="p">,</span> <span class="n">TraversalBasedBaseRetriever</span><span class="p">)</span>
-                <span class="k">else</span> <span class="n">wr</span><span class="o">.</span><span class="n">retriever</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span><span class="p">,</span>
-                    <span class="n">processors</span><span class="o">=</span><span class="p">[</span>
-                        <span class="c1"># No processing - just raw results</span>
-                    <span class="p">],</span>
-                    <span class="n">formatting_processors</span><span class="o">=</span><span class="p">[</span>
-                        <span class="c1"># No processing - just raw results</span>
-                    <span class="p">],</span>
-                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
-                    <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="p">,</span>
-                    <span class="o">**</span><span class="n">sub_args</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">retriever</span> <span class="o">=</span> <span class="p">(</span><span class="n">wr</span><span class="o">.</span><span class="n">retriever</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">wr</span><span class="o">.</span><span class="n">retriever</span><span class="p">,</span> <span class="n">TraversalBasedBaseRetriever</span><span class="p">)</span> 
+                         <span class="k">else</span> <span class="n">wr</span><span class="o">.</span><span class="n">retriever</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span> 
+                            <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span><span class="p">,</span>
+                            <span class="n">processors</span><span class="o">=</span><span class="p">[</span>
+                                <span class="c1"># No processing - just raw results</span>
+                            <span class="p">],</span>
+                            <span class="n">formatting_processors</span><span class="o">=</span><span class="p">[</span>
+                                <span class="c1"># No processing - just raw results</span>
+                            <span class="p">],</span>
+                            <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                            <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">sub_args</span>
+                        <span class="p">))</span>
 
             <span class="n">retrievers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">retriever</span><span class="p">)</span>
 
         <span class="n">search_results</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span>
-            <span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">num_workers</span>
-        <span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">num_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
             <span class="n">scored_node_batches</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]]</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">r</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query</span><span class="p">),</span> <span class="n">retrievers</span><span class="p">,</span> <span class="n">repeat</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span>
+                <span class="k">lambda</span> <span class="n">r</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query</span><span class="p">),</span>
+                <span class="n">retrievers</span><span class="p">,</span>
+                <span class="n">repeat</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">scored_nodes</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scored_node_batches</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">],</span> <span class="p">[]))</span>
-            <span class="n">search_results</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">SearchResult</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">scored_node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">scored_node</span> <span class="ow">in</span> <span class="n">scored_nodes</span>
-            <span class="p">]</span>
-
+            <span class="n">search_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">SearchResult</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">scored_node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">scored_node</span> <span class="ow">in</span> <span class="n">scored_nodes</span><span class="p">]</span>
+        
         <span class="k">return</span> <span class="n">SearchResultCollection</span><span class="p">(</span><span class="n">results</span><span class="o">=</span><span class="n">search_results</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span>
-
+            
+    
 <div class="viewcode-block" id="CompositeTraversalBasedRetriever.do_graph_search">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.composite_traversal_based_retriever.CompositeTraversalBasedRetriever.do_graph_search">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs a graph search based on the provided query and starting</span>
-<span class="sd">        nodes. The function involves decomposing queries into subqueries if</span>
-<span class="sd">        required and parallel processing those subqueries. The search results</span>
-<span class="sd">        and entities are aggregated and returned as a single collection.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs a graph search based on the provided query and starting nodes. The function involves</span>
+<span class="sd">        decomposing queries into subqueries if required and parallel processing those subqueries. The</span>
+<span class="sd">        search results and entities are aggregated and returned as a single collection.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            query_bundle (QueryBundle): The query to execute in the graph search.</span>
@@ -621,9 +577,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">search_results</span> <span class="o">=</span> <span class="n">SearchResultCollection</span><span class="p">()</span>
 
-        <span class="n">subqueries</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">query_decomposition</span><span class="o">.</span><span class="n">decompose_query</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">derive_subqueries</span>
+        <span class="n">subqueries</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query_decomposition</span><span class="o">.</span><span class="n">decompose_query</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span> 
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">derive_subqueries</span> 
             <span class="k">else</span> <span class="p">[</span><span class="n">query_bundle</span><span class="p">]</span>
         <span class="p">)</span>
 
@@ -632,13 +587,14 @@
 
         <span class="k">for</span> <span class="n">task_result</span> <span class="ow">in</span> <span class="n">task_results</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">search_result</span> <span class="ow">in</span> <span class="n">task_result</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
-                <span class="n">search_results</span><span class="o">.</span><span class="n">add_search_result</span><span class="p">(</span><span class="n">search_result</span><span class="p">)</span>
+                <span class="n">search_results</span><span class="o">.</span><span class="n">add_search_result</span><span class="p">(</span><span class="n">search_result</span><span class="p">)</span> 
             <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">task_result</span><span class="o">.</span><span class="n">entities</span><span class="p">:</span>
                 <span class="n">search_results</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
-
+        
         <span class="k">return</span> <span class="n">search_results</span></div>
 </div>
 
+        
 </pre></div>
         </article>
       </div>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -344,17 +347,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing</span><span class="w"> </span><span class="kn">import</span> <span class="n">IdGenerator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.pipeline_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_pipeline</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SourceType</span><span class="p">,</span>
-    <span class="n">SourceDocument</span><span class="p">,</span>
-    <span class="n">source_documents_from_source_types</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">PipelineDecorator</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SourceDocParser</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SourceType</span><span class="p">,</span> <span class="n">SourceDocument</span><span class="p">,</span> <span class="n">source_documents_from_source_types</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineDecorator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">SourceDocParser</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.build.checkpoint</span><span class="w"> </span><span class="kn">import</span> <span class="n">Checkpoint</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.docs_to_nodes</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocsToNodes</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.id_rewriter</span><span class="w"> </span><span class="kn">import</span> <span class="n">IdRewriter</span>
@@ -368,71 +363,60 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">NodeRelationship</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-
+    
 <div class="viewcode-block" id="PassThroughDecorator">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PassThroughDecorator</span><span class="p">(</span><span class="n">PipelineDecorator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A decorator class that processes input and output documents without modification.</span>
+<span class="sd">    A decorator class that passes through input and output documents unchanged.</span>
 
-<span class="sd">    The PassThroughDecorator class is a subclass of PipelineDecorator designed to</span>
-<span class="sd">    handle input and output documents by passing them through unchanged. It allows</span>
-<span class="sd">    integration within a pipeline where no specific transformation or processing</span>
-<span class="sd">    logic is required, enabling smooth data flow while adhering to a consistent</span>
-<span class="sd">    decorator interface.</span>
+<span class="sd">    This class is intended to be used as a no-op (no operation) decorator within</span>
+<span class="sd">    a pipeline. It receives documents, performs no modifications, and forwards</span>
+<span class="sd">    them as-is to the next component in the pipeline. The purpose of this class</span>
+<span class="sd">    is to act as a placeholder or default decorator which enables seamless</span>
+<span class="sd">    integration and testing of pipelines without altering the data flow.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Represents the initialization method of a class.</span>
-
-<span class="sd">        This method is a constructor used to initialize the attributes or settings of an</span>
-<span class="sd">        object when an instance of a class is created. It does not perform any actions</span>
-<span class="sd">        or set any attributes in its current implementation.</span>
-
-<span class="sd">        Attributes:</span>
-<span class="sd">            No attributes are defined in this method.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            No parameters are expected in this method.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            This method does not raise any exceptions.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
-
+    
 <div class="viewcode-block" id="PassThroughDecorator.handle_input_docs">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator.handle_input_docs">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">handle_input_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_input_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span><span class="n">Iterable</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Handles the input documents provided as an iterable of SourceDocument objects.</span>
+<span class="sd">        Handles and processes the given input documents.</span>
 
-<span class="sd">        Takes an iterable of documents, processes or returns them as needed.</span>
+<span class="sd">        This method takes an iterable of SourceDocument instances and processes them</span>
+<span class="sd">        as required. The processed documents are then returned.</span>
 
-<span class="sd">        :param nodes: An iterable containing instances of SourceDocument, representing</span>
-<span class="sd">             the documents to be handled.</span>
-<span class="sd">        :type nodes: Iterable[SourceDocument]</span>
-<span class="sd">        :return: The input iterable of SourceDocument objects, processed as per the</span>
-<span class="sd">            requirements.</span>
-<span class="sd">        :rtype: Iterable[SourceDocument]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            nodes (Iterable[SourceDocument]): An iterable containing SourceDocument</span>
+<span class="sd">                instances to be handled.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Iterable[SourceDocument]: The processed iterable of SourceDocument</span>
+<span class="sd">                instances.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">nodes</span></div>
 
-
+    
 <div class="viewcode-block" id="PassThroughDecorator.handle_output_doc">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator.handle_output_doc">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">handle_output_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">SourceDocument</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SourceDocument</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Handles and returns the given source document node.</span>
+<span class="sd">        Handles the processing of a SourceDocument node and returns it after output handling.</span>
 
-<span class="sd">        :param node: Source document node to be processed.</span>
-<span class="sd">        :type node: SourceDocument</span>
-<span class="sd">        :return: The processed source document node.</span>
-<span class="sd">        :rtype: SourceDocument</span>
+<span class="sd">        The method takes a single SourceDocument object as input, processes it, and returns</span>
+<span class="sd">        the same SourceDocument object. It can be utilized to apply specific output-related</span>
+<span class="sd">        handling or modifications to the input document.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node (SourceDocument): The document to be handled and returned after processing.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SourceDocument: The processed document after output handling.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">node</span></div>
 </div>
@@ -441,92 +425,85 @@
 
 <div class="viewcode-block" id="ExtractionPipeline">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ExtractionPipeline</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ExtractionPipeline class is designed to configure and execute a document extraction pipeline.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExtractionPipeline</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a data extraction pipeline with customizable components.</span>
 
-<span class="sd">    This pipeline integrates multiple transformation components, optional preprocessing steps, and advanced configurations</span>
-<span class="sd">    like tenant filtering, checkpointing, and data filtering. By enabling efficient processing with optional support</span>
-<span class="sd">    for batching and parallel execution, this class serves as a robust solution for data extraction and transformation.</span>
+<span class="sd">    This class defines a pipeline for processing and extracting data using a series</span>
+<span class="sd">    of configurable components. The pipeline allows for the use of pre-processors,</span>
+<span class="sd">    decorators, and post-processing logic to handle the data extraction workflow</span>
+<span class="sd">    in a modular and scalable way. Additionally, it supports multi-worker execution,</span>
+<span class="sd">    batching, and integration with filters and checkpoints for state management.</span>
 
-<span class="sd">    :ivar ingestion_pipeline: The constructed pipeline consisting of all configured transformation</span>
-<span class="sd">        components responsible for document processing.</span>
-<span class="sd">    :type ingestion_pipeline: IngestionPipeline</span>
-<span class="sd">    :ivar pre_processors: Pre-processors to parse and prepare source documents before ingestion into the pipeline.</span>
-<span class="sd">    :type pre_processors: List[SourceDocParser]</span>
-<span class="sd">    :ivar extraction_decorator: The decorator used to extend or customize the extraction process during pipeline execution.</span>
-<span class="sd">    :type extraction_decorator: PipelineDecorator</span>
-<span class="sd">    :ivar num_workers: Number of worker threads employed for parallel processing in the pipeline.</span>
-<span class="sd">    :type num_workers: int</span>
-<span class="sd">    :ivar batch_size: Number of processing items managed concurrently within each batch.</span>
-<span class="sd">    :type batch_size: int</span>
-<span class="sd">    :ivar show_progress: A flag indicating whether progress bars are enabled during extraction pipeline operations.</span>
-<span class="sd">    :type show_progress: bool</span>
-<span class="sd">    :ivar id_rewriter: A utility for generating unique traceable IDs for documents processed in the pipeline.</span>
-<span class="sd">    :type id_rewriter: IdRewriter</span>
-<span class="sd">    :ivar extraction_filters: Holds configuration settings for applying additional extraction rules and filters.</span>
-<span class="sd">    :type extraction_filters: FilterConfig</span>
-<span class="sd">    :ivar pipeline_kwargs: Captures additional pipeline-specific configurations supplied via keyword arguments.</span>
-<span class="sd">    :type pipeline_kwargs: dict</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        ingestion_pipeline (IngestionPipeline): The pipeline of components to transform</span>
+<span class="sd">            input data.</span>
+<span class="sd">        pre_processors (List[SourceDocParser]): Pre-processors used to parse input source</span>
+<span class="sd">            documents before starting the extraction process.</span>
+<span class="sd">        extraction_decorator (PipelineDecorator): A decorator for handling additional</span>
+<span class="sd">            input and output transformations in the extraction pipeline.</span>
+<span class="sd">        num_workers (int): The number of workers used for parallel processing in the</span>
+<span class="sd">            pipeline.</span>
+<span class="sd">        batch_size (int): The size of data batches for processing in the pipeline.</span>
+<span class="sd">        show_progress (bool): Determines whether progress should be logged or displayed</span>
+<span class="sd">            during pipeline execution.</span>
+<span class="sd">        id_rewriter (IdRewriter): A component responsible for rewriting node identifiers</span>
+<span class="sd">            within the extraction pipeline.</span>
+<span class="sd">        extraction_filters (FilterConfig): Filters applied to input data nodes to</span>
+<span class="sd">            determine which nodes are processed by the pipeline.</span>
+<span class="sd">        pipeline_kwargs (dict): Additional runtime parameters and configurations for</span>
+<span class="sd">            the pipeline components.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="ExtractionPipeline.create">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline.create">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span>
-        <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransformComponent</span><span class="p">],</span>
-        <span class="n">pre_processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SourceDocParser</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">extraction_decorator</span><span class="p">:</span> <span class="n">PipelineDecorator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">num_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">checkpoint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Checkpoint</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TenantId</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">extraction_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransformComponent</span><span class="p">],</span> 
+               <span class="n">pre_processors</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SourceDocParser</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">extraction_decorator</span><span class="p">:</span><span class="n">PipelineDecorator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+               <span class="n">num_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+               <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+               <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+               <span class="n">checkpoint</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">Checkpoint</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">tenant_id</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">TenantId</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">extraction_filters</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="n">Any</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a pipeline for data extraction by configuring the components, pre-processors,</span>
-<span class="sd">        decorators, filters, and execution parameters. This method combines all the necessary</span>
-<span class="sd">        elements required to execute the pipeline with the specified configuration.</span>
+<span class="sd">        Creates an instance of the extraction pipeline, configured with specified components,</span>
+<span class="sd">        optional pre-processors, decorators, filters, and other settings. This method returns</span>
+<span class="sd">        a pipeline configured to extract data from source documents using the specified</span>
+<span class="sd">        settings and options.</span>
 
-<span class="sd">        :param components: List of transformation components to be executed in the pipeline.</span>
-<span class="sd">            These components determine the processing logic for data transformation.</span>
-<span class="sd">        :type components: List[TransformComponent]</span>
-<span class="sd">        :param pre_processors: Optional list of source document parsers for preprocessing</span>
-<span class="sd">            steps prior to extraction. Defaults to None.</span>
-<span class="sd">        :type pre_processors: Optional[List[SourceDocParser]]</span>
-<span class="sd">        :param extraction_decorator: Optional decorator for the pipeline that encapsulates</span>
-<span class="sd">            additional logic or functionality around extraction processes. Defaults to None.</span>
-<span class="sd">        :type extraction_decorator: PipelineDecorator</span>
-<span class="sd">        :param num_workers: Number of workers to utilize in parallel processing.</span>
-<span class="sd">            If not provided, defaults to the system&#39;s logical processors.</span>
-<span class="sd">        :type num_workers: Optional[int]</span>
-<span class="sd">        :param batch_size: Size of each batch for batch processing. Helps manage</span>
-<span class="sd">            processing efficiency and memory usage. Defaults to None.</span>
-<span class="sd">        :type batch_size: Optional[int]</span>
-<span class="sd">        :param show_progress: Boolean indicating whether to display a progress bar</span>
-<span class="sd">            during extraction. Defaults to False.</span>
-<span class="sd">        :type show_progress: bool</span>
-<span class="sd">        :param checkpoint: Optional checkpoint configuration for resuming pipeline</span>
-<span class="sd">            processing from a saved state. Defaults to None.</span>
-<span class="sd">        :type checkpoint: Optional[Checkpoint]</span>
-<span class="sd">        :param tenant_id: Identifier for the tenant, used to differentiate and handle</span>
-<span class="sd">            multi-tenant data in configurations. Defaults to None.</span>
-<span class="sd">        :type tenant_id: Optional[TenantId]</span>
-<span class="sd">        :param extraction_filters: Optional filter configuration for refining or limiting</span>
-<span class="sd">            the data extraction scope based on specified criteria. Defaults to None.</span>
-<span class="sd">        :type extraction_filters: Optional[FilterConfig]</span>
-<span class="sd">        :param kwargs: Additional keyword arguments for further customization of</span>
-<span class="sd">            alternative configurations or extensions.</span>
-<span class="sd">        :type kwargs: Any</span>
-<span class="sd">        :return: A configured pipeline instance ready to execute the extraction process</span>
-<span class="sd">            with the specified configurations.</span>
-<span class="sd">        :rtype: Pipe</span>
+<span class="sd">        This static method streamlines the process of constructing a pipeline by enabling</span>
+<span class="sd">        customization through its arguments, including batching, progress visibility, tenant</span>
+<span class="sd">        filtering, checkpointing, and additional behaviors via keyword arguments.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            components (List[TransformComponent]): A list of components for the</span>
+<span class="sd">                transformation pipeline.</span>
+<span class="sd">            pre_processors (Optional[List[SourceDocParser]]): Optional list of pre-processors</span>
+<span class="sd">                to apply on the source documents.</span>
+<span class="sd">            extraction_decorator (PipelineDecorator): An optional decorator for customizing</span>
+<span class="sd">                the extraction process.</span>
+<span class="sd">            num_workers (Optional[int]): The number of workers to use for parallel processing.</span>
+<span class="sd">            batch_size (Optional[int]): The number of items to process in each batch during</span>
+<span class="sd">                execution.</span>
+<span class="sd">            show_progress (bool): Specifies whether to display progress during the pipeline</span>
+<span class="sd">                execution.</span>
+<span class="sd">            checkpoint (Optional[Checkpoint]): An optional checkpoint configuration for managing</span>
+<span class="sd">                pipeline state and recovery.</span>
+<span class="sd">            tenant_id (Optional[TenantId]): An optional identifier to constrain data processing</span>
+<span class="sd">                to a specific tenant.</span>
+<span class="sd">            extraction_filters (Optional[FilterConfig]): An optional set of filters to apply for</span>
+<span class="sd">                extraction rules.</span>
+<span class="sd">            **kwargs (Any): Additional settings or configurations for extending the pipeline&#39;s</span>
+<span class="sd">                behavior.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Pipe: A configured pipeline object wrapping the extraction pipeline&#39;s extraction</span>
+<span class="sd">            logic.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Pipe</span><span class="p">(</span>
             <span class="n">ExtractionPipeline</span><span class="p">(</span>
-                <span class="n">components</span><span class="o">=</span><span class="n">components</span><span class="p">,</span>
+                <span class="n">components</span><span class="o">=</span><span class="n">components</span><span class="p">,</span> 
                 <span class="n">pre_processors</span><span class="o">=</span><span class="n">pre_processors</span><span class="p">,</span>
                 <span class="n">extraction_decorator</span><span class="o">=</span><span class="n">extraction_decorator</span><span class="p">,</span>
                 <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">,</span>
@@ -535,53 +512,66 @@
                 <span class="n">checkpoint</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">,</span>
                 <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span>
                 <span class="n">extraction_filters</span><span class="o">=</span><span class="n">extraction_filters</span><span class="p">,</span>
-                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span>
             <span class="p">)</span><span class="o">.</span><span class="n">extract</span>
         <span class="p">)</span></div>
 
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransformComponent</span><span class="p">],</span>
-        <span class="n">pre_processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SourceDocParser</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">extraction_decorator</span><span class="p">:</span> <span class="n">PipelineDecorator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">num_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">checkpoint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Checkpoint</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TenantId</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">extraction_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-    <span class="p">):</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransformComponent</span><span class="p">],</span> 
+                 <span class="n">pre_processors</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SourceDocParser</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">extraction_decorator</span><span class="p">:</span><span class="n">PipelineDecorator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">num_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                 <span class="n">checkpoint</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">Checkpoint</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tenant_id</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">TenantId</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">extraction_filters</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="n">Any</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes a pipeline with configurable transformation components, optional pre-processing,</span>
-<span class="sd">        decorators, and advanced options like concurrency, batching, filters, and checkpoints. This pipeline</span>
-<span class="sd">        can process input data through a series of transformations, with optional customization and resource</span>
-<span class="sd">        management.</span>
+<span class="sd">        Initializes the extraction pipeline with provided components, configurations, and optional</span>
+<span class="sd">        pre-processing and filtering capabilities to handle document processing tasks. This class</span>
+<span class="sd">        configures the pipeline with a series of components, manages their interactions, and sets up</span>
+<span class="sd">        any necessary decorators for additional functionality.</span>
 
-<span class="sd">        :param components:</span>
-<span class="sd">            List of transformation components to sequentially process the input data.</span>
-<span class="sd">        :param pre_processors:</span>
-<span class="sd">            Optional list of pre-processing components for parsing and preparing data before entering the</span>
-<span class="sd">            main transformation pipeline.</span>
-<span class="sd">        :param extraction_decorator:</span>
-<span class="sd">            Decorator for adding extra functionality to the extraction process. Defaults to None.</span>
-<span class="sd">        :param num_workers:</span>
-<span class="sd">            Desired number of worker threads for concurrent processing. If not provided, a default value is</span>
-<span class="sd">            derived from configuration.</span>
-<span class="sd">        :param batch_size:</span>
-<span class="sd">            Number of data items processed per batch. Uses a configuration default value if not specified.</span>
-<span class="sd">        :param show_progress:</span>
-<span class="sd">            Whether to display a progress bar or indicator during processing. Defaults to False.</span>
-<span class="sd">        :param checkpoint:</span>
-<span class="sd">            Optional configuration to allow checkpointing, enabling processing resumption or state</span>
-<span class="sd">            management.</span>
-<span class="sd">        :param tenant_id:</span>
-<span class="sd">            Identifier to associate processing components with tenant-specific contexts. Optional.</span>
-<span class="sd">        :param extraction_filters:</span>
-<span class="sd">            Configuration for applying filters during the data extraction process. Defaults to None.</span>
-<span class="sd">        :param kwargs:</span>
-<span class="sd">            Additional arguments to customize the pipeline behavior or extend its functionality properly.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            components (List[TransformComponent]): A list of transformation components that constitute</span>
+<span class="sd">                the extraction pipeline, which will process and transform the data.</span>
+<span class="sd">            pre_processors (Optional[List[SourceDocParser]]): Optional list of pre-processors to parse</span>
+<span class="sd">                source documents before they are ingested into the pipeline. Defaults to None.</span>
+<span class="sd">            extraction_decorator (PipelineDecorator): Optional pipeline decorator for modifying or</span>
+<span class="sd">                enhancing the extraction process. Defaults to PassThroughDecorator if not provided.</span>
+<span class="sd">            num_workers (Optional[int]): Number of workers to parallelize the pipeline&#39;s processing.</span>
+<span class="sd">                Defaults to the predefined configuration value.</span>
+<span class="sd">            batch_size (Optional[int]): Batch size to determine how many items are processed concurrently.</span>
+<span class="sd">                Defaults to the predefined configuration value.</span>
+<span class="sd">            show_progress (bool): Flag to enable or disable progress visualization during pipeline execution.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">            checkpoint (Optional[Checkpoint]): Optional checkpoint to integrate filtering or additional</span>
+<span class="sd">                processing into the pipeline. Defaults to None.</span>
+<span class="sd">            tenant_id (Optional[TenantId]): Identifies the tenant for generating unique IDs within the</span>
+<span class="sd">                pipeline&#39;s transformations. Defaults to None.</span>
+<span class="sd">            extraction_filters (Optional[FilterConfig]): Configuration for additional filtering criteria</span>
+<span class="sd">                to apply during the extraction process. Defaults to an empty FilterConfig instance.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments to be passed to the pipeline configurations.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            ingestion_pipeline (IngestionPipeline): The constructed pipeline consisting of all configured</span>
+<span class="sd">                transformation components, responsible for processing the ingested documents.</span>
+<span class="sd">            pre_processors (List[SourceDocParser]): A list of pre-processors, if provided, for initial</span>
+<span class="sd">                parsing of source documents.</span>
+<span class="sd">            extraction_decorator (PipelineDecorator): The decorator used to modify or extend the extraction</span>
+<span class="sd">                logic as part of the pipeline execution.</span>
+<span class="sd">            num_workers (int): The number of workers allocated for parallel processing in the pipeline.</span>
+<span class="sd">            batch_size (int): The size of processing batches for the pipeline&#39;s operations.</span>
+<span class="sd">            show_progress (bool): Indicates whether progress visualization is enabled during pipeline</span>
+<span class="sd">                execution.</span>
+<span class="sd">            id_rewriter (IdRewriter): A rewriter for generating unique IDs to ensure document traceability</span>
+<span class="sd">                within the pipeline.</span>
+<span class="sd">            extraction_filters (FilterConfig): Holds the configuration for additional filters to refine</span>
+<span class="sd">                the data extraction process.</span>
+<span class="sd">            pipeline_kwargs (dict): Captures any additional pipeline configuration settings provided</span>
+<span class="sd">                via keyword arguments.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">components</span> <span class="o">=</span> <span class="n">components</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_num_workers</span>
@@ -593,78 +583,49 @@
 
         <span class="k">def</span><span class="w"> </span><span class="nf">add_id_rewriter</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Represents an extraction pipeline to process and transform data using a series of</span>
-<span class="sd">            components with optional preprocessing, parallel processing, and filtering</span>
-<span class="sd">            capabilities.</span>
+<span class="sd">            Pipeline that processes input data through multiple transformation components and optional</span>
+<span class="sd">            pre-processing steps. It supports concurrency and batching to improve efficiency. An optional</span>
+<span class="sd">            decorator can be applied to the extraction process, and advanced configurations such as filters</span>
+<span class="sd">            or checkpoints can be provided.</span>
 
-<span class="sd">            This class orchestrates data processing by leveraging its components in a</span>
-<span class="sd">            specific sequence. Each component can modify the data or extract certain</span>
-<span class="sd">            information. Optional pre-processors are applied before the pipeline execution.</span>
-<span class="sd">            The pipeline also supports parallelism, batching, progress display, and</span>
-<span class="sd">            additional filtering functionality.</span>
-
-<span class="sd">            Attributes:</span>
-<span class="sd">                components (List[TransformComponent]): Sequence of transformation components</span>
-<span class="sd">                  to process the data.</span>
-<span class="sd">                pre_processors (Optional[List[SourceDocParser]]): Optional list of preprocessing objects</span>
-<span class="sd">                  to parse or modify the source data before transformation.</span>
-<span class="sd">                extraction_decorator (PipelineDecorator): Optional decorator to control or alter the</span>
-<span class="sd">                  behavior of the transformation pipeline.</span>
-<span class="sd">                num_workers (Optional[int]): Number of parallel workers for execution.</span>
-<span class="sd">                batch_size (Optional[int]): Number of items to process in each batch.</span>
-<span class="sd">                show_progress (bool): Flag to indicate whether to display progress of pipeline execution.</span>
-<span class="sd">                checkpoint (Optional[Checkpoint]): Mechanism for tracking or restoring pipeline state.</span>
-<span class="sd">                tenant_id (Optional[TenantId]): Identifier for the current tenant or context for processing.</span>
-<span class="sd">                extraction_filters (Optional[FilterConfig]): Configuration to filter results from</span>
-<span class="sd">                  the pipeline.</span>
-<span class="sd">                kwargs (Any): Additional optional parameters for fine-tuned configurations.</span>
-
-<span class="sd">            :param components: Sequence of components to apply during the transformation process.</span>
-<span class="sd">            :type components: List[TransformComponent]</span>
-<span class="sd">            :param pre_processors: Optional preprocessing objects.</span>
-<span class="sd">            :type pre_processors: Optional[List[SourceDocParser]]</span>
-<span class="sd">            :param extraction_decorator: Optional decorator for the pipeline execution.</span>
-<span class="sd">            :type extraction_decorator: PipelineDecorator</span>
-<span class="sd">            :param num_workers: Number of parallel workers.</span>
-<span class="sd">            :type num_workers: Optional[int]</span>
-<span class="sd">            :param batch_size: Batch size for processing data.</span>
-<span class="sd">            :type batch_size: Optional[int]</span>
-<span class="sd">            :param show_progress: Indicates whether to show progress during execution.</span>
-<span class="sd">            :type show_progress: bool</span>
-<span class="sd">            :param checkpoint: Optional mechanism for checkpointing and restoring states.</span>
-<span class="sd">            :type checkpoint: Optional[Checkpoint]</span>
-<span class="sd">            :param tenant_id: Tenant identifier for providing context.</span>
-<span class="sd">            :type tenant_id: Optional[TenantId]</span>
-<span class="sd">            :param extraction_filters: Additional filtering configuration.</span>
-<span class="sd">            :type extraction_filters: Optional[FilterConfig]</span>
-<span class="sd">            :param kwargs: Additional arguments for extended functionality.</span>
-<span class="sd">            :type kwargs: Any</span>
+<span class="sd">            Args:</span>
+<span class="sd">                components (List[TransformComponent]): A list of transformation components that process</span>
+<span class="sd">                    the data in a sequence.</span>
+<span class="sd">                pre_processors (Optional[List[SourceDocParser]]): A list of pre-processing components to</span>
+<span class="sd">                    parse and prepare the input data before it enters the transformation pipeline.</span>
+<span class="sd">                extraction_decorator (PipelineDecorator): An optional decorator applied to the extraction</span>
+<span class="sd">                    process for extra functionality.</span>
+<span class="sd">                num_workers (Optional[int]): The number of worker threads used for processing. If not</span>
+<span class="sd">                    provided, processing is done synchronously.</span>
+<span class="sd">                batch_size (Optional[int]): The size of the batches processed at a time. Determines how</span>
+<span class="sd">                    input data is split and processed.</span>
+<span class="sd">                show_progress (bool): If True, displays a progress indicator during processing. Defaults to</span>
+<span class="sd">                    False.</span>
+<span class="sd">                checkpoint (Optional[Checkpoint]): Optional checkpoint configuration to manage or resume</span>
+<span class="sd">                    processing from a specific point.</span>
+<span class="sd">                tenant_id (Optional[TenantId]): An optional identifier for associating the pipeline</span>
+<span class="sd">                    components with a specific tenant context.</span>
+<span class="sd">                extraction_filters (Optional[FilterConfig]): Optional configuration specifying filters to</span>
+<span class="sd">                    apply during the extraction process.</span>
+<span class="sd">                **kwargs (Any): Additional parameters for further customization of the pipeline or its</span>
+<span class="sd">                    methods.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">TextSplitter</span><span class="p">):</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Wrapping </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> with IdRewriter&#39;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">IdRewriter</span><span class="p">(</span>
-                    <span class="n">inner</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">id_generator</span><span class="o">=</span><span class="n">IdGenerator</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">IdRewriter</span><span class="p">(</span><span class="n">inner</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">id_generator</span><span class="o">=</span><span class="n">IdGenerator</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">c</span>
-
+            
         <span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">add_id_rewriter</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]</span>
-
+        
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">IdRewriter</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Adding DocToNodes to components&#39;</span><span class="p">)</span>
-            <span class="n">components</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
-                <span class="mi">0</span><span class="p">,</span>
-                <span class="n">IdRewriter</span><span class="p">(</span>
-                    <span class="n">inner</span><span class="o">=</span><span class="n">DocsToNodes</span><span class="p">(),</span> <span class="n">id_generator</span><span class="o">=</span><span class="n">IdGenerator</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">)</span>
-                <span class="p">),</span>
-            <span class="p">)</span>
-
+            <span class="n">components</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">IdRewriter</span><span class="p">(</span><span class="n">inner</span><span class="o">=</span><span class="n">DocsToNodes</span><span class="p">(),</span> <span class="n">id_generator</span><span class="o">=</span><span class="n">IdGenerator</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">)))</span>
+            
         <span class="k">if</span> <span class="n">checkpoint</span><span class="p">:</span>
             <span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">checkpoint</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;Extract pipeline components: </span><span class="si">{</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">components</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Extract pipeline components: </span><span class="si">{</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">components</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ingestion_pipeline</span> <span class="o">=</span> <span class="n">IngestionPipeline</span><span class="p">(</span><span class="n">transformations</span><span class="o">=</span><span class="n">components</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pre_processors</span> <span class="o">=</span> <span class="n">pre_processors</span> <span class="ow">or</span> <span class="p">[]</span>
@@ -675,29 +636,26 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">id_rewriter</span> <span class="o">=</span> <span class="n">IdRewriter</span><span class="p">(</span><span class="n">id_generator</span><span class="o">=</span><span class="n">IdGenerator</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extraction_filters</span> <span class="o">=</span> <span class="n">extraction_filters</span> <span class="ow">or</span> <span class="n">FilterConfig</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_source_documents_from_base_nodes</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">]:</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_source_documents_from_base_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span><span class="n">Sequence</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Processes a sequence of BaseNode objects and organizes them into a list of</span>
-<span class="sd">        SourceDocument objects based on their source relationships.</span>
+<span class="sd">        Converts a sequence of BaseNode objects into a list of SourceDocument objects</span>
+<span class="sd">        organized by their source relationships.</span>
 
-<span class="sd">        The method iterates over a sequence of BaseNode objects, determines their</span>
-<span class="sd">        source relationships, and groups them under corresponding SourceDocuments.</span>
-<span class="sd">        Each unique source ID corresponds to a SourceDocument instance, which contains</span>
-<span class="sd">        a collection of nodes belonging to that particular source.</span>
+<span class="sd">        This method iterates through the provided nodes, groups them by their associated</span>
+<span class="sd">        source IDs as indicated by their relationships, and returns a list of</span>
+<span class="sd">        SourceDocument objects, each containing the grouped nodes.</span>
 
-<span class="sd">        :param nodes:</span>
-<span class="sd">            A sequence of BaseNode objects to be processed. Each node must contain</span>
-<span class="sd">            source information in its `relationships` attribute.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            nodes (Sequence[BaseNode]): A sequence of BaseNode objects to be processed into</span>
+<span class="sd">                SourceDocument objects.</span>
 
-<span class="sd">        :return:</span>
-<span class="sd">            A list of SourceDocument objects. Each object aggregates nodes that share</span>
-<span class="sd">            the same source ID.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List[SourceDocument]: A list of SourceDocument objects, each containing nodes</span>
+<span class="sd">                grouped by their source relationship.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SourceDocument</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-
+        <span class="n">results</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SourceDocument</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
             <span class="n">source_info</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">relationships</span><span class="p">[</span><span class="n">NodeRelationship</span><span class="o">.</span><span class="n">SOURCE</span><span class="p">]</span>
             <span class="n">source_id</span> <span class="o">=</span> <span class="n">source_info</span><span class="o">.</span><span class="n">node_id</span>
@@ -706,41 +664,28 @@
             <span class="n">results</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-
+    
 <div class="viewcode-block" id="ExtractionPipeline.extract">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline.extract">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SourceType</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Processes the specified inputs using a series of pre-processors, filters, and an</span>
-<span class="sd">        extraction pipeline. The method extracts data by transforming input source documents</span>
-<span class="sd">        into nodes, filtering those nodes based on metadata, running them through an</span>
-<span class="sd">        extraction pipeline, and post-processing the results.</span>
+<span class="sd">        Extracts data from a given input source using multiple processing stages.</span>
 
-<span class="sd">        :param inputs: A collection of input source types to be processed.</span>
-<span class="sd">        :type inputs: Iterable[SourceType]</span>
-<span class="sd">        :return: A generator that yields processed source documents after extraction</span>
-<span class="sd">            and post-processing.</span>
-<span class="sd">        :rtype: Generator[SourceDocument, None, None]</span>
-<span class="sd">        :raises ValueError: If inputs provided are not valid for processing.</span>
+<span class="sd">        This method processes a collection of input source types to extract</span>
+<span class="sd">        relevant data by applying a series of pre-processing stages and</span>
+<span class="sd">        running an ingestion pipeline for extraction. The process includes</span>
+<span class="sd">        filtering metadata, handling document batches, and decorating the</span>
+<span class="sd">        extracted output source documents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            inputs (Iterable[SourceType]): An iterable of input source types</span>
+<span class="sd">                to be processed by the extraction pipeline.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            SourceDocument: Processed and extracted source documents after</span>
+<span class="sd">                being handled by the extraction pipeline and decorators.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">def</span><span class="w"> </span><span class="nf">get_source_metadata</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            A pipeline class responsible for the extraction of metadata from a collection</span>
-<span class="sd">            of source nodes. The class facilitates the extraction process for different</span>
-<span class="sd">            types of input sources, isolating metadata either directly from a document</span>
-<span class="sd">            node or through its source relationships.</span>
-
-<span class="sd">            Methods defined within this class include the primary extraction method</span>
-<span class="sd">            which processes input nodes and the utility function to retrieve metadata</span>
-<span class="sd">            dependent on the node type.</span>
-
-<span class="sd">            :param inputs: An iterable collection of input nodes of SourceType from which</span>
-<span class="sd">                metadata will be extracted.</span>
-<span class="sd">            :type inputs: Iterable[SourceType]</span>
-<span class="sd">            :return: None. The function operates directly on the input data.</span>
-<span class="sd">            :rtype: None</span>
-<span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Document</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span>
             <span class="k">else</span><span class="p">:</span>
@@ -749,50 +694,48 @@
         <span class="n">input_source_documents</span> <span class="o">=</span> <span class="n">source_documents_from_source_types</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">pre_processor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_processors</span><span class="p">:</span>
-            <span class="n">input_source_documents</span> <span class="o">=</span> <span class="n">pre_processor</span><span class="o">.</span><span class="n">parse_source_docs</span><span class="p">(</span>
-                <span class="n">input_source_documents</span>
-            <span class="p">)</span>
+            <span class="n">input_source_documents</span> <span class="o">=</span> <span class="n">pre_processor</span><span class="o">.</span><span class="n">parse_source_docs</span><span class="p">(</span><span class="n">input_source_documents</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">source_documents</span> <span class="ow">in</span> <span class="n">iter_batch</span><span class="p">(</span><span class="n">input_source_documents</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">):</span>
 
             <span class="n">source_documents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_rewriter</span><span class="o">.</span><span class="n">handle_source_docs</span><span class="p">(</span><span class="n">source_documents</span><span class="p">)</span>
-            <span class="n">source_documents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction_decorator</span><span class="o">.</span><span class="n">handle_input_docs</span><span class="p">(</span>
-                <span class="n">source_documents</span>
-            <span class="p">)</span>
+            <span class="n">source_documents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction_decorator</span><span class="o">.</span><span class="n">handle_input_docs</span><span class="p">(</span><span class="n">source_documents</span><span class="p">)</span>
 
-            <span class="n">input_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">sd</span> <span class="ow">in</span> <span class="n">source_documents</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sd</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
-
+            <span class="n">input_nodes</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">n</span>
+                <span class="k">for</span> <span class="n">sd</span> <span class="ow">in</span> <span class="n">source_documents</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sd</span><span class="o">.</span><span class="n">nodes</span>
+            <span class="p">]</span>
+            
             <span class="n">filtered_input_nodes</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">node</span>
-                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">input_nodes</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction_filters</span><span class="o">.</span><span class="n">filter_source_metadata_dictionary</span><span class="p">(</span>
-                    <span class="n">get_source_metadata</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="n">node</span> 
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">input_nodes</span> 
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction_filters</span><span class="o">.</span><span class="n">filter_source_metadata_dictionary</span><span class="p">(</span><span class="n">get_source_metadata</span><span class="p">(</span><span class="n">node</span><span class="p">))</span> 
             <span class="p">]</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Running extraction pipeline [batch_size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="si">}</span><span class="s1">, num_workers: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
-
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Running extraction pipeline [batch_size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="si">}</span><span class="s1">, num_workers: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+            
             <span class="n">node_batches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ingestion_pipeline</span><span class="o">.</span><span class="n">_node_batcher</span><span class="p">(</span>
-                <span class="n">num_batches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">filtered_input_nodes</span>
+                <span class="n">num_batches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span> 
+                <span class="n">nodes</span><span class="o">=</span><span class="n">filtered_input_nodes</span>
             <span class="p">)</span>
-
+                        
             <span class="n">output_nodes</span> <span class="o">=</span> <span class="n">run_pipeline</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ingestion_pipeline</span><span class="p">,</span>
                 <span class="n">node_batches</span><span class="p">,</span>
                 <span class="n">num_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
-                <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline_kwargs</span><span class="p">,</span>
+                <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline_kwargs</span>
             <span class="p">)</span>
-
-            <span class="n">output_source_documents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source_documents_from_base_nodes</span><span class="p">(</span>
-                <span class="n">output_nodes</span>
-            <span class="p">)</span>
-
+  
+            <span class="n">output_source_documents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source_documents_from_base_nodes</span><span class="p">(</span><span class="n">output_nodes</span><span class="p">)</span>
+            
             <span class="k">for</span> <span class="n">source_document</span> <span class="ow">in</span> <span class="n">output_source_documents</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction_decorator</span><span class="o">.</span><span class="n">handle_output_doc</span><span class="p">(</span><span class="n">source_document</span><span class="p">)</span></div>
 </div>
 
+
+    
+   
 </pre></div>
         </article>
       </div>
@@ -840,11 +783,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

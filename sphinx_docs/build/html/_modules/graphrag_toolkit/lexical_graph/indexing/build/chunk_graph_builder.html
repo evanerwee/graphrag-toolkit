@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -349,8 +352,8 @@
 <div class="viewcode-block" id="ChunkGraphBuilder">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.chunk_graph_builder.ChunkGraphBuilder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ChunkGraphBuilder</span><span class="p">(</span><span class="n">GraphBuilder</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class responsible for building and managing a graph representation for</span>
-<span class="sd">    chunks.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class responsible for building and managing a graph representation</span>
+<span class="sd">    for chunks.</span>
 
 <span class="sd">    The ChunkGraphBuilder class specializes in generating graph structures</span>
 <span class="sd">    that represent &quot;chunks&quot; from input nodes. It retrieves metadata,</span>
@@ -363,32 +366,33 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        _some_attribute (type): Description of an attribute (if any). Replace</span>
 <span class="sd">        or expand this list with specific attributes used by the class.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ChunkGraphBuilder.index_key">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.chunk_graph_builder.ChunkGraphBuilder.index_key">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">index_key</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a string key that identifies the index used within a given</span>
-<span class="sd">        context.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a string key that identifies the index used within a given context.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: A string representing the index key &#39;chunk&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;chunk&#39;</span></div>
 
-
+    
 <div class="viewcode-block" id="ChunkGraphBuilder.build">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.chunk_graph_builder.ChunkGraphBuilder.build">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span><span class="n">BaseNode</span><span class="p">,</span> <span class="n">graph_client</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="n">Any</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Builds and inserts a chunk node along with its relationships into a</span>
-<span class="sd">        graph database. Handles the insertion of child, parent, previous, next,</span>
-<span class="sd">        and source relationships. If a chunk ID or required relationship</span>
-<span class="sd">        information is missing, the function logs warnings.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Builds and inserts a chunk node along with its relationships into a graph database. Handles the</span>
+<span class="sd">        insertion of child, parent, previous, next, and source relationships. If a chunk ID or required</span>
+<span class="sd">        relationship information is missing, the function logs warnings.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            node: The BaseNode object containing chunk data and its relationships.</span>
-<span class="sd">            graph_client: The GraphStore interface to interact with the graph database.</span>
-<span class="sd">            \\*\\*kwargs: Additional optional parameters for configuring the operation.</span>
+<span class="sd">            node: The node object containing chunk data and its relationships.</span>
+<span class="sd">            graph_client: The graph client interface to interact with the graph database.</span>
+<span class="sd">            **kwargs: Additional optional parameters for configuring the operation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">chunk_metadata</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chunk&#39;</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">chunk_id</span> <span class="o">=</span> <span class="n">chunk_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chunkId&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -406,11 +410,11 @@
                 <span class="sa">f</span><span class="s1">&#39;MERGE (chunk:`__Chunk__`</span><span class="se">{{</span><span class="si">{</span><span class="n">graph_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;chunkId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: params.chunk_id</span><span class="se">}}</span><span class="s1">)&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;ON CREATE SET chunk.value = params.text ON MATCH SET chunk.value = params.text&#39;</span>
             <span class="p">])</span>
-
+            
             <span class="n">source_info</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">relationships</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">NodeRelationship</span><span class="o">.</span><span class="n">SOURCE</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">source_info</span><span class="p">:</span>
-
+                
                 <span class="n">source_id</span> <span class="o">=</span> <span class="n">source_info</span><span class="o">.</span><span class="n">node_id</span>
 
                 <span class="n">statements</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
@@ -425,11 +429,11 @@
                 <span class="p">}</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;source_id missing from chunk node [node_id: </span><span class="si">{</span><span class="n">chunk_id</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
-
+            
             <span class="n">key_index</span> <span class="o">=</span> <span class="mi">0</span>
-
+            
             <span class="k">for</span> <span class="n">node_relationship</span><span class="p">,</span><span class="n">relationship_info</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">relationships</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-
+                
                 <span class="n">key_index</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;node_relationship_</span><span class="si">{</span><span class="n">key_index</span><span class="si">}</span><span class="s1">&#39;</span>
                 <span class="n">node_id</span> <span class="o">=</span> <span class="n">relationship_info</span><span class="o">.</span><span class="n">node_id</span>
@@ -447,7 +451,7 @@
                 <span class="k">elif</span> <span class="n">node_relationship</span> <span class="o">==</span> <span class="n">NodeRelationship</span><span class="o">.</span><span class="n">NEXT</span><span class="p">:</span>
                     <span class="n">statements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;MERGE (next:`__Chunk__`</span><span class="se">{{</span><span class="si">{</span><span class="n">graph_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;chunkId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: params.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="se">}}</span><span class="s1">)&#39;</span><span class="p">)</span>
                     <span class="n">statements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;MERGE (chunk)-[:`__NEXT__`]-&gt;(next)&#39;</span><span class="p">)</span>
-
+                            
             <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">statements</span><span class="p">)</span>
 
             <span class="n">graph_client</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_params</span><span class="p">(</span><span class="n">properties</span><span class="p">),</span> <span class="n">max_attempts</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_wait</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>

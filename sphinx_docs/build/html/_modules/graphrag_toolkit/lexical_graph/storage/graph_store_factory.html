@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -338,39 +341,23 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Dict</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">GraphStore</span><span class="p">,</span>
-    <span class="n">GraphStoreFactoryMethod</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DummyGraphStoreFactory</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">NeptuneAnalyticsGraphStoreFactory</span><span class="p">,</span>
-    <span class="n">NeptuneDatabaseGraphStoreFactory</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="n">GraphStoreFactoryMethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store</span><span class="w"> </span><span class="kn">import</span> <span class="n">DummyGraphStoreFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores</span><span class="w"> </span><span class="kn">import</span> <span class="n">NeptuneAnalyticsGraphStoreFactory</span><span class="p">,</span> <span class="n">NeptuneDatabaseGraphStoreFactory</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">GraphStoreType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">]</span>
-<span class="n">GraphStoreFactoryMethodType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">GraphStoreFactoryMethod</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">GraphStoreFactoryMethod</span><span class="p">]</span>
-<span class="p">]</span>
+<span class="n">GraphStoreFactoryMethodType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">GraphStoreFactoryMethod</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">GraphStoreFactoryMethod</span><span class="p">]]</span>
 
-<span class="n">_graph_store_factories</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GraphStoreFactoryMethod</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">c</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span> <span class="n">c</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span>
-        <span class="n">NeptuneAnalyticsGraphStoreFactory</span><span class="p">,</span>
-        <span class="n">NeptuneDatabaseGraphStoreFactory</span><span class="p">,</span>
-        <span class="n">DummyGraphStoreFactory</span><span class="p">,</span>
-    <span class="p">]</span>
-<span class="p">}</span>
+<span class="n">_graph_store_factories</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GraphStoreFactoryMethod</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">c</span><span class="o">.</span><span class="vm">__name__</span> <span class="p">:</span> <span class="n">c</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="n">NeptuneAnalyticsGraphStoreFactory</span><span class="p">,</span> <span class="n">NeptuneDatabaseGraphStoreFactory</span><span class="p">,</span> <span class="n">DummyGraphStoreFactory</span><span class="p">]</span> <span class="p">}</span>
 
 
 <div class="viewcode-block" id="GraphStoreFactory">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.storage.html#graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">GraphStoreFactory</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory class for registering and creating GraphStore objects.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GraphStoreFactory</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factory class for registering and creating GraphStore objects.</span>
 
 <span class="sd">    Provides methods to register custom factory implementations and retrieve</span>
 <span class="sd">    instances of GraphStore based on input parameters. Handles dynamic</span>
@@ -381,13 +368,12 @@
 <span class="sd">            factory methods, mapping factory names to their respective</span>
 <span class="sd">            instances.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="GraphStoreFactory.register">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.storage.html#graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory.register">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="n">factory_type</span><span class="p">:</span> <span class="n">GraphStoreFactoryMethodType</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Registers a factory type instance or class to the internal factory</span>
-<span class="sd">        registry.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="n">factory_type</span><span class="p">:</span><span class="n">GraphStoreFactoryMethodType</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers a factory type instance or class to the internal factory registry.</span>
 
 <span class="sd">        This method allows registration of classes inheriting from GraphStoreFactoryMethod</span>
 <span class="sd">        or their instances. The input factory_type is checked for its validity as a subclass</span>
@@ -405,53 +391,58 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factory_type</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">factory_type</span><span class="p">,</span> <span class="n">GraphStoreFactoryMethod</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;Invalid factory_type argument: </span><span class="si">{</span><span class="n">factory_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> must inherit from GraphStoreFactoryMethod.&#39;</span>
-                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid factory_type argument: </span><span class="si">{</span><span class="n">factory_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> must inherit from GraphStoreFactoryMethod.&#39;</span><span class="p">)</span>
             <span class="n">_graph_store_factories</span><span class="p">[</span><span class="n">factory_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">factory_type</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">factory_type_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">factory_type</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factory_type</span><span class="p">,</span> <span class="n">GraphStoreFactoryMethod</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;Invalid factory_type argument: </span><span class="si">{</span><span class="n">factory_type_name</span><span class="si">}</span><span class="s1"> must inherit from GraphStoreFactoryMethod.&#39;</span>
-                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid factory_type argument: </span><span class="si">{</span><span class="n">factory_type_name</span><span class="si">}</span><span class="s1"> must inherit from GraphStoreFactoryMethod.&#39;</span><span class="p">)</span>
             <span class="n">_graph_store_factories</span><span class="p">[</span><span class="n">factory_type_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">factory_type</span></div>
 
 
 <div class="viewcode-block" id="GraphStoreFactory.for_graph_store">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.storage.html#graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory.for_graph_store">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">for_graph_store</span><span class="p">(</span><span class="n">graph_info</span><span class="p">:</span> <span class="n">GraphStoreType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphStore</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">for_graph_store</span><span class="p">(</span><span class="n">graph_info</span><span class="p">:</span><span class="n">GraphStoreType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphStore</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates or retrieves a graph store instance based on the provided graph</span>
-<span class="sd">        information or configuration. If an existing `GraphStore` instance is</span>
-<span class="sd">        given, it is returned directly. Otherwise, iterates through registered</span>
-<span class="sd">        graph store factories to attempt creating a `GraphStore` instance.</span>
-<span class="sd">        Raises an error if no suitable factory can process the given graph store</span>
-<span class="sd">        information.</span>
+<span class="sd">        Creates and returns a GraphStore instance based on the provided connection</span>
+<span class="sd">        information or factory methods.</span>
 
-<span class="sd">        :param graph_info: An existing `GraphStore` instance or configuration</span>
-<span class="sd">            information for the graph store.</span>
-<span class="sd">        :type graph_info: GraphStoreType</span>
-<span class="sd">        :param kwargs: Additional keyword arguments passed to factory methods</span>
-<span class="sd">            when creating a `GraphStore` instance.</span>
-<span class="sd">        :return: A `GraphStore` instance that matches the provided information.</span>
-<span class="sd">        :rtype: GraphStore</span>
-<span class="sd">        :raises ValueError: If the graph store information is invalid or no</span>
-<span class="sd">            registered factory can process the given configuration.</span>
+<span class="sd">        This method is responsible for initializing the GraphStore by either using</span>
+<span class="sd">        the given `graph_info` directly (if it is an instance of `GraphStore`) or</span>
+<span class="sd">        by utilizing the registered factory methods to create an appropriate</span>
+<span class="sd">        GraphStore instance. If factory creation is not successful, it raises a</span>
+<span class="sd">        `ValueError`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            graph_info (GraphStoreType, optional): Connection information or an</span>
+<span class="sd">                existing instance of `GraphStore`. If it&#39;s an instance of `GraphStore`,</span>
+<span class="sd">                it will be returned directly. Otherwise, it is used to create the</span>
+<span class="sd">                GraphStore instance.</span>
+<span class="sd">            **kwargs: Additional keyword arguments passed to factory methods during</span>
+<span class="sd">                GraphStore creation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GraphStore: An instance of `GraphStore` created using the provided</span>
+<span class="sd">                information.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the `graph_info` is unrecognized or the GraphStore</span>
+<span class="sd">                creation fails. Provides detailed information to ensure the</span>
+<span class="sd">                graph store connection info is correctly formatted and a suitable</span>
+<span class="sd">                factory method is registered.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">graph_info</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">graph_info</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">graph_info</span>
-
+        
         <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="n">_graph_store_factories</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="n">graph_store</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">try_create</span><span class="p">(</span><span class="n">graph_info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">graph_store</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">graph_store</span>
-
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;Unrecognized graph store info: </span><span class="si">{</span><span class="n">graph_info</span><span class="si">}</span><span class="s1">. Check that the graph store connection info is formatted correctly, and that an appropriate graph store factory method is registered with GraphStoreFactory.&#39;</span>
-        <span class="p">)</span></div>
+            
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unrecognized graph store info: </span><span class="si">{</span><span class="n">graph_info</span><span class="si">}</span><span class="s1">. Check that the graph store connection info is formatted correctly, and that an appropriate graph store factory method is registered with GraphStoreFactory.&#39;</span><span class="p">)</span></div>
 </div>
+
 
 </pre></div>
         </article>

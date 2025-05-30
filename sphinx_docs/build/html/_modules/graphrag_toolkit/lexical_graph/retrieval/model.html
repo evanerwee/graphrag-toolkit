@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.retrieval.model - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -295,20 +298,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FalkorDB Plugin API</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../falkordb/modules.html">graphrag_toolkit</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of graphrag_toolkit</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../falkordb/graphrag_toolkit.html">graphrag_toolkit package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of graphrag_toolkit package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../falkordb/graphrag_toolkit.lexical_graph.html">graphrag_toolkit.lexical_graph package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../falkordb/graphrag_toolkit.lexical_graph.storage.html">graphrag_toolkit.lexical_graph.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5 has-children"><a class="reference internal" href="../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.html">graphrag_toolkit.lexical_graph.storage.graph package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.storage.graph package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l6"><a class="reference internal" href="../../../../falkordb/graphrag_toolkit.lexical_graph.storage.graph.falkordb.html">graphrag_toolkit.lexical_graph.storage.graph.falkordb package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../falkordb/modules.html">falkordb</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of falkordb</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../falkordb/falkordb.html">falkordb package</a></li>
 </ul>
 </li>
 </ul>
@@ -350,100 +341,98 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">AliasChoices</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
 
-
 <div class="viewcode-block" id="Statement">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.Statement">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Statement</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a statement model with associated attributes for processing</span>
-<span class="sd">    statements, their details, facts, and related metadata.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a statement model with associated metadata and attributes.</span>
 
-<span class="sd">    The `Statement` class is intended to model a structured statement object, allowing the</span>
-<span class="sd">    definition of a main statement, optional metadata such as statement ID, related facts,</span>
-<span class="sd">    chunk reference, calculated score, and an alternative string representation of the</span>
-<span class="sd">    statement. This model ensures strict validation of its attributes and enforces data</span>
-<span class="sd">    consistency.</span>
+<span class="sd">    This class encapsulates the concept of a statement, which includes its content,</span>
+<span class="sd">    associated facts, optional details, scoring information, and other metadata.</span>
+<span class="sd">    It provides a structure for organizing and managing statement-related data</span>
+<span class="sd">    within the context of the application.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        statementId (Optional[str]): Optional unique identifier of the statement.</span>
+<span class="sd">        statementId (Optional[str]): The unique identifier of the statement.</span>
 <span class="sd">        statement (str): The main content of the statement.</span>
-<span class="sd">        facts (List[str]): A list of related factual statements.</span>
-<span class="sd">        details (Optional[str]): Additional details or explanations for the statement.</span>
-<span class="sd">        chunkId (Optional[str]): Identifier for the chunk to which this statement belongs.</span>
-<span class="sd">        score (Optional[float]): Optional score or relevance metric for the statement.</span>
-<span class="sd">        statement_str (Optional[str]): Optional alternative string representation of the statement.</span>
+<span class="sd">        facts (List[str]): A list of facts associated with the statement.</span>
+<span class="sd">        details (Optional[str]): Additional details about the statement.</span>
+<span class="sd">        chunkId (Optional[str]): An identifier for the chunk the statement is a part of.</span>
+<span class="sd">        score (Optional[float]): The score associated with the statement, indicating</span>
+<span class="sd">            its relevance or confidence.</span>
+<span class="sd">        statement_str (Optional[str]): A string representation of the statement.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">statementId</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">statement</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">facts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">details</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">chunkId</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">score</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">statement_str</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
-
+    <span class="n">statementId</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">statement</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">facts</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">details</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">chunkId</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">score</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">statement_str</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span></div>
 
 
 <span class="n">StatementType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Statement</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
 
-
 <div class="viewcode-block" id="Chunk">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.Chunk">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Chunk</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a Chunk model with strict configuration.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a single unit or segment of data with an associated identifier, optional value,</span>
+<span class="sd">    and score.</span>
 
-<span class="sd">    This class defines a chunk structure with attributes such as its unique</span>
-<span class="sd">    identifier, an optional value, and an optional score. It is primarily used</span>
-<span class="sd">    to store and manage data related to individual chunks within a dataset or</span>
-<span class="sd">    system. The class ensures strict validation of its structure via the</span>
-<span class="sd">    inherited `ConfigDict` strict mode.</span>
+<span class="sd">    This class is used to encapsulate data chunks with a unique identifier. These chunks may</span>
+<span class="sd">    optionally include a value and a numerical score, where the score represents some measure</span>
+<span class="sd">    of relevance or quality. This design follows strict configuration rules as defined by its</span>
+<span class="sd">    base configuration model.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        chunkId (str): A unique identifier for the chunk.</span>
-<span class="sd">        value (Optional[str]): An optional value associated with the chunk.</span>
-<span class="sd">        score (Optional[float]): An optional score indicating some metric</span>
-<span class="sd">        related to the chunk.</span>
+<span class="sd">        chunkId (str): The unique identifier for the data chunk.</span>
+<span class="sd">        value (Optional[str]): The optional value or content of the data chunk. Default is None.</span>
+<span class="sd">        score (Optional[float]): The optional score or weight assigned to the data chunk.</span>
+<span class="sd">            Default is None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">chunkId</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">score</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
-
+    <span class="n">chunkId</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">value</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">score</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="Topic">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.Topic">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Topic</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a topic containing related chunks and statements.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a topic within a specific context.</span>
 
-<span class="sd">    This class defines a topic with associated chunks and statements. It can</span>
-<span class="sd">    be used to organize data relevant to a particular subject, ensuring</span>
-<span class="sd">    relationships and groupings are maintained for further processing or</span>
-<span class="sd">    analysis.</span>
+<span class="sd">    This class encapsulates the details of a topic, including its name, associated</span>
+<span class="sd">    chunks, and related statements. It is used as a fundamental data structure to</span>
+<span class="sd">    organize and manage topic information. The `model_config` attribute ensures</span>
+<span class="sd">    that the class operates in strict mode, enforcing stricter validation and</span>
+<span class="sd">    runtime rules when used within the application.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        model_config (ConfigDict): Configuration settings for model behavior, enforcing strict type checks.</span>
-<span class="sd">        topic (str): The main subject of the topic.</span>
-<span class="sd">        chunks (List[Chunk]): A collection of associated chunks related to the topic.</span>
-<span class="sd">        statements (List[StatementType]): Statements or assertions associated with the topic.</span>
+<span class="sd">        model_config (ConfigDict): Configuration for the model with strict mode</span>
+<span class="sd">            enabled.</span>
+<span class="sd">        topic (str): The main title or name of the topic.</span>
+<span class="sd">        chunks (List[Chunk]): A collection of chunks associated with the topic.</span>
+<span class="sd">            By default, it is an empty list.</span>
+<span class="sd">        statements (List[StatementType]): A collection of statements related to</span>
+<span class="sd">            the topic. By default, it is an empty list.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">chunks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Chunk</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">statements</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StatementType</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
-
+    <span class="n">topic</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">chunks</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">Chunk</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">statements</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">StatementType</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>  </div>
 
 
 <div class="viewcode-block" id="Source">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.Source">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Source</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a source entity with a unique identifier and associated</span>
-<span class="sd">    metadata.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a source entity with a unique identifier and associated metadata.</span>
 
 <span class="sd">    This class is used to encapsulate information about a data source, including a</span>
 <span class="sd">    unique identifier (sourceId) and optional metadata as key-value pairs. It ensures</span>
@@ -451,76 +440,79 @@
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        sourceId (str): A unique identifier for the source.</span>
-<span class="sd">        metadata (Dict[str, str]): A dictionary representing additional information about the source, where keys and values are both strings. Defaults to an empty dictionary.</span>
+<span class="sd">        metadata (Dict[str, str]): A dictionary representing additional information</span>
+<span class="sd">            about the source, where keys and values are both strings. Defaults to an</span>
+<span class="sd">            empty dictionary.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="n">sourceId</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
-
+    
+    <span class="n">sourceId</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">metadata</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></div>
 
 
 <span class="n">SourceType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Source</span><span class="p">]</span>
 
-
 <div class="viewcode-block" id="SearchResult">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResult">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SearchResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the result of a search operation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents the result of a search operation.</span>
 
-<span class="sd">    This class models the result of a search operation, including the source of</span>
-<span class="sd">    the result, relevant topics, selected topic, associated statements, and an</span>
-<span class="sd">    optional score indicating the quality or relevance of the result.</span>
+<span class="sd">    This class encapsulates details about the outcome of a search operation,</span>
+<span class="sd">    including the source of the result, associated topics, an optional single</span>
+<span class="sd">    topic, a list of statements, and an optional score indicating relevance. It</span>
+<span class="sd">    is designed to enforce strict model configuration validation.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        source (SourceType): The source from which the search result was obtained.</span>
-<span class="sd">        topics (List[Topic]): A list of topics relevant to the search result.</span>
-<span class="sd">        topic (Optional[str]): An optional single selected topic associated with the search result.</span>
-<span class="sd">        statements (List[StatementType]): A list of statements relevant to the search result.</span>
-<span class="sd">        score (Optional[float]): An optional score indicating the quality or relevance of the search result.</span>
+<span class="sd">        source (SourceType): The origin or type of the search result.</span>
+<span class="sd">        topics (List[Topic]): List of topics related to the search result.</span>
+<span class="sd">        topic (Optional[str]): A single optional topic associated with the search</span>
+<span class="sd">            result.</span>
+<span class="sd">        statements (List[StatementType]): A collection of statements returned</span>
+<span class="sd">            from the search.</span>
+<span class="sd">        score (Optional[float]): The optional score indicating the relevance of</span>
+<span class="sd">            the search result.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">source</span><span class="p">:</span> <span class="n">SourceType</span>
-    <span class="n">topics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Topic</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">topic</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">statements</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StatementType</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">score</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
-
+    <span class="n">source</span><span class="p">:</span><span class="n">SourceType</span>
+    <span class="n">topics</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">Topic</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">topic</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">statements</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">StatementType</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">score</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="Entity">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.Entity">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Entity</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents an entity model with specific configurations and attributes.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents an entity with specific attributes and configuration.</span>
 
-<span class="sd">    This class defines an entity structure with attributes for ID, value, and</span>
-<span class="sd">    classification. It enforces strict configuration settings through a model</span>
-<span class="sd">    configuration and supports aliasing for specific fields. Typically used to</span>
-<span class="sd">    represent structured data objects with validation in applications requiring</span>
-<span class="sd">    strict field type adherence.</span>
+<span class="sd">    This class is designed to represent an entity with an identifier, value, and</span>
+<span class="sd">    classification. It enforces a strict configuration model to validate and</span>
+<span class="sd">    ensure the integrity of its data. The classification attribute supports aliasing</span>
+<span class="sd">    for flexible data input. Intended for structured data modeling, this class</span>
+<span class="sd">    inherits from `BaseModel`, leveraging Pydantic&#39;s data validation and parsing</span>
+<span class="sd">    capabilities.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        entityId (str): Unique identifier for the entity.</span>
-<span class="sd">        value (str): Value or content associated with the entity.</span>
-<span class="sd">        classification (str): Category or classification of the entity, supporting alias</span>
-<span class="sd">        fields such as &#39;class&#39; or &#39;classification&#39;.</span>
+<span class="sd">        value (str): The value associated with the entity.</span>
+<span class="sd">        classification (str): Classification or category of the entity. It supports</span>
+<span class="sd">            aliasing through &#39;class&#39; or &#39;classification&#39; during data input.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">entityId</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">classification</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alias</span><span class="o">=</span><span class="n">AliasChoices</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">,</span> <span class="s1">&#39;classification&#39;</span><span class="p">))</span></div>
-
+    <span class="n">entityId</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">value</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">classification</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alias</span><span class="o">=</span><span class="n">AliasChoices</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">,</span> <span class="s1">&#39;classification&#39;</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="ScoredEntity">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.ScoredEntity">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ScoredEntity</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents an entity with an associated score.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents an entity with an associated score.</span>
 
 <span class="sd">    This class extends the BaseModel and is used to link an Entity object</span>
 <span class="sd">    with a corresponding score, ensuring strict validation of its properties.</span>
@@ -529,19 +521,17 @@
 <span class="sd">        entity (Entity): The entity object associated with the score.</span>
 <span class="sd">        score (float): The score value associated with the entity.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">entity</span><span class="p">:</span> <span class="n">Entity</span>
-    <span class="n">score</span><span class="p">:</span> <span class="nb">float</span></div>
-
+    <span class="n">entity</span><span class="p">:</span><span class="n">Entity</span>
+    <span class="n">score</span><span class="p">:</span><span class="nb">float</span></div>
 
 
 <div class="viewcode-block" id="SearchResultCollection">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SearchResultCollection</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a collection of search results and associated scored</span>
-<span class="sd">    entities.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a collection of search results and associated scored entities.</span>
 
 <span class="sd">    The class is designed to store and manage a list of search results and</span>
 <span class="sd">    a list of scored entities resulting from a search operation. It provides</span>
@@ -550,21 +540,21 @@
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        model_config: Configuration settings for the model. The strict setting</span>
-<span class="sd">        ensures that data types and structures are strictly enforced.</span>
+<span class="sd">            ensures that data types and structures are strictly enforced.</span>
 <span class="sd">        results (List[SearchResult]): A list of search result objects.</span>
 <span class="sd">        entities (List[ScoredEntity]): A list of scored entities associated</span>
-<span class="sd">        with the search results.</span>
+<span class="sd">            with the search results.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SearchResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">entities</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ScoredEntity</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SearchResult</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">entities</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ScoredEntity</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>
 
 <div class="viewcode-block" id="SearchResultCollection.add_search_result">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.add_search_result">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_search_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">SearchResult</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a search result to the existing list of results.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_search_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span><span class="n">SearchResult</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a search result to the existing list of results.</span>
 
 <span class="sd">        This method appends the given search result to the internal list of</span>
 <span class="sd">        results maintained by the instance. It is intended to manage the</span>
@@ -573,16 +563,17 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            result: A SearchResult object representing the search result</span>
-<span class="sd">            to be added to the list of results.</span>
+<span class="sd">                to be added to the list of results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SearchResultCollection.add_entity">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.add_entity">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">ScoredEntity</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds an entity to the list of entities, either merging it with an</span>
-<span class="sd">        existing entity or appending it as a new entry.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span><span class="n">ScoredEntity</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds an entity to the list of entities, either merging it with an existing entity</span>
+<span class="sd">        or appending it as a new entry.</span>
 
 <span class="sd">        If the entity already exists in the list (based on a matching `entityId`),</span>
 <span class="sd">        its score is incremented by the score of the added entity. Otherwise, the</span>
@@ -593,9 +584,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">existing_entity</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">entityId</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">entity</span><span class="p">),</span> <span class="kc">None</span>
-        <span class="p">)</span>
+        <span class="n">existing_entity</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">entityId</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">entity</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">existing_entity</span><span class="p">:</span>
             <span class="n">existing_entity</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="n">entity</span><span class="o">.</span><span class="n">score</span>
         <span class="k">else</span><span class="p">:</span>
@@ -604,15 +593,15 @@
 
 <div class="viewcode-block" id="SearchResultCollection.with_new_results">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.with_new_results">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">with_new_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SearchResult</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates the current object with new search results and returns the</span>
-<span class="sd">        updated object. This allows for fluent interface pattern by returning</span>
-<span class="sd">        the instance itself after updating its state with the provided search</span>
-<span class="sd">        results.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_new_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">SearchResult</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the current object with new search results and returns the updated object. This allows for</span>
+<span class="sd">        fluent interface pattern by returning the instance itself after updating its state with the provided</span>
+<span class="sd">        search results.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            results (List[SearchResult]): A list of SearchResult objects to update the instance&#39;s current</span>
-<span class="sd">            results data.</span>
+<span class="sd">                results data.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The current instance with the updated results.</span>
@@ -620,6 +609,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">results</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 </div>
+
+
+
 
 </pre></div>
         </article>
@@ -668,11 +660,11 @@
     </aside>
   </div>
 </div><script src="../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

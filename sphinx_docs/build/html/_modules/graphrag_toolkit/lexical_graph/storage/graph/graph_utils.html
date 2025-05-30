@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -343,12 +346,11 @@
 
 <span class="n">SEARCH_STRING_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([^\s\w]|_)+&#39;</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="search_string_from">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_utils.search_string_from">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">search_string_from</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Removes specific patterns from a string, reduces extra spaces, and</span>
-<span class="sd">    converts it to lowercase.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search_string_from</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Removes specific patterns from a string, reduces extra spaces, and converts it to lowercase.</span>
 
 <span class="sd">    This function receives a string, removes specific patterns defined by the global</span>
 <span class="sd">    `SEARCH_STRING_PATTERN`, normalizes whitespace by replacing multiple spaces with</span>
@@ -367,12 +369,11 @@
     <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 
-
 <div class="viewcode-block" id="label_from">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_utils.label_from">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">label_from</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a given string into a formatted label by removing specific</span>
-<span class="sd">    patterns and capitalizing words.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">label_from</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a given string into a formatted label by removing specific patterns and capitalizing words.</span>
 
 <span class="sd">    This function primarily works by searching for and replacing matches of a specified pattern</span>
 <span class="sd">    in the input string, before converting the modified string into capitalized words. Spaces</span>
@@ -388,11 +389,11 @@
     <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
 
 
-
 <div class="viewcode-block" id="relationship_name_from">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_utils.relationship_name_from">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">relationship_name_from</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a formatted relationship name from a given string.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">relationship_name_from</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates a formatted relationship name from a given string.</span>
 
 <span class="sd">    The function transforms the input string by replacing all non-alphanumeric</span>
 <span class="sd">    characters with underscores and converts the resulting string to uppercase.</span>
@@ -404,27 +405,24 @@
 <span class="sd">        str: A formatted string where non-alphanumeric characters are replaced</span>
 <span class="sd">        with underscores and all characters are in uppercase.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">c</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isalnum</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;_&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">value</span><span class="p">])</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span></div>
-
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span> <span class="n">c</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isalnum</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;_&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">value</span> <span class="p">])</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="node_result">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_utils.node_result">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">node_result</span><span class="p">(</span>
-    <span class="n">node_ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">node_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NodeId</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">properties</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
-    <span class="n">key_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a formatted result string based on the provided node reference, node ID, properties, and optional key name.</span>
-
-<span class="sd">    This can be used to specify desired details to fetch or represent related nodes and their</span>
-<span class="sd">    attributes in a structured format.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">node_result</span><span class="p">(</span><span class="n">node_ref</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> 
+                <span class="n">node_id</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">NodeId</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                <span class="n">properties</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span> 
+                <span class="n">key_name</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates a formatted result string based on the provided node reference, node ID,</span>
+<span class="sd">    properties, and optional key name. This can be used to specify desired details to</span>
+<span class="sd">    fetch or represent related nodes and their attributes in a structured format.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        node_ref (str): The reference name of the node.</span>
-<span class="sd">        node_id (Optional[NodeId]): An optional ID for the node, which may influence the</span>
-<span class="sd">            resulting properties based on whether the ID is property-based.</span>
+<span class="sd">        node_id (Optional[NodeId]): An optional ID for the node, which may influence</span>
+<span class="sd">            the resulting properties based on whether the ID is property-based.</span>
 <span class="sd">        properties (Optional[List[str]]): A list of property names to include. By default,</span>
 <span class="sd">            includes all properties (&#39;*&#39;). If specific properties are provided, property-specific</span>
 <span class="sd">            selectors will be constructed unless the provided ID conflicts.</span>
@@ -436,20 +434,21 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">key_name</span> <span class="ow">or</span> <span class="n">node_ref</span>
-
+    
     <span class="n">property_selectors</span> <span class="o">=</span> <span class="p">[]</span>
-
+    
     <span class="k">if</span> <span class="n">node_id</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">node_id</span><span class="o">.</span><span class="n">is_property_based</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">node_id</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">properties</span> <span class="ow">and</span> <span class="s1">&#39;*&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
                 <span class="n">property_selectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;.</span><span class="si">{</span><span class="n">node_id</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">property_selectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">node_id</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">node_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
+    
     <span class="n">property_selectors</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">])</span>
-
+        
     <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">node_ref</span><span class="si">}</span><span class="se">{{</span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">property_selectors</span><span class="p">)</span><span class="si">}</span><span class="se">}}</span><span class="s1">&#39;</span></div>
 
+    
 </pre></div>
         </article>
       </div>

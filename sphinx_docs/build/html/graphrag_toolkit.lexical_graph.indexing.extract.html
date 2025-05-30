@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -345,29 +348,34 @@
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.batch_config.</span></span><span class="sig-name descname"><span class="pre">BatchConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">role_arn:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_prefix:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s3_encryption_key_id:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subnet_ids:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">security_group_ids:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_batch_size:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">25000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_num_concurrent_batches:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/batch_config.html#BatchConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Configuration for batch processing.</p>
-<p>This class represents configurations required for batch processing, including
-details about AWS resources such as role ARN, region, bucket configuration,
-and processing limits. These configurations enable the setup and management
-of batch processing operations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>role_arn</strong> – The ARN of the IAM role used for executing batch jobs.</p></li>
-<li><p><strong>region</strong> – The AWS region where the batch process is executed.</p></li>
-<li><p><strong>bucket_name</strong> – The name of the S3 bucket to be used in the batch process.</p></li>
-<li><p><strong>key_prefix</strong> – (Optional) The prefix for keys in the S3 bucket used for
-batching.</p></li>
-<li><p><strong>s3_encryption_key_id</strong> – (Optional) The ID of the encryption key used for
-encrypting data in S3.</p></li>
-<li><p><strong>subnet_ids</strong> – The list of subnet IDs for the network configuration.</p></li>
-<li><p><strong>security_group_ids</strong> – The list of security group IDs for the network
-configuration.</p></li>
-<li><p><strong>max_batch_size</strong> – The maximum number of entries allowed in a single batch.
-Default is 25,000.</p></li>
-<li><p><strong>max_num_concurrent_batches</strong> – The maximum number of batches allowed to
-run concurrently. Default is 3.</p></li>
-</ul>
+<p>Configuration for batch processing settings.</p>
+<p>This class provides a structure for configuring batch processing, including
+AWS settings like role ARN, region, and S3 bucket details, as well as network
+and batch control parameters. It is designed to facilitate batch operations
+by defining a standardized schema for batch-related configurations.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>role_arn (str): ARN of the IAM role used for batch processing.
+region (str): AWS region where the batch processing will take place.
+bucket_name (str): Name of the S3 bucket used for storing batch-related</p>
+<blockquote>
+<div><p>data.</p>
+</div></blockquote>
+<p>key_prefix (Optional[str]): Optional prefix for keys in the S3 bucket.
+s3_encryption_key_id (Optional[str]): KMS key ID used for S3 encryption,</p>
+<blockquote>
+<div><p>if any.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>subnet_ids (List[str]): List of subnet IDs used for the network</dt><dd><p>configuration of the batch processing.</p>
+</dd>
+<dt>security_group_ids (List[str]): List of security group IDs applied to the</dt><dd><p>batch processing tasks.</p>
+</dd>
+</dl>
+<p>max_batch_size (int): Maximum size of a single batch. Default is 25000.
+max_num_concurrent_batches (int): Maximum number of concurrent batches</p>
+<blockquote>
+<div><p>allowed. Default is 3.</p>
+</div></blockquote>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -424,71 +432,35 @@ run concurrently. Default is 3.</p></li>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.</span></span><span class="sig-name descname"><span class="pre">BatchLLMPropositionExtractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig" title="graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig"><span class="pre">BatchConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LLM</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><span class="pre">LLMCache</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_metadata_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_inference_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/batch_llm_proposition_extractor.html#BatchLLMPropositionExtractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseExtractor</span></code></p>
-<p>Handles batch-level proposition extraction using a Language Model (LLM),
-allowing for scalable and efficient processing of large datasets. This
-class is designed to enable concurrent batch processing with integration
-to resource-specific clients like S3 and Bedrock for data storage, inference
-job management, and result extraction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_config</strong> – Configuration for batch processing. Determines key operational
-parameters such as bucket name, region, and other infrastructural configurations.</p></li>
-<li><p><strong>llm</strong> – Instance of the language model or its cache. Manages and facilitates prompt-based
-proposition extraction.</p></li>
-<li><p><strong>prompt_template</strong> – String template for generating language model prompts during
-proposition extraction.</p></li>
-<li><p><strong>source_metadata_field</strong> – Metadata field name used to extract text propositions.
-It overrides the default extraction text if specified.</p></li>
-<li><p><strong>batch_inference_dir</strong> – Directory path for maintaining batch inference input/output data.</p></li>
-</ul>
+<p>Handles the extraction of propositions using a batch processing approach via an LLM.</p>
+<p>This class is designed to process large sets of nodes by splitting them into smaller
+batches, generating prompts for LLM-based proposition extraction, and handling results
+from batch inference jobs. It manages resources such as directories, uploads and downloads
+to/from S3, and processes responses to extract propositions. The functionality supports
+concurrent processing of multiple batches using asynchronous methods.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>batch_config (BatchConfig): Configuration for batch inference, including batch size,</dt><dd><p>key prefixes, and maximum concurrent batches.</p>
 </dd>
 </dl>
-<p>Initializes an instance of the class, setting up the configuration for batch processing,
-including low-level language model (LLM) configurations, prompt template, metadata
-fields, and output directory for batch inference.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_config</strong> (<a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig" title="graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig"><em>BatchConfig</em></a>) – Configuration object for batching containing parameters
-and settings for batch processing.</p></li>
-<li><p><strong>llm</strong> (<em>LLMCacheType</em><em>, </em><em>optional</em>) – Instance of an optional low-level language model or cache type for
-LLM tasks. Defaults to <cite>GraphRAGConfig.extraction_llm</cite> if not provided.</p></li>
-<li><p><strong>prompt_template</strong> (<em>str</em><em>, </em><em>optional</em>) – Text template used for generating prompts. If not explicitly
-provided, defaults to the <cite>EXTRACT_PROPOSITIONS_PROMPT</cite> constant.</p></li>
-<li><p><strong>source_metadata_field</strong> (<em>str</em><em>, </em><em>optional</em>) – An optional field specifying the source’s metadata
-utilized in processing. If not provided, defaults to <cite>None</cite>.</p></li>
-<li><p><strong>batch_inference_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the directory for storing output results from
-batch inference. If not provided, defaults to <cite>‘output/batch-propositions’</cite>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – Raises an error if the provided <cite>llm</cite> is not an instance of
-<cite>LLMCache</cite> and cannot be initialized correctly.</p>
+<p>llm (Optional[LLMCache]): The language model cache to be used for extracting propositions.
+prompt_template (str): Template for generating prompts used in LLM extraction processes.
+source_metadata_field (Optional[str]): Metadata field used as the source for extracting</p>
+<blockquote>
+<div><p>text for proposition generation.</p>
+</div></blockquote>
+<p>batch_inference_dir (str): Directory location for managing batch inputs and outputs.</p>
 </dd>
 </dl>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.aextract">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aextract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/batch_llm_proposition_extractor.html#BatchLLMPropositionExtractor.aextract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.aextract" title="Link to this definition">¶</a></dt>
-<dd><p>Extracts information asynchronously from a sequence of nodes, either individually
-or in batches, depending on the minimum batch size defined for Bedrock processing.
-If the number of nodes is below the minimum threshold, a fallback extraction method
-is used. The function processes batches concurrently while managing the concurrency
-limit using semaphores, ensuring optimal performance without exceeding resource limits.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>nodes</strong> (<em>Sequence</em><em>[</em><em>BaseNode</em><em>]</em>) – A sequence of BaseNode instances from which information will be extracted. Each
-node represents an individual piece of data to process.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of dictionaries, where each dictionary contains processed results
-including propositions associated with nodes. If a node does not contain
-results, the propositions key will have an empty list as its value.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Dict]</p>
-</dd>
-</dl>
+<dd><p>Asynchronously extracts propositions from a list of nodes. This method divides the input nodes into batches, processes
+the batches concurrently using Bedrock or a fallback extractor, and processes the results to generate structured</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -504,16 +476,11 @@ results, the propositions key will have an empty list as its value.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.class_name">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/batch_llm_proposition_extractor.html#BatchLLMPropositionExtractor.class_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.class_name" title="Link to this definition">¶</a></dt>
-<dd><p>Provides the name of the class as a string.</p>
-<p>This method is a class-level method that is used to retrieve the name of
-the class it is invoked on. It ensures consistent retrieval of the class
-name without the need for manually specifying it.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The name of the class as a string.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dd><p>Returns the name of the class as a string. This method is designed to
+provide a human-readable representation of the class name, mainly for
+use in debugging, logging, or other identification purposes.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>str: The name of the class.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -532,30 +499,21 @@ name without the need for manually specifying it.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.process_single_batch">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">process_single_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TextNode</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s3_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bedrock_client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/batch_llm_proposition_extractor.html#BatchLLMPropositionExtractor.process_single_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.process_single_batch" title="Link to this definition">¶</a></dt>
-<dd><p>Process a single batch of text nodes by creating inference inputs, uploading them
-to S3, invoking a batch job, and processing the results.</p>
-<p>This asynchronous function handles multiple steps in a batch processing pipeline,
-including generating inference inputs from text nodes, organizing and uploading
-files to S3, invoking a batch job with the Bedrock client, and retrieving and
-parsing the outputs produced by the batch job. It ensures all necessary resources
-are properly prepared and organized, such as directories and filenames.</p>
-<p>All operations, including S3 interactions and batch job invocations, are handled
-asynchronously to ensure non-blocking execution.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_index</strong> (<em>int</em>) – The index of the current batch being processed.</p></li>
-<li><p><strong>node_batch</strong> (<em>List</em><em>[</em><em>TextNode</em><em>]</em>) – A list of TextNode objects representing the batch of text
-nodes to process.</p></li>
-<li><p><strong>s3_client</strong> (<em>Any</em>) – An S3 client object for interacting with an Amazon S3 bucket.</p></li>
-<li><p><strong>bedrock_client</strong> (<em>Any</em>) – A Bedrock client object for invoking batch jobs.</p></li>
-</ul>
+<dd><p>Processes a single batch of proposition extraction asynchronously by performing several
+steps including creating record files, uploading them to S3, invoking a batch job,
+downloading output files, and processing batch results.</p>
+<dl>
+<dt>Args:</dt><dd><p>batch_index (int): The index identifier of the current batch being processed.
+node_batch (List[TextNode]): A list of <cite>TextNode</cite> objects representing the data</p>
+<blockquote>
+<div><p>batch to be processed.</p>
+</div></blockquote>
+<p>s3_client: The S3 client instance used to upload and download files from Amazon S3.
+bedrock_client: The Bedrock client instance used to create and run batch jobs.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of batch results derived from the processed batch output.</p>
+<dt>Returns:</dt><dd><p>List[Dict]: A list of dictionaries containing the processed results of the batch.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Any]</p>
+<dt>Raises:</dt><dd><p>BatchJobError: If any error occurs during the batch processing.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -579,77 +537,65 @@ nodes to process.</p></li>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.</span></span><span class="sig-name descname"><span class="pre">BatchTopicExtractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig" title="graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig"><span class="pre">BatchConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LLM</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><span class="pre">LLMCache</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_metadata_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_inference_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity_classification_provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider" title="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider"><span class="pre">ScopedValueProvider</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topic_provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider" title="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider"><span class="pre">ScopedValueProvider</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/batch_topic_extractor.html#BatchTopicExtractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseExtractor</span></code></p>
-<p>Extracts topics in batch mode using a prompt-based large language model (LLM)
-system. This class handles the preparation, creation, and management of
-batch-level topic extraction workflows. It facilitates entities and topics
-classification, generates prompts, invokes batch LLM jobs, and integrates
-output processing seamlessly.</p>
-<p>The primary purpose of this class is to support scalable, efficient, and
-flexible topic extraction from input data in a batch mode. The configuration
-can be adapted for varied batch setups, metadata sources, and external systems.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_config</strong> – Configuration object for batch inference, including any
-details related to the batch’s operational behavior and constraints.</p></li>
-<li><p><strong>llm</strong> – Optional language model (LLM) cache configuration used to
-facilitate prompts and model interactions.</p></li>
-<li><p><strong>prompt_template</strong> – String template to format extraction prompts. This
-attribute defines how prompts are generated for LLM processing.</p></li>
-<li><p><strong>source_metadata_field</strong> – Metadata field in the input data associated with
-propositions to extract. If None, defaults to the main text content.</p></li>
-<li><p><strong>batch_inference_dir</strong> – Path to a directory where batch inputs and outputs
-are stored. Used as a base directory for managing job files.</p></li>
-<li><p><strong>entity_classification_provider</strong> – Scoped value provider supplying
-classification-related information for input entities.</p></li>
-<li><p><strong>topic_provider</strong> – Scoped value provider supplying information about topics,
-scoped to specific contexts for flexibility.</p></li>
-</ul>
+<p>Handles batch topic extraction processes, utilizing LLMs and external services for generating
+and processing topic-related data for text inputs in batches.</p>
+<p>This class is primarily designed to facilitate the efficient processing of large datasets by
+splitting input data into manageable batches, generating topic extraction prompts, and
+managing asynchronous tasks for data upload, batch processing, and output handling. It
+employs LLM (Language Model) inference and integrates with external systems like S3
+and Bedrock for input handling, batch processing, and result retrieval.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>batch_config (BatchConfig): Configuration object containing batch inference settings.
+llm (Optional[LLMCache]): An instance of LLMCache to manage caching and interaction</p>
+<blockquote>
+<div><p>with the specified language model.</p>
+</div></blockquote>
+<p>prompt_template (str): A template to define the format of prompts for topic extraction.
+source_metadata_field (Optional[str]): Metadata field used as input for topic</p>
+<blockquote>
+<div><p>extraction, if specified.</p>
+</div></blockquote>
+<p>batch_inference_dir (str): Directory path where batch input and result files are stored.
+entity_classification_provider (ScopedValueProvider): Provider for retrieving entity</p>
+<blockquote>
+<div><p>classifications in the current scope.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>topic_provider (ScopedValueProvider): Provider for retrieving topics in the current</dt><dd><p>scope.</p>
 </dd>
 </dl>
-<p>Initializes the class instance with configuration and components required for batch
-processing and topic extraction. It sets up configuration, directories, and functional
-dependencies like prompt templates and classification providers.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_config</strong> (<a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig" title="graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig"><em>BatchConfig</em></a>) – The configuration object defining batch processing parameters,
-detailing paths, limits, and rules that guide how the batch operations are conducted.</p></li>
-<li><p><strong>llm</strong> – An instance of the language model or a cache-enabled wrapper around it,
-used for leveraging language processing tasks within batch operations. Defaults to None.</p></li>
-<li><p><strong>prompt_template</strong> – The textual template used to guide topic extraction or classification.
-If not provided explicitly, a default value is applied.</p></li>
-<li><p><strong>source_metadata_field</strong> – The source metadata field from which additional
-information is extracted during processing. Defaults to None.</p></li>
-<li><p><strong>batch_inference_dir</strong> – The directory path where batch inference results are
-stored, including any intermediate outputs. If not provided, defaults to
-‘output/batch-topics’.</p></li>
-<li><p><strong>entity_classification_provider</strong> – The provider object responsible for classifying
-entities during processing. Defaults to a fixed scoped value provider with default
-entity classifications if not explicitly specified.</p></li>
-<li><p><strong>topic_provider</strong> – The provider object used for supplying topics during batch
-operations or extractions. A fixed scoped value provider is configured with an
-empty default scope if undefined.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Initializes an instance of the class with configuration details for batch processing,
+language model, prompt templates, metadata fields, directory for batch inference,
+entity classification provider, and topic provider.</p>
+<dl>
+<dt>Args:</dt><dd><p>batch_config: Configuration object specifying batch processing details.
+llm: Instance of a language model cache or a language model, defining the desired</p>
+<blockquote>
+<div><p>behavior for processing.</p>
+</div></blockquote>
+<p>prompt_template: Template string used to create prompts for processing.
+source_metadata_field: Optional metadata field in the source data to be considered</p>
+<blockquote>
+<div><p>during processing.</p>
+</div></blockquote>
+<p>batch_inference_dir: Directory path where batch inference outputs will be stored.
+entity_classification_provider: Scoped value provider for entity classification settings.
+topic_provider: Scoped value provider for topic settings based on the given scope.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.aextract">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aextract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/batch_topic_extractor.html#BatchTopicExtractor.aextract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.aextract" title="Link to this definition">¶</a></dt>
-<dd><p>Asynchronous method for extracting topics from a sequence of nodes. The method is optimized
-to handle data in batches, with support for parallel processing. If the sequence contains
-fewer nodes than the minimum required batch size, it utilizes the TopicExtractor instead.
-Otherwise, it splits the data into batches for concurrent processing and retrieves results
-through Bedrock. Processes the results to extract and format topic information.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>nodes</strong> (<em>Sequence</em><em>[</em><em>BaseNode</em><em>]</em>) – Sequence of BaseNode objects representing data from which topics are to be extracted</p>
+<dd><p>Asynchronously processes a sequence of nodes, extracting topics based on Bedrock configurations
+or fallback TopicExtractor, and parallelizes processing in batches for performance efficiency.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>nodes (Sequence[BaseNode]): A sequence of nodes to process and extract topics from.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of dictionaries containing extracted topics, formatted for further processing</p>
+<dt>Returns:</dt><dd><p>List[Dict]: A list of dictionaries containing extracted topics for each node.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Dict]</p>
+<dt>Raises:</dt><dd><p>No specific exceptions explicitly raised by this function.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -667,16 +613,10 @@ through Bedrock. Processes the results to extract and format topic information.<
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.class_name">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/batch_topic_extractor.html#BatchTopicExtractor.class_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.class_name" title="Link to this definition">¶</a></dt>
-<dd><p>Returns the name of the class.</p>
-<p>This method is used to retrieve the name of the class as a string. It is
-a class-level method and does not require an instance of the class to be
-called.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The name of the class.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dd><p>Returns the class name of the batch topic extractor.</p>
+<p>This method is a class method and provides the name of the class as a string.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>str: The name of the class, which is ‘BatchTopicExtractor’.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -700,25 +640,29 @@ called.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.process_single_batch">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">process_single_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TextNode</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s3_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bedrock_client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/batch_topic_extractor.html#BatchTopicExtractor.process_single_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.process_single_batch" title="Link to this definition">¶</a></dt>
-<dd><p>Processes a single batch of text nodes by creating input files, uploading
-them to S3, invoking a batch job for topic extraction, downloading the
-output files, and processing the results.</p>
-<p>This function handles input formatting, S3 operations, external LLM model
-invocations, and output processing using the provided clients and resources.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_index</strong> (<em>int</em>) – The index of the batch being processed.</p></li>
-<li><p><strong>node_batch</strong> (<em>List</em><em>[</em><em>TextNode</em><em>]</em>) – A list of TextNode objects to process.</p></li>
-<li><p><strong>s3_client</strong> (<em>Any</em>) – The S3 client instance used for uploading and downloading files.</p></li>
-<li><p><strong>bedrock_client</strong> (<em>Any</em>) – The Bedrock client instance used for batch job execution.</p></li>
-</ul>
+<dd><p>Processes a single batch of text nodes through multiple workflow stages, including record creation, S3 bucket
+upload, batch job invocation using Bedrock, and result processing.</p>
+<p>This function performs the following steps:
+1. Creates input files for batch inference, including formatting text based on metadata, generating message prompts,</p>
+<blockquote>
+<div><p>and preparing JSONL files.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Uploads the generated input files to an AWS S3 bucket based on the configuration.</p></li>
+<li><p>Invokes a Bedrock batch job for topic extraction using the prepared inputs.</p></li>
+<li><p>Downloads and processes the output files generated during the batch job.</p></li>
+<li><p>Returns the processed batch results for further utilization.</p></li>
+</ol>
+<dl class="simple">
+<dt>Args:</dt><dd><p>batch_index (int): The index of the current batch being processed.
+node_batch (List[TextNode]): A list of text nodes to process in this batch.
+s3_client: The S3 client instance used for file handling with the S3 bucket.
+bedrock_client: The Bedrock client instance for invoking and interacting with the batch job.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of processed results for the given batch.</p>
+<dt>Returns:</dt><dd><p>List: The results after processing the outputs of the batch job.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Any</p>
+<dt>Raises:</dt><dd><p>BatchJobError: If any error occurs during batch processing, an exception is raised, providing details
+of the batch index and error context.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -775,86 +719,128 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.</span></span><span class="sig-name descname"><span class="pre">ExtractionPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TransformComponent</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_processors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser" title="graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser"><span class="pre">SourceDocParser</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraction_decorator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator" title="graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator"><span class="pre">PipelineDecorator</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint" title="graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint"><span class="pre">Checkpoint</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.tenant_id.TenantId" title="graphrag_toolkit.lexical_graph.tenant_id.TenantId"><span class="pre">TenantId</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraction_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/extraction_pipeline.html#ExtractionPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>ExtractionPipeline class is designed to configure and execute a document extraction pipeline.</p>
-<p>This pipeline integrates multiple transformation components, optional preprocessing steps, and advanced configurations
-like tenant filtering, checkpointing, and data filtering. By enabling efficient processing with optional support
-for batching and parallel execution, this class serves as a robust solution for data extraction and transformation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ingestion_pipeline</strong> – The constructed pipeline consisting of all configured transformation
-components responsible for document processing.</p></li>
-<li><p><strong>pre_processors</strong> – Pre-processors to parse and prepare source documents before ingestion into the pipeline.</p></li>
-<li><p><strong>extraction_decorator</strong> – The decorator used to extend or customize the extraction process during pipeline execution.</p></li>
-<li><p><strong>num_workers</strong> – Number of worker threads employed for parallel processing in the pipeline.</p></li>
-<li><p><strong>batch_size</strong> – Number of processing items managed concurrently within each batch.</p></li>
-<li><p><strong>show_progress</strong> – A flag indicating whether progress bars are enabled during extraction pipeline operations.</p></li>
-<li><p><strong>id_rewriter</strong> – A utility for generating unique traceable IDs for documents processed in the pipeline.</p></li>
-<li><p><strong>extraction_filters</strong> – Holds configuration settings for applying additional extraction rules and filters.</p></li>
-<li><p><strong>pipeline_kwargs</strong> – Captures additional pipeline-specific configurations supplied via keyword arguments.</p></li>
-</ul>
+<p>Represents a data extraction pipeline with customizable components.</p>
+<p>This class defines a pipeline for processing and extracting data using a series
+of configurable components. The pipeline allows for the use of pre-processors,
+decorators, and post-processing logic to handle the data extraction workflow
+in a modular and scalable way. Additionally, it supports multi-worker execution,
+batching, and integration with filters and checkpoints for state management.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>ingestion_pipeline (IngestionPipeline): The pipeline of components to transform</dt><dd><p>input data.</p>
+</dd>
+<dt>pre_processors (List[SourceDocParser]): Pre-processors used to parse input source</dt><dd><p>documents before starting the extraction process.</p>
+</dd>
+<dt>extraction_decorator (PipelineDecorator): A decorator for handling additional</dt><dd><p>input and output transformations in the extraction pipeline.</p>
+</dd>
+<dt>num_workers (int): The number of workers used for parallel processing in the</dt><dd><p>pipeline.</p>
 </dd>
 </dl>
-<p>Initializes a pipeline with configurable transformation components, optional pre-processing,
-decorators, and advanced options like concurrency, batching, filters, and checkpoints. This pipeline
-can process input data through a series of transformations, with optional customization and resource
-management.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>components</strong> – List of transformation components to sequentially process the input data.</p></li>
-<li><p><strong>pre_processors</strong> – Optional list of pre-processing components for parsing and preparing data before entering the
-main transformation pipeline.</p></li>
-<li><p><strong>extraction_decorator</strong> – Decorator for adding extra functionality to the extraction process. Defaults to None.</p></li>
-<li><p><strong>num_workers</strong> – Desired number of worker threads for concurrent processing. If not provided, a default value is
-derived from configuration.</p></li>
-<li><p><strong>batch_size</strong> – Number of data items processed per batch. Uses a configuration default value if not specified.</p></li>
-<li><p><strong>show_progress</strong> – Whether to display a progress bar or indicator during processing. Defaults to False.</p></li>
-<li><p><strong>checkpoint</strong> – Optional configuration to allow checkpointing, enabling processing resumption or state
-management.</p></li>
-<li><p><strong>tenant_id</strong> – Identifier to associate processing components with tenant-specific contexts. Optional.</p></li>
-<li><p><strong>extraction_filters</strong> – Configuration for applying filters during the data extraction process. Defaults to None.</p></li>
-<li><p><strong>kwargs</strong> – Additional arguments to customize the pipeline behavior or extend its functionality properly.</p></li>
-</ul>
+<p>batch_size (int): The size of data batches for processing in the pipeline.
+show_progress (bool): Determines whether progress should be logged or displayed</p>
+<blockquote>
+<div><p>during pipeline execution.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>id_rewriter (IdRewriter): A component responsible for rewriting node identifiers</dt><dd><p>within the extraction pipeline.</p>
+</dd>
+<dt>extraction_filters (FilterConfig): Filters applied to input data nodes to</dt><dd><p>determine which nodes are processed by the pipeline.</p>
+</dd>
+<dt>pipeline_kwargs (dict): Additional runtime parameters and configurations for</dt><dd><p>the pipeline components.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Initializes the extraction pipeline with provided components, configurations, and optional
+pre-processing and filtering capabilities to handle document processing tasks. This class
+configures the pipeline with a series of components, manages their interactions, and sets up
+any necessary decorators for additional functionality.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>components (List[TransformComponent]): A list of transformation components that constitute</dt><dd><p>the extraction pipeline, which will process and transform the data.</p>
+</dd>
+<dt>pre_processors (Optional[List[SourceDocParser]]): Optional list of pre-processors to parse</dt><dd><p>source documents before they are ingested into the pipeline. Defaults to None.</p>
+</dd>
+<dt>extraction_decorator (PipelineDecorator): Optional pipeline decorator for modifying or</dt><dd><p>enhancing the extraction process. Defaults to PassThroughDecorator if not provided.</p>
+</dd>
+<dt>num_workers (Optional[int]): Number of workers to parallelize the pipeline’s processing.</dt><dd><p>Defaults to the predefined configuration value.</p>
+</dd>
+<dt>batch_size (Optional[int]): Batch size to determine how many items are processed concurrently.</dt><dd><p>Defaults to the predefined configuration value.</p>
+</dd>
+<dt>show_progress (bool): Flag to enable or disable progress visualization during pipeline execution.</dt><dd><p>Defaults to False.</p>
+</dd>
+<dt>checkpoint (Optional[Checkpoint]): Optional checkpoint to integrate filtering or additional</dt><dd><p>processing into the pipeline. Defaults to None.</p>
+</dd>
+<dt>tenant_id (Optional[TenantId]): Identifies the tenant for generating unique IDs within the</dt><dd><p>pipeline’s transformations. Defaults to None.</p>
+</dd>
+<dt>extraction_filters (Optional[FilterConfig]): Configuration for additional filtering criteria</dt><dd><p>to apply during the extraction process. Defaults to an empty FilterConfig instance.</p>
+</dd>
+</dl>
+<p><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs (Any): Additional keyword arguments to be passed to the pipeline configurations.</p>
+</dd>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>ingestion_pipeline (IngestionPipeline): The constructed pipeline consisting of all configured</dt><dd><p>transformation components, responsible for processing the ingested documents.</p>
+</dd>
+<dt>pre_processors (List[SourceDocParser]): A list of pre-processors, if provided, for initial</dt><dd><p>parsing of source documents.</p>
+</dd>
+<dt>extraction_decorator (PipelineDecorator): The decorator used to modify or extend the extraction</dt><dd><p>logic as part of the pipeline execution.</p>
+</dd>
+</dl>
+<p>num_workers (int): The number of workers allocated for parallel processing in the pipeline.
+batch_size (int): The size of processing batches for the pipeline’s operations.
+show_progress (bool): Indicates whether progress visualization is enabled during pipeline</p>
+<blockquote>
+<div><p>execution.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>id_rewriter (IdRewriter): A rewriter for generating unique IDs to ensure document traceability</dt><dd><p>within the pipeline.</p>
+</dd>
+<dt>extraction_filters (FilterConfig): Holds the configuration for additional filters to refine</dt><dd><p>the data extraction process.</p>
+</dd>
+<dt>pipeline_kwargs (dict): Captures any additional pipeline configuration settings provided</dt><dd><p>via keyword arguments.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline.create">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TransformComponent</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_processors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser" title="graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser"><span class="pre">SourceDocParser</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraction_decorator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator" title="graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator"><span class="pre">PipelineDecorator</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint" title="graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint"><span class="pre">Checkpoint</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.tenant_id.TenantId" title="graphrag_toolkit.lexical_graph.tenant_id.TenantId"><span class="pre">TenantId</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraction_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/extraction_pipeline.html#ExtractionPipeline.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline.create" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a pipeline for data extraction by configuring the components, pre-processors,
-decorators, filters, and execution parameters. This method combines all the necessary
-elements required to execute the pipeline with the specified configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>components</strong> (<em>List</em><em>[</em><em>TransformComponent</em><em>]</em>) – List of transformation components to be executed in the pipeline.
-These components determine the processing logic for data transformation.</p></li>
-<li><p><strong>pre_processors</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser" title="graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser"><em>SourceDocParser</em></a><em>]</em><em>]</em>) – Optional list of source document parsers for preprocessing
-steps prior to extraction. Defaults to None.</p></li>
-<li><p><strong>extraction_decorator</strong> (<a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator" title="graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator"><em>PipelineDecorator</em></a>) – Optional decorator for the pipeline that encapsulates
-additional logic or functionality around extraction processes. Defaults to None.</p></li>
-<li><p><strong>num_workers</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Number of workers to utilize in parallel processing.
-If not provided, defaults to the system’s logical processors.</p></li>
-<li><p><strong>batch_size</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Size of each batch for batch processing. Helps manage
-processing efficiency and memory usage. Defaults to None.</p></li>
-<li><p><strong>show_progress</strong> (<em>bool</em>) – Boolean indicating whether to display a progress bar
-during extraction. Defaults to False.</p></li>
-<li><p><strong>checkpoint</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint" title="graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint"><em>Checkpoint</em></a><em>]</em>) – Optional checkpoint configuration for resuming pipeline
-processing from a saved state. Defaults to None.</p></li>
-<li><p><strong>tenant_id</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.tenant_id.TenantId" title="graphrag_toolkit.lexical_graph.tenant_id.TenantId"><em>TenantId</em></a><em>]</em>) – Identifier for the tenant, used to differentiate and handle
-multi-tenant data in configurations. Defaults to None.</p></li>
-<li><p><strong>extraction_filters</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><em>FilterConfig</em></a><em>]</em>) – Optional filter configuration for refining or limiting
-the data extraction scope based on specified criteria. Defaults to None.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Additional keyword arguments for further customization of
-alternative configurations or extensions.</p></li>
-</ul>
+<dd><p>Creates an instance of the extraction pipeline, configured with specified components,
+optional pre-processors, decorators, filters, and other settings. This method returns
+a pipeline configured to extract data from source documents using the specified
+settings and options.</p>
+<p>This static method streamlines the process of constructing a pipeline by enabling
+customization through its arguments, including batching, progress visibility, tenant
+filtering, checkpointing, and additional behaviors via keyword arguments.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>components (List[TransformComponent]): A list of components for the</dt><dd><p>transformation pipeline.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A configured pipeline instance ready to execute the extraction process
-with the specified configurations.</p>
+<dt>pre_processors (Optional[List[SourceDocParser]]): Optional list of pre-processors</dt><dd><p>to apply on the source documents.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Pipe</p>
+<dt>extraction_decorator (PipelineDecorator): An optional decorator for customizing</dt><dd><p>the extraction process.</p>
+</dd>
+</dl>
+<p>num_workers (Optional[int]): The number of workers to use for parallel processing.
+batch_size (Optional[int]): The number of items to process in each batch during</p>
+<blockquote>
+<div><p>execution.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>show_progress (bool): Specifies whether to display progress during the pipeline</dt><dd><p>execution.</p>
+</dd>
+<dt>checkpoint (Optional[Checkpoint]): An optional checkpoint configuration for managing</dt><dd><p>pipeline state and recovery.</p>
+</dd>
+<dt>tenant_id (Optional[TenantId]): An optional identifier to constrain data processing</dt><dd><p>to a specific tenant.</p>
+</dd>
+<dt>extraction_filters (Optional[FilterConfig]): An optional set of filters to apply for</dt><dd><p>extraction rules.</p>
+</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs (Any): Additional settings or configurations for extending the pipeline’s</dt><dd><p>behavior.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Pipe: A configured pipeline object wrapping the extraction pipeline’s extraction
+logic.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -862,23 +848,22 @@ with the specified configurations.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline.extract">
 <span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/extraction_pipeline.html#ExtractionPipeline.extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.ExtractionPipeline.extract" title="Link to this definition">¶</a></dt>
-<dd><p>Processes the specified inputs using a series of pre-processors, filters, and an
-extraction pipeline. The method extracts data by transforming input source documents
-into nodes, filtering those nodes based on metadata, running them through an
-extraction pipeline, and post-processing the results.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>inputs</strong> (<em>Iterable</em><em>[</em><em>SourceType</em><em>]</em>) – A collection of input source types to be processed.</p>
+<dd><p>Extracts data from a given input source using multiple processing stages.</p>
+<p>This method processes a collection of input source types to extract
+relevant data by applying a series of pre-processing stages and
+running an ingestion pipeline for extraction. The process includes
+filtering metadata, handling document batches, and decorating the
+extracted output source documents.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>inputs (Iterable[SourceType]): An iterable of input source types</dt><dd><p>to be processed by the extraction pipeline.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A generator that yields processed source documents after extraction
-and post-processing.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Generator[<a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument">SourceDocument</a>, None, None]</p>
+<dt>Yields:</dt><dd><dl class="simple">
+<dt>SourceDocument: Processed and extracted source documents after</dt><dd><p>being handled by the extraction pipeline and decorators.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If inputs provided are not valid for processing.</p>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -889,42 +874,32 @@ and post-processing.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.</span></span><span class="sig-name descname"><span class="pre">PassThroughDecorator</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/extraction_pipeline.html#PassThroughDecorator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator" title="graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineDecorator</span></code></a></p>
-<p>A decorator class that processes input and output documents without modification.</p>
-<p>The PassThroughDecorator class is a subclass of PipelineDecorator designed to
-handle input and output documents by passing them through unchanged. It allows
-integration within a pipeline where no specific transformation or processing
-logic is required, enabling smooth data flow while adhering to a consistent
-decorator interface.</p>
-<p>Represents the initialization method of a class.</p>
-<p>This method is a constructor used to initialize the attributes or settings of an
-object when an instance of a class is created. It does not perform any actions
-or set any attributes in its current implementation.</p>
+<p>A decorator class that passes through input and output documents unchanged.</p>
+<p>This class is intended to be used as a no-op (no operation) decorator within
+a pipeline. It receives documents, performs no modifications, and forwards
+them as-is to the next component in the pipeline. The purpose of this class
+is to act as a placeholder or default decorator which enables seamless
+integration and testing of pipelines without altering the data flow.</p>
 <dl class="simple">
-<dt>Attributes:</dt><dd><p>No attributes are defined in this method.</p>
-</dd>
-<dt>Parameters:</dt><dd><p>No parameters are expected in this method.</p>
-</dd>
-<dt>Raises:</dt><dd><p>This method does not raise any exceptions.</p>
-</dd>
-<dt>Returns:</dt><dd><p>None</p>
+<dt>Attributes:</dt><dd><p>None</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator.handle_input_docs">
 <span class="sig-name descname"><span class="pre">handle_input_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/extraction_pipeline.html#PassThroughDecorator.handle_input_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator.handle_input_docs" title="Link to this definition">¶</a></dt>
-<dd><p>Handles the input documents provided as an iterable of SourceDocument objects.</p>
-<p>Takes an iterable of documents, processes or returns them as needed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>nodes</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><em>SourceDocument</em></a><em>]</em>) – An iterable containing instances of SourceDocument, representing
-the documents to be handled.</p>
+<dd><p>Handles and processes the given input documents.</p>
+<p>This method takes an iterable of SourceDocument instances and processes them
+as required. The processed documents are then returned.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>nodes (Iterable[SourceDocument]): An iterable containing SourceDocument</dt><dd><p>instances to be handled.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The input iterable of SourceDocument objects, processed as per the
-requirements.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Iterable[<a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument">SourceDocument</a>]</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Iterable[SourceDocument]: The processed iterable of SourceDocument</dt><dd><p>instances.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -932,16 +907,14 @@ requirements.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator.handle_output_doc">
 <span class="sig-name descname"><span class="pre">handle_output_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/extraction_pipeline.html#PassThroughDecorator.handle_output_doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.extraction_pipeline.PassThroughDecorator.handle_output_doc" title="Link to this definition">¶</a></dt>
-<dd><p>Handles and returns the given source document node.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><em>SourceDocument</em></a>) – Source document node to be processed.</p>
+<dd><p>Handles the processing of a SourceDocument node and returns it after output handling.</p>
+<p>The method takes a single SourceDocument object as input, processes it, and returns
+the same SourceDocument object. It can be utilized to apply specific output-related
+handling or modifications to the input document.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>node (SourceDocument): The document to be handled and returned after processing.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The processed source document node.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument">SourceDocument</a></p>
+<dt>Returns:</dt><dd><p>SourceDocument: The processed document after output handling.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -971,10 +944,9 @@ scenarios where intermediate and final results need to be persisted to disk.</p>
 </dl>
 </dd>
 </dl>
-<p>Initializes the necessary directories and sets up instance variables
-for managing subdirectories and output locations. This constructor
-prepares output directories and assigns locations for raw sources,
-chunks, and processed sources.</p>
+<p>Initializes the necessary directories and sets up instance variables for managing
+subdirectories and output locations. This constructor prepares output directories
+and assigns locations for raw sources, chunks, and processed sources.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>subdirectory_name: Name of the subdirectory where processed files will be</dt><dd><p>organized within the output directory structure.</p>
@@ -989,9 +961,8 @@ chunks, and processed sources.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.file_system_tap.FileSystemTap.handle_input_docs">
 <span class="sig-name descname"><span class="pre">handle_input_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/file_system_tap.html#FileSystemTap.handle_input_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.file_system_tap.FileSystemTap.handle_input_docs" title="Link to this definition">¶</a></dt>
-<dd><p>Processes a collection of source documents, saving their raw textual
-content and JSON representation to specific directories if they contain
-a reference node.</p>
+<dd><p>Processes a collection of source documents, saving their raw textual content and JSON representation
+to specific directories if they contain a reference node.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>docs (Iterable[SourceDocument]): A collection of source documents to be processed. Each document</dt><dd><p>may contain a reference node used to extract the document’s content and convert it to a JSON
@@ -1007,9 +978,8 @@ format.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.file_system_tap.FileSystemTap.handle_output_doc">
 <span class="sig-name descname"><span class="pre">handle_output_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/file_system_tap.html#FileSystemTap.handle_output_doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.file_system_tap.FileSystemTap.handle_output_doc" title="Link to this definition">¶</a></dt>
-<dd><p>Handles the processing and storage of output documents by writing
-each node’s data into a separate JSON file in the designated chunks
-directory.</p>
+<dd><p>Handles the processing and storage of output documents by writing each node’s
+data into a separate JSON file in the designated chunks directory.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>doc (SourceDocument): The source document containing nodes to process</dt><dd><p>and store.</p>
@@ -1033,8 +1003,7 @@ directory.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.graph_scoped_value_store.GraphScopedValueStore">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.graph_scoped_value_store.</span></span><span class="sig-name descname"><span class="pre">GraphScopedValueStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/graph_scoped_value_store.html#GraphScopedValueStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.graph_scoped_value_store.GraphScopedValueStore" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore" title="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScopedValueStore</span></code></a></p>
-<p>Manages and stores values in a graph database with scope-based
-organization.</p>
+<p>Manages and stores values in a graph database with scope-based organization.</p>
 <p>This class allows for storing and retrieving scoped values using a graph database.
 Scoped values are organized by a label and associated with a defined scope for easy
 management and retrieval.</p>
@@ -1049,8 +1018,7 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.graph_scoped_value_store.GraphScopedValueStore.get_scoped_values">
 <span class="sig-name descname"><span class="pre">get_scoped_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/graph_scoped_value_store.html#GraphScopedValueStore.get_scoped_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.graph_scoped_value_store.GraphScopedValueStore.get_scoped_values" title="Link to this definition">¶</a></dt>
-<dd><p>Fetches distinct values associated with a specific label and scope
-from the graph database.</p>
+<dd><p>Fetches distinct values associated with a specific label and scope from the graph database.</p>
 <p>This function performs a Cypher query to retrieve distinct values from nodes that match
 the specified label and scope in the graph database. The results are then extracted and
 returned as a list.</p>
@@ -1081,11 +1049,9 @@ any database-related issues will propagate to the caller.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.graph_scoped_value_store.GraphScopedValueStore.save_scoped_values">
 <span class="sig-name descname"><span class="pre">save_scoped_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/graph_scoped_value_store.html#GraphScopedValueStore.save_scoped_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.graph_scoped_value_store.GraphScopedValueStore.save_scoped_values" title="Link to this definition">¶</a></dt>
-<dd><p>Saves a list of values associated with a specific label and scope to
-the graph store. Each value is processed within the provided scope, and
-the method ensures a unique combination of scope and value through the
-<cite>MERGE</cite> operation in the query. The execution handles retries in case
-of query failure.</p>
+<dd><p>Saves a list of values associated with a specific label and scope to the graph store. Each value is
+processed within the provided scope, and the method ensures a unique combination of scope and value
+through the <cite>MERGE</cite> operation in the query. The execution handles retries in case of query failure.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>label (str): The label used to dynamically define the node label in the query. This allows for</dt><dd><p>compartmentalization of values within the graph store.</p>
@@ -1155,55 +1121,72 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.infer_classifications.InferClassifications">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.infer_classifications.</span></span><span class="sig-name descname"><span class="pre">InferClassifications</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classification_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore" title="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore"><span class="pre">ScopedValueStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">classification_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classification_scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splitter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SentenceSplitter</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LLM</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><span class="pre">LLMCache</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_classifications</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.infer_config.OnExistingClassifications" title="graphrag_toolkit.lexical_graph.indexing.extract.infer_config.OnExistingClassifications"><span class="pre">OnExistingClassifications</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/infer_classifications.html#InferClassifications"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.infer_classifications.InferClassifications" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser" title="graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">SourceDocParser</span></code></a></p>
-<p>Handles the classification of text nodes and documents leveraging domain-specific
-classifications through a language model. The class performs sampling, chunking,
-and classification tasks iteratively for better domain adaptation. It also
-handles existing classifications with multiple merge strategies and provides
-options for extensive customization, including splitter, prompt template, and LLM
-usage.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>classification_store</strong> – Storage mechanism for classifications.</p></li>
-<li><p><strong>classification_label</strong> – Label used for classification tagging.</p></li>
-<li><p><strong>classification_scope</strong> – Scope to which the classifications are applied.</p></li>
-<li><p><strong>num_samples</strong> – Number of chunks to sample per iteration.</p></li>
-<li><p><strong>num_iterations</strong> – Number of iterations to sample documents or chunks.</p></li>
-<li><p><strong>splitter</strong> – Optional chunk splitter handling sentence-level division.</p></li>
-<li><p><strong>llm</strong> – Language model used for text processing and classification.</p></li>
-<li><p><strong>prompt_template</strong> – Template string for defining prompt structure in the LLM.</p></li>
-<li><p><strong>default_classifications</strong> – List of default classifications used when none are inferred.</p></li>
-<li><p><strong>merge_action</strong> – Strategy to handle merging or retaining existing classifications.</p></li>
-</ul>
+<p>This class is responsible for inferring domain-specific classifications for a set of
+textual nodes using a combination of sampling, prompt-based extraction via an LLM, and
+domain-adaptation strategies. It supports iterative refinement across multiple samples
+and customizable actions for handling pre-existing classifications.</p>
+<p>The class integrates classification parsing, chunk splitting, LLM-based prediction,
+and classification storage. It is designed to adaptively extend or replace existing
+classifications for textual input nodes based on analyzed data.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>classification_store (ScopedValueStore): Storage for managing the scoped</dt><dd><p>domain-specific classifications.</p>
+</dd>
+<dt>classification_label (str): Label associated with the classifications to be</dt><dd><p>inferred or modified.</p>
+</dd>
+<dt>classification_scope (str): Scope for grouping the classifications within</dt><dd><p>the classification store.</p>
+</dd>
+<dt>num_samples (int): Number of chunks to sample for each iteration of the</dt><dd><p>classification inference process.</p>
+</dd>
+<dt>num_iterations (int): The number of times to iterate over sampling and</dt><dd><p>classification inference.</p>
+</dd>
+<dt>splitter (Optional[SentenceSplitter]): Responsible for splitting nodes into</dt><dd><p>smaller chunks for processing, if provided.</p>
+</dd>
+<dt>llm (Optional[LLMCache]): The LLM used for processing and generating domain-</dt><dd><p>specific classifications based on the input data.</p>
+</dd>
+<dt>prompt_template (str): Prompt template for LLM interaction, used to define</dt><dd><p>how chunks are presented for classification analysis.</p>
+</dd>
+<dt>default_classifications (List[str]): Default classifications to use if no</dt><dd><p>domain-specific classifications could be inferred.</p>
+</dd>
+<dt>merge_action (OnExistingClassifications): Defines the behavior for handling</dt><dd><p>pre-existing classifications when processing new data.</p>
 </dd>
 </dl>
-<p>Initializes an instance with configurations for classification tasks, including
-handling of label storage, scope definition, sample processing, text splitting,
-language model selection, and classification management.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>classification_store</strong> (<a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore" title="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore"><em>ScopedValueStore</em></a>) – The storage instance where classification-related
-values are scoped and maintained.</p></li>
-<li><p><strong>classification_label</strong> (<em>str</em>) – The label used to categorize the classification
-values.</p></li>
-<li><p><strong>classification_scope</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The scope under which the classification task
-is performed. If None, a default classification scope is used.</p></li>
-<li><p><strong>num_samples</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The number of samples to process within the classification
-task. Defaults to a predefined number if not specified.</p></li>
-<li><p><strong>num_iterations</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The number of iterations allowed for the classification
-process. Defaults to a predefined value if not set.</p></li>
-<li><p><strong>splitter</strong> (<em>Optional</em><em>[</em><em>SentenceSplitter</em><em>]</em>) – An optional splitter instance used for segmenting text
-samples before classification.</p></li>
-<li><p><strong>llm</strong> (<em>Optional</em><em>[</em><em>LLMCacheType</em><em>]</em>) – The language model used for classification processing.
-If not provided, a default language model or caching mechanism is applied.</p></li>
-<li><p><strong>prompt_template</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The template string used for prompt generation.
-Defaults to a predefined template if not given.</p></li>
-<li><p><strong>default_classifications</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – The default list of classifications to apply
-when no specific classifications are provided.</p></li>
-<li><p><strong>merge_action</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.infer_config.OnExistingClassifications" title="graphrag_toolkit.lexical_graph.indexing.extract.infer_config.OnExistingClassifications"><em>OnExistingClassifications</em></a><em>]</em>) – The strategy for resolving existing classifications during
-updates. Defaults to retaining existing values.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Initializes an instance of the class with various parameters for classification and
+text processing. The initializer sets default values for optional parameters when
+none are provided and ensures that objects of specific types are created or verified
+before being utilized in the classification process.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>classification_store: ScopedValueStore that serves as the storage mechanism for</dt><dd><p>classifications.</p>
+</dd>
+</dl>
+<p>classification_label: String representing the label to be used for classification tagging.
+classification_scope: Optional string specifying the scope of classifications to be</p>
+<blockquote>
+<div><p>applied.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>num_samples: Optional integer specifying the number of samples to consider during</dt><dd><p>classification.</p>
+</dd>
+<dt>num_iterations: Optional integer indicating the number of iterations for the</dt><dd><p>classification process.</p>
+</dd>
+</dl>
+<p>splitter: Optional SentenceSplitter object to handle sentence splitting operations.
+llm: Optional LLMCacheType specifying the language model to be used. Defaults to an</p>
+<blockquote>
+<div><p>internal configuration if not provided.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>prompt_template: Optional string containing the template for prompt generation in</dt><dd><p>classification.</p>
+</dd>
+</dl>
+<p>default_classifications: Optional list of strings specifying default classification categories.
+merge_action: Optional OnExistingClassifications defining the action to be taken</p>
+<blockquote>
+<div><p>on existing classifications.</p>
+</div></blockquote>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -1271,8 +1254,7 @@ updates. Defaults to retaining existing values.</p></li>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.infer_config.InferClassificationsConfig">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.infer_config.</span></span><span class="sig-name descname"><span class="pre">InferClassificationsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_existing_classifications</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.infer_config.OnExistingClassifications" title="graphrag_toolkit.lexical_graph.indexing.extract.infer_config.OnExistingClassifications"><span class="pre">OnExistingClassifications</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">OnExistingClassifications.MERGE_EXISTING</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/infer_config.html#InferClassificationsConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.infer_config.InferClassificationsConfig" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Configuration for inferring classifications in a data processing
-context.</p>
+<p>Configuration for inferring classifications in a data processing context.</p>
 <p>This class encapsulates the configuration parameters required for inferring
 classifications within a system. It defines the number of samples to process,
 the number of iterations to perform, how to handle existing classifications,
@@ -1352,56 +1334,51 @@ RETAIN_EXISTING: Keeps the existing classifications without changes.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.LLMPropositionExtractor">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.</span></span><span class="sig-name descname"><span class="pre">LLMPropositionExtractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LLM</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><span class="pre">LLMCache</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_metadata_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/llm_proposition_extractor.html#LLMPropositionExtractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.LLMPropositionExtractor" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseExtractor</span></code></p>
-<p>Handles the extraction of logical or semantic propositions from textual data
-using a language model backend.</p>
-<p>The <cite>LLMPropositionExtractor</cite> class is designed to process a sequence of nodes,
-extract propositions from their textual content, and return results in a structured
-format. It leverages an external language model configured with a prompt template
-to perform extraction tasks. The class supports asynchronous workflows, parallel
-processing, and customizable configurations. It is particularly suited for working
-with graph-based systems and metadata where organized extraction is required.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>llm</strong> – The LLM cache or configuration used for proposition extraction.</p></li>
-<li><p><strong>prompt_template</strong> – Template used to guide the LLM’s response during proposition extraction.</p></li>
-<li><p><strong>source_metadata_field</strong> – Key in the node’s metadata to retrieve text for extraction, if available.</p></li>
-</ul>
+<p>Handles proposition extraction using a language model (LLM).</p>
+<p>This class implements functionality to extract propositions from input
+text using a specified language model (LLM). It can process nodes
+individually or in batches and extracts propositions based on a prompt
+template and optional metadata fields. The extraction process utilizes
+asynchronous methods to achieve efficient parallel processing.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>llm (Optional[LLMCache]): The LLM instance used for proposition</dt><dd><p>extraction. If not provided, a default LLM configuration is used.</p>
+</dd>
+<dt>prompt_template (str): The template used to construct prompts for</dt><dd><p>proposition extraction.</p>
+</dd>
+<dt>source_metadata_field (Optional[str]): The metadata field in the input</dt><dd><p>nodes from which propositions are extracted. If not specified,
+the node text is used instead.</p>
 </dd>
 </dl>
-<p>Initializes an instance with the specified parameters and configurations. This constructor
-sets up the instance by initializing inherited properties and configuring the prompt template,
-the source metadata field, and the number of workers. If not explicitly provided, default
-values are utilized.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>llm</strong> – An instance of LLMCacheType used for extraction. Defaults to None, which results
-in the usage of GraphRAGConfig.extraction_llm. If <cite>enable_cache</cite> is configured, caching
-behaviors will also be activated.</p></li>
-<li><p><strong>prompt_template</strong> – The template to be used for extracting propositions. If not
-provided, defaults to <cite>EXTRACT_PROPOSITIONS_PROMPT</cite>.</p></li>
-<li><p><strong>source_metadata_field</strong> – The field from which source metadata will be extracted. If not
-provided, its value remains None.</p></li>
-<li><p><strong>num_workers</strong> – The number of threads to be used for extraction. If not specified, it
-defaults to the value defined in <cite>GraphRAGConfig.extraction_num_threads_per_worker</cite>.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Initializes the class with configuration options for processing language model outputs.</p>
+<p>This constructor allows setting of the language model, prompt template, source metadata
+field, and the number of workers to perform parallel processing.</p>
+<dl>
+<dt>Args:</dt><dd><p>llm: Language model cache or configuration for language model interaction.
+prompt_template: Template for the prompt to guide the language model’s response</p>
+<blockquote>
+<div><p>generation.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>source_metadata_field: Field name key to store or retrieve associated metadata</dt><dd><p>from source data.</p>
+</dd>
+</dl>
+<p>num_workers: Number of worker threads to use for processing tasks.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.LLMPropositionExtractor.aextract">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aextract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/llm_proposition_extractor.html#LLMPropositionExtractor.aextract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.LLMPropositionExtractor.aextract" title="Link to this definition">¶</a></dt>
-<dd><p>Asynchronously extracts propositions for a given list of nodes by processing
-them through an internal method. This method retrieves propositions specific
-to each node and compiles them into a list of dictionaries.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>nodes</strong> – A sequence of BaseNode objects for which propositions need to
-be extracted.</p>
+<dd><p>Asynchronously extracts proposition entries from the given nodes.</p>
+<p>This method processes a sequence of nodes to extract propositions associated
+with each node. The result is a list of dictionaries, where each dictionary
+represents the proposition data for a specific node.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>nodes: Sequence of nodes from which propositions should be extracted.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of dictionaries, where each dictionary represents the
-proposition entries extracted for the nodes.</p>
+<dt>Returns:</dt><dd><p>A list of dictionaries containing proposition data for the given nodes.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1409,18 +1386,9 @@ proposition entries extracted for the nodes.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.LLMPropositionExtractor.class_name">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/llm_proposition_extractor.html#LLMPropositionExtractor.class_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.LLMPropositionExtractor.class_name" title="Link to this definition">¶</a></dt>
-<dd><p>Provides a class-level method to return the name of the class.</p>
-<p>The method does not take any additional parameters other than the
-mandatory <cite>cls</cite> parameter for the class itself. It returns a string
-representation of the class name and can be used universally across
-different instances or contexts of the class to get a consistent human-
-readable identifier for the class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A string that represents the name of the class.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dd><p>Extracts and provides the class name of the given class.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>str: A string representing the name of the class.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1467,9 +1435,8 @@ to define custom behavior for handling documents in a pipeline.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator.handle_input_docs">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">handle_input_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/pipeline_decorator.html#PipelineDecorator.handle_input_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator.handle_input_docs" title="Link to this definition">¶</a></dt>
-<dd><p>Abstract method that processes a collection of SourceDocument
-instances and returns an iterable of processed SourceDocument
-instances.</p>
+<dd><p>Abstract method that processes a collection of SourceDocument instances
+and returns an iterable of processed SourceDocument instances.</p>
 <p>This method defines an interface for handling input documents that must
 be implemented by subclasses. The implementation of the method should
 provide the logic for processing the documents within the iterable input.</p>
@@ -1490,8 +1457,8 @@ provide the logic for processing the documents within the iterable input.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator.handle_output_doc">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">handle_output_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/pipeline_decorator.html#PipelineDecorator.handle_output_doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.pipeline_decorator.PipelineDecorator.handle_output_doc" title="Link to this definition">¶</a></dt>
-<dd><p>An abstract method to process and handle an input SourceDocument
-object and return the processed SourceDocument.</p>
+<dd><p>An abstract method to process and handle an input SourceDocument object
+and return the processed SourceDocument.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>doc (SourceDocument): The input document that needs to be processed.</p>
 </dd>
@@ -1509,8 +1476,7 @@ object and return the processed SourceDocument.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.PropositionExtractor">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.</span></span><span class="sig-name descname"><span class="pre">PropositionExtractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_text_node_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MetadataMode</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">MetadataMode.ALL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_text_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'[Excerpt</span> <span class="pre">from</span> <span class="pre">document]\n{metadata_str}\nExcerpt:\n-----\n{content}\n-----\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_template_rewrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposition_model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'chentong00/propositionizer-wiki-flan-t5-large'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_metadata_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/proposition_extractor.html#PropositionExtractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.PropositionExtractor" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseExtractor</span></code></p>
-<p>Handles the extraction of propositions from textual data using a pre-
-trained transformer model.</p>
+<p>Handles the extraction of propositions from textual data using a pre-trained transformer model.</p>
 <p>This class serves as a tool to extract structured propositions and entities from textual
 content. It leverages transformer-based models (<cite>transformers</cite> library) and integrates
 with an asynchronous workflow to process multiple nodes efficiently.</p>
@@ -1536,9 +1502,8 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.PropositionExtractor.aextract">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aextract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/proposition_extractor.html#PropositionExtractor.aextract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.PropositionExtractor.aextract" title="Link to this definition">¶</a></dt>
-<dd><p>Asynchronously extracts propositions from a sequence of nodes and
-returns a list of dictionaries containing the extracted proposition
-data.</p>
+<dd><p>Asynchronously extracts propositions from a sequence of nodes and returns a list of
+dictionaries containing the extracted proposition data.</p>
 <p>Processes the given sequence of nodes, performs extraction operations for their associated
 propositions, and aggregates the results into a list.</p>
 <dl class="simple">
@@ -1555,9 +1520,9 @@ propositions, and aggregates the results into a list.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.PropositionExtractor.class_name">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/proposition_extractor.html#PropositionExtractor.class_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.PropositionExtractor.class_name" title="Link to this definition">¶</a></dt>
-<dd><p>Returns the name of the class as a string. Useful for identifying
-the class name programmatically, especially when dealing with multiple
-inheritance or dynamic class structures.</p>
+<dd><p>Returns the name of the class as a string. Useful for identifying the class
+name programmatically, especially when dealing with multiple inheritance
+or dynamic class structures.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>str: The name of the class, ‘PropositionExtractor’.</p>
 </dd>
@@ -1590,8 +1555,7 @@ context: The context.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.PropositionExtractor.proposition_model">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">proposition_model</span></span><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.PropositionExtractor.proposition_model" title="Link to this definition">¶</a></dt>
-<dd><p>Fetches and initializes the proposition model for sequence-to-
-sequence learning tasks.</p>
+<dd><p>Fetches and initializes the proposition model for sequence-to-sequence learning tasks.</p>
 <p>The method first checks if the <cite>proposition_model</cite> attribute is already initialized. If not, it attempts to import
 the required libraries, load the model specified by <cite>proposition_model_name</cite>, and move it to the appropriate device:
 either GPU (<cite>cuda</cite>) if available or CPU. If the necessary packages are not installed, the method raises an ImportError
@@ -1612,12 +1576,10 @@ informing the user to install <cite>torch</cite> and <cite>transformers</cite>.<
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.PropositionExtractor.proposition_tokenizer">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">proposition_tokenizer</span></span><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.proposition_extractor.PropositionExtractor.proposition_tokenizer" title="Link to this definition">¶</a></dt>
-<dd><p>Provides a property for accessing a tokenizer specific to
-proposition models. This property ensures that the tokenizer is loaded
-only once and cached for future use. It attempts to dynamically import
-the required <cite>transformers</cite> library and initializes a tokenizer using
-the pre-defined model name. Raises an appropriate error if the
-<cite>transformers</cite> package is unavailable.</p>
+<dd><p>Provides a property for accessing a tokenizer specific to proposition models. This property ensures
+that the tokenizer is loaded only once and cached for future use. It attempts to dynamically import
+the required <cite>transformers</cite> library and initializes a tokenizer using the pre-defined model name.
+Raises an appropriate error if the <cite>transformers</cite> package is unavailable.</p>
 <dl class="simple">
 <dt>Raises:</dt><dd><p>ImportError: If the <cite>transformers</cite> package is not installed and cannot be imported.</p>
 </dd>
@@ -1641,29 +1603,28 @@ specified by <cite>proposition_model_name</cite>.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueProvider">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.</span></span><span class="sig-name descname"><span class="pre">FixedScopedValueProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scoped_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#FixedScopedValueProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueProvider" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider" title="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScopedValueProvider</span></code></a></p>
-<p>Provides a fixed set of scoped values tied to a specific label. The class
-allows initialization with a pre-defined dictionary of scoped values,
-where each scope is mapped to a list of values. It inherits functionality
-from ScopedValueProvider and is suited for use cases requiring static or
-predefined scoped data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> – A fixed label used to identify this provider.</p></li>
-<li><p><strong>scoped_value_store</strong> – Stores and manages the predefined set of scoped
-values.</p></li>
-</ul>
+<p>Provides a fixed set of scoped values for context-specific operations.</p>
+<p>This class is a specialized implementation of <cite>ScopedValueProvider</cite> that
+supplies pre-defined, fixed scoped values for use in contexts where needed.
+Its purpose is to provide a deterministic and consistent set of scoped values
+that do not change dynamically, ensuring stability and predictability in its
+behavior. Typically used when static scoped values must be provided within
+a defined scope.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>label (str): A fixed label identifying this provider as ‘__FIXED__’.
+scoped_value_store (FixedScopedValueStore): The store containing the</p>
+<blockquote>
+<div><p>fixed set of scoped values provided.</p>
+</div></blockquote>
 </dd>
 </dl>
-<p>Initializes the object with a fixed scoped value store and assigns a default label.</p>
-<p>The constructor accepts a dictionary of scoped values and uses it to initialize a
-FixedScopedValueStore. The created scoped value store is then utilized in the parent
-class initialization. Also, a fixed label ‘__FIXED__’ is assigned to the instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>scoped_values</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – A dictionary of scoped values where the keys are strings
-representing scope names and the values are lists of strings representing
-the corresponding scoped values.</p>
+<p>Initializes an object with a pre-defined label and a fixed scoped value store.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>scoped_values (Dict[str, List[str]]): A dictionary where the key is a string representing</dt><dd><p>the scope, and the value is a list of strings representing scoped values. This
+parameter is optional and defaults to an empty dictionary.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -1678,17 +1639,17 @@ the corresponding scoped values.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueStore">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.</span></span><span class="sig-name descname"><span class="pre">FixedScopedValueStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">scoped_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#FixedScopedValueStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueStore" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore" title="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScopedValueStore</span></code></a></p>
-<p>A class for managing scoped values with fixed storage mechanisms.</p>
-<p>This class provides methods for storing and retrieving values associated
-with specific scopes and labels. The values are organized in a way that
-allows context-based categorization. It is designed to handle structured
-data efficiently, enabling easy access and updates within a predefined
-data structure.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>scoped_values</strong> – A dictionary mapping scope keys to lists of string
-values. This is the main internal storage structure used for
-organizing and retrieving data.</p>
+<p>A fixed scoped value store for managing and retrieving scoped values.</p>
+<p>This class extends the ScopedValueStore and provides functionality for
+storing and retrieving values associated with specific labels and scopes.
+It stores the values in a fixed format based on scopes and supports operations
+to retrieve or save values within given scopes.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>scoped_values (Dict[str, List[str]]): A dictionary where the keys are scopes</dt><dd><p>(as strings) and the values are lists of strings associated with the
+corresponding scope.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1698,27 +1659,23 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueStore.get_scoped_values">
 <span class="sig-name descname"><span class="pre">get_scoped_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#FixedScopedValueStore.get_scoped_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueStore.get_scoped_values" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieve scoped values based on the given label and scope.</p>
-<p>This method fetches a list of values associated with a specified
-scope from the internal <cite>scoped_values</cite> mapping. The <cite>label</cite> parameter
-does not influence the retrieval process but might provide contextual
-information for the lookup.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> – A descriptive label, potentially used to provide
-additional context for the scoped value retrieval. It
-does not directly affect the returned results.</p></li>
-<li><p><strong>scope</strong> – Specifies the scope for which the values are retrieved.
-This is used as a key to query the <cite>scoped_values</cite> mapping.</p></li>
-</ul>
+<dd><p>Retrieves a list of values corresponding to a specific scope and label.</p>
+<p>This method fetches the stored values associated with the provided scope from the
+internal data structure. If the scope does not exist in the storage, it returns
+an empty list. The label is used to indicate the context or category for the
+retrieved values.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>label (str): A descriptive identifier providing context for the retrieval</dt><dd><p>operation.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of values associated with the given scope. If the scope
-key is not found, an empty list is returned.</p>
+<dt>scope (str): The key within the internal data structure to look up for</dt><dd><p>associated values.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[str]</p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[str]: A list of strings containing the values associated with the</dt><dd><p>specified scope, or an empty list if no match is found.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1732,23 +1689,18 @@ key is not found, an empty list is returned.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueStore.save_scoped_values">
 <span class="sig-name descname"><span class="pre">save_scoped_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#FixedScopedValueStore.save_scoped_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueStore.save_scoped_values" title="Link to this definition">¶</a></dt>
-<dd><p>Saves the provided values associated with a specific label and scope.</p>
-<p>The function is intended to store a collection of <cite>values</cite> related
-to a particular <cite>label</cite> within a specific <cite>scope</cite>. The implementation
-details for the storage mechanism are omitted here.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> – A string that serves as the identifier for categorizing
-the provided <cite>values</cite>.</p></li>
-<li><p><strong>scope</strong> – A string indicating the domain or context within which
-the <cite>label</cite> is applicable.</p></li>
-<li><p><strong>values</strong> – A list of strings representing the values to be saved
-under the given <cite>label</cite> and <cite>scope</cite>.</p></li>
-</ul>
+<dd><p>Saves a set of values under a specific label and scope for future retrieval.</p>
+<p>This method allows storage of a list of values associated with a specific label
+and scope. It is useful for organizing related data under logical groupings.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>label (str): The label under which the values will be stored, representing</dt><dd><p>the category or identifier of the data.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None. This function does not return any value.</p>
+<dt>scope (str): The scope representing the context or domain in which the</dt><dd><p>values belong, which is utilized for structured organization.</p>
+</dd>
+<dt>values (List[str]): A list of string values to be stored, representing</dt><dd><p>the actual data entries associated with the label and scope.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1764,55 +1716,52 @@ under the given <cite>label</cite> and <cite>scope</cite>.</p></li>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.</span></span><span class="sig-name descname"><span class="pre">ScopedValueProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scoped_value_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore" title="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore"><span class="pre">ScopedValueStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_scoped_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#ScopedValueProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseComponent</span></code></p>
-<p>Represents a scoped value provider for managing scoped values linked to nodes,
-facilitating the retrieval and updating of these values based on defined
-scoping logic.</p>
-<p>This class is designed to manage scoped value mappings by leveraging a provided
-scope function and scoped value store. It supports an initializer for initial
-value setup, value retrieval for specific nodes, and updates to scoped values
-based on scope and changes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> – The identifier for the scoped value provider instance.</p></li>
-<li><p><strong>scope_func</strong> – The function determining scope from an input node.</p></li>
-<li><p><strong>scoped_value_store</strong> – The store managing scoped values.</p></li>
-</ul>
+<p>Provides a scoped value management system for handling and storing values
+specific to a particular scope, identified using a scope function.</p>
+<p>This class facilitates the management of values that are tied to a specific
+context or scope, determined dynamically through a user-defined function.
+It uses a scoped value store for persisting and retrieving values within the
+defined scope. Additionally, it supports initialization with predefined scoped
+values and provides functionalities for retrieving and updating scoped values.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>label (str): Label to identify the scoped value provider.
+scope_func (Callable[[BaseNode], str]): Function used to determine the scope</p>
+<blockquote>
+<div><p>given an input node.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>scoped_value_store (ScopedValueStore): Storage system for managing scoped</dt><dd><p>values.</p>
 </dd>
 </dl>
-<p>Initializes an instance of a custom class with specific scoped value storage and
-initial scoped values.</p>
-<p>This constructor sets up scoped values into a scoped value store associated with
-the given label and initializes the parent class with the provided label, scoped
-value store, and scope function. If a scope function is not provided, a default
-scope function is used.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> – A unique identifier for the instance.</p></li>
-<li><p><strong>scoped_value_store</strong> – An instance of ScopedValueStore that handles the
-storage of scoped attribute values.</p></li>
-<li><p><strong>scope_func</strong> – A callable function used to determine the scope for a
-given BaseNode. If not provided, a default scope function is applied.</p></li>
-<li><p><strong>initial_scoped_values</strong> – A dictionary mapping scope keys to lists of
-string values. These values are added to the scoped value store during
-initialization.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Represents the initialization of a class instance managing scoped values with an optional scope function and
+predefined initial scoped values.</p>
+<p>The initializer ensures scoped values are stored at the point of creation based on the provided initial scoped
+values. It also delegates initialization of parameters like label, scope function, and the scoped value store
+to its superclass, enabling powerful and customizable scope-based value management.</p>
+<dl>
+<dt>Args:</dt><dd><p>label: A string used to identify the instance.
+scoped_value_store: An instance of ScopedValueStore, facilitating saving and retrieval of scoped values.
+scope_func: A callable which, given a BaseNode, returns a scope string. Defaults to None, in which case the</p>
+<blockquote>
+<div><p>default_scope_fn is used.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>initial_scoped_values: A dictionary that maps scope names to lists of values. These values are saved upon</dt><dd><p>initialization.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.class_name">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#ScopedValueProvider.class_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.class_name" title="Link to this definition">¶</a></dt>
-<dd><p>Provides the name of the class as a string.</p>
-<p>This class method is used to return the name of the class in which the
-method is defined. It provides a scoped and consistent way to retrieve
-the class name dynamically at runtime.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The name of the class as a string.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dd><p>Provides a class method to return the name of the class.</p>
+<p>This method is used to retrieve the properly formatted name of the class as
+a string. It is intended to be used in contexts where the class’s name is
+required programmatically.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>str: The name of the class, ‘ScopedValueProvider’.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1820,20 +1769,20 @@ the class name dynamically at runtime.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.get_current_values">
 <span class="sig-name descname"><span class="pre">get_current_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseNode</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#ScopedValueProvider.get_current_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.get_current_values" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves the current scoped values for a given node.</p>
-<p>This method determines the appropriate scope for the given node, retrieves
-the list of values associated with the determined scope and label, and
-returns both the scope and the associated values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>node</strong> (<em>BaseNode</em>) – The node object for which the scoped values are being retrieved.</p>
+<dd><p>Retrieves the current scope and associated values for a specific node.</p>
+<p>This method fetches the scope derived from the given node and retrieves the
+corresponding values stored in the scoped value store. It combines this
+scope and the associated values into a tuple.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>node (BaseNode): A node used to determine the scope for retrieving</dt><dd><p>associated values.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple containing the scope string and the list of current scoped
-values associated with the given node and label.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[str, List[str]]</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Tuple[str, List[str]]: A tuple containing the scope as a string and</dt><dd><p>a list of strings representing the current scoped values.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1862,22 +1811,13 @@ values associated with the given node and label.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.update_values">
 <span class="sig-name descname"><span class="pre">update_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#ScopedValueProvider.update_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.update_values" title="Link to this definition">¶</a></dt>
-<dd><p>Updates the scoped values by comparing the old values with the new values and
-adding only the ones that are different. If there are new values to add, these
-are persisted into the scoped value store.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>scope</strong> – A string representing the scope under which the values
-are categorized.</p></li>
-<li><p><strong>old_values</strong> – A list of strings representing previously existing
-scoped values.</p></li>
-<li><p><strong>new_values</strong> – A list of strings representing the updated set of
-scoped values.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd><p>Updates the scoped values in the store by calculating the difference between
+old and new values. If there are any new values to add, they are saved to the
+scoped value store and logged.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>scope (str): The scope under which the values will be updated.
+old_values (List[str]): The list of existing values to compare against.
+new_values (List[str]): The list of new values to be added.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1888,22 +1828,14 @@ scoped values.</p></li>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.</span></span><span class="sig-name descname"><span class="pre">ScopedValueStore</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#ScopedValueStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseComponent</span></code></p>
-<p>Defines the ScopedValueStore as an abstract base class.</p>
-<p>This class provides method signatures for managing values categorized by
-specific labels and scopes. It serves as a blueprint for subclasses that
-will handle operations like fetching and saving scoped values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>scoped_values</strong> – A dictionary or similar data structure to store values
-categorized by labels and scopes. It acts as a central repository for
-managing scoped values in derived implementations.</p></li>
-<li><p><strong>label_validator</strong> – A callable or utility function for validating labels
-before performing any operation, ensuring data consistency and integrity.</p></li>
-<li><p><strong>scope_validator</strong> – A callable or utility function for validating scopes
-before performing any operation, ensuring the scope conforms to expected
-formats or rules.</p></li>
-</ul>
+<p>Manages the scoped storage and retrieval of labeled values.</p>
+<p>This class provides an abstract interface for handling scoped values, identified
+by a label and scope, across different implementations. It facilitates storing
+and retrieving lists of string values within a specific labeled and scoped
+context, suitable for use in modular or scalable systems requiring such
+functionality.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1913,23 +1845,26 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore.get_scoped_values">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_scoped_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#ScopedValueStore.get_scoped_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore.get_scoped_values" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves a list of values associated with a given label, filtered by a specific scope.</p>
-<p>This abstract method is intended to be implemented by subclasses to provide
-custom logic for retrieving scoped values. The returned values are expected to
-represent data relevant to the specified label and scope.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – The identifier for the group of values to retrieve.</p></li>
-<li><p><strong>scope</strong> (<em>str</em>) – The scope to filter the values by, such as a specific context
-or condition.</p></li>
-</ul>
+<dd><p>Defines an abstract method that must be implemented by subclasses to fetch scoped values
+based on a specified label and scope. This method enables retrieving values
+restricted or categorized by a particular context or scope.</p>
+<dl>
+<dt>Args:</dt><dd><p>label: A string representing the identifier or key for the desired values.
+scope: A string indicating the context or boundary within which</p>
+<blockquote>
+<div><p>the values should be retrieved.</p>
+</div></blockquote>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of values that correspond to the given label and scope.</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[str]: A list of strings containing the values matching the provided label</dt><dd><p>and restricted by the specified scope.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[str]</p>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><dl class="simple">
+<dt>NotImplementedError: This method must be implemented by any subclass of the</dt><dd><p>abstract class; invoking this method directly without implementation
+will raise this error.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1943,23 +1878,17 @@ or condition.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore.save_scoped_values">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save_scoped_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#ScopedValueStore.save_scoped_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore.save_scoped_values" title="Link to this definition">¶</a></dt>
-<dd><p>Save a set of scoped values associated with a specific label and scope.
-This abstract method should be implemented to handle the saving
-of specific values within a defined scope, referenced by a unique label.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – A string representing the unique label to identify the scoped values.</p></li>
-<li><p><strong>scope</strong> (<em>str</em>) – A string indicating the scope under which the values are categorized.</p></li>
-<li><p><strong>values</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of strings representing the specific values
-to be saved within the given scope and identified by the label.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>This method does not return any value.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dd><p>Saves values under a given label and scope.</p>
+<p>This method is an abstract method, meant to be implemented by subclasses. It
+allows values to be saved in association with a specific label and scope. The
+implementation should define the behavior for persisting these scoped values.</p>
+<dl>
+<dt>Args:</dt><dd><p>label (str): The label associated with the values to be saved.
+scope (str): The scope under which the values are categorized.
+values (List[str]): A list of string values to be saved under the given</p>
+<blockquote>
+<div><p>label and scope.</p>
+</div></blockquote>
 </dd>
 </dl>
 </dd></dl>
@@ -1969,16 +1898,19 @@ to be saved within the given scope and identified by the label.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.default_scope_fn">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.</span></span><span class="sig-name descname"><span class="pre">default_scope_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/scoped_value_provider.html#default_scope_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.default_scope_fn" title="Link to this definition">¶</a></dt>
-<dd><p>Determines and returns the default scope for a given node.</p>
-<p>This function takes a node as input and returns the default scope
-associated with it. It uses a predefined constant, DEFAULT_SCOPE,
-to provide a consistent scope value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>node</strong> – The input node for which the default scope is being determined.</p>
+<dd><p>Determines the default scope for the given node.</p>
+<p>This function evaluates the provided node and determines the default scope
+associated with it. The returned scope is typically defined as a constant
+value within the system.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>node: The node for which the default scope is being determined. The exact</dt><dd><p>format and type of this node depend on the implementation details of
+the system utilizing this function.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A constant representing the default scope of the given node.</p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>str: A constant string representing the default scope associated with
+the provided node.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1990,8 +1922,7 @@ to provide a consistent scope value.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.</span></span><span class="sig-name descname"><span class="pre">SourceDocParser</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/source_doc_parser.html#SourceDocParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseComponent</span></code></p>
-<p>Parses source documents and provides an interface for handling document
-parsing logic.</p>
+<p>Parses source documents and provides an interface for handling document parsing logic.</p>
 <p>This class serves as an abstract base for implementing source document parsing
 functionality. The main purpose of the class is to define a generic interface that
 subclasses implement to customize how source documents are parsed. It ensures a
@@ -2014,8 +1945,8 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser.parse_source_docs">
 <span class="sig-name descname"><span class="pre">parse_source_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_documents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/source_doc_parser.html#SourceDocParser.parse_source_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser.SourceDocParser.parse_source_docs" title="Link to this definition">¶</a></dt>
-<dd><p>Parses a collection of source documents and processes them through
-an internal parsing mechanism.</p>
+<dd><p>Parses a collection of source documents and processes them through an internal
+parsing mechanism.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>source_documents: An iterable of SourceDocument objects to be parsed. Each</dt><dd><p>document is expected to contain the necessary structure and metadata
@@ -2038,10 +1969,9 @@ using the internal parsing mechanism.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor.TopicExtractor">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor.</span></span><span class="sig-name descname"><span class="pre">TopicExtractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LLM</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><span class="pre">LLMCache</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_metadata_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity_classification_provider</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topic_provider</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/extract/topic_extractor.html#TopicExtractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor.TopicExtractor" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseExtractor</span></code></p>
-<p>Initializes the instance with the provided or default parameters to
-facilitate operations with LLMCache, prompt templates, source metadata
-fields, multiple workers, and providers for entity classification and
-topics.</p>
+<p>Initializes the instance with the provided or default parameters to facilitate
+operations with LLMCache, prompt templates, source metadata fields, multiple
+workers, and providers for entity classification and topics.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>llm (LLMCacheType, optional): The large language model cache used for</dt><dd><p>extraction purposes. Defaults to an LLMCache instance configured with

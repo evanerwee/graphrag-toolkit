@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -356,9 +359,8 @@
 
 <span class="sd">    This class serves as a construction placeholder or a basic template</span>
 <span class="sd">    for defining future classes. It currently does not contain any data</span>
-<span class="sd">    members or methods, and its primary purpose is to act as a</span>
-<span class="sd">    structural starter or to suppress checkpointing mechanisms in</span>
-<span class="sd">    certain frameworks.</span>
+<span class="sd">    members or methods, and its primary purpose is to act as a structural</span>
+<span class="sd">    starter or to suppress checkpointing mechanisms in certain frameworks.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
@@ -366,7 +368,8 @@
 <div class="viewcode-block" id="CheckpointFilter">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.CheckpointFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CheckpointFilter</span><span class="p">(</span><span class="n">TransformComponent</span><span class="p">,</span> <span class="n">DoNotCheckpoint</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages filtering of nodes based on the absence of a checkpoint.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages filtering of nodes based on the absence of a checkpoint.</span>
 
 <span class="sd">    This class filters nodes to ensure that only those without existing checkpoints</span>
 <span class="sd">    in a specified directory are processed by an inner TransformComponent. It combines</span>
@@ -381,12 +384,13 @@
     <span class="n">checkpoint_name</span><span class="p">:</span><span class="nb">str</span>
     <span class="n">checkpoint_dir</span><span class="p">:</span><span class="nb">str</span>
     <span class="n">inner</span><span class="p">:</span><span class="n">TransformComponent</span>
-
+        
 <div class="viewcode-block" id="CheckpointFilter.checkpoint_does_not_exist">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.CheckpointFilter.checkpoint_does_not_exist">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">checkpoint_does_not_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks whether a checkpoint exists for the given node and determines</span>
-<span class="sd">        if the node should be included or ignored based on this status.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks whether a checkpoint exists for the given node and determines if the node</span>
+<span class="sd">        should be included or ignored based on this status.</span>
 
 <span class="sd">        This method evaluates the existence of a checkpoint for the specified node</span>
 <span class="sd">        using the node&#39;s identifier. If the checkpoint already exists, the node will</span>
@@ -409,10 +413,10 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Including node [node_id: </span><span class="si">{</span><span class="n">node_id</span><span class="si">}</span><span class="s1">, checkpoint: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">checkpoint_name</span><span class="si">}</span><span class="s1">, component: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span></div>
 
-
+        
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Filters nodes based on specific criteria and forwards the filtered</span>
-<span class="sd">        list to an inner callable.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filters nodes based on specific criteria and forwards the filtered list to an inner callable.</span>
 
 <span class="sd">        This method processes a list of nodes, removing nodes that satisfy a particular condition</span>
 <span class="sd">        (checkpoint existence). The filtered list is then passed to another callable for further</span>
@@ -429,7 +433,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">filtered_nodes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-
+    
 <div class="viewcode-block" id="CheckpointWriter">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.CheckpointWriter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CheckpointWriter</span><span class="p">(</span><span class="n">NodeHandler</span><span class="p">):</span>
@@ -441,7 +445,8 @@
 <div class="viewcode-block" id="CheckpointWriter.touch">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.CheckpointWriter.touch">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">touch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates an empty file or updates the modification and access times</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates an empty file or updates the modification and access times</span>
 <span class="sd">        of the specified file. If the file does not exist, it is created.</span>
 
 <span class="sd">        Args:</span>
@@ -450,20 +455,22 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">utime</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
-
+    
 <div class="viewcode-block" id="CheckpointWriter.accept">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.CheckpointWriter.accept">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">accept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Processes and categorizes nodes as checkpointable or non-</span>
-<span class="sd">        checkpointable based on metadata, performing checkpoint-related</span>
-<span class="sd">        operations for applicable nodes.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes and categorizes nodes as checkpointable or non-checkpointable based on metadata,</span>
+<span class="sd">        performing checkpoint-related operations for applicable nodes.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            nodes (List[BaseNode]): A list of nodes to be processed. Each node contains a unique identifier and associated metadata that determines whether it is checkpointable.</span>
-<span class="sd">            \\*\\*kwargs (Any): Additional keyword arguments to be passed to the inner accept method.</span>
+<span class="sd">            nodes (List[BaseNode]): A list of nodes to be processed. Each node contains a unique</span>
+<span class="sd">                identifier and associated metadata that determines whether it is checkpointable.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments to be passed to the inner accept method.</span>
 
 <span class="sd">        Yields:</span>
-<span class="sd">            BaseNode: Nodes that have been processed and classified. Each node is yielded after logging and performing checkpoint-related operations if applicable.</span>
+<span class="sd">            BaseNode: Nodes that have been processed and classified. Each node is yielded</span>
+<span class="sd">                after logging and performing checkpoint-related operations if applicable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">node_id</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span>
@@ -480,7 +487,8 @@
 <div class="viewcode-block" id="Checkpoint">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Checkpoint</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates and manages checkpoints for data processing components.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates and manages checkpoints for data processing components.</span>
 
 <span class="sd">    This class is used to wrap certain components with checkpointing functionality.</span>
 <span class="sd">    Checkpoints allow intermediate states or results of data processing components to</span>
@@ -493,8 +501,8 @@
 <span class="sd">        enabled (bool): Indicates whether the checkpointing functionality is enabled.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">checkpoint_name</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance with the specified checkpoint name, output</span>
-<span class="sd">        directory, and enabled status.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes an instance with the specified checkpoint name, output directory, and enabled status.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            checkpoint_name: Name of the checkpoint to be used.</span>
@@ -508,8 +516,8 @@
 <div class="viewcode-block" id="Checkpoint.add_filter">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint.add_filter">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a checkpoint filter to a transform component if conditions are</span>
-<span class="sd">        met.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a checkpoint filter to a transform component if conditions are met.</span>
 
 <span class="sd">        This method wraps the provided transform component (`o`) with a checkpoint</span>
 <span class="sd">        filter if the component satisfies the specified conditions. Specifically, the</span>
@@ -531,15 +539,14 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Not wrapping with checkpoint filter [checkpoint: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">checkpoint_name</span><span class="si">}</span><span class="s1">, component: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">o</span></div>
 
-
+        
 <div class="viewcode-block" id="Checkpoint.add_writer">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint.add_writer">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a checkpoint writer wrapper to the provided object if enabled</span>
-<span class="sd">        and if the object is an instance of NodeHandler. This function allows</span>
-<span class="sd">        integration of checkpoint writing capability into a component when</span>
-<span class="sd">        applicable. If the wrapping is not performed, the provided object is</span>
-<span class="sd">        returned unmodified.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a checkpoint writer wrapper to the provided object if enabled and if the object is an instance of NodeHandler.</span>
+<span class="sd">        This function allows integration of checkpoint writing capability into a component when applicable.</span>
+<span class="sd">        If the wrapping is not performed, the provided object is returned unmodified.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            o: The object to potentially wrap with a checkpoint writer. Typically expected to be an instance</span>
@@ -560,7 +567,8 @@
 <div class="viewcode-block" id="Checkpoint.prepare_output_directories">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint.prepare_output_directories">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">prepare_output_directories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">checkpoint_name</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepares the output directories for saving checkpoints.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prepares the output directories for saving checkpoints.</span>
 
 <span class="sd">        This function creates a specific directory structure based on the provided</span>
 <span class="sd">        checkpoint name and output directory. The directories are necessary for</span>
@@ -577,15 +585,17 @@
 <span class="sd">            The complete path of the prepared checkpoint directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">checkpoint_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">SAVEPOINT_ROOT_DIR</span><span class="p">,</span> <span class="n">checkpoint_name</span><span class="p">)</span>
-
+        
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Preparing checkpoint directory [checkpoint: </span><span class="si">{</span><span class="n">checkpoint_name</span><span class="si">}</span><span class="s1">, checkpoint_dir: </span><span class="si">{</span><span class="n">checkpoint_dir</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">)</span>
-
+   
         <span class="k">return</span> <span class="n">checkpoint_dir</span></div>
 </div>
 
+
+    
 </pre></div>
         </article>
       </div>

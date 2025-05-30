@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -337,11 +340,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">GraphStoreFactoryMethod</span><span class="p">,</span>
-    <span class="n">GraphStore</span><span class="p">,</span>
-    <span class="n">get_log_formatting</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStoreFactoryMethod</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="n">get_log_formatting</span>
 
 <span class="n">DUMMY</span> <span class="o">=</span> <span class="s1">&#39;dummy://&#39;</span>
 
@@ -351,7 +350,8 @@
 <div class="viewcode-block" id="DummyGraphStoreFactory">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStoreFactory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DummyGraphStoreFactory</span><span class="p">(</span><span class="n">GraphStoreFactoryMethod</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory class for creating instances of DummyGraphStore if applicable.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factory class for creating instances of DummyGraphStore if applicable.</span>
 
 <span class="sd">    This class implements a factory method pattern to create a DummyGraphStore</span>
 <span class="sd">    object based on provided graph information. It attempts to determine whether</span>
@@ -360,21 +360,19 @@
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        No additional class attributes are explicitly defined beyond inherited attributes.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="DummyGraphStoreFactory.try_create">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStoreFactory.try_create">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphStore</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attempts to create a `GraphStore` instance based on the provided</span>
-<span class="sd">        `graph_info`. If `graph_info` starts with the constant `DUMMY`, a</span>
-<span class="sd">        `DummyGraphStore` instance is initialized and returned. Otherwise, the</span>
-<span class="sd">        method returns `None`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to create a `GraphStore` instance based on the provided `graph_info`.</span>
+<span class="sd">        If `graph_info` starts with the constant `DUMMY`, a `DummyGraphStore` instance</span>
+<span class="sd">        is initialized and returned. Otherwise, the method returns `None`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            graph_info (str): Information specifying the type of the graph store to</span>
 <span class="sd">                create. If the value starts with `DUMMY`, a dummy graph store is opened.</span>
-<span class="sd">            \\*\\*kwargs: Additional keyword arguments used for configuring the graph store,</span>
+<span class="sd">            **kwargs: Additional keyword arguments used for configuring the graph store,</span>
 <span class="sd">                such as formatting for logs.</span>
 
 <span class="sd">        Returns:</span>
@@ -393,45 +391,43 @@
 <div class="viewcode-block" id="DummyGraphStore">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStore">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DummyGraphStore</span><span class="p">(</span><span class="n">GraphStore</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a specialized graph store that extends the base functionality of GraphStore.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a specialized graph store that extends the base functionality of GraphStore.</span>
 
 <span class="sd">    This class is designed to execute Cypher queries on a graph database and log the query</span>
 <span class="sd">    information for debugging purposes. It provides an implementation for executing queries with</span>
-<span class="sd">    optional parameters and correlation IDs.</span>
-
-<span class="sd">    The main use case for this class is to interact with graph databases, primarily for logging</span>
-<span class="sd">    and debugging scenarios.</span>
+<span class="sd">    optional parameters and correlation IDs. The main use case for this class is to interact with</span>
+<span class="sd">    graph databases, primarily for logging and debugging scenarios.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        log_formatting (LogFormatter): An instance of LogFormatter used for formatting log entries.</span>
 <span class="sd">        _logging_prefix (callable): A callable function or method responsible for generating the</span>
 <span class="sd">            logging prefix based on the provided correlation ID.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="DummyGraphStore.execute_query">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStore.execute_query">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span> <span class="n">correlation_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Executes the given Cypher query with specified parameters and logs the operation.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the given Cypher query with specified parameters and logs the operation.</span>
 
 <span class="sd">        The function logs a formatted version of the Cypher query and its parameters with</span>
 <span class="sd">        a correlation identifier for tracking. It provides an empty result as a placeholder.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            cypher (str): The Cypher query to be executed.</span>
-<span class="sd">            parameters (dict, optional): A dictionary representing the parameters for the Cypher query. Defaults to None.</span>
-<span class="sd">            correlation_id (str, optional): An identifier for correlating log entries. Defaults to None.</span>
+<span class="sd">            cypher: The Cypher query to be executed.</span>
+<span class="sd">            parameters: A dictionary representing the parameters for the Cypher query.</span>
+<span class="sd">                Defaults to an empty dictionary.</span>
+<span class="sd">            correlation_id: An optional identifier for correlating log entries. Defaults</span>
+<span class="sd">                to None.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list: A placeholder for query execution results. Currently, it does not retrieve any actual results.</span>
-
+<span class="sd">            A list as a placeholder for query execution results. Currently, it does</span>
+<span class="sd">            not retrieve any actual results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">correlation_id</span><span class="p">),</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span>
-        <span class="p">)</span>
+        <span class="n">log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">correlation_id</span><span class="p">),</span> <span class="n">cypher</span><span class="p">,</span>
+                                                                    <span class="n">parameters</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] query: </span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s1">, parameters: </span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="p">)</span>
+            <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] query: </span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s1">, parameters: </span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 </div>
 

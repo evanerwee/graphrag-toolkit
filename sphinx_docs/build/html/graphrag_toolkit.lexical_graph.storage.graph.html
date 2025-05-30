@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -348,9 +351,8 @@
 <p>Represents a specialized graph store that extends the base functionality of GraphStore.</p>
 <p>This class is designed to execute Cypher queries on a graph database and log the query
 information for debugging purposes. It provides an implementation for executing queries with
-optional parameters and correlation IDs.</p>
-<p>The main use case for this class is to interact with graph databases, primarily for logging
-and debugging scenarios.</p>
+optional parameters and correlation IDs. The main use case for this class is to interact with
+graph databases, primarily for logging and debugging scenarios.</p>
 <dl>
 <dt>Attributes:</dt><dd><p>log_formatting (LogFormatter): An instance of LogFormatter used for formatting log entries.
 _logging_prefix (callable): A callable function or method responsible for generating the</p>
@@ -369,12 +371,19 @@ validated to form a valid model.</p>
 <dd><p>Executes the given Cypher query with specified parameters and logs the operation.</p>
 <p>The function logs a formatted version of the Cypher query and its parameters with
 a correlation identifier for tracking. It provides an empty result as a placeholder.</p>
+<dl>
+<dt>Args:</dt><dd><p>cypher: The Cypher query to be executed.
+parameters: A dictionary representing the parameters for the Cypher query.</p>
+<blockquote>
+<div><p>Defaults to an empty dictionary.</p>
+</div></blockquote>
 <dl class="simple">
-<dt>Args:</dt><dd><p>cypher (str): The Cypher query to be executed.
-parameters (dict, optional): A dictionary representing the parameters for the Cypher query. Defaults to None.
-correlation_id (str, optional): An identifier for correlating log entries. Defaults to None.</p>
+<dt>correlation_id: An optional identifier for correlating log entries. Defaults</dt><dd><p>to None.</p>
 </dd>
-<dt>Returns:</dt><dd><p>list: A placeholder for query execution results. Currently, it does not retrieve any actual results.</p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>A list as a placeholder for query execution results. Currently, it does
+not retrieve any actual results.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -403,15 +412,14 @@ returns a new instance of DummyGraphStore. Otherwise, it returns None.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStoreFactory.try_create">
 <span class="sig-name descname"><span class="pre">try_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/dummy_graph_store.html#DummyGraphStoreFactory.try_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStoreFactory.try_create" title="Link to this definition">¶</a></dt>
-<dd><p>Attempts to create a <cite>GraphStore</cite> instance based on the provided
-<cite>graph_info</cite>. If <cite>graph_info</cite> starts with the constant <cite>DUMMY</cite>, a
-<cite>DummyGraphStore</cite> instance is initialized and returned. Otherwise, the
-method returns <cite>None</cite>.</p>
+<dd><p>Attempts to create a <cite>GraphStore</cite> instance based on the provided <cite>graph_info</cite>.
+If <cite>graph_info</cite> starts with the constant <cite>DUMMY</cite>, a <cite>DummyGraphStore</cite> instance
+is initialized and returned. Otherwise, the method returns <cite>None</cite>.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>graph_info (str): Information specifying the type of the graph store to</dt><dd><p>create. If the value starts with <cite>DUMMY</cite>, a dummy graph store is opened.</p>
 </dd>
-<dt>**kwargs: Additional keyword arguments used for configuring the graph store,</dt><dd><p>such as formatting for logs.</p>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments used for configuring the graph store,</dt><dd><p>such as formatting for logs.</p>
 </dd>
 </dl>
 </dd>
@@ -430,35 +438,28 @@ method returns <cite>None</cite>.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store.</span></span><span class="sig-name descname"><span class="pre">GraphQueryLogEntryParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#GraphQueryLogEntryParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Represents the parameters and related functionality for a graph query log entry.</p>
-<p>This class is a data structure that encapsulates the details of a graph query
-log entry, including the query reference, the query itself, associated
-parameters, and optional results. It also provides a utility method to format
-queries with a query reference prefix.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query_ref</strong> – Reference identifier for the query.</p></li>
-<li><p><strong>query</strong> – The SQL query string.</p></li>
-<li><p><strong>parameters</strong> – Parameters associated with the query.</p></li>
-<li><p><strong>results</strong> – The optional results of the query execution.</p></li>
-</ul>
+<p>Represents the parameters of a log entry for a graph query.</p>
+<p>This class is a container for details related to a graph query log entry,
+such as the reference identifier, the query string, and optional associated
+parameters or results. It is designed to provide structured access to these
+elements, making it easier to manage and manipulate data regarding graph
+queries.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>query_ref (str): A reference identifier for the graph query.
+query (str): The graph query string.
+parameters (str): Parameters associated with the graph query.
+results (Optional[str]): Optional results of the graph query, if available.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters.format_query_with_query_ref">
 <span class="sig-name descname"><span class="pre">format_query_with_query_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#GraphQueryLogEntryParameters.format_query_with_query_ref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters.format_query_with_query_ref" title="Link to this definition">¶</a></dt>
-<dd><p>Formats a query string by appending a query reference as a comment at the
-beginning of the string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> (<em>str</em>) – The query string to format.</p>
+<dd><p>Formats the provided query by appending the query reference as a prefix.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>q: The SQL query to be formatted.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The formatted query string with a query reference prepended.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dt>Returns:</dt><dd><p>A formatted string containing the query reference prefixed to the
+original query.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -489,14 +490,14 @@ beginning of the string.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store.</span></span><span class="sig-name descname"><span class="pre">GraphQueryLogFormatting</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#GraphQueryLogFormatting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>This class defines the structure for formatting log entries of graph query executions.</p>
-<p>It serves as an abstract base class, ensuring that subclasses provide a specific
-implementation for formatting query metadata such as query references, parameters,
-and result sets into a structured log entry. The class enables consistent and
-customizable logging of graph database query operations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>model_config</strong> – Configuration options for the BaseModel class.</p>
+<p>Abstract base class for formatting graph query log entries.</p>
+<p>This class provides a blueprint for implementing custom formats for
+logging graph query details. The purpose of this class is to ensure
+a consistent structure for logging information about graph queries,
+including the query reference, query string, associated parameters,
+and potential results.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -506,35 +507,29 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting.format_log_entry">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">format_log_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters"><span class="pre">GraphQueryLogEntryParameters</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#GraphQueryLogFormatting.format_log_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting.format_log_entry" title="Link to this definition">¶</a></dt>
-<dd><p>Formats a log entry for a graph query operation. This method is intended to
-standardize the format of query logs for consistent logging and debugging
-purposes. It is an abstract method and must be implemented in any subclass,
-providing the specific logic for formatting.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query_ref</strong> – Unique reference identifier for the query being logged.</p></li>
-<li><p><strong>query</strong> – The graph query that was executed.</p></li>
-<li><p><strong>parameters</strong> – A dictionary of parameters utilized in executing the query,
-defaulting to an empty dictionary.</p></li>
-<li><p><strong>results</strong> – A list containing the query operation’s results, optional and
-defaults to None when no results are present.</p></li>
-</ul>
+<dd><p>Formats a log entry for a graph query execution.</p>
+<p>This method must be implemented by a subclass and is responsible for
+formatting the details of a graph query, including its reference, query
+string, parameters, and execution results, into a specific structure
+that conforms to <cite>GraphQueryLogEntryParameters</cite>. This allows for
+consistent logging of query execution metadata.</p>
+<dl>
+<dt>Args:</dt><dd><p>query_ref: The reference identifier for the executed query.
+query: The query string executed against the graph database.
+parameters: A dictionary of parameters used in the query. Defaults</p>
+<blockquote>
+<div><p>to an empty dictionary if no parameters are provided.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>results: An optional list of results returned by the query</dt><dd><p>execution. Defaults to None if no results are returned.</p>
 </dd>
-<dt class="field-even">Array query_ref<span class="colon">:</span></dt>
-<dd class="field-even"><p></p></dd>
-<dt class="field-odd">Array query<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-<dt class="field-even">Array parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p></p></dd>
-<dt class="field-odd">Array Resultado_result.describeSerializableparameters])/May) [<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <code class="docutils literal notranslate"><span class="pre">GraphQueryLogEntryParameters</span></code> containing the
-formatted log entry data.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters">GraphQueryLogEntryParameters</a></p>
+<dt>Returns:</dt><dd><p>GraphQueryLogEntryParameters: The formatted log entry object
+containing details about the query execution.</p>
+</dd>
+<dt>Raises:</dt><dd><p>NotImplementedError: If this method is not implemented by the
+subclass.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -551,6 +546,21 @@ formatted log entry data.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store.</span></span><span class="sig-name descname"><span class="pre">GraphStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_formatting:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id:</span> <span class="pre">~graphrag_toolkit.lexical_graph.tenant_id.TenantId</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#GraphStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Manages the storage and execution of graph queries with configurable retry logic
+and logging functionality.</p>
+<p>Detailed description:
+This class provides methods to execute graph queries with retry mechanisms, log
+formatting features, and utilities for handling node IDs and property assignments.
+It is designed to interact with a graph database while ensuring resilience through
+retry attempts and structured error logging.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>log_formatting (GraphQueryLogFormatting): Handles the formatting of log entries</dt><dd><p>for executed queries.</p>
+</dd>
+</dl>
+<p>tenant_id (TenantId): Represents the unique identifier of the tenant.</p>
+</dd>
+</dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
 <p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
@@ -558,28 +568,13 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.execute_query">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cypher</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#GraphStore.execute_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.execute_query" title="Link to this definition">¶</a></dt>
-<dd><p>Executes a given Cypher query on the database with the provided parameters and
-optional correlation ID. This method is abstract and must be implemented by
-subclasses to specify the behavior for query execution.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cypher</strong> (<em>str</em>) – The Cypher query string to be executed.</p></li>
-<li><p><strong>parameters</strong> (<em>dict</em>) – A dictionary of parameters to pass into the Cypher query.
-Defaults to an empty dictionary.</p></li>
-<li><p><strong>correlation_id</strong> (<em>str</em><em>, </em><em>optional</em>) – An optional identifier to correlate logs or tracing
-information. Defaults to None if not provided.</p></li>
-</ul>
+<dd><p>Executes a Cypher query on a connected database and returns the result as a dictionary.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>cypher: The Cypher query string to be executed.
+parameters: Optional dictionary of parameters to be passed into the Cypher query.
+correlation_id: Optional identifier for correlating logs or tracing execution flows.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary containing the result of the query execution, which may
-include data fields, metadata, or other relevant information.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[str, Any]</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>NotImplementedError</strong> – If the method is not implemented by a subclass.</p>
+<dt>Returns:</dt><dd><p>A dictionary containing the results of the executed Cypher query.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -587,22 +582,25 @@ include data fields, metadata, or other relevant information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.execute_query_with_retry">
 <span class="sig-name descname"><span class="pre">execute_query_with_retry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_attempts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#GraphStore.execute_query_with_retry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.execute_query_with_retry" title="Link to this definition">¶</a></dt>
-<dd><p>Executes a SQL query with retry logic based on the provided maximum number of attempts and
-maximum wait time between retries. This method ensures that transient failures while executing
-a SQL query are handled by retrying the operation according to the configured strategy.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query</strong> (<em>str</em>) – The SQL query string to be executed.</p></li>
-<li><p><strong>parameters</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The parameters to be bound to the SQL query execution.</p></li>
-<li><p><strong>max_attempts</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of attempts to retry the SQL query execution
-if it fails. Default is 3.</p></li>
-<li><p><strong>max_wait</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum wait time, in seconds, between retry attempts. Default is 5.</p></li>
-<li><p><strong>kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional keyword arguments passed to the query execution.</p></li>
-</ul>
+<dd><p>Executes a database query with a retry mechanism, allowing multiple attempts with delays between them.</p>
+<p>This method provides a mechanism to execute a query on a database reliably, allowing retries in the event
+of transient failures or network issues. Each retry includes logging related to the attempt, along with a
+unique correlation ID for tracing purposes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>query:</dt><dd><p>The SQL query string to be executed.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt>parameters:</dt><dd><p>A dictionary of query parameters to bind to the SQL query.</p>
+</dd>
+<dt>max_attempts:</dt><dd><p>The maximum number of retry attempts allowed, including the initial attempt. Default is 3.</p>
+</dd>
+<dt>max_wait:</dt><dd><p>The maximum wait time in seconds between retry attempts. The exact wait is randomized between 0
+and this value. Default is 5.</p>
+</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs:</dt><dd><p>Additional parameters that may include a pre-specified ‘correlation_id’. Any such value will be
+included in the logging and supplemented with a unique suffix.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -621,20 +619,14 @@ if it fails. Default is 3.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.node_id">
 <span class="sig-name descname"><span class="pre">node_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId"><span class="pre">NodeId</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#GraphStore.node_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.node_id" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a NodeId object based on the given identifier name string.</p>
-<p>This function takes a string id_name and formats it into a NodeId
-object. It ensures the input is processed appropriately to return an
-instance of NodeId, which represents a structured or encoded identifier.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id_name</strong> (<em>str</em>) – The identifier name string to be formatted into a
-NodeId object.</p>
+<dd><p>Formats a given identifier name into a NodeId object.</p>
+<p>This method takes an identifier name, processes it, and returns a NodeId
+object. The output ensures the identifier is in the correct format
+for consistent usage within the application.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>id_name (str): The identifier name to be formatted.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A NodeId object representing the formatted identifier.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId">NodeId</a></p>
+<dt>Returns:</dt><dd><p>NodeId: The formatted identifier.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -642,22 +634,17 @@ NodeId object.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.property_assigment_fn">
 <span class="sig-name descname"><span class="pre">property_assigment_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#GraphStore.property_assigment_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.property_assigment_fn" title="Link to this definition">¶</a></dt>
-<dd><p>Assigns a value to a key through a lambda function, returning a callable.</p>
-<p>The callable returned by this function takes a string as input and returns
-the same string. This provides a way to structure value assignments in a
-decorative or functional manner while maintaining flexibility in code execution.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<em>str</em>) – The key to which the value should be assigned.</p></li>
-<li><p><strong>value</strong> (<em>Any</em>) – The value to associate with the given key.</p></li>
-</ul>
+<dd><p>Assigns a value to a key and returns a callable that processes a string.</p>
+<p>This function is used to create a lambda function that captures the input
+parameters and processes an additional string based on the implementation of
+the returned function.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>key: The key to which the value is assigned.
+value: The value to be assigned to the specified key.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A callable function that takes a string as an argument and returns it unchanged.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Callable[[str], str]</p>
+<dt>Returns:</dt><dd><p>Callable[[str], str]: A callable that takes a string as input and returns
+a string after processing. The exact processing implemented in the
+returned callable depends on the specific implementation.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -673,18 +660,17 @@ decorative or functional manner while maintaining flexibility in code execution.
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store.</span></span><span class="sig-name descname"><span class="pre">NodeId</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_property_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#NodeId"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Represents an identifier for a node with associated key and value.</p>
-<p>This class is used to define the identity of a node by specifying a key
-and value, along with an optional flag indicating whether it is based
-on a property. It provides a string representation of the node’s value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> – The key associated with the node identifier.</p></li>
-<li><p><strong>value</strong> – The value associated with the node identifier.</p></li>
-<li><p><strong>is_property_based</strong> – Indicates whether the identifier is property-based.
-Defaults to True.</p></li>
-</ul>
+<p>Represents an identifier node with key-value pair attributes.</p>
+<p>This class encapsulates a node identifier consisting of a key, value, and an
+optional flag to determine if the identifier is based on properties. It can
+be used to represent nodes with unique identifiers in various contexts.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>key (str): The key associated with the node identifier.
+value (str): The value corresponding to the key for the node identifier.
+is_property_based (bool): Indicates whether the node is based on properties.</p>
+<blockquote>
+<div><p>Defaults to True.</p>
+</div></blockquote>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -708,18 +694,6 @@ Defaults to True.</p></li>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NonRedactedGraphQueryLogFormatting">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store.</span></span><span class="sig-name descname"><span class="pre">NonRedactedGraphQueryLogFormatting</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#NonRedactedGraphQueryLogFormatting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NonRedactedGraphQueryLogFormatting" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphQueryLogFormatting</span></code></a></p>
-<p>Represents a log formatting implementation that formats log entries
-for graph query executions without redacting any information.</p>
-<p>This class extends the functionality of <cite>GraphQueryLogFormatting</cite>
-to provide detailed log entries containing query references,
-query strings, parameters, and results of graph queries. Truncation
-is applied to the results if they exceed a predefined character limit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>NUM_CHARS_IN_DEBUG_RESULTS</strong> – Defines the maximum number of characters
-allowed for displaying results in a log entry before truncation.</p>
-</dd>
-</dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
 <p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
@@ -727,24 +701,25 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NonRedactedGraphQueryLogFormatting.format_log_entry">
 <span class="sig-name descname"><span class="pre">format_log_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters"><span class="pre">GraphQueryLogEntryParameters</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#NonRedactedGraphQueryLogFormatting.format_log_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NonRedactedGraphQueryLogFormatting.format_log_entry" title="Link to this definition">¶</a></dt>
-<dd><p>Formats a log entry for a graph query operation. Converts the query reference, query,
-parameters, and results into a structured log entry of type <cite>GraphQueryLogEntryParameters</cite>.
-If the string representation of the results exceeds a predefined character limit, it is truncated
-with an indication of the truncation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query_ref</strong> (<em>str</em>) – The reference identifier of the query.</p></li>
-<li><p><strong>query</strong> (<em>str</em>) – The query text to be logged.</p></li>
-<li><p><strong>parameters</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – A dictionary of parameters associated with the query. Defaults to an empty dictionary.</p></li>
-<li><p><strong>results</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>Any</em><em>]</em><em>]</em>) – The results of the query operation, optionally provided. If omitted or None, it is skipped in formatting.</p></li>
-</ul>
+<dd><p>Formats a log entry for a graph query execution, including the query reference,
+query string, parameters used, and the results. Truncates the results string if
+it exceeds a predefined character limit, appending a note of the truncated length.</p>
+<dl>
+<dt>Args:</dt><dd><p>query_ref: A string representing the unique reference or identifier for the query.
+query: A string representing the graph query executed.
+parameters: A dictionary containing key-value pairs representing query</p>
+<blockquote>
+<div><p>parameters. Defaults to an empty dictionary.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>results: An optional list containing the results of the query. Defaults to</dt><dd><p>None.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <cite>GraphQueryLogEntryParameters</cite> object containing the formatted log entry.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters">GraphQueryLogEntryParameters</a></p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>GraphQueryLogEntryParameters: A dataclass representing the formatted log entry</dt><dd><p>with the provided query details and truncated results if applicable.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -761,18 +736,6 @@ with an indication of the truncation.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.RedactedGraphQueryLogFormatting">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store.</span></span><span class="sig-name descname"><span class="pre">RedactedGraphQueryLogFormatting</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#RedactedGraphQueryLogFormatting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.RedactedGraphQueryLogFormatting" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphQueryLogFormatting</span></code></a></p>
-<p>Handles the formatting of logs related to graph queries by redacting sensitive
-information in the query, parameters, and results.</p>
-<p>This class extends <cite>GraphQueryLogFormatting</cite> and is responsible for creating
-log entries containing redacted details for secure logging purposes. It is
-designed to ensure that the logs remain informative while protecting sensitive
-information.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>REDACTED</strong> – A placeholder indicating that the corresponding information
-has been redacted.</p>
-</dd>
-</dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
 <p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
@@ -780,28 +743,23 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.RedactedGraphQueryLogFormatting.format_log_entry">
 <span class="sig-name descname"><span class="pre">format_log_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters"><span class="pre">GraphQueryLogEntryParameters</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#RedactedGraphQueryLogFormatting.format_log_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.RedactedGraphQueryLogFormatting.format_log_entry" title="Link to this definition">¶</a></dt>
-<dd><p>Formats a log entry containing information about a graph query. The method
-receives data concerning the query reference, the query text itself, parameters
-associated with the query, and query results, then processes them to create a
-log entry. Sensitive information (such as the query text, parameters and
-results) is redacted for security purposes before inclusion in the log entry.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query_ref</strong> (<em>str</em>) – Reference ID of the query being logged.</p></li>
-<li><p><strong>query</strong> (<em>str</em>) – The original query text to be logged.</p></li>
-<li><p><strong>parameters</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>, </em><em>optional</em>) – Dictionary containing any parameters used in the query.
-Defaults to an empty dictionary if no parameters provided.</p></li>
-<li><p><strong>results</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>Any</em><em>]</em><em>]</em>) – List of results generated by the query execution.
-Defaults to None if not provided.</p></li>
-</ul>
+<dd><p>Formats and creates a new <cite>GraphQueryLogEntryParameters</cite> instance with
+the given query reference, query, parameters, and results, while redacting
+specified information.</p>
+<dl>
+<dt>Args:</dt><dd><p>query_ref (str): A reference identifier for the query.
+query (str): The query string to be logged.
+parameters (Dict[str, Any], optional): A dictionary of parameters used</p>
+<blockquote>
+<div><p>in the query. Defaults to an empty dictionary.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>results (Optional[List[Any]], optional): A list of results generated by</dt><dd><p>the query. Defaults to None.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>GraphQueryLogEntryParameters</cite> containing the redacted
-query, parameters, and results for logging purposes.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters">GraphQueryLogEntryParameters</a></p>
+<dt>Returns:</dt><dd><p>GraphQueryLogEntryParameters: An instance containing the formatted and
+redacted log entry details.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -817,22 +775,16 @@ query, parameters, and results for logging purposes.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.format_id">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store.</span></span><span class="sig-name descname"><span class="pre">format_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#format_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.format_id" title="Link to this definition">¶</a></dt>
-<dd><p>Formats an identifier string into a NodeId object.</p>
-<p>The function parses an identifier string, typically containing sections
-separated by a period (‘.’). If the identifier consists of only one
-section, it uses the same value for both the identifier and name
-fields of the NodeId object. If the identifier contains multiple
-sections separated by a period, it uses the second section as the
-identifier and the entire input string as the name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id_name</strong> (<em>str</em>) – The input identifier string to format.</p>
+<dd><p>Parses and formats the given ID string into a NodeId object.</p>
+<p>The function takes a string representing an ID and splits it by the delimiter ‘.’.
+If the string does not contain the delimiter, it assumes the ID is standalone and
+constructs a NodeId object where both the identifier and full ID are the same.
+If the string contains the delimiter, it uses the second part of the split string
+as the identifier and the entire string as the full ID.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>id_name: A string representing a potentially delimited ID.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A NodeId object with the parsed identifier and name.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId">NodeId</a></p>
+<dt>Returns:</dt><dd><p>NodeId: An instance of NodeId containing the formatted identifier and full ID.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -840,27 +792,22 @@ identifier and the entire input string as the name.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.get_log_formatting">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store.</span></span><span class="sig-name descname"><span class="pre">get_log_formatting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#get_log_formatting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.get_log_formatting" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves and validates the log formatting configuration from the provided arguments.</p>
-<p>This function extracts the <cite>log_formatting</cite> key from the <cite>args</cite> dictionary, if available,
-or defaults to a <cite>RedactedGraphQueryLogFormatting</cite> instance. It ensures that the
-retrieved or default log formatting is of type <cite>GraphQueryLogFormatting</cite>. If the type
-does not comply, an exception is raised.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>args</strong> – A dictionary of arguments which may contain an override for
-<cite>log_formatting</cite>. This parameter is expected to include the necessary
-configuration for logging purposes.</p>
+<dd><p>Retrieves the log formatting configuration from the given arguments. If the
+‘log_formatting’ key is not present in the <cite>args</cite> dictionary, a default
+<cite>RedactedGraphQueryLogFormatting</cite> instance is used. Ensures the log formatting
+object is an instance of <cite>GraphQueryLogFormatting</cite>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>args (dict): A dictionary containing configuration parameters, including</dt><dd><p>an optional ‘log_formatting’ key.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The validated or defaulted log formatting value. It is guaranteed to
-be an instance of <cite>GraphQueryLogFormatting</cite>.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting">GraphQueryLogFormatting</a></p>
+<dt>Returns:</dt><dd><p>GraphQueryLogFormatting: The log formatting object retrieved from the
+input dictionary, or the default <cite>RedactedGraphQueryLogFormatting</cite> if
+not provided.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If <cite>log_formatting</cite> is present but not of type
-<cite>GraphQueryLogFormatting</cite>.</p>
+<dt>Raises:</dt><dd><p>ValueError: If the value associated with the ‘log_formatting’ key in the
+input <cite>args</cite> dictionary is not an instance of <cite>GraphQueryLogFormatting</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -868,24 +815,31 @@ be an instance of <cite>GraphQueryLogFormatting</cite>.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.on_query_failed">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store.</span></span><span class="sig-name descname"><span class="pre">on_query_failed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_attempts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_entry_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters"><span class="pre">GraphQueryLogEntryParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">RetryCallState</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#on_query_failed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.on_query_failed" title="Link to this definition">¶</a></dt>
-<dd><p>Handles logging of query retries and failures after reaching defined arguments,
-like the maximum retry attempts, providing contextual details about the query
-failure and its associated parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>logger</strong> (<em>logging.Logger</em>) – The logger instance to output query failure logs.</p></li>
-<li><p><strong>log_level</strong> – Logging level (e.g., logging.INFO, logging.ERROR).</p></li>
-<li><p><strong>max_attempts</strong> – Defined maximum attempts before considering the operation failed.</p></li>
-<li><p><strong>log_entry_parameters</strong> (<a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters"><em>GraphQueryLogEntryParameters</em></a>) – A <cite>GraphQueryLogEntryParameters</cite> object encapsulating
-query information, reference, and associated parameters.</p></li>
-</ul>
+<dd><p>Handles logging for query failure during retries.</p>
+<p>Logs information about a failed query attempt if the maximum number of retry
+attempts has been reached. If the query raises an exception, details about
+the exception are also logged. The log entry includes the query reference,
+query string, associated parameters, and the reason for the final failure.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>logger (logging.Logger): Logger instance to use for logging failure</dt><dd><p>information.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A callable function for internal logging on retry or final query attempt failure.</p>
+</dl>
+<p>log_level (int): Log level used for logging the failure message.
+max_attempts (int): Maximum number of retry attempts before failure is</p>
+<blockquote>
+<div><p>logged.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>log_entry_parameters (GraphQueryLogEntryParameters): Parameters used to</dt><dd><p>construct the log entry, including query reference, query string,
+and related parameters.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Callable[[‘RetryCallState’], None]</p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Callable[[RetryCallState], None]: A function to be called during each</dt><dd><p>retry attempt to check if logging is necessary for query failure.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -893,25 +847,24 @@ query information, reference, and associated parameters.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store.on_retry_query">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store.</span></span><span class="sig-name descname"><span class="pre">on_retry_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_entry_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters"><span class="pre">GraphQueryLogEntryParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">RetryCallState</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store.html#on_retry_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.on_retry_query" title="Link to this definition">¶</a></dt>
-<dd><p>Logs information about a retried query using the provided logger, suitable
-for integration with retry mechanisms. Outputs details about the retry
-attempt, including timing, prior outcomes, and context-specific metadata.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>logger</strong> – Logging instance to use for outputting retry information.</p></li>
-<li><p><strong>log_level</strong> – Logging level to use when generating log entries (e.g.,
-INFO, DEBUG).</p></li>
-<li><p><strong>log_entry_parameters</strong> – Instance of <cite>GraphQueryLogEntryParameters</cite>
-storing query-related metadata, such as its reference, query string,
-and parameters.</p></li>
-<li><p><strong>exc_info</strong> – Boolean flag indicating whether to include exception
-details in log entries when the query fails. Defaults to False.</p></li>
-</ul>
+<dd><p>Creates a logging function to log retry attempts for a query.</p>
+<p>This function is intended to generate a reusable logger callback to be used
+with retry mechanisms like tenacity’s RetryCallState. It logs the outcome
+and decision for retrying, based on the query execution results or exceptions.</p>
+<dl>
+<dt>Args:</dt><dd><p>logger (logging.Logger): The logger instance used to log the retry information.
+log_level (int): The logging level at which the retry attempt will be logged.
+log_entry_parameters (GraphQueryLogEntryParameters): The metadata that identifies</p>
+<blockquote>
+<div><p>the query, including query reference, parameters, and additional context.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>exc_info (bool, optional): Indicates whether exception information should be</dt><dd><p>included in the logs if an exception is raised. Defaults to False.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Callable function that accepts a <cite>RetryCallState</cite> instance
-and logs retry-related information.</p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Callable[[RetryCallState], None]: A logging function that logs retry attempts
+using the provided logger parameters and retry state.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -923,15 +876,14 @@ and logs retry-related information.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.</span></span><span class="sig-name descname"><span class="pre">GraphStoreFactoryMethod</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store_factory_method.html#GraphStoreFactoryMethod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>GraphStoreFactoryMethod provides an abstraction for creating GraphStore
-objects.</p>
+<p>GraphStoreFactoryMethod provides an abstraction for creating GraphStore objects.</p>
 <p>This class defines a factory method pattern that serves as the template for creating
 instances of <cite>GraphStore</cite>. It provides a contract that must be implemented by
 subclasses, specifying how <cite>GraphStore</cite> objects are instantiated based on
 graph configuration details.</p>
 <dl class="simple">
 <dt>Methods:</dt><dd><dl class="simple">
-<dt>try_create(graph_info, **kwargs): Abstract method to attempt the creation</dt><dd><p>of a <cite>GraphStore</cite> instance based on provided graph configuration
+<dt>try_create(graph_info, <a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs): Abstract method to attempt the creation</dt><dd><p>of a <cite>GraphStore</cite> instance based on provided graph configuration
 and optional parameters.</p>
 </dd>
 </dl>
@@ -940,15 +892,14 @@ and optional parameters.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod.try_create">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">try_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_store_factory_method.html#GraphStoreFactoryMethod.try_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod.try_create" title="Link to this definition">¶</a></dt>
-<dd><p>Abstract method for creating a graph store from provided graph
-information.</p>
-<p>This method must be implemented by subclasses to create a graph store
-based on the provided information.</p>
+<dd><p>Abstract base class for creating a graph store from provided graph information.</p>
+<p>This class represents the structure that any concrete implementation must adhere
+to, ensuring that essential methods related to graph creation are defined.</p>
 <dl class="simple">
 <dt>Attributes:</dt><dd><dl class="simple">
 <dt>graph_info (str): Information or details about the graph structure, which</dt><dd><p>will be used for constructing the graph store.</p>
 </dd>
-<dt>**kwargs: Arbitrary keyword arguments that might be required to configure</dt><dd><p>the creation process.</p>
+<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: Arbitrary keyword arguments that might be required to configure</dt><dd><p>the creation process.</p>
 </dd>
 </dl>
 </dd>
@@ -963,8 +914,7 @@ based on the provided information.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_utils.label_from">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_utils.</span></span><span class="sig-name descname"><span class="pre">label_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_utils.html#label_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_utils.label_from" title="Link to this definition">¶</a></dt>
-<dd><p>Converts a given string into a formatted label by removing specific
-patterns and capitalizing words.</p>
+<dd><p>Converts a given string into a formatted label by removing specific patterns and capitalizing words.</p>
 <p>This function primarily works by searching for and replacing matches of a specified pattern
 in the input string, before converting the modified string into capitalized words. Spaces
 are removed between the words to form a label-like output.</p>
@@ -979,14 +929,14 @@ are removed between the words to form a label-like output.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_utils.node_result">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_utils.</span></span><span class="sig-name descname"><span class="pre">node_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId"><span class="pre">NodeId</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['*']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_utils.html#node_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_utils.node_result" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a formatted result string based on the provided node reference, node ID, properties, and optional key name.</p>
-<p>This can be used to specify desired details to fetch or represent related nodes and their
-attributes in a structured format.</p>
+<dd><p>Generates a formatted result string based on the provided node reference, node ID,
+properties, and optional key name. This can be used to specify desired details to
+fetch or represent related nodes and their attributes in a structured format.</p>
 <dl>
 <dt>Args:</dt><dd><p>node_ref (str): The reference name of the node.
-node_id (Optional[NodeId]): An optional ID for the node, which may influence the</p>
+node_id (Optional[NodeId]): An optional ID for the node, which may influence</p>
 <blockquote>
-<div><p>resulting properties based on whether the ID is property-based.</p>
+<div><p>the resulting properties based on whether the ID is property-based.</p>
 </div></blockquote>
 <dl class="simple">
 <dt>properties (Optional[List[str]]): A list of property names to include. By default,</dt><dd><p>includes all properties (‘*’). If specific properties are provided, property-specific
@@ -1019,8 +969,7 @@ with underscores and all characters are in uppercase.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.graph_utils.search_string_from">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.graph_utils.</span></span><span class="sig-name descname"><span class="pre">search_string_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/graph_utils.html#search_string_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_utils.search_string_from" title="Link to this definition">¶</a></dt>
-<dd><p>Removes specific patterns from a string, reduces extra spaces, and
-converts it to lowercase.</p>
+<dd><p>Removes specific patterns from a string, reduces extra spaces, and converts it to lowercase.</p>
 <p>This function receives a string, removes specific patterns defined by the global
 <cite>SEARCH_STRING_PATTERN</cite>, normalizes whitespace by replacing multiple spaces with
 a single one, and converts the resulting string to lowercase.</p>
@@ -1040,20 +989,14 @@ and converted to lowercase.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.</span></span><span class="sig-name descname"><span class="pre">MultiTenantGraphStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_formatting:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id:</span> <span class="pre">~graphrag_toolkit.lexical_graph.tenant_id.TenantId</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/multi_tenant_graph_store.html#MultiTenantGraphStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a></p>
-<p>Represents a multi-tenant graph store that serves as a wrapper around a <cite>GraphStore</cite>
-to add tenant-specific functionality. This class enables handling of graph data
-segregation for multiple tenants by introducing tenant-specific labels, query rewriting,
-and additional tenant context. It delegates underlying operations to the contained
-<cite>GraphStore</cite> instance while applying tenant-awareness on top of it.</p>
-<p>This class is particularly useful in applications where multiple tenants share the same
-underlying graph database infrastructure but need data isolation and customized operations
-per tenant.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>inner</strong> – The underlying graph store instance being wrapped by this multi-tenant wrapper.</p></li>
-<li><p><strong>labels</strong> – List of graph labels that are tenant-specific and used in query rewriting.</p></li>
-</ul>
+<p>Represents a multi-tenant graph store.</p>
+<p>This class serves as a wrapper for a GraphStore to support multi-tenancy. It modifies
+queries and operations to be specific to the tenant identified by a tenant ID. The
+class ensures that graph operations are isolated and specific to the tenant, providing
+effective multi-tenant handling for graph data.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>inner (GraphStore): The underlying graph store being wrapped to enable multi-tenancy.
+labels (List[str]): A list of graph labels that might be rewritten for the tenant.</p>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1063,21 +1006,20 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.execute_query">
 <span class="sig-name descname"><span class="pre">execute_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cypher</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/multi_tenant_graph_store.html#MultiTenantGraphStore.execute_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.execute_query" title="Link to this definition">¶</a></dt>
-<dd><p>Executes a query using the provided cypher string, parameters, and optional correlation ID.
-This method interacts with an underlying reference to execute the final translated query.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cypher</strong> (<em>str</em>) – The Cypher query string that specifies the operation to be executed.</p></li>
-<li><p><strong>parameters</strong> (<em>dict</em>) – Optional dictionary containing the parameters for the Cypher query.</p></li>
-<li><p><strong>correlation_id</strong> (<em>Any</em>) – Optional identifier to correlate the execution of this query.</p></li>
-</ul>
+<dd><p>Executes a database query with the given cypher query string, parameters,
+and an optional correlation ID for tracking purposes.</p>
+<dl>
+<dt>Args:</dt><dd><p>cypher: The cypher query string to execute.
+parameters: A dictionary containing the parameters for the query. Default</p>
+<blockquote>
+<div><p>is an empty dictionary.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>correlation_id: An optional identifier used for correlating and tracking</dt><dd><p>the query execution. Default is None.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary containing the result of the query execution.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[str, Any]</p>
+<dt>Returns:</dt><dd><p>A dictionary containing the query results or metadata.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1085,24 +1027,23 @@ This method interacts with an underlying reference to execute the final translat
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.execute_query_with_retry">
 <span class="sig-name descname"><span class="pre">execute_query_with_retry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_attempts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/multi_tenant_graph_store.html#MultiTenantGraphStore.execute_query_with_retry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.execute_query_with_retry" title="Link to this definition">¶</a></dt>
-<dd><p>Executes a database query with retry capability. The method attempts to execute the
-provided query using a specified maximum number of attempts and wait time between
-each retry. It also allows additional parameters and arguments to modify the query
-execution behavior. This function internally rewrites the query before execution and
-delegates the retry mechanism to another method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query</strong> – The SQL query string to be executed.</p></li>
-<li><p><strong>parameters</strong> – Mapping of query parameters to their respective values.</p></li>
-<li><p><strong>max_attempts</strong> – The maximum number of retry attempts allowed in case of failure
-(default is 3).</p></li>
-<li><p><strong>max_wait</strong> – The maximum wait time between retry attempts, in seconds (default is 5).</p></li>
-<li><p><strong>kwargs</strong> – Additional arguments to customize query execution as needed.</p></li>
-</ul>
+<dd><p>Executes a query with retry logic, ensuring the query is attempted multiple
+times in case of failure. This method uses the <cite>inner</cite> object’s
+<cite>execute_query_with_retry</cite> method to perform the actual query, after rewriting
+the provided query string if necessary.</p>
+<dl>
+<dt>Args:</dt><dd><p>query: A string representing the SQL query to be executed.
+parameters: A dictionary containing the parameters to be bound to the query.
+max_attempts: An optional integer specifying the maximum number of retry</p>
+<blockquote>
+<div><p>attempts. Defaults to 3.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>max_wait: An optional integer specifying the maximum wait time in seconds</dt><dd><p>between retries. Defaults to 5.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None.</p>
+<dt><a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs: Additional optional keyword arguments to be passed to the</dt><dd><p><cite>execute_query_with_retry</cite> method of the <cite>inner</cite> object.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1126,20 +1067,16 @@ delegates the retry mechanism to another method.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.node_id">
 <span class="sig-name descname"><span class="pre">node_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId"><span class="pre">NodeId</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/multi_tenant_graph_store.html#MultiTenantGraphStore.node_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.node_id" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves a NodeId corresponding to the provided node name.</p>
-<p>This method utilizes the <cite>node_id</cite> method from an underlying
-implementation to fetch the unique identifier (NodeId) for the
-given node name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id_name</strong> (<em>str</em>) – The name of the node for which the unique identifier
-(NodeId) is required.</p>
+<dd><p>Retrieves a unique node identifier (NodeId) based on the provided node name.</p>
+<p>This function interacts with an internal structure to map the given node name
+to its corresponding unique identifier.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>id_name (str): The name of the node for which the identifier is being</dt><dd><p>retrieved.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A NodeId instance corresponding to the provided node name.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId">NodeId</a></p>
+<dt>Returns:</dt><dd><p>NodeId: The unique identifier associated with the specified node name.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1147,20 +1084,17 @@ given node name.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.property_assigment_fn">
 <span class="sig-name descname"><span class="pre">property_assigment_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/multi_tenant_graph_store.html#MultiTenantGraphStore.property_assigment_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.property_assigment_fn" title="Link to this definition">¶</a></dt>
-<dd><p>Assigns a property by using a key-value pair. This function acts as a wrapper
-around an inner method and delegates execution to it.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<em>str</em>) – The key identifying the property to be assigned.</p></li>
-<li><p><strong>value</strong> (<em>Any</em>) – The value to be assigned to the given key.</p></li>
-</ul>
+<dd><p>Assigns a value to a key and returns a callable that processes a string.</p>
+<p>This function is used to create a lambda function that captures the input
+parameters and processes an additional string based on the implementation of
+the returned function.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>key: The key to which the value is assigned.
+value: The value to be assigned to the specified key.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A callable function that accepts a key as a string and returns a string.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Callable[[str], str</p>
+<dt>Returns:</dt><dd><p>Callable[[str], str]: A callable that takes a string as input and returns
+a string after processing. The exact processing implemented in the
+returned callable depends on the specific implementation.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1168,28 +1102,25 @@ around an inner method and delegates execution to it.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.wrap">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.tenant_id.TenantId" title="graphrag_toolkit.lexical_graph.tenant_id.TenantId"><span class="pre">TenantId</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['__Source__',</span> <span class="pre">'__Chunk__',</span> <span class="pre">'__Topic__',</span> <span class="pre">'__Statement__',</span> <span class="pre">'__Fact__',</span> <span class="pre">'__Entity__',</span> <span class="pre">'__SYS_SV__EntityClassification__',</span> <span class="pre">'__SYS_SV__StatementTopic__',</span> <span class="pre">'__SYS_Class__']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/multi_tenant_graph_store.html#MultiTenantGraphStore.wrap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.wrap" title="Link to this definition">¶</a></dt>
-<dd><p>Wraps a <code class="docutils literal notranslate"><span class="pre">GraphStore</span></code> instance into a <code class="docutils literal notranslate"><span class="pre">MultiTenantGraphStore</span></code> if necessary. This
-method checks the type of the provided <code class="docutils literal notranslate"><span class="pre">graph_store</span></code> and the status of the
-<code class="docutils literal notranslate"><span class="pre">tenant_id</span></code> to either return the given <code class="docutils literal notranslate"><span class="pre">graph_store</span></code> directly or wrap it
-in a <code class="docutils literal notranslate"><span class="pre">MultiTenantGraphStore</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>graph_store</strong> (<a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><em>GraphStore</em></a>) – The graph store instance to potentially wrap, which may be a
-subclass of <code class="docutils literal notranslate"><span class="pre">GraphStore</span></code> or already a <code class="docutils literal notranslate"><span class="pre">MultiTenantGraphStore</span></code>.</p></li>
-<li><p><strong>tenant_id</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.tenant_id.TenantId" title="graphrag_toolkit.lexical_graph.tenant_id.TenantId"><em>TenantId</em></a>) – The identifier of the tenant information for the
-graph store. Each tenant is identified uniquely.</p></li>
-<li><p><strong>labels</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of graph labels used for multi-tenancy context.
-Defaults to <code class="docutils literal notranslate"><span class="pre">LEXICAL_GRAPH_LABELS</span></code>.</p></li>
-</ul>
+<dd><p>Creates and returns a GraphStore instance, which can appropriately handle multi-tenancy
+based on the tenant information provided. If the tenant is a default tenant, the original
+graph store instance is returned as is. Otherwise, ensures that a MultiTenantGraphStore
+instance is created and returned.</p>
+<dl>
+<dt>Args:</dt><dd><p>graph_store (GraphStore): The graph store instance to be wrapped for multi-tenancy.
+tenant_id (TenantId): The tenant identifier used to determine if multi-tenancy is</p>
+<blockquote>
+<div><p>required.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>labels (List[str]): A list of labels associated with the graph store. Defaults to</dt><dd><p><cite>LEXICAL_GRAPH_LABELS</cite>.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Returns the same instance if it’s already a multi-tenant graph store or the
-tenant is default. Otherwise, wraps the existing graph store in a
-<code class="docutils literal notranslate"><span class="pre">MultiTenantGraphStore</span></code> and returns it.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Union[<a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore">GraphStore</a>, <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore">MultiTenantGraphStore</a>]</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>GraphStore: The resulting graph store instance, either as-is or wrapped as a</dt><dd><p>MultiTenantGraphStore depending on tenant information.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1203,18 +1134,17 @@ tenant is default. Otherwise, wraps the existing graph store in a
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.</span></span><span class="sig-name descname"><span class="pre">NeptuneAnalyticsClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_formatting:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id:</span> <span class="pre">~graphrag_toolkit.lexical_graph.tenant_id.TenantId</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_id:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneAnalyticsClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a></p>
-<p>Represents a client for interacting with a Neptune Graph database system.</p>
-<p>This class provides an interface for managing and interacting with Neptune-powered
-graph databases. It supports features such as client initialization, node ID
-formatting, property assignment functions, and Cypher query executions, while
-abstracting away implementation-specific details for easier use.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>graph_id</strong> – The unique identifier of the Neptune graph instance.</p></li>
-<li><p><strong>config</strong> – Optional configuration settings for the Neptune graph client.</p></li>
-<li><p><strong>_client</strong> – Internal storage for the initialized Neptune Graph API client.</p></li>
-</ul>
+<p>Represents a client for interacting with an Amazon Neptune graph database.</p>
+<p>Provides functionality to execute queries and handle operations specific to
+Neptune’s OpenCypher API. It also offers utility methods for node ID formatting
+and property assignment customization.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>graph_id (str): The identifier for the graph being accessed.
+config (Optional[str]): Optional configuration details for the client.
+_client (Optional[Any]): Internal attribute to manage the Neptune client</p>
+<blockquote>
+<div><p>instance. Initialized lazily when accessed via the <cite>client</cite> property.</p>
+</div></blockquote>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1224,17 +1154,14 @@ validated to form a valid model.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.client">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.client" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves the Neptune graph client. If the client is not previously initialized,
-it creates a new client instance using the defined session and configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>AttributeError</strong> – If the session or configuration is improperly defined.</p>
+<dd><p>The <cite>client</cite> property provides access to the Neptune Graph API client. It initializes
+the client lazily upon the first request, ensuring that the session and configuration
+are properly set up. This encapsulation allows deferred initialization and prevents
+unnecessary setup unless the client is required.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>_client (Optional[Any]): Stores the initialized Neptune Graph API client.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The initialized or existing client instance.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Any</em></p>
+<dt>Returns:</dt><dd><p>Any: The initialized Neptune Graph API client object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1247,24 +1174,15 @@ it creates a new client instance using the defined session and configuration.</p
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.execute_query">
 <span class="sig-name descname"><span class="pre">execute_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cypher</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneAnalyticsClient.execute_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.execute_query" title="Link to this definition">¶</a></dt>
-<dd><p>Executes a Cypher query against a database and returns the results. The function logs the query
-and execution details, including the time taken to process the query. If debug logging is enabled,
-it logs more detailed information about the response.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cypher</strong> (<em>str</em>) – The Cypher query to be executed, as a string.</p></li>
-<li><p><strong>parameters</strong> (<em>dict</em><em>, </em><em>optional</em>) – A dictionary of parameters to bind to the Cypher query. Defaults to an empty
-dictionary.</p></li>
-<li><p><strong>correlation_id</strong> (<em>str</em><em>, </em><em>optional</em>) – Optional identifier used to correlate the request in logs. If not provided,
-this is set to None.</p></li>
-</ul>
+<dd><p>Executes a Cypher query against the database, with the ability to log the request and response,
+including the execution time. This method is a wrapper over the database client execution,
+providing additional formatting and debug logging for traceability.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>cypher (str): The Cypher query string to be executed.
+parameters (dict, optional): The parameters to pass along with the Cypher query. Defaults to an empty dictionary.
+correlation_id (str, optional): An identifier to associate the request with a specific operation or context. Defaults to None.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The results of the query execution, parsed as a JSON object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
+<dt>Returns:</dt><dd><p>list: A list of results obtained by executing the query. Each result is parsed as a JSON object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1295,16 +1213,14 @@ context: The context.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.node_id">
 <span class="sig-name descname"><span class="pre">node_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId"><span class="pre">NodeId</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneAnalyticsClient.node_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.node_id" title="Link to this definition">¶</a></dt>
-<dd><p>Formats the given node identifier for compatibility with Neptune’s expected format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id_name</strong> (<em>str</em>) – The identifier of the node that needs to be formatted.</p>
+<dd><p>Formats an identifier for compatibility with Neptune.</p>
+<p>This function processes the provided identifier into the format required
+by Neptune, enabling smooth handling and identification of nodes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>id_name: The identifier string to be formatted.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <cite>NodeId</cite> object representing the formatted node identifier.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId">NodeId</a></p>
+<dt>Returns:</dt><dd><p>NodeId: The formatted identifier as a NodeId type, ready for use with
+Neptune.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1312,23 +1228,20 @@ context: The context.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.property_assigment_fn">
 <span class="sig-name descname"><span class="pre">property_assigment_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneAnalyticsClient.property_assigment_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.property_assigment_fn" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a function that assigns a specific property to a Neptune object.</p>
-<p>This function generates a callable that associates a given key-value pair with
-a Neptune property. It facilitates creating dynamic property assignment
-functions for Neptune objects.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<em>str</em>) – The key of the property to be assigned.</p></li>
-<li><p><strong>value</strong> (<em>Any</em>) – The value of the property to be assigned.</p></li>
-</ul>
+<dd><p>Assigns a property value for a Neptune property system using the provided key and value.</p>
+<p>This function creates a callable function that assigns a property value in a Neptune-based
+system by leveraging the given key and value. The result of the function is intended to
+help simplify interactions with Neptune’s property system by wrapping the implementation
+details into a callable template.</p>
+<dl>
+<dt>Args:</dt><dd><p>key (str): The property key to assign the value to. Must be provided as a string.
+value (Any): The value to be assigned to the key, where the type depends on the specific</p>
+<blockquote>
+<div><p>requirements of the Neptune system.</p>
+</div></blockquote>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A callable function that accepts a string input and applies the key-value
-property assignment for the Neptune object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Callable[[str], str]</p>
+<dt>Returns:</dt><dd><p>Callable[[str], str]: A callable function that implements the specified property
+assignment operation based on the provided key and value.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1339,41 +1252,34 @@ property assignment for the Neptune object.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsGraphStoreFactory">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.</span></span><span class="sig-name descname"><span class="pre">NeptuneAnalyticsGraphStoreFactory</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneAnalyticsGraphStoreFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsGraphStoreFactory" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStoreFactoryMethod</span></code></a></p>
-<p>Factory class for creating instances of NeptuneAnalyticsClient based on specific graph
-information.</p>
-<p>This class provides a factory method for initializing a graph connection
-to <cite>NeptuneAnalytics</cite>. It evaluates the given graph information and decides whether
-to create and return a <cite>NeptuneAnalyticsClient</cite> instance based on predefined matching
-criteria.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>NEPTUNE_ANALYTICS</strong> – A prefix used for checking whether the provided
-graph information corresponds to a Neptune Analytics graph.</p>
+<p>Factory class to create instances of NeptuneAnalyticsClient.</p>
+<p>This class serves as a factory for creating instances of a NeptuneAnalyticsClient
+using the factory method pattern. It provides a mechanism to conditionally create
+the graph store depending on the provided identifier and configuration parameters.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsGraphStoreFactory.try_create">
 <span class="sig-name descname"><span class="pre">try_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneAnalyticsGraphStoreFactory.try_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsGraphStoreFactory.try_create" title="Link to this definition">¶</a></dt>
-<dd><p>Attempts to create a <cite>GraphStore</cite> instance based on the provided graph information
-string. If the <cite>graph_info</cite> string starts with the predefined <cite>NEPTUNE_ANALYTICS</cite>
-prefix, this function initializes a <cite>NeptuneAnalyticsClient</cite> using the deriving
-specific details and configuration provided in <cite>kwargs</cite>. Otherwise, it returns None.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>graph_info</strong> (<em>str</em>) – A string containing the information about the graph. It is
-expected to possibly contain the <cite>NEPTUNE_ANALYTICS</cite> prefix.</p></li>
-<li><p><strong>kwargs</strong> (<em>dict</em>) – Additional keyword arguments that may include optional configuration
-parameters, such as ‘config’, which defines specific setup details for the
-client.</p></li>
-</ul>
+<dd><p>Attempts to create and return an instance of <cite>NeptuneAnalyticsClient</cite> if the provided
+graph information matches the expected format. If the graph information does not match,
+<cite>None</cite> is returned. The function is used for initializing a graph connection based
+on specific criteria.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>graph_info (str): Information about the graph, expected to start with the</dt><dd><p><cite>NEPTUNE_ANALYTICS</cite> prefix to successfully create a client instance.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <cite>NeptuneAnalyticsClient</cite> instance if the graph information matches
-the <cite>NEPTUNE_ANALYTICS</cite> criteria. Returns None otherwise.</p>
+<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs: Additional optional parameters, such as configuration settings.</dt><dd><p>The <cite>config</cite> parameter, if provided, will be used to customize
+the initialization of the <cite>NeptuneAnalyticsClient</cite>.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore">GraphStore</a> or None</p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>GraphStore: An instance of <cite>NeptuneAnalyticsClient</cite> if the graph info matches the</dt><dd><p>expected conditions. Otherwise, <cite>None</cite> is returned.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1384,19 +1290,23 @@ the <cite>NEPTUNE_ANALYTICS</cite> criteria. Returns None otherwise.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.</span></span><span class="sig-name descname"><span class="pre">NeptuneDatabaseClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_formatting:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id:</span> <span class="pre">~graphrag_toolkit.lexical_graph.tenant_id.TenantId</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint_url:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneDatabaseClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a></p>
-<p>A client for interacting with the Neptune Data service using openCypher queries.</p>
-<p>This class provides methods for formatting identifiers, creating property assignment
-functions, and executing openCypher queries. It manages client initialization lazily,
-ensuring efficient access to the Neptune Data service. The class is designed to handle
-dynamic endpoint URLs and configurations, allowing for flexible integration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>endpoint_url</strong> – The endpoint URL for the <cite>neptunedata</cite> service.</p></li>
-<li><p><strong>config</strong> – Optional configuration for the client setup. Defaults to None.</p></li>
-<li><p><strong>_client</strong> – The internal client instance for interacting with the <cite>neptunedata</cite> service.
-Initialized lazily when accessed.</p></li>
-</ul>
+<p>A client implementation for interacting with an Amazon Neptune graph database.</p>
+<p>This class provides functionalities to interact with an Amazon Neptune graph
+database in a structured way. It allows executing queries using OpenCypher,
+managing nodes and their properties, and more. The client handles setting up
+connections and formatting requests, making it easier to perform graph database
+operations. It also includes functionality for detailed logging of queries and
+their responses.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>endpoint_url (str): The endpoint URL of the Neptune database to connect to.
+config (Optional[str]): Configuration settings for the Neptune client</p>
+<blockquote>
+<div><p>session, if needed.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>_client (Optional[Any]): Internal attribute, managed privately, used to</dt><dd><p>hold the initialized Neptune client session.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1406,15 +1316,19 @@ validated to form a valid model.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.client">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.client" title="Link to this definition">¶</a></dt>
-<dd><p>Provides the AWS Neptune data client associated with the current object. This property
-initializes the client if it does not already exist, leveraging configuration details
-such as the endpoint URL and session settings.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The initialized or previously existing AWS Neptune data client</p>
+<dd><p>Provides a property to access the <cite>_client</cite> attribute, initializing it if
+necessary. The <cite>_client</cite> is created using the <cite>neptunedata</cite> service, where
+the <cite>endpoint_url</cite> and configuration are supplied dynamically.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>_client (Any): The underlying client instance for interacting with the</dt><dd><p><cite>neptunedata</cite> service. It is initialized lazily when the property
+is accessed.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>boto3.client</p>
+</dl>
+<p>endpoint_url (str): The endpoint URL for the <cite>neptunedata</cite> service.
+config (dict): Configuration options required for creating the client.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Any: A client object set up to interact with the Neptune Data service.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1432,24 +1346,21 @@ such as the endpoint URL and session settings.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.execute_query">
 <span class="sig-name descname"><span class="pre">execute_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cypher</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneDatabaseClient.execute_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.execute_query" title="Link to this definition">¶</a></dt>
-<dd><p>Executes a cypher query with the provided parameters and logs the request and response
-details for debugging purposes. It uses a unique query identifier for each execution
-and measures the execution time. The results of the query are returned after execution.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cypher</strong> (<em>str</em>) – The cypher query to execute.</p></li>
-<li><p><strong>parameters</strong> (<em>dict</em><em>, </em><em>optional</em>) – A dictionary of parameters to be used within the cypher query.
-Defaults to an empty dictionary.</p></li>
-<li><p><strong>correlation_id</strong> (<em>str</em><em>, </em><em>optional</em>) – An optional identifier used to correlate log entries
-with specific requests. Defaults to None.</p></li>
-</ul>
+<dd><p>Executes an openCypher query using the provided query string and parameters,
+logs the query and its results for debugging purposes, and measures the
+execution time in milliseconds.</p>
+<dl>
+<dt>Args:</dt><dd><p>cypher (str): The openCypher query string to be executed.
+parameters (dict, optional): A dictionary of parameters to bind to the</p>
+<blockquote>
+<div><p>query. Defaults to an empty dictionary.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>correlation_id (str, optional): An optional correlation ID for tracking</dt><dd><p>queries across services. Defaults to None.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The results of the executed cypher query.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
+<dt>Returns:</dt><dd><p>list: The results of the executed query as returned by the query response.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1475,17 +1386,11 @@ context: The context.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.node_id">
 <span class="sig-name descname"><span class="pre">node_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId"><span class="pre">NodeId</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneDatabaseClient.node_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.node_id" title="Link to this definition">¶</a></dt>
-<dd><p>Formats the provided identifier to match the required format for Neptune.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id_name</strong> (<em>str</em>) – The identifier that needs to be formatted for Neptune.</p>
+<dd><p>Formats the given identifier into a NodeId compatible format for Neptune.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>id_name (str): The identifier string to format.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A properly formatted NodeId object, adhering to the format expected
-by Neptune.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId">NodeId</a></p>
+<dt>Returns:</dt><dd><p>NodeId: The formatted NodeId object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1493,18 +1398,15 @@ by Neptune.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.property_assigment_fn">
 <span class="sig-name descname"><span class="pre">property_assigment_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneDatabaseClient.property_assigment_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.property_assigment_fn" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a property assignment function for Neptune API usage. The generated
-function can be used to set properties associated with a Neptune object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> – A string representing the key of the property to assign.</p></li>
-<li><p><strong>value</strong> – The value of any type to be associated with the provided key.</p></li>
-</ul>
+<dd><p>Creates and returns a property assignment function which assigns a given value
+to a specific key. The returned function will perform the assignment when
+invoked.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>key (str): The key to which the value would be assigned.
+value (Any): The value to assign to the provided key.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A callable function that takes a single string parameter and returns
-a string representing the outcome of the property assignment.</p>
+<dt>Returns:</dt><dd><p>Callable[[str], str]: A function that takes a single string argument and
+performs the assignment with respect to the specified key and value.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1515,40 +1417,42 @@ a string representing the outcome of the property assignment.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseGraphStoreFactory">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.</span></span><span class="sig-name descname"><span class="pre">NeptuneDatabaseGraphStoreFactory</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneDatabaseGraphStoreFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseGraphStoreFactory" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStoreFactoryMethod</span></code></a></p>
-<p>Factory class responsible for creating instances of GraphStore configured specifically
-for Neptune database connections. This class interprets provided graph database
-identifiers or URLs, optionally processes configuration arguments, and initializes
-a Neptune database client if the connection information is valid.</p>
-<p>Designed to handle multiple ways of identifying Neptune database instances
-and allows for flexible customization of connection parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>graph_endpoint</strong> – The resolved or processed endpoint URL of the Neptune database.</p>
+<p>Factory for creating Neptune database graph store instances.</p>
+<p>Provides the implementation for creating instances of NeptuneDatabaseClient based
+on the provided graph information and additional configurations. This factory parses
+the graph endpoint from the given graph information and constructs the client accordingly.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseGraphStoreFactory.try_create">
 <span class="sig-name descname"><span class="pre">try_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#NeptuneDatabaseGraphStoreFactory.try_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseGraphStoreFactory.try_create" title="Link to this definition">¶</a></dt>
-<dd><p>Attempts to create and return a NeptuneDatabaseClient instance based on the given
-graph_info string. Determines the appropriate endpoint and configuration details
-for the Neptune database, and initializes the client if a valid endpoint can
-be identified. If the input graph_info does not match expected patterns or no
-valid endpoint is found, returns None without any instantiation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>graph_info</strong> – The string containing information about the graph database,
-including the possible endpoint or DNS details.</p></li>
-<li><p><strong>kwargs</strong> – Keyword arguments that can include additional configurations,
-such as ‘endpoint_url’, ‘port’, and ‘config’.</p></li>
+<dd><p>Attempts to create a GraphStore instance for a Neptune database based on the provided
+graph information. It extracts or processes the graph endpoint from the given
+<cite>graph_info</cite> and optionally leverages additional configurations provided through
+keyword arguments.</p>
+<dl>
+<dt>Args:</dt><dd><dl>
+<dt>graph_info (str): Information or identifier for the graph database. This could</dt><dd><p>be a URL or a string containing elements allowing identification of a
+Neptune database endpoint.</p>
+</dd>
+<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs: Additional arguments to customize the connection and configuration</dt><dd><p>for the generated Neptune database client. Supported arguments include:
+- endpoint_url: Explicit endpoint URL to use for the database connection.
+- port: Port number to use for the connection if not embedded in the</p>
+<blockquote>
+<div><p><cite>graph_endpoint</cite>. Defaults to 8182.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>config: A dictionary of configuration key-value pairs to control specifics
+of the database client’s behavior.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of NeptuneDatabaseClient if a valid database endpoint
-is determined, otherwise None.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore">GraphStore</a> or None</p>
+<dt>Returns:</dt><dd><p>GraphStore: A NeptuneDatabaseClient instance configured for the provided
+<cite>graph_info</cite> and <cite>**kwargs</cite>, or <cite>None</cite> if the <cite>graph_info</cite> does not lead to a
+valid endpoint.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1558,22 +1462,20 @@ is determined, otherwise None.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.create_config">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.</span></span><span class="sig-name descname"><span class="pre">create_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#create_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.create_config" title="Link to this definition">¶</a></dt>
-<dd><p>Creates and returns a configuration object for the system.</p>
-<p>This function attempts to determine the version of the
-<cite>graphrag-toolkit-lexical-graph</cite> package. If the package is not available,
-the version falls back to ‘unknown’. An optional configuration string in JSON
-format can be provided, which is parsed and merged with the default
-configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – A JSON-formatted string containing configuration values
-(optional).</p>
+<dd><p>Creates a configuration object for the application, including retries, timeouts, and
+optional user-specified arguments in JSON format.</p>
+<p>This function initializes a configuration with default settings, such as retry policies,
+read timeouts, and user agent identifiers. If a configuration string in JSON format is
+provided, it will be parsed and applied to augment or override default settings. The
+toolkit version is dynamically fetched if available.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>config: A JSON-formatted string containing additional configuration settings. If not</dt><dd><p>provided, only default settings will be used.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A populated <cite>Config</cite> object with merged configuration values.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.Config" title="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.Config">Config</a></p>
+<dt>Returns:</dt><dd><p>Config: An initialized configuration object containing properties such as retry
+settings, timeouts, and user agent details.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1581,22 +1483,20 @@ configuration.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.create_property_assigment_fn_for_neptune">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.</span></span><span class="sig-name descname"><span class="pre">create_property_assigment_fn_for_neptune</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#create_property_assigment_fn_for_neptune"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.create_property_assigment_fn_for_neptune" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a property assignment function for Neptune based on the given key and value. The function
-generated will determine how the property is formatted or transformed when assigned,
-depending on whether the key corresponds to a datetime or a generic property.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<em>str</em>) – The key name of the property.</p></li>
-<li><p><strong>value</strong> (<em>Any</em>) – The value associated with the property, which may be validated or transformed.</p></li>
-</ul>
+<dd><p>Creates a property assignment function for Neptune keys and values, enabling specialized handling for
+datetime keys to format their associated values while leaving other keys untouched.</p>
+<dl>
+<dt>Args:</dt><dd><p>key (str): The key associated with the property, which can affect the behavior based on its type.
+value (Any): The value to be assigned, specifically checked and formatted if the key indicates</p>
+<blockquote>
+<div><p>datetime.</p>
+</div></blockquote>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A callable function that accepts a string representing the property identifier
-and returns a formatted string for property assignment.</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Callable[[str], str]: A function that takes a single string argument and returns a string. This</dt><dd><p>function formats the input value depending on whether the key is determined to represent
+datetime.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Callable[[str], str]</p>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1604,22 +1504,20 @@ and returns a formatted string for property assignment.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.format_id_for_neptune">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.</span></span><span class="sig-name descname"><span class="pre">format_id_for_neptune</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.html#format_id_for_neptune"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.format_id_for_neptune" title="Link to this definition">¶</a></dt>
-<dd><p>Formats an identifier string into an instance of <cite>NodeId</cite>, tailoring
-the format based on the input string structure. The input can
-contain a single segment or segments separated by a period,
-and the function processes these segments to construct and
-return a corresponding <cite>NodeId</cite> object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id_name</strong> (<em>str</em>) – The identifier string to format, which can be a
-single word or composed of segments separated by periods.</p>
+<dd><p>Formats an identifier string into a structured format suitable for Neptune.</p>
+<p>This function accepts an identifier string, splits it into parts based on the
+presence of a dot (‘.’), and returns a <cite>NodeId</cite> object with appropriately
+formatted values based on these parts. If the identifier does not contain a
+dot, it uses the entire string as the identifier’s base name and assigns a
+fixed format for the resulting instance.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>id_name (str): The identifier string to format, which can contain a dot</dt><dd><p>separating different parts.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <cite>NodeId</cite> instance where the segments of the <cite>id_name</cite>
-are appropriately structured into the <cite>NodeId</cite> fields.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId">NodeId</a></p>
+<dt>Returns:</dt><dd><p>NodeId: An object that encapsulates the formatted identifier, including its
+base name, formatted string, and a fixed boolean flag.</p>
 </dd>
 </dl>
 </dd></dl>

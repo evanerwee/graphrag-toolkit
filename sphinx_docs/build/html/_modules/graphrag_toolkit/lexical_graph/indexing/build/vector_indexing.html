@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.build.vector_indexing - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -355,43 +358,47 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.vector_indexing.VectorIndexing">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">VectorIndexing</span><span class="p">(</span><span class="n">NodeHandler</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles vector indexing for nodes, integrating vector stores and managing</span>
-<span class="sd">    batch operations.</span>
+<span class="sd">    Handles vector indexing operations, including interacting with vector stores and managing batch operations.</span>
 
-<span class="sd">    This class is designed to interface with vector stores, allowing nodes to</span>
-<span class="sd">    be efficiently indexed based on their metadata. It supports both individual</span>
-<span class="sd">    and batch indexing operations, with optional progress display. Users can</span>
-<span class="sd">    configure vector store operations via the provided methods.</span>
+<span class="sd">    This class provides tools to index vectors from nodes, allowing for integration with vector stores. It facilitates</span>
+<span class="sd">    operations such as batch writes and handling embedding indexing, making it easier to process and store large amounts</span>
+<span class="sd">    of vector data. The class supports flexible configuration and provides mechanisms to manage and optimize vector</span>
+<span class="sd">    processing using external vector stores.</span>
 
-<span class="sd">    :ivar vector_store: Instance of the vector store being used for indexing.</span>
-<span class="sd">    :type vector_store: VectorStore</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        vector_store (VectorStore): The vector store instance used for vector indexing and operations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="VectorIndexing.for_vector_store">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.vector_indexing.VectorIndexing.for_vector_store">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">for_vector_store</span><span class="p">(</span><span class="n">vector_store_info</span><span class="p">:</span><span class="n">VectorStoreInfoType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_names</span><span class="o">=</span><span class="n">DEFAULT_EMBEDDING_INDEXES</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructs and returns a `VectorIndexing` instance for a specified vector store.</span>
+<span class="sd">        Creates a VectorIndexing instance for the given vector store configuration.</span>
 
-<span class="sd">        This method facilitates the creation of a `VectorIndexing` object. If an instance</span>
-<span class="sd">        of `VectorStore` is provided, it directly utilizes that instance. Otherwise, it</span>
-<span class="sd">        creates a new `VectorStore` using `VectorStoreFactory` and returns the</span>
-<span class="sd">        corresponding `VectorIndexing` object.</span>
+<span class="sd">        This method is used to create a VectorIndexing object that wraps around</span>
+<span class="sd">        a vector store. The vector store can be directly passed as an instance</span>
+<span class="sd">        of VectorStore or indirectly specified using configuration parameters</span>
+<span class="sd">        through the factory method.</span>
 
-<span class="sd">        :param vector_store_info: Vector store instance or the information required to</span>
-<span class="sd">            construct a vector store.</span>
-<span class="sd">        :type vector_store_info: VectorStoreInfoType, optional</span>
+<span class="sd">        Args:</span>
+<span class="sd">            vector_store_info: Optional; Configuration or instance of the vector</span>
+<span class="sd">                store. If it is an instance of VectorStore, it will be directly</span>
+<span class="sd">                used. Otherwise, it should represent configuration parameters</span>
+<span class="sd">                required to create a vector store using the factory.</span>
+<span class="sd">            index_names: List of default index names that will be utilized for</span>
+<span class="sd">                embedding lookups. If not specified, defaults to</span>
+<span class="sd">                DEFAULT_EMBEDDING_INDEXES.</span>
+<span class="sd">            **kwargs: Additional keyword arguments to configure the vector store</span>
+<span class="sd">                when created indirectly through the factory.</span>
 
-<span class="sd">        :param index_names: List of names for the embedding indexes to be utilized.</span>
-<span class="sd">            Defaults to `DEFAULT_EMBEDDING_INDEXES`.</span>
-<span class="sd">        :type index_names: list, optional</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            VectorIndexing: An instance of VectorIndexing configured with the</span>
+<span class="sd">            specified vector store.</span>
 
-<span class="sd">        :param kwargs: Additional keyword arguments to be passed to</span>
-<span class="sd">            `VectorStoreFactory.for_vector_store`.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If the provided arguments are not compatible with the</span>
+<span class="sd">            vector store configuration or creation requirements.</span>
 
-<span class="sd">        :return: A `VectorIndexing` instance created for the given vector store or</span>
-<span class="sd">            vector store information.</span>
-<span class="sd">        :rtype: VectorIndexing</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vector_store_info</span><span class="p">,</span> <span class="n">VectorStore</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">VectorIndexing</span><span class="p">(</span><span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store_info</span><span class="p">)</span>
@@ -405,21 +412,30 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.vector_indexing.VectorIndexing.accept">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">accept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Accepts a list of nodes and performs vector indexing with configurable batch processing and additional keyword</span>
-<span class="sd">        arguments. Includes optional progress visualization and handles batched operations through the VectorBatchClient.</span>
+<span class="sd">        Processes and yields nodes for vector indexing using a batch client.</span>
 
-<span class="sd">        This method processes each node, checks metadata for indexing information, and appropriately adds embeddings to</span>
-<span class="sd">        specified indexes. The batch processing behavior is governed by the batch configuration. Nodes that satisfy specific</span>
-<span class="sd">        criteria are yielded, and batch operations are applied on remaining nodes before yielding them.</span>
+<span class="sd">        This function processes the given list of nodes to build vector indices.</span>
+<span class="sd">        It uses a batch client to handle batch operations if batch writes are enabled.</span>
+<span class="sd">        Nodes can be processed with optional progress display, and vector indexing is</span>
+<span class="sd">        applied based on metadata. If any error occurs during indexing, it is logged</span>
+<span class="sd">        and re-raised. Nodes are yielded either individually or in batches based on</span>
+<span class="sd">        batch operations.</span>
 
-<span class="sd">        :param nodes: A list of nodes to be indexed.</span>
-<span class="sd">        :type nodes: List[BaseNode]</span>
-<span class="sd">        :param kwargs: Additional keyword arguments for configuring vector indexing and batch processing. Should include:</span>
-<span class="sd">            &#39;batch_writes_enabled&#39;: A boolean flag indicating if batch writes are enabled.</span>
-<span class="sd">            &#39;batch_write_size&#39;: An integer specifying the size of each write batch.</span>
-<span class="sd">        :type kwargs: Any</span>
-<span class="sd">        :return: A generator yielding nodes that satisfy specified criteria after applying vector indexing operations.</span>
-<span class="sd">        :rtype: Generator[BaseNode, None, None]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            nodes (List[BaseNode]): A list of nodes to be indexed into the vector store.</span>
+<span class="sd">            **kwargs (Any): Additional configuration options including:</span>
+<span class="sd">                - batch_writes_enabled (bool): Determines whether batch operations are</span>
+<span class="sd">                  enabled.</span>
+<span class="sd">                - batch_write_size (int): Specifies the size of batches for batch</span>
+<span class="sd">                  operations.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            BaseNode: Nodes after they are processed and indexed, either individually or</span>
+<span class="sd">            in batches.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: Re-raises any exceptions that occur during vector indexing with</span>
+<span class="sd">            logging.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">batch_writes_enabled</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_writes_enabled&#39;</span><span class="p">)</span>
         <span class="n">batch_write_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_write_size&#39;</span><span class="p">)</span>
@@ -449,6 +465,7 @@
                 <span class="k">yield</span> <span class="n">node</span></div>
 </div>
 
+        
 </pre></div>
         </article>
       </div>
@@ -496,11 +513,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

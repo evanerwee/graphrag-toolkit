@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -349,20 +352,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">PROPOSITIONS_KEY</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">EXTRACT_PROPOSITIONS_PROMPT</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.batch_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">BatchConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">LLMPropositionExtractor</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">create_inference_inputs</span><span class="p">,</span>
-    <span class="n">create_inference_inputs_for_messages</span><span class="p">,</span>
-    <span class="n">create_and_run_batch_job</span><span class="p">,</span>
-    <span class="n">download_output_files</span><span class="p">,</span>
-    <span class="n">process_batch_output</span><span class="p">,</span>
-    <span class="n">split_nodes</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BEDROCK_MIN_BATCH_SIZE</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMPropositionExtractor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_inference_inputs</span><span class="p">,</span> <span class="n">create_inference_inputs_for_messages</span><span class="p">,</span> <span class="n">create_and_run_batch_job</span><span class="p">,</span> <span class="n">download_output_files</span><span class="p">,</span> <span class="n">process_batch_output</span><span class="p">,</span> <span class="n">split_nodes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">BEDROCK_MIN_BATCH_SIZE</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.extractors.interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseExtractor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.bridge.pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span>
@@ -371,106 +363,67 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="BatchLLMPropositionExtractor">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchLLMPropositionExtractor</span><span class="p">(</span><span class="n">BaseExtractor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles batch-level proposition extraction using a Language Model (LLM),</span>
-<span class="sd">    allowing for scalable and efficient processing of large datasets. This</span>
-<span class="sd">    class is designed to enable concurrent batch processing with integration</span>
-<span class="sd">    to resource-specific clients like S3 and Bedrock for data storage, inference</span>
-<span class="sd">    job management, and result extraction.</span>
+<span class="sd">    Handles the extraction of propositions using a batch processing approach via an LLM.</span>
 
-<span class="sd">    :ivar batch_config: Configuration for batch processing. Determines key operational</span>
-<span class="sd">        parameters such as bucket name, region, and other infrastructural configurations.</span>
-<span class="sd">    :type batch_config: BatchConfig</span>
-<span class="sd">    :ivar llm: Instance of the language model or its cache. Manages and facilitates prompt-based</span>
-<span class="sd">        proposition extraction.</span>
-<span class="sd">    :type llm: Optional[LLMCache]</span>
-<span class="sd">    :ivar prompt_template: String template for generating language model prompts during</span>
-<span class="sd">        proposition extraction.</span>
-<span class="sd">    :type prompt_template: str</span>
-<span class="sd">    :ivar source_metadata_field: Metadata field name used to extract text propositions.</span>
-<span class="sd">        It overrides the default extraction text if specified.</span>
-<span class="sd">    :type source_metadata_field: Optional[str]</span>
-<span class="sd">    :ivar batch_inference_dir: Directory path for maintaining batch inference input/output data.</span>
-<span class="sd">    :type batch_inference_dir: str</span>
+<span class="sd">    This class is designed to process large sets of nodes by splitting them into smaller</span>
+<span class="sd">    batches, generating prompts for LLM-based proposition extraction, and handling results</span>
+<span class="sd">    from batch inference jobs. It manages resources such as directories, uploads and downloads</span>
+<span class="sd">    to/from S3, and processes responses to extract propositions. The functionality supports</span>
+<span class="sd">    concurrent processing of multiple batches using asynchronous methods.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        batch_config (BatchConfig): Configuration for batch inference, including batch size,</span>
+<span class="sd">            key prefixes, and maximum concurrent batches.</span>
+<span class="sd">        llm (Optional[LLMCache]): The language model cache to be used for extracting propositions.</span>
+<span class="sd">        prompt_template (str): Template for generating prompts used in LLM extraction processes.</span>
+<span class="sd">        source_metadata_field (Optional[str]): Metadata field used as the source for extracting</span>
+<span class="sd">            text for proposition generation.</span>
+<span class="sd">        batch_inference_dir (str): Directory location for managing batch inputs and outputs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">batch_config</span><span class="p">:</span> <span class="n">BatchConfig</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;Batch inference config&#39;</span><span class="p">)</span>
-    <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMCache</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The LLM to use for extraction&#39;</span><span class="p">)</span>
-    <span class="n">prompt_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Prompt template&#39;</span><span class="p">)</span>
-    <span class="n">source_metadata_field</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Metadata field from which to extract propositions&#39;</span>
+    <span class="n">batch_config</span><span class="p">:</span><span class="n">BatchConfig</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;Batch inference config&#39;</span><span class="p">)</span>
+    <span class="n">llm</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">LLMCache</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The LLM to use for extraction&#39;</span>
     <span class="p">)</span>
-    <span class="n">batch_inference_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Directory for batch inputs and results results&#39;</span>
-    <span class="p">)</span>
+    <span class="n">prompt_template</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Prompt template&#39;</span><span class="p">)</span>
+    <span class="n">source_metadata_field</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Metadata field from which to extract propositions&#39;</span><span class="p">)</span>
+    <span class="n">batch_inference_dir</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Directory for batch inputs and results results&#39;</span><span class="p">)</span>
+    
 
 <div class="viewcode-block" id="BatchLLMPropositionExtractor.class_name">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.class_name">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">class_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provides the name of the class as a string.</span>
+<span class="sd">        Returns the name of the class as a string. This method is designed to</span>
+<span class="sd">        provide a human-readable representation of the class name, mainly for</span>
+<span class="sd">        use in debugging, logging, or other identification purposes.</span>
 
-<span class="sd">        This method is a class-level method that is used to retrieve the name of</span>
-<span class="sd">        the class it is invoked on. It ensures consistent retrieval of the class</span>
-<span class="sd">        name without the need for manually specifying it.</span>
-
-<span class="sd">        :returns: The name of the class as a string.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The name of the class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;BatchLLMPropositionExtractor&#39;</span></div>
 
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">batch_config</span><span class="p">:</span> <span class="n">BatchConfig</span><span class="p">,</span>
-        <span class="n">llm</span><span class="p">:</span> <span class="n">LLMCacheType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">prompt_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">source_metadata_field</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">batch_inference_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes an instance of the class, setting up the configuration for batch processing,</span>
-<span class="sd">        including low-level language model (LLM) configurations, prompt template, metadata</span>
-<span class="sd">        fields, and output directory for batch inference.</span>
-
-<span class="sd">        :param batch_config: Configuration object for batching containing parameters</span>
-<span class="sd">            and settings for batch processing.</span>
-<span class="sd">        :type batch_config: BatchConfig</span>
-<span class="sd">        :param llm: Instance of an optional low-level language model or cache type for</span>
-<span class="sd">            LLM tasks. Defaults to `GraphRAGConfig.extraction_llm` if not provided.</span>
-<span class="sd">        :type llm: LLMCacheType, optional</span>
-<span class="sd">        :param prompt_template: Text template used for generating prompts. If not explicitly</span>
-<span class="sd">            provided, defaults to the `EXTRACT_PROPOSITIONS_PROMPT` constant.</span>
-<span class="sd">        :type prompt_template: str, optional</span>
-<span class="sd">        :param source_metadata_field: An optional field specifying the source&#39;s metadata</span>
-<span class="sd">            utilized in processing. If not provided, defaults to `None`.</span>
-<span class="sd">        :type source_metadata_field: str, optional</span>
-<span class="sd">        :param batch_inference_dir: Path to the directory for storing output results from</span>
-<span class="sd">            batch inference. If not provided, defaults to `&#39;output/batch-propositions&#39;`.</span>
-<span class="sd">        :type batch_inference_dir: str, optional</span>
-
-<span class="sd">        :raises ValueError: Raises an error if the provided `llm` is not an instance of</span>
-<span class="sd">            `LLMCache` and cannot be initialized correctly.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">batch_config</span><span class="p">:</span><span class="n">BatchConfig</span><span class="p">,</span>
+                 <span class="n">llm</span><span class="p">:</span><span class="n">LLMCacheType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">prompt_template</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">source_metadata_field</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">batch_inference_dir</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">batch_config</span><span class="o">=</span><span class="n">batch_config</span><span class="p">,</span>
-            <span class="n">llm</span><span class="o">=</span><span class="p">(</span>
-                <span class="n">llm</span>
-                <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span>
-                <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
-                    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_llm</span><span class="p">,</span>
-                    <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span><span class="p">,</span>
-                <span class="p">)</span>
+            <span class="n">batch_config</span> <span class="o">=</span> <span class="n">batch_config</span><span class="p">,</span>
+            <span class="n">llm</span> <span class="o">=</span> <span class="n">llm</span> <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span> <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
+                <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_llm</span><span class="p">,</span>
+                <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span>
             <span class="p">),</span>
             <span class="n">prompt_template</span><span class="o">=</span><span class="n">prompt_template</span> <span class="ow">or</span> <span class="n">EXTRACT_PROPOSITIONS_PROMPT</span><span class="p">,</span>
             <span class="n">source_metadata_field</span><span class="o">=</span><span class="n">source_metadata_field</span><span class="p">,</span>
-            <span class="n">batch_inference_dir</span><span class="o">=</span><span class="n">batch_inference_dir</span>
-            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;batch-propositions&#39;</span><span class="p">),</span>
+            <span class="n">batch_inference_dir</span><span class="o">=</span><span class="n">batch_inference_dir</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;batch-propositions&#39;</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Prompt template: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -479,53 +432,45 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dir</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Prepares a directory by ensuring its existence. If the directory does not exist,</span>
-<span class="sd">        it is created with necessary parent directories.</span>
+<span class="sd">        Ensures a specified directory exists by creating it if it does not already exist.</span>
 
-<span class="sd">        :param dir: Directory path to prepare</span>
-<span class="sd">        :type dir: str</span>
-<span class="sd">        :return: The directory path that was prepared</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        If the directory is not present, it is created along with any intermediate</span>
+<span class="sd">        directories.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dir (str): The path to the directory to check or create.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The path to the directory that was confirmed to exist or newly created.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">dir</span>
-
+    
 <div class="viewcode-block" id="BatchLLMPropositionExtractor.process_single_batch">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.process_single_batch">[docs]</a>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process_single_batch</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">batch_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TextNode</span><span class="p">],</span> <span class="n">s3_client</span><span class="p">,</span> <span class="n">bedrock_client</span>
-    <span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process_single_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_index</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">TextNode</span><span class="p">],</span> <span class="n">s3_client</span><span class="p">,</span> <span class="n">bedrock_client</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Process a single batch of text nodes by creating inference inputs, uploading them</span>
-<span class="sd">        to S3, invoking a batch job, and processing the results.</span>
+<span class="sd">        Processes a single batch of proposition extraction asynchronously by performing several</span>
+<span class="sd">        steps including creating record files, uploading them to S3, invoking a batch job,</span>
+<span class="sd">        downloading output files, and processing batch results.</span>
 
-<span class="sd">        This asynchronous function handles multiple steps in a batch processing pipeline,</span>
-<span class="sd">        including generating inference inputs from text nodes, organizing and uploading</span>
-<span class="sd">        files to S3, invoking a batch job with the Bedrock client, and retrieving and</span>
-<span class="sd">        parsing the outputs produced by the batch job. It ensures all necessary resources</span>
-<span class="sd">        are properly prepared and organized, such as directories and filenames.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            batch_index (int): The index identifier of the current batch being processed.</span>
+<span class="sd">            node_batch (List[TextNode]): A list of `TextNode` objects representing the data</span>
+<span class="sd">                batch to be processed.</span>
+<span class="sd">            s3_client: The S3 client instance used to upload and download files from Amazon S3.</span>
+<span class="sd">            bedrock_client: The Bedrock client instance used to create and run batch jobs.</span>
 
-<span class="sd">        All operations, including S3 interactions and batch job invocations, are handled</span>
-<span class="sd">        asynchronously to ensure non-blocking execution.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Dict]: A list of dictionaries containing the processed results of the batch.</span>
 
-<span class="sd">        :param batch_index: The index of the current batch being processed.</span>
-<span class="sd">        :type batch_index: int</span>
-<span class="sd">        :param node_batch: A list of TextNode objects representing the batch of text</span>
-<span class="sd">            nodes to process.</span>
-<span class="sd">        :type node_batch: List[TextNode]</span>
-<span class="sd">        :param s3_client: An S3 client object for interacting with an Amazon S3 bucket.</span>
-<span class="sd">        :type s3_client: Any</span>
-<span class="sd">        :param bedrock_client: A Bedrock client object for invoking batch jobs.</span>
-<span class="sd">        :type bedrock_client: Any</span>
-<span class="sd">        :return: A list of batch results derived from the processed batch output.</span>
-<span class="sd">        :rtype: List[Any]</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            BatchJobError: If any error occurs during the batch processing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">-%H%M%S&#39;</span><span class="p">)</span>
-            <span class="n">input_filename</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;proposition_extraction_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s1">_batch_</span><span class="si">{</span><span class="n">batch_index</span><span class="si">}</span><span class="s1">.jsonl&#39;</span>
-            <span class="p">)</span>
+            <span class="n">input_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;proposition_extraction_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s1">_batch_</span><span class="si">{</span><span class="n">batch_index</span><span class="si">}</span><span class="s1">.jsonl&#39;</span>
 
             <span class="c1"># 1 - Create Record Files (.jsonl)</span>
             <span class="c1"># prompts = []</span>
@@ -536,32 +481,24 @@
 
             <span class="n">messages_batch</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_batch</span><span class="p">:</span>
-                <span class="n">text</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span>
-                    <span class="k">else</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span>
-                <span class="p">)</span>
-                <span class="n">messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">_get_messages</span><span class="p">(</span>
-                    <span class="n">PromptTemplate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span>
-                <span class="p">)</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span> <span class="k">else</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span>
+                <span class="n">messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">_get_messages</span><span class="p">(</span><span class="n">PromptTemplate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
                 <span class="n">messages_batch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
 
             <span class="n">json_inputs</span> <span class="o">=</span> <span class="n">create_inference_inputs_for_messages</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">llm</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">,</span> <span class="n">messages_batch</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">llm</span><span class="p">,</span> 
+                <span class="n">node_batch</span><span class="p">,</span> 
+                <span class="n">messages_batch</span>
             <span class="p">)</span>
-
+            
             <span class="c1"># json_inputs = create_inference_inputs(</span>
             <span class="c1">#     self.llm.llm,</span>
-            <span class="c1">#     node_batch,</span>
+            <span class="c1">#     node_batch, </span>
             <span class="c1">#     prompts</span>
             <span class="c1"># )</span>
 
-            <span class="n">input_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">batch_inference_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;inputs&#39;</span>
-            <span class="p">)</span>
-            <span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">batch_inference_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;outputs&#39;</span>
-            <span class="p">)</span>
+            <span class="n">input_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_inference_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;inputs&#39;</span><span class="p">)</span>
+            <span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_inference_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;outputs&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_directory</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_directory</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
 
@@ -575,105 +512,50 @@
             <span class="n">s3_input_key</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">s3_output_path</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">:</span>
-                <span class="n">s3_input_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">,</span>
-                    <span class="s1">&#39;batch-propositions&#39;</span><span class="p">,</span>
-                    <span class="n">timestamp</span><span class="p">,</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span>
-                    <span class="s1">&#39;inputs&#39;</span><span class="p">,</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_filename</span><span class="p">),</span>
-                <span class="p">)</span>
-                <span class="n">s3_output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">,</span>
-                    <span class="s1">&#39;batch-propositions&#39;</span><span class="p">,</span>
-                    <span class="n">timestamp</span><span class="p">,</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span>
-                    <span class="s1">&#39;outputs/&#39;</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="n">s3_input_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">,</span> <span class="s1">&#39;batch-propositions&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;inputs&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_filename</span><span class="p">))</span>
+                <span class="n">s3_output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">,</span> <span class="s1">&#39;batch-propositions&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;outputs/&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">s3_input_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="s1">&#39;batch-propositions&#39;</span><span class="p">,</span>
-                    <span class="n">timestamp</span><span class="p">,</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span>
-                    <span class="s1">&#39;inputs&#39;</span><span class="p">,</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_filename</span><span class="p">),</span>
-                <span class="p">)</span>
-                <span class="n">s3_output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="s1">&#39;batch-propositions&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;outputs/&#39;</span>
-                <span class="p">)</span>
+                <span class="n">s3_input_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;batch-propositions&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;inputs&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_filename</span><span class="p">))</span>
+                <span class="n">s3_output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;batch-propositions&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;outputs/&#39;</span><span class="p">)</span>
 
-            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span>
-                <span class="n">s3_client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">,</span>
-                <span class="n">input_filepath</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span>
-                <span class="n">s3_input_key</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Uploaded </span><span class="si">{</span><span class="n">input_filename</span><span class="si">}</span><span class="s1"> to S3 [bucket: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="si">}</span><span class="s1">, key: </span><span class="si">{</span><span class="n">s3_input_key</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">s3_client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">,</span> <span class="n">input_filepath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">s3_input_key</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Uploaded </span><span class="si">{</span><span class="n">input_filename</span><span class="si">}</span><span class="s1"> to S3 [bucket: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="si">}</span><span class="s1">, key: </span><span class="si">{</span><span class="n">s3_input_key</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
             <span class="c1"># 3 - Invoke batch job</span>
-            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span>
-                <span class="n">create_and_run_batch_job</span><span class="p">,</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">create_and_run_batch_job</span><span class="p">,</span>
                 <span class="s1">&#39;extract-propositions&#39;</span><span class="p">,</span>
-                <span class="n">bedrock_client</span><span class="p">,</span>
-                <span class="n">timestamp</span><span class="p">,</span>
+                <span class="n">bedrock_client</span><span class="p">,</span> 
+                <span class="n">timestamp</span><span class="p">,</span> 
                 <span class="n">batch_index</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="p">,</span>
-                <span class="n">s3_input_key</span><span class="p">,</span>
+                <span class="n">s3_input_key</span><span class="p">,</span> 
                 <span class="n">s3_output_path</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">model</span>
             <span class="p">)</span>
 
-            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span>
-                <span class="n">download_output_files</span><span class="p">,</span>
-                <span class="n">s3_client</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span>
-                <span class="n">s3_output_path</span><span class="p">,</span>
-                <span class="n">input_filename</span><span class="p">,</span>
-                <span class="n">output_dir</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">download_output_files</span><span class="p">,</span> <span class="n">s3_client</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">s3_output_path</span><span class="p">,</span> <span class="n">input_filename</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
 
             <span class="c1"># 4 - Once complete, process batch output</span>
-            <span class="n">batch_results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">process_batch_output</span><span class="p">(</span>
-                <span class="n">output_dir</span><span class="p">,</span> <span class="n">input_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span>
-            <span class="p">)</span>
+            <span class="n">batch_results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">process_batch_output</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">input_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Completed processing of batch </span><span class="si">{</span><span class="n">batch_index</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">batch_results</span>
-
+        
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BatchJobError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Error processing batch </span><span class="si">{</span><span class="n">batch_index</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">BatchJobError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error processing batch </span><span class="si">{</span><span class="n">batch_index</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span> </div>
 
-
+            
+            
 <div class="viewcode-block" id="BatchLLMPropositionExtractor.aextract">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.aextract">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">aextract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Extracts information asynchronously from a sequence of nodes, either individually</span>
-<span class="sd">        or in batches, depending on the minimum batch size defined for Bedrock processing.</span>
-<span class="sd">        If the number of nodes is below the minimum threshold, a fallback extraction method</span>
-<span class="sd">        is used. The function processes batches concurrently while managing the concurrency</span>
-<span class="sd">        limit using semaphores, ensuring optimal performance without exceeding resource limits.</span>
-
-<span class="sd">        :param nodes:</span>
-<span class="sd">            A sequence of BaseNode instances from which information will be extracted. Each</span>
-<span class="sd">            node represents an individual piece of data to process.</span>
-<span class="sd">        :type nodes: Sequence[BaseNode]</span>
-<span class="sd">        :return:</span>
-<span class="sd">            A list of dictionaries, where each dictionary contains processed results</span>
-<span class="sd">            including propositions associated with nodes. If a node does not contain</span>
-<span class="sd">            results, the propositions key will have an empty list as its value.</span>
-<span class="sd">        :rtype: List[Dict]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Asynchronously extracts propositions from a list of nodes. This method divides the input nodes into batches, processes</span>
+<span class="sd">        the batches concurrently using Bedrock or a fallback extractor, and processes the results to generate structured&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">BEDROCK_MIN_BATCH_SIZE</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;List of nodes contains fewer records (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">) than the minimum required by Bedrock (</span><span class="si">{</span><span class="n">BEDROCK_MIN_BATCH_SIZE</span><span class="si">}</span><span class="s1">), so running LLMPropositionExtractor instead&#39;</span>
-            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;List of nodes contains fewer records (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">) than the minimum required by Bedrock (</span><span class="si">{</span><span class="n">BEDROCK_MIN_BATCH_SIZE</span><span class="si">}</span><span class="s1">), so running LLMPropositionExtractor instead&#39;</span><span class="p">)</span>
             <span class="n">extractor</span> <span class="o">=</span> <span class="n">LLMPropositionExtractor</span><span class="p">(</span>
-                <span class="n">prompt_template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">,</span>
-                <span class="n">source_metadata_field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span><span class="p">,</span>
+                <span class="n">prompt_template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">,</span> 
+                <span class="n">source_metadata_field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="k">await</span> <span class="n">extractor</span><span class="o">.</span><span class="n">aextract</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
 
@@ -682,9 +564,7 @@
 
         <span class="c1"># 1 - Split nodes into batches (if needed)</span>
         <span class="n">node_batches</span> <span class="o">=</span> <span class="n">split_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">max_batch_size</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;Split nodes into </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">node_batches</span><span class="p">)</span><span class="si">}</span><span class="s1"> batches [sizes: </span><span class="si">{</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">node_batches</span><span class="p">]</span><span class="si">}</span><span class="s1">]&#39;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Split nodes into </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">node_batches</span><span class="p">)</span><span class="si">}</span><span class="s1"> batches [sizes: </span><span class="si">{</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">node_batches</span><span class="p">]</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
         <span class="c1"># 2 - Process batches concurrently</span>
         <span class="n">all_results</span> <span class="o">=</span> <span class="p">{}</span>
@@ -692,28 +572,19 @@
 
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process_batch_with_semaphore</span><span class="p">(</span><span class="n">batch_index</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Asynchronous batch LLM-based proposition extractor.</span>
+<span class="sd">            A class for extracting propositions from a batch of nodes using a language model.</span>
+<span class="sd">            This class handles asynchronous extraction by processing batches of nodes with</span>
+<span class="sd">            a semaphore to limit concurrency. It inherits from BaseExtractor, providing</span>
+<span class="sd">            an implementation for extracting proposition data.</span>
 
-<span class="sd">            This class utilizes an LLM-based approach to extract propositions asynchronously</span>
-<span class="sd">            from a sequence of nodes in batches. It inherits from the BaseExtractor class</span>
-<span class="sd">            and leverages semaphores to manage concurrent batch processing.</span>
-
-<span class="sd">            :param nodes: Sequence of BaseNode objects to be processed for proposition</span>
-<span class="sd">                extraction.</span>
-<span class="sd">            :type nodes: Sequence[BaseNode]</span>
-<span class="sd">            :return: A list of dictionaries containing extracted propositions, where each</span>
-<span class="sd">                dictionary represents the propositions for a single node batch.</span>
-<span class="sd">            :rtype: List[Dict]</span>
+<span class="sd">            Attributes:</span>
+<span class="sd">                semaphore (asyncio.Semaphore): A semaphore to control the concurrency of</span>
+<span class="sd">                    batch processing.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">async</span> <span class="k">with</span> <span class="n">semaphore</span><span class="p">:</span>
-                <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_single_batch</span><span class="p">(</span>
-                    <span class="n">batch_index</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">,</span> <span class="n">s3_client</span><span class="p">,</span> <span class="n">bedrock_client</span>
-                <span class="p">)</span>
+                <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_single_batch</span><span class="p">(</span><span class="n">batch_index</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">,</span> <span class="n">s3_client</span><span class="p">,</span> <span class="n">bedrock_client</span><span class="p">)</span>
 
-        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">process_batch_with_semaphore</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_batches</span><span class="p">)</span>
-        <span class="p">]</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">process_batch_with_semaphore</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_batches</span><span class="p">)]</span>
         <span class="n">batch_results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">batch_results</span><span class="p">:</span>
@@ -725,17 +596,18 @@
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span> <span class="ow">in</span> <span class="n">all_results</span><span class="p">:</span>
                 <span class="n">raw_response</span> <span class="o">=</span> <span class="n">all_results</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">]</span>
                 <span class="n">propositions</span> <span class="o">=</span> <span class="n">raw_response</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-                <span class="n">propositions_model</span> <span class="o">=</span> <span class="n">Propositions</span><span class="p">(</span>
-                    <span class="n">propositions</span><span class="o">=</span><span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">propositions</span> <span class="k">if</span> <span class="n">p</span><span class="p">]</span>
-                <span class="p">)</span>
-                <span class="n">return_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">{</span><span class="n">PROPOSITIONS_KEY</span><span class="p">:</span> <span class="n">propositions_model</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()[</span><span class="s1">&#39;propositions&#39;</span><span class="p">]}</span>
-                <span class="p">)</span>
+                <span class="n">propositions_model</span> <span class="o">=</span> <span class="n">Propositions</span><span class="p">(</span><span class="n">propositions</span><span class="o">=</span><span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">propositions</span> <span class="k">if</span> <span class="n">p</span><span class="p">])</span>
+                <span class="n">return_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="n">PROPOSITIONS_KEY</span><span class="p">:</span> <span class="n">propositions_model</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()[</span><span class="s1">&#39;propositions&#39;</span><span class="p">]</span>
+                <span class="p">})</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">return_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">PROPOSITIONS_KEY</span><span class="p">:</span> <span class="p">[]})</span>
 
         <span class="k">return</span> <span class="n">return_results</span></div>
 </div>
+
+
+    
 
 </pre></div>
         </article>
@@ -784,11 +656,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

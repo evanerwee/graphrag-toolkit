@@ -8,6 +8,8 @@ Subpackages
    :maxdepth: 4
 
    graphrag_toolkit.lexical_graph.indexing
+   graphrag_toolkit.lexical_graph.prompts
+   graphrag_toolkit.lexical_graph.protocols
    graphrag_toolkit.lexical_graph.retrieval
    graphrag_toolkit.lexical_graph.storage
    graphrag_toolkit.lexical_graph.utils

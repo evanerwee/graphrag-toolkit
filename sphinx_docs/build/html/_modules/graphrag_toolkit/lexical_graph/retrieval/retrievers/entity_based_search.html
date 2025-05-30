@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -340,60 +343,49 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SearchResultCollection</span><span class="p">,</span>
-    <span class="n">ScoredEntity</span><span class="p">,</span>
-    <span class="n">Entity</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">ScoredEntity</span><span class="p">,</span> <span class="n">Entity</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.vector_store</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_entity_search</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">KeywordEntitySearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ProcessorBase</span><span class="p">,</span>
-    <span class="n">ProcessorArgs</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">TraversalBasedBaseRetriever</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_entity_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeywordEntitySearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessorBase</span><span class="p">,</span> <span class="n">ProcessorArgs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="n">TraversalBasedBaseRetriever</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="EntityBasedSearch">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search.EntityBasedSearch">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EntityBasedSearch</span><span class="p">(</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles entity-based search functionality using traversal-based retriever mechanisms.</span>
+<span class="sd">    EntityBasedSearch is a retrieval mechanism built on top of the TraversalBasedBaseRetriever class.</span>
 
-<span class="sd">    This class facilitates searching within a hybrid entity-graph and vector-search</span>
-<span class="sd">    environment, enabling complex search operations using entities and their relationships.</span>
+<span class="sd">    This class performs entity-based search by leveraging both graph storage and vector storage. It</span>
+<span class="sd">    utilizes various methods to determine start nodes for a query, executes graph-based searches, and</span>
+<span class="sd">    returns a collection of search results. The search logic supports both single-entity-based and</span>
+<span class="sd">    multiple-entity-based graph traversals. This enables deriving meaningful insights by identifying</span>
+<span class="sd">    connections and relationships between different entities in the graph structure.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        graph_store (GraphStore): Storage for graph data.</span>
-<span class="sd">        vector_store (VectorStore): Storage for vector data.</span>
-<span class="sd">        processor_args (ProcessorArgs): Configuration for processors.</span>
-<span class="sd">        processors (List[Type[ProcessorBase]]): Processing pipeline components.</span>
-<span class="sd">        filter_config (FilterConfig): Configuration for search filtering.</span>
-
+<span class="sd">        graph_store (GraphStore): The graph storage system used for executing graph-based queries.</span>
+<span class="sd">        vector_store (VectorStore): The vector storage system utilized for embedding-related operations or searches.</span>
+<span class="sd">        processor_args (Optional[ProcessorArgs]): Optional arguments for configuring processors in the</span>
+<span class="sd">            retrieval process.</span>
+<span class="sd">        processors (Optional[List[Type[ProcessorBase]]]): A list of processors used during the retrieval</span>
+<span class="sd">            process.</span>
+<span class="sd">        filter_config (Optional[FilterConfig]): Optional configuration for filtering search results.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span>
-        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">,</span>
-        <span class="n">processor_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProcessorArgs</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ProcessorBase</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the class instance with the provided parameters and</span>
-<span class="sd">        ensures that the base class is properly initialized as well. This</span>
-<span class="sd">        constructor prepares the object with necessary configurations and data</span>
-<span class="sd">        stores for its intended purpose.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">graph_store</span><span class="p">:</span><span class="n">GraphStore</span><span class="p">,</span>
+                 <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">,</span>
+                 <span class="n">processor_args</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">ProcessorArgs</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">processors</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ProcessorBase</span><span class="p">]]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">filter_config</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the class instance with the provided parameters and ensures that</span>
+<span class="sd">        the base class is properly initialized as well. This constructor prepares the</span>
+<span class="sd">        object with necessary configurations and data stores for its intended purpose.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            graph_store: The GraphStore instance responsible for managing graph-</span>
@@ -410,19 +402,19 @@
 <span class="sd">                configurability.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span> 
             <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
             <span class="n">processor_args</span><span class="o">=</span><span class="n">processor_args</span><span class="p">,</span>
             <span class="n">processors</span><span class="o">=</span><span class="n">processors</span><span class="p">,</span>
             <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="EntityBasedSearch.get_start_node_ids">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search.EntityBasedSearch.get_start_node_ids">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_start_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve start node IDs for an entity-based search or a keyword-</span>
-<span class="sd">        entity-based search method.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve start node IDs for an entity-based search or a keyword-entity-based search method.</span>
 
 <span class="sd">        If entities are already present within the object, their corresponding IDs are returned.</span>
 <span class="sd">        Otherwise, the function performs a keyword-entity search using the provided query and returns</span>
@@ -439,34 +431,33 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">entity</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">entityId</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">]</span>
-
+        
         <span class="n">keyword_entity_search</span> <span class="o">=</span> <span class="n">KeywordEntitySearch</span><span class="p">(</span>
-            <span class="n">graph_store</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">graph_store</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span> 
             <span class="n">max_keywords</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">max_keywords</span><span class="p">,</span>
-            <span class="n">expand_entities</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">expand_entities</span><span class="p">,</span>
+            <span class="n">expand_entities</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">expand_entities</span>
         <span class="p">)</span>
 
         <span class="n">entity_search_results</span> <span class="o">=</span> <span class="n">keyword_entity_search</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span>
 
         <span class="n">entities</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">ScoredEntity</span><span class="p">(</span>
-                <span class="n">entity</span><span class="o">=</span><span class="n">Entity</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
-                <span class="n">score</span><span class="o">=</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
+                <span class="n">entity</span><span class="o">=</span><span class="n">Entity</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> 
+                <span class="n">score</span><span class="o">=</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">score</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">entity_search_result</span> <span class="ow">in</span> <span class="n">entity_search_results</span>
         <span class="p">]</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">entity</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">entityId</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">]</span></div>
 
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_for_each_disjoint</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">others</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates tuples of a value and a list of other values that do not</span>
-<span class="sd">        include the value from the provided lists. The method operates on a</span>
-<span class="sd">        list of values, creating a set for quick operations, and optionally</span>
-<span class="sd">        uses another list to specify the other values. The generator yields a</span>
-<span class="sd">        tuple containing each value and a corresponding list of other values.</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_for_each_disjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">others</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates tuples of a value and a list of other values that do not include</span>
+<span class="sd">        the value from the provided lists. The method operates on a list of values,</span>
+<span class="sd">        creating a set for quick operations, and optionally uses another list to</span>
+<span class="sd">        specify the other values. The generator yields a tuple containing each</span>
+<span class="sd">        value and a corresponding list of other values.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            values (List[Any]): A mandatory list of values to process.</span>
@@ -481,22 +472,19 @@
         <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
             <span class="n">other_values</span> <span class="o">=</span> <span class="n">others</span> <span class="ow">or</span> <span class="nb">list</span><span class="p">(</span><span class="n">values_as_set</span><span class="o">.</span><span class="n">difference</span><span class="p">({</span><span class="n">value</span><span class="p">}))</span>
             <span class="k">yield</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">other_values</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_for_each_disjoint_unique</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+            
+    <span class="k">def</span><span class="w"> </span><span class="nf">_for_each_disjoint_unique</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
-            <span class="n">other_values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span>
+            <span class="n">other_values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
             <span class="k">yield</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">other_values</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_multiple_entity_based_graph_search</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">start_id</span><span class="p">,</span> <span class="n">end_ids</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">QueryBundle</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Executes a multiple-entity-based graph search query for the given</span>
-<span class="sd">        start ID and a list of end IDs, based on the provided query bundle. The</span>
-<span class="sd">        function constructs a Cypher query to identify paths between entities</span>
-<span class="sd">        in a graph, retrieves matching nodes, and queries statements and facts</span>
-<span class="sd">        related to these entities.</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_multiple_entity_based_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_id</span><span class="p">,</span> <span class="n">end_ids</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="n">QueryBundle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes a multiple-entity-based graph search query for the given start ID and a list</span>
+<span class="sd">        of end IDs, based on the provided query bundle. The function constructs a Cypher query</span>
+<span class="sd">        to identify paths between entities in a graph, retrieves matching nodes, and queries</span>
+<span class="sd">        statements and facts related to these entities.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            start_id: The starting node ID for the graph search.</span>
@@ -511,12 +499,9 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            Any exceptions raised during graph query creation or execution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;Starting multiple-entity-based searches for [start_id: </span><span class="si">{</span><span class="n">start_id</span><span class="si">}</span><span class="s1">, end_ids: </span><span class="si">{</span><span class="n">end_ids</span><span class="si">}</span><span class="s1">]&#39;</span>
-        <span class="p">)</span>
-
-        <span class="n">cypher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_cypher_query</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;&#39;&#39; </span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Starting multiple-entity-based searches for [start_id: </span><span class="si">{</span><span class="n">start_id</span><span class="si">}</span><span class="s1">, end_ids: </span><span class="si">{</span><span class="n">end_ids</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+        
+        <span class="n">cypher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_cypher_query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39; </span>
 <span class="s1">        // multiple entity-based graph search                                                                </span>
 <span class="s1">        MATCH p=(e1:`__Entity__`</span><span class="se">{{</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;entityId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">:$startId</span><span class="se">}}</span><span class="s1">)-[:`__RELATION__`*1..2]-(e2:`__Entity__`) </span>
 <span class="s1">        WHERE </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;e2.entityId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> in $endIds</span>
@@ -527,21 +512,21 @@
 <span class="s1">            -[:`__PREVIOUS__`*0..1]-(l:`__Statement__`)</span>
 <span class="s1">            -[:`__BELONGS_TO__`]-&gt;(t:`__Topic__`)</span>
 <span class="s1">        WHERE s in entities and o in entities</span>
-<span class="s1">        &#39;&#39;&#39;</span>
-        <span class="p">)</span>
-
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span>
+            
         <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;startId&#39;</span><span class="p">:</span> <span class="n">start_id</span><span class="p">,</span>
             <span class="s1">&#39;endIds&#39;</span><span class="p">:</span> <span class="n">end_ids</span><span class="p">,</span>
             <span class="s1">&#39;statementLimit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">intermediate_limit</span><span class="p">,</span>
-            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">query_limit</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">query_limit</span>
         <span class="p">}</span>
-
+            
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+           
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_single_entity_based_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs a search in a graph database based on a specific entity ID</span>
-<span class="sd">        and a query.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_single_entity_based_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="n">QueryBundle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs a search in a graph database based on a specific entity ID and a query.</span>
 
 <span class="sd">        The method constructs a Cypher query to perform a graph search focused on a single</span>
 <span class="sd">        entity. It navigates through relationships and nodes in the graph, retrieving</span>
@@ -555,35 +540,30 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The result of the executed Cypher query as returned by the graph database.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;Starting single-entity-based search for [entity_id: </span><span class="si">{</span><span class="n">entity_id</span><span class="si">}</span><span class="s1">]&#39;</span>
-        <span class="p">)</span>
-
-        <span class="n">cypher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_cypher_query</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;&#39;&#39; </span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Starting single-entity-based search for [entity_id: </span><span class="si">{</span><span class="n">entity_id</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+            
+        <span class="n">cypher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_cypher_query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39; </span>
 <span class="s1">        // single entity-based graph search                            </span>
 <span class="s1">        MATCH (:`__Entity__`</span><span class="se">{{</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;entityId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">:$startId</span><span class="se">}}</span><span class="s1">)</span>
 <span class="s1">            -[:`__SUBJECT__`]-&gt;(f:`__Fact__`)</span>
 <span class="s1">            -[:`__SUPPORTS__`]-&gt;(:`__Statement__`)</span>
 <span class="s1">            -[:`__PREVIOUS__`*0..1]-(l:`__Statement__`)</span>
-<span class="s1">            -[:`__BELONGS_TO__`]-&gt;(t:`__Topic__`)&#39;&#39;&#39;</span>
-        <span class="p">)</span>
-
+<span class="s1">            -[:`__BELONGS_TO__`]-&gt;(t:`__Topic__`)&#39;&#39;&#39;</span><span class="p">)</span>
+            
         <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;startId&#39;</span><span class="p">:</span> <span class="n">entity_id</span><span class="p">,</span>
             <span class="s1">&#39;statementLimit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">intermediate_limit</span><span class="p">,</span>
-            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">query_limit</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">query_limit</span>
         <span class="p">}</span>
-
+            
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
-
+            
+    
 <div class="viewcode-block" id="EntityBasedSearch.do_graph_search">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_based_search.EntityBasedSearch.do_graph_search">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Executes a graph-based search combining multiple and single entity-</span>
-<span class="sd">        based searches.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span><span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes a graph-based search combining multiple and single entity-based searches.</span>
 
 <span class="sd">        This method performs a graph search using both multi-entity and single-entity</span>
 <span class="sd">        approaches. It executes the search in parallel across multiple workers for efficiency.</span>
@@ -600,54 +580,41 @@
 <span class="sd">                graph-based search operation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Running entity-based search...&#39;</span><span class="p">)</span>
-
+        
         <span class="n">search_results</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span>
-            <span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">num_workers</span>
-        <span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
-
+        
+        <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">num_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            
             <span class="n">futures</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_multiple_entity_based_graph_search</span><span class="p">,</span>
-                    <span class="n">start_id</span><span class="p">,</span>
-                    <span class="n">end_ids</span><span class="p">,</span>
-                    <span class="n">query_bundle</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_multiple_entity_based_graph_search</span><span class="p">,</span> <span class="n">start_id</span><span class="p">,</span> <span class="n">end_ids</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">)</span>
                 <span class="k">for</span> <span class="p">(</span><span class="n">start_id</span><span class="p">,</span> <span class="n">end_ids</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_for_each_disjoint</span><span class="p">(</span><span class="n">start_node_ids</span><span class="p">)</span>
             <span class="p">]</span>
-
-            <span class="n">futures</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-                <span class="p">[</span>
-                    <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_single_entity_based_graph_search</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">,</span> <span class="n">query_bundle</span>
-                    <span class="p">)</span>
-                    <span class="k">for</span> <span class="n">entity_id</span> <span class="ow">in</span> <span class="n">start_node_ids</span>
-                <span class="p">]</span>
-            <span class="p">)</span>
-
+            
+            <span class="n">futures</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+                <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_single_entity_based_graph_search</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">entity_id</span> <span class="ow">in</span> <span class="n">start_node_ids</span>
+            <span class="p">])</span>
+            
             <span class="n">executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 
             <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">():</span>
                     <span class="n">search_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-        <span class="n">search_results_collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_search_results_collection</span><span class="p">(</span><span class="n">search_results</span><span class="p">)</span>
-
+                    
+                
+        <span class="n">search_results_collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_search_results_collection</span><span class="p">(</span><span class="n">search_results</span><span class="p">)</span> 
+        
         <span class="n">retriever_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="k">if</span> <span class="n">retriever_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">debug_results</span> <span class="ow">and</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
-        <span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;&#39;&#39;Entity-based results: </span><span class="si">{</span><span class="n">search_results_collection</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span>
+        <span class="k">if</span> <span class="n">retriever_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">debug_results</span> <span class="ow">and</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;Entity-based results: </span><span class="si">{</span><span class="n">search_results_collection</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">exclude_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="w">                </span><span class="si">}</span><span class="s1">&#39;&#39;&#39;</span>
-            <span class="p">)</span>
-
+<span class="w">                </span><span class="si">}</span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+                   
+        
         <span class="k">return</span> <span class="n">search_results_collection</span></div>
 </div>
 

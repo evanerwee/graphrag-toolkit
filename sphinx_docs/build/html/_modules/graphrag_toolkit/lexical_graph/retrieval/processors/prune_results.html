@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -336,55 +339,45 @@
 <span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ProcessorBase</span><span class="p">,</span>
-    <span class="n">ProcessorArgs</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SearchResultCollection</span><span class="p">,</span>
-    <span class="n">SearchResult</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessorBase</span><span class="p">,</span> <span class="n">ProcessorArgs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">SearchResult</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span>
-
 
 <div class="viewcode-block" id="PruneResults">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.prune_results.PruneResults">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PruneResults</span><span class="p">(</span><span class="n">ProcessorBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles processing tasks by pruning search results based on scores relative</span>
-<span class="sd">    to a predefined pruning threshold. This class is used as a base for</span>
-<span class="sd">    processing search results to filter out less relevant items.</span>
+<span class="sd">    Represents a processor that prunes search results based on a score threshold.</span>
 
-<span class="sd">    The purpose of this class is to efficiently manage and refine search</span>
-<span class="sd">    results by applying a pruning mechanism. It uses a score threshold to</span>
-<span class="sd">    exclude search results that do not meet the relevance criteria. Users can</span>
-<span class="sd">    configure the threshold through the associated arguments.</span>
+<span class="sd">    This class inherits from ProcessorBase and processes search results by applying a pruning function.</span>
+<span class="sd">    The pruning removes results that do not meet a predefined score threshold. It is designed for use</span>
+<span class="sd">    cases where it is necessary to filter out low-scoring results from a search result collection.</span>
 
-<span class="sd">    :ivar args: The arguments required for processing tasks, including the pruning threshold.</span>
-<span class="sd">    :type args: ProcessorArgs</span>
-<span class="sd">    :ivar filter_config: Configuration settings for filtering during processing.</span>
-<span class="sd">    :type filter_config: FilterConfig</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        args (ProcessorArgs): Arguments containing configuration and settings for the pruning process,</span>
+<span class="sd">            including the results pruning threshold.</span>
+<span class="sd">        filter_config (FilterConfig): Configuration for filtering, providing additional parameters</span>
+<span class="sd">            or constraints that may influence the pruning logic.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">ProcessorArgs</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the base class for processing tasks with specified</span>
-<span class="sd">        arguments and filter configuration.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span><span class="n">ProcessorArgs</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span><span class="n">FilterConfig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the base class for processing tasks with specified arguments and</span>
+<span class="sd">        filter configuration.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            args (ProcessorArgs): The arguments required for processing tasks.</span>
-<span class="sd">            filter_config (FilterConfig): Configuration settings for filtering during processing.</span>
+<span class="sd">            filter_config (FilterConfig): Configuration settings for filtering during</span>
+<span class="sd">                processing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_process_results</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">search_results</span><span class="p">:</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">QueryBundle</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Processes the search results by applying a pruning function based on</span>
-<span class="sd">        the results&#39; scores relative to a predefined threshold. Any search</span>
-<span class="sd">        result with a score below the threshold is excluded. This method</span>
-<span class="sd">        modifies the search results collection to retain only those results</span>
-<span class="sd">        meeting the score criterion.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_results</span><span class="p">:</span><span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes the search results by applying a pruning function based on the results&#39; scores relative</span>
+<span class="sd">        to a predefined threshold. Any search result with a score below the threshold is excluded. This</span>
+<span class="sd">        method modifies the search results collection to retain only those results meeting the score</span>
+<span class="sd">        criterion.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            search_results: The collection of search results to be processed. Each result may either</span>
@@ -395,15 +388,12 @@
 <span class="sd">            SearchResultCollection: A new collection of search results with only those results whose</span>
 <span class="sd">            scores meet the pruning threshold retained.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">prune_search_result</span><span class="p">(</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">search_result</span><span class="p">:</span> <span class="n">SearchResult</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span>
-                <span class="n">search_result</span>
-                <span class="k">if</span> <span class="n">search_result</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">results_pruning_threshold</span>
-                <span class="k">else</span> <span class="kc">None</span>
-            <span class="p">)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">prune_search_result</span><span class="p">(</span><span class="n">index</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">search_result</span><span class="p">:</span><span class="n">SearchResult</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">search_result</span> <span class="k">if</span> <span class="n">search_result</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">results_pruning_threshold</span> <span class="k">else</span> <span class="kc">None</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_to_search_results</span><span class="p">(</span><span class="n">search_results</span><span class="p">,</span> <span class="n">prune_search_result</span><span class="p">)</span></div>
+
+
 
 </pre></div>
         </article>

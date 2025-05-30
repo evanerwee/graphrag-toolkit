@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -345,24 +348,22 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="SentenceReranker">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SentenceReranker</span><span class="p">(</span><span class="n">SentenceTransformerRerank</span><span class="p">,</span> <span class="n">RerankerMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A class used for reranking sentence pairs using a pretrained cross-encoder model.</span>
+<span class="sd">    Represents a specialized sentence reranker that combines functionalities from</span>
+<span class="sd">    SentenceTransformerRerank and RerankerMixin.</span>
 
-<span class="sd">    This class combines the functionalities of `SentenceTransformerRerank` and</span>
-<span class="sd">    `RerankerMixin` to enable efficient reranking of sentence pairs based on their</span>
-<span class="sd">    similarity scores. It provides configurations for top-n reranking, model selection,</span>
-<span class="sd">    device setup, and batch processing. The primary use case is to compute relevance scores</span>
-<span class="sd">    for a list of sentence pairs and retrieve the most relevant ones according to the</span>
-<span class="sd">    given model.</span>
+<span class="sd">    This class is designed to rerank sentence pairs using a pre-trained cross-encoder</span>
+<span class="sd">    model. Users can specify parameters such as the top N results to rerank, the</span>
+<span class="sd">    underlying model to use, and batch size. The class initializes with support</span>
+<span class="sd">    for GPU execution if available and relies on external libraries such as</span>
+<span class="sd">    `sentence_transformers` and `torch`.</span>
 
-<span class="sd">    :ivar batch_size_internal: Internal variable to store the batch size for processing sentences.</span>
-<span class="sd">    :type batch_size_internal: int</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        batch_size_internal (int): Internal batch size used during reranking.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">batch_size_internal</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -371,29 +372,33 @@
         <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cross-encoder/stsb-distilroberta-base&quot;</span><span class="p">,</span>
         <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">keep_retrieval_score</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">128</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+        <span class="n">batch_size</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="n">Any</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the instance of a class with the specified configurations. This constructor</span>
-<span class="sd">        is responsible for importing necessary dependencies and setting up class attributes</span>
-<span class="sd">        based on the provided arguments.</span>
+<span class="sd">        Initializes the class with configuration for a model execution environment.</span>
 
-<span class="sd">        :param top_n: The top number of results to consider for the operation.</span>
-<span class="sd">        :type top_n: int</span>
-<span class="sd">        :param model: The identifier of the model to load and utilize.</span>
-<span class="sd">        :type model: str</span>
-<span class="sd">        :param device: The device on which the computations will be performed. It can be set to a</span>
-<span class="sd">            specific device like &#39;cpu&#39; or &#39;cuda&#39;.</span>
-<span class="sd">        :type device: Optional[str]</span>
-<span class="sd">        :param keep_retrieval_score: Determines whether to retain the retrieval score as part</span>
-<span class="sd">            of the result output if applicable.</span>
-<span class="sd">        :type keep_retrieval_score: Optional[bool]</span>
-<span class="sd">        :param batch_size: Specifies the size of batches to be utilized during processing.</span>
-<span class="sd">        :type batch_size: Optional[int]</span>
-<span class="sd">        :param kwargs: Arbitrary keyword arguments to customize behavior.</span>
-<span class="sd">        :type kwargs: Any</span>
-<span class="sd">        :raises ImportError: If required packages `torch` and/or `sentence_transformers` are not found.</span>
+<span class="sd">        This constructor sets up the initial parameters for handling model operations, such</span>
+<span class="sd">        as determining the top number of results, model name, device configuration, batch size,</span>
+<span class="sd">        and additional keyword arguments. It ensures that the required external dependencies</span>
+<span class="sd">        are available and imports them upon initialization.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            top_n (int): The number of top results to retrieve. Default is 2.</span>
+<span class="sd">            model (str): The name or identifier of the model to be used.</span>
+<span class="sd">                Default is &quot;cross-encoder/stsb-distilroberta-base&quot;.</span>
+<span class="sd">            device (Optional[str]): Specifies the device to execute the model.</span>
+<span class="sd">                For example, &#39;cpu&#39; or &#39;cuda&#39;. Default is None.</span>
+<span class="sd">            keep_retrieval_score (Optional[bool]): Determines whether to retain</span>
+<span class="sd">                the retrieval score after execution. Default is False.</span>
+<span class="sd">            batch_size (Optional[int]): Defines the size of batches to be processed</span>
+<span class="sd">                during execution. Default is 128.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments for further customization</span>
+<span class="sd">                of the model initialization.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ImportError: If the required &#39;torch&#39; and/or &#39;sentence_transformers&#39;</span>
+<span class="sd">                packages are not installed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">sentence_transformers</span>
@@ -402,54 +407,54 @@
             <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
                 <span class="s2">&quot;torch and/or sentence_transformers packages not found, install with &#39;pip install torch sentence_transformers&#39;&quot;</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-
+        
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">top_n</span><span class="o">=</span><span class="n">top_n</span><span class="p">,</span>
             <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
             <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
-            <span class="n">keep_retrieval_score</span><span class="o">=</span><span class="n">keep_retrieval_score</span><span class="p">,</span>
+            <span class="n">keep_retrieval_score</span><span class="o">=</span><span class="n">keep_retrieval_score</span><span class="p">,</span> 
         <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size_internal</span> <span class="o">=</span> <span class="n">batch_size</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size_internal</span><span class="o">=</span><span class="n">batch_size</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">batch_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Property to get the batch size.</span>
+<span class="sd">        Returns the internal batch size value.</span>
 
-<span class="sd">        This attribute returns the internal batch size value stored in</span>
-<span class="sd">        the object. The property provides a way to retrieve the</span>
-<span class="sd">        value without directly accessing the internal attribute.</span>
+<span class="sd">        This property provides access to the internal variable `batch_size_internal`,</span>
+<span class="sd">        which stores the batch size for the current object. It is used to retrieve the</span>
+<span class="sd">        value externally without directly exposing the internal variable.</span>
 
-<span class="sd">        :raises AttributeError: If the internal batch size attribute</span>
-<span class="sd">            does not exist or cannot be accessed.</span>
-
-<span class="sd">        :return: The current internal batch size value.</span>
-<span class="sd">        :rtype: int</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The batch size value stored in the internal variable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size_internal</span>
-
+    
 <div class="viewcode-block" id="SentenceReranker.rerank_pairs">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.rerank_pairs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rerank_pairs</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">pairs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pairs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
+        <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Re-ranks a list of sentence pairs using the model by predicting a similarity</span>
-<span class="sd">        score for each pair. The similarity scores are computed in batches of a</span>
-<span class="sd">        specified size, which can improve efficiency for large input data.</span>
+<span class="sd">        Re-ranks pairs of sentences based on their similarity or relevance by passing them</span>
+<span class="sd">        through the model for prediction. It processes the pairs in batches for efficiency.</span>
 
-<span class="sd">        :param pairs: A list of sentence pairs for which similarity scores need to be</span>
-<span class="sd">            computed. Each sentence pair is represented as a tuple of two strings.</span>
-<span class="sd">        :param batch_size: The number of sentence pairs to be processed in a single</span>
-<span class="sd">            batch. Defaults to 128.</span>
-<span class="sd">        :return: A list of float values, where each value represents the computed</span>
-<span class="sd">            similarity score for the corresponding sentence pair in the input list.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            pairs (List[Tuple[str, str]]): A list of sentence pairs, where each pair consists</span>
+<span class="sd">                of two strings to be compared.</span>
+<span class="sd">            batch_size (int): The number of sentence pairs to process in a single batch.</span>
+<span class="sd">                Defaults to 128.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[float]: A list of prediction scores for each pair, indicating their similarity</span>
+<span class="sd">                or relevance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
-            <span class="n">sentences</span><span class="o">=</span><span class="n">pairs</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">show_progress_bar</span><span class="o">=</span><span class="kc">False</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">sentences</span><span class="o">=</span><span class="n">pairs</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">show_progress_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 </div>
+
 
 </pre></div>
         </article>

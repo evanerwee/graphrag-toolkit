@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -396,8 +399,7 @@ document IDs.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndex.top_k">
 <span class="sig-name descname"><span class="pre">top_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/dummy_vector_index.html#DummyVectorIndex.top_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndex.top_k" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves and returns the top-k results based on the given query and
-optional filter configuration.</p>
+<dd><p>Retrieves and returns the top-k results based on the given query and optional filter configuration.</p>
 <p>This method processes the input query bundle and applies the given filtering criteria
 (if provided) to retrieve a specific number of top-ranked elements from the dataset.</p>
 <dl class="simple">
@@ -430,8 +432,7 @@ creating dummy vector indexes based on input parameters.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndexFactory.try_create">
 <span class="sig-name descname"><span class="pre">try_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_index_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex"><span class="pre">VectorIndex</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/dummy_vector_index.html#DummyVectorIndexFactory.try_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndexFactory.try_create" title="Link to this definition">¶</a></dt>
-<dd><p>Tries to create vector indexes based on the provided index names and
-vector index information.</p>
+<dd><p>Tries to create vector indexes based on the provided index names and vector index information.</p>
 <p>This method checks whether the provided vector index information starts with a specific
 prefix (DUMMY). If it does, it creates and returns a list of <cite>DummyVectorIndex</cite> objects
 for the provided index names. If not, it returns <cite>None</cite>.</p>
@@ -439,10 +440,10 @@ for the provided index names. If not, it returns <cite>None</cite>.</p>
 <dt>Args:</dt><dd><p>index_names (List[str]): A list of index names to create vector indexes for.
 vector_index_info (str): A string containing vector index information used to
 determine the type of vector indexes to create.
-**kwargs: Additional keyword arguments to be passed to the creation process.</p>
+<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments to be passed to the creation process.</p>
 </dd>
-<dt>Returns:</dt><dd><p>List[VectorIndex]: A list of DummyVectorIndex objects created based on the input
-index names if vector_index_info starts with the prefix DUMMY, otherwise None.</p>
+<dt>Returns:</dt><dd><p>List[VectorIndex]: A list of <cite>DummyVectorIndex</cite> objects created based on the input
+index names if <cite>vector_index_info</cite> starts with the prefix DUMMY, otherwise <cite>None</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -457,15 +458,15 @@ index names if vector_index_info starts with the prefix DUMMY, otherwise None.</
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.</span></span><span class="sig-name descname"><span class="pre">MultiTenantVectorStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id:</span> <span class="pre">~graphrag_toolkit.lexical_graph.tenant_id.TenantId</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/multi_tenant_vector_store.html#MultiTenantVectorStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">VectorStore</span></code></a></p>
 <p>Provides a multi-tenant wrapper for VectorStore.</p>
-<p>This class allows creating a wrapper around a VectorStore object to support
-multi-tenancy by associating a specific tenant ID with operations. It ensures
-that all indexes retrieved or processed are identified and associated with
-the correct tenant context.</p>
+<p>This class allows creating a wrapper around a <cite>VectorStore</cite> object to
+support multi-tenancy by associating a specific tenant ID with operations.
+It ensures that all indexes retrieved or processed are identified and
+associated with the correct tenant context.</p>
 <dl>
 <dt>Attributes:</dt><dd><p>inner (VectorStore): The underlying vector store being wrapped.
-tenant_id (TenantId): The tenant ID associated with the operations performed</p>
+tenant_id (TenantId): The tenant ID associated with the operations</p>
 <blockquote>
-<div><p>on the vector store.</p>
+<div><p>performed on the vector store.</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -476,8 +477,7 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore.all_indexes">
 <span class="sig-name descname"><span class="pre">all_indexes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex"><span class="pre">VectorIndex</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/multi_tenant_vector_store.html#MultiTenantVectorStore.all_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore.all_indexes" title="Link to this definition">¶</a></dt>
-<dd><p>Returns a list of all VectorIndex instances stored in the inner
-indexes.</p>
+<dd><p>Returns a list of all VectorIndex instances stored in the inner indexes.</p>
 <p>This method iterates through the keys of the <cite>inner.indexes</cite> dictionary and
 retrieves the corresponding VectorIndex object for each key.</p>
 <dl class="simple">
@@ -490,8 +490,7 @@ inner indexes of the current instance.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore.get_index">
 <span class="sig-name descname"><span class="pre">get_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/multi_tenant_vector_store.html#MultiTenantVectorStore.get_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore.get_index" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves an index from the inner object and associates it with the
-tenant ID.</p>
+<dd><p>Retrieves an index from the inner object and associates it with the tenant ID.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>index_name: Name of the index to retrieve.</p>
 </dd>
@@ -519,15 +518,14 @@ tenant ID.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore.wrap">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.tenant_id.TenantId" title="graphrag_toolkit.lexical_graph.tenant_id.TenantId"><span class="pre">TenantId</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/multi_tenant_vector_store.html#MultiTenantVectorStore.wrap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore.wrap" title="Link to this definition">¶</a></dt>
-<dd><p>Wraps the given vector_store with a MultiTenantVectorStore if
-necessary, based on the tenant_id provided. The method ensures that the
-given vector_store is returned as-is if it corresponds to the default
-tenant or is already an instance of MultiTenantVectorStore. Otherwise,
-it wraps the vector_store inside a MultiTenantVectorStore with the
-given tenant_id.</p>
+<dd><p>Wraps the given vector_store with a MultiTenantVectorStore if necessary, based on the
+tenant_id provided. The method ensures that the given vector_store is returned as-is
+if it corresponds to the default tenant or is already an instance of
+MultiTenantVectorStore. Otherwise, it wraps the vector_store inside a
+MultiTenantVectorStore with the given tenant_id.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>vector_store: The vector_store to wrap if required.
-tenant_id: The tenant identifier is used to decide whether wrapping is necessary.</p>
+tenant_id: The tenant identifier used to decide whether wrapping is necessary.</p>
 </dd>
 <dt>Returns:</dt><dd><p>The provided vector_store, wrapped in a MultiTenantVectorStore if necessary, or
 the vector_store itself if no wrapping is required.</p>
@@ -544,45 +542,20 @@ the vector_store itself if no wrapping is required.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">NeptuneAnalyticsVectorIndexFactory</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneAnalyticsVectorIndexFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index_factory_method.VectorIndexFactoryMethod" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index_factory_method.VectorIndexFactoryMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">VectorIndexFactoryMethod</span></code></a></p>
-<p>Implements a factory for creating Neptune Analytics vector indices.</p>
-<p>This class provides a method to attempt the creation of Neptune Analytics vector
-indices based on a given configuration and list of index names. It examines the
-provided vector index information to determine if it matches the Neptune Analytics
-configuration format and initializes the indices accordingly.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>NEPTUNE_ANALYTICS</strong> – The prefix used to identify Neptune Analytics configurations.</p></li>
-<li><p><strong>logger</strong> – Logger instance for tracking the creation process and debugging details.</p></li>
-</ul>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory.try_create">
 <span class="sig-name descname"><span class="pre">try_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_index_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex"><span class="pre">VectorIndex</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneAnalyticsVectorIndexFactory.try_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory.try_create" title="Link to this definition">¶</a></dt>
-<dd><p>Attempts to create a list of vector indexes based on the provided index names
-and vector index information. If the vector index information starts with a
-specific prefix (NEPTUNE_ANALYTICS), a graph ID is extracted, and the relevant
-NeptuneIndexes are opened and returned. If the prefix is not found, None is
-returned.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>index_names</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of index names to be created.</p></li>
-<li><p><strong>vector_index_info</strong> – A string containing information about the vector
-index. This may include a specific prefix (NEPTUNE_ANALYTICS) that
-identifies the type of index.</p></li>
-<li><p><strong>kwargs</strong> – Additional keyword argument parameters passed to the creation
-of the vector indexes.</p></li>
-</ul>
+<dd><p>Attempts to create a list of vector indices based on the given index names and vector index
+information. If the vector index information specifies a Neptune Analytics configuration,
+the function initializes Neptune indices for each index name. Otherwise, it returns None.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>index_names (List[str]): A list of names for the indices to attempt creation.
+vector_index_info (str): A string containing vector index information or configuration.
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional keyword arguments passed to the index creation process.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of vector indexes created for the specified index names, or
-None if the provided vector index information does not meet the expected
-criteria.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex">VectorIndex</a>] or None</p>
+<dt>Returns:</dt><dd><p>List[VectorIndex] or None: A list of VectorIndex instances if the operation is
+successful and the vector index information matches the Neptune Analytics configuration.
+Returns None if the vector index information does not match the expected configuration.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -593,28 +566,27 @@ criteria.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">NeptuneIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id:</span> <span class="pre">~graphrag_toolkit.lexical_graph.tenant_id.TenantId</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writeable:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neptune_client:</span> <span class="pre">~graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_model:</span> <span class="pre">~typing.Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_fields:</span> <span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">VectorIndex</span></code></a></p>
-<p>Represents an index in a Neptune graph database that allows for efficient
-querying, embedding, and retrieval of graph node data.</p>
-<p>This class provides functionality to create, configure, and interact with
-indexes in a Neptune graph database. It supports embedding models for
-generating vector embeddings for nodes, fetching top-k results based on
-similarity scores, and retrieving embeddings based on node IDs. The class
-is particularly useful for tasks requiring graph-based data retrieval
-with embedding-based searches and filtering capabilities.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>neptune_client</strong> – The underlying Neptune analytics client instance used
-for executing queries and interacting with the database.</p></li>
-<li><p><strong>embed_model</strong> – The embedding model utilized to compute vector embeddings.</p></li>
-<li><p><strong>dimensions</strong> – The dimensionality of the embeddings generated by the
-embedding model.</p></li>
-<li><p><strong>id_name</strong> – The identifier name for nodes stored in the indexed graph.</p></li>
-<li><p><strong>label</strong> – Label or tag associated with the nodes in the graph.</p></li>
-<li><p><strong>path</strong> – The Cypher query path used to navigate through the graph.</p></li>
-<li><p><strong>return_fields</strong> – The string representation of node fields to be included
-in the query responses.</p></li>
-</ul>
+<p>Represents a NeptuneIndex specific to a graph database analytics system.</p>
+<p>This class is used to manage and interact with a vector index within a Neptune
+graph store. It provides functionality for creating the index based on the given
+parameters, embedding nodes, querying for top K neighboring elements by embedding
+similarity, and retrieving embeddings for specific node IDs. The class defines
+specific traversal paths and formats data into structures compatible with the
+underlying analytics platform, utilizing a tenant-specific configuration.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>neptune_client (NeptuneAnalyticsClient): The client responsible for interacting</dt><dd><p>with the Neptune graph database.</p>
+</dd>
+</dl>
+<p>embed_model (Any): The model used for generating embeddings for graph nodes.
+dimensions (int): The dimensionality of embeddings.
+id_name (str): The identifier name used for indexing nodes.
+label (str): The label corresponding to the type of index in the graph database.
+path (str): The traversal path defined for the index queries.
+return_fields (str): The fields to return when executing queries related to the</p>
+<blockquote>
+<div><p>index.</p>
+</div></blockquote>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -624,25 +596,18 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.add_embeddings">
 <span class="sig-name descname"><span class="pre">add_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex.add_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.add_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Adds embeddings to provided nodes and updates the Neptune database with the
-embeddings using a specific query.</p>
-<p>The method assumes that the class is working with a Neptune database setup
-and uses an embedding model to process nodes.</p>
+<dd><p>Adds embeddings to the provided list of nodes by using the instance’s embedding model
+and updates these embeddings in Neptune using the appropriate queries.</p>
+<p>This function takes a list of nodes, computes their embeddings using the associated
+embedding model, and updates these embeddings in the Neptune database. It also ensures
+that temporary metadata added to the nodes is removed after processing.</p>
 <dl class="simple">
-<dt>The process involves:</dt><dd><ol class="arabic simple">
-<li><p>Adding metadata to the nodes.</p></li>
-<li><p>Generating embeddings using the embedding model.</p></li>
-<li><p>Executing a Cypher query for each node to update the Neptune database
-with the embedding information.</p></li>
-<li><p>Cleaning up metadata after processing is complete.</p></li>
-</ol>
-</dd>
 <dt>Args:</dt><dd><dl class="simple">
-<dt>nodes: List of nodes to which embeddings will be added. Each node should be</dt><dd><p>structured and compatible with the embedding model and Neptune database setup.</p>
+<dt>nodes (list): A list of node objects. Each node should have a <cite>metadata</cite> dictionary</dt><dd><p>and a unique identifier <cite>node_id</cite>.</p>
 </dd>
 </dl>
 </dd>
-<dt>Returns:</dt><dd><p>The list of nodes with their information potentially updated after processing.</p>
+<dt>Returns:</dt><dd><p>list: The processed list of nodes with updated embeddings in Neptune.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -660,34 +625,29 @@ with the embedding information.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.for_index">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">for_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex.for_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.for_index" title="Link to this definition">¶</a></dt>
-<dd><p>Provides a static method to create a specialized <cite>NeptuneIndex</cite> object tailored for
-querying specific indices in a graph database using NeptuneDB. This method allows
-configuration of the index type, associated graph, embedding model, and dimensions,
-while determining the appropriate structure and fields for the query based on the
-index type.</p>
-<p>The method accepts parameters to define the index name, the graph identifier,
-embedding model details, and any additional keyword arguments necessary for the
-graph store connection. Depending on the index type, it builds the query path and
-return fields dynamically, with specialized cases for certain well-known index names.
-An error is raised for unsupported or invalid index names.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>index_name</strong> (<em>str</em>) – The name of the index to query (e.g., ‘chunk’, ‘statement’, ‘topic’),
-which also determines the type of entity being queried.</p></li>
-<li><p><strong>graph_id</strong> (<em>str</em>) – The unique identifier for the graph within the database.</p></li>
-<li><p><strong>embed_model</strong> (<em>Optional</em><em>[</em><em>Any</em><em>]</em>) – Optional. The embedding model to use for indexing. If not provided,
-the default model from the <cite>GraphRAGConfig</cite> is used.</p></li>
-<li><p><strong>dimensions</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Optional. The dimensions of the embedding vector space. If not
-provided, the default dimensions from the <cite>GraphRAGConfig</cite> are used.</p></li>
-<li><p><strong>kwargs</strong> (<em>dict</em>) – Additional keyword arguments needed for constructing the graph store client.</p></li>
-</ul>
+<dd><p>Creates and configures an instance of <cite>NeptuneIndex</cite> for a specified index type.</p>
+<p>The method sets up an index by defining the index name, graph database client,
+embedding model, dimensions of embeddings, and other necessary parameters. It
+also constructs specific paths and return fields for the given index type and
+validates the <cite>index_name</cite>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>index_name (str): The name of the index to be configured. Must be a valid</dt><dd><p>index name.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <cite>NeptuneIndex</cite> instance configured for the specified index type and graph ID.</p>
+<dt>graph_id (str): The identifier for the graph database for which the index</dt><dd><p>is created.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex" title="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex">NeptuneIndex</a></p>
+<dt>embed_model (Optional[Any]): Embedding model to be used for the index. If</dt><dd><p>not specified, a default model from <cite>GraphRAGConfig</cite> is used.</p>
+</dd>
+<dt>dimensions (Optional[int]): The dimensionality of embeddings. Uses default</dt><dd><p>from <cite>GraphRAGConfig</cite> if not provided.</p>
+</dd>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Arbitrary keyword arguments passed for additional graph store</dt><dd><p>configurations.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>NeptuneIndex: A configured NeptuneIndex instance for the specified index
+name.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the provided <cite>index_name</cite> is invalid or unrecognized.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -695,20 +655,17 @@ provided, the default dimensions from the <cite>GraphRAGConfig</cite> are used.<
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.get_embeddings">
 <span class="sig-name descname"><span class="pre">get_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex.get_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.get_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Fetches embeddings for the given IDs by executing cypher queries against a
-Neptune database. The function calculates embeddings for specified nodes,
-filters them based on the tenant-specific label, and matches the defined
-path to retrieve associated data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ids</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of unique node IDs for which embeddings are retrieved.</p>
+<dd><p>Fetches embeddings for the specified node IDs by executing a Cypher query on the
+database. The function retrieves node embeddings and other specified result fields
+based on tenant-specific configurations and returns the collected results.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>ids (List[str]): A list of unique node IDs for which embeddings are to be fetched.</dt><dd><p>The IDs should correspond to nodes in the database.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of dictionaries containing embeddings and additional fields
-returned by the query.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[dict]</p>
+<dt>Returns:</dt><dd><p>List[Dict]: A list of dictionaries, where each dictionary contains the retrieved
+embedding and other specified fields for a node.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -747,23 +704,24 @@ returned by the query.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.top_k">
 <span class="sig-name descname"><span class="pre">top_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#NeptuneIndex.top_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.top_k" title="Link to this definition">¶</a></dt>
-<dd><p>Executes a top-K query against a graph database using a given query embedding. The query retrieves
-the top-K results based on similarity scores computed from vector embeddings. The function can
-filter results using a <cite>FilterConfig</cite> object, modify the query context with a tenant-specific
-label, and limit the results based on the top-K value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query_bundle</strong> (<em>QueryBundle</em>) – The query bundle that includes query string and embeddings.</p></li>
-<li><p><strong>top_k</strong> (<em>int</em>) – The number of top results to retrieve. Defaults to 5.</p></li>
-<li><p><strong>filter_config</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><em>FilterConfig</em></a><em>]</em>) – An optional filter configuration to restrict query results. Defaults to None.</p></li>
-</ul>
+<dd><p>Fetches the top-k records ranked by similarity score based on query embeddings
+from an underlying Neptune Graph database index. The function internally performs
+embedding transformations, constructs queries, and applies filtering criteria.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>query_bundle (QueryBundle): The query bundle containing the query string and</dt><dd><p>potentially other context required for querying the index.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of top-K results, with each result including a score and specified return fields.</p>
+</dl>
+<p>top_k (int, optional): The number of top records to fetch based on rank. Defaults to 5.
+filter_config (Optional[FilterConfig]): Configuration for applying filters to</p>
+<blockquote>
+<div><p>the query to refine results, if provided.</p>
+</div></blockquote>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Dict[str, Any]]</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[Dict]: A list of results where each result dictionary contains a ‘score’ field</dt><dd><p>and the fields specified in self.return_fields.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -773,20 +731,22 @@ label, and limit the results based on the top-K value.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.filter_config_to_opencypher_filters">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">filter_config_to_opencypher_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#filter_config_to_opencypher_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.filter_config_to_opencypher_filters" title="Link to this definition">¶</a></dt>
-<dd><p>Converts a given FilterConfig object into a string of OpenCypher filters.
-Processes the provided filter configuration and generates a recursive representation
-of the metadata filters in OpenCypher format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filter_config</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><em>FilterConfig</em></a>) – Input filter configuration object containing the necessary
-source filters for translation.</p>
+<dd><p>Converts filter configuration into a string containing filters in OpenCypher format.</p>
+<p>This function takes a <cite>FilterConfig</cite> object as input, which may include a set of
+source filters. The representation of the filters is recursively constructed
+and returned as a string formatted for OpenCypher queries. If the filter
+configuration or its source filters are not provided, an empty string is
+returned.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>filter_config (FilterConfig): The configuration object containing source</dt><dd><p>filters to be converted into OpenCypher format.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A string representing the OpenCypher filters, or an empty string if the
-provided filter_config is None or contains no source filters.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>str: The OpenCypher formatted filters as a string. Returns an empty string</dt><dd><p>if no filters are provided or the filter configuration is invalid.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -794,23 +754,22 @@ provided filter_config is None or contains no source filters.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.formatter_for_type">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">formatter_for_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#formatter_for_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.formatter_for_type" title="Link to this definition">¶</a></dt>
-<dd><p>Returns a formatter function for the specified type name. The formatter
-function converts input values to a specific string or format based on
-the provided type name. Supported type names include ‘text’, ‘timestamp’,
-and ‘number’.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>type_name</strong> – Specifies the type of formatting to be applied.
-- ‘text’: Formats input values as quoted strings.
-- ‘timestamp’: Formats input values using a datetime representation.
-- ‘number’: Returns the input value as-is without modification.</p>
+<dd><p>Determines and returns a formatting function based on the provided type name.</p>
+<p>This function takes a <cite>type_name</cite> as input and returns a corresponding
+lambda function that formats the provided value into a specific format
+associated with the type. Supported type names include ‘text’, ‘timestamp’,
+and ‘number’. If the type name does not match one of the supported types,
+a <cite>ValueError</cite> is raised.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>type_name: The name of the type for which the formatter is required.</dt><dd><p>Valid values include ‘text’, ‘timestamp’, and ‘number’.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A callable that formats input values based on the type-specific
-formatting rules.</p>
+</dl>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – If an unsupported type name is provided.</p>
+<dt>Returns:</dt><dd><p>Callable[[Any], str]: A lambda function that formats the input value
+according to the provided <cite>type_name</cite>.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If an unsupported type name is provided.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -818,29 +777,26 @@ formatting rules.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.parse_metadata_filters_recursive">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">parse_metadata_filters_recursive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MetadataFilters</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#parse_metadata_filters_recursive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.parse_metadata_filters_recursive" title="Link to this definition">¶</a></dt>
-<dd><p>Recursively parses a MetadataFilters object into an OpenCypher-compatible filter expression string.</p>
-<p>This function processes a MetadataFilters object consisting of multiple filtering conditions and
-evaluates them recursively to produce a valid OpenCypher filter string representation. Each filter
-is interpreted and formatted according to the specified condition, operator, and values provided
-in the MetadataFilters object.</p>
-<p>Key operations handled include processing the MetadataFilter and MetadataFilters instances, mapping
-filter conditions such as AND, OR, and NOT, and generating properly formatted expressions. If certain
-cases like unsupported filter conditions or invalid input types are encountered, the function raises
-appropriate exceptions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>metadata_filters</strong> (<em>MetadataFilters</em>) – A MetadataFilters object representing the filtering conditions
-to be evaluated recursively.</p>
+<dd><p>Parses a <cite>MetadataFilters</cite> object into an OpenCypher filter string.</p>
+<p>This function recursively processes <cite>MetadataFilters</cite> and <cite>MetadataFilter</cite> objects
+to construct a representation suitable for OpenCypher query language based on
+filter conditions (‘AND’, ‘OR’, ‘NOT’) and operator transformations. The resulting
+string can be directly incorporated into OpenCypher queries for filtering nodes
+or relationships.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>metadata_filters (MetadataFilters): The filter structure to be parsed, which</dt><dd><p>defines the conditions (<cite>AND</cite>, <cite>OR</cite>, <cite>NOT</cite>) and associated filters or nested
+filters to be converted into OpenCypher query format.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A string representation of the OpenCypher-compatible parsed filter.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dt>Returns:</dt><dd><p>str: The constructed OpenCypher filter string generated from the input metadata
+filter structure.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – Raises an exception for invalid metadata filter types, unsupported conditions,
-or unexpected mismatches between filter conditions and MetadataFilter object types.</p>
+<dt>Raises:</dt><dd><dl class="simple">
+<dt>ValueError: If the metadata filter structure contains unexpected or invalid</dt><dd><p>types, or if an unsupported filter condition is encountered.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -848,22 +804,28 @@ or unexpected mismatches between filter conditions and MetadataFilter object typ
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.to_opencypher_operator">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">to_opencypher_operator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FilterOperator</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/neptune_vector_indexes.html#to_opencypher_operator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.to_opencypher_operator" title="Link to this definition">¶</a></dt>
-<dd><p>Transforms a <cite>FilterOperator</cite> into its corresponding OpenCypher operator and a
-value formatter function. This function maps a custom filter operator to OpenCypher’s
-expression syntax, ensuring compatibility between logical filtering operations
-in Python code and OpenCypher queries.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>operator</strong> – A <cite>FilterOperator</cite> instance that specifies the logical operation
-to be mapped to its OpenCypher equivalent.</p>
+<dd><p>Converts a given filter operator into its corresponding OpenCypher operator and value formatter.</p>
+<p>This function maps an instance of <cite>FilterOperator</cite> to a tuple containing the
+OpenCypher operator string and a callable for formatting values associated
+with that operator. If the given operator is not supported, the function raises
+a <cite>ValueError</cite>.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>operator: The filter operator to convert. Expected to be an instance of</dt><dd><p><cite>FilterOperator</cite>.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple containing the OpenCypher representation of the operator as a
-string, and a callable function to format values associated with the operator.</p>
+</dl>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – If the provided operator is not supported or cannot be mapped
-to an OpenCypher operator.</p>
+<dt>Returns:</dt><dd><p>A tuple where:
+- The first element is a string representing the corresponding OpenCypher</p>
+<blockquote>
+<div><p>operator.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>The second element is a callable, representing a function used to format
+the value for OpenCypher queries.</p></li>
+</ul>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the provided operator is not supported.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -890,17 +852,22 @@ method calls.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_index_factory.OpenSearchVectorIndexFactory.try_create">
 <span class="sig-name descname"><span class="pre">try_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_index_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex"><span class="pre">VectorIndex</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_index_factory.html#OpenSearchVectorIndexFactory.try_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_index_factory.OpenSearchVectorIndexFactory.try_create" title="Link to this definition">¶</a></dt>
-<dd><p>Attempts to create a list of vector indexes using the provided index
-names and vector index information. This method checks if a supported
-endpoint configuration is provided and uses it to initialize
-appropriate vector indexes. Raises ImportError if the required module
-is not available.</p>
-<dl class="simple">
+<dd><p>Attempts to create a list of vector indexes using the provided index names and vector
+index information. This method checks if a supported endpoint configuration is
+provided and uses it to initialize appropriate vector indexes. Raises ImportError
+if the required module is not available.</p>
+<dl>
 <dt>Args:</dt><dd><p>index_names (List[str]): List of index names to create vector indexes for.
-vector_index_info (str): Information defining the type and endpoint of the vector index, such as an OpenSearch Serverless endpoint.
-**kwargs: Additional keyword arguments passed when creating the vector indexes.</p>
+vector_index_info (str): Information defining the type and endpoint of the vector</p>
+<blockquote>
+<div><p>index, such as an OpenSearch Serverless endpoint.</p>
+</div></blockquote>
+<p><a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: Additional keyword arguments passed when creating the vector indexes.</p>
 </dd>
-<dt>Returns:</dt><dd><p>List[VectorIndex]: A list of vector index objects created for the provided index names and endpoint configuration, or None if no suitable endpoint is found.</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[VectorIndex]: A list of vector index objects created for the provided index</dt><dd><p>names and endpoint configuration, or None if no suitable endpoint is found.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -914,13 +881,15 @@ vector_index_info (str): Information defining the type and endpoint of the vecto
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.DummyAuth">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">DummyAuth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#DummyAuth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.DummyAuth" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Represents a dummy authentication class.</p>
-<p>This class serves as a basic example or placeholder for authentication logic
-and functionality. It is not intended for production use and may require
-modification based on specific authentication needs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>service</strong> – The name of the service requiring authentication.</p>
+<p>Represents an authentication provider for a specific service.</p>
+<p>This class is used to manage and represent the authentication details specific
+to a given service. It acts as a container for storing information related to
+the service requiring authentication.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>service (str): The name of the service for which authentication is being</dt><dd><p>provided.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -934,42 +903,29 @@ modification based on specific authentication needs.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.DummyOpensearchVectorClient">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">DummyOpensearchVectorClient</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#DummyOpensearchVectorClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.DummyOpensearchVectorClient" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Represents a dummy client for handling vector-based search operations
-integrated with an OpenSearch backend.</p>
-<p>This class provides a simulated implementation for indexing and querying
-vector-based data within a datastore. It is designed for testing or
-placeholder purposes and does not connect to an actual OpenSearch instance.
-The primary functionalities include indexing data and executing queries
-against a vector-based data store, returning simulated results. The class
-can be extended or integrated with actual OpenSearch APIs for full
-functionality.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>_os_async_client</strong> – An internal attribute representing the backend
-asynchronous OpenSearch client. For the dummy implementation, this is
-initialized to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>A client for interfacing with an OpenSearch vector store.</p>
+<p>The DummyOpensearchVectorClient is designed as a placeholder implementation of a
+vector client for OpenSearch. It provides methods to index content and query vectors
+against the OpenSearch store. This implementation does not perform actual indexing
+or querying but serves as a template for a functional OpenSearch vector client.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>_os_async_client (Optional): Asynchronous OpenSearch client instance.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.DummyOpensearchVectorClient.index_results">
 <span class="sig-name descname"><span class="pre">index_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#DummyOpensearchVectorClient.index_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.DummyOpensearchVectorClient.index_results" title="Link to this definition">¶</a></dt>
-<dd><p>Indexes the given nodes and returns a list of identifiers for the indexed nodes.</p>
-<p>This method processes a list of nodes and, optionally, additional keyword arguments to
-index the nodes. The function will return a list of identifiers corresponding to the
-successfully indexed nodes. Each node is expected to follow the structure defined by
-the <cite>BaseNode</cite> type.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> (<em>List</em><em>[</em><em>BaseNode</em><em>]</em>) – A list of nodes of type <cite>BaseNode</cite> that are to be indexed.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Additional keyword arguments that may be used for indexing.</p></li>
-</ul>
+<dd><p>Indexes the provided nodes and returns a list of their identifiers.</p>
+<p>The method is responsible for processing a list of nodes, performing the
+necessary indexing, and returning a list of unique identifiers corresponding
+to the indexed nodes. Additional parameters can be passed through <a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs for
+custom configurations or behaviors during the indexing process.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>nodes: A list of nodes to be indexed.
+<a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs: Arbitrary keyword arguments for additional configuration.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of strings representing identifiers for the indexed nodes.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[str]</p>
+<dt>Returns:</dt><dd><p>A list of strings, where each string is the unique identifier of a
+successfully indexed node.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -977,24 +933,24 @@ the <cite>BaseNode</cite> type.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.DummyOpensearchVectorClient.query">
 <span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">VectorStoreQueryMode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_embedding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MetadataFilters</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">VectorStoreQueryResult</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#DummyOpensearchVectorClient.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.DummyOpensearchVectorClient.query" title="Link to this definition">¶</a></dt>
-<dd><p>Execute a query in the vector store using a specified query mode. The query can be conducted
-either with a query string or a query embedding. Optionally, additional filters can be applied
-to refine the query results. The method retrieves a specified number of results, sorted
-based on similarity.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query_mode</strong> – The mode in which the query will be processed. This determines how
-the query is interpreted and executed within the vector store.</p></li>
-<li><p><strong>query_str</strong> – The textual query string used for searching, if applicable.</p></li>
-<li><p><strong>query_embedding</strong> – A list of floats representing the query embedding.</p></li>
-<li><p><strong>k</strong> – The number of top results to retrieve based on similarity.</p></li>
-<li><p><strong>filters</strong> – Additional metadata filters applied to refine the search query.</p></li>
-</ul>
+<dd><p>Executes a query on a vector store and returns the results based on the specified mode, query
+parameters, and additional filters. The function supports different query mechanisms and allows users
+to search using text strings or embeddings. It retrieves matching nodes, their similarities, and unique
+identifiers.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>query_mode: The mode in which the query should be executed. Defines how the search is processed,</dt><dd><p>e.g., similarity-based or keyword-based.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <cite>VectorStoreQueryResult</cite> instance containing the nodes, their corresponding
-similarities, and IDs returned from the query.</p>
+<dt>query_str: An optional text string to query. Only applicable for modes that support text-based</dt><dd><p>searching.</p>
+</dd>
+<dt>query_embedding: A list of floats representing the query embedding. Used in similarity-based</dt><dd><p>searching.</p>
+</dd>
+</dl>
+<p>k: The number of top results to retrieve. Determines how many matching entries are returned.
+filters: Optional metadata filters to narrow down the search results based on specific criteria.</p>
+</dd>
+<dt>Returns:</dt><dd><p>VectorStoreQueryResult: An object containing nodes that match the query, their similarity scores,
+and unique identifiers.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1005,24 +961,22 @@ similarities, and IDs returned from the query.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">OpenSearchIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id:</span> <span class="pre">~graphrag_toolkit.lexical_graph.tenant_id.TenantId</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writeable:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_model:</span> <span class="pre">~llama_index.core.base.embeddings.base.BaseEmbedding</span> <span class="pre">|</span> <span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#OpenSearchIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">VectorIndex</span></code></a></p>
-<p>Represents an OpenSearch index used for vector-based search and data storage.</p>
-<p>This class provides methods and properties to interact with an OpenSearch index
-designed for handling vector embeddings. It includes functionalities such as
-embedding addition, result conversion, and metadata filter updates. The
-OpenSearchIndex class enables seamless management of vector data, allowing for
-efficient search and retrieval operations. It also incorporates support for
-custom embedding models and dimensional configurations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>endpoint</strong> – The URL endpoint for the OpenSearch instance.</p></li>
-<li><p><strong>index_name</strong> – The name of the OpenSearch index.</p></li>
-<li><p><strong>dimensions</strong> – The number of dimensions for vector embeddings in the index.</p></li>
-<li><p><strong>embed_model</strong> – The embedding model used for generating embeddings.</p></li>
-<li><p><strong>_client</strong> – An instance of the OpenSearch vector client, either initialized
-dynamically or set to None by default. This is considered a private
-attribute and is excluded from serialization.</p></li>
-</ul>
+<p>Represents an OpenSearch-based vector index for storing and querying embeddings.</p>
+<p>This class inherits from <cite>VectorIndex</cite> and provides functionality specific to
+OpenSearch for creating, managing, and querying embeddings. OpenSearch enables
+vector searches with scoring and filtering mechanisms. This class supports
+integration with various embedding models and configurations. The primary
+use-case is to host embeddings in an OpenSearch-compatible format and allow
+efficient retrieval or querying.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>endpoint (str): The endpoint URL for the OpenSearch service.
+index_name (str): The name of the index in OpenSearch.
+dimensions (int): The dimensionality of the embedding vectors.
+embed_model (EmbeddingType): The model used for generating embeddings.
+_client (OpensearchVectorClient): Private attribute representing a</p>
+<blockquote>
+<div><p>client instance for interacting with OpenSearch, initialized on demand.</p>
+</div></blockquote>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1033,13 +987,16 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.Config">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#OpenSearchIndex.Config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.Config" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Config class for specifying configuration options.</p>
-<p>This class provides settings that can be used to configure how objects
-behave within a certain context. The <cite>arbitrary_types_allowed</cite> attribute
-determines whether arbitrary types can be allowed in specific settings.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>arbitrary_types_allowed</strong> – Indicates if arbitrary types are permitted.</p>
+<p>Handles configuration settings and specifies validation rules.</p>
+<p>The Config class defines specific configuration behaviors and settings
+used in the application. It is commonly utilized to enforce specific
+rules or facilitate custom behavior when working with certain
+types of data or attributes.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>arbitrary_types_allowed (bool): Indicates whether the</dt><dd><p>configuration will allow arbitrary types.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -1052,21 +1009,27 @@ determines whether arbitrary types can be allowed in specific settings.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.add_embeddings">
 <span class="sig-name descname"><span class="pre">add_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#OpenSearchIndex.add_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.add_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Adds embeddings to the provided nodes by assigning an embedding for each node
-using the specified embedding model and indexing the updated nodes in the data store.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>nodes</strong> (<em>list</em><em>[</em><em>BaseNode</em><em>]</em>) – List of nodes to which embeddings are added. Each node should have a
-unique <cite>node_id</cite> and support embedding updates.</p>
+<dd><p>Adds embeddings to the given nodes and stores them in the index.</p>
+<p>This method takes a list of nodes, generates embeddings for them using the
+embedding model, and stores the updated nodes with embeddings into the index.
+The operation is performed only if the index is writable; otherwise, an
+<cite>IndexError</cite> is raised.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>nodes: List[BaseNode]</dt><dd><p>A list of node objects to which embeddings will be added. Each node
+must have a <cite>node_id</cite> that maps to their corresponding embedding.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The list of nodes with updated embeddings.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[BaseNode]</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[BaseNode]:</dt><dd><p>The list of nodes with updated embeddings.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.errors.IndexError" title="graphrag_toolkit.lexical_graph.errors.IndexError"><strong>IndexError</strong></a> – If the current index is marked as read-only.</p>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><dl class="simple">
+<dt>IndexError:</dt><dd><p>If the index is marked as read-only.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1074,21 +1037,20 @@ unique <cite>node_id</cite> and support embedding updates.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.client">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">OpensearchVectorClient</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.client" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves or initializes the OpenSearch client for vector operations. If the client
-is not already initialized, this property dynamically checks whether the required
-index exists on the specified endpoint with the given parameters. If the index exists,
-it creates a new client for OpenSearch vector operations. If the index does not exist,
-a dummy client is initialized for compatibility.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>None</strong> – The method does not explicitly raise exceptions.</p>
+<dd><p>Retrieves or creates an OpenSearch vector client for interacting with the
+specified index. Ensures that the client is initialized appropriately,
+either as an actual OpenSearch vector client or as a dummy client,
+based on the index’s existence and configuration.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>client (OpensearchVectorClient): Provides access to the OpenSearch</dt><dd><p>vector client instance.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Returns an instance of <cite>OpensearchVectorClient</cite> or <cite>DummyOpensearchVectorClient</cite>
-depending on the outcome of the index check.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>OpensearchVectorClient</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>OpensearchVectorClient: The initialized or cached OpenSearch vector</dt><dd><p>client instance.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1111,24 +1073,30 @@ depending on the outcome of the index check.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.for_index">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">for_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#OpenSearchIndex.for_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.for_index" title="Link to this definition">¶</a></dt>
-<dd><p>Creates and returns an instance of the OpenSearchIndex class configured for a
-specific index. This method derives default values for certain parameters
-from the GraphRAGConfig if they are not explicitly provided.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>index_name</strong> (<em>str</em>) – The name of the OpenSearch index.</p></li>
-<li><p><strong>endpoint</strong> (<em>str</em>) – The endpoint URL for the OpenSearch service.</p></li>
-<li><p><strong>embed_model</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Optional embedding model to use for the index configuration.</p></li>
-<li><p><strong>dimensions</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Optional dimensionality for the embedded vectors.</p></li>
-</ul>
+<dd><p>Creates and returns an instance of OpenSearchIndex using the provided parameters.</p>
+<p>This method allows the configuration of an OpenSearch index by specifying its
+name, endpoint, optional embedding model, and dimensions. It ensures fallback
+to default embedding model and dimensions defined in the GraphRAGConfig class
+when not explicitly passed as arguments.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>index_name (str): The name of the OpenSearch index to be created or</dt><dd><p>retrieved.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of OpenSearchIndex that is configured with the specified
-or derived settings.</p>
+</dl>
+<p>endpoint (str): The endpoint URL for the OpenSearch instance.
+embed_model (Optional[str]): The embedding model to be used. Defaults to</p>
+<blockquote>
+<div><p>the configuration specified in GraphRAGConfig.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>dimensions (Optional[int]): The dimensions to be used for the embeddings.</dt><dd><p>Defaults to the configuration specified in GraphRAGConfig.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex" title="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex">OpenSearchIndex</a></p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>OpenSearchIndex: An instance of OpenSearchIndex initialized with the</dt><dd><p>specified or default parameters.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1136,24 +1104,19 @@ or derived settings.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.get_all_embeddings">
 <span class="sig-name descname"><span class="pre">get_all_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#OpenSearchIndex.get_all_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.get_all_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Fetches all embeddings for a given query using paginated search and processes
-them into a structured format. Pagination is handled internally and the results
-are limited by the specified maximum number of results, if provided. Each
-embedding is retrieved and transformed using the <cite>_to_get_embedding_result</cite> method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query</strong> (<em>str</em>) – The search query string to retrieve embeddings for.</p></li>
-<li><p><strong>max_results</strong> (<em>int</em><em>, </em><em>optional</em>) – Optional limit on the maximum number of results to retrieve.
-If set to None, all results will be retrieved without a limit.</p></li>
-</ul>
+<dd><p>Retrieves all embeddings for a given query, optionally limiting the maximum number of
+results returned. This method performs a paginated search using the query parameter and
+accumulates embeddings from each page. If a maximum result count is specified, the
+search halts once the threshold is reached.</p>
+<dl>
+<dt>Args:</dt><dd><p>query (str): The search query string used to retrieve embeddings.
+max_results (int, optional): The maximum number of embedding results to retrieve.</p>
+<blockquote>
+<div><p>If not specified, all matching results will be retrieved.</p>
+</div></blockquote>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of transformed embeddings based on the search query, limited by
-the specified maximum results if given.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
+<dt>Returns:</dt><dd><p>list: A list containing all embeddings retrieved based on the search query and
+provided constraints.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1161,20 +1124,16 @@ the specified maximum results if given.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.get_embeddings">
 <span class="sig-name descname"><span class="pre">get_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#OpenSearchIndex.get_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.get_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Fetch embeddings corresponding to the given list of IDs. The function
-builds a query to search for embeddings matching the provided IDs and
-retrieves all associated embeddings. The IDs are cleaned to align with
-system requirements before being used in the query.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ids</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of unique identifiers for which the embeddings are
-to be fetched.</p>
+<dd><p>Fetches the embeddings for the provided IDs using a specified query format to
+retrieve the relevant data from the metadata index. The method constructs a
+query with unique and cleaned IDs, performs a search, and returns the results.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>ids (List[str], optional): A list of unique identifiers for which embeddings</dt><dd><p>are to be retrieved. Defaults to an empty list.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A collection of embeddings retrieved based on the input IDs.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Any</p>
+<dt>Returns:</dt><dd><p>List: A list of embedding data corresponding to the provided IDs.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1205,25 +1164,20 @@ context: The context.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.paginated_search">
 <span class="sig-name descname"><span class="pre">paginated_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_pages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#OpenSearchIndex.paginated_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.paginated_search" title="Link to this definition">¶</a></dt>
-<dd><p>Executes a paginated search query on the underlying index and yields the results
-page by page. The function supports setting a limit on the number of pages to fetch
-and controlling the maximum number of results returned per page.</p>
-<p>The method utilizes the Elasticsearch <cite>search_after</cite> mechanism for better performance
-when paginating over a large result set.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query</strong> (<em>dict</em>) – The search query to execute.</p></li>
-<li><p><strong>page_size</strong> (<em>int</em>) – Optional. Number of results to return per page. Defaults to 10000.</p></li>
-<li><p><strong>max_pages</strong> (<em>int</em><em>, </em><em>optional</em>) – Optional. Maximum number of pages to retrieve. If None, all results
-are fetched until exhaustion.</p></li>
-</ul>
+<dd><p>Executes a paginated search on the specified Elasticsearch index and yields
+the results page by page. Designed to handle large datasets by leveraging
+the <cite>search_after</cite> parameter of Elasticsearch, allowing seamless scrolling
+through data without encountering size limitations. By setting a maximum
+number of pages, users can limit the extent of data retrieval.</p>
+<dl>
+<dt>Args:</dt><dd><p>query: The Elasticsearch query used to filter the documents to be retrieved.
+page_size: The number of documents to be retrieved in each page. Defaults to 10000.
+max_pages: Optional; The maximum number of pages to retrieve. If None, all</p>
+<blockquote>
+<div><p>pages are retrieved until the dataset is fully processed.</p>
+</div></blockquote>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Yields a list of search hits for each page.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>generator</p>
+<dt>Yields:</dt><dd><p>list: A list of documents retrieved for each page.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1231,26 +1185,27 @@ are fetched until exhaustion.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.top_k">
 <span class="sig-name descname"><span class="pre">top_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#OpenSearchIndex.top_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.top_k" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieve the top k results from the vector store based on the provided query
-bundle. The query is converted to an embedded query, executed against the
-vector store, and the resulting nodes are ranked with a similarity score.
-If the filter configuration is provided, it applies the metadata filters
-to refine the query results.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query_bundle</strong> (<em>QueryBundle</em>) – Structured query information containing the query string
-and embeddings for the vector store search.</p></li>
-<li><p><strong>top_k</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of top results to retrieve. Defaults to 5.</p></li>
-<li><p><strong>filter_config</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><em>FilterConfig</em></a><em>]</em>) – Optional filter configuration for metadata-based filtering
-in the vector store.</p></li>
-</ul>
+<dd><p>Fetches the top-k most relevant nodes for a given query bundle by querying a vector store.</p>
+<p>This method processes a query bundle to extract query information and embeddings. It then
+interacts with the vector store client to retrieve the top-k most relevant nodes based on
+similarities to the query embedding. If no results are available or the vector store does not
+exist for a non-default tenant, it handles the scenario gracefully. The returned result is a
+list of nodes with their respective relevance scores processed into a finalized format.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>query_bundle (QueryBundle): The query bundle containing the query string and its embedding</dt><dd><p>for similarity computation.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of top k scored nodes transformed into the desired result format.</p>
+</dl>
+<p>top_k (int): The maximum number of top relevant nodes to retrieve. Defaults to 5.
+filter_config (Optional[FilterConfig]): An optional configuration to apply additional</p>
+<blockquote>
+<div><p>filtering criteria while fetching nodes.</p>
+</div></blockquote>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Any]</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[TopKResult]: A list of processed results containing the top-k nodes ordered by</dt><dd><p>relevance score.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1260,30 +1215,22 @@ in the vector store.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.create_opensearch_vector_client">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">create_opensearch_vector_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#create_opensearch_vector_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.create_opensearch_vector_client" title="Link to this definition">¶</a></dt>
-<dd><p>Creates and initializes an OpenSearch vector client with specified configurations.</p>
-<p>The function attempts to create an instance of the OpensearchVectorClient. If a
-connection attempt fails due to an error, the function retries up to three times before
-raising the exception. It configures the client with specific text and embedding fields,
-a synchronous HTTP client, and an asynchronous HTTP client for communication with the
-OpenSearch service.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>endpoint</strong> (<em>str</em>) – The endpoint URL of the OpenSearch service.</p></li>
-<li><p><strong>index_name</strong> (<em>str</em>) – The name of the index to use in OpenSearch.</p></li>
-<li><p><strong>dimensions</strong> (<em>int</em>) – The number of dimensions for vector embeddings.</p></li>
-<li><p><strong>embed_model</strong> (<em>str</em>) – The name or type of the embedding model to use.</p></li>
-</ul>
+<dd><p>Creates an OpenSearch vector client for interacting with an OpenSearch cluster.</p>
+<p>This function initializes and configures the <cite>OpensearchVectorClient</cite>, which is
+used for storing, managing, and querying vectors in an OpenSearch index. It includes
+a retry mechanism to handle transient errors during the client initialization process.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>endpoint: Endpoint URL of the OpenSearch cluster.
+index_name: Name of the index to be used for storing vectors.
+dimensions: Dimensions of the vector space used for embeddings.
+embed_model: Embedding model associated with the vectors.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of OpensearchVectorClient, configured and connected.</p>
+<dt>Returns:</dt><dd><p>OpensearchVectorClient: A configured OpenSearch vector client instance.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>OpensearchVectorClient</p>
+<dt>Raises:</dt><dd><dl class="simple">
+<dt>NotFoundError: If the client cannot be initialized after exceeding the maximum</dt><dd><p>retry attempts.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>NotFoundError</strong> – If the OpenSearch vector client could not be created within the
-retry limit due to errors such as missing configurations or invalid endpoint.</p>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1291,24 +1238,15 @@ retry limit due to errors such as missing configurations or invalid endpoint.</p
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.create_os_async_client">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">create_os_async_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#create_os_async_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.create_os_async_client" title="Link to this definition">¶</a></dt>
-<dd><p>Creates an asynchronous OpenSearch client configured with the provided
-endpoint, AWS credentials, and additional optional parameters. The client
-utilizes AWS Signature Version 4 for authentication and is pre-configured
-to handle connections securely with SSL and certificate verification.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>endpoint</strong> (<em>str</em>) – The endpoint URL for the OpenSearch service.</p></li>
-<li><p><strong>kwargs</strong> – Additional optional parameters to customize the OpenSearch
-client configuration, such as custom timeouts, connection settings, etc.</p></li>
-</ul>
+<dd><p>Creates an asynchronous OpenSearch client.</p>
+<p>This function configures and returns an instance of the AsyncOpenSearch client,
+configured for secure communication with the specified endpoint. The client
+leverages AWS Signature Version 4 for authentication.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>endpoint: The URL of the OpenSearch cluster endpoint.
+<a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs: Optional parameters for customizing the AsyncOpenSearch client.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An AsyncOpenSearch object initialized with the specified
-configurations.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>AsyncOpenSearch</p>
+<dt>Returns:</dt><dd><p>AsyncOpenSearch: An instantiated asynchronous OpenSearch client.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1316,24 +1254,25 @@ configurations.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.create_os_client">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">create_os_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#create_os_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.create_os_client" title="Link to this definition">¶</a></dt>
-<dd><p>Creates and returns an OpenSearch client. The client is configured to use AWS
-Signature Version 4 for authentication, and it includes specific settings
-for SSL/TLS, connection retries, and timeouts. Configuration is based on
-the session and region provided by the <cite>GraphRAGConfig</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>endpoint</strong> (<em>str</em>) – The Amazon OpenSearch Service endpoint to connect to.</p></li>
-<li><p><strong>kwargs</strong> – Additional keyword arguments that will be passed directly
-to the OpenSearch client.</p></li>
-</ul>
+<dd><p>Creates an OpenSearch client configured to use AWS Signature Version 4
+authentication.</p>
+<p>The function utilizes AWS credentials from a pre-configured session and region
+information. It signs requests using Urllib3-based AWS Signature V4
+authentication. The client is initialized with specific connection properties
+like SSL usage, certificate verification, timeout, retry settings, and any
+additional keyword arguments provided.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>endpoint: str</dt><dd><p>The OpenSearch endpoint URL to connect to.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An OpenSearch client configured with AWS SigV4 authentication
-and additional connection parameters.</p>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs: Any</dt><dd><p>Additional keyword arguments passed to the OpenSearch client.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>OpenSearch</p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>OpenSearch</dt><dd><p>A configured client instance for interacting with OpenSearch.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1341,27 +1280,18 @@ and additional connection parameters.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.index_exists">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">index_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writeable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/opensearch_vector_indexes.html#index_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.index_exists" title="Link to this definition">¶</a></dt>
-<dd><p>Checks if the specified OpenSearch index exists. If it does not exist and the <cite>writeable</cite>
-parameter is True, it creates the index with the given configuration.</p>
-<p>The function uses the OpenSearch client to check for the existence of the index. If the
-index does not exist and is required to be created, it configures the index with specific
-settings optimized for k-nearest neighbor (k-NN) search, including defining the embedding
-field and the required settings for the search method. The function ensures proper cleanup
-of the OpenSearch client regardless of errors or success.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>endpoint</strong> (<em>str</em>) – The OpenSearch cluster endpoint.</p></li>
-<li><p><strong>index_name</strong> (<em>str</em>) – The name of the index to check or create.</p></li>
-<li><p><strong>dimensions</strong> (<em>int</em>) – The dimensionality of the embedding vector for the index configuration.</p></li>
-<li><p><strong>writeable</strong> (<em>bool</em>) – Whether to create the index if it does not exist.</p></li>
-</ul>
+<dd><p>Checks if an OpenSearch index exists, and optionally creates it if it does not exist.</p>
+<p>This function uses the specified endpoint to establish a connection to an
+OpenSearch client. If the index specified by <cite>index_name</cite> does not exist and
+the <cite>writeable</cite> flag is True, it will create an index using the provided
+dimensions and a predefined method for handling knn_vector elements.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>endpoint: The OpenSearch endpoint to connect to.
+index_name: The name of the index to check for existence.
+dimensions: The number of dimensions for the knn_vector in the index.
+writeable: Flag indicating whether to create the index if it does not exist.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if the index exists or was created successfully, otherwise False.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
+<dt>Returns:</dt><dd><p>bool: True if the index exists (or is created successfully), False otherwise.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1376,8 +1306,7 @@ of the OpenSearch client regardless of errors or success.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.pg_vector_index_factory.PGVectorIndexFactory.try_create">
 <span class="sig-name descname"><span class="pre">try_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_index_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex"><span class="pre">VectorIndex</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/pg_vector_index_factory.html#PGVectorIndexFactory.try_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_index_factory.PGVectorIndexFactory.try_create" title="Link to this definition">¶</a></dt>
-<dd><p>Tries to create and return a list of vector indexes using the given
-parameters.</p>
+<dd><p>Tries to create and return a list of vector indexes using the given parameters.</p>
 <p>Depending on the connection information provided in <cite>vector_index_info</cite>, this method
 attempts to open PostgreSQL vector indexes or returns None if the connection string
 is not valid or applicable. If the PostgreSQL module is not available, it raises an
@@ -1414,13 +1343,12 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.PGIndex.add_embeddings">
 <span class="sig-name descname"><span class="pre">add_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/pg_vector_indexes.html#PGIndex.add_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.PGIndex.add_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Adds embeddings for a sequence of nodes into the database. This
-method processes each node by generating embeddings using the specified
-embedding model and inserts or updates these nodes in the underlying
-indexed database table. The method ensures write authorization before
-proceeding and handles exceptions related to undefined tables. Nodes
-for a specific tenant that references non-existent tables are logged as
-warnings without causing the entire operation to fail.</p>
+<dd><p>Adds embeddings for a sequence of nodes into the database. This method processes
+each node by generating embeddings using the specified embedding model and
+inserts or updates these nodes in the underlying indexed database table. The method
+ensures write authorization before proceeding and handles exceptions related to
+undefined tables. Nodes for a specific tenant that references non-existent tables
+are logged as warnings without causing the entire operation to fail.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>nodes (Sequence[BaseNode]): A sequence of nodes for which embeddings are to be</dt><dd><p>generated and stored in the database. Each node includes an identifier,
@@ -1459,11 +1387,9 @@ textual data, and metadata.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.PGIndex.for_index">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">for_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'postgres'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'graphrag'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'localhost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5432</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseEmbedding</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_iam_db_auth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/pg_vector_indexes.html#PGIndex.for_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.PGIndex.for_index" title="Link to this definition">¶</a></dt>
-<dd><p>Creates an instance of the <cite>PGIndex</cite> class based on the provided
-database connection information, index name, and embedding
-configuration. It parses the <cite>connection_string</cite> to extract overriding
-parameters and defaults any missing values to the provided or preset
-defaults.</p>
+<dd><p>Creates an instance of the <cite>PGIndex</cite> class based on the provided database connection
+information, index name, and embedding configuration. It parses the <cite>connection_string</cite>
+to extract overriding parameters and defaults any missing values to the provided or preset defaults.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>index_name (str): The name of the index to create or reference.
 connection_string (str): A database connection string (e.g., in URI format)
@@ -1489,11 +1415,10 @@ or inferred parameters.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.PGIndex.get_embeddings">
 <span class="sig-name descname"><span class="pre">get_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/pg_vector_indexes.html#PGIndex.get_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.PGIndex.get_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves embeddings from the database for the given list of IDs.
-This method queries the underlying database table to fetch the
-corresponding embeddings, metadata, and other data associated with the
-specified IDs. The results are formatted into a list of embedding
-dictionaries.</p>
+<dd><p>Retrieves embeddings from the database for the given list of IDs. This method
+queries the underlying database table to fetch the corresponding embeddings,
+metadata, and other data associated with the specified IDs. The results are
+formatted into a list of embedding dictionaries.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>ids (List[str], optional): A list of string IDs for which embeddings need</dt><dd><p>to be fetched. Defaults to an empty list.</p>
@@ -1553,8 +1478,8 @@ given IDs.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.PGIndex.top_k">
 <span class="sig-name descname"><span class="pre">top_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/pg_vector_indexes.html#PGIndex.top_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.PGIndex.top_k" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves the top K results from the database based on the provided
-query and optional filter configuration.</p>
+<dd><p>Retrieves the top K results from the database based on the provided query
+and optional filter configuration.</p>
 <p>This method interacts with a database to obtain the top K matching entries
 that align with the user’s query. It supports additional filtering through
 the optional filter configuration. Results are sorted in ascending order
@@ -1586,8 +1511,7 @@ similarity scores.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.filter_config_to_sql_filters">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">filter_config_to_sql_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/pg_vector_indexes.html#filter_config_to_sql_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.filter_config_to_sql_filters" title="Link to this definition">¶</a></dt>
-<dd><p>Converts a given FilterConfig object into an SQL WHERE clause-like
-filter string.</p>
+<dd><p>Converts a given FilterConfig object into an SQL WHERE clause-like filter string.</p>
 <p>This function translates the source filters provided in the FilterConfig
 into a SQL-compatible filter representation. If the provided filter_config
 or its source_filters attribute is None, it returns an empty string.</p>
@@ -1605,10 +1529,10 @@ or its source_filters attribute is None, it returns an empty string.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.formatter_for_type">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">formatter_for_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/pg_vector_indexes.html#formatter_for_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.formatter_for_type" title="Link to this definition">¶</a></dt>
-<dd><p>Returns a formatter function corresponding to the given type name. The
-formatter function takes a value as input and returns the value formatted
-appropriately for the specified type. The supported types include ‘text’,
-‘timestamp’, ‘int’, and ‘float’.</p>
+<dd><p>Returns a formatter function corresponding to the given type name. The formatter
+function takes a value as input and returns the value formatted appropriately
+for the specified type. The supported types include ‘text’, ‘timestamp’, ‘int’,
+and ‘float’.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>type_name (str): The name of the type for which the formatter function is</dt><dd><p>required. Supported types are ‘text’, ‘timestamp’, ‘int’, and ‘float’.</p>
@@ -1628,8 +1552,7 @@ appropriately for the specified type. The supported types include ‘text’,
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.parse_metadata_filters_recursive">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">parse_metadata_filters_recursive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MetadataFilters</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/pg_vector_indexes.html#parse_metadata_filters_recursive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.parse_metadata_filters_recursive" title="Link to this definition">¶</a></dt>
-<dd><p>Parses metadata filters recursively into a SQL-compatible string
-representation.</p>
+<dd><p>Parses metadata filters recursively into a SQL-compatible string representation.</p>
 <p>This function takes a <cite>MetadataFilters</cite> object, traverses its hierarchical
 structure, and converts it into SQL-like conditions. It handles different
 filter operations, logical conditions (AND, OR, NOT), and nested filters.</p>
@@ -1657,8 +1580,7 @@ is provided.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.to_sql_operator">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.</span></span><span class="sig-name descname"><span class="pre">to_sql_operator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FilterOperator</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/pg_vector_indexes.html#to_sql_operator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.to_sql_operator" title="Link to this definition">¶</a></dt>
-<dd><p>Converts a filter operator into an SQL operator and its respective value
-formatter.</p>
+<dd><p>Converts a filter operator into an SQL operator and its respective value formatter.</p>
 <p>This function maps a <cite>FilterOperator</cite> enum value to a tuple that contains the SQL
 representation of the operator and a callable function to format the value for use
 in SQL queries. If the provided operator is unsupported, a <cite>ValueError</cite> is raised.</p>
@@ -1751,8 +1673,7 @@ index is then returned.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.read_only_vector_store.ReadOnlyVectorStore.wrap">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/read_only_vector_store.html#ReadOnlyVectorStore.wrap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.read_only_vector_store.ReadOnlyVectorStore.wrap" title="Link to this definition">¶</a></dt>
-<dd><p>Wraps the given vector store in a read-only wrapper if it is not
-already read-only.</p>
+<dd><p>Wraps the given vector store in a read-only wrapper if it is not already read-only.</p>
 <p>This method ensures that the vector store is encapsulated in a <cite>ReadOnlyVectorStore</cite>
 if it is not yet of that type, providing a read-only interface while preserving the
 original functionality.</p>
@@ -1795,8 +1716,8 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex.add_embeddings">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/vector_index.html#VectorIndex.add_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex.add_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Provides an interface for implementing the method to add embeddings
-to a sequence of nodes.</p>
+<dd><p>Provides an interface for implementing the method to add embeddings to
+a sequence of nodes.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>nodes: A sequence of BaseNode instances to which embeddings will</dt><dd><p>be added.</p>
@@ -1819,8 +1740,7 @@ to a sequence of nodes.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex.get_embeddings">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/vector_index.html#VectorIndex.get_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex.get_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Abstract method for retrieving embeddings associated with a given
-list of IDs.</p>
+<dd><p>Abstract method for retrieving embeddings associated with a given list of IDs.</p>
 <p>This method must be implemented in subclasses, and its implementation should
 return embeddings for the provided list of IDs. The embeddings are expected to
 be a sequence of dictionaries, where each dictionary represents the embedding
@@ -1856,12 +1776,11 @@ the embeddings corresponding to the provided IDs.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex.top_k">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">top_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/vector_index.html#VectorIndex.top_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex.top_k" title="Link to this definition">¶</a></dt>
-<dd><p>Abstract method to retrieve the top-k relevant items based on a
-query. Implementing classes are expected to define the logic for
-fetching the most relevant results given a query bundle, a specified
-number of top results, and an optional filter configuration. This
-method should return a sequence of dictionaries where each dictionary
-represents a matched item.</p>
+<dd><p>Abstract method to retrieve the top-k relevant items based on a query. Implementing
+classes are expected to define the logic for fetching the most relevant results
+given a query bundle, a specified number of top results, and an optional filter
+configuration. This method should return a sequence of dictionaries where each
+dictionary represents a matched item.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>query_bundle: Encapsulates all necessary query-related data used to fetch the
 relevant items.
@@ -1881,8 +1800,7 @@ filtering.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex.underlying_index_name">
 <span class="sig-name descname"><span class="pre">underlying_index_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/vector_index.html#VectorIndex.underlying_index_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex.underlying_index_name" title="Link to this definition">¶</a></dt>
-<dd><p>Determines the underlying index name based on the tenant
-configuration.</p>
+<dd><p>Determines the underlying index name based on the tenant configuration.</p>
 <p>This method evaluates whether the current tenant is the default tenant. If the
 tenant is default, it directly returns the stored index name. Otherwise, it
 formats the index name using the tenant’s custom format function.</p>
@@ -1896,11 +1814,10 @@ formatted for a custom tenant.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex.validate_option">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate_option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/vector_index.html#VectorIndex.validate_option"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_index.VectorIndex.validate_option" title="Link to this definition">¶</a></dt>
-<dd><p>Validates the ‘index_name’ field to ensure it matches one of the
-allowed values defined in ‘ALL_EMBEDDING_INDEXES’. This validation
-method is used to guarantee that the input for ‘index_name’ is
-appropriate for its intended use. If the value is invalid, an exception
-is raised to prevent incorrect configurations.</p>
+<dd><p>Validates the ‘index_name’ field to ensure it matches one of the allowed values
+defined in ‘ALL_EMBEDDING_INDEXES’. This validation method is used to guarantee
+that the input for ‘index_name’ is appropriate for its intended use. If the value
+is invalid, an exception is raised to prevent incorrect configurations.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>v: The value of the ‘index_name’ field to be validated.</p>
 </dd>
@@ -2010,11 +1927,10 @@ returns them as a list.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore.get_index">
 <span class="sig-name descname"><span class="pre">get_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector/vector_store.html#VectorStore.get_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore.get_index" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves the vector index associated with the given index name. If
-the specified index name is not recognized or has not been registered
-in the indexes dictionary, it returns a dummy index instead. The method
-ensures that only valid index names are processed and handled
-appropriately.</p>
+<dd><p>Retrieves the vector index associated with the given index name. If the specified index
+name is not recognized or has not been registered in the indexes dictionary, it returns
+a dummy index instead. The method ensures that only valid index names are processed and
+handled appropriately.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>index_name: The name of the index to retrieve. Must be an entry from the</dt><dd><p>global <cite>ALL_EMBEDDING_INDEXES</cite> list.</p>

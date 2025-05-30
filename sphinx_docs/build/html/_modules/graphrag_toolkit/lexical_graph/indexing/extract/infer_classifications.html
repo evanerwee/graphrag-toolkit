@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.extract.infer_classifications - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -342,22 +345,11 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMCache</span><span class="p">,</span> <span class="n">LLMCacheType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.infer_config</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">OnExistingClassifications</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SourceDocParser</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ScopedValueStore</span><span class="p">,</span>
-    <span class="n">DEFAULT_SCOPE</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DEFAULT_ENTITY_CLASSIFICATIONS</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DOMAIN_ENTITY_CLASSIFICATIONS_PROMPT</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.infer_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">OnExistingClassifications</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.source_doc_parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">SourceDocParser</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScopedValueStore</span><span class="p">,</span> <span class="n">DEFAULT_SCOPE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_ENTITY_CLASSIFICATIONS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">DOMAIN_ENTITY_CLASSIFICATIONS_PROMPT</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseNode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.node_parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceSplitter</span>
@@ -369,111 +361,117 @@
 <span class="n">DEFAULT_NUM_SAMPLES</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">DEFAULT_NUM_ITERATIONS</span> <span class="o">=</span> <span class="mi">1</span>
 
-
 <div class="viewcode-block" id="InferClassifications">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.infer_classifications.InferClassifications">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">InferClassifications</span><span class="p">(</span><span class="n">SourceDocParser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles the classification of text nodes and documents leveraging domain-specific</span>
-<span class="sd">    classifications through a language model. The class performs sampling, chunking,</span>
-<span class="sd">    and classification tasks iteratively for better domain adaptation. It also</span>
-<span class="sd">    handles existing classifications with multiple merge strategies and provides</span>
-<span class="sd">    options for extensive customization, including splitter, prompt template, and LLM</span>
-<span class="sd">    usage.</span>
+<span class="sd">    This class is responsible for inferring domain-specific classifications for a set of</span>
+<span class="sd">    textual nodes using a combination of sampling, prompt-based extraction via an LLM, and</span>
+<span class="sd">    domain-adaptation strategies. It supports iterative refinement across multiple samples</span>
+<span class="sd">    and customizable actions for handling pre-existing classifications.</span>
 
-<span class="sd">    :ivar classification_store: Storage mechanism for classifications.</span>
-<span class="sd">    :type classification_store: ScopedValueStore</span>
-<span class="sd">    :ivar classification_label: Label used for classification tagging.</span>
-<span class="sd">    :type classification_label: str</span>
-<span class="sd">    :ivar classification_scope: Scope to which the classifications are applied.</span>
-<span class="sd">    :type classification_scope: str</span>
-<span class="sd">    :ivar num_samples: Number of chunks to sample per iteration.</span>
-<span class="sd">    :type num_samples: int</span>
-<span class="sd">    :ivar num_iterations: Number of iterations to sample documents or chunks.</span>
-<span class="sd">    :type num_iterations: int</span>
-<span class="sd">    :ivar splitter: Optional chunk splitter handling sentence-level division.</span>
-<span class="sd">    :type splitter: Optional[SentenceSplitter]</span>
-<span class="sd">    :ivar llm: Language model used for text processing and classification.</span>
-<span class="sd">    :type llm: Optional[LLMCache]</span>
-<span class="sd">    :ivar prompt_template: Template string for defining prompt structure in the LLM.</span>
-<span class="sd">    :type prompt_template: str</span>
-<span class="sd">    :ivar default_classifications: List of default classifications used when none are inferred.</span>
-<span class="sd">    :type default_classifications: List[str]</span>
-<span class="sd">    :ivar merge_action: Strategy to handle merging or retaining existing classifications.</span>
-<span class="sd">    :type merge_action: OnExistingClassifications</span>
+<span class="sd">    The class integrates classification parsing, chunk splitting, LLM-based prediction,</span>
+<span class="sd">    and classification storage. It is designed to adaptively extend or replace existing</span>
+<span class="sd">    classifications for textual input nodes based on analyzed data.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        classification_store (ScopedValueStore): Storage for managing the scoped</span>
+<span class="sd">            domain-specific classifications.</span>
+<span class="sd">        classification_label (str): Label associated with the classifications to be</span>
+<span class="sd">            inferred or modified.</span>
+<span class="sd">        classification_scope (str): Scope for grouping the classifications within</span>
+<span class="sd">            the classification store.</span>
+<span class="sd">        num_samples (int): Number of chunks to sample for each iteration of the</span>
+<span class="sd">            classification inference process.</span>
+<span class="sd">        num_iterations (int): The number of times to iterate over sampling and</span>
+<span class="sd">            classification inference.</span>
+<span class="sd">        splitter (Optional[SentenceSplitter]): Responsible for splitting nodes into</span>
+<span class="sd">            smaller chunks for processing, if provided.</span>
+<span class="sd">        llm (Optional[LLMCache]): The LLM used for processing and generating domain-</span>
+<span class="sd">            specific classifications based on the input data.</span>
+<span class="sd">        prompt_template (str): Prompt template for LLM interaction, used to define</span>
+<span class="sd">            how chunks are presented for classification analysis.</span>
+<span class="sd">        default_classifications (List[str]): Default classifications to use if no</span>
+<span class="sd">            domain-specific classifications could be inferred.</span>
+<span class="sd">        merge_action (OnExistingClassifications): Defines the behavior for handling</span>
+<span class="sd">            pre-existing classifications when processing new data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">classification_store</span><span class="p">:</span><span class="n">ScopedValueStore</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Classification store&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">classification_store</span><span class="p">:</span> <span class="n">ScopedValueStore</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Classification store&#39;</span><span class="p">)</span>
+    <span class="n">classification_label</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Classification label&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">classification_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Classification label&#39;</span><span class="p">)</span>
+    <span class="n">classification_scope</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Classification scope&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">classification_scope</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Classification scope&#39;</span><span class="p">)</span>
+    <span class="n">num_samples</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Number of chunks to sample per iteration&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Number of chunks to sample per iteration&#39;</span><span class="p">)</span>
+    <span class="n">num_iterations</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Number times to sample documents&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">num_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Number times to sample documents&#39;</span><span class="p">)</span>
+    <span class="n">splitter</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">SentenceSplitter</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Chunk splitter&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">splitter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SentenceSplitter</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Chunk splitter&#39;</span><span class="p">)</span>
+    <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMCache</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The LLM to use for extraction&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMCache</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The LLM to use for extraction&#39;</span><span class="p">)</span>
+    <span class="n">prompt_template</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Prompt template&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">prompt_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Prompt template&#39;</span><span class="p">)</span>
+    <span class="n">default_classifications</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="s1">&#39;Default classifications&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">default_classifications</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;Default classifications&#39;</span><span class="p">)</span>
-
-    <span class="n">merge_action</span><span class="p">:</span> <span class="n">OnExistingClassifications</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+    <span class="n">merge_action</span><span class="p">:</span><span class="n">OnExistingClassifications</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="s1">&#39;Action to take if there are existing classifications&#39;</span>
     <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">classification_store</span><span class="p">:</span> <span class="n">ScopedValueStore</span><span class="p">,</span>
-        <span class="n">classification_label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">classification_scope</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">num_samples</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">num_iterations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">splitter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SentenceSplitter</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMCacheType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">prompt_template</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">default_classifications</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">merge_action</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">OnExistingClassifications</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">classification_store</span><span class="p">:</span><span class="n">ScopedValueStore</span><span class="p">,</span>
+                 <span class="n">classification_label</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
+                 <span class="n">classification_scope</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">num_samples</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">num_iterations</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">splitter</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">SentenceSplitter</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">llm</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">LLMCacheType</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">prompt_template</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">default_classifications</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">merge_action</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">OnExistingClassifications</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
+            <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes an instance with configurations for classification tasks, including</span>
-<span class="sd">        handling of label storage, scope definition, sample processing, text splitting,</span>
-<span class="sd">        language model selection, and classification management.</span>
+<span class="sd">        Initializes an instance of the class with various parameters for classification and</span>
+<span class="sd">        text processing. The initializer sets default values for optional parameters when</span>
+<span class="sd">        none are provided and ensures that objects of specific types are created or verified</span>
+<span class="sd">        before being utilized in the classification process.</span>
 
-<span class="sd">        :param classification_store: The storage instance where classification-related</span>
-<span class="sd">            values are scoped and maintained.</span>
-<span class="sd">        :type classification_store: ScopedValueStore</span>
-<span class="sd">        :param classification_label: The label used to categorize the classification</span>
-<span class="sd">            values.</span>
-<span class="sd">        :type classification_label: str</span>
-<span class="sd">        :param classification_scope: The scope under which the classification task</span>
-<span class="sd">            is performed. If None, a default classification scope is used.</span>
-<span class="sd">        :type classification_scope: Optional[str]</span>
-<span class="sd">        :param num_samples: The number of samples to process within the classification</span>
-<span class="sd">            task. Defaults to a predefined number if not specified.</span>
-<span class="sd">        :type num_samples: Optional[int]</span>
-<span class="sd">        :param num_iterations: The number of iterations allowed for the classification</span>
-<span class="sd">            process. Defaults to a predefined value if not set.</span>
-<span class="sd">        :type num_iterations: Optional[int]</span>
-<span class="sd">        :param splitter: An optional splitter instance used for segmenting text</span>
-<span class="sd">            samples before classification.</span>
-<span class="sd">        :type splitter: Optional[SentenceSplitter]</span>
-<span class="sd">        :param llm: The language model used for classification processing.</span>
-<span class="sd">            If not provided, a default language model or caching mechanism is applied.</span>
-<span class="sd">        :type llm: Optional[LLMCacheType]</span>
-<span class="sd">        :param prompt_template: The template string used for prompt generation.</span>
-<span class="sd">            Defaults to a predefined template if not given.</span>
-<span class="sd">        :type prompt_template: Optional[str]</span>
-<span class="sd">        :param default_classifications: The default list of classifications to apply</span>
-<span class="sd">            when no specific classifications are provided.</span>
-<span class="sd">        :type default_classifications: Optional[List[str]]</span>
-<span class="sd">        :param merge_action: The strategy for resolving existing classifications during</span>
-<span class="sd">            updates. Defaults to retaining existing values.</span>
-<span class="sd">        :type merge_action: Optional[OnExistingClassifications]</span>
-
+<span class="sd">        Args:</span>
+<span class="sd">            classification_store: ScopedValueStore that serves as the storage mechanism for</span>
+<span class="sd">                classifications.</span>
+<span class="sd">            classification_label: String representing the label to be used for classification tagging.</span>
+<span class="sd">            classification_scope: Optional string specifying the scope of classifications to be</span>
+<span class="sd">                applied.</span>
+<span class="sd">            num_samples: Optional integer specifying the number of samples to consider during</span>
+<span class="sd">                classification.</span>
+<span class="sd">            num_iterations: Optional integer indicating the number of iterations for the</span>
+<span class="sd">                classification process.</span>
+<span class="sd">            splitter: Optional SentenceSplitter object to handle sentence splitting operations.</span>
+<span class="sd">            llm: Optional LLMCacheType specifying the language model to be used. Defaults to an</span>
+<span class="sd">                internal configuration if not provided.</span>
+<span class="sd">            prompt_template: Optional string containing the template for prompt generation in</span>
+<span class="sd">                classification.</span>
+<span class="sd">            default_classifications: Optional list of strings specifying default classification categories.</span>
+<span class="sd">            merge_action: Optional OnExistingClassifications defining the action to be taken</span>
+<span class="sd">                on existing classifications.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classification_store</span><span class="o">=</span><span class="n">classification_store</span><span class="p">,</span>
@@ -482,38 +480,33 @@
             <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span> <span class="ow">or</span> <span class="n">DEFAULT_NUM_SAMPLES</span><span class="p">,</span>
             <span class="n">num_iterations</span><span class="o">=</span><span class="n">num_iterations</span> <span class="ow">or</span> <span class="n">DEFAULT_NUM_ITERATIONS</span><span class="p">,</span>
             <span class="n">splitter</span><span class="o">=</span><span class="n">splitter</span><span class="p">,</span>
-            <span class="n">llm</span><span class="o">=</span><span class="p">(</span>
-                <span class="n">llm</span>
-                <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span>
-                <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
-                    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_llm</span><span class="p">,</span>
-                    <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span><span class="p">,</span>
-                <span class="p">)</span>
+            <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span> <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
+                <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_llm</span><span class="p">,</span>
+                <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span>
             <span class="p">),</span>
             <span class="n">prompt_template</span><span class="o">=</span><span class="n">prompt_template</span> <span class="ow">or</span> <span class="n">DOMAIN_ENTITY_CLASSIFICATIONS_PROMPT</span><span class="p">,</span>
-            <span class="n">default_classifications</span><span class="o">=</span><span class="n">default_classifications</span>
-            <span class="ow">or</span> <span class="n">DEFAULT_ENTITY_CLASSIFICATIONS</span><span class="p">,</span>
-            <span class="n">merge_action</span><span class="o">=</span><span class="n">merge_action</span> <span class="ow">or</span> <span class="n">OnExistingClassifications</span><span class="o">.</span><span class="n">RETAIN_EXISTING</span><span class="p">,</span>
+            <span class="n">default_classifications</span><span class="o">=</span><span class="n">default_classifications</span> <span class="ow">or</span> <span class="n">DEFAULT_ENTITY_CLASSIFICATIONS</span><span class="p">,</span>
+            <span class="n">merge_action</span><span class="o">=</span><span class="n">merge_action</span> <span class="ow">or</span> <span class="n">OnExistingClassifications</span><span class="o">.</span><span class="n">RETAIN_EXISTING</span>
         <span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Prompt template: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_classifications</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_classifications</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response_text</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parses and extracts domain-specific classifications from the provided response text.</span>
+<span class="sd">        Parses domain-specific classifications from the response text.</span>
 
-<span class="sd">        This function searches for XML-styled tags, specifically `&lt;entity_classifications&gt;...&lt;/entity_classifications&gt;`,</span>
-<span class="sd">        in the given response text and retrieves the classifications defined within the tags. Lines are stripped</span>
-<span class="sd">        and confined to meaningful entries to eliminate empty or whitespace-only records.</span>
+<span class="sd">        This function extracts classifications enclosed within the</span>
+<span class="sd">        &lt;entity_classifications&gt; tags in the given response text. It returns</span>
+<span class="sd">        a list of the parsed classifications or None if no classifications</span>
+<span class="sd">        are found.</span>
 
-<span class="sd">        If classifications are successfully extracted, their count is logged for informational purposes.</span>
-<span class="sd">        Otherwise, a warning is logged, indicating failure to parse classifications.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            response_text (str): The response text containing classifications</span>
+<span class="sd">                within &lt;entity_classifications&gt; HTML/XML tags.</span>
 
-<span class="sd">        :param response_text: The textual response containing potential domain-specific classifications</span>
-<span class="sd">            enclosed in `&lt;entity_classifications&gt;` tags.</span>
-<span class="sd">        :type response_text: str</span>
-<span class="sd">        :return: A list of extracted classifications if any are successfully parsed; otherwise, an empty list.</span>
-<span class="sd">        :rtype: Optional[List[str]]</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[List[str]]: A list of classifications if successfully</span>
+<span class="sd">                parsed from the response text, otherwise None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&lt;entity_classifications&gt;(.*?)&lt;/entity_classifications&gt;&#39;</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">response_text</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
@@ -521,25 +514,20 @@
         <span class="n">classifications</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-            <span class="n">classifications</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-                <span class="p">[</span>
-                    <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                <span class="p">]</span>
-            <span class="p">)</span>
-
+            <span class="n">classifications</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> 
+                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> 
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="p">])</span>
+                
         <span class="k">if</span> <span class="n">classifications</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Successfully parsed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">classifications</span><span class="p">)</span><span class="si">}</span><span class="s1"> domain-specific classifications&#39;</span>
-            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Successfully parsed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">classifications</span><span class="p">)</span><span class="si">}</span><span class="s1"> domain-specific classifications&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">classifications</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Unable to parse classifications from response: </span><span class="si">{</span><span class="n">response_text</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unable to parse classifications from response: </span><span class="si">{</span><span class="n">response_text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">classifications</span>
-
+            
+       
     <span class="k">def</span><span class="w"> </span><span class="nf">_parse_nodes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">nodes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">],</span>
@@ -547,37 +535,24 @@
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parses a sequence of nodes for domain-specific classifications and performs</span>
-<span class="sd">        classification adaptation using a specified number of iterations and</span>
-<span class="sd">        samples. The method applies an optional splitter to divide input nodes</span>
-<span class="sd">        into smaller chunks, processes these chunks with a language learning model,</span>
-<span class="sd">        and retrieves or merges domain-specific classifications based on the</span>
-<span class="sd">        defined action (retain existing, merge with existing, or use default).</span>
-<span class="sd">        If successful, these classifications are saved; otherwise, default</span>
-<span class="sd">        classifications are used.</span>
+<span class="sd">        Parses the provided nodes for domain-specific classifications through multiple</span>
+<span class="sd">        iterations while considering existing classifications and handling results based</span>
+<span class="sd">        on the specified merge action. This method can leverage a splitter for chunking</span>
+<span class="sd">        the input nodes and uses a language model for inferring classifications.</span>
 
-<span class="sd">        :param nodes:</span>
-<span class="sd">            A sequence of nodes to analyze and classify.</span>
-<span class="sd">        :param show_progress:</span>
-<span class="sd">            A flag indicating whether to display progress</span>
-<span class="sd">            during classification adaptation.</span>
-<span class="sd">        :param kwargs:</span>
-<span class="sd">            Additional arguments that may be needed</span>
-<span class="sd">            for domain-specific implementations.</span>
-<span class="sd">        :return:</span>
-<span class="sd">            A list of nodes, potentially modified</span>
-<span class="sd">            with classification metadata.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            nodes (Sequence[BaseNode]): A sequence of node objects to be analyzed.</span>
+<span class="sd">            show_progress (bool): Whether to show progress logs during the operation.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments for future extensibility.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[BaseNode]: A list of nodes passed as input after completing the</span>
+<span class="sd">            classification process.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">current_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classification_store</span><span class="o">.</span><span class="n">get_scoped_values</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">current_values</span>
-            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_action</span> <span class="o">==</span> <span class="n">OnExistingClassifications</span><span class="o">.</span><span class="n">RETAIN_EXISTING</span>
-        <span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Domain-specific classifications already exist [label: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="si">}</span><span class="s1">, scope: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="si">}</span><span class="s1">, classifications: </span><span class="si">{</span><span class="n">current_values</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
+        <span class="n">current_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classification_store</span><span class="o">.</span><span class="n">get_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">current_values</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_action</span> <span class="o">==</span> <span class="n">OnExistingClassifications</span><span class="o">.</span><span class="n">RETAIN_EXISTING</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Domain-specific classifications already exist [label: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="si">}</span><span class="s1">, scope: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="si">}</span><span class="s1">, classifications: </span><span class="si">{</span><span class="n">current_values</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">nodes</span>
 
         <span class="n">chunks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">splitter</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">splitter</span> <span class="k">else</span> <span class="n">nodes</span>
@@ -586,70 +561,58 @@
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_iterations</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 
-            <span class="n">sample_chunks</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span>
-                <span class="k">else</span> <span class="n">chunks</span>
-            <span class="p">)</span>
+            <span class="n">sample_chunks</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="k">else</span> <span class="n">chunks</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Analyzing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sample_chunks</span><span class="p">)</span><span class="si">}</span><span class="s1"> chunks for domain adaptation [iteration: </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">, merge_action: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">merge_action</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Analyzing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sample_chunks</span><span class="p">)</span><span class="si">}</span><span class="s1"> chunks for domain adaptation [iteration: </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">, merge_action: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">merge_action</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
-            <span class="n">formatted_chunks</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;&lt;chunk&gt;</span><span class="si">{</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&lt;/chunk&gt;&#39;</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">sample_chunks</span>
-            <span class="p">)</span>
-
+            <span class="n">formatted_chunks</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&lt;chunk&gt;</span><span class="si">{</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&lt;/chunk&gt;&#39;</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">sample_chunks</span><span class="p">)</span>
+                
             <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
-                <span class="n">PromptTemplate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">),</span> <span class="n">text_chunks</span><span class="o">=</span><span class="n">formatted_chunks</span>
+                <span class="n">PromptTemplate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">),</span>
+                <span class="n">text_chunks</span><span class="o">=</span><span class="n">formatted_chunks</span>
             <span class="p">)</span>
 
             <span class="n">classifications</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_classifications</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">current_values</span>
-            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_action</span> <span class="o">==</span> <span class="n">OnExistingClassifications</span><span class="o">.</span><span class="n">MERGE_EXISTING</span>
-        <span class="p">):</span>
+        <span class="k">if</span> <span class="n">current_values</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_action</span> <span class="o">==</span> <span class="n">OnExistingClassifications</span><span class="o">.</span><span class="n">MERGE_EXISTING</span><span class="p">:</span>
             <span class="n">classifications</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">current_values</span><span class="p">)</span>
-
+            
         <span class="n">classifications</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">classifications</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">classifications</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Domain adaptation succeeded [label: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="si">}</span><span class="s1">, scope: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="si">}</span><span class="s1">, classifications: </span><span class="si">{</span><span class="n">classifications</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">classification_store</span><span class="o">.</span><span class="n">save_scoped_values</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="p">,</span> <span class="n">classifications</span>
-            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Domain adaptation succeeded [label: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="si">}</span><span class="s1">, scope: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="si">}</span><span class="s1">, classifications: </span><span class="si">{</span><span class="n">classifications</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">classification_store</span><span class="o">.</span><span class="n">save_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="p">,</span> <span class="n">classifications</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Domain adaptation failed, using default classifications [label: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="si">}</span><span class="s1">, scope: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="si">}</span><span class="s1">, classifications: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_classifications</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">classification_store</span><span class="o">.</span><span class="n">save_scoped_values</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">default_classifications</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Domain adaptation failed, using default classifications [label: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="si">}</span><span class="s1">, scope: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="si">}</span><span class="s1">, classifications: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_classifications</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">classification_store</span><span class="o">.</span><span class="n">save_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classification_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">classification_scope</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_classifications</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">nodes</span>
-
+    
     <span class="k">def</span><span class="w"> </span><span class="nf">_parse_source_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_documents</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parses the provided source documents by iterating over their nodes,</span>
-<span class="sd">        and processes the nodes through an internal method. This helps in</span>
-<span class="sd">        breaking down the documents and organizing their components for</span>
-<span class="sd">        further operations or processing.</span>
+<span class="sd">        Parses source documents and extracts their nodes for further parsing.</span>
 
-<span class="sd">        :param source_documents: A list of source documents to be parsed.</span>
-<span class="sd">            Each document contains multiple nodes that are extracted and</span>
-<span class="sd">            used in subsequent processing.</span>
-<span class="sd">        :type source_documents: list</span>
-<span class="sd">        :return: The list of processed source documents after parsing their nodes.</span>
-<span class="sd">        :rtype: list</span>
+<span class="sd">        This function takes a list of source documents, extracts their nodes,</span>
+<span class="sd">        and passes them to an internal method `_parse_nodes` for further</span>
+<span class="sd">        processing. The original list of source documents is returned after</span>
+<span class="sd">        processing.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            source_documents: List of source document objects. Each document should</span>
+<span class="sd">                have a `nodes` attribute containing a list of nodes.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The processed list of source document objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">source_docs</span> <span class="o">=</span> <span class="p">[</span><span class="n">source_doc</span> <span class="k">for</span> <span class="n">source_doc</span> <span class="ow">in</span> <span class="n">source_documents</span><span class="p">]</span>
+        <span class="n">source_docs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">source_doc</span> <span class="k">for</span> <span class="n">source_doc</span> <span class="ow">in</span> <span class="n">source_documents</span>
+        <span class="p">]</span>
 
-        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">sd</span> <span class="ow">in</span> <span class="n">source_docs</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sd</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">n</span>
+            <span class="k">for</span> <span class="n">sd</span> <span class="ow">in</span> <span class="n">source_docs</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sd</span><span class="o">.</span><span class="n">nodes</span>
+        <span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_parse_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
 
@@ -702,11 +665,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

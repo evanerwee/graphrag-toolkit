@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -338,10 +341,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">VectorIndex</span><span class="p">,</span>
-    <span class="n">VectorIndexFactoryMethod</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorIndex</span><span class="p">,</span> <span class="n">VectorIndexFactoryMethod</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">MetadataFilters</span>
@@ -351,11 +351,11 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="DummyVectorIndexFactory">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndexFactory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DummyVectorIndexFactory</span><span class="p">(</span><span class="n">VectorIndexFactoryMethod</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory class for creating dummy vector indexes.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factory class for creating dummy vector indexes.</span>
 
 <span class="sd">    This class is used to instantiate and return dummy vector index objects if specified</span>
 <span class="sd">    criteria are met. It inherits from the base `VectorIndexFactoryMethod` and</span>
@@ -365,14 +365,11 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="DummyVectorIndexFactory.try_create">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndexFactory.try_create">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">index_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">vector_index_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorIndex</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Tries to create vector indexes based on the provided index names and</span>
-<span class="sd">        vector index information.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_names</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">vector_index_info</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorIndex</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tries to create vector indexes based on the provided index names and vector index information.</span>
 
 <span class="sd">        This method checks whether the provided vector index information starts with a specific</span>
 <span class="sd">        prefix (DUMMY). If it does, it creates and returns a list of `DummyVectorIndex` objects</span>
@@ -382,17 +379,15 @@
 <span class="sd">            index_names (List[str]): A list of index names to create vector indexes for.</span>
 <span class="sd">            vector_index_info (str): A string containing vector index information used to</span>
 <span class="sd">            determine the type of vector indexes to create.</span>
-<span class="sd">            \\*\\*kwargs: Additional keyword arguments to be passed to the creation process.</span>
+<span class="sd">            **kwargs: Additional keyword arguments to be passed to the creation process.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            List[VectorIndex]: A list of DummyVectorIndex objects created based on the input</span>
-<span class="sd">            index names if vector_index_info starts with the prefix DUMMY, otherwise None.</span>
+<span class="sd">            List[VectorIndex]: A list of `DummyVectorIndex` objects created based on the input</span>
+<span class="sd">            index names if `vector_index_info` starts with the prefix DUMMY, otherwise `None`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">DUMMY</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Opening dummy vector indexes [index_names: </span><span class="si">{</span><span class="n">index_names</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">[</span>
-                <span class="n">DummyVectorIndex</span><span class="p">(</span><span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">index_name</span> <span class="ow">in</span> <span class="n">index_names</span>
-            <span class="p">]</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">DummyVectorIndex</span><span class="p">(</span><span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">index_name</span> <span class="ow">in</span> <span class="n">index_names</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 </div>
@@ -402,7 +397,8 @@
 <div class="viewcode-block" id="DummyVectorIndex">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndex">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DummyVectorIndex</span><span class="p">(</span><span class="n">VectorIndex</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a dummy vector index.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a dummy vector index.</span>
 
 <span class="sd">    This class is a placeholder implementation of a vector index. It includes methods</span>
 <span class="sd">    for adding embeddings, retrieving embeddings for given IDs, and performing a</span>
@@ -412,11 +408,11 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        index_name (str): The name of the index used for logging and identification.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="DummyVectorIndex.add_embeddings">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndex.add_embeddings">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds embeddings for the given list of nodes.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds embeddings for the given list of nodes.</span>
 
 <span class="sd">        This method processes the provided nodes and logs the action of adding</span>
 <span class="sd">        embeddings for each node by accessing their unique identifiers.</span>
@@ -424,21 +420,14 @@
 <span class="sd">        Args:</span>
 <span class="sd">            nodes (list): A list of node objects for which embeddings are to be added.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s1">] add embeddings for nodes: </span><span class="si">{</span><span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">id_</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">nodes</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s1">] add embeddings for nodes: </span><span class="si">{</span><span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">id_</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">nodes</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-
+    
 <div class="viewcode-block" id="DummyVectorIndex.top_k">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndex.top_k">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">top_k</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span>
-        <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
-        <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves and returns the top-k results based on the given query and</span>
-<span class="sd">        optional filter configuration.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">top_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span><span class="n">QueryBundle</span><span class="p">,</span> <span class="n">top_k</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves and returns the top-k results based on the given query and optional filter configuration.</span>
 
 <span class="sd">        This method processes the input query bundle and applies the given filtering criteria</span>
 <span class="sd">        (if provided) to retrieve a specific number of top-ranked elements from the dataset.</span>
@@ -453,16 +442,15 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Sequence[Any]: A sequence of top-ranked results matching the query and filter criteria.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s1">] top k query: </span><span class="si">{</span><span class="n">query_bundle</span><span class="o">.</span><span class="n">query_str</span><span class="si">}</span><span class="s1">, top_k: </span><span class="si">{</span><span class="n">top_k</span><span class="si">}</span><span class="s1">, filter_config: </span><span class="si">{</span><span class="n">filter_config</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s1">] top k query: </span><span class="si">{</span><span class="n">query_bundle</span><span class="o">.</span><span class="n">query_str</span><span class="si">}</span><span class="s1">, top_k: </span><span class="si">{</span><span class="n">top_k</span><span class="si">}</span><span class="s1">, filter_config: </span><span class="si">{</span><span class="n">filter_config</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 
 
 <div class="viewcode-block" id="DummyVectorIndex.get_embeddings">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndex.get_embeddings">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets embeddings for a list of document IDs.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="p">[])</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets embeddings for a list of document IDs.</span>
 
 <span class="sd">        This function retrieves embeddings associated with the provided document IDs.</span>
 <span class="sd">        Embeddings represent vectorized representations of data, which might be</span>

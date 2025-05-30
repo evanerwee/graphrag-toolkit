@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.storage.graph.graph_store - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -336,7 +339,7 @@
 <span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>  
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tenacity</span><span class="w"> </span><span class="kn">import</span> <span class="n">Retrying</span><span class="p">,</span> <span class="n">stop_after_attempt</span><span class="p">,</span> <span class="n">wait_random</span>
@@ -352,26 +355,27 @@
 <span class="n">REDACTED</span> <span class="o">=</span> <span class="s1">&#39;**REDACTED**&#39;</span>
 <span class="n">NUM_CHARS_IN_DEBUG_RESULTS</span> <span class="o">=</span> <span class="mi">256</span>
 
-
 <div class="viewcode-block" id="get_log_formatting">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.get_log_formatting">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_log_formatting</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Retrieves and validates the log formatting configuration from the provided arguments.</span>
+<span class="sd">    Retrieves the log formatting configuration from the given arguments. If the</span>
+<span class="sd">    &#39;log_formatting&#39; key is not present in the `args` dictionary, a default</span>
+<span class="sd">    `RedactedGraphQueryLogFormatting` instance is used. Ensures the log formatting</span>
+<span class="sd">    object is an instance of `GraphQueryLogFormatting`.</span>
 
-<span class="sd">    This function extracts the `log_formatting` key from the `args` dictionary, if available,</span>
-<span class="sd">    or defaults to a `RedactedGraphQueryLogFormatting` instance. It ensures that the</span>
-<span class="sd">    retrieved or default log formatting is of type `GraphQueryLogFormatting`. If the type</span>
-<span class="sd">    does not comply, an exception is raised.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        args (dict): A dictionary containing configuration parameters, including</span>
+<span class="sd">            an optional &#39;log_formatting&#39; key.</span>
 
-<span class="sd">    :param args: A dictionary of arguments which may contain an override for</span>
-<span class="sd">        `log_formatting`. This parameter is expected to include the necessary</span>
-<span class="sd">        configuration for logging purposes.</span>
-<span class="sd">    :return: The validated or defaulted log formatting value. It is guaranteed to</span>
-<span class="sd">        be an instance of `GraphQueryLogFormatting`.</span>
-<span class="sd">    :rtype: GraphQueryLogFormatting</span>
-<span class="sd">    :raises ValueError: If `log_formatting` is present but not of type</span>
-<span class="sd">        `GraphQueryLogFormatting`.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        GraphQueryLogFormatting: The log formatting object retrieved from the</span>
+<span class="sd">        input dictionary, or the default `RedactedGraphQueryLogFormatting` if</span>
+<span class="sd">        not provided.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the value associated with the &#39;log_formatting&#39; key in the</span>
+<span class="sd">        input `args` dictionary is not an instance of `GraphQueryLogFormatting`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">log_formatting</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;log_formatting&#39;</span><span class="p">,</span> <span class="n">RedactedGraphQueryLogFormatting</span><span class="p">())</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">log_formatting</span><span class="p">,</span> <span class="n">GraphQueryLogFormatting</span><span class="p">):</span>
@@ -379,54 +383,48 @@
     <span class="k">return</span> <span class="n">log_formatting</span></div>
 
 
-
 <div class="viewcode-block" id="NodeId">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">NodeId</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents an identifier for a node with associated key and value.</span>
+<span class="sd">    Represents an identifier node with key-value pair attributes.</span>
 
-<span class="sd">    This class is used to define the identity of a node by specifying a key</span>
-<span class="sd">    and value, along with an optional flag indicating whether it is based</span>
-<span class="sd">    on a property. It provides a string representation of the node&#39;s value.</span>
+<span class="sd">    This class encapsulates a node identifier consisting of a key, value, and an</span>
+<span class="sd">    optional flag to determine if the identifier is based on properties. It can</span>
+<span class="sd">    be used to represent nodes with unique identifiers in various contexts.</span>
 
-<span class="sd">    :ivar key: The key associated with the node identifier.</span>
-<span class="sd">    :type key: str</span>
-<span class="sd">    :ivar value: The value associated with the node identifier.</span>
-<span class="sd">    :type value: str</span>
-<span class="sd">    :ivar is_property_based: Indicates whether the identifier is property-based.</span>
-<span class="sd">                           Defaults to True.</span>
-<span class="sd">    :type is_property_based: bool</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        key (str): The key associated with the node identifier.</span>
+<span class="sd">        value (str): The value corresponding to the key for the node identifier.</span>
+<span class="sd">        is_property_based (bool): Indicates whether the node is based on properties.</span>
+<span class="sd">            Defaults to True.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">is_property_based</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">key</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">value</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">is_property_based</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
 
-
-
+    
 <div class="viewcode-block" id="format_id">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.format_id">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">format_id</span><span class="p">(</span><span class="n">id_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">format_id</span><span class="p">(</span><span class="n">id_name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Formats an identifier string into a NodeId object.</span>
+<span class="sd">    Parses and formats the given ID string into a NodeId object.</span>
 
-<span class="sd">    The function parses an identifier string, typically containing sections</span>
-<span class="sd">    separated by a period (&#39;.&#39;). If the identifier consists of only one</span>
-<span class="sd">    section, it uses the same value for both the identifier and name</span>
-<span class="sd">    fields of the NodeId object. If the identifier contains multiple</span>
-<span class="sd">    sections separated by a period, it uses the second section as the</span>
-<span class="sd">    identifier and the entire input string as the name.</span>
+<span class="sd">    The function takes a string representing an ID and splits it by the delimiter &#39;.&#39;.</span>
+<span class="sd">    If the string does not contain the delimiter, it assumes the ID is standalone and</span>
+<span class="sd">    constructs a NodeId object where both the identifier and full ID are the same.</span>
+<span class="sd">    If the string contains the delimiter, it uses the second part of the split string</span>
+<span class="sd">    as the identifier and the entire string as the full ID.</span>
 
-<span class="sd">    :param id_name: The input identifier string to format.</span>
-<span class="sd">    :type id_name: str</span>
+<span class="sd">    Args:</span>
+<span class="sd">        id_name: A string representing a potentially delimited ID.</span>
 
-<span class="sd">    :return: A NodeId object with the parsed identifier and name.</span>
-<span class="sd">    :rtype: NodeId</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        NodeId: An instance of NodeId containing the formatted identifier and full ID.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parts</span> <span class="o">=</span> <span class="n">id_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -435,265 +433,200 @@
         <span class="k">return</span> <span class="n">NodeId</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">id_name</span><span class="p">)</span></div>
 
 
-
 <div class="viewcode-block" id="GraphQueryLogEntryParameters">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">GraphQueryLogEntryParameters</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents the parameters and related functionality for a graph query log entry.</span>
+<span class="sd">    Represents the parameters of a log entry for a graph query.</span>
 
-<span class="sd">    This class is a data structure that encapsulates the details of a graph query</span>
-<span class="sd">    log entry, including the query reference, the query itself, associated</span>
-<span class="sd">    parameters, and optional results. It also provides a utility method to format</span>
-<span class="sd">    queries with a query reference prefix.</span>
+<span class="sd">    This class is a container for details related to a graph query log entry,</span>
+<span class="sd">    such as the reference identifier, the query string, and optional associated</span>
+<span class="sd">    parameters or results. It is designed to provide structured access to these</span>
+<span class="sd">    elements, making it easier to manage and manipulate data regarding graph</span>
+<span class="sd">    queries.</span>
 
-<span class="sd">    :ivar query_ref: Reference identifier for the query.</span>
-<span class="sd">    :type query_ref: str</span>
-<span class="sd">    :ivar query: The SQL query string.</span>
-<span class="sd">    :type query: str</span>
-<span class="sd">    :ivar parameters: Parameters associated with the query.</span>
-<span class="sd">    :type parameters: str</span>
-<span class="sd">    :ivar results: The optional results of the query execution.</span>
-<span class="sd">    :type results: Optional[str]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        query_ref (str): A reference identifier for the graph query.</span>
+<span class="sd">        query (str): The graph query string.</span>
+<span class="sd">        parameters (str): Parameters associated with the graph query.</span>
+<span class="sd">        results (Optional[str]): Optional results of the graph query, if available.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">query_ref</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">parameters</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">results</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">query_ref</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">query</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">parameters</span><span class="p">:</span><span class="nb">str</span>
+    <span class="n">results</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
 
 <div class="viewcode-block" id="GraphQueryLogEntryParameters.format_query_with_query_ref">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters.format_query_with_query_ref">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">format_query_with_query_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Formats a query string by appending a query reference as a comment at the</span>
-<span class="sd">        beginning of the string.</span>
+<span class="sd">        Formats the provided query by appending the query reference as a prefix.</span>
 
-<span class="sd">        :param q: The query string to format.</span>
-<span class="sd">        :type q: str</span>
-<span class="sd">        :return: The formatted query string with a query reference prepended.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        Args:</span>
+<span class="sd">            q: The SQL query to be formatted.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A formatted string containing the query reference prefixed to the</span>
+<span class="sd">            original query.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;//query_ref: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s1">&#39;</span></div>
 </div>
-
 
 
 <div class="viewcode-block" id="GraphQueryLogFormatting">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GraphQueryLogFormatting</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class defines the structure for formatting log entries of graph query executions.</span>
+<span class="sd">    Abstract base class for formatting graph query log entries.</span>
 
-<span class="sd">    It serves as an abstract base class, ensuring that subclasses provide a specific</span>
-<span class="sd">    implementation for formatting query metadata such as query references, parameters,</span>
-<span class="sd">    and result sets into a structured log entry. The class enables consistent and</span>
-<span class="sd">    customizable logging of graph database query operations.</span>
+<span class="sd">    This class provides a blueprint for implementing custom formats for</span>
+<span class="sd">    logging graph query details. The purpose of this class is to ensure</span>
+<span class="sd">    a consistent structure for logging information about graph queries,</span>
+<span class="sd">    including the query reference, query string, associated parameters,</span>
+<span class="sd">    and potential results.</span>
 
-<span class="sd">    :ivar model_config: Configuration options for the BaseModel class.</span>
-<span class="sd">    :type model_config: Config</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="GraphQueryLogFormatting.format_log_entry">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogFormatting.format_log_entry">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">format_log_entry</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">query_ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
-        <span class="n">results</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_log_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_ref</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="n">Any</span><span class="p">]</span><span class="o">=</span><span class="p">{},</span> <span class="n">results</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Formats a log entry for a graph query operation. This method is intended to</span>
-<span class="sd">        standardize the format of query logs for consistent logging and debugging</span>
-<span class="sd">        purposes. It is an abstract method and must be implemented in any subclass,</span>
-<span class="sd">        providing the specific logic for formatting.</span>
+<span class="sd">        Formats a log entry for a graph query execution.</span>
 
-<span class="sd">        :param query_ref: Unique reference identifier for the query being logged.</span>
-<span class="sd">        :Array query_ref:</span>
-<span class="sd">        :param query: The graph query that was executed.</span>
-<span class="sd">        :Array query:</span>
-<span class="sd">        :param parameters: A dictionary of parameters utilized in executing the query,</span>
-<span class="sd">            defaulting to an empty dictionary.</span>
-<span class="sd">        :Array parameters:</span>
-<span class="sd">        :param results: A list containing the query operation&#39;s results, optional and</span>
-<span class="sd">            defaults to None when no results are present.</span>
-<span class="sd">        :Array Resultado_result.describeSerializableparameters])/May) [:</span>
-<span class="sd">        :return: An instance of ``GraphQueryLogEntryParameters`` containing the</span>
-<span class="sd">            formatted log entry data.</span>
-<span class="sd">        :rtype: GraphQueryLogEntryParameters</span>
+<span class="sd">        This method must be implemented by a subclass and is responsible for</span>
+<span class="sd">        formatting the details of a graph query, including its reference, query</span>
+<span class="sd">        string, parameters, and execution results, into a specific structure</span>
+<span class="sd">        that conforms to `GraphQueryLogEntryParameters`. This allows for</span>
+<span class="sd">        consistent logging of query execution metadata.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query_ref: The reference identifier for the executed query.</span>
+<span class="sd">            query: The query string executed against the graph database.</span>
+<span class="sd">            parameters: A dictionary of parameters used in the query. Defaults</span>
+<span class="sd">                to an empty dictionary if no parameters are provided.</span>
+<span class="sd">            results: An optional list of results returned by the query</span>
+<span class="sd">                execution. Defaults to None if no results are returned.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GraphQueryLogEntryParameters: The formatted log entry object</span>
+<span class="sd">            containing details about the query execution.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If this method is not implemented by the</span>
+<span class="sd">            subclass.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 </div>
 
-
-
+    
 <div class="viewcode-block" id="RedactedGraphQueryLogFormatting">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.RedactedGraphQueryLogFormatting">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RedactedGraphQueryLogFormatting</span><span class="p">(</span><span class="n">GraphQueryLogFormatting</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles the formatting of logs related to graph queries by redacting sensitive</span>
-<span class="sd">    information in the query, parameters, and results.</span>
-
-<span class="sd">    This class extends `GraphQueryLogFormatting` and is responsible for creating</span>
-<span class="sd">    log entries containing redacted details for secure logging purposes. It is</span>
-<span class="sd">    designed to ensure that the logs remain informative while protecting sensitive</span>
-<span class="sd">    information.</span>
-
-<span class="sd">    :ivar REDACTED: A placeholder indicating that the corresponding information</span>
-<span class="sd">        has been redacted.</span>
-<span class="sd">    :type REDACTED: str</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="RedactedGraphQueryLogFormatting.format_log_entry">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.RedactedGraphQueryLogFormatting.format_log_entry">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">format_log_entry</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">query_ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
-        <span class="n">results</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_log_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_ref</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="n">Any</span><span class="p">]</span><span class="o">=</span><span class="p">{},</span> <span class="n">results</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Formats a log entry containing information about a graph query. The method</span>
-<span class="sd">        receives data concerning the query reference, the query text itself, parameters</span>
-<span class="sd">        associated with the query, and query results, then processes them to create a</span>
-<span class="sd">        log entry. Sensitive information (such as the query text, parameters and</span>
-<span class="sd">        results) is redacted for security purposes before inclusion in the log entry.</span>
+<span class="sd">        Formats and creates a new `GraphQueryLogEntryParameters` instance with</span>
+<span class="sd">        the given query reference, query, parameters, and results, while redacting</span>
+<span class="sd">        specified information.</span>
 
-<span class="sd">        :param query_ref: Reference ID of the query being logged.</span>
-<span class="sd">        :type query_ref: str</span>
-<span class="sd">        :param query: The original query text to be logged.</span>
-<span class="sd">        :type query: str</span>
-<span class="sd">        :param parameters: Dictionary containing any parameters used in the query.</span>
-<span class="sd">                           Defaults to an empty dictionary if no parameters provided.</span>
-<span class="sd">        :type parameters: Dict[str, Any], optional</span>
-<span class="sd">        :param results: List of results generated by the query execution.</span>
-<span class="sd">                        Defaults to None if not provided.</span>
-<span class="sd">        :type results: Optional[List[Any]]</span>
-<span class="sd">        :return: An instance of `GraphQueryLogEntryParameters` containing the redacted</span>
-<span class="sd">                 query, parameters, and results for logging purposes.</span>
-<span class="sd">        :rtype: GraphQueryLogEntryParameters</span>
+<span class="sd">        Args:</span>
+<span class="sd">            query_ref (str): A reference identifier for the query.</span>
+<span class="sd">            query (str): The query string to be logged.</span>
+<span class="sd">            parameters (Dict[str, Any], optional): A dictionary of parameters used</span>
+<span class="sd">                in the query. Defaults to an empty dictionary.</span>
+<span class="sd">            results (Optional[List[Any]], optional): A list of results generated by</span>
+<span class="sd">                the query. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GraphQueryLogEntryParameters: An instance containing the formatted and</span>
+<span class="sd">            redacted log entry details.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">(</span>
-            <span class="n">query_ref</span><span class="o">=</span><span class="n">query_ref</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">REDACTED</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">REDACTED</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="n">REDACTED</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">(</span><span class="n">query_ref</span><span class="o">=</span><span class="n">query_ref</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">REDACTED</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">REDACTED</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="n">REDACTED</span><span class="p">)</span></div>
 </div>
 
-
-
+    
 <div class="viewcode-block" id="NonRedactedGraphQueryLogFormatting">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NonRedactedGraphQueryLogFormatting">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NonRedactedGraphQueryLogFormatting</span><span class="p">(</span><span class="n">GraphQueryLogFormatting</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a log formatting implementation that formats log entries</span>
-<span class="sd">    for graph query executions without redacting any information.</span>
-
-<span class="sd">    This class extends the functionality of `GraphQueryLogFormatting`</span>
-<span class="sd">    to provide detailed log entries containing query references,</span>
-<span class="sd">    query strings, parameters, and results of graph queries. Truncation</span>
-<span class="sd">    is applied to the results if they exceed a predefined character limit.</span>
-
-<span class="sd">    :ivar NUM_CHARS_IN_DEBUG_RESULTS: Defines the maximum number of characters</span>
-<span class="sd">        allowed for displaying results in a log entry before truncation.</span>
-<span class="sd">    :type NUM_CHARS_IN_DEBUG_RESULTS: int</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="NonRedactedGraphQueryLogFormatting.format_log_entry">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NonRedactedGraphQueryLogFormatting.format_log_entry">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">format_log_entry</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">query_ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
-        <span class="n">results</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_log_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_ref</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="n">Any</span><span class="p">]</span><span class="o">=</span><span class="p">{},</span> <span class="n">results</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Formats a log entry for a graph query operation. Converts the query reference, query,</span>
-<span class="sd">        parameters, and results into a structured log entry of type `GraphQueryLogEntryParameters`.</span>
-<span class="sd">        If the string representation of the results exceeds a predefined character limit, it is truncated</span>
-<span class="sd">        with an indication of the truncation.</span>
+<span class="sd">        Formats a log entry for a graph query execution, including the query reference,</span>
+<span class="sd">        query string, parameters used, and the results. Truncates the results string if</span>
+<span class="sd">        it exceeds a predefined character limit, appending a note of the truncated length.</span>
 
-<span class="sd">        :param query_ref: The reference identifier of the query.</span>
-<span class="sd">        :type query_ref: str</span>
-<span class="sd">        :param query: The query text to be logged.</span>
-<span class="sd">        :type query: str</span>
-<span class="sd">        :param parameters: A dictionary of parameters associated with the query. Defaults to an empty dictionary.</span>
-<span class="sd">        :type parameters: Dict[str, Any]</span>
-<span class="sd">        :param results: The results of the query operation, optionally provided. If omitted or None, it is skipped in formatting.</span>
-<span class="sd">        :type results: Optional[List[Any]]</span>
-<span class="sd">        :return: A `GraphQueryLogEntryParameters` object containing the formatted log entry.</span>
-<span class="sd">        :rtype: GraphQueryLogEntryParameters</span>
+<span class="sd">        Args:</span>
+<span class="sd">            query_ref: A string representing the unique reference or identifier for the query.</span>
+<span class="sd">            query: A string representing the graph query executed.</span>
+<span class="sd">            parameters: A dictionary containing key-value pairs representing query</span>
+<span class="sd">                parameters. Defaults to an empty dictionary.</span>
+<span class="sd">            results: An optional list containing the results of the query. Defaults to</span>
+<span class="sd">                None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GraphQueryLogEntryParameters: A dataclass representing the formatted log entry</span>
+<span class="sd">                with the provided query details and truncated results if applicable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">results_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results_str</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">NUM_CHARS_IN_DEBUG_RESULTS</span><span class="p">:</span>
             <span class="n">results_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">results_str</span><span class="p">[:</span><span class="n">NUM_CHARS_IN_DEBUG_RESULTS</span><span class="p">]</span><span class="si">}</span><span class="s1">... &lt;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results_str</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">NUM_CHARS_IN_DEBUG_RESULTS</span><span class="si">}</span><span class="s1"> more chars&gt;&#39;</span>
-        <span class="k">return</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">(</span>
-            <span class="n">query_ref</span><span class="o">=</span><span class="n">query_ref</span><span class="p">,</span>
-            <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
-            <span class="n">parameters</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">parameters</span><span class="p">),</span>
-            <span class="n">results</span><span class="o">=</span><span class="n">results_str</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">(</span><span class="n">query_ref</span><span class="o">=</span><span class="n">query_ref</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">parameters</span><span class="p">),</span> <span class="n">results</span><span class="o">=</span><span class="n">results_str</span><span class="p">)</span></div>
 </div>
-
 
 
 <div class="viewcode-block" id="on_retry_query">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.on_retry_query">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">on_retry_query</span><span class="p">(</span>
-    <span class="n">logger</span><span class="p">:</span> <span class="s1">&#39;logging.Logger&#39;</span><span class="p">,</span>
-    <span class="n">log_level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">log_entry_parameters</span><span class="p">:</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">,</span>
-    <span class="n">exc_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">logger</span><span class="p">:</span><span class="s1">&#39;logging.Logger&#39;</span><span class="p">,</span>
+    <span class="n">log_level</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+    <span class="n">log_entry_parameters</span><span class="p">:</span><span class="n">GraphQueryLogEntryParameters</span><span class="p">,</span>
+    <span class="n">exc_info</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span>    
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">RetryCallState</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Logs information about a retried query using the provided logger, suitable</span>
-<span class="sd">    for integration with retry mechanisms. Outputs details about the retry</span>
-<span class="sd">    attempt, including timing, prior outcomes, and context-specific metadata.</span>
+<span class="sd">    Creates a logging function to log retry attempts for a query.</span>
 
-<span class="sd">    :param logger: Logging instance to use for outputting retry information.</span>
-<span class="sd">    :param log_level: Logging level to use when generating log entries (e.g.,</span>
-<span class="sd">        INFO, DEBUG).</span>
-<span class="sd">    :param log_entry_parameters: Instance of `GraphQueryLogEntryParameters`</span>
-<span class="sd">        storing query-related metadata, such as its reference, query string,</span>
-<span class="sd">        and parameters.</span>
-<span class="sd">    :param exc_info: Boolean flag indicating whether to include exception</span>
-<span class="sd">        details in log entries when the query fails. Defaults to False.</span>
-<span class="sd">    :return: Callable function that accepts a `RetryCallState` instance</span>
-<span class="sd">        and logs retry-related information.</span>
+<span class="sd">    This function is intended to generate a reusable logger callback to be used</span>
+<span class="sd">    with retry mechanisms like tenacity&#39;s RetryCallState. It logs the outcome</span>
+<span class="sd">    and decision for retrying, based on the query execution results or exceptions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        logger (logging.Logger): The logger instance used to log the retry information.</span>
+<span class="sd">        log_level (int): The logging level at which the retry attempt will be logged.</span>
+<span class="sd">        log_entry_parameters (GraphQueryLogEntryParameters): The metadata that identifies</span>
+<span class="sd">            the query, including query reference, parameters, and additional context.</span>
+<span class="sd">        exc_info (bool, optional): Indicates whether exception information should be</span>
+<span class="sd">            included in the logs if an exception is raised. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable[[RetryCallState], None]: A logging function that logs retry attempts</span>
+<span class="sd">        using the provided logger parameters and retry state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">log_it</span><span class="p">(</span><span class="n">retry_state</span><span class="p">:</span> <span class="s1">&#39;RetryCallState&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Logs information about a query retry process, including details about the retry</span>
-<span class="sd">        reason, the time to the next retry, and relevant query parameters. This is</span>
-<span class="sd">        intended to be used as a callback in retry logic to provide structured logging</span>
-<span class="sd">        for debugging or monitoring purposes.</span>
+<span class="sd">        Logs information about a query being retried using the provided logger. This function is intended to be used</span>
+<span class="sd">        in conjunction with a retry mechanism, logging relevant details about the retry attempt, such as the amount</span>
+<span class="sd">        of time until the next retry, the outcome of the prior attempt, and additional query-related metadata.</span>
 
-<span class="sd">        The function sets up a logging callback that generates a log entry for every retry</span>
-<span class="sd">        attempt made by the retry logic. The log entry contains details about the query,</span>
-<span class="sd">        reason for retry, time until the next retry attempt, and other configurable</span>
-<span class="sd">        parameters.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            logger: The logger instance used for writing the log message. It is expected to support the standard</span>
+<span class="sd">                logging methods like `log(level, message, ...)`.</span>
+<span class="sd">            log_level: The logging level used when invoking the logger to output the retry information.</span>
+<span class="sd">            log_entry_parameters: An instance of `GraphQueryLogEntryParameters`, containing metadata about</span>
+<span class="sd">                the query being retried, such as reference identifiers, the query itself, and its associated parameters.</span>
+<span class="sd">            exc_info: A boolean indicating whether exception information should be included in the log entry if</span>
+<span class="sd">                the query execution raised an exception. Defaults to `False`.</span>
 
-<span class="sd">        :param logger: A logger instance used to log the retry information.</span>
-<span class="sd">        :type logger: logging.Logger</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            A callable function that takes a `RetryCallState` object and logs the retry information.</span>
 
-<span class="sd">        :param log_level: The log level set for the retry log entries. This can be any standard</span>
-<span class="sd">            logging level such as logging.INFO, logging.WARNING, etc.</span>
-<span class="sd">        :type log_level: int</span>
-
-<span class="sd">        :param log_entry_parameters: An object encapsulating details of the query, its reference,</span>
-<span class="sd">            and any associated parameters. This is used to format the log message.</span>
-<span class="sd">        :type log_entry_parameters: GraphQueryLogEntryParameters</span>
-
-<span class="sd">        :param exc_info: A boolean flag indicating whether exception information should</span>
-<span class="sd">            be included in the logs if the retry is triggered by a failure.</span>
-<span class="sd">            Default is False.</span>
-<span class="sd">        :type exc_info: bool</span>
-
-<span class="sd">        :return: A callable function designed to be used as a callback in retry logic.</span>
-<span class="sd">            The returned callable logs detailed retry information whenever invoked.</span>
-<span class="sd">        :rtype: Callable[[RetryCallState], None]</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            RuntimeError: If `retry_state.outcome` or `retry_state.next_action` attributes are not set before</span>
+<span class="sd">                invoking the inner logging function.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">local_exc_info</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span>
 
@@ -718,129 +651,134 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
             <span class="n">log_level</span><span class="p">,</span>
             <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] Retrying query in </span><span class="si">{</span><span class="n">retry_state</span><span class="o">.</span><span class="n">next_action</span><span class="o">.</span><span class="n">sleep</span><span class="si">}</span><span class="s1"> seconds because it </span><span class="si">{</span><span class="n">verb</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1"> [attempt: </span><span class="si">{</span><span class="n">retry_state</span><span class="o">.</span><span class="n">attempt_number</span><span class="si">}</span><span class="s1">, query: </span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s1">, parameters: </span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">,</span>
-            <span class="n">exc_info</span><span class="o">=</span><span class="n">local_exc_info</span><span class="p">,</span>
+            <span class="n">exc_info</span><span class="o">=</span><span class="n">local_exc_info</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">log_it</span></div>
 
 
-
 <div class="viewcode-block" id="on_query_failed">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.on_query_failed">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">on_query_failed</span><span class="p">(</span>
-    <span class="n">logger</span><span class="p">:</span> <span class="s1">&#39;logging.Logger&#39;</span><span class="p">,</span>
-    <span class="n">log_level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">max_attempts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">log_entry_parameters</span><span class="p">:</span> <span class="n">GraphQueryLogEntryParameters</span><span class="p">,</span>
+    <span class="n">logger</span><span class="p">:</span><span class="s1">&#39;logging.Logger&#39;</span><span class="p">,</span>
+    <span class="n">log_level</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+    <span class="n">max_attempts</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+    <span class="n">log_entry_parameters</span><span class="p">:</span><span class="n">GraphQueryLogEntryParameters</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="s1">&#39;RetryCallState&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles logging of query retries and failures after reaching defined arguments,</span>
-<span class="sd">    like the maximum retry attempts, providing contextual details about the query</span>
-<span class="sd">    failure and its associated parameters.</span>
+<span class="sd">    Handles logging for query failure during retries.</span>
 
-<span class="sd">    :param logger: The logger instance to output query failure logs.</span>
-<span class="sd">    :type logger: logging.Logger</span>
-<span class="sd">    :param log_level: Logging level (e.g., logging.INFO, logging.ERROR).</span>
-<span class="sd">    :param max_attempts: Defined maximum attempts before considering the operation failed.</span>
-<span class="sd">    :param log_entry_parameters: A `GraphQueryLogEntryParameters` object encapsulating</span>
-<span class="sd">        query information, reference, and associated parameters.</span>
-<span class="sd">    :type log_entry_parameters: GraphQueryLogEntryParameters</span>
-<span class="sd">    :return: A callable function for internal logging on retry or final query attempt failure.</span>
-<span class="sd">    :rtype: Callable[[&#39;RetryCallState&#39;], None]</span>
+<span class="sd">    Logs information about a failed query attempt if the maximum number of retry</span>
+<span class="sd">    attempts has been reached. If the query raises an exception, details about</span>
+<span class="sd">    the exception are also logged. The log entry includes the query reference,</span>
+<span class="sd">    query string, associated parameters, and the reason for the final failure.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        logger (logging.Logger): Logger instance to use for logging failure</span>
+<span class="sd">            information.</span>
+<span class="sd">        log_level (int): Log level used for logging the failure message.</span>
+<span class="sd">        max_attempts (int): Maximum number of retry attempts before failure is</span>
+<span class="sd">            logged.</span>
+<span class="sd">        log_entry_parameters (GraphQueryLogEntryParameters): Parameters used to</span>
+<span class="sd">            construct the log entry, including query reference, query string,</span>
+<span class="sd">            and related parameters.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable[[RetryCallState], None]: A function to be called during each</span>
+<span class="sd">            retry attempt to check if logging is necessary for query failure.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">log_it</span><span class="p">(</span><span class="n">retry_state</span><span class="p">:</span> <span class="s1">&#39;RetryCallState&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Logs query failures when the number of retry attempts reaches its maximum. The function</span>
-<span class="sd">        produces a log entry that includes the query reference, the number of retry attempts, the</span>
-<span class="sd">        cause of the failure, the query, and its parameters.</span>
+<span class="sd">        Handles logging of query retries and failures, specifically after reaching the</span>
+<span class="sd">        maximum allowed attempts, along with the associated exception details and query</span>
+<span class="sd">        parameters.</span>
 
-<span class="sd">        :param logger: A logger instance used to log the message.</span>
-<span class="sd">        :type logger: logging.Logger</span>
-<span class="sd">        :param log_level: The severity level at which the log message will be logged.</span>
-<span class="sd">        :type log_level: int</span>
-<span class="sd">        :param max_attempts: The maximum number of retry attempts before logging failure.</span>
-<span class="sd">        :type max_attempts: int</span>
-<span class="sd">        :param log_entry_parameters: Object containing the query reference, actual query,</span>
-<span class="sd">            and its parameters for logging.</span>
-<span class="sd">        :type log_entry_parameters: GraphQueryLogEntryParameters</span>
-<span class="sd">        :return: A callable function that processes the retry state and logs the relevant</span>
-<span class="sd">            information when the specified conditions are met.</span>
-<span class="sd">        :rtype: Callable[[RetryCallState], None]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            logger: The logger instance to use for logging query failure information.</span>
+<span class="sd">            log_level: The logging level as an integer (e.g., logging.INFO, logging.ERROR).</span>
+<span class="sd">            max_attempts: The maximum number of retry attempts before considering a query</span>
+<span class="sd">                as failed.</span>
+<span class="sd">            log_entry_parameters: A `GraphQueryLogEntryParameters` object containing details</span>
+<span class="sd">                about the query, query reference, and associated parameters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Callable[[&#39;RetryCallState&#39;], None]: A callable function that logs the details</span>
+<span class="sd">            of a failed query, processing the given retry state for contextual information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">retry_state</span><span class="o">.</span><span class="n">attempt_number</span> <span class="o">==</span> <span class="n">max_attempts</span><span class="p">:</span>
             <span class="n">ex</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="n">retry_state</span><span class="o">.</span><span class="n">outcome</span><span class="o">.</span><span class="n">failed</span><span class="p">:</span>
                 <span class="n">ex</span> <span class="o">=</span> <span class="n">retry_state</span><span class="o">.</span><span class="n">outcome</span><span class="o">.</span><span class="n">exception</span><span class="p">()</span>
-                <span class="n">verb</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;raised&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ex</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">verb</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;raised&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ex</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s1">&#39;</span>       
             <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
                 <span class="n">log_level</span><span class="p">,</span>
                 <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] Query failed after </span><span class="si">{</span><span class="n">retry_state</span><span class="o">.</span><span class="n">attempt_number</span><span class="si">}</span><span class="s1"> retries because it </span><span class="si">{</span><span class="n">verb</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1"> [query: </span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s1">, parameters: </span><span class="si">{</span><span class="n">log_entry_parameters</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">,</span>
-                <span class="n">exc_info</span><span class="o">=</span><span class="n">ex</span><span class="p">,</span>
+                <span class="n">exc_info</span><span class="o">=</span><span class="n">ex</span>
             <span class="p">)</span>
-
+        
     <span class="k">return</span> <span class="n">log_it</span></div>
-
 
 
 <div class="viewcode-block" id="GraphStore">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GraphStore</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages the storage and execution of graph queries with configurable retry logic</span>
+<span class="sd">    and logging functionality.</span>
 
+<span class="sd">    Detailed description:</span>
+<span class="sd">    This class provides methods to execute graph queries with retry mechanisms, log</span>
+<span class="sd">    formatting features, and utilities for handling node IDs and property assignments.</span>
+<span class="sd">    It is designed to interact with a graph database while ensuring resilience through</span>
+<span class="sd">    retry attempts and structured error logging.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        log_formatting (GraphQueryLogFormatting): Handles the formatting of log entries</span>
+<span class="sd">            for executed queries.</span>
+<span class="sd">        tenant_id (TenantId): Represents the unique identifier of the tenant.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">log_formatting</span><span class="p">:</span> <span class="n">GraphQueryLogFormatting</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">RedactedGraphQueryLogFormatting</span><span class="p">()</span>
-    <span class="p">)</span>
-    <span class="n">tenant_id</span><span class="p">:</span> <span class="n">TenantId</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">TenantId</span><span class="p">())</span>
+    <span class="n">log_formatting</span><span class="p">:</span><span class="n">GraphQueryLogFormatting</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">RedactedGraphQueryLogFormatting</span><span class="p">())</span>
+    <span class="n">tenant_id</span><span class="p">:</span><span class="n">TenantId</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">TenantId</span><span class="p">())</span>
 
 <div class="viewcode-block" id="GraphStore.execute_query_with_retry">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.execute_query_with_retry">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">execute_query_with_retry</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-        <span class="n">max_attempts</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-        <span class="n">max_wait</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_query_with_retry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">max_attempts</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_wait</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Executes a SQL query with retry logic based on the provided maximum number of attempts and</span>
-<span class="sd">        maximum wait time between retries. This method ensures that transient failures while executing</span>
-<span class="sd">        a SQL query are handled by retrying the operation according to the configured strategy.</span>
+<span class="sd">        Executes a database query with a retry mechanism, allowing multiple attempts with delays between them.</span>
 
-<span class="sd">        :param query: The SQL query string to be executed.</span>
-<span class="sd">        :type query: str</span>
-<span class="sd">        :param parameters: The parameters to be bound to the SQL query execution.</span>
-<span class="sd">        :type parameters: Dict[str, Any]</span>
-<span class="sd">        :param max_attempts: The maximum number of attempts to retry the SQL query execution</span>
-<span class="sd">            if it fails. Default is 3.</span>
-<span class="sd">        :type max_attempts: int, optional</span>
-<span class="sd">        :param max_wait: The maximum wait time, in seconds, between retry attempts. Default is 5.</span>
-<span class="sd">        :type max_wait: int, optional</span>
-<span class="sd">        :param kwargs: Additional keyword arguments passed to the query execution.</span>
-<span class="sd">        :type kwargs: dict, optional</span>
-<span class="sd">        :return: None</span>
+<span class="sd">        This method provides a mechanism to execute a query on a database reliably, allowing retries in the event</span>
+<span class="sd">        of transient failures or network issues. Each retry includes logging related to the attempt, along with a</span>
+<span class="sd">        unique correlation ID for tracing purposes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query:</span>
+<span class="sd">                The SQL query string to be executed.</span>
+<span class="sd">            parameters:</span>
+<span class="sd">                A dictionary of query parameters to bind to the SQL query.</span>
+<span class="sd">            max_attempts:</span>
+<span class="sd">                The maximum number of retry attempts allowed, including the initial attempt. Default is 3.</span>
+<span class="sd">            max_wait:</span>
+<span class="sd">                The maximum wait time in seconds between retry attempts. The exact wait is randomized between 0</span>
+<span class="sd">                and this value. Default is 5.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Additional parameters that may include a pre-specified &#39;correlation_id&#39;. Any such value will be</span>
+<span class="sd">                included in the logging and supplemented with a unique suffix.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">correlation_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;correlation_id&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">correlation_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;correlation_id&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">correlation_id</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;correlation_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">correlation_id</span>
 
-        <span class="n">log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">correlation_id</span><span class="si">}</span><span class="s1">/*&#39;</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">parameters</span>
-        <span class="p">)</span>
+        <span class="n">log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">correlation_id</span><span class="si">}</span><span class="s1">/*&#39;</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
         <span class="n">attempt_number</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="n">Retrying</span><span class="p">(</span>
-            <span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span><span class="n">max_attempts</span><span class="p">),</span>
+            <span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span><span class="n">max_attempts</span><span class="p">),</span> 
             <span class="n">wait</span><span class="o">=</span><span class="n">wait_random</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="n">max_wait</span><span class="p">),</span>
-            <span class="n">before_sleep</span><span class="o">=</span><span class="n">on_retry_query</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span> <span class="n">log_entry_parameters</span><span class="p">),</span>
-            <span class="n">after</span><span class="o">=</span><span class="n">on_query_failed</span><span class="p">(</span>
-                <span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span> <span class="n">max_attempts</span><span class="p">,</span> <span class="n">log_entry_parameters</span>
-            <span class="p">),</span>
-            <span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">before_sleep</span><span class="o">=</span><span class="n">on_retry_query</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span> <span class="n">log_entry_parameters</span><span class="p">),</span> 
+            <span class="n">after</span><span class="o">=</span><span class="n">on_query_failed</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span> <span class="n">max_attempts</span><span class="p">,</span> <span class="n">log_entry_parameters</span><span class="p">),</span>
+            <span class="n">reraise</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">):</span>
             <span class="k">with</span> <span class="n">attempt</span><span class="p">:</span>
                 <span class="n">attempt_number</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -848,91 +786,85 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_logging_prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_logging_prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_id</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates a logging prefix string based on the provided query ID and optional correlation ID.</span>
+<span class="sd">        Generates a logging prefix by combining the query ID with an optional correlation ID.</span>
 
-<span class="sd">        This function is used to construct a standardized prefix that can be</span>
-<span class="sd">        included in log messages, helping to correlate log data with specific</span>
-<span class="sd">        queries or operations. The prefix includes the correlation ID if provided,</span>
-<span class="sd">        followed by the query ID, separated by a forward slash. If no correlation</span>
-<span class="sd">        ID is provided, only the query ID is included in the prefix.</span>
+<span class="sd">        The method returns a string that concatenates the correlation ID and query ID, separated by</span>
+<span class="sd">        a forward slash, if a correlation ID is provided. Otherwise, it only returns the query ID.</span>
 
-<span class="sd">        :param query_id: Identifier for the query.</span>
-<span class="sd">        :type query_id: str</span>
-<span class="sd">        :param correlation_id: Optional identifier used for correlating specific queries or operations.</span>
-<span class="sd">        :type correlation_id: Optional[str]</span>
-<span class="sd">        :return: A logging prefix string in the format `correlation_id/query_id` or `query_id`</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        Args:</span>
+<span class="sd">            query_id: The unique identifier for the query.</span>
+<span class="sd">            correlation_id: An optional unique identifier for correlating logs or transactions.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The constructed logging prefix based on the available identifiers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">correlation_id</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">correlation_id</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">query_id</span><span class="si">}</span><span class="s1">&#39;</span>
-
+    
 <div class="viewcode-block" id="GraphStore.node_id">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.node_id">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeId</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeId</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates a NodeId object based on the given identifier name string.</span>
+<span class="sd">        Formats a given identifier name into a NodeId object.</span>
 
-<span class="sd">        This function takes a string id_name and formats it into a NodeId</span>
-<span class="sd">        object. It ensures the input is processed appropriately to return an</span>
-<span class="sd">        instance of NodeId, which represents a structured or encoded identifier.</span>
+<span class="sd">        This method takes an identifier name, processes it, and returns a NodeId</span>
+<span class="sd">        object. The output ensures the identifier is in the correct format</span>
+<span class="sd">        for consistent usage within the application.</span>
 
-<span class="sd">        :param id_name: The identifier name string to be formatted into a</span>
-<span class="sd">            NodeId object.</span>
-<span class="sd">        :type id_name: str</span>
-<span class="sd">        :return: A NodeId object representing the formatted identifier.</span>
-<span class="sd">        :rtype: NodeId</span>
+<span class="sd">        Args:</span>
+<span class="sd">            id_name (str): The identifier name to be formatted.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            NodeId: The formatted identifier.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">format_id</span><span class="p">(</span><span class="n">id_name</span><span class="p">)</span></div>
 
-
+    
 <div class="viewcode-block" id="GraphStore.property_assigment_fn">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.property_assigment_fn">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Assigns a value to a key through a lambda function, returning a callable.</span>
+<span class="sd">        Assigns a value to a key and returns a callable that processes a string.</span>
 
-<span class="sd">        The callable returned by this function takes a string as input and returns</span>
-<span class="sd">        the same string. This provides a way to structure value assignments in a</span>
-<span class="sd">        decorative or functional manner while maintaining flexibility in code execution.</span>
+<span class="sd">        This function is used to create a lambda function that captures the input</span>
+<span class="sd">        parameters and processes an additional string based on the implementation of</span>
+<span class="sd">        the returned function.</span>
 
-<span class="sd">        :param key: The key to which the value should be assigned.</span>
-<span class="sd">        :type key: str</span>
-<span class="sd">        :param value: The value to associate with the given key.</span>
-<span class="sd">        :type value: Any</span>
-<span class="sd">        :return: A callable function that takes a string as an argument and returns it unchanged.</span>
-<span class="sd">        :rtype: Callable[[str], str]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            key: The key to which the value is assigned.</span>
+<span class="sd">            value: The value to be assigned to the specified key.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Callable[[str], str]: A callable that takes a string as input and returns</span>
+<span class="sd">            a string after processing. The exact processing implemented in the</span>
+<span class="sd">            returned callable depends on the specific implementation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span></div>
 
-
+    
 <div class="viewcode-block" id="GraphStore.execute_query">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore.execute_query">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">execute_query</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span> <span class="n">correlation_id</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span> <span class="n">correlation_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Executes a given Cypher query on the database with the provided parameters and</span>
-<span class="sd">        optional correlation ID. This method is abstract and must be implemented by</span>
-<span class="sd">        subclasses to specify the behavior for query execution.</span>
+<span class="sd">        Executes a Cypher query on a connected database and returns the result as a dictionary.</span>
 
-<span class="sd">        :param cypher: The Cypher query string to be executed.</span>
-<span class="sd">        :type cypher: str</span>
-<span class="sd">        :param parameters: A dictionary of parameters to pass into the Cypher query.</span>
-<span class="sd">                           Defaults to an empty dictionary.</span>
-<span class="sd">        :type parameters: dict</span>
-<span class="sd">        :param correlation_id: An optional identifier to correlate logs or tracing</span>
-<span class="sd">                               information. Defaults to None if not provided.</span>
-<span class="sd">        :type correlation_id: str, optional</span>
-<span class="sd">        :return: A dictionary containing the result of the query execution, which may</span>
-<span class="sd">                 include data fields, metadata, or other relevant information.</span>
-<span class="sd">        :rtype: Dict[str, Any]</span>
-<span class="sd">        :raises NotImplementedError: If the method is not implemented by a subclass.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cypher: The Cypher query string to be executed.</span>
+<span class="sd">            parameters: Optional dictionary of parameters to be passed into the Cypher query.</span>
+<span class="sd">            correlation_id: Optional identifier for correlating logs or tracing execution flows.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A dictionary containing the results of the executed Cypher query.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 </div>
 
+
+
+
+    
 </pre></div>
         </article>
       </div>
@@ -980,11 +912,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

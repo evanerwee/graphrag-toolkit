@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -347,9 +350,10 @@
 <div class="viewcode-block" id="NodeBuilder">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NodeBuilder</span><span class="p">(</span><span class="n">BaseComponent</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;NodeBuilder is an abstract base class responsible for constructing and</span>
-<span class="sd">    managing nodes. It provides a blueprint for creating nodes with specific</span>
-<span class="sd">    attributes, filters, and metadata formatting.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    NodeBuilder is an abstract base class responsible for constructing and managing</span>
+<span class="sd">    nodes. It provides a blueprint for creating nodes with specific attributes,</span>
+<span class="sd">    filters, and metadata formatting.</span>
 
 <span class="sd">    Detailed description of the class, its purpose, and usage. The class includes</span>
 <span class="sd">    methods for cleaning and formatting data, as well as abstract methods that</span>
@@ -359,7 +363,8 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        id_generator (IdGenerator): Generates unique identifiers for nodes.</span>
 <span class="sd">        build_filters (BuildFilters): Filters applied when building nodes.</span>
-<span class="sd">        source_metadata_formatter (SourceMetadataFormatter): Formats source metadata for nodes.</span>
+<span class="sd">        source_metadata_formatter (SourceMetadataFormatter): Formats source</span>
+<span class="sd">            metadata for nodes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">id_generator</span><span class="p">:</span><span class="n">IdGenerator</span>
     <span class="n">build_filters</span><span class="p">:</span><span class="n">BuildFilters</span>
@@ -370,8 +375,9 @@
     <span class="nd">@classmethod</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Abstract base class method that defines the contract for returning a</span>
-<span class="sd">        string identifier. This method must be implemented by all subclasses.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract base class method that defines the contract for returning a string</span>
+<span class="sd">        identifier. This method must be implemented by all subclasses.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            cls: The class that this method is bound to.</span>
@@ -387,9 +393,10 @@
     <span class="nd">@classmethod</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">metadata_keys</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Defines an abstract method to retrieve metadata keys for the class.</span>
-<span class="sd">        This method must be implemented by any subclass to provide a list of</span>
-<span class="sd">        string keys related to metadata attributes.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defines an abstract method to retrieve metadata keys for the class. This method</span>
+<span class="sd">        must be implemented by any subclass to provide a list of string keys related to</span>
+<span class="sd">        metadata attributes.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List[str]: A list of metadata keys represented as strings.</span>
@@ -401,24 +408,19 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder.build_nodes">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Builds and processes a list of nodes according to implementation-specific logic.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract base class for building a list of nodes.</span>
 
-<span class="sd">        This abstract method must be implemented by concrete subclasses to define how</span>
-<span class="sd">        nodes are processed, transformed, or created based on the input nodes.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            nodes: A list of BaseNode objects to be processed or used as a basis for</span>
-<span class="sd">                creating new nodes.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List[BaseNode]: A list of processed or newly created BaseNode objects.</span>
+<span class="sd">        This class serves as a blueprint for implementing specific operations on a list</span>
+<span class="sd">        of nodes. The `build_nodes` method must be implemented by any concrete subclass</span>
+<span class="sd">        to provide functionality specific to the application&#39;s requirements.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-
+    
     <span class="k">def</span><span class="w"> </span><span class="nf">_clean_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cleans a given string by removing all characters that are not</span>
-<span class="sd">        alphanumeric.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cleans a given string by removing all characters that are not alphanumeric.</span>
 
 <span class="sd">        This method takes a string as input and removes any character that is not</span>
 <span class="sd">        a letter or a digit, then returns the cleaned string. The functionality</span>
@@ -431,10 +433,10 @@
 <span class="sd">            str: A new string consisting only of alphanumeric characters from the input.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isalnum</span><span class="p">())</span>
-
+        
     <span class="k">def</span><span class="w"> </span><span class="nf">_format_classification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classification</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Formats the given classification string if it is not empty or equal</span>
-<span class="sd">        to the default classification.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Formats the given classification string if it is not empty or equal to the default classification.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            classification: The classification string to be formatted. If it is None or matches the</span>
@@ -448,9 +450,10 @@
             <span class="k">return</span> <span class="s1">&#39;&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39; (</span><span class="si">{</span><span class="n">classification</span><span class="si">}</span><span class="s1">)&#39;</span>
-
+    
     <span class="k">def</span><span class="w"> </span><span class="nf">_format_fact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">oc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Formats and returns a string representation of a fact.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Formats and returns a string representation of a fact.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            s: Subject of the fact.</span>

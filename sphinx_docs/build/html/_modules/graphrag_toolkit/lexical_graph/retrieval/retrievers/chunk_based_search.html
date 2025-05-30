@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -343,166 +346,186 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchResultCollection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.vector_store</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ProcessorBase</span><span class="p">,</span>
-    <span class="n">ProcessorArgs</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">TraversalBasedBaseRetriever</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">get_diverse_vss_elements</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessorBase</span><span class="p">,</span> <span class="n">ProcessorArgs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="n">TraversalBasedBaseRetriever</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_diverse_vss_elements</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">MetadataFilters</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
 
 <div class="viewcode-block" id="ChunkBasedSearch">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ChunkBasedSearch</span><span class="p">(</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handles chunk-based retrieval and search operations.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for performing chunk-based search in a graph store using traversal methods.</span>
 
-<span class="sd">    This class implements a retrieval strategy that focuses on chunks of text</span>
-<span class="sd">    as the primary units for search operations. It leverages both graph and</span>
-<span class="sd">    vector stores to find relevant chunks based on the input query.</span>
+<span class="sd">    This class extends the TraversalBasedBaseRetriever to implement functionality for</span>
+<span class="sd">    retrieving data from a graph database. The retrieval is based on chunk-oriented</span>
+<span class="sd">    principles, employing parallelized search techniques to enable efficient data</span>
+<span class="sd">    retrieval for complex queries. It processes queries through graph traversal,</span>
+<span class="sd">    facilitates use of external vector stores, and supports custom filtering.</span>
 
-<span class="sd">    The retrieval process involves:</span>
-
-<span class="sd">    1. Finding relevant chunks using vector similarity search</span>
-<span class="sd">    2. Traversing the graph to find related statements and topics</span>
-<span class="sd">    3. Aggregating and scoring the results</span>
-
-<span class="sd">    This approach is particularly effective for retrieving contextually</span>
-<span class="sd">    relevant information from large document collections.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        graph_store: The graph store instance for traversal operations.</span>
-<span class="sd">        vector_store: The vector store instance for similarity search.</span>
-<span class="sd">        top_k: Number of top results to return (default: 10).</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        list: A list of scored chunks with associated metadata.</span>
-
-<span class="sd">    Notes:</span>
-<span class="sd">        Ensure the graph and vector stores are properly initialized before</span>
-<span class="sd">        using this class. Performance may vary based on the size of the</span>
-<span class="sd">        document collection and the complexity of the graph.</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        graph_store (GraphStore): The graph store instance used for retrieving data.</span>
+<span class="sd">        vector_store (VectorStore): The vector store instance used for vector-based searches.</span>
+<span class="sd">        processor_args (Optional[ProcessorArgs]): Configuration arguments for data processors.</span>
+<span class="sd">        processors (Optional[List[Type[ProcessorBase]]]): List of data processors applied</span>
+<span class="sd">            during the search process.</span>
+<span class="sd">        filter_config (Optional[FilterConfig]): Configuration for filtering search results.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span>
-        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">,</span>
-        <span class="n">processor_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProcessorArgs</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ProcessorBase</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of a class by setting up graph and vector stores, optional processing configurations, and other keyword arguments.</span>
-
-<span class="sd">        This constructor is used to set up the necessary parameters and configurations to enable the functionality of the class instance. It manages dependencies, configurations, and extensions that enable enhanced data handling and processing.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">graph_store</span><span class="p">:</span><span class="n">GraphStore</span><span class="p">,</span>
+                 <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">,</span>
+                 <span class="n">processor_args</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">ProcessorArgs</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">processors</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ProcessorBase</span><span class="p">]]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">filter_config</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes an instance of a class by setting up graph and vector stores, optional</span>
+<span class="sd">        processing configurations, and other keyword arguments. This constructor is used</span>
+<span class="sd">        to setup necessary parameters and configurations to enable the functionality</span>
+<span class="sd">        of the class instance. It manages dependencies, configurations, and extensions</span>
+<span class="sd">        that enable enhanced data handling and processing.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            graph_store: The storage mechanism for graph data.</span>
 <span class="sd">            vector_store: The storage mechanism for vector data.</span>
-<span class="sd">            processor_args: Optional set of arguments that configure how processors handle incoming operations.</span>
-<span class="sd">            processors: Optional list of processor types to handle specific operations or processing tasks.</span>
-<span class="sd">            filter_config: Optional configuration data for filtering certain types of content or operations.</span>
-<span class="sd">            **kwargs: Additional keyword arguments to pass into the parent initialization.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">            processor_args: Optional set of arguments that configure how</span>
+<span class="sd">                processors handle incoming operations.</span>
+<span class="sd">            processors: Optional list of processor types to handle specific operations</span>
+<span class="sd">                or processing tasks.</span>
+<span class="sd">            filter_config: Optional configuration data for filtering certain types of</span>
+<span class="sd">                content or operations.</span>
+<span class="sd">            **kwargs: Additional keyword arguments to pass into the parent</span>
+<span class="sd">                initialization.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span> 
             <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
             <span class="n">processor_args</span><span class="o">=</span><span class="n">processor_args</span><span class="p">,</span>
             <span class="n">processors</span><span class="o">=</span><span class="n">processors</span><span class="p">,</span>
             <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
-
+    
 <div class="viewcode-block" id="ChunkBasedSearch.chunk_based_graph_search">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.chunk_based_graph_search">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">chunk_based_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs a graph search query based on a specific chunk ID.&quot;&quot;&quot;</span>
-        <span class="n">cypher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_cypher_query</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs a graph search query based on a specific chunk ID. The function constructs</span>
+<span class="sd">        a Cypher query to search the graph database, matching relationships and nodes linked</span>
+<span class="sd">        to a given chunk ID. The query focuses on retrieving related statements, topics,</span>
+<span class="sd">        and associated chunks within defined query and statement limits.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            chunk_id: The unique identifier of the chunk to search for in the graph database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[dict]: A list of results retrieved from the graph database based on the</span>
+<span class="sd">            provided chunk ID and query parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cypher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_cypher_query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        // chunk-based graph search                                  </span>
 <span class="s1">        MATCH (l:`__Statement__`)-[:`__PREVIOUS__`*0..1]-(:`__Statement__`)-[:`__BELONGS_TO__`]-&gt;(t:`__Topic__`)-[:`__MENTIONED_IN__`]-&gt;(c:`__Chunk__`)</span>
 <span class="s1">        WHERE </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;c.chunkId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> = $chunkId</span>
-<span class="s1">        &#39;&#39;&#39;</span>
-        <span class="p">)</span>
-
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span>
+                                          
         <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;chunkId&#39;</span><span class="p">:</span> <span class="n">chunk_id</span><span class="p">,</span>
             <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">query_limit</span><span class="p">,</span>
-            <span class="s1">&#39;statementLimit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">intermediate_limit</span><span class="p">,</span>
+            <span class="s1">&#39;statementLimit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">intermediate_limit</span>
         <span class="p">}</span>
-
+                                          
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="ChunkBasedSearch.get_start_node_ids">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.get_start_node_ids">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_start_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the starting node IDs for chunk-based search.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the starting node IDs based on the given query bundle for chunk-based search.</span>
+
+<span class="sd">        This function retrieves diverse data elements classified as &quot;chunks&quot; that match</span>
+<span class="sd">        the criteria specified in the query bundle, utilizing a vector store for searching</span>
+<span class="sd">        and additional filtering configurations. It then extracts and returns the unique</span>
+<span class="sd">        chunk IDs for further processing.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query_bundle (QueryBundle): The query object containing the search parameters</span>
+<span class="sd">                and configurations.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[str]: A list of starting node IDs corresponding to the retrieved data chunks.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Getting start node ids for chunk-based search...&#39;</span><span class="p">)</span>
 
-        <span class="n">chunks</span> <span class="o">=</span> <span class="n">get_diverse_vss_elements</span><span class="p">(</span>
-            <span class="s1">&#39;chunk&#39;</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span>
-        <span class="p">)</span>
-
+        <span class="n">chunks</span> <span class="o">=</span> <span class="n">get_diverse_vss_elements</span><span class="p">(</span><span class="s1">&#39;chunk&#39;</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="p">)</span>
+        
         <span class="k">return</span> <span class="p">[</span><span class="n">chunk</span><span class="p">[</span><span class="s1">&#39;chunk&#39;</span><span class="p">][</span><span class="s1">&#39;chunkId&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">]</span></div>
 
-
+    
 <div class="viewcode-block" id="ChunkBasedSearch.do_graph_search">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search.ChunkBasedSearch.do_graph_search">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs graph search using chunk-based retrieval strategy.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs graph search using chunk-based retrieval strategy starting from given node IDs</span>
+<span class="sd">        and executing concurrent search with thread pooling.</span>
+
+<span class="sd">        This method conducts a search operation on a graph where starting points (chunks)</span>
+<span class="sd">        are defined, and concurrent retrieval is used to collect results from multiple</span>
+<span class="sd">        chunks in parallel. The search is based on the `chunk_based_graph_search` method,</span>
+<span class="sd">        and the retrieval results are aggregated into a `SearchResultCollection`. It also</span>
+<span class="sd">        logs detailed debug information when debugging is enabled.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query_bundle (QueryBundle): An object containing the query parameters and</span>
+<span class="sd">                metadata required for performing the search.</span>
+<span class="sd">            start_node_ids (List[str]): A list of starting node identifiers that mark</span>
+<span class="sd">                the initial points for the graph search.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SearchResultCollection: An aggregated collection of search results obtained</span>
+<span class="sd">            from chunk-based graph search.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">chunk_ids</span> <span class="o">=</span> <span class="n">start_node_ids</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Running chunk-based search...&#39;</span><span class="p">)</span>
-
+        
         <span class="n">search_results</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span>
-            <span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">num_workers</span>
-        <span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        
+        <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">num_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
 
             <span class="n">futures</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chunk_based_graph_search</span><span class="p">,</span> <span class="n">chunk_id</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">chunk_id</span> <span class="ow">in</span> <span class="n">chunk_ids</span>
             <span class="p">]</span>
-
+            
             <span class="n">executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 
             <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">():</span>
                     <span class="n">search_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-        <span class="n">search_results_collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_search_results_collection</span><span class="p">(</span><span class="n">search_results</span><span class="p">)</span>
-
+                    
+        <span class="n">search_results_collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_search_results_collection</span><span class="p">(</span><span class="n">search_results</span><span class="p">)</span> 
+        
         <span class="n">retriever_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="k">if</span> <span class="n">retriever_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">debug_results</span> <span class="ow">and</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
-        <span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;&#39;&#39;Chunk-based results: </span><span class="si">{</span><span class="n">search_results_collection</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span>
+        <span class="k">if</span> <span class="n">retriever_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">debug_results</span> <span class="ow">and</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;Chunk-based results: </span><span class="si">{</span><span class="n">search_results_collection</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">exclude_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="w">                </span><span class="si">}</span><span class="s1">&#39;&#39;&#39;</span>
-            <span class="p">)</span>
-
+<span class="w">                </span><span class="si">}</span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+                   
+        
         <span class="k">return</span> <span class="n">search_results_collection</span></div>
 </div>
 
+    
 </pre></div>
         </article>
       </div>

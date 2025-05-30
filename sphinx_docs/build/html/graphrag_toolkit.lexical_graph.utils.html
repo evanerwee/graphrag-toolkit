@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -348,71 +351,65 @@
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.BedrockEnabledTokenCountingHandler">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.fm_observability.</span></span><span class="sig-name descname"><span class="pre">BedrockEnabledTokenCountingHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_starts_to_ignore</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">CBEventType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_ends_to_ignore</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">CBEventType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Logger</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#BedrockEnabledTokenCountingHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.BedrockEnabledTokenCountingHandler" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TokenCountingHandler</span></code></p>
-<p>Handles token counting and observability queue management in the context of
-callbacks for specific events. It extends the TokenCountingHandler to provide
-additional functionality tailored for use cases requiring direct association
-with Bedrock-enabling mechanisms.</p>
-<p>The class manages token counting for specific event types (e.g., LLM and
-Embedding events), allows the exclusion of certain events from processing, and
-ensures that token count lists are cleared when they exceed a threshold. It
-also integrates with an observability queue for structured monitoring and
-debugging purposes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tokenizer</strong> – Callable function responsible for tokenizing input strings
-into a list of tokens. Defaults to None if not explicitly set.</p></li>
-<li><p><strong>event_starts_to_ignore</strong> – List of event types to be ignored during
-start event operations. This allows for filtering out unneeded
-processing. Defaults to None if not explicitly set.</p></li>
-<li><p><strong>event_ends_to_ignore</strong> – List of event types to be ignored during
-end event operations. This provides a mechanism for tailoring token
-counting behavior. Defaults to None if not explicitly set.</p></li>
-<li><p><strong>verbose</strong> – A boolean flag determining whether verbose output is enabled.
-This helps in logging and debugging by providing more detailed system
-behavior information.</p></li>
-<li><p><strong>logger</strong> – Logging instance for capturing debug, info, or error logs
-during operation. If not provided, logging will be disabled.</p></li>
-</ul>
+<p>Handles token counting for systems utilizing Bedrock, extending functionality for
+event-based processing.</p>
+<p>Provides mechanisms to accurately count tokens used in language model (LLM) prompts
+and completions, or for embeddings processing. Additionally ensures integration
+with the observability queue to facilitate tracking and debugging.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>event_starts_to_ignore (Optional[List[CBEventType]]): List of event types to</dt><dd><p>be ignored at the start of events.</p>
+</dd>
+<dt>event_ends_to_ignore (Optional[List[CBEventType]]): List of event types to</dt><dd><p>be ignored at the end of events.</p>
+</dd>
+<dt>tokenizer (Optional[Callable[[str], List]]): Tokenizer function used</dt><dd><p>to split input into tokens.</p>
+</dd>
+<dt>verbose (bool): Flag indicating whether detailed information should</dt><dd><p>be logged.</p>
+</dd>
+<dt>logger (Optional[logging.Logger]): Logger instance for logging events</dt><dd><p>and information.</p>
 </dd>
 </dl>
-<p>Initializes the class with the specified parameters to customize behavior,
-particularly for handling tokenization and event filtering during execution.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tokenizer</strong> – A callable that takes a string input and tokenizes it into a list.
-Default is None.</p></li>
-<li><p><strong>event_starts_to_ignore</strong> – A list of event start types (<cite>CBEventType</cite>) to ignore.
-Default is None.</p></li>
-<li><p><strong>event_ends_to_ignore</strong> – A list of event end types (<cite>CBEventType</cite>) to ignore.
-Default is None.</p></li>
-<li><p><strong>verbose</strong> – A boolean flag to enable or disable verbose output. Default is False.</p></li>
-<li><p><strong>logger</strong> – An optional logger instance for logging messages. Default is None.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Initializes the class with specified parameters. The provided parameters will
+control the behavior of the callback system for token counting. This includes
+the tokenizer to be used, events to be ignored during start and end operations,
+verbosity level, and an optional logger for logging purposes.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>tokenizer: Optional callable responsible for tokenizing input strings into</dt><dd><p>a list of tokens.</p>
+</dd>
+<dt>event_starts_to_ignore: Optional list of CBEventType items representing</dt><dd><p>event types to ignore when a start event occurs.</p>
+</dd>
+<dt>event_ends_to_ignore: Optional list of CBEventType items representing event</dt><dd><p>types to ignore when an end event occurs.</p>
+</dd>
+</dl>
+<p>verbose: Boolean indicating whether to enable verbose output.
+logger: Optional logging.Logger instance for logging callback-related</p>
+<blockquote>
+<div><p>information.</p>
+</div></blockquote>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.BedrockEnabledTokenCountingHandler.on_event_end">
 <span class="sig-name descname"><span class="pre">on_event_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CBEventType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#BedrockEnabledTokenCountingHandler.on_event_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.BedrockEnabledTokenCountingHandler.on_event_end" title="Link to this definition">¶</a></dt>
-<dd><p>Handles the ending of an event, processes event payloads, and updates observability
-queues if necessary. This method primarily processes LLM and EMBEDDING event types,
-extracts relevant token count information, and dispatches them to the observability
-queue. It also ensures that token count tracking is reset if their sizes exceed
-the threshold limit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>event_type</strong> – The type of the event being ended (e.g., LLM, EMBEDDING).</p></li>
-<li><p><strong>payload</strong> – The payload data associated with the event, including tokens
-or other metadata. If None, no payload will be processed.</p></li>
-<li><p><strong>event_id</strong> – The unique identifier for the event. Useful for tracking specific
-events across the system.</p></li>
-<li><p><strong>kwargs</strong> – Any additional named parameters required for custom handling.</p></li>
-</ul>
+<dd><p>Handles the conclusion of specified events by processing token counts if applicable
+and updating the observability queue with event data. This method tracks token
+counts for LLM and Embedding events, ensuring that their respective token usages
+are appropriately logged. When certain thresholds for token count storage are exceeded,
+the method will reset those counts.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_type (CBEventType): Type of the event being concluded, such as LLM or</dt><dd><p>EMBEDDING.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt>payload (Optional[Dict[str, Any]]): Additional event-specific data payload. Can</dt><dd><p>be None if no payload accompanies the event.</p>
+</dd>
+<dt>event_id (str): Identifier of the event. Defaults to an empty string if not</dt><dd><p>provided.</p>
+</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs (Any): Additional keyword arguments for extensibility. These are not</dt><dd><p>directly utilized in this method.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -423,97 +420,80 @@ events across the system.</p></li>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.ConsoleFMObservabilitySubscriber">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.fm_observability.</span></span><span class="sig-name descname"><span class="pre">ConsoleFMObservabilitySubscriber</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#ConsoleFMObservabilitySubscriber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.ConsoleFMObservabilitySubscriber" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber" title="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber"><code class="xref py py-class docutils literal notranslate"><span class="pre">FMObservabilitySubscriber</span></code></a></p>
-<p>Subscriber for managing and observing statistics within a console-based environment.</p>
-<p>This class implements methods for handling and updating observability statistics
-for foundational models (FM). The <cite>ConsoleFMObservabilitySubscriber</cite> maintains
-an aggregated view of statistics and provides a mechanism to output these
-statistics directly to the console for real-time monitoring.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>all_stats</strong> – Instance of <cite>FMObservabilityStats</cite> that aggregates and manages
-all statistics related to observability.</p>
-</dd>
-</dl>
-<p>The class is responsible for managing and tracking the statistics of observability data, specifically focusing
-on FM (fault management) metrics. It provides a central location for storing and accessing aggregated statistical
-information within the context of monitoring systems. This class initializes with an instance of
-FMObservabilityStats.</p>
-<section id="attributes">
-<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h3>
+<p>A subscriber class for observing FM (Foundation Model) observability statistics.</p>
+<p>This class is a concrete implementation of FMObservabilitySubscriber, designed to collect
+and print observability statistics in real time. It maintains cumulative statistics and
+prints detailed data on occurrences of LLM (Large Language Model) events and Embedding
+events whenever new statistics are received.</p>
 <dl class="simple">
-<dt>all_stats<span class="classifier">FMObservabilityStats</span></dt><dd><p>An object responsible for collecting and maintaining fault management observability metrics.</p>
+<dt>Attributes:</dt><dd><p>all_stats (FMObservabilityStats): An instance of FMObservabilityStats that aggregates
+and maintains cumulative statistics for LLM and Embedding events.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.ConsoleFMObservabilitySubscriber.on_new_stats">
 <span class="sig-name descname"><span class="pre">on_new_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats" title="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats"><span class="pre">FMObservabilityStats</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#ConsoleFMObservabilitySubscriber.on_new_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.ConsoleFMObservabilitySubscriber.on_new_stats" title="Link to this definition">¶</a></dt>
-<dd><p>Updates the current statistics with new observations and logs detailed information
-about LLM-related and embeddings-related counts and tokens if the statistics are
-updated successfully.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>stats</strong> (<a class="reference internal" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats" title="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats"><em>FMObservabilityStats</em></a>) – The new set of statistics to be merged into the existing stats.</p>
+<dd><p>Processes and updates the current statistics with new incoming statistics data.</p>
+<p>This method takes in an <cite>FMObservabilityStats</cite> instance containing new
+observability statistics and updates the aggregated statistics stored
+in <cite>self.all_stats</cite>. If the update is successful, a summary of the updated
+statistics is printed, including information about LLM (Large Language Model)
+usage and Embedding usage.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>stats (FMObservabilityStats): The new observability statistics to be</dt><dd><p>processed and integrated into the existing set of aggregated statistics.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+</dl>
 </dd>
 </dl>
 </dd></dl>
 
-</section>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.fm_observability.</span></span><span class="sig-name descname"><span class="pre">FMObservabilityHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_starts_to_ignore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_ends_to_ignore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCallbackHandler</span></code></p>
-<p>Handles observability for monitored events by managing in-flight event tracking and
-trace sessions.</p>
-<p>This class extends the functionality of BaseCallbackHandler to provide specific
-observability features for handling events. It keeps track of in-flight events, computes
-metrics such as duration for completed events, and integrates with a queuing mechanism
-for further processing. Additionally, it enables tracing sessions to facilitate monitoring
-and debugging in distributed systems.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>in_flight_events</strong> – Dictionary for tracking ongoing events with event info.</p>
+<p>Handler for managing and tracking observability events.</p>
+<p>This class is a specialized callback handler used to monitor and manage events within a
+workflow. It tracks the start and end of specific events, records event metadata,
+and calculates the duration of event processing. The class provides methods to handle
+event-start and event-end logic, ensuring accurate observability data while ignoring
+specific event types based on configuration.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>in_flight_events (dict): Stores events that are currently in progress. Each event is</dt><dd><p>tracked by its ID and contains associated metadata.</p>
 </dd>
 </dl>
-<p>Represents an event tracker used to handle in-flight events and manage ignored
-start and end events. This class is designed to store and track details
-of ongoing events and contains the logic for keeping a record of events
-specified under the categories of ignored starts or ends.</p>
-<p>This class initializes in-flight events and allows for the management
-or extension of event tracking mechanisms.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>event_starts_to_ignore</strong> (<em>list</em>) – A list of event names or identifiers to be
-ignored during the event start tracking. Defaults to an empty list.</p></li>
-<li><p><strong>event_ends_to_ignore</strong> (<em>list</em>) – A list of event names or identifiers to be
-ignored during the event end tracking. Defaults to an empty list.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Initializes the object of the class with the given parameters, sets up the
+container for in-flight events, and calls the parent class initializer.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_starts_to_ignore (list, optional): A list of event start identifiers</dt><dd><p>that should be ignored. Defaults to an empty list.</p>
+</dd>
+<dt>event_ends_to_ignore (list, optional): A list of event end identifiers that</dt><dd><p>should be ignored. Defaults to an empty list.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.end_trace">
 <span class="sig-name descname"><span class="pre">end_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trace_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trace_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityHandler.end_trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.end_trace" title="Link to this definition">¶</a></dt>
-<dd><p>Ends the trace with the provided <cite>trace_id</cite> and cleans up the related
-mapping from <cite>trace_map</cite>, if applicable. Used to signify the completion
-of a trace session and optionally to maintain the integrity of a
-trace-tracking system.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trace_id</strong> – An optional identifier for the trace to be ended. If not provided,
-it assumes no specific trace ID is targeted.</p></li>
-<li><p><strong>trace_map</strong> – An optional dictionary of trace mappings where the trace ID
-could be associated with one or multiple session identifiers. This structure
-helps maintain a reference and cleanup of related associations.</p></li>
-</ul>
+<dd><p>Ends an ongoing trace based on the provided trace identifier and updates the
+trace map accordingly.</p>
+<p>This function allows marking the completion of a trace identified by <cite>trace_id</cite>.
+It optionally accepts a trace mapping structure (<cite>trace_map</cite>) for updating its
+state after ending the trace. If <cite>trace_map</cite> is provided, this function modifies
+it to reflect the end of the specified trace.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>trace_id: The unique identifier of the trace to be ended. If not provided,</dt><dd><p>no specific trace is targeted.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Nothing</p>
+<dt>trace_map: A dictionary mapping trace identifiers to lists of related trace</dt><dd><p>details. If specified, this will be updated to reflect the ended trace.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -521,24 +501,15 @@ helps maintain a reference and cleanup of related associations.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.on_event_end">
 <span class="sig-name descname"><span class="pre">on_event_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CBEventType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityHandler.on_event_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.on_event_end" title="Link to this definition">¶</a></dt>
-<dd><p>Handles the termination of an event and updates its metrics such as duration.
-The function processes the event by checking whether it should be ignored and
-ensures the appropriate payload keys are present based on the event type. If
-the event is valid, its duration is calculated in milliseconds and the event
-is staged for further processing by adding it to the observability queue.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>event_type</strong> – The type of the event. Must be of type CBEventType.</p></li>
-<li><p><strong>payload</strong> – The dictionary containing additional data about the event.
-It is optional and defaults to None.</p></li>
-<li><p><strong>event_id</strong> – A unique identifier for the event. Defaults to an empty
-string if not provided.</p></li>
-<li><p><strong>kwargs</strong> – Additional optional keyword arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd><p>Handles the end of an event and manages its corresponding operations, such as
+removing it from the in-flight events, calculating its duration, and enqueuing
+the completed event for further processing. This is done only for specific event
+types and under certain conditions.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>event_type: The type of the event being processed.
+payload: The detailed payload of the event, typically containing its data.
+event_id: A unique identifier for the event being processed.
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional optional parameters that may be passed for event handling.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -546,26 +517,28 @@ string if not provided.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.on_event_start">
 <span class="sig-name descname"><span class="pre">on_event_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CBEventType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityHandler.on_event_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.on_event_start" title="Link to this definition">¶</a></dt>
-<dd><p>Handles the initiation of a start event by processing its associated payload
-and capturing relevant details for in-flight tracking. It checks the event
-type and payload, processes specific event data based on type, and stores the
-event in a tracking dictionary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>event_type</strong> (<em>CBEventType</em>) – The type of event being started.</p></li>
-<li><p><strong>payload</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – Optional dictionary containing additional details about the
-event, may hold serialized data for specific event types.</p></li>
-<li><p><strong>event_id</strong> (<em>str</em>) – A unique identifier for the event.</p></li>
-<li><p><strong>parent_id</strong> (<em>str</em>) – An identifier indicating the parent event, if applicable.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Additional arbitrary keyword arguments for flexibility.</p></li>
-</ul>
+<dd><p>Handles the start of an event by processing the given event type and payload and
+storing event data if necessary. Returns the event identifier for the started
+event.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_type (CBEventType): The type of the event being started, used to</dt><dd><p>determine processing and logging behavior.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The event ID of the initiated event.</p>
+<dt>payload (Optional[Dict[str, Any]]): The optional payload containing event</dt><dd><p>data. Specific processing is done if the payload includes certain keys
+like ‘MESSAGES’ or a serialized model.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+</dl>
+<p>event_id (str): The unique identifier for the event being started.
+parent_id (str): The unique identifier of the parent event, if any. This</p>
+<blockquote>
+<div><p>allows for hierarchical event tracking.</p>
+</div></blockquote>
+<dl class="simple">
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs (Any): Additional optional key-value pairs that might be required</dt><dd><p>for specific event handling.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>str: The event identifier for the started event.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -573,13 +546,15 @@ event, may hold serialized data for specific event types.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.reset_counts">
 <span class="sig-name descname"><span class="pre">reset_counts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityHandler.reset_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.reset_counts" title="Link to this definition">¶</a></dt>
-<dd><p>Resets the in-flight events dictionary to an empty state.</p>
-<p>This method clears the <cite>in_flight_events</cite> attribute, which keeps track of
-the events currently being processed. It resets it back to an empty dictionary,
-effectively clearing all tracked in-flight events.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None. The method does not return any value.</p>
+<dd><p>Resets the in-flight events counter.</p>
+<p>This method clears the <cite>in_flight_events</cite> dictionary, effectively resetting
+any tracked events or counts. It is used to reinitialize or clear current
+state information for tracking events in progress.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>in_flight_events (dict): A dictionary that holds the current in-flight</dt><dd><p>events being tracked.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -587,17 +562,17 @@ effectively clearing all tracked in-flight events.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.start_trace">
 <span class="sig-name descname"><span class="pre">start_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trace_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityHandler.start_trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.start_trace" title="Link to this definition">¶</a></dt>
-<dd><p>Starts a trace session, initializing it with the provided trace ID or generating
-a new one if none is supplied. This is typically used to track operations or
-activities across a distributed system or within an application for debugging
-and monitoring purposes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trace_id</strong> – Optional; The trace ID to be used for this trace session. If
-omitted, the system will generate a new trace ID.</p>
+<dd><p>Starts a new trace with the given trace ID. If no trace ID is provided, a default or
+system-generated trace identifier is used. This function facilitates the beginning
+of tracking specific operations or sequences for logging and troubleshooting
+purposes.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>trace_id (Optional[str]): The unique identifier for the trace. If None, a default</dt><dd><p>or system-generated trace identifier will be applied.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -608,49 +583,51 @@ omitted, the system will generate a new trace ID.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityPublisher">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.fm_observability.</span></span><span class="sig-name descname"><span class="pre">FMObservabilityPublisher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subscribers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber" title="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber"><span class="pre">FMObservabilitySubscriber</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityPublisher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityPublisher" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Manages a list of subscribers to periodically publish collected statistics
-using a polling mechanism, and provides lifecycle management capabilities.</p>
-<p>This class encapsulates the functionality needed for subscribing to
-observability events, collecting related statistics periodically, and handling
-publishing these statistics to the subscribers. It also supports integration
-with context management for automated resource cleanup.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>subscribers</strong> – List of subscribers to receive published statistics.
-Subscribers must implement the FMObservabilitySubscriber interface.</p></li>
-<li><p><strong>interval_seconds</strong> – Configurable time interval (in seconds) for publishing
-statistics periodically.</p></li>
-<li><p><strong>allow_continue</strong> – Flag to indicate if the continuous publishing process
-is allowed or should be halted.</p></li>
-<li><p><strong>poller</strong> – Instance of FMObservabilityQueuePoller that is responsible for
-gathering statistical data.</p></li>
-</ul>
+<p>Manages publishing of observability statistics at regular intervals to subscribed
+observers.</p>
+<p>The FMObservabilityPublisher is designed to poll a queue for observability statistics
+and notify registered subscribers. It uses a background thread to periodically invoke
+the publishing mechanism. The class also implements context manager capabilities for
+automatic resource management.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>subscribers (List[FMObservabilitySubscriber]): A list of subscribers to be notified</dt><dd><p>when new observability statistics are available.</p>
+</dd>
+<dt>interval_seconds (float): The time interval, in seconds, between publishing</dt><dd><p>observability statistics.</p>
+</dd>
+<dt>allow_continue (bool): A flag indicating whether the publishing process should</dt><dd><p>continue. If set to False, the process will stop.</p>
+</dd>
+<dt>poller (FMObservabilityQueuePoller): The polling mechanism that retrieves data</dt><dd><p>from the observability queue.</p>
 </dd>
 </dl>
-<p>Initializes FMObservability, a system for managing observability with subscribers
-and periodic publishing of statistics.</p>
-<p>The constructor sets up a global observability queue, binds necessary handlers
-to the callback manager, initializes subscribers, the publishing interval, and
-a poller. It also starts a timer for periodic publishing of metrics or statistics.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>subscribers</strong> – List of FMObservabilitySubscriber objects that will handle
-observability data.</p></li>
-<li><p><strong>interval_seconds</strong> (<em>float</em>) – The interval in seconds at which stats will be published.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Initializes the FMObservabilityQueuePublisher class.</p>
+<p>This class is responsible for managing observability subscribers, configuring the
+poller to process observability queue data, and periodically publishing statistics
+to the registered subscribers. It also sets up handlers for token counting and
+observability events.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>subscribers (List[FMObservabilitySubscriber], optional): A list of subscribers to</dt><dd><p>receive the observability data. Defaults to an empty list.</p>
+</dd>
+<dt>interval_seconds (float, optional): The interval in seconds for publishing</dt><dd><p>statistics to the subscribers. Defaults to 15.0.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityPublisher.close">
 <span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityPublisher.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityPublisher.close" title="Link to this definition">¶</a></dt>
-<dd><p>Disables the continuation state of the instance by setting the <cite>allow_continue</cite>
-attribute to False. This method typically halts processes or terminates
-iterations controlled by the <cite>allow_continue</cite> flag.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dd><p>Disables the continuation functionality by updating the internal flag.</p>
+<p>This method prevents further continuation of a process by setting the
+<cite>allow_continue</cite> attribute to <cite>False</cite>. Once invoked, the attribute will
+indicate that continuation should not occur.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>allow_continue (bool): Indicates whether continuation is permitted or not.</dt><dd><p>Set to <cite>False</cite> to disable continuation.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -658,17 +635,16 @@ iterations controlled by the <cite>allow_continue</cite> flag.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityPublisher.publish_stats">
 <span class="sig-name descname"><span class="pre">publish_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityPublisher.publish_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityPublisher.publish_stats" title="Link to this definition">¶</a></dt>
-<dd><p>Stop the current statistics polling, restart the poller, and dispatch new statistics
-to all subscribers. The method schedules another polling cycle if allowed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dd><p>Handles the collection, restart, and publishing of statistics through a polling mechanism.</p>
+<p>Starts a polling process to collect current statistics and ensures the continuity of the
+polling cycle based on the specified interval if allowed. Independently notifies all
+subscribers with the new statistics collected after each polling cycle.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
 </dd>
-</dl>
-<p>:param None</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dt>Raises:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -679,43 +655,41 @@ to all subscribers. The method schedules another polling cycle if allowed.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.fm_observability.</span></span><span class="sig-name descname"><span class="pre">FMObservabilityQueuePoller</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityQueuePoller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Thread</span></code></p>
-<p>Manages a thread-based queue poller for processing observability events.</p>
-<p>This class runs in a separate thread to process events from a queue. It interacts
-with an observability statistics tracker and can be safely started and stopped
-to manage the lifecycle of event processing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>_discontinue</strong> – A threading event used to signal and manage the stop state
-of the thread. It enables controlled termination of the thread loop.</p></li>
-<li><p><strong>fm_observability</strong> – Tracks and manages observability-related statistics,
-providing functionality to handle processed events.</p></li>
-</ul>
+<p>FMObservabilityQueuePoller is a thread-based queue polling class.</p>
+<p>This class is used to continuously poll a queue for events and process them
+using the FMObservabilityStats instance. It utilises threading to perform
+polling in a separate thread and provides methods to start and gracefully
+stop the polling operation.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>_discontinue (threading.Event): An event object to signal and manage</dt><dd><p>the termination of the thread’s execution.</p>
+</dd>
+<dt>fm_observability (FMObservabilityStats): An instance of the</dt><dd><p>FMObservabilityStats class used to handle the events being processed.</p>
 </dd>
 </dl>
-<p>Represents the initialization of an instance for handling internal
-state and observability statistics.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>_discontinue</strong> – A threading event object used to signal when
-the operation should be discontinued.</p></li>
-<li><p><strong>fm_observability</strong> – An instance of FMObservabilityStats utilized
-for managing and tracking observability-related statistics.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Handles initialization of the class, setting up attributes and dependencies needed for
+observability and thread event management.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>_discontinue (threading.Event): Threading event used to signal and manage thread</dt><dd><p>lifecycle or operations that need coordination.</p>
+</dd>
+<dt>fm_observability (FMObservabilityStats): Instance of FMObservabilityStats that</dt><dd><p>handles observability-related statistics and functionality.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityQueuePoller.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller.run" title="Link to this definition">¶</a></dt>
-<dd><p>Process events from the queue and handle them utilizing the observability framework.</p>
-<p>This method continuously polls the <cite>_fm_observability_queue</cite> for events. If an event is retrieved,
-it invokes the <cite>on_event</cite> method of the <cite>fm_observability</cite> instance to handle the event. Should
-the <cite>_discontinue</cite> flag be set, the method ceases its operation. If the queue remains empty
-for a specified timeout interval, the method continues its loop without handling an event.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>queue.Empty</strong> – Raised when attempting to get an item from an empty queue and the timeout expires.</p>
+<dd><p>Runs the queue polling process to process events as they become available in the
+observability queue. It continuously checks for events unless interrupted by
+setting the <cite>self._discontinue</cite> event.</p>
+<p>The method polls the <cite>_fm_observability_queue</cite> at a regular interval and processes
+each event by invoking the <cite>fm_observability.on_event</cite> method.</p>
+<dl class="simple">
+<dt>Raises:</dt><dd><p>queue.Empty: If the queue is empty during a poll attempt.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -723,16 +697,15 @@ for a specified timeout interval, the method continues its loop without handling
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller.stop">
 <span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityQueuePoller.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller.stop" title="Link to this definition">¶</a></dt>
-<dd><p>Stops the queue polling process by setting the internal flag that signals
-polling discontinuation. This method is intended to halt any ongoing
-polling activities cleanly and efficiently. It logs the stopping operation
-and provides access to relevant observability metrics upon completion.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Observability metrics related to the queue polling process.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Any</p>
+<dd><p>Stops the queue polling process by signaling a discontinuation event and returns
+the observability object for further monitoring or assessment.</p>
+<p>This method is intended to halt the queue polling process initiated or operated
+by the current instance. By setting the discontinuation flag, the polling loop
+will cease operation. The method also provides access to the observability instance
+used during the process.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Any: The observability object associated with the current process, which
+can be used for tracking or further evaluation.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -743,48 +716,38 @@ and provides access to relevant observability metrics upon completion.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.fm_observability.</span></span><span class="sig-name descname"><span class="pre">FMObservabilityStats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_llm_duration_millis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_llm_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_llm_prompt_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_llm_completion_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_embedding_duration_millis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_embedding_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_embedding_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityStats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Represents statistics for tracking aggregated performance metrics for
-language model (LLM) operations and embedding operations.</p>
-<p>This class is designed for the purpose of collecting and maintaining
-performance metrics such as execution durations, counts, and token usage
-for language model operations and embeddings. It provides methods for
-updating the statistics based on incoming data and properties to
-calculate derived statistics such as averages. This can be useful for
-monitoring and analyzing the behavior and resource utilization of large
-language models and embedding processes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>total_llm_duration_millis</strong> – Cumulative total duration in milliseconds
-of all LLM operations.</p></li>
-<li><p><strong>total_llm_count</strong> – Total number of LLM operations executed.</p></li>
-<li><p><strong>total_llm_prompt_tokens</strong> – Total number of tokens used in prompts
-across all LLM operations.</p></li>
-<li><p><strong>total_llm_completion_tokens</strong> – Total number of tokens used in
-completions across all LLM operations.</p></li>
-<li><p><strong>total_embedding_duration_millis</strong> – Cumulative total duration in
-milliseconds of all embedding operations.</p></li>
-<li><p><strong>total_embedding_count</strong> – Total number of embedding operations executed.</p></li>
-<li><p><strong>total_embedding_tokens</strong> – Total number of tokens used in all embedding
-operations.</p></li>
-</ul>
+<p>Tracks and updates observability statistics for LLM (Large Language Model) and embedding
+operations.</p>
+<p>This class monitors various metrics associated with LLM and embedding events, such as
+durations and token counts. It allows updating of the statistics using external data or
+events and provides convenient methods for accessing average values. The statistics tracked
+include both prompt and completion tokens for LLMs and tokens for embeddings.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>total_llm_duration_millis (float): Total duration of all LLM calls in milliseconds.
+total_llm_count (int): Total count of LLM calls.
+total_llm_prompt_tokens (float): Total prompt tokens used in all LLM calls.
+total_llm_completion_tokens (float): Total completion tokens returned in all LLM calls.
+total_embedding_duration_millis (float): Total duration of all embedding calls in</p>
+<blockquote>
+<div><p>milliseconds.</p>
+</div></blockquote>
+<p>total_embedding_count (int): Total count of embedding calls.
+total_embedding_tokens (float): Total number of embedding tokens across all embedding</p>
+<blockquote>
+<div><p>calls.</p>
+</div></blockquote>
 </dd>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_embedding_duration_millis">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_embedding_duration_millis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_embedding_duration_millis" title="Link to this definition">¶</a></dt>
-<dd><p>Calculates and returns the average embedding duration in milliseconds.</p>
-<p>The calculation is based on the total embedding duration and the total number
-of embeddings. If there are no embeddings, the value returned is 0. This
-property provides a convenient way to access the average embedding duration
-directly.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The average embedding duration in milliseconds. Returns 0 if there
-are no embeddings.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dd><p>Calculates the average duration of embedding in milliseconds.</p>
+<p>The average duration is computed by dividing the total embedding
+duration in milliseconds by the total count of embeddings. If the
+embedding count is zero, it returns 0 to avoid division by zero.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>int: The average embedding duration in milliseconds. Returns 0
+if there are no embeddings.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -792,17 +755,17 @@ are no embeddings.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_embedding_tokens">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_embedding_tokens</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_embedding_tokens" title="Link to this definition">¶</a></dt>
-<dd><p>Calculates and returns the average number of embedding tokens. The average
-is computed by dividing the total number of embedding tokens by the total
-embedding count. If the total embedding count is zero, the method returns
-zero to prevent division by zero.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Integer value representing the average number of embedding tokens.
-Returns 0 if the total embedding count is zero.</p>
+<dd><p>Calculates the average number of embedding tokens per embedding.</p>
+<p>The <cite>average_embedding_tokens</cite> property retrieves the average of
+embedding tokens by dividing the total number of embedding tokens
+by the total count of embeddings. If the total embedding count is
+zero, it safely returns zero to avoid division errors.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>total_embedding_tokens (int): The total number of embedding tokens.
+total_embedding_count (int): The total number of embeddings.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dt>Returns:</dt><dd><p>int: The average number of embedding tokens per embedding. If the
+<cite>total_embedding_count</cite> is zero, returns 0.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -810,16 +773,14 @@ Returns 0 if the total embedding count is zero.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_llm_completion_tokens">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_llm_completion_tokens</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_llm_completion_tokens" title="Link to this definition">¶</a></dt>
-<dd><p>Computes the average number of tokens used in the completion phase of
-LLM (Large Language Model) interactions. This metric is calculated by dividing
-the total completion tokens by the total count of LLM interactions. If no LLM
-interactions have occurred, the function returns 0 to avoid division by zero.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The average number of completion tokens per LLM interaction.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dd><p>Calculates the average number of completion tokens generated by a language
+model (LLM) across multiple requests. If there are no LLM requests, it
+returns 0.</p>
+<p>The calculation is based on dividing the total number of LLM completion
+tokens by the total count of LLM requests. Acts as a property getter.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>int: The average number of LLM completion tokens per request. If no
+LLM requests exist, returns 0.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -827,17 +788,12 @@ interactions have occurred, the function returns 0 to avoid division by zero.</p
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_llm_duration_millis">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_llm_duration_millis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_llm_duration_millis" title="Link to this definition">¶</a></dt>
-<dd><p>Provides the average duration of LLM operations in milliseconds.</p>
-<p>This property calculates the average duration based on the total LLM
-duration and count. If there have been no LLM operations recorded
-(total_llm_count is 0), it returns 0 to avoid division by zero.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The average LLM duration in milliseconds. If there are
-no LLM operations recorded, it returns 0.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dd><p>Gets the average duration of LLM operations in milliseconds.</p>
+<p>This property calculates the average duration of LLM operations by dividing the
+total duration spent in LLM operations by the total number of LLM operations
+performed. If no LLM operations were performed, the average duration is set to 0.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>int: The average duration of LLM operations in milliseconds.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -845,19 +801,13 @@ no LLM operations recorded, it returns 0.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_llm_prompt_tokens">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_llm_prompt_tokens</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_llm_prompt_tokens" title="Link to this definition">¶</a></dt>
-<dd><p>Computes the average number of tokens in LLM (Large Language Model) prompts.</p>
-<p>This property calculates the average by dividing the total number of tokens in
-LLM prompts (<cite>total_llm_prompt_tokens</cite>) by the total count of LLMs (<cite>total_llm_count</cite>).
-If the total count of LLMs is zero, the result will be zero to avoid division
-errors and maintain a sensible return value. This property ensures easy and
-efficient access to the token average used across LLM prompts.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The average number of tokens in LLM prompts as an integer. Defaults
-to zero if no LLM data is available.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dd><p>Calculates the average number of LLM prompt tokens used per LLM call.</p>
+<p>This method determines an average value by dividing the total LLM prompt tokens by
+the total number of LLM calls. If no LLM calls have been made, it will return 0 to
+avoid division by zero.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>int: The average number of LLM prompt tokens per LLM call. If no LLM calls have
+been made, it returns 0.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -865,15 +815,11 @@ to zero if no LLM data is available.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_llm_tokens">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_llm_tokens</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_llm_tokens" title="Link to this definition">¶</a></dt>
-<dd><p>Calculates the average number of Large Language Model (LLM) tokens per
-count. If the total count of LLM instances is greater than zero, the method
-returns the total tokens divided by the total count. Otherwise, it returns zero.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The average number of LLM tokens as an integer.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dd><p>Gets the average number of LLM tokens. The property calculates the average by dividing
+the total number of LLM tokens by the total count of LLM instances. If no LLM instances
+exist, returns zero.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>int: The average number of LLM tokens. If the total LLM count is zero, returns 0.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -881,17 +827,13 @@ returns the total tokens divided by the total count. Otherwise, it returns zero.
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.on_event">
 <span class="sig-name descname"><span class="pre">on_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CBEvent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityStats.on_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.on_event" title="Link to this definition">¶</a></dt>
-<dd><p>Handles the processing of events with different types, updating various counters
-and accumulators based on the event payload. The function is invoked whenever an
-event occurs, and modifies the object’s state based on the event type and its
-associated payload data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>event</strong> (<em>CBEvent</em>) – A CBEvent instance representing the event to handle. It contains
-details including the event type and a payload dict that holds related information.</p>
+<dd><p>Handles the processing of different types of events and updates related statistics
+based on the event type and payload data. Supports events of type LLM and EMBEDDING.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event (CBEvent): The event object containing the event type and associated</dt><dd><p>payload data used to update relevant statistics.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -934,15 +876,12 @@ details including the event type and a payload dict that holds related informati
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.total_llm_tokens">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_llm_tokens</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.total_llm_tokens" title="Link to this definition">¶</a></dt>
-<dd><p>Calculates the total number of tokens used in an LLM operation.</p>
-<p>The total includes both the prompt tokens and the completion tokens, which
-are summed to determine the overall usage.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Total number of tokens used in an LLM operation.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dd><p>Calculates the total number of LLM tokens used, combining prompt and completion tokens.</p>
+<p>This property method calculates the total number of tokens used by summing up
+the number of tokens used in the prompt and completion phases by the LLM. It
+provides a convenient way to access the aggregate token usage.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>int: Total number of LLM tokens, including both prompt and completion tokens.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -950,19 +889,28 @@ are summed to determine the overall usage.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.update">
 <span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilityStats.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.update" title="Link to this definition">¶</a></dt>
-<dd><p>Updates the current object’s cumulative statistics based on another statistics object
-and determines if there are any recorded LLM or embedding operations.</p>
-<p>This method aggregates various metrics related to LLM (Large Language Model) operations
-and embeddings, including their respective durations, counts, and token usage.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>stats</strong> (<em>Any</em>) – The statistics object containing the metrics to be added to the current object.</p>
+<dd><p>Updates the current object’s statistical attributes with the values from the provided stats object and
+determines whether the sum of total_llm_count and total_embedding_count is greater than zero.</p>
+<p>This method is used to aggregate statistical data from another object into the current instance and
+helps analyze whether any meaningful statistical contributions are made by checking if the combined
+counts of LLM and embedding operations are non-zero.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>stats (Any): An object containing the statistical data to update. The provided stats object must</dt><dd><p>have the attributes:
+- total_llm_duration_millis (int)
+- total_llm_count (int)
+- total_llm_prompt_tokens (int)
+- total_llm_completion_tokens (int)
+- total_embedding_duration_millis (int)
+- total_embedding_count (int)
+- total_embedding_tokens (int)</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A boolean indicating whether there was at least one recorded LLM or embedding operation.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>bool: True if the combined total_llm_count and total_embedding_count from the stats object is</dt><dd><p>greater than zero; otherwise, False.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -973,25 +921,23 @@ and embeddings, including their respective durations, counts, and token usage.</
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.fm_observability.</span></span><span class="sig-name descname"><span class="pre">FMObservabilitySubscriber</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilitySubscriber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>Interface defining an observability subscriber mechanism.</p>
-<p>The FMObservabilitySubscriber class is an abstract base class intended to be
-used as a blueprint for creating subscribers that respond to updates in
-observability data. Concrete implementations are expected to define the behavior
-required for processing newly received statistics. This class enforces the
-implementation of the <cite>on_new_stats</cite> method, ensuring that it processes
-instances of FMObservabilityStats.</p>
+<p>Defines an interface for subscribers to receive observability statistics.</p>
+<p>FMObservabilitySubscriber serves as an abstract base class that establishes
+a contract for implementing classes to handle new statistics from
+FMObservability. It ensures any subscriber provides a concrete implementation
+for the <cite>on_new_stats</cite> method, enabling consistent behavior across different
+subscriber implementations.</p>
+<dl class="simple">
+<dt>Methods:</dt><dd><p>on_new_stats(stats): Abstract method to handle new observability statistics.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber.on_new_stats">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_new_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats" title="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats"><span class="pre">FMObservabilityStats</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#FMObservabilitySubscriber.on_new_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber.on_new_stats" title="Link to this definition">¶</a></dt>
-<dd><p>Abstract function that must be implemented by a derived class to process and
-handle new FMObservabilityStats statistics. This method is expected to define
-specific actions to be performed whenever a new instance of FMObservabilityStats
-is received.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>stats</strong> – The new FMObservabilityStats object containing the statistics data
-to be handled. The exact nature of the data will depend on the
-implementation and definition of FMObservabilityStats.</p>
+<dd><p>An abstract base class that defines a callback method to be invoked upon
+receiving new statistics related to observability.</p>
+<dl class="simple">
+<dt>Methods:</dt><dd><p>on_new_stats: Abstract method to handle new observability statistics.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1002,32 +948,34 @@ implementation and definition of FMObservabilityStats.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.fm_observability.</span></span><span class="sig-name descname"><span class="pre">StatPrintingSubscriber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cost_per_thousand_input_tokens_llm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_per_thousand_output_tokens_llm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_per_thousand_embedding_tokens</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#StatPrintingSubscriber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber" title="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber"><code class="xref py py-class docutils literal notranslate"><span class="pre">FMObservabilitySubscriber</span></code></a></p>
-<p>Manages, tracks, and reports observability-related cost statistics for a foundation model.</p>
-<p>The class records cost metrics for processing tokens (input, output, and embedding)
-and aggregates usage statistics. It provides methods to estimate costs, retrieve detailed
-statistics, and update the internal state with new data. This class helps monitor and
-analyze the token and duration-based usages and compute associated costs dynamically.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cost_per_thousand_input_tokens_llm</strong> – Cost associated with processing one thousand input tokens by the language model.</p></li>
-<li><p><strong>cost_per_thousand_output_tokens_llm</strong> – Cost associated with processing one thousand output tokens by the language model.</p></li>
-<li><p><strong>cost_per_thousand_embedding_tokens</strong> – Cost associated with processing one thousand embedding tokens.</p></li>
-<li><p><strong>all_stats</strong> – Aggregated statistics tracking object for tokens, durations, and usage metrics.</p></li>
-</ul>
+<p>Represents a subscriber that collects and processes observability statistics
+and estimates costs associated with language model usage.</p>
+<p>This class is designed for subscribing to observability events, aggregating statistics,
+and calculating costs associated with specific observability data such as input tokens,
+output tokens, and embeddings. It provides utility methods for updating, retrieving,
+and summarizing observability stats in a structured format.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>cost_per_thousand_input_tokens_llm (float): Cost per thousand input tokens for the</dt><dd><p>language model.</p>
+</dd>
+<dt>cost_per_thousand_output_tokens_llm (float): Cost per thousand output tokens for the</dt><dd><p>language model.</p>
 </dd>
 </dl>
-<p>Initializes an instance to manage and track observability-related cost statistics for a
-foundation model including costs for input tokens, output tokens, and embedding tokens.
-The class encapsulates these parameters as input cost metrics and initializes an
-aggregated statistics tracking object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cost_per_thousand_input_tokens_llm</strong> (<em>float</em>) – Cost associated with processing one thousand input tokens by the language model.</p></li>
-<li><p><strong>cost_per_thousand_output_tokens_llm</strong> (<em>float</em>) – Cost associated with processing one thousand output tokens by the language model.</p></li>
-<li><p><strong>cost_per_thousand_embedding_tokens</strong> (<em>float</em>) – Cost associated with processing one thousand embedding tokens.</p></li>
-</ul>
+<p>cost_per_thousand_embedding_tokens (float): Cost per thousand tokens for embeddings.</p>
+</dd>
+</dl>
+<p>Initializes the object with the provided costs for input tokens, output tokens,
+and embedding tokens. This class is designed to allow tracking and managing
+factors related to these costs for specified parameters.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>cost_per_thousand_input_tokens_llm: The cost per thousand input tokens</dt><dd><p>used by the language model.</p>
+</dd>
+<dt>cost_per_thousand_output_tokens_llm: The cost per thousand output tokens</dt><dd><p>generated by the language model.</p>
+</dd>
+<dt>cost_per_thousand_embedding_tokens: The cost per thousand embedding tokens</dt><dd><p>used in the process.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -1048,15 +996,14 @@ aggregated statistics tracking object.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.estimate_costs">
 <span class="sig-name descname"><span class="pre">estimate_costs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#StatPrintingSubscriber.estimate_costs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.estimate_costs" title="Link to this definition">¶</a></dt>
-<dd><p>Estimate the total cost based on token usage and predefined costs per thousand tokens.
-The function calculates the cost using prompt tokens, completion tokens,
-and embedding tokens, each scaled by their respective costs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Total calculated cost as a float.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>float</p>
+<dd><p>Estimates the total cost based on token usage statistics and predefined costs per
+thousand tokens for input, output, and embeddings.</p>
+<p>The method calculates the total cost by aggregating the costs associated with
+the total number of input prompt tokens, output completion tokens, and embedding
+tokens. Each cost component is determined by dividing the respective token count
+by 1000 and multiplying it with the respective cost per thousand tokens.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>float: The total estimated cost calculated from token usage statistics.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1064,15 +1011,14 @@ and embedding tokens, each scaled by their respective costs.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.get_stats">
 <span class="sig-name descname"><span class="pre">get_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#StatPrintingSubscriber.get_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.get_stats" title="Link to this definition">¶</a></dt>
-<dd><p>Provides a method to retrieve statistical data stored in the instance.</p>
-<p>This method is used to access the <cite>all_stats</cite> attribute, which contains
-the aggregated statistical data collected and managed within the instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The aggregated statistical data.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Any</p>
+<dd><p>Retrieves all statistical data recorded and stored in the object.</p>
+<p>This method provides access to the collection of all statistics that
+have been aggregated or computed. It is intended to be used when the
+caller needs a comprehensive view of the stored statistical data.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>list: A list containing all statistical data stored within the
+object. The actual structure and content of the data may vary
+depending on the implementation details.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1080,13 +1026,13 @@ the aggregated statistical data collected and managed within the instance.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.on_new_stats">
 <span class="sig-name descname"><span class="pre">on_new_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats" title="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats"><span class="pre">FMObservabilityStats</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#StatPrintingSubscriber.on_new_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.on_new_stats" title="Link to this definition">¶</a></dt>
-<dd><p>Processes and updates internal statistics with the provided new data.</p>
-<p>This method takes an instance of <cite>FMObservabilityStats</cite> containing new
-observability statistics and integrates it into the current set of
-stored statistics by updating the internal state of <cite>all_stats</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>stats</strong> (<a class="reference internal" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats" title="graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats"><em>FMObservabilityStats</em></a>) – New observation statistics to integrate.</p>
+<dd><p>Updates the current statistics with new observation data. This method takes in a new set of
+observability statistics and merges them into the existing aggregation of statistics.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>stats: New FMObservabilityStats object containing the observation data to be processed and</dt><dd><p>merged into the aggregated statistics.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1094,15 +1040,26 @@ stored statistics by updating the internal state of <cite>all_stats</cite>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.return_stats_dict">
 <span class="sig-name descname"><span class="pre">return_stats_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#StatPrintingSubscriber.return_stats_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.return_stats_dict" title="Link to this definition">¶</a></dt>
-<dd><p>Generates and returns a dictionary containing various statistical data, including
-counts, tokens, durations, and estimated costs. The data is aggregated from a
-set of statistics managed within the class instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dictionary containing statistical information.</p>
+<dd><p>Compiles and returns a dictionary containing various statistics and metrics related to LLM
+usage and embeddings. This includes information about token counts, duration, and associated
+costs.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Dict[str, Any]: Dictionary containing the following keys and their associated values:</dt><dd><ul class="simple">
+<li><p>‘total_llm_count’: The total count of LLM calls.</p></li>
+<li><p>‘total_prompt_tokens’: Total number of prompt tokens for all LLM calls.</p></li>
+<li><p>‘total_completion_tokens’: Total number of completion tokens for all LLM calls.</p></li>
+<li><p>‘total_embedding_count’: The total count of embedding operations performed.</p></li>
+<li><p>‘total_embedding_tokens’: Total number of tokens processed during embeddings.</p></li>
+<li><p>‘total_llm_duration_millis’: Total LLM execution duration in milliseconds.</p></li>
+<li><p>‘total_embedding_duration_millis’: Total embedding operation duration in milliseconds.</p></li>
+<li><p>‘average_llm_duration_millis’: Average duration of LLM executions in milliseconds.</p></li>
+<li><p>‘average_embedding_duration_millis’: Average duration of embedding operations in
+milliseconds.</p></li>
+<li><p>‘total_llm_cost’: Estimated total monetary cost associated with LLM usage.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict[str, Any]</p>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1112,31 +1069,29 @@ set of statistics managed within the class instance.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.fm_observability.get_patched_llm_token_counts">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.fm_observability.</span></span><span class="sig-name descname"><span class="pre">get_patched_llm_token_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_counter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenCounter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TokenCountingEvent</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/fm_observability.html#get_patched_llm_token_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.fm_observability.get_patched_llm_token_counts" title="Link to this definition">¶</a></dt>
-<dd><p>Calculates and returns token counts for a given payload using a provided token counter.
-It processes payloads that contain either a prompt and completion, or messages and a
-response. Additionally, it attempts to retrieve token counts from pre-attached metadata
-or computes the counts if metadata is unavailable or invalid.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>token_counter</strong> (<em>TokenCounter</em>) – A utility for counting tokens in text or message objects.</p></li>
-<li><p><strong>payload</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – A dictionary containing the details of the LLM request/response. The
-payload is expected to have either a <cite>PROMPT</cite> and <cite>COMPLETION</cite> or
-<cite>MESSAGES</cite> and <cite>RESPONSE</cite> key.</p></li>
-<li><p><strong>event_id</strong> (<em>str</em>) – An optional unique identifier for the token counting event. Defaults
-to an empty string if not provided.</p></li>
-</ul>
+<dd><p>Calculates and returns token counts for LLM inputs and outputs, properly handling
+different types of event payloads and ensuring accurate token usage tracking.</p>
+<p>This function examines the event payload to determine whether it contains a prompt and
+completion or a list of messages and a response. It calculates token counts for these
+inputs and outputs using the provided TokenCounter utility, either directly from the
+payload or by estimating them.</p>
+<dl>
+<dt>Args:</dt><dd><p>token_counter: An object or utility used to count tokens in strings or messages.
+payload: A dictionary containing event-related data, such as prompts, completions,</p>
+<blockquote>
+<div><p>messages, and responses.</p>
+</div></blockquote>
+<p>event_id: A unique identifier for the current event. Defaults to an empty string.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the payload does not contain required keys or contains invalid
-token counts.</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>TokenCountingEvent: An object encapsulating token count information for both prompt</dt><dd><p>and completion or messages and response.</p>
 </dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A TokenCountingEvent containing details about the token counts for prompt
-and completion strings/messages.</p>
+</dl>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>TokenCountingEvent</p>
+<dt>Raises:</dt><dd><dl class="simple">
+<dt>ValueError: Raised if the payload is invalid or does not contain the required</dt><dd><p>attributes for token counting.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1147,8 +1102,8 @@ and completion strings/messages.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.io_utils.read_json">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.io_utils.</span></span><span class="sig-name descname"><span class="pre">read_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/io_utils.html#read_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.io_utils.read_json" title="Link to this definition">¶</a></dt>
-<dd><p>Reads a JSON file from the specified file path, parses its content, and
-returns the corresponding Python dictionary or list.</p>
+<dd><p>Reads a JSON file from the specified file path, parses its content, and returns the
+corresponding Python dictionary or list.</p>
 <p>This function is designed to read JSON files with UTF-8 encoding. It opens the file
 in read mode, reads its content, and converts the JSON content into a Python object
 using the <cite>json.loads</cite> function.</p>
@@ -1166,8 +1121,8 @@ json.JSONDecodeError: If the file content is not valid JSON.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.io_utils.read_text">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.io_utils.</span></span><span class="sig-name descname"><span class="pre">read_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/io_utils.html#read_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.io_utils.read_text" title="Link to this definition">¶</a></dt>
-<dd><p>Reads the contents of a text file specified by the given file path and
-returns the content as a string.</p>
+<dd><p>Reads the contents of a text file specified by the given file path and returns
+the content as a string.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>path (str): The path to the text file to be read.</p>
 </dd>
@@ -1179,11 +1134,11 @@ returns the content as a string.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.io_utils.s3_read_data">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.io_utils.</span></span><span class="sig-name descname"><span class="pre">s3_read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s3_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/io_utils.html#s3_read_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.io_utils.s3_read_data" title="Link to this definition">¶</a></dt>
-<dd><p>Reads data from the given S3 path using the <cite>smart_open</cite> library and
-returns the data as a string. This function provides an interface for
-downloading and reading content from an S3 bucket. If the file does not
-exist or another OS-level error occurs during the read operation, the error
-is printed, and it is re-raised.</p>
+<dd><p>Reads data from the given S3 path using the <cite>smart_open</cite> library and returns
+the data as a string. This function provides an interface for downloading
+and reading content from an S3 bucket. If the file does not exist or another
+OS-level error occurs during the read operation, the error is printed, and it
+is re-raised.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>s3_path (str): The path to the file stored in the S3 bucket. This should</dt><dd><p>include the necessary protocol (e.g., ‘s3://’) and the file location.</p>
@@ -1219,10 +1174,9 @@ data: The content to be written to the S3 path.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.io_utils.write_json">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.io_utils.</span></span><span class="sig-name descname"><span class="pre">write_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/io_utils.html#write_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.io_utils.write_json" title="Link to this definition">¶</a></dt>
-<dd><p>Writes a given JSON object to a file at a specified path. Creates any
-necessary parent directories if they do not exist prior to writing the
-file. The content is dumped in a way that ensures non-ASCII characters are
-preserved.</p>
+<dd><p>Writes a given JSON object to a file at a specified path. Creates any necessary
+parent directories if they do not exist prior to writing the file. The content is
+dumped in a way that ensures non-ASCII characters are preserved.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>path (str): The file path where the JSON should be written.
 j (dict): The JSON object to be written to the specified file.</p>
@@ -1233,8 +1187,8 @@ j (dict): The JSON object to be written to the specified file.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.io_utils.write_text">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.utils.io_utils.</span></span><span class="sig-name descname"><span class="pre">write_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/io_utils.html#write_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.io_utils.write_text" title="Link to this definition">¶</a></dt>
-<dd><p>Writes the specified text to a file at the given path. Creates any
-necessary directories in the path if they do not already exist.</p>
+<dd><p>Writes the specified text to a file at the given path. Creates any necessary
+directories in the path if they do not already exist.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>path: A string representing the file path where the text will be written.
 text: A string representing the text content to write to the file.</p>
@@ -1277,10 +1231,9 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache.predict">
 <span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BasePromptTemplate</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">prompt_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/utils/llm_cache.html#LLMCache.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache.predict" title="Link to this definition">¶</a></dt>
-<dd><p>Predicts a response based on the given prompt and dynamic arguments
-using the configured language model (LLM). Supports caching of
-responses to enhance efficiency for repeated queries and handles
-verbose logging for debugging or monitoring purposes.</p>
+<dd><p>Predicts a response based on the given prompt and dynamic arguments using the configured
+language model (LLM). Supports caching of responses to enhance efficiency for repeated
+queries and handles verbose logging for debugging or monitoring purposes.</p>
 <p>The function dynamically adapts caching behavior depending on the configuration. If caching
 is disabled, responses are generated directly using the LLM. If caching is enabled, it calculates
 a unique cache key based on the prompt and LLM configuration, then fetches responses from the
@@ -1291,7 +1244,7 @@ extensive logs when verbosity options are enabled, aiding in thorough tracking d
 <dt>Args:</dt><dd><dl class="simple">
 <dt>prompt: A pre-formatted BasePromptTemplate instance containing the template definition</dt><dd><p>to generate the LLM response.</p>
 </dd>
-<dt>prompt_args: Arbitrary keyword arguments that provide dynamic content to fill</dt><dd><p>in the placeholders of the given prompt template.</p>
+<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>prompt_args: Arbitrary keyword arguments that provide dynamic content to fill</dt><dd><p>in the placeholders of the given prompt template.</p>
 </dd>
 </dl>
 </dd>

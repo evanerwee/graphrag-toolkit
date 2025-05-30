@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -345,36 +348,14 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span><span class="p">,</span> <span class="n">BatchJobError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMCache</span><span class="p">,</span> <span class="n">LLMCacheType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.topic_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">parse_extracted_topics</span><span class="p">,</span>
-    <span class="n">format_list</span><span class="p">,</span>
-    <span class="n">format_text</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">create_inference_inputs</span><span class="p">,</span>
-    <span class="n">create_inference_inputs_for_messages</span><span class="p">,</span>
-    <span class="n">create_and_run_batch_job</span><span class="p">,</span>
-    <span class="n">download_output_files</span><span class="p">,</span>
-    <span class="n">process_batch_output</span><span class="p">,</span>
-    <span class="n">split_nodes</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">TOPICS_KEY</span><span class="p">,</span>
-    <span class="n">DEFAULT_ENTITY_CLASSIFICATIONS</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.topic_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_extracted_topics</span><span class="p">,</span> <span class="n">format_list</span><span class="p">,</span> <span class="n">format_text</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_inference_inputs</span><span class="p">,</span> <span class="n">create_inference_inputs_for_messages</span><span class="p">,</span> <span class="n">create_and_run_batch_job</span><span class="p">,</span> <span class="n">download_output_files</span><span class="p">,</span> <span class="n">process_batch_output</span><span class="p">,</span> <span class="n">split_nodes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">TOPICS_KEY</span><span class="p">,</span> <span class="n">DEFAULT_ENTITY_CLASSIFICATIONS</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">EXTRACT_TOPICS_PROMPT</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">TopicExtractor</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor</span><span class="w"> </span><span class="kn">import</span> <span class="n">TopicExtractor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.batch_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">BatchConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ScopedValueProvider</span><span class="p">,</span>
-    <span class="n">FixedScopedValueProvider</span><span class="p">,</span>
-    <span class="n">DEFAULT_SCOPE</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BEDROCK_MIN_BATCH_SIZE</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScopedValueProvider</span><span class="p">,</span> <span class="n">FixedScopedValueProvider</span><span class="p">,</span> <span class="n">DEFAULT_SCOPE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">BEDROCK_MIN_BATCH_SIZE</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.extractors.interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseExtractor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.bridge.pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span>
@@ -383,135 +364,93 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="BatchTopicExtractor">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BatchTopicExtractor</span><span class="p">(</span><span class="n">BaseExtractor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extracts topics in batch mode using a prompt-based large language model (LLM)</span>
-<span class="sd">    system. This class handles the preparation, creation, and management of</span>
-<span class="sd">    batch-level topic extraction workflows. It facilitates entities and topics</span>
-<span class="sd">    classification, generates prompts, invokes batch LLM jobs, and integrates</span>
-<span class="sd">    output processing seamlessly.</span>
+<span class="sd">    Handles batch topic extraction processes, utilizing LLMs and external services for generating</span>
+<span class="sd">    and processing topic-related data for text inputs in batches.</span>
 
-<span class="sd">    The primary purpose of this class is to support scalable, efficient, and</span>
-<span class="sd">    flexible topic extraction from input data in a batch mode. The configuration</span>
-<span class="sd">    can be adapted for varied batch setups, metadata sources, and external systems.</span>
+<span class="sd">    This class is primarily designed to facilitate the efficient processing of large datasets by</span>
+<span class="sd">    splitting input data into manageable batches, generating topic extraction prompts, and</span>
+<span class="sd">    managing asynchronous tasks for data upload, batch processing, and output handling. It</span>
+<span class="sd">    employs LLM (Language Model) inference and integrates with external systems like S3</span>
+<span class="sd">    and Bedrock for input handling, batch processing, and result retrieval.</span>
 
-<span class="sd">    :ivar batch_config: Configuration object for batch inference, including any</span>
-<span class="sd">        details related to the batch&#39;s operational behavior and constraints.</span>
-<span class="sd">    :type batch_config: BatchConfig</span>
-<span class="sd">    :ivar llm: Optional language model (LLM) cache configuration used to</span>
-<span class="sd">        facilitate prompts and model interactions.</span>
-<span class="sd">    :type llm: Optional[LLMCache]</span>
-<span class="sd">    :ivar prompt_template: String template to format extraction prompts. This</span>
-<span class="sd">        attribute defines how prompts are generated for LLM processing.</span>
-<span class="sd">    :type prompt_template: str</span>
-<span class="sd">    :ivar source_metadata_field: Metadata field in the input data associated with</span>
-<span class="sd">        propositions to extract. If None, defaults to the main text content.</span>
-<span class="sd">    :type source_metadata_field: Optional[str]</span>
-<span class="sd">    :ivar batch_inference_dir: Path to a directory where batch inputs and outputs</span>
-<span class="sd">        are stored. Used as a base directory for managing job files.</span>
-<span class="sd">    :type batch_inference_dir: str</span>
-<span class="sd">    :ivar entity_classification_provider: Scoped value provider supplying</span>
-<span class="sd">        classification-related information for input entities.</span>
-<span class="sd">    :type entity_classification_provider: ScopedValueProvider</span>
-<span class="sd">    :ivar topic_provider: Scoped value provider supplying information about topics,</span>
-<span class="sd">        scoped to specific contexts for flexibility.</span>
-<span class="sd">    :type topic_provider: ScopedValueProvider</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        batch_config (BatchConfig): Configuration object containing batch inference settings.</span>
+<span class="sd">        llm (Optional[LLMCache]): An instance of LLMCache to manage caching and interaction</span>
+<span class="sd">            with the specified language model.</span>
+<span class="sd">        prompt_template (str): A template to define the format of prompts for topic extraction.</span>
+<span class="sd">        source_metadata_field (Optional[str]): Metadata field used as input for topic</span>
+<span class="sd">            extraction, if specified.</span>
+<span class="sd">        batch_inference_dir (str): Directory path where batch input and result files are stored.</span>
+<span class="sd">        entity_classification_provider (ScopedValueProvider): Provider for retrieving entity</span>
+<span class="sd">            classifications in the current scope.</span>
+<span class="sd">        topic_provider (ScopedValueProvider): Provider for retrieving topics in the current</span>
+<span class="sd">            scope.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">batch_config</span><span class="p">:</span> <span class="n">BatchConfig</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;Batch inference config&#39;</span><span class="p">)</span>
-    <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMCache</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The LLM to use for extraction&#39;</span><span class="p">)</span>
-    <span class="n">prompt_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Prompt template&#39;</span><span class="p">)</span>
-    <span class="n">source_metadata_field</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Metadata field from which to extract propositions&#39;</span>
+    <span class="n">batch_config</span><span class="p">:</span><span class="n">BatchConfig</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;Batch inference config&#39;</span><span class="p">)</span>
+    <span class="n">llm</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">LLMCache</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The LLM to use for extraction&#39;</span>
     <span class="p">)</span>
-    <span class="n">batch_inference_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Directory for batch inputs and results results&#39;</span>
-    <span class="p">)</span>
-    <span class="n">entity_classification_provider</span><span class="p">:</span> <span class="n">ScopedValueProvider</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Entity classification provider&#39;</span>
-    <span class="p">)</span>
-    <span class="n">topic_provider</span><span class="p">:</span> <span class="n">ScopedValueProvider</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Topic provider&#39;</span><span class="p">)</span>
+    <span class="n">prompt_template</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Prompt template&#39;</span><span class="p">)</span>
+    <span class="n">source_metadata_field</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Metadata field from which to extract propositions&#39;</span><span class="p">)</span>
+    <span class="n">batch_inference_dir</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Directory for batch inputs and results results&#39;</span><span class="p">)</span>
+    <span class="n">entity_classification_provider</span><span class="p">:</span><span class="n">ScopedValueProvider</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Entity classification provider&#39;</span><span class="p">)</span>
+    <span class="n">topic_provider</span><span class="p">:</span><span class="n">ScopedValueProvider</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Topic provider&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BatchTopicExtractor.class_name">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.class_name">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">class_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the name of the class.</span>
+<span class="sd">        Returns the class name of the batch topic extractor.</span>
 
-<span class="sd">        This method is used to retrieve the name of the class as a string. It is</span>
-<span class="sd">        a class-level method and does not require an instance of the class to be</span>
-<span class="sd">        called.</span>
+<span class="sd">        This method is a class method and provides the name of the class as a string.</span>
 
-<span class="sd">        :return: The name of the class.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The name of the class, which is &#39;BatchTopicExtractor&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;BatchTopicExtractor&#39;</span></div>
 
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">batch_config</span><span class="p">:</span> <span class="n">BatchConfig</span><span class="p">,</span>
-        <span class="n">llm</span><span class="p">:</span> <span class="n">LLMCacheType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">prompt_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">source_metadata_field</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">batch_inference_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">entity_classification_provider</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ScopedValueProvider</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">topic_provider</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ScopedValueProvider</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">batch_config</span><span class="p">:</span><span class="n">BatchConfig</span><span class="p">,</span>
+                 <span class="n">llm</span><span class="p">:</span><span class="n">LLMCacheType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">prompt_template</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">source_metadata_field</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">batch_inference_dir</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">entity_classification_provider</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">ScopedValueProvider</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">topic_provider</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">ScopedValueProvider</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the class instance with configuration and components required for batch</span>
-<span class="sd">        processing and topic extraction. It sets up configuration, directories, and functional</span>
-<span class="sd">        dependencies like prompt templates and classification providers.</span>
+<span class="sd">        Initializes an instance of the class with configuration details for batch processing,</span>
+<span class="sd">        language model, prompt templates, metadata fields, directory for batch inference,</span>
+<span class="sd">        entity classification provider, and topic provider.</span>
 
-<span class="sd">        :param batch_config: The configuration object defining batch processing parameters,</span>
-<span class="sd">            detailing paths, limits, and rules that guide how the batch operations are conducted.</span>
-<span class="sd">        :type batch_config: BatchConfig</span>
+<span class="sd">        Args:</span>
+<span class="sd">            batch_config: Configuration object specifying batch processing details.</span>
+<span class="sd">            llm: Instance of a language model cache or a language model, defining the desired</span>
+<span class="sd">                behavior for processing.</span>
+<span class="sd">            prompt_template: Template string used to create prompts for processing.</span>
+<span class="sd">            source_metadata_field: Optional metadata field in the source data to be considered</span>
+<span class="sd">                during processing.</span>
+<span class="sd">            batch_inference_dir: Directory path where batch inference outputs will be stored.</span>
+<span class="sd">            entity_classification_provider: Scoped value provider for entity classification settings.</span>
+<span class="sd">            topic_provider: Scoped value provider for topic settings based on the given scope.</span>
 
-<span class="sd">        :param llm: An instance of the language model or a cache-enabled wrapper around it,</span>
-<span class="sd">            used for leveraging language processing tasks within batch operations. Defaults to None.</span>
-
-<span class="sd">        :param prompt_template: The textual template used to guide topic extraction or classification.</span>
-<span class="sd">            If not provided explicitly, a default value is applied.</span>
-
-<span class="sd">        :param source_metadata_field: The source metadata field from which additional</span>
-<span class="sd">            information is extracted during processing. Defaults to None.</span>
-
-<span class="sd">        :param batch_inference_dir: The directory path where batch inference results are</span>
-<span class="sd">            stored, including any intermediate outputs. If not provided, defaults to</span>
-<span class="sd">            &#39;output/batch-topics&#39;.</span>
-
-<span class="sd">        :param entity_classification_provider: The provider object responsible for classifying</span>
-<span class="sd">            entities during processing. Defaults to a fixed scoped value provider with default</span>
-<span class="sd">            entity classifications if not explicitly specified.</span>
-
-<span class="sd">        :param topic_provider: The provider object used for supplying topics during batch</span>
-<span class="sd">            operations or extractions. A fixed scoped value provider is configured with an</span>
-<span class="sd">            empty default scope if undefined.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">batch_config</span><span class="o">=</span><span class="n">batch_config</span><span class="p">,</span>
-            <span class="n">llm</span><span class="o">=</span><span class="p">(</span>
-                <span class="n">llm</span>
-                <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span>
-                <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
-                    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_llm</span><span class="p">,</span>
-                    <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span><span class="p">,</span>
-                <span class="p">)</span>
+            <span class="n">batch_config</span> <span class="o">=</span> <span class="n">batch_config</span><span class="p">,</span>
+            <span class="n">llm</span> <span class="o">=</span> <span class="n">llm</span> <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span> <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
+                <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_llm</span><span class="p">,</span>
+                <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span>
             <span class="p">),</span>
             <span class="n">prompt_template</span><span class="o">=</span><span class="n">prompt_template</span> <span class="ow">or</span> <span class="n">EXTRACT_TOPICS_PROMPT</span><span class="p">,</span>
             <span class="n">source_metadata_field</span><span class="o">=</span><span class="n">source_metadata_field</span><span class="p">,</span>
-            <span class="n">batch_inference_dir</span><span class="o">=</span><span class="n">batch_inference_dir</span>
-            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;batch-topics&#39;</span><span class="p">),</span>
-            <span class="n">entity_classification_provider</span><span class="o">=</span><span class="n">entity_classification_provider</span>
-            <span class="ow">or</span> <span class="n">FixedScopedValueProvider</span><span class="p">(</span>
-                <span class="n">scoped_values</span><span class="o">=</span><span class="p">{</span><span class="n">DEFAULT_SCOPE</span><span class="p">:</span> <span class="n">DEFAULT_ENTITY_CLASSIFICATIONS</span><span class="p">}</span>
-            <span class="p">),</span>
-            <span class="n">topic_provider</span><span class="o">=</span><span class="n">topic_provider</span>
-            <span class="ow">or</span> <span class="n">FixedScopedValueProvider</span><span class="p">(</span><span class="n">scoped_values</span><span class="o">=</span><span class="p">{</span><span class="n">DEFAULT_SCOPE</span><span class="p">:</span> <span class="p">[]}),</span>
+            <span class="n">batch_inference_dir</span><span class="o">=</span><span class="n">batch_inference_dir</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;batch-topics&#39;</span><span class="p">),</span>
+            <span class="n">entity_classification_provider</span><span class="o">=</span><span class="n">entity_classification_provider</span> <span class="ow">or</span> <span class="n">FixedScopedValueProvider</span><span class="p">(</span><span class="n">scoped_values</span><span class="o">=</span><span class="p">{</span><span class="n">DEFAULT_SCOPE</span><span class="p">:</span> <span class="n">DEFAULT_ENTITY_CLASSIFICATIONS</span><span class="p">}),</span>
+            <span class="n">topic_provider</span><span class="o">=</span><span class="n">topic_provider</span> <span class="ow">or</span> <span class="n">FixedScopedValueProvider</span><span class="p">(</span><span class="n">scoped_values</span><span class="o">=</span><span class="p">{</span><span class="n">DEFAULT_SCOPE</span><span class="p">:</span> <span class="p">[]})</span>
         <span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Prompt template: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -520,61 +459,71 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dir</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Prepares a directory by ensuring it exists. If the directory does not exist,</span>
-<span class="sd">        it will be created with all intermediate directories as needed.</span>
+<span class="sd">        Prepares a directory by creating it if it does not already exist.</span>
 
-<span class="sd">        :param dir: The directory path to prepare.</span>
-<span class="sd">        :type dir: str</span>
-<span class="sd">        :return: The prepared directory path, which is guaranteed to exist.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        This function ensures that the specified directory exists. If the directory</span>
+<span class="sd">        does not exist, it is created with the specified permissions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dir (str): The path of the directory to prepare.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The path to the prepared directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">dir</span>
-
+    
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_metadata_or_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves a value from the metadata dictionary using a specified key. If the key is not present or the value associated</span>
-<span class="sd">        with the key evaluates to a falsy value, the provided default value is returned.</span>
+<span class="sd">        Retrieve the value associated with a given key from the metadata</span>
+<span class="sd">        dictionary. If the key does not exist, return the provided default.</span>
+<span class="sd">        The function ensures that if the retrieved value is falsy, the</span>
+<span class="sd">        default value is returned instead.</span>
 
-<span class="sd">        :param metadata: Dictionary containing key-value pairs used to retrieve configuration or meta information.</span>
-<span class="sd">        :type metadata: dict</span>
-<span class="sd">        :param key: The key to look up in the metadata dictionary.</span>
-<span class="sd">        :type key: str</span>
-<span class="sd">        :param default: The fallback value to return if the key is not found or its value evaluates to a falsy value.</span>
-<span class="sd">        :type default: Any</span>
-<span class="sd">        :return: The value associated with the key from the metadata dictionary or the provided default value.</span>
-<span class="sd">        :rtype: Any</span>
+<span class="sd">        Args:</span>
+<span class="sd">            metadata (dict): The metadata dictionary to search.</span>
+<span class="sd">            key (Any): The key whose value needs to be retrieved.</span>
+<span class="sd">            default (Any): The default value to return if the key is not</span>
+<span class="sd">                found or its value is falsy.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The value associated with the given key or the default</span>
+<span class="sd">            value if the key is not present or its value is falsy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">value</span> <span class="ow">or</span> <span class="n">default</span>
-
+    
 <div class="viewcode-block" id="BatchTopicExtractor.process_single_batch">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.process_single_batch">[docs]</a>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process_single_batch</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">batch_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TextNode</span><span class="p">],</span> <span class="n">s3_client</span><span class="p">,</span> <span class="n">bedrock_client</span>
-    <span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process_single_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_index</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">TextNode</span><span class="p">],</span> <span class="n">s3_client</span><span class="p">,</span> <span class="n">bedrock_client</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Processes a single batch of text nodes by creating input files, uploading</span>
-<span class="sd">        them to S3, invoking a batch job for topic extraction, downloading the</span>
-<span class="sd">        output files, and processing the results.</span>
+<span class="sd">        Processes a single batch of text nodes through multiple workflow stages, including record creation, S3 bucket</span>
+<span class="sd">        upload, batch job invocation using Bedrock, and result processing.</span>
 
-<span class="sd">        This function handles input formatting, S3 operations, external LLM model</span>
-<span class="sd">        invocations, and output processing using the provided clients and resources.</span>
+<span class="sd">        This function performs the following steps:</span>
+<span class="sd">        1. Creates input files for batch inference, including formatting text based on metadata, generating message prompts,</span>
+<span class="sd">           and preparing JSONL files.</span>
+<span class="sd">        2. Uploads the generated input files to an AWS S3 bucket based on the configuration.</span>
+<span class="sd">        3. Invokes a Bedrock batch job for topic extraction using the prepared inputs.</span>
+<span class="sd">        4. Downloads and processes the output files generated during the batch job.</span>
+<span class="sd">        5. Returns the processed batch results for further utilization.</span>
 
-<span class="sd">        :param batch_index: The index of the batch being processed.</span>
-<span class="sd">        :type batch_index: int</span>
-<span class="sd">        :param node_batch: A list of TextNode objects to process.</span>
-<span class="sd">        :type node_batch: List[TextNode]</span>
-<span class="sd">        :param s3_client: The S3 client instance used for uploading and downloading files.</span>
-<span class="sd">        :type s3_client: Any</span>
-<span class="sd">        :param bedrock_client: The Bedrock client instance used for batch job execution.</span>
-<span class="sd">        :type bedrock_client: Any</span>
-<span class="sd">        :return: A list of processed results for the given batch.</span>
-<span class="sd">        :rtype: Any</span>
+<span class="sd">        Args:</span>
+<span class="sd">            batch_index (int): The index of the current batch being processed.</span>
+<span class="sd">            node_batch (List[TextNode]): A list of text nodes to process in this batch.</span>
+<span class="sd">            s3_client: The S3 client instance used for file handling with the S3 bucket.</span>
+<span class="sd">            bedrock_client: The Bedrock client instance for invoking and interacting with the batch job.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List: The results after processing the outputs of the batch job.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            BatchJobError: If any error occurs during batch processing, an exception is raised, providing details</span>
+<span class="sd">            of the batch index and error context.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S&quot;</span><span class="p">)</span>
+            <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S&quot;</span><span class="p">)</span> 
             <span class="n">input_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;topic_extraction_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">batch_index</span><span class="si">}</span><span class="s1">.jsonl&#39;</span>
 
             <span class="c1"># 1 - Create Record Files (.jsonl)</span>
@@ -583,8 +532,8 @@
             <span class="c1">#     (_, current_entity_classifications) = self.entity_classification_provider.get_current_values(node)</span>
             <span class="c1">#     (_, current_topics) = self.topic_provider.get_current_values(node)</span>
             <span class="c1">#     text = format_text(</span>
-            <span class="c1">#         self._get_metadata_or_default(node.metadata, self.source_metadata_field, node.text)</span>
-            <span class="c1">#         if self.source_metadata_field</span>
+            <span class="c1">#         self._get_metadata_or_default(node.metadata, self.source_metadata_field, node.text) </span>
+            <span class="c1">#         if self.source_metadata_field </span>
             <span class="c1">#         else node.text</span>
             <span class="c1">#     )</span>
             <span class="c1">#     prompt = self.prompt_template.format(</span>
@@ -596,43 +545,35 @@
 
             <span class="c1"># json_inputs = create_inference_inputs(</span>
             <span class="c1">#     self.llm.llm,</span>
-            <span class="c1">#     node_batch,</span>
+            <span class="c1">#     node_batch, </span>
             <span class="c1">#     prompts</span>
             <span class="c1"># )</span>
 
             <span class="n">messages_batch</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_batch</span><span class="p">:</span>
-                <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">current_entity_classifications</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">entity_classification_provider</span><span class="o">.</span><span class="n">get_current_values</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">current_entity_classifications</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_classification_provider</span><span class="o">.</span><span class="n">get_current_values</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
                 <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">current_topics</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topic_provider</span><span class="o">.</span><span class="n">get_current_values</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
                 <span class="n">text</span> <span class="o">=</span> <span class="n">format_text</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_get_metadata_or_default</span><span class="p">(</span>
-                        <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span>
-                    <span class="p">)</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_get_metadata_or_default</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> 
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span> 
                     <span class="k">else</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span>
                 <span class="p">)</span>
                 <span class="n">messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">_get_messages</span><span class="p">(</span>
-                    <span class="n">PromptTemplate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">),</span>
+                    <span class="n">PromptTemplate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">),</span> 
                     <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
-                    <span class="n">preferred_entity_classifications</span><span class="o">=</span><span class="n">format_list</span><span class="p">(</span>
-                        <span class="n">current_entity_classifications</span>
-                    <span class="p">),</span>
-                    <span class="n">preferred_topics</span><span class="o">=</span><span class="n">format_list</span><span class="p">(</span><span class="n">current_topics</span><span class="p">),</span>
+                    <span class="n">preferred_entity_classifications</span><span class="o">=</span><span class="n">format_list</span><span class="p">(</span><span class="n">current_entity_classifications</span><span class="p">),</span>
+                    <span class="n">preferred_topics</span><span class="o">=</span><span class="n">format_list</span><span class="p">(</span><span class="n">current_topics</span><span class="p">)</span>
                 <span class="p">)</span>
                 <span class="n">messages_batch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
 
             <span class="n">json_inputs</span> <span class="o">=</span> <span class="n">create_inference_inputs_for_messages</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">llm</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">,</span> <span class="n">messages_batch</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">llm</span><span class="p">,</span> 
+                <span class="n">node_batch</span><span class="p">,</span> 
+                <span class="n">messages_batch</span>
             <span class="p">)</span>
 
-            <span class="n">input_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">batch_inference_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;inputs&#39;</span>
-            <span class="p">)</span>
-            <span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">batch_inference_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;outputs&#39;</span>
-            <span class="p">)</span>
+            <span class="n">input_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_inference_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;inputs&#39;</span><span class="p">)</span>
+            <span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_inference_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;outputs&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_directory</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_directory</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
 
@@ -646,113 +587,72 @@
             <span class="n">s3_input_key</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">s3_output_path</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">:</span>
-                <span class="n">s3_input_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">,</span>
-                    <span class="s1">&#39;batch-topics&#39;</span><span class="p">,</span>
-                    <span class="n">timestamp</span><span class="p">,</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span>
-                    <span class="s1">&#39;inputs&#39;</span><span class="p">,</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_filename</span><span class="p">),</span>
-                <span class="p">)</span>
-                <span class="n">s3_output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">,</span>
-                    <span class="s1">&#39;batch-topics&#39;</span><span class="p">,</span>
-                    <span class="n">timestamp</span><span class="p">,</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span>
-                    <span class="s1">&#39;outputs/&#39;</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="n">s3_input_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">,</span> <span class="s1">&#39;batch-topics&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;inputs&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_filename</span><span class="p">))</span>
+                <span class="n">s3_output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">,</span> <span class="s1">&#39;batch-topics&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;outputs/&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">s3_input_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="s1">&#39;batch-topics&#39;</span><span class="p">,</span>
-                    <span class="n">timestamp</span><span class="p">,</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span>
-                    <span class="s1">&#39;inputs&#39;</span><span class="p">,</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_filename</span><span class="p">),</span>
-                <span class="p">)</span>
-                <span class="n">s3_output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="s1">&#39;batch-topics&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;outputs/&#39;</span>
-                <span class="p">)</span>
+                <span class="n">s3_input_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;batch-topics&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;inputs&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_filename</span><span class="p">))</span>
+                <span class="n">s3_output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;batch-topics&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_index</span><span class="p">),</span> <span class="s1">&#39;outputs/&#39;</span><span class="p">)</span>
 
-            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span>
-                <span class="n">s3_client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">,</span>
-                <span class="n">input_filepath</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span>
-                <span class="n">s3_input_key</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Uploaded </span><span class="si">{</span><span class="n">input_filename</span><span class="si">}</span><span class="s1"> to S3 [bucket: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="si">}</span><span class="s1">, key: </span><span class="si">{</span><span class="n">s3_input_key</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">s3_client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">,</span> <span class="n">input_filepath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">s3_input_key</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Uploaded </span><span class="si">{</span><span class="n">input_filename</span><span class="si">}</span><span class="s1"> to S3 [bucket: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="si">}</span><span class="s1">, key: </span><span class="si">{</span><span class="n">s3_input_key</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
             <span class="c1"># 3 - Invoke batch job</span>
-            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span>
-                <span class="n">create_and_run_batch_job</span><span class="p">,</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">create_and_run_batch_job</span><span class="p">,</span>
                 <span class="s1">&#39;extract-topics&#39;</span><span class="p">,</span>
-                <span class="n">bedrock_client</span><span class="p">,</span>
-                <span class="n">timestamp</span><span class="p">,</span>
+                <span class="n">bedrock_client</span><span class="p">,</span> 
+                <span class="n">timestamp</span><span class="p">,</span> 
                 <span class="n">batch_index</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="p">,</span>
-                <span class="n">s3_input_key</span><span class="p">,</span>
+                <span class="n">s3_input_key</span><span class="p">,</span> 
                 <span class="n">s3_output_path</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">model</span>
             <span class="p">)</span>
 
-            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span>
-                <span class="n">download_output_files</span><span class="p">,</span>
-                <span class="n">s3_client</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span>
-                <span class="n">s3_output_path</span><span class="p">,</span>
-                <span class="n">input_filename</span><span class="p">,</span>
-                <span class="n">output_dir</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">download_output_files</span><span class="p">,</span> <span class="n">s3_client</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">s3_output_path</span><span class="p">,</span> <span class="n">input_filename</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
 
             <span class="c1"># 4 - Once complete, process batch output</span>
-            <span class="n">batch_results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">process_batch_output</span><span class="p">(</span>
-                <span class="n">output_dir</span><span class="p">,</span> <span class="n">input_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span>
-            <span class="p">)</span>
+            <span class="n">batch_results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">process_batch_output</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">input_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Completed processing of batch </span><span class="si">{</span><span class="n">batch_index</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">batch_results</span>
-
+        
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BatchJobError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Error processing batch </span><span class="si">{</span><span class="n">batch_index</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">BatchJobError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error processing batch </span><span class="si">{</span><span class="n">batch_index</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span> </div>
 
-
+        
 <div class="viewcode-block" id="BatchTopicExtractor.aextract">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.aextract">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">aextract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Asynchronous method for extracting topics from a sequence of nodes. The method is optimized</span>
-<span class="sd">        to handle data in batches, with support for parallel processing. If the sequence contains</span>
-<span class="sd">        fewer nodes than the minimum required batch size, it utilizes the TopicExtractor instead.</span>
-<span class="sd">        Otherwise, it splits the data into batches for concurrent processing and retrieves results</span>
-<span class="sd">        through Bedrock. Processes the results to extract and format topic information.</span>
+<span class="sd">        Asynchronously processes a sequence of nodes, extracting topics based on Bedrock configurations</span>
+<span class="sd">        or fallback TopicExtractor, and parallelizes processing in batches for performance efficiency.</span>
 
-<span class="sd">        :param nodes: Sequence of BaseNode objects representing data from which topics are to be extracted</span>
-<span class="sd">        :type nodes: Sequence[BaseNode]</span>
-<span class="sd">        :return: List of dictionaries containing extracted topics, formatted for further processing</span>
-<span class="sd">        :rtype: List[Dict]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            nodes (Sequence[BaseNode]): A sequence of nodes to process and extract topics from.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Dict]: A list of dictionaries containing extracted topics for each node.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            No specific exceptions explicitly raised by this function.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">BEDROCK_MIN_BATCH_SIZE</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;List of nodes contains fewer records (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">) than the minimum required by Bedrock (</span><span class="si">{</span><span class="n">BEDROCK_MIN_BATCH_SIZE</span><span class="si">}</span><span class="s1">), so running TopicExtractor instead&#39;</span>
-            <span class="p">)</span>
-            <span class="n">extractor</span> <span class="o">=</span> <span class="n">TopicExtractor</span><span class="p">(</span>
-                <span class="n">prompt_template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">,</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;List of nodes contains fewer records (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">) than the minimum required by Bedrock (</span><span class="si">{</span><span class="n">BEDROCK_MIN_BATCH_SIZE</span><span class="si">}</span><span class="s1">), so running TopicExtractor instead&#39;</span><span class="p">)</span>
+            <span class="n">extractor</span> <span class="o">=</span> <span class="n">TopicExtractor</span><span class="p">(</span> 
+                <span class="n">prompt_template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">,</span> 
                 <span class="n">source_metadata_field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span><span class="p">,</span>
                 <span class="n">entity_classification_provider</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_classification_provider</span><span class="p">,</span>
-                <span class="n">topic_provider</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">topic_provider</span><span class="p">,</span>
+                <span class="n">topic_provider</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">topic_provider</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="k">await</span> <span class="n">extractor</span><span class="o">.</span><span class="n">aextract</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+
 
         <span class="n">s3_client</span> <span class="o">=</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">s3</span>
         <span class="n">bedrock_client</span> <span class="o">=</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">bedrock</span>
 
         <span class="c1"># 1 - Split nodes into batches (if needed)</span>
         <span class="n">node_batches</span> <span class="o">=</span> <span class="n">split_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_config</span><span class="o">.</span><span class="n">max_batch_size</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;Split nodes into </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">node_batches</span><span class="p">)</span><span class="si">}</span><span class="s1"> batches [sizes: </span><span class="si">{</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">node_batches</span><span class="p">]</span><span class="si">}</span><span class="s1">]&#39;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Split nodes into </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">node_batches</span><span class="p">)</span><span class="si">}</span><span class="s1"> batches [sizes: </span><span class="si">{</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">node_batches</span><span class="p">]</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
         <span class="c1"># 2 - Process batches concurrently</span>
         <span class="n">all_results</span> <span class="o">=</span> <span class="p">{}</span>
@@ -760,37 +660,19 @@
 
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process_batch_with_semaphore</span><span class="p">(</span><span class="n">batch_index</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Represents a batch topic extractor which handles the asynchronous processing</span>
-<span class="sd">            of nodes in batches, utilizing concurrency control to manage a limited number</span>
-<span class="sd">            of simultaneous operations.</span>
+<span class="sd">            An asynchronous extractor that processes batches of nodes to perform topic</span>
+<span class="sd">            extraction. This class extends the BaseExtractor and provides functionality</span>
+<span class="sd">            to handle batch extraction in an asynchronous manner. It leverages semaphores</span>
+<span class="sd">            to control concurrent access to shared resources while processing batches.</span>
 
-<span class="sd">            The `BatchTopicExtractor` class inherits from the `BaseExtractor` and provides</span>
-<span class="sd">            an implementation for asynchronous topic extraction. This process ensures</span>
-<span class="sd">            efficient and thread-safe execution of batch operations using semaphores.</span>
-
-<span class="sd">            :param batch_index: An integer indicating the specific index of the batch</span>
-<span class="sd">                being processed during concurrent execution.</span>
-<span class="sd">                Type: int</span>
-
-<span class="sd">            :param node_batch: A list of `BaseNode` instances representing the batch of</span>
-<span class="sd">                nodes for which topics are being extracted. Each node contains</span>
-<span class="sd">                relevant information used during processing.</span>
-<span class="sd">                Type: Sequence[BaseNode]</span>
-
-<span class="sd">            :return: A list of dictionaries where each dictionary corresponds to</span>
-<span class="sd">                the extracted topics and related information for a processed node</span>
-<span class="sd">                within the batch.</span>
-<span class="sd">                Type: List[Dict]</span>
+<span class="sd">            Methods:</span>
+<span class="sd">                aextract: The main asynchronous function to extract topics from a</span>
+<span class="sd">                sequence of nodes in batches.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">async</span> <span class="k">with</span> <span class="n">semaphore</span><span class="p">:</span>
-                <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_single_batch</span><span class="p">(</span>
-                    <span class="n">batch_index</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">,</span> <span class="n">s3_client</span><span class="p">,</span> <span class="n">bedrock_client</span>
-                <span class="p">)</span>
+                <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_single_batch</span><span class="p">(</span><span class="n">batch_index</span><span class="p">,</span> <span class="n">node_batch</span><span class="p">,</span> <span class="n">s3_client</span><span class="p">,</span> <span class="n">bedrock_client</span><span class="p">)</span>
 
-        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">process_batch_with_semaphore</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_batches</span><span class="p">)</span>
-        <span class="p">]</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">process_batch_with_semaphore</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_batches</span><span class="p">)]</span>
         <span class="n">batch_results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">batch_results</span><span class="p">:</span>
@@ -802,7 +684,9 @@
             <span class="n">record_id</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span>
             <span class="k">if</span> <span class="n">record_id</span> <span class="ow">in</span> <span class="n">all_results</span><span class="p">:</span>
                 <span class="p">(</span><span class="n">topics</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">parse_extracted_topics</span><span class="p">(</span><span class="n">all_results</span><span class="p">[</span><span class="n">record_id</span><span class="p">])</span>
-                <span class="n">return_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">TOPICS_KEY</span><span class="p">:</span> <span class="n">topics</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()})</span>
+                <span class="n">return_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="n">TOPICS_KEY</span><span class="p">:</span> <span class="n">topics</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+                <span class="p">})</span>
 
         <span class="k">return</span> <span class="n">return_results</span></div>
 </div>
@@ -854,11 +738,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

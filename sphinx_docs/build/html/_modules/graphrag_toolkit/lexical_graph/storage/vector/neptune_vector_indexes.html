@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -339,146 +342,133 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">FilterConfig</span><span class="p">,</span>
-    <span class="n">type_name_for_key_value</span><span class="p">,</span>
-    <span class="n">format_datetime</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span><span class="p">,</span> <span class="n">type_name_for_key_value</span><span class="p">,</span> <span class="n">format_datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStoreFactory</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">GraphStore</span><span class="p">,</span>
-    <span class="n">MultiTenantGraphStore</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="n">MultiTenantGraphStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph.graph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">node_result</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">NeptuneAnalyticsClient</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">VectorIndex</span><span class="p">,</span>
-    <span class="n">VectorIndexFactoryMethod</span><span class="p">,</span>
-    <span class="n">to_embedded_query</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores</span><span class="w"> </span><span class="kn">import</span> <span class="n">NeptuneAnalyticsClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorIndex</span><span class="p">,</span> <span class="n">VectorIndexFactoryMethod</span><span class="p">,</span> <span class="n">to_embedded_query</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.indices.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">embed_nodes</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">FilterCondition</span><span class="p">,</span>
-    <span class="n">FilterOperator</span><span class="p">,</span>
-    <span class="n">MetadataFilter</span><span class="p">,</span>
-    <span class="n">MetadataFilters</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterCondition</span><span class="p">,</span> <span class="n">FilterOperator</span><span class="p">,</span> <span class="n">MetadataFilter</span><span class="p">,</span> <span class="n">MetadataFilters</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">NEPTUNE_ANALYTICS</span> <span class="o">=</span> <span class="s1">&#39;neptune-graph://&#39;</span>
 
-
 <div class="viewcode-block" id="to_opencypher_operator">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.to_opencypher_operator">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">to_opencypher_operator</span><span class="p">(</span>
-    <span class="n">operator</span><span class="p">:</span> <span class="n">FilterOperator</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_opencypher_operator</span><span class="p">(</span><span class="n">operator</span><span class="p">:</span> <span class="n">FilterOperator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transforms a `FilterOperator` into its corresponding OpenCypher operator and a</span>
-<span class="sd">    value formatter function. This function maps a custom filter operator to OpenCypher&#39;s</span>
-<span class="sd">    expression syntax, ensuring compatibility between logical filtering operations</span>
-<span class="sd">    in Python code and OpenCypher queries.</span>
+<span class="sd">    Converts a given filter operator into its corresponding OpenCypher operator and value formatter.</span>
 
-<span class="sd">    :param operator: A `FilterOperator` instance that specifies the logical operation</span>
-<span class="sd">        to be mapped to its OpenCypher equivalent.</span>
+<span class="sd">    This function maps an instance of `FilterOperator` to a tuple containing the</span>
+<span class="sd">    OpenCypher operator string and a callable for formatting values associated</span>
+<span class="sd">    with that operator. If the given operator is not supported, the function raises</span>
+<span class="sd">    a `ValueError`.</span>
 
-<span class="sd">    :return: A tuple containing the OpenCypher representation of the operator as a</span>
-<span class="sd">        string, and a callable function to format values associated with the operator.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        operator: The filter operator to convert. Expected to be an instance of</span>
+<span class="sd">            `FilterOperator`.</span>
 
-<span class="sd">    :raises ValueError: If the provided operator is not supported or cannot be mapped</span>
-<span class="sd">        to an OpenCypher operator.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple where:</span>
+<span class="sd">        - The first element is a string representing the corresponding OpenCypher</span>
+<span class="sd">          operator.</span>
+<span class="sd">        - The second element is a callable, representing a function used to format</span>
+<span class="sd">          the value for OpenCypher queries.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the provided operator is not supported.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">default_value_formatter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
-
+    
     <span class="n">operator_map</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">EQ</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
-        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">GT</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
-        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">LT</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
-        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">NE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&lt;&gt;&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
-        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">GTE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&gt;=&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
-        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">LTE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&lt;=&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
-        <span class="c1"># FilterOperator.IN: (&#39;in&#39;, default_value_formatter),  # In array (string or number)</span>
-        <span class="c1"># FilterOperator.NIN: (&#39;nin&#39;, default_value_formatter),  # Not in array (string or number)</span>
-        <span class="c1"># FilterOperator.ANY: (&#39;any&#39;, default_value_formatter),  # Contains any (array of strings)</span>
-        <span class="c1"># FilterOperator.ALL: (&#39;all&#39;, default_value_formatter),  # Contains all (array of strings)</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">EQ</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span> 
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">GT</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span> 
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">LT</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span> 
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">NE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&lt;&gt;&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span> 
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">GTE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&gt;=&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span> 
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">LTE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&lt;=&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span> 
+        <span class="c1">#FilterOperator.IN: (&#39;in&#39;, default_value_formatter),  # In array (string or number)</span>
+        <span class="c1">#FilterOperator.NIN: (&#39;nin&#39;, default_value_formatter),  # Not in array (string or number)</span>
+        <span class="c1">#FilterOperator.ANY: (&#39;any&#39;, default_value_formatter),  # Contains any (array of strings)</span>
+        <span class="c1">#FilterOperator.ALL: (&#39;all&#39;, default_value_formatter),  # Contains all (array of strings)</span>
         <span class="n">FilterOperator</span><span class="o">.</span><span class="n">TEXT_MATCH</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;CONTAINS&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>
         <span class="n">FilterOperator</span><span class="o">.</span><span class="n">TEXT_MATCH_INSENSITIVE</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;CONTAINS&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span>
-        <span class="c1"># FilterOperator.CONTAINS: (&#39;contains&#39;, default_value_formatter),  # metadata array contains value (string or number)</span>
-        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">IS_EMPTY</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s1">&#39;IS NULL&#39;</span><span class="p">,</span>
-            <span class="n">default_value_formatter</span><span class="p">,</span>
-        <span class="p">),</span>  <span class="c1"># the field is not exist or empty (null or empty array)</span>
+        <span class="c1">#FilterOperator.CONTAINS: (&#39;contains&#39;, default_value_formatter),  # metadata array contains value (string or number)</span>
+        <span class="n">FilterOperator</span><span class="o">.</span><span class="n">IS_EMPTY</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;IS NULL&#39;</span><span class="p">,</span> <span class="n">default_value_formatter</span><span class="p">),</span>  <span class="c1"># the field is not exist or empty (null or empty array)</span>
     <span class="p">}</span>
 
     <span class="k">if</span> <span class="n">operator</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">operator_map</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported filter operator: </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
+    
     <span class="k">return</span> <span class="n">operator_map</span><span class="p">[</span><span class="n">operator</span><span class="p">]</span></div>
-
 
 
 <div class="viewcode-block" id="formatter_for_type">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.formatter_for_type">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">formatter_for_type</span><span class="p">(</span><span class="n">type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">formatter_for_type</span><span class="p">(</span><span class="n">type_name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a formatter function for the specified type name. The formatter</span>
-<span class="sd">    function converts input values to a specific string or format based on</span>
-<span class="sd">    the provided type name. Supported type names include &#39;text&#39;, &#39;timestamp&#39;,</span>
-<span class="sd">    and &#39;number&#39;.</span>
+<span class="sd">    Determines and returns a formatting function based on the provided type name.</span>
 
-<span class="sd">    :param type_name: Specifies the type of formatting to be applied.</span>
-<span class="sd">        - &#39;text&#39;: Formats input values as quoted strings.</span>
-<span class="sd">        - &#39;timestamp&#39;: Formats input values using a datetime representation.</span>
-<span class="sd">        - &#39;number&#39;: Returns the input value as-is without modification.</span>
-<span class="sd">    :return: A callable that formats input values based on the type-specific</span>
-<span class="sd">        formatting rules.</span>
-<span class="sd">    :raises ValueError: If an unsupported type name is provided.</span>
+<span class="sd">    This function takes a `type_name` as input and returns a corresponding</span>
+<span class="sd">    lambda function that formats the provided value into a specific format</span>
+<span class="sd">    associated with the type. Supported type names include &#39;text&#39;, &#39;timestamp&#39;,</span>
+<span class="sd">    and &#39;number&#39;. If the type name does not match one of the supported types,</span>
+<span class="sd">    a `ValueError` is raised.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        type_name: The name of the type for which the formatter is required.</span>
+<span class="sd">            Valid values include &#39;text&#39;, &#39;timestamp&#39;, and &#39;number&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable[[Any], str]: A lambda function that formats the input value</span>
+<span class="sd">        according to the provided `type_name`.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If an unsupported type name is provided.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
     <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;datetime(&#39;</span><span class="si">{</span><span class="n">format_datetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
     <span class="k">elif</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s1">&#39;number&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported type name: </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
-
 <div class="viewcode-block" id="parse_metadata_filters_recursive">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.parse_metadata_filters_recursive">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">parse_metadata_filters_recursive</span><span class="p">(</span><span class="n">metadata_filters</span><span class="p">:</span> <span class="n">MetadataFilters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_metadata_filters_recursive</span><span class="p">(</span><span class="n">metadata_filters</span><span class="p">:</span><span class="n">MetadataFilters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Recursively parses a MetadataFilters object into an OpenCypher-compatible filter expression string.</span>
+<span class="sd">    Parses a `MetadataFilters` object into an OpenCypher filter string.</span>
 
-<span class="sd">    This function processes a MetadataFilters object consisting of multiple filtering conditions and</span>
-<span class="sd">    evaluates them recursively to produce a valid OpenCypher filter string representation. Each filter</span>
-<span class="sd">    is interpreted and formatted according to the specified condition, operator, and values provided</span>
-<span class="sd">    in the MetadataFilters object.</span>
+<span class="sd">    This function recursively processes `MetadataFilters` and `MetadataFilter` objects</span>
+<span class="sd">    to construct a representation suitable for OpenCypher query language based on</span>
+<span class="sd">    filter conditions (&#39;AND&#39;, &#39;OR&#39;, &#39;NOT&#39;) and operator transformations. The resulting</span>
+<span class="sd">    string can be directly incorporated into OpenCypher queries for filtering nodes</span>
+<span class="sd">    or relationships.</span>
 
-<span class="sd">    Key operations handled include processing the MetadataFilter and MetadataFilters instances, mapping</span>
-<span class="sd">    filter conditions such as AND, OR, and NOT, and generating properly formatted expressions. If certain</span>
-<span class="sd">    cases like unsupported filter conditions or invalid input types are encountered, the function raises</span>
-<span class="sd">    appropriate exceptions.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        metadata_filters (MetadataFilters): The filter structure to be parsed, which</span>
+<span class="sd">            defines the conditions (`AND`, `OR`, `NOT`) and associated filters or nested</span>
+<span class="sd">            filters to be converted into OpenCypher query format.</span>
 
-<span class="sd">    :param metadata_filters: A MetadataFilters object representing the filtering conditions</span>
-<span class="sd">        to be evaluated recursively.</span>
-<span class="sd">    :type metadata_filters: MetadataFilters</span>
-<span class="sd">    :return: A string representation of the OpenCypher-compatible parsed filter.</span>
-<span class="sd">    :rtype: str</span>
-<span class="sd">    :raises ValueError: Raises an exception for invalid metadata filter types, unsupported conditions,</span>
-<span class="sd">        or unexpected mismatches between filter conditions and MetadataFilter object types.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The constructed OpenCypher filter string generated from the input metadata</span>
+<span class="sd">        filter structure.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the metadata filter structure contains unexpected or invalid</span>
+<span class="sd">            types, or if an unsupported filter condition is encountered.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">to_key</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursively parses metadata filters and converts them into a</span>
-<span class="sd">        formatted string.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recursively parses metadata filters and converts them into a formatted string.</span>
 
 <span class="sd">        This function takes a MetadataFilters object and iteratively processes it,</span>
 <span class="sd">        transforming its content into a specific string format for further usage.</span>
@@ -490,19 +480,26 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            A string that represents the parsed and formatted metadata filters based</span>
 <span class="sd">            on the provided input.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;source.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span>
-
+    
     <span class="k">def</span><span class="w"> </span><span class="nf">metadata_filter_to_opencypher_filter</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">MetadataFilter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Recursively parses a tree of metadata filters into an OpenCypher string representation.</span>
-<span class="sd">        Each metadata filter is converted based on its operator and associated key-value pair.</span>
+<span class="sd">        Parses a `MetadataFilters` object recursively into a string representation usable as an OpenCypher filter expression.</span>
 
-<span class="sd">        :param metadata_filters: The root node of metadata filters to parse, containing nested</span>
-<span class="sd">            conditions for filtering metadata.</span>
-<span class="sd">        :type metadata_filters: MetadataFilters</span>
-<span class="sd">        :return: An OpenCypher string representation of the metadata filters.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        This function processes a given `MetadataFilters` object by iterating through its filters</span>
+<span class="sd">        and recursively transforming them into OpenCypher-compatible filter expressions. The helper</span>
+<span class="sd">        function `metadata_filter_to_opencypher_filter` ensures that each individual filter is properly</span>
+<span class="sd">        formatted based on its key, operator, and value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metadata_filters (MetadataFilters): The metadata filters to be recursively parsed into an</span>
+<span class="sd">                OpenCypher-compatible string representation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The OpenCypher-compatible filter expression string after parsing the input</span>
+<span class="sd">                `MetadataFilters` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">key</span> <span class="o">=</span> <span class="n">to_key</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
         <span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">operator_formatter</span><span class="p">)</span> <span class="o">=</span> <span class="n">to_opencypher_operator</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">operator</span><span class="p">)</span>
@@ -516,7 +513,8 @@
                 <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.toLower() </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">type_formatter</span><span class="p">(</span><span class="n">operator_formatter</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span><span class="si">}</span><span class="s2">)&quot;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">type_formatter</span><span class="p">(</span><span class="n">operator_formatter</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span><span class="si">}</span><span class="s2">)&quot;</span>
-
+ 
+    
     <span class="n">condition</span> <span class="o">=</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span><span class="o">.</span><span class="n">value</span>
 
     <span class="n">filter_strs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -524,21 +522,16 @@
     <span class="k">for</span> <span class="n">metadata_filter</span> <span class="ow">in</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">,</span> <span class="n">MetadataFilter</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">NOT</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;Expected MetadataFilters for FilterCondition.NOT, but found MetadataFilter&#39;</span>
-                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Expected MetadataFilters for FilterCondition.NOT, but found MetadataFilter&#39;</span><span class="p">)</span>
             <span class="n">filter_strs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metadata_filter_to_opencypher_filter</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">,</span> <span class="n">MetadataFilters</span><span class="p">):</span>
             <span class="n">filter_strs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parse_metadata_filters_recursive</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid metadata filter type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
+        
     <span class="k">if</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">NOT</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(NOT </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filter_strs</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
-    <span class="k">elif</span> <span class="p">(</span>
-        <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">AND</span>
-        <span class="ow">or</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">OR</span>
-    <span class="p">):</span>
+    <span class="k">elif</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">AND</span> <span class="ow">or</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">OR</span><span class="p">:</span>
         <span class="n">condition</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{</span><span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s1"> &#39;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">condition</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filter_strs</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
     <span class="k">else</span><span class="p">:</span>
@@ -548,159 +541,123 @@
 
 <div class="viewcode-block" id="filter_config_to_opencypher_filters">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.filter_config_to_opencypher_filters">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">filter_config_to_opencypher_filters</span><span class="p">(</span><span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_config_to_opencypher_filters</span><span class="p">(</span><span class="n">filter_config</span><span class="p">:</span><span class="n">FilterConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts a given FilterConfig object into a string of OpenCypher filters.</span>
-<span class="sd">    Processes the provided filter configuration and generates a recursive representation</span>
-<span class="sd">    of the metadata filters in OpenCypher format.</span>
+<span class="sd">    Converts filter configuration into a string containing filters in OpenCypher format.</span>
 
-<span class="sd">    :param filter_config: Input filter configuration object containing the necessary</span>
-<span class="sd">        source filters for translation.</span>
-<span class="sd">    :type filter_config: FilterConfig</span>
-<span class="sd">    :return: A string representing the OpenCypher filters, or an empty string if the</span>
-<span class="sd">        provided filter_config is None or contains no source filters.</span>
-<span class="sd">    :rtype: str</span>
+<span class="sd">    This function takes a `FilterConfig` object as input, which may include a set of</span>
+<span class="sd">    source filters. The representation of the filters is recursively constructed</span>
+<span class="sd">    and returned as a string formatted for OpenCypher queries. If the filter</span>
+<span class="sd">    configuration or its source filters are not provided, an empty string is</span>
+<span class="sd">    returned.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filter_config (FilterConfig): The configuration object containing source</span>
+<span class="sd">            filters to be converted into OpenCypher format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The OpenCypher formatted filters as a string. Returns an empty string</span>
+<span class="sd">            if no filters are provided or the filter configuration is invalid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">filter_config</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">filter_config</span><span class="o">.</span><span class="n">source_filters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;&#39;</span>
     <span class="k">return</span> <span class="n">parse_metadata_filters_recursive</span><span class="p">(</span><span class="n">filter_config</span><span class="o">.</span><span class="n">source_filters</span><span class="p">)</span></div>
 
-
-
+    
 <div class="viewcode-block" id="NeptuneAnalyticsVectorIndexFactory">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NeptuneAnalyticsVectorIndexFactory</span><span class="p">(</span><span class="n">VectorIndexFactoryMethod</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements a factory for creating Neptune Analytics vector indices.</span>
-
-<span class="sd">    This class provides a method to attempt the creation of Neptune Analytics vector</span>
-<span class="sd">    indices based on a given configuration and list of index names. It examines the</span>
-<span class="sd">    provided vector index information to determine if it matches the Neptune Analytics</span>
-<span class="sd">    configuration format and initializes the indices accordingly.</span>
-
-<span class="sd">    :ivar NEPTUNE_ANALYTICS: The prefix used to identify Neptune Analytics configurations.</span>
-<span class="sd">    :type NEPTUNE_ANALYTICS: str</span>
-<span class="sd">    :ivar logger: Logger instance for tracking the creation process and debugging details.</span>
-<span class="sd">    :type logger: logging.Logger</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="NeptuneAnalyticsVectorIndexFactory.try_create">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneAnalyticsVectorIndexFactory.try_create">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">index_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">vector_index_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorIndex</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_names</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">vector_index_info</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorIndex</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Attempts to create a list of vector indexes based on the provided index names</span>
-<span class="sd">        and vector index information. If the vector index information starts with a</span>
-<span class="sd">        specific prefix (NEPTUNE_ANALYTICS), a graph ID is extracted, and the relevant</span>
-<span class="sd">        NeptuneIndexes are opened and returned. If the prefix is not found, None is</span>
-<span class="sd">        returned.</span>
+<span class="sd">        Attempts to create a list of vector indices based on the given index names and vector index</span>
+<span class="sd">        information. If the vector index information specifies a Neptune Analytics configuration,</span>
+<span class="sd">        the function initializes Neptune indices for each index name. Otherwise, it returns None.</span>
 
-<span class="sd">        :param index_names: A list of index names to be created.</span>
-<span class="sd">        :type index_names: List[str]</span>
-<span class="sd">        :param vector_index_info: A string containing information about the vector</span>
-<span class="sd">            index. This may include a specific prefix (NEPTUNE_ANALYTICS) that</span>
-<span class="sd">            identifies the type of index.</span>
-<span class="sd">        :param kwargs: Additional keyword argument parameters passed to the creation</span>
-<span class="sd">            of the vector indexes.</span>
-<span class="sd">        :return: A list of vector indexes created for the specified index names, or</span>
-<span class="sd">            None if the provided vector index information does not meet the expected</span>
-<span class="sd">            criteria.</span>
-<span class="sd">        :rtype: List[VectorIndex] or None</span>
+<span class="sd">        Args:</span>
+<span class="sd">            index_names (List[str]): A list of names for the indices to attempt creation.</span>
+<span class="sd">            vector_index_info (str): A string containing vector index information or configuration.</span>
+<span class="sd">            **kwargs: Additional keyword arguments passed to the index creation process.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[VectorIndex] or None: A list of VectorIndex instances if the operation is</span>
+<span class="sd">            successful and the vector index information matches the Neptune Analytics configuration.</span>
+<span class="sd">            Returns None if the vector index information does not match the expected configuration.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">graph_id</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">NEPTUNE_ANALYTICS</span><span class="p">):</span>
-            <span class="n">graph_id</span> <span class="o">=</span> <span class="n">vector_index_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">NEPTUNE_ANALYTICS</span><span class="p">)</span> <span class="p">:]</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Opening Neptune Analytics vector indexes [index_names: </span><span class="si">{</span><span class="n">index_names</span><span class="si">}</span><span class="s1">, graph_id: </span><span class="si">{</span><span class="n">graph_id</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
-            <span class="k">return</span> <span class="p">[</span>
-                <span class="n">NeptuneIndex</span><span class="o">.</span><span class="n">for_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">,</span> <span class="n">vector_index_info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">index_name</span> <span class="ow">in</span> <span class="n">index_names</span>
-            <span class="p">]</span>
+            <span class="n">graph_id</span> <span class="o">=</span> <span class="n">vector_index_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">NEPTUNE_ANALYTICS</span><span class="p">):]</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Opening Neptune Analytics vector indexes [index_names: </span><span class="si">{</span><span class="n">index_names</span><span class="si">}</span><span class="s1">, graph_id: </span><span class="si">{</span><span class="n">graph_id</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">NeptuneIndex</span><span class="o">.</span><span class="n">for_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">,</span> <span class="n">vector_index_info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">index_name</span> <span class="ow">in</span> <span class="n">index_names</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 </div>
-
 
 
 <div class="viewcode-block" id="NeptuneIndex">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NeptuneIndex</span><span class="p">(</span><span class="n">VectorIndex</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents an index in a Neptune graph database that allows for efficient</span>
-<span class="sd">    querying, embedding, and retrieval of graph node data.</span>
+<span class="sd">    Represents a NeptuneIndex specific to a graph database analytics system.</span>
 
-<span class="sd">    This class provides functionality to create, configure, and interact with</span>
-<span class="sd">    indexes in a Neptune graph database. It supports embedding models for</span>
-<span class="sd">    generating vector embeddings for nodes, fetching top-k results based on</span>
-<span class="sd">    similarity scores, and retrieving embeddings based on node IDs. The class</span>
-<span class="sd">    is particularly useful for tasks requiring graph-based data retrieval</span>
-<span class="sd">    with embedding-based searches and filtering capabilities.</span>
+<span class="sd">    This class is used to manage and interact with a vector index within a Neptune</span>
+<span class="sd">    graph store. It provides functionality for creating the index based on the given</span>
+<span class="sd">    parameters, embedding nodes, querying for top K neighboring elements by embedding</span>
+<span class="sd">    similarity, and retrieving embeddings for specific node IDs. The class defines</span>
+<span class="sd">    specific traversal paths and formats data into structures compatible with the</span>
+<span class="sd">    underlying analytics platform, utilizing a tenant-specific configuration.</span>
 
-<span class="sd">    :ivar neptune_client: The underlying Neptune analytics client instance used</span>
-<span class="sd">        for executing queries and interacting with the database.</span>
-<span class="sd">    :type neptune_client: NeptuneAnalyticsClient</span>
-<span class="sd">    :ivar embed_model: The embedding model utilized to compute vector embeddings.</span>
-<span class="sd">    :type embed_model: Any</span>
-<span class="sd">    :ivar dimensions: The dimensionality of the embeddings generated by the</span>
-<span class="sd">        embedding model.</span>
-<span class="sd">    :type dimensions: int</span>
-<span class="sd">    :ivar id_name: The identifier name for nodes stored in the indexed graph.</span>
-<span class="sd">    :type id_name: str</span>
-<span class="sd">    :ivar label: Label or tag associated with the nodes in the graph.</span>
-<span class="sd">    :type label: str</span>
-<span class="sd">    :ivar path: The Cypher query path used to navigate through the graph.</span>
-<span class="sd">    :type path: str</span>
-<span class="sd">    :ivar return_fields: The string representation of node fields to be included</span>
-<span class="sd">        in the query responses.</span>
-<span class="sd">    :type return_fields: str</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        neptune_client (NeptuneAnalyticsClient): The client responsible for interacting</span>
+<span class="sd">            with the Neptune graph database.</span>
+<span class="sd">        embed_model (Any): The model used for generating embeddings for graph nodes.</span>
+<span class="sd">        dimensions (int): The dimensionality of embeddings.</span>
+<span class="sd">        id_name (str): The identifier name used for indexing nodes.</span>
+<span class="sd">        label (str): The label corresponding to the type of index in the graph database.</span>
+<span class="sd">        path (str): The traversal path defined for the index queries.</span>
+<span class="sd">        return_fields (str): The fields to return when executing queries related to the</span>
+<span class="sd">            index.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="NeptuneIndex.for_index">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.for_index">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">for_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">,</span> <span class="n">graph_id</span><span class="p">,</span> <span class="n">embed_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provides a static method to create a specialized `NeptuneIndex` object tailored for</span>
-<span class="sd">        querying specific indices in a graph database using NeptuneDB. This method allows</span>
-<span class="sd">        configuration of the index type, associated graph, embedding model, and dimensions,</span>
-<span class="sd">        while determining the appropriate structure and fields for the query based on the</span>
-<span class="sd">        index type.</span>
+<span class="sd">        Creates and configures an instance of `NeptuneIndex` for a specified index type.</span>
 
-<span class="sd">        The method accepts parameters to define the index name, the graph identifier,</span>
-<span class="sd">        embedding model details, and any additional keyword arguments necessary for the</span>
-<span class="sd">        graph store connection. Depending on the index type, it builds the query path and</span>
-<span class="sd">        return fields dynamically, with specialized cases for certain well-known index names.</span>
-<span class="sd">        An error is raised for unsupported or invalid index names.</span>
+<span class="sd">        The method sets up an index by defining the index name, graph database client,</span>
+<span class="sd">        embedding model, dimensions of embeddings, and other necessary parameters. It</span>
+<span class="sd">        also constructs specific paths and return fields for the given index type and</span>
+<span class="sd">        validates the `index_name`.</span>
 
-<span class="sd">        :param index_name: The name of the index to query (e.g., &#39;chunk&#39;, &#39;statement&#39;, &#39;topic&#39;),</span>
-<span class="sd">            which also determines the type of entity being queried.</span>
-<span class="sd">        :type index_name: str</span>
-<span class="sd">        :param graph_id: The unique identifier for the graph within the database.</span>
-<span class="sd">        :type graph_id: str</span>
-<span class="sd">        :param embed_model: Optional. The embedding model to use for indexing. If not provided,</span>
-<span class="sd">            the default model from the `GraphRAGConfig` is used.</span>
-<span class="sd">        :type embed_model: Optional[Any]</span>
-<span class="sd">        :param dimensions: Optional. The dimensions of the embedding vector space. If not</span>
-<span class="sd">            provided, the default dimensions from the `GraphRAGConfig` are used.</span>
-<span class="sd">        :type dimensions: Optional[int]</span>
-<span class="sd">        :param kwargs: Additional keyword arguments needed for constructing the graph store client.</span>
-<span class="sd">        :type kwargs: dict</span>
-<span class="sd">        :return: A `NeptuneIndex` instance configured for the specified index type and graph ID.</span>
-<span class="sd">        :rtype: NeptuneIndex</span>
+<span class="sd">        Args:</span>
+<span class="sd">            index_name (str): The name of the index to be configured. Must be a valid</span>
+<span class="sd">                index name.</span>
+<span class="sd">            graph_id (str): The identifier for the graph database for which the index</span>
+<span class="sd">                is created.</span>
+<span class="sd">            embed_model (Optional[Any]): Embedding model to be used for the index. If</span>
+<span class="sd">                not specified, a default model from `GraphRAGConfig` is used.</span>
+<span class="sd">            dimensions (Optional[int]): The dimensionality of embeddings. Uses default</span>
+<span class="sd">                from `GraphRAGConfig` if not provided.</span>
+<span class="sd">            **kwargs: Arbitrary keyword arguments passed for additional graph store</span>
+<span class="sd">                configurations.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            NeptuneIndex: A configured NeptuneIndex instance for the specified index</span>
+<span class="sd">            name.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the provided `index_name` is invalid or unrecognized.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">index_name</span> <span class="o">=</span> <span class="n">index_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="n">neptune_client</span><span class="p">:</span> <span class="n">GraphStore</span> <span class="o">=</span> <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span>
-            <span class="n">graph_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">)</span>
+        <span class="n">neptune_client</span><span class="p">:</span><span class="n">GraphStore</span> <span class="o">=</span> <span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span><span class="n">graph_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">embed_model</span> <span class="o">=</span> <span class="n">embed_model</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">embed_model</span>
         <span class="n">dimensions</span> <span class="o">=</span> <span class="n">dimensions</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">embed_dimensions</span>
         <span class="n">id_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">Id&#39;</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;__</span><span class="si">{</span><span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span><span class="si">}</span><span class="s1">__&#39;</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;__</span><span class="si">{</span><span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span><span class="si">}</span><span class="s1">__&#39;</span> 
         <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">)&#39;</span>
-        <span class="n">return_fields</span> <span class="o">=</span> <span class="n">node_result</span><span class="p">(</span>
-            <span class="n">index_name</span><span class="p">,</span> <span class="n">neptune_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">id_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">return_fields</span> <span class="o">=</span> <span class="n">node_result</span><span class="p">(</span><span class="n">index_name</span><span class="p">,</span> <span class="n">neptune_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">id_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">index_name</span> <span class="o">==</span> <span class="s1">&#39;chunk&#39;</span><span class="p">:</span>
             <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;(chunk)-[:`__EXTRACTED_FROM__`]-&gt;(source:`__Source__`)&#39;</span>
@@ -711,7 +668,7 @@
             <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;(topic)-[:`__MENTIONED_IN__`]-&gt;(:`__Chunk__`)-[:`__EXTRACTED_FROM__`]-&gt;(source:`__Source__`)&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid index name: </span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
+            
         <span class="k">return</span> <span class="n">NeptuneIndex</span><span class="p">(</span>
             <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
             <span class="n">neptune_client</span><span class="o">=</span><span class="n">neptune_client</span><span class="p">,</span>
@@ -720,8 +677,9 @@
             <span class="n">id_name</span><span class="o">=</span><span class="n">id_name</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
             <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
-            <span class="n">return_fields</span><span class="o">=</span><span class="n">return_fields</span><span class="p">,</span>
-        <span class="p">)</span></div>
+            <span class="n">return_fields</span><span class="o">=</span><span class="n">return_fields</span>
+        <span class="p">)</span> </div>
+
 
 
     <span class="n">neptune_client</span><span class="p">:</span> <span class="n">NeptuneAnalyticsClient</span>
@@ -734,109 +692,113 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_neptune_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the Neptune database client instance for the tenant. This method checks</span>
-<span class="sd">        whether the tenant is a default tenant or a specific one and provides the</span>
-<span class="sd">        corresponding Neptune client.</span>
+<span class="sd">        Creates and returns the appropriate Neptune client based on tenant ID.</span>
 
-<span class="sd">        If the tenant is the default, it directly returns the configured `neptune_client`.</span>
-<span class="sd">        Otherwise, it wraps the `neptune_client` for multi-tenant support using</span>
-<span class="sd">        `MultiTenantGraphStore`.</span>
+<span class="sd">        If the tenant ID corresponds to the default tenant, the unwrapped Neptune</span>
+<span class="sd">        client is returned. Otherwise, it wraps the Neptune client with a</span>
+<span class="sd">        Multi-tenant Graph Store for the corresponding tenant ID and returns it.</span>
 
-<span class="sd">        :return: The Neptune database client, either directly or wrapped for the</span>
-<span class="sd">            corresponding tenant.</span>
-<span class="sd">        :rtype: NeptuneClient or MultiTenantGraphStore</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            NeptuneClient or MultiTenantGraphStore: An instance of the Neptune</span>
+<span class="sd">            client or a wrapped Multi-tenant Graph Store object.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="o">.</span><span class="n">is_default_tenant</span><span class="p">():</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">neptune_client</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">MultiTenantGraphStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">neptune_client</span><span class="p">,</span> <span class="n">tenant_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">MultiTenantGraphStore</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neptune_client</span><span class="p">,</span> <span class="n">tenant_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="p">)</span>
 
+    
 <div class="viewcode-block" id="NeptuneIndex.add_embeddings">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.add_embeddings">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds embeddings to provided nodes and updates the Neptune database with the</span>
-<span class="sd">        embeddings using a specific query.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds embeddings to the provided list of nodes by using the instance&#39;s embedding model</span>
+<span class="sd">        and updates these embeddings in Neptune using the appropriate queries.</span>
 
-<span class="sd">        The method assumes that the class is working with a Neptune database setup</span>
-<span class="sd">        and uses an embedding model to process nodes.</span>
-
-<span class="sd">        The process involves:</span>
-<span class="sd">            1. Adding metadata to the nodes.</span>
-<span class="sd">            2. Generating embeddings using the embedding model.</span>
-<span class="sd">            3. Executing a Cypher query for each node to update the Neptune database</span>
-<span class="sd">               with the embedding information.</span>
-<span class="sd">            4. Cleaning up metadata after processing is complete.</span>
+<span class="sd">        This function takes a list of nodes, computes their embeddings using the associated</span>
+<span class="sd">        embedding model, and updates these embeddings in the Neptune database. It also ensures</span>
+<span class="sd">        that temporary metadata added to the nodes is removed after processing.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            nodes: List of nodes to which embeddings will be added. Each node should be</span>
-<span class="sd">                structured and compatible with the embedding model and Neptune database setup.</span>
+<span class="sd">            nodes (list): A list of node objects. Each node should have a `metadata` dictionary</span>
+<span class="sd">                and a unique identifier `node_id`.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            The list of nodes with their information potentially updated after processing.</span>
+<span class="sd">            list: The processed list of nodes with updated embeddings in Neptune.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">text_map</span> <span class="o">=</span> <span class="p">{</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="p">}</span>
+        
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
             <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">underlying_index_name</span><span class="p">()</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;index: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">underlying_index_name</span><span class="p">()</span><span class="si">}</span>
 
-        <span class="n">id_to_embed_map</span> <span class="o">=</span> <span class="n">embed_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_model</span><span class="p">)</span>
+<span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">text</span><span class="si">}</span>
 
+<span class="s1">index: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">underlying_index_name</span><span class="p">()</span><span class="si">}</span>
+<span class="s1">&#39;&#39;&#39;</span>
+                    
+        <span class="n">id_to_embed_map</span> <span class="o">=</span> <span class="n">embed_nodes</span><span class="p">(</span>
+            <span class="n">nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_model</span>
+        <span class="p">)</span>
+        
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
-
+        
             <span class="n">statement</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;MATCH (n:`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">`) WHERE </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">neptune_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s1">&#39;n.</span><span class="si">{self.id_name}</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> = $nodeId&quot;</span>
-
+            
             <span class="n">embedding</span> <span class="o">=</span> <span class="n">id_to_embed_map</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">]</span>
-
-            <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="p">[</span>
-                    <span class="n">statement</span><span class="p">,</span>
-                    <span class="sa">f</span><span class="s1">&#39;WITH n CALL neptune.algo.vectors.upsert(n, </span><span class="si">{</span><span class="n">embedding</span><span class="si">}</span><span class="s1">) YIELD success RETURN success&#39;</span><span class="p">,</span>
-                <span class="p">]</span>
-            <span class="p">)</span>
-
-            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nodeId&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">,</span> <span class="s1">&#39;embedding&#39;</span><span class="p">:</span> <span class="n">embedding</span><span class="p">}</span>
+            
+            <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="n">statement</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">&#39;WITH n CALL neptune.algo.vectors.upsert(n, </span><span class="si">{</span><span class="n">embedding</span><span class="si">}</span><span class="s1">) YIELD success RETURN success&#39;</span>
+            <span class="p">])</span>
+            
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;nodeId&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">,</span>
+                <span class="s1">&#39;embedding&#39;</span><span class="p">:</span> <span class="n">embedding</span>
+            <span class="p">}</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_neptune_client</span><span class="p">()</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
-
+            
+            
+            
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
             <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
+            <span class="n">node</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text_map</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">]</span>
+        
         <span class="k">return</span> <span class="n">nodes</span></div>
 
-
+    
 <div class="viewcode-block" id="NeptuneIndex.top_k">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.top_k">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">top_k</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span>
-        <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
-        <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">top_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span><span class="n">QueryBundle</span><span class="p">,</span> <span class="n">top_k</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Executes a top-K query against a graph database using a given query embedding. The query retrieves</span>
-<span class="sd">        the top-K results based on similarity scores computed from vector embeddings. The function can</span>
-<span class="sd">        filter results using a `FilterConfig` object, modify the query context with a tenant-specific</span>
-<span class="sd">        label, and limit the results based on the top-K value.</span>
+<span class="sd">        Fetches the top-k records ranked by similarity score based on query embeddings</span>
+<span class="sd">        from an underlying Neptune Graph database index. The function internally performs</span>
+<span class="sd">        embedding transformations, constructs queries, and applies filtering criteria.</span>
 
-<span class="sd">        :param query_bundle: The query bundle that includes query string and embeddings.</span>
-<span class="sd">        :type query_bundle: QueryBundle</span>
-<span class="sd">        :param top_k: The number of top results to retrieve. Defaults to 5.</span>
-<span class="sd">        :type top_k: int</span>
-<span class="sd">        :param filter_config: An optional filter configuration to restrict query results. Defaults to None.</span>
-<span class="sd">        :type filter_config: Optional[FilterConfig]</span>
-<span class="sd">        :return: A list of top-K results, with each result including a score and specified return fields.</span>
-<span class="sd">        :rtype: List[Dict[str, Any]]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            query_bundle (QueryBundle): The query bundle containing the query string and</span>
+<span class="sd">                potentially other context required for querying the index.</span>
+<span class="sd">            top_k (int, optional): The number of top records to fetch based on rank. Defaults to 5.</span>
+<span class="sd">            filter_config (Optional[FilterConfig]): Configuration for applying filters to</span>
+<span class="sd">                the query to refine results, if provided.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Dict]: A list of results where each result dictionary contains a &#39;score&#39; field</span>
+<span class="sd">                and the fields specified in self.return_fields.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">query_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;index: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">underlying_index_name</span><span class="p">()</span><span class="si">}</span>
 
 <span class="si">{</span><span class="n">query_bundle</span><span class="o">.</span><span class="n">query_str</span><span class="si">}</span>
 <span class="s1">&#39;&#39;&#39;</span>
 
-        <span class="n">query_bundle</span> <span class="o">=</span> <span class="n">QueryBundle</span><span class="p">(</span><span class="n">query_str</span><span class="o">=</span><span class="n">query_str</span><span class="p">)</span>
+        <span class="n">query_bundle</span> <span class="o">=</span> <span class="n">QueryBundle</span><span class="p">(</span><span class="n">query_str</span><span class="o">=</span><span class="n">query_str</span><span class="p">)</span> 
         <span class="n">query_bundle</span> <span class="o">=</span> <span class="n">to_embedded_query</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_model</span><span class="p">)</span>
 
         <span class="n">tenant_specific_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="o">.</span><span class="n">format_label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
 
-        <span class="n">where_clause</span> <span class="o">=</span> <span class="n">filter_config_to_opencypher_filters</span><span class="p">(</span><span class="n">filter_config</span><span class="p">)</span>
+        <span class="n">where_clause</span> <span class="o">=</span>  <span class="n">filter_config_to_opencypher_filters</span><span class="p">(</span><span class="n">filter_config</span><span class="p">)</span>
         <span class="n">where_clause</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;WHERE </span><span class="si">{</span><span class="n">where_clause</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">where_clause</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;filter: </span><span class="si">{</span><span class="n">where_clause</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -861,29 +823,30 @@
 <span class="s1">        &#39;&#39;&#39;</span>
 
         <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_neptune_client</span><span class="p">()</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">)</span>
-
+        
         <span class="k">return</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="NeptuneIndex.get_embeddings">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes.NeptuneIndex.get_embeddings">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="p">[]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fetches embeddings for the given IDs by executing cypher queries against a</span>
-<span class="sd">        Neptune database. The function calculates embeddings for specified nodes,</span>
-<span class="sd">        filters them based on the tenant-specific label, and matches the defined</span>
-<span class="sd">        path to retrieve associated data.</span>
+<span class="sd">        Fetches embeddings for the specified node IDs by executing a Cypher query on the</span>
+<span class="sd">        database. The function retrieves node embeddings and other specified result fields</span>
+<span class="sd">        based on tenant-specific configurations and returns the collected results.</span>
 
-<span class="sd">        :param ids: List of unique node IDs for which embeddings are retrieved.</span>
-<span class="sd">        :type ids: List[str]</span>
-<span class="sd">        :return: List of dictionaries containing embeddings and additional fields</span>
-<span class="sd">                 returned by the query.</span>
-<span class="sd">        :rtype: List[dict]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ids (List[str]): A list of unique node IDs for which embeddings are to be fetched.</span>
+<span class="sd">                The IDs should correspond to nodes in the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Dict]: A list of dictionaries, where each dictionary contains the retrieved</span>
+<span class="sd">            embedding and other specified fields for a node.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">all_results</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="n">tenant_specific_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="o">.</span><span class="n">format_label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-
+        
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
 
             <span class="n">cypher</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
@@ -899,14 +862,16 @@
 <span class="s1">                </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">return_fields</span><span class="si">}</span>
 <span class="s1">            </span><span class="se">}}</span><span class="s1"> AS result</span>
 <span class="s1">            &#39;&#39;&#39;</span>
-
-            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;elementId&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">}</span>
-
+            
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;elementId&#39;</span><span class="p">:</span> <span class="n">i</span>
+            <span class="p">}</span>
+            
             <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_neptune_client</span><span class="p">()</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
-
+            
             <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
                 <span class="n">all_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">])</span>
-
+        
         <span class="k">return</span> <span class="n">all_results</span></div>
 </div>
 

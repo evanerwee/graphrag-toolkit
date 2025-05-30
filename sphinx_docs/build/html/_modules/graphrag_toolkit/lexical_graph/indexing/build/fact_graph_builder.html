@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -351,7 +354,8 @@
 <div class="viewcode-block" id="FactGraphBuilder">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.fact_graph_builder.FactGraphBuilder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FactGraphBuilder</span><span class="p">(</span><span class="n">GraphBuilder</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds fact-related nodes and relationships in the graph database.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Builds fact-related nodes and relationships in the graph database.</span>
 
 <span class="sd">    This class is responsible for implementing the logic to construct and insert</span>
 <span class="sd">    fact-related nodes and their relationships into the graph database. It utilizes</span>
@@ -364,7 +368,8 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.fact_graph_builder.FactGraphBuilder.index_key">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">index_key</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Provides a method to retrieve the index key for the class.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides a method to retrieve the index key for the class.</span>
 
 <span class="sd">        This method is a class-level utility that returns a predefined string</span>
 <span class="sd">        representing the index key. It encapsulates the logic for fetching the</span>
@@ -375,12 +380,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;fact&#39;</span></div>
 
-
+    
 <div class="viewcode-block" id="FactGraphBuilder.build">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.fact_graph_builder.FactGraphBuilder.build">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span><span class="n">BaseNode</span><span class="p">,</span> <span class="n">graph_client</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="n">Any</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Builds and processes the relationships and properties for a fact</span>
-<span class="sd">        node within a graph database.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Builds and processes the relationships and properties for a fact node within a graph database.</span>
 
 <span class="sd">        This function is responsible for validating metadata of a node, constructing query statements to</span>
 <span class="sd">        add nodes and relationships to the graph database, and executing those queries. The function also</span>
@@ -392,12 +397,14 @@
 <span class="sd">                graph database as a fact.</span>
 <span class="sd">            graph_client (GraphStore): The client used to interact with the graph database, providing methods</span>
 <span class="sd">                for query execution and schema utility functions.</span>
-<span class="sd">            kwargs (Any): Additional parameters for customization, such as include_domain_labels to</span>
+<span class="sd">            **kwargs (Any): Additional parameters for customization, such as &#39;include_domain_labels&#39; to</span>
 <span class="sd">                determine whether domain labels for entities should be included in the queries.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            KeyError: If required keys such as include_domain_labels are missing from the kwargs or metadata is incomplete.</span>
-<span class="sd">            ValidationError: If the metadata provided in the node is invalid or does not match the expected structure for fact validation.</span>
+<span class="sd">            KeyError: If required keys such as &#39;include_domain_labels&#39; are missing from the kwargs or</span>
+<span class="sd">                metadata is incomplete.</span>
+<span class="sd">            ValidationError: If the metadata provided in the node is invalid or does not match the expected</span>
+<span class="sd">                structure for fact validation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fact_metadata</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fact&#39;</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">include_domain_labels</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;include_domain_labels&#39;</span><span class="p">]</span>
@@ -405,7 +412,7 @@
         <span class="k">if</span> <span class="n">fact_metadata</span><span class="p">:</span>
 
             <span class="n">fact</span> <span class="o">=</span> <span class="n">Fact</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fact_metadata</span><span class="p">)</span>
-
+        
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inserting fact [fact_id: </span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">factId</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
             <span class="n">statements</span> <span class="o">=</span> <span class="p">[</span>
@@ -413,7 +420,7 @@
                 <span class="s1">&#39;UNWIND $params AS params&#39;</span>
             <span class="p">]</span>
 
-
+            
             <span class="n">statements</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
                 <span class="sa">f</span><span class="s1">&#39;MERGE (statement:`__Statement__`</span><span class="se">{{</span><span class="si">{</span><span class="n">graph_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;statementId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: params.statement_id</span><span class="se">}}</span><span class="s1">)&#39;</span><span class="p">,</span>
                 <span class="sa">f</span><span class="s1">&#39;MERGE (fact:`__Fact__`</span><span class="se">{{</span><span class="si">{</span><span class="n">graph_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;factId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: params.fact_id</span><span class="se">}}</span><span class="s1">)&#39;</span><span class="p">,</span>
@@ -449,9 +456,9 @@
                 <span class="n">properties</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>                
                     <span class="s1">&#39;o_id&#39;</span><span class="p">:</span> <span class="n">fact</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">entityId</span>
                 <span class="p">})</span>
-
+        
             <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">statements</span><span class="p">)</span>
-
+                
             <span class="n">graph_client</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_params</span><span class="p">(</span><span class="n">properties</span><span class="p">),</span> <span class="n">max_attempts</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_wait</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 
             <span class="n">statements</span> <span class="o">=</span> <span class="p">[</span>
@@ -469,7 +476,7 @@
             <span class="p">}</span>
 
             <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">statements</span><span class="p">)</span>
-
+                
             <span class="n">graph_client</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_params</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">fact</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
@@ -478,7 +485,7 @@
                     <span class="s1">&#39;// insert connection to next facts&#39;</span><span class="p">,</span>
                     <span class="s1">&#39;UNWIND $params AS params&#39;</span>
                 <span class="p">]</span>
-
+            
                 <span class="n">statements</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
                     <span class="sa">f</span><span class="s1">&#39;MATCH (fact:`__Fact__`</span><span class="se">{{</span><span class="si">{</span><span class="n">graph_client</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;factId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: params.fact_id</span><span class="se">}}</span><span class="s1">)&lt;-[:`__OBJECT__`]-(:`__Entity__`)-[:`__SUBJECT__`]-&gt;(nextFact:`__Fact__`)&#39;</span><span class="p">,</span>
                     <span class="s1">&#39;MERGE (fact)-[:`__NEXT__`]-&gt;(nextFact)&#39;</span>
@@ -489,9 +496,9 @@
                 <span class="p">}</span>
 
                 <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">statements</span><span class="p">)</span>
-
+                    
                 <span class="n">graph_client</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_params</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
-
+           
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;fact_id missing from fact node [node_id: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span></div>

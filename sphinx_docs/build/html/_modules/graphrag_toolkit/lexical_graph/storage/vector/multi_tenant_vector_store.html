@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -344,52 +347,49 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">MultiTenantVectorStore</span><span class="p">(</span><span class="n">VectorStore</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Provides a multi-tenant wrapper for VectorStore.</span>
 
-<span class="sd">    This class allows creating a wrapper around a VectorStore object to support</span>
-<span class="sd">    multi-tenancy by associating a specific tenant ID with operations. It ensures</span>
-<span class="sd">    that all indexes retrieved or processed are identified and associated with</span>
-<span class="sd">    the correct tenant context.</span>
+<span class="sd">    This class allows creating a wrapper around a `VectorStore` object to</span>
+<span class="sd">    support multi-tenancy by associating a specific tenant ID with operations.</span>
+<span class="sd">    It ensures that all indexes retrieved or processed are identified and</span>
+<span class="sd">    associated with the correct tenant context.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        inner (VectorStore): The underlying vector store being wrapped.</span>
-<span class="sd">        tenant_id (TenantId): The tenant ID associated with the operations performed</span>
-<span class="sd">            on the vector store.</span>
-
+<span class="sd">        tenant_id (TenantId): The tenant ID associated with the operations</span>
+<span class="sd">            performed on the vector store.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="MultiTenantVectorStore.wrap">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore.wrap">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">wrap</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">:</span> <span class="n">TenantId</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wraps the given vector_store with a MultiTenantVectorStore if</span>
-<span class="sd">        necessary, based on the tenant_id provided. The method ensures that the</span>
-<span class="sd">        given vector_store is returned as-is if it corresponds to the default</span>
-<span class="sd">        tenant or is already an instance of MultiTenantVectorStore. Otherwise,</span>
-<span class="sd">        it wraps the vector_store inside a MultiTenantVectorStore with the</span>
-<span class="sd">        given tenant_id.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrap</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">:</span><span class="n">TenantId</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wraps the given vector_store with a MultiTenantVectorStore if necessary, based on the</span>
+<span class="sd">        tenant_id provided. The method ensures that the given vector_store is returned as-is</span>
+<span class="sd">        if it corresponds to the default tenant or is already an instance of</span>
+<span class="sd">        MultiTenantVectorStore. Otherwise, it wraps the vector_store inside a</span>
+<span class="sd">        MultiTenantVectorStore with the given tenant_id.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            vector_store: The vector_store to wrap if required.</span>
-<span class="sd">            tenant_id: The tenant identifier is used to decide whether wrapping is necessary.</span>
+<span class="sd">            tenant_id: The tenant identifier used to decide whether wrapping is necessary.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The provided vector_store, wrapped in a MultiTenantVectorStore if necessary, or</span>
 <span class="sd">            the vector_store itself if no wrapping is required.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">tenant_id</span><span class="o">.</span><span class="n">is_default_tenant</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">vector_store</span>
+        
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vector_store</span><span class="p">,</span> <span class="n">MultiTenantVectorStore</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">vector_store</span>
         <span class="k">return</span> <span class="n">MultiTenantVectorStore</span><span class="p">(</span><span class="n">inner</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span> <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">)</span></div>
 
 
-    <span class="n">inner</span><span class="p">:</span> <span class="n">VectorStore</span>
-    <span class="n">tenant_id</span><span class="p">:</span> <span class="n">TenantId</span>
+    <span class="n">inner</span><span class="p">:</span><span class="n">VectorStore</span>
+    <span class="n">tenant_id</span><span class="p">:</span><span class="n">TenantId</span>
 
 <div class="viewcode-block" id="MultiTenantVectorStore.get_index">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore.get_index">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves an index from the inner object and associates it with the</span>
-<span class="sd">        tenant ID.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves an index from the inner object and associates it with the tenant ID.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            index_name: Name of the index to retrieve.</span>
@@ -401,12 +401,12 @@
         <span class="n">index</span><span class="o">.</span><span class="n">tenant_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span>
         <span class="k">return</span> <span class="n">index</span></div>
 
-
+    
 <div class="viewcode-block" id="MultiTenantVectorStore.all_indexes">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore.all_indexes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">all_indexes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorIndex</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of all VectorIndex instances stored in the inner</span>
-<span class="sd">        indexes.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of all VectorIndex instances stored in the inner indexes.</span>
 
 <span class="sd">        This method iterates through the keys of the `inner.indexes` dictionary and</span>
 <span class="sd">        retrieves the corresponding VectorIndex object for each key.</span>
@@ -418,6 +418,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span></div>
 </div>
 
+        
 </pre></div>
         </article>
       </div>

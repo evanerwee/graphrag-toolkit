@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -345,68 +348,67 @@
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.BedrockKnowledgeBaseExport">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.</span></span><span class="sig-name descname"><span class="pre">BedrockKnowledgeBaseExport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'output'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_embeddings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_source_doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/bedrock_knowledge_base.html#BedrockKnowledgeBaseExport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.BedrockKnowledgeBaseExport" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Handles the S3 export process, enabling the downloading, parsing, and management
-of data from an Amazon Bedrock Knowledge Base. The class provides functionalities
-to process and save data chunks and source documents in a structured local directory.</p>
-<p>It is equipped with configurations to support selective operations, such as filtering
-by S3 key prefix, including additional metadata, and optional embedding integration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>bucket_name</strong> – Name of the S3 bucket containing the Knowledge Base data.</p></li>
-<li><p><strong>key_prefix</strong> – Prefix to filter the S3 objects in the specified bucket.</p></li>
-<li><p><strong>region</strong> – AWS region containing the S3 bucket.</p></li>
-<li><p><strong>limit</strong> – Maximum number of S3 objects to process (-1 for no limit).</p></li>
-<li><p><strong>output_dir</strong> – Directory path where output files will be written.</p></li>
-<li><p><strong>s3_client</strong> – AWS S3 client used for interacting with the S3 service.</p></li>
-<li><p><strong>id_rewriter</strong> – Facilitates rewriting unique IDs with a custom tenant identifier.</p></li>
-<li><p><strong>metadata_fn</strong> – Optional function to produce or modify object metadata.</p></li>
-<li><p><strong>include_embeddings</strong> – Specifies whether embeddings should be included.</p></li>
-<li><p><strong>include_source_doc</strong> – Specifies whether to include source documents in processing.</p></li>
-</ul>
+<p>Handles the export and processing of Amazon Bedrock Knowledge Base (KB) data.</p>
+<p>The primary purpose of this class is to work with Amazon Bedrock Knowledge Base
+exports by managing data retrieval, processing, and transformation tasks. This
+includes facilities for downloading and processing KB chunks, managing associated
+metadata, and handling source documents.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>region (str): The AWS region where the S3 bucket resides.
+bucket_name (str): The name of the S3 bucket containing the KB export files.
+key_prefix (str): The prefix used to specify the KB export files in the S3 bucket.
+limit (int): The maximum number of documents to process. A value of -1 indicates no limit.
+output_dir (str): The directory in which output files are temporarily stored.
+metadata_fn (Callable[[str], Dict[str, Any]]): A function to process and retrieve metadata</p>
+<blockquote>
+<div><p>from the content. Defaults to None.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>include_embeddings (bool): Specifies whether to include embeddings in the output data.</dt><dd><p>Defaults to True.</p>
+</dd>
+<dt>include_source_doc (bool): Specifies whether to include the source document in the output.</dt><dd><p>Defaults to False.</p>
+</dd>
+<dt>tenant_id (str): The tenant ID used for generating unique document identifiers.</dt><dd><p>Defaults to None.</p>
 </dd>
 </dl>
-<p>Initializes an instance of the class, setting up configuration
-parameters such as the AWS S3 bucket details, file processing
-configurations, and optional metadata handling.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>region</strong> – The AWS region for the S3 bucket.</p></li>
-<li><p><strong>bucket_name</strong> – The name of the AWS S3 bucket.</p></li>
-<li><p><strong>key_prefix</strong> – The prefix path in the S3 bucket from where data
-will be accessed.</p></li>
-<li><p><strong>limit</strong> – The maximum number of objects to process from the S3
-bucket. Defaults to -1, which implies no limit.</p></li>
-<li><p><strong>output_dir</strong> – The directory to which the output files will be
-saved locally.</p></li>
-<li><p><strong>metadata_fn</strong> – A callable function that accepts a string and
-returns a dictionary containing metadata for processing files.</p></li>
-<li><p><strong>include_embeddings</strong> – Determines whether to include embeddings
-in the processing. Defaults to True.</p></li>
-<li><p><strong>include_source_doc</strong> – Specifies whether to include source
-documents during processing. Defaults to False.</p></li>
-<li><p><strong>tenant_id</strong> – Identifier for the tenant for managing tenant-specific
-configurations. Can be None.</p></li>
-<li><p><strong>kwargs</strong> – Additional keyword arguments for custom processing
-configurations.</p></li>
-</ul>
+<p>s3_client (object): The Amazon S3 client instance used for managing S3 operations.
+id_rewriter (object): The mechanism used to rewrite document IDs for support of tenant-specific</p>
+<blockquote>
+<div><p>operations.</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>Initializes the instance with configuration for connecting to an S3 bucket and
+managing related properties. This includes parameters for specifying the S3
+region, bucket details, and various options for handling metadata, embeddings,
+and source documents.</p>
+<dl>
+<dt>Args:</dt><dd><p>region (str): The AWS region where the S3 bucket is located.
+bucket_name (str): The name of the S3 bucket.
+key_prefix (str): Prefix for the S3 object keys to filter objects in the</p>
+<blockquote>
+<div><p>bucket.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>limit (int): Maximum number of S3 objects to process. Defaults to -1,</dt><dd><p>indicating no limit.</p>
+</dd>
+<dt>output_dir (str): Directory path to store processed output. Defaults to</dt><dd><p>‘output’.</p>
+</dd>
+<dt>metadata_fn (Callable[[str], Dict[str, Any]]): Callable function to</dt><dd><p>generate metadata for a given input. Defaults to None.</p>
+</dd>
+<dt>include_embeddings (bool): Flag to include embeddings in the output.</dt><dd><p>Defaults to True.</p>
+</dd>
+<dt>include_source_doc (bool): Flag to include the source document in the</dt><dd><p>output. Defaults to False.</p>
+</dd>
+</dl>
+<p>tenant_id (str): Identifier for the tenant. Defaults to None.
+<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments for customization.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.BedrockKnowledgeBaseExport.docs">
 <span class="sig-name descname"><span class="pre">docs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/bedrock_knowledge_base.html#BedrockKnowledgeBaseExport.docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.BedrockKnowledgeBaseExport.docs" title="Link to this definition">¶</a></dt>
-<dd><p>Represents a method to return the current instance of the class. This method might
-be used for purposes such as method chaining or simply to access the current object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The instance of the current class</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>self</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -414,24 +416,19 @@ be used for purposes such as method chaining or simply to access the current obj
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.TempDir">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.</span></span><span class="sig-name descname"><span class="pre">TempDir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/bedrock_knowledge_base.html#TempDir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.TempDir" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Represents a temporary directory context manager.</p>
-<p>This class provides a context-managed approach to ensure the existence
-of a directory during the lifetime of a context and then cleans it up
-upon exiting the context. It is useful for managing temporary directories
-in a clean and automated manner.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dir_path</strong> – A string representing the directory path that this context
-manager will manage.</p>
+<p>Handles creation and cleanup of a temporary directory.</p>
+<p>This class is used to manage a temporary directory within a context manager. It
+handles the creation of the directory when the context is entered and ensures
+the directory is cleaned up and removed when the context is exited, even if an
+exception occurs.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>dir_path (str): Path to the temporary directory.</p>
 </dd>
 </dl>
-<p>Represents a class that manages a directory path.</p>
-<p>This class provides an interface to hold and represent a directory
-path. Users can initialize an instance of this class with a specific
-directory path.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dir_path</strong> (<em>str</em>) – The path to the directory being managed (as a string)</p>
+<p>This class provides functionality to work with a specified directory path. It allows storing the directory
+path for later use or for performing various directory-related operations.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>dir_path (str): The path to the directory that this class will work with.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -440,41 +437,33 @@ directory path.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.TempFile">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.</span></span><span class="sig-name descname"><span class="pre">TempFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/bedrock_knowledge_base.html#TempFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.TempFile" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Represents a file handler object used for managing and processing file-related operations.</p>
-<p>This class provides the foundation for storing the file path and allows future extensions
-for interacting with the file contents or metadata.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filepath</strong> – The path to the file that this object relates to.</p></li>
-<li><p><strong>file</strong> – The file object representing the opened file during the context manager usage.</p></li>
-</ul>
+<p>Represents a temporary file wrapper for managing file operations and cleanup automatically.</p>
+<p>This class provides context management for opening, reading, and safely cleaning up temporary files.
+The file specified by the <cite>filepath</cite> is deleted after the context ends.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>filepath (str): The path of the file to be managed as a temporary file.
+file (IO): The file object opened in the context.</p>
 </dd>
 </dl>
-<p>Represents a class that manages or processes a given file path.</p>
-<p>This class initializes with a file path, which is essential for further
-functionality related to file manipulation, reading, writing, or other
-operations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – The path to a file that this class will handle or manage.</p>
+<p>Represents a file handler that initializes and manages a specific file path.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>filepath: The path of the file to be managed.</p>
+</dd>
+<dt>Args:</dt><dd><p>filepath: The path to the target file.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.TempFile.readline">
 <span class="sig-name descname"><span class="pre">readline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/bedrock_knowledge_base.html#TempFile.readline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.TempFile.readline" title="Link to this definition">¶</a></dt>
-<dd><p>Reads a single line from the associated file object.</p>
-<p>This method reads the next line from the file represented by the <cite>file</cite>
-attribute of the instance. The line will include the trailing newline
-character, if it exists. If the end of the file is reached, an empty
-string will be returned.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The next line from the file as a string, including the newline
-character, or an empty string if the end of the file is reached.</p>
+<dd><p>Reads a single line from the file associated with the current object.</p>
+<p>This method retrieves the next line from the file and advances the file’s
+read pointer. It is typically used for iterating through lines in a file
+or processing input line by line.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>str: The next line from the file as a string. If the end of the file</dt><dd><p>has been reached, an empty string is returned.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -488,61 +477,50 @@ character, or an empty string if the end of the file is reached.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks.FileBasedChunks">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks.</span></span><span class="sig-name descname"><span class="pre">FileBasedChunks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chunks_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/file_based_chunks.html#FileBasedChunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks.FileBasedChunks" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler" title="graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeHandler</span></code></a></p>
-<p>Handles file-based data chunking with support for metadata filtering and
-structured data organization.</p>
-<p>This class allows efficient storage and retrieval of data chunks from the
-filesystem. It provides methods for filtering metadata, reading files and
-yielding structured data objects, writing data to disk, and organizing files
-for specific collections. Primarily designed for scenarios requiring metadata
-management and chunk-based data processing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>chunks_directory</strong> – The base directory for storing and organizing chunk files.</p></li>
-<li><p><strong>collection_id</strong> – Identifier for the collection. If not provided during
-initialization, a timestamp in the format ‘%Y%m%d-%H%M%S’ will be used.</p></li>
-<li><p><strong>metadata_keys</strong> – List of metadata keys to include or filter during
-processing. If None, all metadata are included.</p></li>
-</ul>
+<p>Handles the processing and management of text data chunks stored as files in a specified directory.</p>
+<p>The <cite>FileBasedChunks</cite> class provides functionality to handle and store chunks of text data, maintain
+metadata filtering, and process incoming <cite>BaseNode</cite> objects. Each chunk is represented as a file in
+the designated <cite>chunks_directory</cite>, and operations like filtering metadata, saving, and iterating
+through stored chunks are supported. The class can work with specific metadata keys and assigns a
+unique collection identifier for organizing files.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>chunks_directory (str): Path to the directory where chunks are stored.
+collection_id (str): Unique identifier for the collection of chunks. Defaults to a timestamp if</p>
+<blockquote>
+<div><p>not provided.</p>
+</div></blockquote>
+<p>metadata_keys (Optional[List[str]]): List of metadata keys to retain during metadata filtering.</p>
 </dd>
 </dl>
-<p>Initializes an instance of the class responsible for handling a directory of chunks,
-a specific collection identifier, and optional metadata keys. The constructor sets
-up the necessary parameters and ensures the storage directory is prepared for
-further operations. A collection identifier can optionally be provided, but if not,
-it defaults to a timestamp.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>chunks_directory</strong> (<em>str</em>) – The path to the directory where chunk files are stored.
-This parameter is mandatory and determines the location for reading or writing
-chunked data.</p></li>
-<li><p><strong>collection_id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – A unique identifier for the collection of chunks being
-handled. If not provided, a timestamp in the format “YYYYMMDD-HHMMSS” is
-automatically generated.</p></li>
-<li><p><strong>metadata_keys</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – A list of keys for associating metadata with collection items.
-These keys allow additional information to be attached to the handled objects.</p></li>
-</ul>
+<p>Initializes the class with a directory for chunks, an optional collection ID, and
+a list of metadata keys. This constructor prepares the necessary configurations
+for managing data chunks, assigns a unique collection identifier if not provided,
+and handles directory preparation.</p>
+<dl>
+<dt>Args:</dt><dd><p>chunks_directory: The directory path where chunks will be stored.
+collection_id: Optional identifier for the collection. If not provided, a timestamp</p>
+<blockquote>
+<div><p>in the format ‘%Y%m%d-%H%M%S’ will be generated and used as the collection ID.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>metadata_keys: Optional list of metadata keys for handling specific metadata related</dt><dd><p>to the chunks.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks.FileBasedChunks.accept">
 <span class="sig-name descname"><span class="pre">accept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/file_based_chunks.html#FileBasedChunks.accept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks.FileBasedChunks.accept" title="Link to this definition">¶</a></dt>
-<dd><p>Accepts a list of BaseNode instances and processes them based on their metadata, saving
-specific nodes to the chunks directory with metadata keys not containing <cite>INDEX_KEY</cite>.
-Yields each node regardless of its processing outcome.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> (<em>List</em><em>[</em><em>BaseNode</em><em>]</em>) – A list of BaseNode objects to process.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Additional keyword arguments that may be utilized during processing.</p></li>
-</ul>
+<dd><p>Processes a list of nodes and writes certain nodes to disk while yielding them.</p>
+<p>This method iterates over a list of nodes. For each node, it checks if specific metadata
+keys are absent. If so, it writes the node’s data to a JSON file within a predefined
+directory structure. Regardless of whether the node was written to disk, each node is
+yielded.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>nodes (List[BaseNode]): A list of nodes to process.
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs (Any): Additional keyword arguments for potential use in processing.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A generator yielding each BaseNode after processing.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Generator[BaseNode, None, None]</p>
+<dt>Yields:</dt><dd><p>BaseNode: Each node from the input list, after optionally writing its data to disk.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -550,15 +528,11 @@ Yields each node regardless of its processing outcome.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks.FileBasedChunks.chunks">
 <span class="sig-name descname"><span class="pre">chunks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/file_based_chunks.html#FileBasedChunks.chunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks.FileBasedChunks.chunks" title="Link to this definition">¶</a></dt>
-<dd><p>Provides an iterable that returns itself. Typically used in cases where
-an iterator behavior is implemented, but the actual data yielding
-logic is delegated to another method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Returns the instance itself as an iterator</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>object</p>
+<dd><p>Returns the current object, typically used as a placeholder or identity function.</p>
+<p>This method might be utilized in contexts where an object iterates over itself or where
+some form of chaining logic is required.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>object: The current instance of this object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -593,54 +567,56 @@ logic is delegated to another method.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.file_based_docs.FileBasedDocs">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.file_based_docs.</span></span><span class="sig-name descname"><span class="pre">FileBasedDocs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/file_based_docs.html#FileBasedDocs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.file_based_docs.FileBasedDocs" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler" title="graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeHandler</span></code></a></p>
-<p>Handles reading, processing, and organizing documents from a file-based
-directory structure.</p>
-<p>This class is used to manage a directory containing documents and their
-associated metadata. It provides methods for filtering metadata, iterating
-through the directory structure to yield processed documents, and handling
-document storage. It ensures compatibility with metadata filtering and
-document organization needs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>docs_directory</strong> – The base directory where documents are stored.</p></li>
-<li><p><strong>collection_id</strong> – Identifier for the collection within the documents directory.</p></li>
-<li><p><strong>metadata_keys</strong> – Optional list of metadata keys to filter during processing.</p></li>
-</ul>
+<p>Handler for file-based document processing.</p>
+<p>This class is designed to process and manage source documents stored within a
+file system. It enables the preparation, reading, filtering, and writing of
+documents to and from specified directories. It facilitates document handling
+by utilizing <cite>TextNode</cite> and <cite>SourceDocument</cite> structures, while providing
+customizable metadata filtering for nodes and their relationships.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>docs_directory (str): The directory path where documents are stored.
+collection_id (str): The identifier of the document collection. If not</p>
+<blockquote>
+<div><p>provided, a timestamp-based ID is generated.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>metadata_keys (Optional[List[str]]): A list of allowed metadata keys. Only</dt><dd><p>these keys will be retained during metadata filtering.</p>
 </dd>
 </dl>
-<p>Initializes an instance of the class and sets up the required directory for storing
-documents associated with the collection. The initialization also generates a unique
-collection ID if not provided, and configures metadata keys required for processing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>docs_directory</strong> (<em>str</em>) – The base directory where the documents will be stored.</p></li>
-<li><p><strong>collection_id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – An optional identifier for the document collection. If not
-provided, a unique ID based on the current timestamp will be generated.</p></li>
-<li><p><strong>metadata_keys</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List of metadata keys for additional information associated
-with the documents. Defaults to None.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Initializes the object with the specified documents directory, collection ID, and
+optional metadata keys. It also prepares the directory for the given collection ID
+within the documents directory.</p>
+<dl>
+<dt>Args:</dt><dd><p>docs_directory (str): The path to the directory where the documents will be stored.
+collection_id (Optional[str]): The ID of the collection. If not provided, defaults</p>
+<blockquote>
+<div><p>to a timestamp in the format ‘YYYYMMDD-HHMMSS’.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>metadata_keys (Optional[List[str]]): A list of metadata keys to associate with</dt><dd><p>the documents in the collection.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.file_based_docs.FileBasedDocs.accept">
 <span class="sig-name descname"><span class="pre">accept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_documents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/file_based_docs.html#FileBasedDocs.accept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.file_based_docs.FileBasedDocs.accept" title="Link to this definition">¶</a></dt>
-<dd><p>Processes and writes source documents to specified directories, preparing directories,
-logging actions, and yielding the document objects after processing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source_documents</strong> (<em>List</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><em>SourceDocument</em></a><em>]</em>) – List of SourceDocument instances to be processed. Each document
-contains nodes which will be saved as separate JSON files.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Additional keyword arguments that may customize the behavior of the function.</p></li>
-</ul>
+<dd><p>This method processes a list of source documents, organizes them into directories based
+on their source ID, and writes individual nodes of each document to separate JSON files.
+It then yields the processed source documents.</p>
+<dl>
+<dt>Args:</dt><dd><p>source_documents (List[SourceDocument]): A list of source documents to be processed.
+<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs (Any): Arbitrary keyword arguments that might be used when processing</p>
+<blockquote>
+<div><p>the source documents.</p>
+</div></blockquote>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A generator yielding each SourceDocument after it has been processed and saved.</p>
+<dt>Yields:</dt><dd><dl class="simple">
+<dt>SourceDocument: The processed source document after its nodes have been written</dt><dd><p>to corresponding JSON files in the directory structure.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Generator[<a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument">SourceDocument</a>, None, None]</p>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -653,24 +629,13 @@ contains nodes which will be saved as separate JSON files.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.file_based_docs.FileBasedDocs.docs">
 <span class="sig-name descname"><span class="pre">docs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/file_based_docs.html#FileBasedDocs.docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.file_based_docs.FileBasedDocs.docs" title="Link to this definition">¶</a></dt>
-<dd><p>Provides methods and attributes for handling objects.</p>
-<p>This class is used to perform operations and return the same object
-when requested.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Attributes<span class="colon">:</span></dt>
-<dd class="field-odd"><p>self (object): The instance of the class itself.</p>
-</dd>
-<dt class="field-even">Methods<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>docs:</dt><dd><p>Returns the instance of the class.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The class instance (<cite>self</cite>).</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>object</p>
+<dd><p>A method that provides documentation in the form of a returned value.</p>
+<p>This method is designed to demonstrate a specific behavior of returning
+the object itself. It does not perform additional computations or
+operations. Typically used in cases requiring fluent interfaces or
+method chaining.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>object: The instance of the object itself.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -700,58 +665,55 @@ when requested.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.JSONArrayReader">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.</span></span><span class="sig-name descname"><span class="pre">JSONArrayReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ensure_ascii</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.TextExtractorFunction" title="graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.TextExtractorFunction"><span class="pre">TextExtractorFunction</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typing.Optional[graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.MetadataExtractorFunction]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/json_array_reader.html#JSONArrayReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.JSONArrayReader" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseReader</span></code></p>
-<p>Provides functionality to load, process, and transform JSON data into a structured
-format for document handling. This reader supports configuration for text extraction,
-metadata processing, and ASCII encoding.</p>
-<p>Designed for scenarios where JSON files need to be parsed and converted into a more
-structured format for further analysis or processing. It supports handling both
-single JSON objects and arrays of JSON objects.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ensure_ascii</strong> – If True, non-ASCII characters are escaped in the JSON output.</p></li>
-<li><p><strong>text_fn</strong> – Callable function for extracting text content from JSON data, allowing
-customization or override of default behavior.</p></li>
-<li><p><strong>metadata_fn</strong> – Callable function for extracting metadata information, allowing
-customization or override of default behavior.</p></li>
-</ul>
+<p>A reader class for loading and processing JSON array data.</p>
+<p>This class is designed to read JSON-encoded data from a file, process the
+data to extract text and metadata, and return it as a list of <cite>Document</cite>
+instances. It supports customization for text and metadata extraction through
+user-defined callback functions.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>ensure_ascii (bool): Determines whether non-ASCII characters get escaped</dt><dd><p>in the JSON output when text extraction is not provided. Defaults to False.</p>
+</dd>
+<dt>text_fn (Optional[TextExtractorFunction]): A function to extract text from</dt><dd><p>individual JSON objects. If None, the full JSON object is serialized
+as a string.</p>
+</dd>
+<dt>metadata_fn (Optional[MetadataExtractorFunction]): A function to extract</dt><dd><p>metadata from individual JSON objects. If None, metadata must come
+from extra_info or defaults to an empty dictionary.</p>
 </dd>
 </dl>
-<p>Initialize a new instance of the class.</p>
-<p>This constructor allows setting up the instance with the specified
-parameters, including optional flags and function references
-to manage the extraction behaviors.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ensure_ascii</strong> – Determines whether to ensure all characters
-in the output are ASCII. Defaults to False.</p></li>
-<li><p><strong>text_fn</strong> – A callable function reference for extracting
-text content. Defaults to None.</p></li>
-<li><p><strong>metadata_fn</strong> – A callable function reference for extracting
-metadata content. Defaults to None.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Initializes an instance of the class with options to configure ASCII handling,
+text extraction, and metadata extraction.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>ensure_ascii (bool): Determines whether ASCII-only encoding is enforced.</dt><dd><p>If set to True, non-ASCII characters will be escaped in the output.</p>
+</dd>
+<dt>text_fn (Optional[TextExtractorFunction]): A callable function for extracting</dt><dd><p>text content, used to customize or override the default behavior.</p>
+</dd>
+<dt>metadata_fn (Optional[MetadataExtractorFunction]): A callable function for</dt><dd><p>extracting metadata information, used to customize or override the
+default behavior.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.JSONArrayReader.load_data">
 <span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/json_array_reader.html#JSONArrayReader.load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.JSONArrayReader.load_data" title="Link to this definition">¶</a></dt>
-<dd><p>Loads data from a file, processes it depending on the provided functions,
-and returns a list of <cite>Document</cite> objects. The text for each <cite>Document</cite>
-can be extracted using a custom function or serialized as JSON. Additional
-metadata can also be passed through <cite>extra_info</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>input_file</strong> (<em>str</em>) – The file path from which data will be loaded.</p></li>
-<li><p><strong>extra_info</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>]</em>) – Additional information to include in the metadata.</p></li>
-</ul>
+<dd><p>Loads data from a specified input file and processes it into a list of <cite>Document</cite> objects. The input file
+should be in JSON format, and the function supports processing either a single JSON object or a list of JSON
+objects.</p>
+<p>The function optionally allows additional metadata to be added to each document via <cite>extra_info</cite> and uses
+an optional callable function <cite>text_fn</cite> to extract text content from each JSON object if provided. If <cite>text_fn</cite>
+is not provided, the function converts the JSON data into a string.</p>
+<dl>
+<dt>Args:</dt><dd><p>input_file: The path to the JSON file containing the data to be loaded.
+extra_info: Optional dictionary of additional metadata to include</p>
+<blockquote>
+<div><p>in each <cite>Document</cite> object.</p>
+</div></blockquote>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of <cite>Document</cite> objects containing the processed data.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Document]</p>
+<dt>Returns:</dt><dd><p>A list of <cite>Document</cite> objects, where each object contains text content and associated metadata.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -762,25 +724,28 @@ metadata can also be passed through <cite>extra_info</cite>.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.MetadataExtractorFunction">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.</span></span><span class="sig-name descname"><span class="pre">MetadataExtractorFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/json_array_reader.html#MetadataExtractorFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.MetadataExtractorFunction" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
-<p>Defines a protocol for a callable object used for processing metadata.</p>
-<p>Instances of this protocol are intended to be invoked with a dictionary
-as input, perform some operations, and return a processed dictionary.
-This protocol serves as a blueprint for ensuring specific call-signatures
-are defined in concrete implementations.</p>
+<p>Defines a protocol for metadata extraction functions.</p>
+<p>This class serves as a protocol for defining functions that extract metadata
+from a given data input. It enforces the structure of such functions to ensure
+that they accept a dictionary of arbitrary key-value pairs as input and return
+a dictionary as the output. This can be used as a type for enforcing
+consistency in functions performing metadata extraction.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.TextExtractorFunction">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.</span></span><span class="sig-name descname"><span class="pre">TextExtractorFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/json_array_reader.html#TextExtractorFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.TextExtractorFunction" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
-<p>Represents a callable interface for processing input data and providing a string
-output based on the implemented processing logic.</p>
-<p>This class is typically used to define a protocol for functions or callable objects
-that take a dictionary of input data and return a string after performing some form
-of processing or transformation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>__call__</strong> – Callable operation for processing input data into a string output.</p>
+<p>Defines a protocol for a callable that extracts text from a dictionary.</p>
+<p>This protocol specifies the blueprint for any callable object or function
+that takes a dictionary with string keys and values of any type as input
+and returns a string output after performing the intended text extraction.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -792,71 +757,65 @@ of processing or transformation.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.s3_based_chunks.S3BasedChunks">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.s3_based_chunks.</span></span><span class="sig-name descname"><span class="pre">S3BasedChunks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s3_encryption_key_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/s3_based_chunks.html#S3BasedChunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.s3_based_chunks.S3BasedChunks" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler" title="graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeHandler</span></code></a></p>
-<p>Manages the interaction with an S3-based storage system to handle chunks of
-data, providing functionality for serialization, metadata filtering,
-iteration, and upload operations.</p>
-<p>This class is intended for managing data chunks in an S3 storage environment
-through a defined bucket, key prefix, and optional collection ID. It allows
-for filtering metadata, processing nodes, server-side encryption during data
-upload, and custom iteration functionality.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>region</strong> – Represents the AWS region associated with the S3 service.</p></li>
-<li><p><strong>bucket_name</strong> – The name of the S3 bucket being used for data storage.</p></li>
-<li><p><strong>key_prefix</strong> – The prefix or folder structure for grouping items in S3.</p></li>
-<li><p><strong>collection_id</strong> – A unique identifier for referring to a specific data
-collection.</p></li>
-<li><p><strong>s3_encryption_key_id</strong> – Optional KMS encryption key ID for securing S3
-objects.</p></li>
-<li><p><strong>metadata_keys</strong> – Optional list defining metadata keys to retain for
-filtering.</p></li>
-</ul>
+<p>Handles chunk management with Amazon S3 as the backend.</p>
+<p>The S3BasedChunks class facilitates the storage, retrieval, and management
+of chunks in an Amazon S3 bucket. It allows for filtering metadata, iterating
+over stored chunks in the S3 bucket, and writing new chunks to the bucket.
+This class leverages the S3 client from GraphRAGConfig for handling S3 operations
+and supports optional server-side encryption configurations.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>region (str): AWS region where the S3 bucket is located.
+bucket_name (str): Name of the S3 bucket used for chunk storage.
+key_prefix (str): Prefix for keys in S3 to logically organize chunks.
+collection_id (str): Identifier for the collection of chunks, defaults to</p>
+<blockquote>
+<div><p>the current timestamp if not provided.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>s3_encryption_key_id (Optional[str]): AWS KMS key ID for server-side encryption,</dt><dd><p>if specified.</p>
+</dd>
+<dt>metadata_keys (Optional[List[str]]): List of metadata keys to retain</dt><dd><p>during metadata filtering. If None, no keys are specifically retained.</p>
 </dd>
 </dl>
-<p>Initializes an instance with the given parameters for file storage or data
-collection configuration. This initialization sets up region-specific S3
-bucket information, encryption, data organization prefixes, and metadata
-keys for efficient management.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>region</strong> (<em>str</em>) – The AWS region where the S3 bucket is located.</p></li>
-<li><p><strong>bucket_name</strong> (<em>str</em>) – The name of the S3 bucket being accessed.</p></li>
-<li><p><strong>key_prefix</strong> (<em>str</em>) – The prefix to be used for objects stored in the S3 bucket.</p></li>
-<li><p><strong>collection_id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The identifier for a specific data collection. Defaults
-to a timestamp (<cite>‘%Y%m%d-%H%M%S’</cite>) if not provided.</p></li>
-<li><p><strong>s3_encryption_key_id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The ID of the key used for encryption in S3.
-This is optional and allows for securing stored objects.</p></li>
-<li><p><strong>metadata_keys</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – A list of metadata keys that are relevant for the
-storage process or data organization.</p></li>
-</ul>
+</dd>
+</dl>
+<p>Initializes the object with specified configuration parameters allowing for
+interaction with S3 and enabling metadata customization. This setup also
+ensures encryption options and collection-specific handling.</p>
+<dl>
+<dt>Args:</dt><dd><p>region: The AWS region associated with the S3 service.
+bucket_name: The name of the S3 bucket to use for storage.
+key_prefix: The prefix (folder path) for keys in the S3 bucket.
+collection_id: Optional unique identifier for the collection. Defaults</p>
+<blockquote>
+<div><p>to the current timestamp if not specified.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>s3_encryption_key_id: Optional ID of the encryption key to use for S3 object</dt><dd><p>encryption.</p>
+</dd>
+<dt>metadata_keys: Optional list of keys indicating which metadata are</dt><dd><p>utilized for objects in the collection.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.s3_based_chunks.S3BasedChunks.accept">
 <span class="sig-name descname"><span class="pre">accept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/s3_based_chunks.html#S3BasedChunks.accept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.s3_based_chunks.S3BasedChunks.accept" title="Link to this definition">¶</a></dt>
-<dd><p>Generates nodes from the input list, processes them, and writes chunks
-containing their metadata to Amazon S3 based on the provided configuration.</p>
-<p>This function iterates over the given nodes, examining their metadata to
-check for a required key. If the key does not exist in the node metadata, the
-node is serialized in JSON format and uploaded to the configured S3 bucket.
-The node’s corresponding metadata chunk is stored using either AWS KMS
-encryption or AES256 depending on the given configuration. Finally, it
-yields each node after processing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> – A list of nodes to process and potentially upload to S3. Each
-node in the list should conform to the expected structure and type
-defined by BaseNode.</p></li>
-<li><p><strong>kwargs</strong> – Additional keyword arguments that may be used for future
-extension or additional processing in this function.</p></li>
-</ul>
+<dd><p>Processes and uploads nodes to an S3 bucket, while also yielding each individual
+node after processing. Utilizes server-side encryption for data storage on S3
+and supports both KMS managed keys and AES256 encryption.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>nodes (List[BaseNode]): A list of <cite>BaseNode</cite> objects to be processed and</dt><dd><p>uploaded to the S3 bucket.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A generator that yields each processed node from the input list
-sequentially, after its storage is handled (if applicable).</p>
+<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs (Any): Additional keyword arguments that might be passed to this</dt><dd><p>function for extended functionality.</p>
+</dd>
+</dl>
+</dd>
+<dt>Yields:</dt><dd><dl class="simple">
+<dt>BaseNode: Yields each <cite>BaseNode</cite> object from the provided <cite>nodes</cite> list after</dt><dd><p>processing.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -869,17 +828,12 @@ sequentially, after its storage is handled (if applicable).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.s3_based_chunks.S3BasedChunks.chunks">
 <span class="sig-name descname"><span class="pre">chunks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/s3_based_chunks.html#S3BasedChunks.chunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.s3_based_chunks.S3BasedChunks.chunks" title="Link to this definition">¶</a></dt>
-<dd><p>Provides an iterable that returns itself.</p>
-<p>This function is designed to return the instance it is called from, enabling
-it to be traversed as an iterable. It is a simple way to create an object that
-is compatible with Python’s iteration protocols without any additional
-complexity.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The instance of the class to allow iteration.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>object</p>
+<dd><p>Returns the object itself as an iterable object.</p>
+<p>This method provides the ability to iterate directly over the object rather than
+returning a separate iterator or collection. It is useful when implementing a
+custom iterable class where the object itself can serve as its own iterable.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>self: The object itself, allowing iteration over its content.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -924,65 +878,54 @@ complexity.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.</span></span><span class="sig-name descname"><span class="pre">S3BasedDocs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s3_encryption_key_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/s3_based_docs.html#S3BasedDocs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler" title="graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeHandler</span></code></a></p>
-<p>Class responsible for handling operations involving S3 documents. This class provides
-functionality for managing, processing, and storing data in an AWS S3 bucket. It allows
-filtering of metadata within nodes, retrieval of source documents, iteration over S3
-data, and handling of S3 encryption for added security.</p>
-<p>The class offers methods that assist in retrieving data from S3, filtering it, and
-writing processed information back to the bucket in a structured and secure manner.
-It integrates seamlessly with the S3 API for object listing, downloading, and uploading.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>region</strong> – The AWS region where the S3 bucket is located.</p></li>
-<li><p><strong>bucket_name</strong> – The name of the S3 bucket used for storing documents.</p></li>
-<li><p><strong>key_prefix</strong> – The prefix for keys in the S3 bucket, defining the folder structure.</p></li>
-<li><p><strong>collection_id</strong> – The unique identifier for the collection being managed in S3.</p></li>
-<li><p><strong>s3_encryption_key_id</strong> – The optional KMS encryption key ID for securing S3 objects.</p></li>
-<li><p><strong>metadata_keys</strong> – The optional list of metadata keys to filter when processing data.</p></li>
-</ul>
+<p>Handles S3-based document storage and retrieval for a specific collection.</p>
+<p>This class manages the interaction with Amazon S3 to store, organize, retrieve,
+and process documents with metadata and relationships. It supports filtering of
+metadata, iterates over collections of documents stored in S3, and saves
+processed documents back to S3. The class also provides encryption options for
+data storage.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>region (str): AWS region where the S3 bucket is located.
+bucket_name (str): Name of the S3 bucket used for storage.
+key_prefix (str): Prefix path used to organize objects in the S3 bucket.
+collection_id (str): Unique identifier for the collection in S3.
+s3_encryption_key_id (Optional[str]): AWS KMS key ID for server-side encryption.
+metadata_keys (Optional[List[str]]): List of metadata keys to retain during metadata filtering.</p>
 </dd>
 </dl>
-<p>Initializes the instance with the specified region, bucket name, key
-prefix, and optional parameters for collection ID, S3 encryption key ID,
-and metadata keys. The collection ID defaults to the current timestamp
-formatted as ‘%Y%m%d-%H%M%S’ if not provided.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>region</strong> (<em>str</em>) – AWS region where the S3 bucket is located.</p></li>
-<li><p><strong>bucket_name</strong> (<em>str</em>) – Name of the S3 bucket to be used.</p></li>
-<li><p><strong>key_prefix</strong> (<em>str</em>) – Prefix for the S3 keys.</p></li>
-<li><p><strong>collection_id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Unique identifier for the collection. Defaults
-to the current timestamp in the ‘%Y%m%d-%H%M%S’ format if not provided.</p></li>
-<li><p><strong>s3_encryption_key_id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Optional encryption key ID for securing S3 keys
-in cases where server-side encryption is required.</p></li>
-<li><p><strong>metadata_keys</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – Optional list of metadata keys to associate with the
-S3 objects.</p></li>
-</ul>
+<p>Initializes an instance of the class with parameters for region, bucket name,
+key prefix, collection ID, S3 encryption key ID, and metadata keys. The
+collection ID defaults to the current timestamp if not provided.</p>
+<dl>
+<dt>Args:</dt><dd><p>region: The AWS region where the S3 bucket is hosted.
+bucket_name: The name of the S3 bucket to be used.
+key_prefix: The prefix to be applied to the keys for the objects stored.
+collection_id: The identifier for the collection. If not provided, defaults</p>
+<blockquote>
+<div><p>to a timestamp in ‘%Y%m%d-%H%M%S’ format.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>s3_encryption_key_id: The ID of the encryption key used by S3 for encrypting</dt><dd><p>objects.</p>
+</dd>
+<dt>metadata_keys: A list of metadata keys associated with the collection. If</dt><dd><p>None, metadata will not include additional keys.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs.accept">
 <span class="sig-name descname"><span class="pre">accept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_documents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/s3_based_docs.html#S3BasedDocs.accept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs.accept" title="Link to this definition">¶</a></dt>
-<dd><p>Processes a list of source documents and writes their metadata chunks to an S3 bucket.</p>
-<p>Iterates through the provided source documents and generates an output stream
-using a generator pattern. Each document and its nodes are processed and stored
-in an S3 bucket with proper encryption settings if configured. Supports both KMS
-and AES256 encryption for added security. Once a source document’s nodes are
-completely written to S3, the method yields the processed document.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source_documents</strong> – A list of source documents to process and upload to an S3 bucket.
-Each document contains metadata that is iterated for storage.</p></li>
-<li><p><strong>kwargs</strong> – Additional key-value arguments that can be passed for extended or
-method-specific configuration, if applicable.</p></li>
-</ul>
+<dd><p>Processes and uploads a list of source documents to an S3 bucket.</p>
+<p>The function iterates through a list of source documents, writes their contents
+to an S3 bucket, and yields the processed documents. It ensures that document
+nodes without specific metadata are uploaded as JSON files. Additionally, it
+supports both KMS and AES256 server-side encryption for file storage, depending
+on the presence of a provided encryption key.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>source_documents (List[SourceDocument]): A list of source documents to be processed and uploaded.
+<a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs (Any): Additional keyword arguments that may be passed but are not used within the function.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A generator that yields processed <cite>SourceDocument</cite> objects after their
-respective metadata chunks are successfully written to S3 for storage.</p>
+<dt>Yields:</dt><dd><p>SourceDocument: The processed source documents after they are written to S3.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1000,15 +943,10 @@ respective metadata chunks are successfully written to S3 for storage.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs.docs">
 <span class="sig-name descname"><span class="pre">docs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/s3_based_docs.html#S3BasedDocs.docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs.docs" title="Link to this definition">¶</a></dt>
-<dd><p>This method returns the instance of the object itself. It is typically
-used for cases where chaining or fluent interfaces are desired. No operations
-are performed in this method beyond returning <cite>self</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The instance of the object itself.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>The same object instance</p>
+<dd><p>This function serves as a placeholder example and returns the instance on
+which it is called.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>The instance on which this method is invoked.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1048,26 +986,26 @@ are performed in this method beyond returning <cite>self</cite>.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.load.source_documents.SourceDocuments">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.load.source_documents.</span></span><span class="sig-name descname"><span class="pre">SourceDocuments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_documents_fns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/load/source_documents.html#SourceDocuments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.load.source_documents.SourceDocuments" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Represents a collection of source document providers.</p>
-<p>The class is designed to manage and iterate over collections of documents provided
-by callable objects. Each callable in the <cite>source_documents_fns</cite> attribute is expected
-to return an iterable containing document data. The class handles the complexities
-of nested iterable structures, providing a unified mechanism to retrieve individual
-document items. This enables streamlined access to document data across various
-sources.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>source_documents_fns</strong> – A list of callables that each return a collection of document
-data when executed.</p>
+<p>Represents a collection of source document generator functions.</p>
+<p>This class is designed to encapsulate a list of callable functions that generate
+source documents. It provides an iterable interface to iterate through all source
+documents produced by these functions. The class supports handling nested lists
+of documents, yielding individual document items.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>source_documents_fns (List[Callable[[], List[Document]]]): A list of callable</dt><dd><p>functions that, when invoked, return lists of documents or nested lists
+of documents.</p>
 </dd>
 </dl>
-<p>Initializes an instance with a list of callable functions, each returning
-a list of documents when invoked. This class constructor is intended to
-store a collection of functions for fetching or generating documents.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>source_documents_fns</strong> (<em>List</em><em>[</em><em>Callable</em><em>[</em><em>[</em><em>]</em><em>, </em><em>List</em><em>[</em><em>Document</em><em>]</em><em>]</em><em>]</em>) – A list of callable functions, where each function
-returns a list of Document objects when invoked.</p>
+</dd>
+</dl>
+<p>Initializes an instance of the class, setting up the source document functions.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>source_documents_fns (List[Callable[[], List[Document]]]): A list of</dt><dd><p>callables. Each callable, when executed, is expected to return a
+list of Document objects.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>

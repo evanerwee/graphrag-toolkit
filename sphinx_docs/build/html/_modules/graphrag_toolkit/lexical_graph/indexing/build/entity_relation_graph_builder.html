@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -351,12 +354,12 @@
 <div class="viewcode-block" id="EntityRelationGraphBuilder">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.entity_relation_graph_builder.EntityRelationGraphBuilder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EntityRelationGraphBuilder</span><span class="p">(</span><span class="n">GraphBuilder</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;EntityRelationGraphBuilder is a specialized builder class responsible</span>
-<span class="sd">    for creating entity relationship graphs based on fact data contained within</span>
-<span class="sd">    nodes. It processes facts, generates corresponding graph relationships, and</span>
-<span class="sd">    interacts with the graph store to persist these relationships. This class</span>
-<span class="sd">    integrates domain-specific metadata and is configured to handle optional</span>
-<span class="sd">    domain labels for nodes and relationships.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EntityRelationGraphBuilder is a specialized builder class responsible for creating</span>
+<span class="sd">    entity relationship graphs based on fact data contained within nodes. It processes</span>
+<span class="sd">    facts, generates corresponding graph relationships, and interacts with the graph store</span>
+<span class="sd">    to persist these relationships. This class integrates domain-specific metadata and is</span>
+<span class="sd">    configured to handle optional domain labels for nodes and relationships.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        DEFAULT_CLASSIFICATION (str): The default classification label used when fact</span>
@@ -366,8 +369,9 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.entity_relation_graph_builder.EntityRelationGraphBuilder.index_key">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">index_key</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the index key associated with this class. The index key is a</span>
-<span class="sd">        unique identifier for objects of this type, allowing for effective</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the index key associated with this class. The index key is</span>
+<span class="sd">        a unique identifier for objects of this type, allowing for effective</span>
 <span class="sd">        lookup or indexing operations.</span>
 
 <span class="sd">        Returns:</span>
@@ -375,20 +379,21 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;fact&#39;</span></div>
 
-
+    
 <div class="viewcode-block" id="EntityRelationGraphBuilder.build">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.entity_relation_graph_builder.EntityRelationGraphBuilder.build">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span><span class="n">BaseNode</span><span class="p">,</span> <span class="n">graph_client</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="n">Any</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Builds and executes entity-relation creation logic based on the</span>
-<span class="sd">        given node and fact metadata. It processes the metadata to create or</span>
-<span class="sd">        update relationships between entities in a graph database. If</span>
-<span class="sd">        include_domain_labels is specified, additional domain-specific labels</span>
-<span class="sd">        will be added to the entities and relationships.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Builds and executes entity-relation creation logic based on the given node and fact metadata. It processes</span>
+<span class="sd">        the metadata to create or update relationships between entities in a graph database. If `include_domain_labels`</span>
+<span class="sd">        is specified, additional domain-specific labels will be added to the entities and relationships.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            node (BaseNode): The node containing metadata for the fact data to process.</span>
 <span class="sd">            graph_client (GraphStore): The graph client instance for executing database queries.</span>
-<span class="sd">            \\*\\*kwargs (Any): Additional keyword arguments. Must include: include_domain_labels (bool) - Indicator for whether domain labels should be included in the query.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments. Must include:</span>
+<span class="sd">                - include_domain_labels (bool): Indicator for whether domain labels should be included in the query.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fact_metadata</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fact&#39;</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">include_domain_labels</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;include_domain_labels&#39;</span><span class="p">]</span>
@@ -398,7 +403,7 @@
             <span class="n">fact</span> <span class="o">=</span> <span class="n">Fact</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fact_metadata</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">fact</span><span class="o">.</span><span class="n">subject</span> <span class="ow">and</span> <span class="n">fact</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
-
+        
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inserting entity relations for fact [fact_id: </span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">factId</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
                 <span class="n">statements</span> <span class="o">=</span> <span class="p">[</span>
@@ -430,14 +435,14 @@
                     <span class="s1">&#39;o_id&#39;</span><span class="p">:</span> <span class="n">fact</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">entityId</span><span class="p">,</span>
                     <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">fact</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">value</span>
                 <span class="p">}</span>
-
+            
                 <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">statements</span><span class="p">)</span>
-
+                    
                 <span class="n">graph_client</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_params</span><span class="p">(</span><span class="n">properties</span><span class="p">),</span> <span class="n">max_attempts</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_wait</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SPC fact, so not creating relation [fact_id: </span><span class="si">{</span><span class="n">fact</span><span class="o">.</span><span class="n">factId</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
-
+           
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;fact_id missing from fact node [node_id: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span></div>

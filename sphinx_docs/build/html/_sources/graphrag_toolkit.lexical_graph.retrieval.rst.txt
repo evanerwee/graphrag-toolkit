@@ -10,6 +10,7 @@ Subpackages
    graphrag_toolkit.lexical_graph.retrieval.post_processors
    graphrag_toolkit.lexical_graph.retrieval.processors
    graphrag_toolkit.lexical_graph.retrieval.retrievers
+   graphrag_toolkit.lexical_graph.retrieval.summary
    graphrag_toolkit.lexical_graph.retrieval.utils
 
 Submodules

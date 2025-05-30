@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -336,40 +339,32 @@
 <span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ProcessorBase</span><span class="p">,</span>
-    <span class="n">ProcessorArgs</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SearchResultCollection</span><span class="p">,</span>
-    <span class="n">SearchResult</span><span class="p">,</span>
-    <span class="n">Topic</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessorBase</span><span class="p">,</span> <span class="n">ProcessorArgs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">SearchResult</span><span class="p">,</span> <span class="n">Topic</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span>
-
 
 <div class="viewcode-block" id="PopulateStatementStrs">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.populate_statement_strs.PopulateStatementStrs">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PopulateStatementStrs</span><span class="p">(</span><span class="n">ProcessorBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class extends ProcessorBase to process search results by populating detailed</span>
-<span class="sd">    statement strings for each topic within the results.</span>
+<span class="sd">    Processes search results by populating their associated topics with detailed</span>
+<span class="sd">    statement strings.</span>
 
-<span class="sd">    The PopulateStatementStrs class is designed to enhance the topics in a collection of search</span>
-<span class="sd">    results. It processes topics by adding more information into their statement strings, derived</span>
-<span class="sd">    from associated facts and details. This results in enriched search results with statements</span>
-<span class="sd">    that better represent the underlying topics.</span>
+<span class="sd">    This class extends the functionality of the `ProcessorBase` to enhance topics</span>
+<span class="sd">    within search results by appending more descriptive details to their respective</span>
+<span class="sd">    statements. These enhanced statements include additional context from associated</span>
+<span class="sd">    facts and details, improving their informativeness and clarity.</span>
 
-<span class="sd">    :ivar args: Configuration arguments required for the processor.</span>
-<span class="sd">    :type args: ProcessorArgs</span>
-<span class="sd">    :ivar filter_config: Configuration specific to the filtering logic for the processor.</span>
-<span class="sd">    :type filter_config: FilterConfig</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        args (ProcessorArgs): Configuration arguments for the processor.</span>
+<span class="sd">        filter_config (FilterConfig): Configuration to control filtering during</span>
+<span class="sd">            processing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">ProcessorArgs</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the instance of the class with the provided</span>
-<span class="sd">        ProcessorArgs and FilterConfig.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span><span class="n">ProcessorArgs</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span><span class="n">FilterConfig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the instance of the class with the provided ProcessorArgs and</span>
+<span class="sd">        FilterConfig.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            args (ProcessorArgs): The set of arguments that configure the processor.</span>
@@ -377,14 +372,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_process_results</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">search_results</span><span class="p">:</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">QueryBundle</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Processes search results by enriching each search result&#39;s topics</span>
-<span class="sd">        with detailed string information, derived from associated statements,</span>
-<span class="sd">        facts, and additional details. This method modifies and returns a new</span>
-<span class="sd">        collection of search results where each result includes the updated</span>
-<span class="sd">        statement strings for its topics.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_results</span><span class="p">:</span><span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes search results by enriching each search result&#39;s topics with detailed</span>
+<span class="sd">        string information, derived from associated statements, facts, and additional</span>
+<span class="sd">        details. This method modifies and returns a new collection of search results where</span>
+<span class="sd">        each result includes the updated statement strings for its topics.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            search_results (SearchResultCollection): A collection of search results that</span>
@@ -395,12 +388,11 @@
 <span class="sd">            SearchResultCollection: A processed collection of search results with enriched</span>
 <span class="sd">            topic statement strings.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">populate_statement_strs</span><span class="p">(</span><span class="n">topic</span><span class="p">:</span> <span class="n">Topic</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;This class is a processor that populates statement strings in</span>
-<span class="sd">            each topic of a search result collection. For each topic, it</span>
-<span class="sd">            processes their statements by incorporating related facts and</span>
-<span class="sd">            details into a combined string representation.</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">populate_statement_strs</span><span class="p">(</span><span class="n">topic</span><span class="p">:</span><span class="n">Topic</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This class is a processor that populates statement strings in each topic of a</span>
+<span class="sd">            search result collection. For each topic, it processes their statements by</span>
+<span class="sd">            incorporating related facts and details into a combined string representation.</span>
 
 <span class="sd">            The `_process_results` method iterates through the topics in a collection and</span>
 <span class="sd">            updates their statements with additional details.</span>
@@ -421,17 +413,15 @@
                 <span class="k">if</span> <span class="n">statement</span><span class="o">.</span><span class="n">details</span><span class="p">:</span>
                     <span class="n">statement_details</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">statement</span><span class="o">.</span><span class="n">details</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">))</span>
                 <span class="n">statement</span><span class="o">.</span><span class="n">statement_str</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">statement</span><span class="o">.</span><span class="n">statement</span><span class="si">}</span><span class="s1"> (details: </span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">statement_details</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
-                    <span class="k">if</span> <span class="n">statement_details</span>
+                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">statement</span><span class="o">.</span><span class="n">statement</span><span class="si">}</span><span class="s1"> (details: </span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">statement_details</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span> 
+                    <span class="k">if</span> <span class="n">statement_details</span> 
                     <span class="k">else</span> <span class="n">statement</span><span class="o">.</span><span class="n">statement</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">topic</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">populate_search_result_statement_strs</span><span class="p">(</span>
-            <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">search_result</span><span class="p">:</span> <span class="n">SearchResult</span>
-        <span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;A processor class to populate statement strings within search</span>
-<span class="sd">            results for a query.</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">populate_search_result_statement_strs</span><span class="p">(</span><span class="n">index</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">search_result</span><span class="p">:</span><span class="n">SearchResult</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            A processor class to populate statement strings within search results for a query.</span>
 
 <span class="sd">            This class processes a collection of search results and applies a transformation to</span>
 <span class="sd">            populate statement strings in each search result based on their topics.</span>
@@ -440,10 +430,10 @@
 <span class="sd">                None</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_to_topics</span><span class="p">(</span><span class="n">search_result</span><span class="p">,</span> <span class="n">populate_statement_strs</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_to_search_results</span><span class="p">(</span><span class="n">search_results</span><span class="p">,</span> <span class="n">populate_search_result_statement_strs</span><span class="p">)</span></div>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_to_search_results</span><span class="p">(</span>
-            <span class="n">search_results</span><span class="p">,</span> <span class="n">populate_search_result_statement_strs</span>
-        <span class="p">)</span></div>
+
 
 </pre></div>
         </article>

@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -336,44 +339,31 @@
 <span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ProcessorBase</span><span class="p">,</span>
-    <span class="n">ProcessorArgs</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SearchResultCollection</span><span class="p">,</span>
-    <span class="n">SearchResult</span><span class="p">,</span>
-    <span class="n">Topic</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessorBase</span><span class="p">,</span> <span class="n">ProcessorArgs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">SearchResult</span><span class="p">,</span> <span class="n">Topic</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span>
-
 
 <div class="viewcode-block" id="ZeroScores">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.zero_scores.ZeroScores">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ZeroScores</span><span class="p">(</span><span class="n">ProcessorBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A processor class designed to reset scores associated with search results</span>
-<span class="sd">    and their related topics.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Processes and zeroes out the scores of search results and topics.</span>
 
-<span class="sd">    This class is used to process `SearchResultCollection` objects by setting</span>
-<span class="sd">    their scores, as well as the scores within associated topics, to zero.</span>
-<span class="sd">    It inherits from `ProcessorBase` and extends its functionality to provide</span>
-<span class="sd">    score-resetting mechanisms. The class ensures uniform score values, which</span>
-<span class="sd">    helps facilitate predefined filtering or ranking operations.</span>
+<span class="sd">    This class is responsible for setting all scores in a given search result</span>
+<span class="sd">    collection to zero, including scores associated with individual topics and</span>
+<span class="sd">    statements. It subclasses ProcessorBase and leverages its methods to apply</span>
+<span class="sd">    the transformations across the search results and topics. This is used in cases</span>
+<span class="sd">    where scoring is reset or standardized as part of the processing pipeline.</span>
 
-<span class="sd">    :ivar args: The arguments required for processing tasks. This includes</span>
-<span class="sd">        necessary configurations and settings to perform the processing jobs.</span>
-<span class="sd">    :type args: ProcessorArgs</span>
-<span class="sd">    :ivar filter_config: Configuration used to apply filtering mechanisms during</span>
-<span class="sd">        processing. This object contains the criteria and settings used for data</span>
-<span class="sd">        filtering.</span>
-<span class="sd">    :type filter_config: FilterConfig</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        args (ProcessorArgs): Configuration arguments for the processor.</span>
+<span class="sd">        filter_config (FilterConfig): Specific filter configuration applied during</span>
+<span class="sd">            the processing of results.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">ProcessorArgs</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the class inheriting from the parent class and sets up</span>
-<span class="sd">        processor arguments and filter configuration.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span><span class="n">ProcessorArgs</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span><span class="n">FilterConfig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the class inheriting from the parent class and sets up processor</span>
+<span class="sd">        arguments and filter configuration.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            args (ProcessorArgs): The arguments required for processing tasks. This</span>
@@ -385,13 +375,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_process_results</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">search_results</span><span class="p">:</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">QueryBundle</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Processes the search results by zeroing out scores associated with</span>
-<span class="sd">        the statements contained within topics and the search results</span>
-<span class="sd">        themselves. This method ensures that all scores are reset to a default</span>
-<span class="sd">        value (0.0) within the given `SearchResultCollection`.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_results</span><span class="p">:</span><span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes the search results by zeroing out scores associated with the statements</span>
+<span class="sd">        contained within topics and the search results themselves. This method ensures that</span>
+<span class="sd">        all scores are reset to a default value (0.0) within the given `SearchResultCollection`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            search_results: The collection of search results that needs to be processed.</span>
@@ -402,21 +390,19 @@
 <span class="sd">            zero, after applying the zeroing operation to the relevant statements and search</span>
 <span class="sd">            results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">zero_statement_scores</span><span class="p">(</span><span class="n">topic</span><span class="p">:</span> <span class="n">Topic</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;A processor class that sets the scores of all statements within</span>
-<span class="sd">            topics in the search results to zero.</span>
-
-<span class="sd">            This is achieved by applying a helper function to each topic</span>
-<span class="sd">            in the search results.</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">zero_statement_scores</span><span class="p">(</span><span class="n">topic</span><span class="p">:</span><span class="n">Topic</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            A processor class that sets the scores of all statements within topics</span>
+<span class="sd">            in the search results to zero. This is achieved by applying a helper</span>
+<span class="sd">            function to each topic in the search results.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">topic</span><span class="o">.</span><span class="n">statements</span><span class="p">:</span>
                 <span class="n">s</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="k">return</span> <span class="n">topic</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">zero_search_result_scores</span><span class="p">(</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">search_result</span><span class="p">:</span> <span class="n">SearchResult</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Implements a processor that zeroes out the scores of search</span>
-<span class="sd">            results.</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">zero_search_result_scores</span><span class="p">(</span><span class="n">index</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">search_result</span><span class="p">:</span><span class="n">SearchResult</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Implements a processor that zeroes out the scores of search results.</span>
 
 <span class="sd">            This class extends `ProcessorBase` and provides functionality to manipulate</span>
 <span class="sd">            the scores of search results by setting them to zero. It works on a collection</span>
@@ -430,8 +416,10 @@
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">search_result</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_to_topics</span><span class="p">(</span><span class="n">search_result</span><span class="p">,</span> <span class="n">zero_statement_scores</span><span class="p">)</span>
-
+        
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_to_search_results</span><span class="p">(</span><span class="n">search_results</span><span class="p">,</span> <span class="n">zero_search_result_scores</span><span class="p">)</span></div>
+
+
 
 </pre></div>
         </article>

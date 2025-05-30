@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -363,14 +366,19 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.default_builders">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">default_builders</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">GraphBuilder</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates and returns a list of default graph builders used for graph construction. Each graph builder in the</span>
-<span class="sd">    list is responsible for building a specific type of graph structure, such as source graphs, chunk graphs,</span>
-<span class="sd">    entity graphs, and more. These graph builders facilitate a modular and systematic approach to building</span>
-<span class="sd">    complex graphs by separating functionality into distinct components.</span>
+<span class="sd">    Provides a list of default graph builders for constructing various types of graphs.</span>
 
-<span class="sd">    :return: A list of instances of GraphBuilder and its derived types used for various graph construction</span>
-<span class="sd">             processes.</span>
-<span class="sd">    :rtype: List[GraphBuilder]</span>
+<span class="sd">    This function initializes and returns a predefined collection of graph builder</span>
+<span class="sd">    instances. Each builder is responsible for constructing a specific type of graph</span>
+<span class="sd">    used in processing, analyzing, or summarizing graph data. The sequence and types</span>
+<span class="sd">    of builders included in the returned list are predetermined based on the expected</span>
+<span class="sd">    workflow of graph construction.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[GraphBuilder]: A list of instantiated graph builders in the specific</span>
+<span class="sd">            order of SourceGraphBuilder, ChunkGraphBuilder, TopicGraphBuilder,</span>
+<span class="sd">            StatementGraphBuilder, EntityGraphBuilder, EntityRelationGraphBuilder,</span>
+<span class="sd">            FactGraphBuilder, GraphSummaryBuilder.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span>
         <span class="n">SourceGraphBuilder</span><span class="p">(),</span>
@@ -390,54 +398,43 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GraphConstruction</span><span class="p">(</span><span class="n">NodeHandler</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles the construction of graphs using a given GraphStore instance and</span>
-<span class="sd">    a set of configurable graph builders for processing nodes. This class</span>
-<span class="sd">    provides functionality for accepting and processing a set of nodes to</span>
-<span class="sd">    build a graph, utilizing batch operations and other configurations for</span>
-<span class="sd">    efficient graph construction.</span>
+<span class="sd">    Provides functionality for constructing and building a graph using nodes and builders.</span>
 
-<span class="sd">    :ivar graph_client: The GraphStore instance used for managing graph-related</span>
-<span class="sd">        operations, such as storing and retrieving graph-related data.</span>
-<span class="sd">    :type graph_client: GraphStore</span>
-<span class="sd">    :ivar builders: A list of GraphBuilder instances used to process and</span>
-<span class="sd">        transform nodes into graph components. Builders are responsible for</span>
-<span class="sd">        applying specific logic to the nodes based on their configurations.</span>
-<span class="sd">    :type builders: List[GraphBuilder]</span>
+<span class="sd">    The GraphConstruction class is a utility for managing graph construction using a set of</span>
+<span class="sd">    builders and a graph client. It supports functionality to batch graph operations, process</span>
+<span class="sd">    nodes, and utilize builders dynamically based on node metadata. This class facilitates</span>
+<span class="sd">    graph creation and updating in a scalable and configurable manner.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        graph_client (GraphStore): The graph client used to perform operations on the graph store.</span>
+<span class="sd">        builders (List[GraphBuilder]): A collection of graph builders used to process nodes during</span>
+<span class="sd">            graph construction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="GraphConstruction.for_graph_store">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction.for_graph_store">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">for_graph_store</span><span class="p">(</span><span class="n">graph_info</span><span class="p">:</span><span class="n">GraphInfoType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates an instance of the GraphConstruction class for interacting with a graph</span>
-<span class="sd">        store, either by accepting an existing GraphStore instance or by creating one</span>
-<span class="sd">        using the GraphStoreFactory.</span>
+<span class="sd">        Constructs a GraphConstruction instance either directly from a GraphStore instance</span>
+<span class="sd">        or by creating a GraphStore instance using GraphStoreFactory if a non-GraphStore</span>
+<span class="sd">        value is provided.</span>
 
-<span class="sd">        This static method provides flexibility in initializing the GraphConstruction</span>
-<span class="sd">        class. If a GraphStore instance is passed, it is directly utilized. Otherwise,</span>
-<span class="sd">        the method constructs a GraphStore instance using provided graph information</span>
-<span class="sd">        and additional parameters, and then initializes GraphConstruction with it.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            graph_info (GraphInfoType, optional): The initial graph information provided,</span>
+<span class="sd">                which can either be a GraphStore instance or data that can be used to</span>
+<span class="sd">                create a GraphStore instance.</span>
+<span class="sd">            **kwargs: Additional parameters required for GraphConstruction or</span>
+<span class="sd">                GraphStore creation.</span>
 
-<span class="sd">        :param graph_info: Optional information about the graph that may either be</span>
-<span class="sd">            used to identify the graph store to interact with or directly represent</span>
-<span class="sd">            an existing graph store instance.</span>
-<span class="sd">        :type graph_info: GraphInfoType, optional</span>
-
-<span class="sd">        :param kwargs: Additional keyword arguments required for creating or interacting</span>
-<span class="sd">            with a graph store, forwarded to the GraphStoreFactory or GraphConstruction</span>
-<span class="sd">            initialization as needed.</span>
-<span class="sd">        :type kwargs: dict</span>
-
-<span class="sd">        :return: An initialized instance of the GraphConstruction class representing</span>
-<span class="sd">            the graph store ready for operations.</span>
-<span class="sd">        :rtype: GraphConstruction</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            GraphConstruction: A new instance of the GraphConstruction class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">graph_info</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">GraphConstruction</span><span class="p">(</span><span class="n">graph_client</span><span class="o">=</span><span class="n">graph_info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">GraphConstruction</span><span class="p">(</span><span class="n">graph_client</span><span class="o">=</span><span class="n">GraphStoreFactory</span><span class="o">.</span><span class="n">for_graph_store</span><span class="p">(</span><span class="n">graph_info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-
+    
     <span class="n">graph_client</span><span class="p">:</span> <span class="n">GraphStore</span> 
     <span class="n">builders</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">GraphBuilder</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Graph builders&#39;</span><span class="p">,</span>
@@ -448,20 +445,31 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction.accept">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">accept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Processes a list of nodes within a graph, utilizing various builders for construction,</span>
-<span class="sd">        and applies batch operations according to the provided configurations. The method</span>
-<span class="sd">        supports optional progress display and facilitates integration with metadata-based</span>
-<span class="sd">        builder selection.</span>
+<span class="sd">        Processes a list of nodes to construct a graph by utilizing builders with the</span>
+<span class="sd">        specified configurations, such as batch writes. Nodes can be processed with or</span>
+<span class="sd">        without progress visualization, and operations are applied in batches as per</span>
+<span class="sd">        given configurations.</span>
 
-<span class="sd">        :param nodes: A list of nodes to process, each represented by an instance of BaseNode. Nodes may optionally contain metadata with specific keys for targeted builder processing.</span>
-<span class="sd">        :type nodes: List[BaseNode]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            nodes: A list of BaseNode objects to be processed and incorporated into the</span>
+<span class="sd">                graph. Each node is checked and processed via builders based on its</span>
+<span class="sd">                metadata.</span>
+<span class="sd">            **kwargs: Arbitrary keyword arguments for configuring the processing and</span>
+<span class="sd">                graph construction. Supported keys include:</span>
+<span class="sd">                - batch_writes_enabled (bool): Enables or disables batch write</span>
+<span class="sd">                  operations.</span>
+<span class="sd">                - batch_write_size (int): Configures the maximum size of each batch for</span>
+<span class="sd">                  operations.</span>
 
-<span class="sd">        :param kwargs: Additional keyword arguments for configuration. Includes: batch_writes_enabled (bool) - Determines whether batch write operations are enabled during the process; batch_write_size (int) - Specifies the size of batch operations if enabled; Any other custom arguments required for the specific builders.</span>
+<span class="sd">        Yields:</span>
+<span class="sd">            BaseNode: Nodes that have been processed by the builders and subjected to</span>
+<span class="sd">            batch operations, ready to be yielded back to the caller. Nodes that do not</span>
+<span class="sd">            meet the criteria or are ignored are not yielded.</span>
 
-<span class="sd">        :return: A generator yielding nodes after processing. Nodes may have been</span>
-<span class="sd">            modified during the graph construction process or as a result of batch</span>
-<span class="sd">            operations.</span>
-<span class="sd">        :rtype: Generator[BaseNode, None, None]</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: Propagates any exception that occurs during the processing of a</span>
+<span class="sd">                node with its assigned builders. Error details are logged before the</span>
+<span class="sd">                exception is raised.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">builders_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">builders</span><span class="p">:</span>
@@ -471,22 +479,22 @@
 
         <span class="n">batch_writes_enabled</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_writes_enabled&#39;</span><span class="p">)</span>
         <span class="n">batch_write_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_write_size&#39;</span><span class="p">)</span>
-
+        
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Batch config: [batch_writes_enabled: </span><span class="si">{</span><span class="n">batch_writes_enabled</span><span class="si">}</span><span class="s1">, batch_write_size: </span><span class="si">{</span><span class="n">batch_write_size</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Graph construction kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">GraphBatchClient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_client</span><span class="p">,</span> <span class="n">batch_writes_enabled</span><span class="o">=</span><span class="n">batch_writes_enabled</span><span class="p">,</span> <span class="n">batch_write_size</span><span class="o">=</span><span class="n">batch_write_size</span><span class="p">)</span> <span class="k">as</span> <span class="n">batch_client</span><span class="p">:</span>
-
+        
             <span class="n">node_iterable</span> <span class="o">=</span> <span class="n">nodes</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_progress</span> <span class="k">else</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Building graph [batch_writes_enabled: </span><span class="si">{</span><span class="n">batch_writes_enabled</span><span class="si">}</span><span class="s1">, batch_write_size: </span><span class="si">{</span><span class="n">batch_write_size</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_iterable</span><span class="p">:</span>
 
                 <span class="n">node_id</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">node_id</span>
-
+                
                 <span class="k">if</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="n">INDEX_KEY</span><span class="p">]</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">]:</span>
-
+                    
                     <span class="k">try</span><span class="p">:</span>
-
+                    
                         <span class="n">index</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">INDEX_KEY</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
                         <span class="n">builders</span> <span class="o">=</span> <span class="n">builders_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
@@ -499,10 +507,10 @@
                     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;An error occurred while building the graph&#39;</span><span class="p">)</span>
                         <span class="k">raise</span> <span class="n">e</span>
-
+                        
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Ignoring node [node_id: </span><span class="si">{</span><span class="n">node_id</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
-
+                    
                 <span class="k">if</span> <span class="n">batch_client</span><span class="o">.</span><span class="n">allow_yield</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
                     <span class="k">yield</span> <span class="n">node</span>
 
@@ -511,6 +519,8 @@
                 <span class="k">yield</span> <span class="n">node</span></div>
 </div>
 
+
+        
 </pre></div>
         </article>
       </div>

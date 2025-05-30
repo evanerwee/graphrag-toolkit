@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 current has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l5 current current-page"><a class="current reference internal" href="#">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -345,10 +348,9 @@
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format.BedrockContextFormat">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format.</span></span><span class="sig-name descname"><span class="pre">BedrockContextFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_manager:</span> <span class="pre">~llama_index.core.callbacks.base.CallbackManager</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/bedrock_context_format.html#BedrockContextFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format.BedrockContextFormat" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseNodePostprocessor</span></code></p>
-<p>Handles the formatting and processing of nodes into an XML-structured
-context for better organization and parsing. This class is designed to
-group nodes by their source, incorporate metadata, and create a structured
-output format.</p>
+<p>Handles the formatting and processing of nodes into an XML-structured context for better organization
+and parsing. This class is designed to group nodes by their source, incorporate metadata, and create
+a structured output format.</p>
 <p>Provides utility to manage nodes’ details and format information in a hierarchical XML style, useful
 for structured data contexts.</p>
 <dl class="simple">
@@ -388,44 +390,43 @@ the need for an instance.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.</span></span><span class="sig-name descname"><span class="pre">BGEReranker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'BAAI/bge-reranker-v2-minicpm-layerwise'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/bge_reranker.html#BGEReranker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseNodePostprocessor</span></code>, <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin" title="graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RerankerMixin</span></code></a></p>
-<p>Represents a Transformer-based reranker for node ranking tasks, built upon
-the FlagEmbedding reranker implementation. This class is designed to handle
-GPU-based re-ranking of node pairs using pre-trained language models, allowing
-for efficient and scalable processing in applications such as search relevance
-and text similarity scoring.</p>
-<p>The class leverages batch processing for efficient computation and includes
-methods to adjust configurations dynamically. It is optimized for single GPU
-usage and expects CUDA-compatible devices for execution.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model_config</strong> – Configuration dictionary for managing model settings and namespaces.</p></li>
-<li><p><strong>model_name</strong> – The name of the model used for reranking.</p></li>
-<li><p><strong>gpu_id</strong> – Optional ID of the GPU utilized for processing.</p></li>
-<li><p><strong>reranker</strong> – The initialized reranker model instance.</p></li>
-<li><p><strong>device</strong> – The CUDA device used for computation.</p></li>
-<li><p><strong>batch_size_internal</strong> – Internal batch size used for input processing.</p></li>
-</ul>
+<p>BGEReranker class for re-ranking nodes or sentence pairs based on a model.</p>
+<p>This class utilizes a pre-trained re-ranker model to re-rank sentence pairs or nodes
+with scores. It uses GPU for computations if available and is designed to work with
+the LayerWiseFlagLLMReranker model from the FlagEmbedding library.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>model_name (str): Name of the pre-trained re-ranker model to use.
+gpu_id (Optional[int]): ID of the GPU to use for computations. If None and GPUs</p>
+<blockquote>
+<div><p>are available, the first free GPU will be used.</p>
+</div></blockquote>
+<p>reranker (Any): The re-ranker object initialized with the specified model.
+device (Any): The torch device to be used for computations, either CPU or GPU.
+batch_size_internal (int): Batch size used for processing sentence pairs</p>
+<blockquote>
+<div><p>or nodes.</p>
+</div></blockquote>
 </dd>
 </dl>
-<p>Initializes the <cite>BGEReranker</cite> class, which configures a model for reranking
-utilizing GPU-based acceleration. The class requires a model name and device
-configuration for processing and uses the <cite>FlagEmbedding</cite> library for model
-initialization. This initialization ensures compatibility with supported
-GPUs and optimizes memory allocation as needed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model_name</strong> (<em>str</em>) – Name of the reranker model to be loaded.</p></li>
-<li><p><strong>gpu_id</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – ID of the GPU to be used. If None, defaults to the most suitable GPU.</p></li>
-<li><p><strong>batch_size</strong> (<em>int</em>) – Number of samples to process in a batch.</p></li>
-</ul>
+<p>Initializes the __init__ function for configuring and setting up the reranker
+model. This includes loading the necessary dependencies, setting GPU device,
+and initializing key model parameters. If the required dependencies are not
+installed or GPU is unavailable, appropriate errors are raised to handle those
+issues.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>model_name (str): The name of the model to be loaded. Defaults to</dt><dd><p>‘BAAI/bge-reranker-v2-minicpm-layerwise’.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ImportError</strong> – If <cite>FlagEmbedding</cite> library is not available.</p></li>
-<li><p><strong>Exception</strong> – If a GPU-compatible environment is not detected.</p></li>
-</ul>
+<dt>gpu_id (Optional[int]): The ID of the GPU to be utilized. If None, assigns</dt><dd><p>the first available free GPU.</p>
+</dd>
+</dl>
+<p>batch_size (int): The batch size for processing inputs. Defaults to 128.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ImportError: If the FlagEmbedding package is not installed.
+Exception: If no compatible GPU is available or any error occurs during</p>
+<blockquote>
+<div><p>initialization of the reranker model.</p>
+</div></blockquote>
 </dd>
 </dl>
 <dl class="py property">
@@ -470,9 +471,9 @@ batch size for operations requiring batching functionality.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.rerank_pairs">
 <span class="sig-name descname"><span class="pre">rerank_pairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/bge_reranker.html#BGEReranker.rerank_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.rerank_pairs" title="Link to this definition">¶</a></dt>
-<dd><p>Re-ranks a list of sentence pairs based on a pre-trained reranker
-model and returns the computed scores. This method utilizes a single
-GPU for computing the scores and is optimized for batch processing.</p>
+<dd><p>Re-ranks a list of sentence pairs based on a pre-trained reranker model and
+returns the computed scores. This method utilizes a single GPU for computing
+the scores and is optimized for batch processing.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>pairs (List[Tuple[str, str]]): A list of sentence pairs to be re-ranked.</dt><dd><p>Each pair includes two sentences as strings.</p>
@@ -529,8 +530,7 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.EnrichSourceDetails.class_name">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/enrich_source_details.html#EnrichSourceDetails.class_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.EnrichSourceDetails.class_name" title="Link to this definition">¶</a></dt>
-<dd><p>Determines and returns the name of the class to represent the source
-details.</p>
+<dd><p>Determines and returns the name of the class to represent the source details.</p>
 <p>This method is typically used to provide a standardized identifier for the
 class, which can be utilized in different parts of the application where the
 class name is required.</p>
@@ -556,8 +556,7 @@ class name is required.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.source_info_keys">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.</span></span><span class="sig-name descname"><span class="pre">source_info_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/enrich_source_details.html#source_info_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.source_info_keys" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a function that retrieves the value of the first matching key
-from a dictionary.</p>
+<dd><p>Generates a function that retrieves the value of the first matching key from a dictionary.</p>
 <p>The generated function iterates through a list of specified keys, searching for the first
 key present in a given dictionary and returning its associated value. If none of the keys
 are found in the dictionary, the function returns None.</p>
@@ -573,8 +572,7 @@ the value of the first matching key, or None if no match is found.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.source_info_template">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.</span></span><span class="sig-name descname"><span class="pre">source_info_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Template</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/enrich_source_details.html#source_info_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.enrich_source_details.source_info_template" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a function for formatting source information using a provided
-template.</p>
+<dd><p>Generates a function for formatting source information using a provided template.</p>
 <p>This function returns another function that, when called with a dictionary of
 source properties, populates a string template with the values from the dictionary,
 replacing placeholders in the template. The function ensures that the template is
@@ -615,8 +613,7 @@ reranking operations.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin.batch_size">
 <em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_size</span></span><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin.batch_size" title="Link to this definition">¶</a></dt>
-<dd><p>Abstract property that defines the batch size for a specific object
-or operation.</p>
+<dd><p>Abstract property that defines the batch size for a specific object or operation.</p>
 <p>This property serves as an interface for retrieving or working with the batch size,
 making it mandatory to implement in any subclass that inherits from the class which
 declares this property. Subclasses must define the behavior and value associated
@@ -633,11 +630,10 @@ with this property.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin.rerank_pairs">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rerank_pairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/reranker_mixin.html#RerankerMixin.rerank_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin.rerank_pairs" title="Link to this definition">¶</a></dt>
-<dd><p>Reranks the given list of key-value pairs by assigning a numerical
-score to each pair. The reranking operation is expected to be
-implemented by subclasses inheriting this abstract method. The method
-takes a list of tuples (key-value pairs) and an optional batch size
-parameter to process the data in chunks.</p>
+<dd><p>Reranks the given list of key-value pairs by assigning a numerical score to each pair.
+The reranking operation is expected to be implemented by subclasses inheriting this
+abstract method. The method takes a list of tuples (key-value pairs) and an optional
+batch size parameter to process the data in chunks.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>pairs:</dt><dd><p>A list of tuples, where each tuple contains two strings representing the
@@ -663,55 +659,54 @@ key-value pairs. The returned list should maintain the same order as the input l
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.</span></span><span class="sig-name descname"><span class="pre">SentenceReranker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_n:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'cross-encoder/stsb-distilroberta-base'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_retrieval_score:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_manager:</span> <span class="pre">~llama_index.core.callbacks.base.CallbackManager</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trust_remote_code:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size_internal:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/sentence_reranker.html#SentenceReranker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceTransformerRerank</span></code>, <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin" title="graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RerankerMixin</span></code></a></p>
-<p>A class used for reranking sentence pairs using a pretrained cross-encoder model.</p>
-<p>This class combines the functionalities of <cite>SentenceTransformerRerank</cite> and
-<cite>RerankerMixin</cite> to enable efficient reranking of sentence pairs based on their
-similarity scores. It provides configurations for top-n reranking, model selection,
-device setup, and batch processing. The primary use case is to compute relevance scores
-for a list of sentence pairs and retrieve the most relevant ones according to the
-given model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>batch_size_internal</strong> – Internal variable to store the batch size for processing sentences.</p>
+<p>Represents a specialized sentence reranker that combines functionalities from
+SentenceTransformerRerank and RerankerMixin.</p>
+<p>This class is designed to rerank sentence pairs using a pre-trained cross-encoder
+model. Users can specify parameters such as the top N results to rerank, the
+underlying model to use, and batch size. The class initializes with support
+for GPU execution if available and relies on external libraries such as
+<cite>sentence_transformers</cite> and <cite>torch</cite>.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>batch_size_internal (int): Internal batch size used during reranking.</p>
 </dd>
 </dl>
-<p>Initializes the instance of a class with the specified configurations. This constructor
-is responsible for importing necessary dependencies and setting up class attributes
-based on the provided arguments.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>top_n</strong> (<em>int</em>) – The top number of results to consider for the operation.</p></li>
-<li><p><strong>model</strong> (<em>str</em>) – The identifier of the model to load and utilize.</p></li>
-<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The device on which the computations will be performed. It can be set to a
-specific device like ‘cpu’ or ‘cuda’.</p></li>
-<li><p><strong>keep_retrieval_score</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Determines whether to retain the retrieval score as part
-of the result output if applicable.</p></li>
-<li><p><strong>batch_size</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Specifies the size of batches to be utilized during processing.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments to customize behavior.</p></li>
-</ul>
+<p>Initializes the class with configuration for a model execution environment.</p>
+<p>This constructor sets up the initial parameters for handling model operations, such
+as determining the top number of results, model name, device configuration, batch size,
+and additional keyword arguments. It ensures that the required external dependencies
+are available and imports them upon initialization.</p>
+<dl>
+<dt>Args:</dt><dd><p>top_n (int): The number of top results to retrieve. Default is 2.
+model (str): The name or identifier of the model to be used.</p>
+<blockquote>
+<div><p>Default is “cross-encoder/stsb-distilroberta-base”.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>device (Optional[str]): Specifies the device to execute the model.</dt><dd><p>For example, ‘cpu’ or ‘cuda’. Default is None.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ImportError</strong> – If required packages <cite>torch</cite> and/or <cite>sentence_transformers</cite> are not found.</p>
+<dt>keep_retrieval_score (Optional[bool]): Determines whether to retain</dt><dd><p>the retrieval score after execution. Default is False.</p>
+</dd>
+<dt>batch_size (Optional[int]): Defines the size of batches to be processed</dt><dd><p>during execution. Default is 128.</p>
+</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs (Any): Additional keyword arguments for further customization</dt><dd><p>of the model initialization.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><dl class="simple">
+<dt>ImportError: If the required ‘torch’ and/or ‘sentence_transformers’</dt><dd><p>packages are not installed.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.batch_size">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_size</span></span><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.batch_size" title="Link to this definition">¶</a></dt>
-<dd><p>Property to get the batch size.</p>
-<p>This attribute returns the internal batch size value stored in
-the object. The property provides a way to retrieve the
-value without directly accessing the internal attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>AttributeError</strong> – If the internal batch size attribute
-does not exist or cannot be accessed.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The current internal batch size value.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd><p>Returns the internal batch size value.</p>
+<p>This property provides access to the internal variable <cite>batch_size_internal</cite>,
+which stores the batch size for the current object. It is used to retrieve the
+value externally without directly exposing the internal variable.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>int: The batch size value stored in the internal variable.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -730,33 +725,27 @@ does not exist or cannot be accessed.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.model_post_init">
 <span class="sig-name descname"><span class="pre">model_post_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.model_post_init" title="Link to this definition">¶</a></dt>
-<dd><p>This function is meant to behave like a BaseModel method to initialise private attributes.</p>
-<p>It takes context as an argument since that’s what pydantic-core passes when calling it.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>self: The BaseModel instance.
-context: The context.</p>
-</dd>
-</dl>
+<dd><p>We need to both initialize private attributes and call the user-defined model_post_init
+method.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.rerank_pairs">
 <span class="sig-name descname"><span class="pre">rerank_pairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/sentence_reranker.html#SentenceReranker.rerank_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.rerank_pairs" title="Link to this definition">¶</a></dt>
-<dd><p>Re-ranks a list of sentence pairs using the model by predicting a similarity
-score for each pair. The similarity scores are computed in batches of a
-specified size, which can improve efficiency for large input data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pairs</strong> – A list of sentence pairs for which similarity scores need to be
-computed. Each sentence pair is represented as a tuple of two strings.</p></li>
-<li><p><strong>batch_size</strong> – The number of sentence pairs to be processed in a single
-batch. Defaults to 128.</p></li>
-</ul>
+<dd><p>Re-ranks pairs of sentences based on their similarity or relevance by passing them
+through the model for prediction. It processes the pairs in batches for efficiency.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>pairs (List[Tuple[str, str]]): A list of sentence pairs, where each pair consists</dt><dd><p>of two strings to be compared.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of float values, where each value represents the computed
-similarity score for the corresponding sentence pair in the input list.</p>
+<dt>batch_size (int): The number of sentence pairs to process in a single batch.</dt><dd><p>Defaults to 128.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[float]: A list of prediction scores for each pair, indicating their similarity</dt><dd><p>or relevance.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -807,12 +796,11 @@ threshold are considered duplicates and are filtered out.</p>
 </dl>
 </dd>
 </dl>
-<p>Initializes an instance of the class with the specified similarity
-threshold and text function. Loads the spaCy language model for text
-processing, specifically disabling named entity recognition and
-parsing, but adding a sentence segmenter. If the required spaCy model
-is not found, raises a ModelError with instructions to install the
-missing model.</p>
+<p>Initializes an instance of the class with the specified similarity threshold and
+text function. Loads the spaCy language model for text processing, specifically
+disabling named entity recognition and parsing, but adding a sentence segmenter.
+If the required spaCy model is not found, raises a ModelError with instructions
+to install the missing model.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>similarity_threshold (float): The threshold for similarity comparison, which should</dt><dd><p>be a value between 0 and 1. Defaults to 0.975.</p>
@@ -841,11 +829,10 @@ missing model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.StatementDiversityPostProcessor.preprocess_texts">
 <span class="sig-name descname"><span class="pre">preprocess_texts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">texts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/statement_diversity.html#StatementDiversityPostProcessor.preprocess_texts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.StatementDiversityPostProcessor.preprocess_texts" title="Link to this definition">¶</a></dt>
-<dd><p>Preprocesses a list of texts by tokenizing, lemmatizing, and
-replacing numeric values with specific placeholders. This method
-removes stopwords and punctuations, converts tokens to lowercase,
-normalizes numbers by replacing them with placeholders, and generates a
-list of preprocessed strings.</p>
+<dd><p>Preprocesses a list of texts by tokenizing, lemmatizing, and replacing numeric
+values with specific placeholders. This method removes stopwords and
+punctuations, converts tokens to lowercase, normalizes numbers by replacing
+them with placeholders, and generates a list of preprocessed strings.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>texts (List[str]): A list of textual inputs to preprocess by tokenizing,</dt><dd><p>removing stopwords and punctuations, lemmatizing, and replacing numeric
@@ -896,8 +883,8 @@ representation of a <cite>SearchResult</cite>, and extracts the associated topic
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.TOPICS_AND_STATEMENTS">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.</span></span><span class="sig-name descname"><span class="pre">TOPICS_AND_STATEMENTS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseNode</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.TOPICS_AND_STATEMENTS" title="Link to this definition">¶</a></dt>
-<dd><p>Constructs a string containing topics and statements retrieved from a
-given node’s text by validating it against a model.</p>
+<dd><p>Constructs a string containing topics and statements retrieved from a given node’s text by
+validating it against a model.</p>
 <p>The function processes textual data from a provided node, extracting the topic and associated
 statements from it. The resulting topic and statements are combined into a single string, where
 each entry is placed on a new line. This function utilizes a search result model for validation
@@ -923,33 +910,29 @@ and parsing.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.</span></span><span class="sig-name descname"><span class="pre">StatementEnhancementPostProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LLM</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><span class="pre">LLMCache</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'\n#</span> <span class="pre">Instructions:\nYou</span> <span class="pre">are</span> <span class="pre">a</span> <span class="pre">helpful</span> <span class="pre">assistant</span> <span class="pre">that</span> <span class="pre">clarifies</span> <span class="pre">statements</span> <span class="pre">to</span> <span class="pre">make</span> <span class="pre">them</span> <span class="pre">self-explanatory,</span> <span class="pre">even</span> <span class="pre">without</span> <span class="pre">context.</span> <span class="pre">\nYour</span> <span class="pre">task</span> <span class="pre">is</span> <span class="pre">to</span> <span class="pre">enhance</span> <span class="pre">the</span> <span class="pre">clarity</span> <span class="pre">and</span> <span class="pre">understandability</span> <span class="pre">of</span> <span class="pre">statements</span> <span class="pre">while</span> <span class="pre">preserving</span> <span class="pre">their</span> <span class="pre">original</span> <span class="pre">meaning</span> <span class="pre">and</span> <span class="pre">intent.\nYou</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">provided</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">statement</span> <span class="pre">and</span> <span class="pre">its</span> <span class="pre">corresponding</span> <span class="pre">context.\n\nFor</span> <span class="pre">the</span> <span class="pre">claim,</span> <span class="pre">follow</span> <span class="pre">these</span> <span class="pre">steps:\n\n</span>&#160;&#160;&#160; <span class="pre">1.</span> <span class="pre">Replace</span> <span class="pre">any</span> <span class="pre">pronouns</span> <span class="pre">(e.g.,</span> <span class="pre">he,</span> <span class="pre">she,</span> <span class="pre">it,</span> <span class="pre">they)</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">specific</span> <span class="pre">nouns</span> <span class="pre">they</span> <span class="pre">refer</span> <span class="pre">to.</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">2.</span> <span class="pre">Replace</span> <span class="pre">any</span> <span class="pre">acronyms</span> <span class="pre">with</span> <span class="pre">their</span> <span class="pre">full</span> <span class="pre">forms.\n</span>&#160;&#160;&#160; <span class="pre">3.</span> <span class="pre">If</span> <span class="pre">the</span> <span class="pre">statement</span> <span class="pre">is</span> <span class="pre">fragmented,</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">provided</span> <span class="pre">context</span> <span class="pre">to</span> <span class="pre">reconstruct</span> <span class="pre">it</span> <span class="pre">into</span> <span class="pre">a</span> <span class="pre">complete,</span> <span class="pre">self-explanatory</span> <span class="pre">statement.\n</span>&#160;&#160;&#160; <span class="pre">4.</span> <span class="pre">Preserve</span> <span class="pre">any</span> <span class="pre">quoted</span> <span class="pre">speech</span> <span class="pre">or</span> <span class="pre">dialogue</span> <span class="pre">as</span> <span class="pre">is,</span> <span class="pre">without</span> <span class="pre">paraphrasing.\n</span>&#160;&#160;&#160; <span class="pre">5.</span> <span class="pre">If</span> <span class="pre">a</span> <span class="pre">statement</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">self-explanatory,</span> <span class="pre">leave</span> <span class="pre">it</span> <span class="pre">unchanged.\n</span>&#160;&#160;&#160; <span class="pre">6.</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">introduce</span> <span class="pre">irrelevant</span> <span class="pre">context</span> <span class="pre">information</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">modified</span> <span class="pre">sentence.</span> <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">7.</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">use</span> <span class="pre">your</span> <span class="pre">training</span> <span class="pre">history,</span> <span class="pre">rely</span> <span class="pre">only</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">context</span> <span class="pre">information</span> <span class="pre">to</span> <span class="pre">enhance</span> <span class="pre">the</span> <span class="pre">statement.\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'\n&lt;statement&gt;\n{statement}\n&lt;/statement&gt;\n\n\n&lt;context&gt;\n{context}\n&lt;/context&gt;\n\n#</span> <span class="pre">Response</span> <span class="pre">Format:\n&lt;modified_statement&gt;Provide</span> <span class="pre">the</span> <span class="pre">self-explanatory</span> <span class="pre">statement</span> <span class="pre">here&lt;/modified_statement&gt;\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_concurrent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/statement_enhancement.html#StatementEnhancementPostProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseNodePostprocessor</span></code></p>
-<p>Enhances text statements within nodes using a language model (LLM) to improve
-their clarity, completeness, or quality.</p>
-<p>This class processes nodes containing textual statements and metadata. The
-primary functionality is enhancing text through the use of a large language
-model (LLM). It provides configurable options such as maximum concurrency,
-customizable system and user prompts, and a predefined language model
-interaction template.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>llm</strong> – An optional cache for the large language model. Defaults to None, in
-which case a new cache instance is initialized with default settings.</p></li>
-<li><p><strong>max_concurrent</strong> – The maximum number of nodes processed concurrently. This
-attribute determines the threading pool size utilized in processing.</p></li>
-<li><p><strong>system_prompt</strong> – The default system prompt message content, which is used
-as the initial SYSTEM role text in the chat template.</p></li>
-<li><p><strong>user_prompt</strong> – The default user prompt message content, which is used as
-the USER role text in the chat template.</p></li>
-<li><p><strong>enhance_template</strong> – A chat prompt template initialized with system and user
-prompt messages. It serves as the format for interacting with the LLM.</p></li>
-</ul>
+<p>Post-processes nodes to enhance their statements using provided language model and templates.</p>
+<p>The <cite>StatementEnhancementPostProcessor</cite> class is responsible for enhancing textual statements
+associated with nodes. This class utilizes a language model and specific templates to improve
+the quality or formatting of the statements based on the provided chunk context. The enhancement
+is performed concurrently on multiple nodes for efficiency.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>llm (Optional[LLMCache]): Language model cache used for enhancing statements. Defaults to</dt><dd><p><cite>None</cite>, in which case a default LLM configuration is used.</p>
 </dd>
 </dl>
-<p>Initializes an instance of the class with an optional large language
-model (LLM) cache, a system prompt, a user prompt, and a configurable
-maximum number of concurrent executions. The system and user prompts
-initialize a chat template with predefined message roles and content.</p>
+<p>max_concurrent (int): Maximum number of nodes to process concurrently. Defaults to 10.
+system_prompt (str): System-level prompt used as part of the enhancement template.
+user_prompt (str): User-level prompt used as part of the enhancement template.
+enhance_template (ChatPromptTemplate): Template used to structure the prompts for the</p>
+<blockquote>
+<div><p>language model.</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>Initializes an instance of the class with an optional large language model (LLM)
+cache, a system prompt, a user prompt, and a configurable maximum number of
+concurrent executions. The system and user prompts initialize a chat template with
+predefined message roles and content.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>llm: An optional large language model cache of type LLMCacheType. If none is</dt><dd><p>provided, a new LLMCache instance is initialized with default settings.</p>
@@ -966,11 +949,10 @@ initialize a chat template with predefined message roles and content.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.enhance_statement">
 <span class="sig-name descname"><span class="pre">enhance_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NodeWithScore</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NodeWithScore</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/post_processors/statement_enhancement.html#StatementEnhancementPostProcessor.enhance_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.enhance_statement" title="Link to this definition">¶</a></dt>
-<dd><p>Enhances the statement of the input node by generating a modified
-version of the statement using a large language model (LLM). This
-method updates the node with the enhanced statement if the enhancement
-is successful. If an error occurs or the enhancement is unsuccessful,
-the original node is returned as-is.</p>
+<dd><p>Enhances the statement of the input node by generating a modified version of the
+statement using a large language model (LLM). This method updates the node with
+the enhanced statement if the enhancement is successful. If an error occurs or
+the enhancement is unsuccessful, the original node is returned as-is.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>node (NodeWithScore): The input node containing a text statement and</dt><dd><p>associated metadata to enhance.</p>

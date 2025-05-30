@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.build.topic_graph_builder - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -350,35 +353,33 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.topic_graph_builder.TopicGraphBuilder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopicGraphBuilder</span><span class="p">(</span><span class="n">GraphBuilder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles the creation and management of topic nodes and their relationships within</span>
-<span class="sd">    a graph database.</span>
+<span class="sd">    Handles the construction of a topic graph within a graph-based data store.</span>
 
-<span class="sd">    This class is responsible for extracting topic-related information from nodes,</span>
-<span class="sd">    validating the extracted data against a defined model, and inserting or updating</span>
-<span class="sd">    nodes and relationships in the graph database. The primary purpose of this class</span>
-<span class="sd">    is to ensure all topic nodes are accurately represented and linked to related</span>
-<span class="sd">    chunks in the graph.</span>
+<span class="sd">    This class is a specialized implementation of `GraphBuilder` that focuses on</span>
+<span class="sd">    building and inserting topic-related information into a graph database. It</span>
+<span class="sd">    validates the topic metadata, constructs the necessary graph relationships</span>
+<span class="sd">    and nodes, and executes the insertion logic using the provided graph client.</span>
 
-<span class="sd">    :ivar some_attribute1: Placeholder description of the attribute if applicable.</span>
-<span class="sd">    :type some_attribute1: type</span>
-<span class="sd">    :ivar some_attribute2: Placeholder description of the attribute if applicable.</span>
-<span class="sd">    :type some_attribute2: type</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        node_id (Callable): A callable function from the `GraphStore` class used</span>
+<span class="sd">            to generate a unique identifier for nodes in the graph.</span>
+
+<span class="sd">        execute_query_with_retry (Callable): A callable function from the</span>
+<span class="sd">            `GraphStore` class used to execute queries with retry mechanisms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="TopicGraphBuilder.index_key">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.topic_graph_builder.TopicGraphBuilder.index_key">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">index_key</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Represents a class-level method to retrieve the index key utilized for indexing.</span>
+<span class="sd">        Returns the key used for indexing objects of this class.</span>
 
-<span class="sd">        The `index_key` method is a class-level utility that provides a standardized</span>
-<span class="sd">        key format for identifying specific instances or categories related to the</span>
-<span class="sd">        class&#39;s functionality.</span>
+<span class="sd">        This method is a class-level method that provides a consistent indexing</span>
+<span class="sd">        key for all objects belonging to this class. It ensures uniformity when</span>
+<span class="sd">        storing or retrieving class instances using a common key identifier.</span>
 
-<span class="sd">        :classmethod:</span>
-
-<span class="sd">        :return: A string representing the class-level index key.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A string value representing the index key for the class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;topic&#39;</span></div>
 
@@ -387,18 +388,19 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.topic_graph_builder.TopicGraphBuilder.build">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span><span class="n">BaseNode</span><span class="p">,</span> <span class="n">graph_client</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="n">Any</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructs and executes a graph database query to insert topic nodes and their relationships</span>
-<span class="sd">        to chunk nodes based on metadata present in the provided node. If a topic is found in the node&#39;s</span>
-<span class="sd">        metadata, it validates and processes the topic data, builds Cypher queries, and executes them</span>
-<span class="sd">        to insert topics and their relationships into the graph database.</span>
+<span class="sd">        Builds a topic node and its relationships in the graph database.</span>
 
-<span class="sd">        If no topic metadata is provided in the node, a warning is logged indicating the absence</span>
-<span class="sd">        of the topic ID.</span>
+<span class="sd">        This method takes a BaseNode object, processes its metadata to extract topic</span>
+<span class="sd">        information, and creates or updates nodes and relationships in the graph</span>
+<span class="sd">        database using the provided graph client. If the metadata contains topic data,</span>
+<span class="sd">        it validates it, constructs the necessary query, and executes it in the graph</span>
+<span class="sd">        store. If no topic data exists in the metadata, a warning is logged.</span>
 
-<span class="sd">        :param node: The `BaseNode` instance which contains metadata information including topic data.</span>
-<span class="sd">        :param graph_client: The instance of `GraphStore` used to interact with the graph database.</span>
-<span class="sd">        :param kwargs: Additional arguments that may be used during topic node processing.</span>
-<span class="sd">        :return: None</span>
+<span class="sd">        Args:</span>
+<span class="sd">            node: A BaseNode instance containing metadata about the topic.</span>
+<span class="sd">            graph_client: A GraphStore instance used to execute queries against the</span>
+<span class="sd">                graph database.</span>
+<span class="sd">            **kwargs: Additional arguments for customization or further processing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">topic_metadata</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;topic&#39;</span><span class="p">,</span> <span class="p">{})</span>
 
@@ -487,11 +489,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

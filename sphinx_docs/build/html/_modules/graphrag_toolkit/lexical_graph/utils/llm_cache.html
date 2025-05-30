@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -352,38 +355,33 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasePromptTemplate</span>
 
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span> 
 
-<span class="n">c_red</span><span class="p">,</span> <span class="n">c_blue</span><span class="p">,</span> <span class="n">c_green</span><span class="p">,</span> <span class="n">c_cyan</span><span class="p">,</span> <span class="n">c_norm</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;</span><span class="se">\x1b</span><span class="s2">[31m&quot;</span><span class="p">,</span>
-    <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[94m&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[92m&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[96m&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[0m&#39;</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">c_red</span><span class="p">,</span> <span class="n">c_blue</span><span class="p">,</span> <span class="n">c_green</span><span class="p">,</span> <span class="n">c_cyan</span><span class="p">,</span> <span class="n">c_norm</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\x1b</span><span class="s2">[31m&quot;</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[94m&#39;</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[92m&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[96m&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[0m&#39;</span>
 
 <span class="n">MAX_ATTEMPTS</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">TIMEOUT</span> <span class="o">=</span> <span class="mf">60.0</span>
-
 
 <div class="viewcode-block" id="LLMCache">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LLMCache</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="n">llm</span><span class="p">:</span> <span class="n">LLM</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;LLM whose responses may be cached&#39;</span><span class="p">)</span>
-    <span class="n">enable_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Whether the cache is enabled or disabled&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="n">verbose_prompt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">verbose_response</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">llm</span><span class="p">:</span><span class="n">LLM</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;LLM whose responses may be cached&#39;</span><span class="p">)</span>
+    <span class="n">enable_cache</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Whether the cache is enabled or disabled&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">verbose_prompt</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">verbose_response</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LLMCache.predict">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache.predict">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="n">BasePromptTemplate</span><span class="p">,</span> <span class="o">**</span><span class="n">prompt_args</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Predicts a response based on the given prompt and dynamic arguments</span>
-<span class="sd">        using the configured language model (LLM). Supports caching of</span>
-<span class="sd">        responses to enhance efficiency for repeated queries and handles</span>
-<span class="sd">        verbose logging for debugging or monitoring purposes.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="n">BasePromptTemplate</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">prompt_args</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predicts a response based on the given prompt and dynamic arguments using the configured</span>
+<span class="sd">        language model (LLM). Supports caching of responses to enhance efficiency for repeated</span>
+<span class="sd">        queries and handles verbose logging for debugging or monitoring purposes.</span>
 
 <span class="sd">        The function dynamically adapts caching behavior depending on the configuration. If caching</span>
 <span class="sd">        is disabled, responses are generated directly using the LLM. If caching is enabled, it calculates</span>
@@ -396,7 +394,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            prompt: A pre-formatted BasePromptTemplate instance containing the template definition</span>
 <span class="sd">                to generate the LLM response.</span>
-<span class="sd">            prompt_args: Arbitrary keyword arguments that provide dynamic content to fill</span>
+<span class="sd">            **prompt_args: Arbitrary keyword arguments that provide dynamic content to fill</span>
 <span class="sd">                in the placeholders of the given prompt template.</span>
 
 <span class="sd">        Returns:</span>
@@ -420,16 +418,14 @@
                             <span class="n">connect_timeout</span><span class="o">=</span><span class="n">TIMEOUT</span><span class="p">,</span>
                             <span class="n">read_timeout</span><span class="o">=</span><span class="n">TIMEOUT</span><span class="p">,</span>
                         <span class="p">)</span>
-
+                        
                         <span class="n">session</span> <span class="o">=</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">session</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
-                            <span class="s1">&#39;bedrock-runtime&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span>
-                        <span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;bedrock-runtime&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
                 <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="o">**</span><span class="n">prompt_args</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ModelError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">e</span><span class="si">!s}</span><span class="s1"> [Model config: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">else</span><span class="p">:</span>
-
+            
             <span class="n">cache_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">prompt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">prompt_args</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="n">cache_hex</span> <span class="o">=</span> <span class="n">sha256</span><span class="p">(</span><span class="n">cache_key</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
             <span class="n">cache_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cache/llm/</span><span class="si">{</span><span class="n">cache_hex</span><span class="si">}</span><span class="s1">.txt&#39;</span>
@@ -443,29 +439,30 @@
                     <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="o">**</span><span class="n">prompt_args</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">ModelError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">e</span><span class="si">!s}</span><span class="s1"> Model config: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">cache_file</span><span class="p">)),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span>
-                <span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">cache_file</span><span class="p">)),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cache_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose_response</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s%s%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">c_green</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">c_norm</span><span class="p">)</span>
-
+            
         <span class="k">return</span> <span class="n">response</span></div>
 
-
+    
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="p">,</span> <span class="n">BedrockConverse</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ModelError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Invalid LLM type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="p">)</span><span class="si">}</span><span class="s1"> does not support model&#39;</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ModelError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid LLM type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="p">)</span><span class="si">}</span><span class="s1"> does not support model&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">model</span></div>
 
 
-
+    
 <span class="n">LLMCacheType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">LLM</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">]</span>
+    
+
+
+
+    
 </pre></div>
         </article>
       </div>

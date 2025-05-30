@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -343,11 +346,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.vector_store</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SearchResultCollection</span><span class="p">,</span>
-    <span class="n">SearchResult</span><span class="p">,</span>
-    <span class="n">ScoredEntity</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">SearchResult</span><span class="p">,</span> <span class="n">ScoredEntity</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.base.base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseRetriever</span>
@@ -358,8 +357,8 @@
 
 <span class="n">DEFAULT_PROCESSORS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">DedupResults</span><span class="p">,</span>
-    <span class="n">DisaggregateResults</span><span class="p">,</span>
-    <span class="n">FilterByMetadata</span><span class="p">,</span>
+    <span class="n">DisaggregateResults</span><span class="p">,</span> 
+    <span class="n">FilterByMetadata</span><span class="p">,</span>               
     <span class="n">PopulateStatementStrs</span><span class="p">,</span>
     <span class="n">RerankStatements</span><span class="p">,</span>
     <span class="n">RescoreResults</span><span class="p">,</span>
@@ -367,21 +366,21 @@
     <span class="n">TruncateResults</span><span class="p">,</span>
     <span class="n">TruncateStatements</span><span class="p">,</span>
     <span class="n">ClearChunks</span><span class="p">,</span>
-    <span class="n">ClearScores</span><span class="p">,</span>
+    <span class="n">ClearScores</span>
 <span class="p">]</span>
 
 <span class="n">DEFAULT_FORMATTING_PROCESSORS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">StatementsToStrings</span><span class="p">,</span>
     <span class="n">SimplifySingleTopicResults</span><span class="p">,</span>
-    <span class="n">FormatSources</span><span class="p">,</span>
+    <span class="n">FormatSources</span>
 <span class="p">]</span>
-
 
 <div class="viewcode-block" id="TraversalBasedBaseRetriever">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TraversalBasedBaseRetriever</span><span class="p">(</span><span class="n">BaseRetriever</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for retrieval using traversal-based methods combining a graph</span>
-<span class="sd">    store and a vector store for querying and search.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for retrieval using traversal-based methods combining a graph store and a</span>
+<span class="sd">    vector store for querying and search.</span>
 
 <span class="sd">    The TraversalBasedBaseRetriever class provides foundational utilities and</span>
 <span class="sd">    interfaces for performing data retrieval by leveraging both a graph store for</span>
@@ -408,22 +407,20 @@
 <span class="sd">        filter_config (FilterConfig): Configuration settings for applying filters</span>
 <span class="sd">            during retrieval.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span>
-        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">,</span>
-        <span class="n">processor_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProcessorArgs</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ProcessorBase</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">formatting_processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ProcessorBase</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ScoredEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes a class for managing and processing entities, their</span>
-<span class="sd">        relationships, and vectors within a given graph and vector store. This</span>
-<span class="sd">        also includes the initialization of necessary processors and</span>
-<span class="sd">        configurations for handling filtering and formatting tasks.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">graph_store</span><span class="p">:</span><span class="n">GraphStore</span><span class="p">,</span>
+                 <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">,</span>
+                 <span class="n">processor_args</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">ProcessorArgs</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">processors</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ProcessorBase</span><span class="p">]]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">formatting_processors</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ProcessorBase</span><span class="p">]]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">entities</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ScoredEntity</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">filter_config</span><span class="p">:</span><span class="n">FilterConfig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a class for managing and processing entities, their relationships,</span>
+<span class="sd">        and vectors within a given graph and vector store. This also includes the</span>
+<span class="sd">        initialization of necessary processors and configurations for handling</span>
+<span class="sd">        filtering and formatting tasks.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            graph_store (GraphStore):</span>
@@ -447,28 +444,24 @@
 <span class="sd">            filter_config (FilterConfig):</span>
 <span class="sd">                Configurations for applying filters to data or entities.</span>
 <span class="sd">                Defaults to a new FilterConfig if not given.</span>
-<span class="sd">            kwargs:</span>
+<span class="sd">            **kwargs:</span>
 <span class="sd">                Additional keyword arguments that can be used to initialize</span>
 <span class="sd">                processor arguments or passed as optional configurations.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">processor_args</span> <span class="ow">or</span> <span class="n">ProcessorArgs</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span> <span class="o">=</span> <span class="n">graph_store</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span> <span class="o">=</span> <span class="n">vector_store</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">processors</span> <span class="o">=</span> <span class="n">processors</span> <span class="k">if</span> <span class="n">processors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">DEFAULT_PROCESSORS</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">formatting_processors</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">formatting_processors</span>
-            <span class="k">if</span> <span class="n">formatting_processors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="k">else</span> <span class="n">DEFAULT_FORMATTING_PROCESSORS</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formatting_processors</span> <span class="o">=</span> <span class="n">formatting_processors</span> <span class="k">if</span> <span class="n">formatting_processors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">DEFAULT_FORMATTING_PROCESSORS</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="n">entities</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span> <span class="o">=</span> <span class="n">filter_config</span> <span class="ow">or</span> <span class="n">FilterConfig</span><span class="p">()</span>
-
+        
 <div class="viewcode-block" id="TraversalBasedBaseRetriever.create_cypher_query">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever.create_cypher_query">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_cypher_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_clause</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructs a Cypher query string based on the provided match clause,</span>
-<span class="sd">        tailoring it to retrieve data from a graph database.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructs a Cypher query string based on the provided match clause, tailoring it to retrieve data from a graph database.</span>
 
 <span class="sd">        This function generates a Cypher query dynamically to process relationships and nodes in the graph database.</span>
 <span class="sd">        It extracts information on sources, topics, statements, and chunks, organizing them into a structured result.</span>
@@ -508,8 +501,8 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves nodes with associated scores by performing a graph search</span>
-<span class="sd">        and applying processing routines.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves nodes with associated scores by performing a graph search and applying processing routines.</span>
 
 <span class="sd">        This function performs a search operation starting from the relevant node IDs determined by</span>
 <span class="sd">        the provided query. It then applies a series of processing steps to refine the search results and</span>
@@ -520,38 +513,29 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List[NodeWithScore]: A list of nodes with their associated scores, ready for further processing or display.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">] Begin retrieve [args: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s1">]&#39;</span>
-        <span class="p">)</span>
-
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">] Begin retrieve [args: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+        
         <span class="n">start_retrieve</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-
+        
         <span class="n">start_node_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_start_node_ids</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span>
-        <span class="n">search_results</span><span class="p">:</span> <span class="n">SearchResultCollection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_graph_search</span><span class="p">(</span>
-            <span class="n">query_bundle</span><span class="p">,</span> <span class="n">start_node_ids</span>
-        <span class="p">)</span>
+        <span class="n">search_results</span><span class="p">:</span><span class="n">SearchResultCollection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_graph_search</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">)</span>
 
         <span class="n">end_retrieve</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">processor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">processors</span><span class="p">:</span>
-            <span class="n">search_results</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="p">)</span><span class="o">.</span><span class="n">process_results</span><span class="p">(</span>
-                <span class="n">search_results</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-            <span class="p">)</span>
+            <span class="n">search_results</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="p">)</span><span class="o">.</span><span class="n">process_results</span><span class="p">(</span><span class="n">search_results</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
 
         <span class="n">formatted_search_results</span> <span class="o">=</span> <span class="n">search_results</span><span class="o">.</span><span class="n">model_copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
+        
         <span class="k">for</span> <span class="n">processor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatting_processors</span><span class="p">:</span>
-            <span class="n">formatted_search_results</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">process_results</span><span class="p">(</span>
-                <span class="n">formatted_search_results</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-            <span class="p">)</span>
-
+            <span class="n">formatted_search_results</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="p">)</span><span class="o">.</span><span class="n">process_results</span><span class="p">(</span><span class="n">formatted_search_results</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        
         <span class="n">end_processing</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-        <span class="n">retrieval_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_retrieve</span> <span class="o">-</span> <span class="n">start_retrieve</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
-        <span class="n">processing_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_processing</span> <span class="o">-</span> <span class="n">end_retrieve</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+        <span class="n">retrieval_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_retrieve</span><span class="o">-</span><span class="n">start_retrieve</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+        <span class="n">processing_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_processing</span><span class="o">-</span><span class="n">end_retrieve</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">] Retrieval: </span><span class="si">{</span><span class="n">retrieval_ms</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">ms&#39;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">] Processing: </span><span class="si">{</span><span class="n">processing_ms</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">ms&#39;</span><span class="p">)</span>
@@ -559,25 +543,18 @@
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">NodeWithScore</span><span class="p">(</span>
                 <span class="n">node</span><span class="o">=</span><span class="n">TextNode</span><span class="p">(</span>
-                    <span class="n">text</span><span class="o">=</span><span class="n">formatted_search_result</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span>
-                        <span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span>
-                    <span class="p">),</span>
-                    <span class="n">metadata</span><span class="o">=</span><span class="n">search_result</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span>
-                        <span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_defaults</span><span class="o">=</span><span class="kc">True</span>
-                    <span class="p">),</span>
-                <span class="p">),</span>
-                <span class="n">score</span><span class="o">=</span><span class="n">search_result</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">search_result</span><span class="p">,</span> <span class="n">formatted_search_result</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
-                <span class="n">search_results</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">formatted_search_results</span><span class="o">.</span><span class="n">results</span>
-            <span class="p">)</span>
+                    <span class="n">text</span><span class="o">=</span><span class="n">formatted_search_result</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="n">search_result</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="p">),</span> 
+                <span class="n">score</span><span class="o">=</span><span class="n">search_result</span><span class="o">.</span><span class="n">score</span>
+            <span class="p">)</span> 
+            <span class="k">for</span> <span class="p">(</span><span class="n">search_result</span><span class="p">,</span> <span class="n">formatted_search_result</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">search_results</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">formatted_search_results</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
         <span class="p">]</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_to_search_results_collection</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transforms a list of results into a SearchResultCollection object by</span>
-<span class="sd">        validating and filtering the provided data.</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_to_search_results_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms a list of results into a SearchResultCollection object by validating</span>
+<span class="sd">        and filtering the provided data.</span>
 
 <span class="sd">        This method processes a list of raw results, validates each result&#39;s data using</span>
 <span class="sd">        the SearchResult model, and filters out entries that do not have a &#39;source&#39; key</span>
@@ -593,7 +570,7 @@
 <span class="sd">            filtered search results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">search_results</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">SearchResult</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">])</span>
+            <span class="n">SearchResult</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">])</span> 
             <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span>
             <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;source&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="p">]</span>
@@ -604,8 +581,8 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever.get_start_node_ids">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_start_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Abstract method to retrieve the starting node IDs based on the</span>
-<span class="sd">        provided query bundle.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract method to retrieve the starting node IDs based on the provided query bundle.</span>
 
 <span class="sd">        This method should be implemented by subclasses to determine which nodes</span>
 <span class="sd">        to start the traversal or processing from, according to the given query.</span>
@@ -621,17 +598,15 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-
+    
 <div class="viewcode-block" id="TraversalBasedBaseRetriever.do_graph_search">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever.do_graph_search">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs a graph search starting from the specified nodes and</span>
-<span class="sd">        utilizing the given query to determine the traversal or filtering</span>
-<span class="sd">        logic, ultimately constructing a result collection based on the search</span>
-<span class="sd">        output.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs a graph search starting from the specified nodes and utilizing the given</span>
+<span class="sd">        query to determine the traversal or filtering logic, ultimately constructing a</span>
+<span class="sd">        result collection based on the search output.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            query_bundle: A bundle object containing the query details utilized for</span>

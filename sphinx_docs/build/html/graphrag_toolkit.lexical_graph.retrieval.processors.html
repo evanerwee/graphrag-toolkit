@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 current has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5 current current-page"><a class="current reference internal" href="#">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -345,8 +348,7 @@
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.clear_chunks.ClearChunks">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.clear_chunks.</span></span><span class="sig-name descname"><span class="pre">ClearChunks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/clear_chunks.html#ClearChunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.clear_chunks.ClearChunks" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>Handles the clearing of chunks within topics in a collection of search
-results.</p>
+<p>Handles the clearing of chunks within topics in a collection of search results.</p>
 <p>The ClearChunks class is responsible for modifying topics by removing their
 associated chunks. This is done iteratively over a collection of search results.
 It inherits from <cite>ProcessorBase</cite> and utilizes its utility methods to perform
@@ -362,10 +364,9 @@ removed from search results for further processing or analysis.</p>
 </dl>
 </dd>
 </dl>
-<p>Initializes the instance of the class with the provided arguments
-and filter configuration. This sets up the necessary attributes and
-base class initialization to manage processing and configuration
-effectively for the derived use case.</p>
+<p>Initializes the instance of the class with the provided arguments and filter configuration.
+This sets up the necessary attributes and base class initialization to manage processing
+and configuration effectively for the derived use case.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>args (ProcessorArgs): The processing arguments required for setting up the instance.
 filter_config (FilterConfig): The configuration settings for filtering tasks.</p>
@@ -395,9 +396,8 @@ to be redacted for further processing.</p>
 </dl>
 </dd>
 </dl>
-<p>Initializes the class with the provided arguments for processing and
-filter configuration. Ensures proper setup by invoking the parent class
-initializer.</p>
+<p>Initializes the class with the provided arguments for processing and filter configuration.
+Ensures proper setup by invoking the parent class initializer.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>args (ProcessorArgs): The arguments required for processing operations.
 filter_config (FilterConfig): The configuration for filtering operations.</p>
@@ -412,24 +412,15 @@ filter_config (FilterConfig): The configuration for filtering operations.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.dedup_results.DedupResults">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.dedup_results.</span></span><span class="sig-name descname"><span class="pre">DedupResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/dedup_results.html#DedupResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.dedup_results.DedupResults" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>Processes search results by deduplicating and aggregating topics, chunks, and
-statements to ensure unique, ordered, and scored data per source.</p>
-<p>This class is derived from ProcessorBase and serves to provide functionality for
-deduplication of search results. It processes a collection of search results by
-merging duplicated structures based on their source IDs and aggregating their
-scores when duplicates are found, maintaining only unique topics, chunks, and
-statements. The processed results are returned in a sorted and consistent
-manner to facilitate further usage.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> – The processing arguments required for initialization and further
-execution of tasks.
-Set during class instantiation.</p></li>
-<li><p><strong>filter_config</strong> – The filter configuration detailing how data should be
-filtered during processing.
-Set during class instantiation.</p></li>
-</ul>
+<p>Handles result deduplication by merging duplicate result entries and their nested
+attributes while preserving the most relevant data.</p>
+<p>The DedupResults class is a processor that removes duplicate results based on the
+source ID. It combines overlapping topics, chunks, and statements from matching
+results and adjusts their scores accordingly. This class aims to provide a
+consolidated view of search results by aggregating redundant data.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>args (ProcessorArgs): Configuration arguments needed for processing.
+filter_config (FilterConfig): Configuration for managing filtering behavior.</p>
 </dd>
 </dl>
 <p>Initializes a new instance of the class with the provided arguments.</p>
@@ -471,8 +462,7 @@ corresponding score, allowing more granular analysis or filtering.</p>
 </dl>
 </dd>
 </dl>
-<p>Initializes the Processor class with provided arguments and filter
-configuration.</p>
+<p>Initializes the Processor class with provided arguments and filter configuration.</p>
 <p>This method sets up the processor by utilizing the given configuration and
 arguments, ensuring proper initialization for further processing tasks.</p>
 <dl class="simple">
@@ -498,15 +488,16 @@ that meet the criteria defined in the filter configuration.</p>
 filter_config (FilterConfig): Configuration that defines the metadata filtering rules.</p>
 </dd>
 </dl>
-<p>Initializes the class instance and sets up the basic configuration
-for processing.</p>
+<p>Initializes the class instance and sets up the basic configuration for processing.</p>
 <p>The constructor initializes the parent class with the provided arguments and
 filter configuration. It is responsible for setting up any necessary state
 or configurations required by the class for further processing.</p>
-<dl class="simple">
+<dl>
 <dt>Args:</dt><dd><p>args (ProcessorArgs): The arguments required for initializing the processor.
-filter_config (FilterConfig): The configuration settings for the filtering
-process.</p>
+filter_config (FilterConfig): The configuration settings for the filtering</p>
+<blockquote>
+<div><p>process.</p>
+</div></blockquote>
 </dd>
 </dl>
 </dd></dl>
@@ -518,8 +509,8 @@ process.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.FormatSources">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.</span></span><span class="sig-name descname"><span class="pre">FormatSources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/format_sources.html#FormatSources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.FormatSources" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>Handles formatting of search result sources based on the specified
-formatting logic.</p>
+<p>Handles formatting of search result sources based on the specified formatting
+logic.</p>
 <p>This class provides functionality to format the source field of search results
 using a customizable formatter. The formatter can be a string, list, callable,
 or template, allowing flexibility in how source formatting is achieved. It is
@@ -533,12 +524,11 @@ provided formatter configuration.</p>
 </dl>
 </dd>
 </dl>
-<p>Initializes a new instance of the class responsible for handling
-source formatter logic. The initialization process determines the
-proper formatter function based on the provided arguments and
-configurations. This function sets up the formatter logic, ensuring
-that the correct format handling for various input configurations is
-achieved.</p>
+<p>Initializes a new instance of the class responsible for handling source
+formatter logic. The initialization process determines the proper formatter
+function based on the provided arguments and configurations. This function
+sets up the formatter logic, ensuring that the correct format handling for
+various input configurations is achieved.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>args (ProcessorArgs): Object containing the processor arguments. The</dt><dd><p>configuration for processing is determined based on the <cite>source_formatter</cite>
@@ -573,8 +563,8 @@ returning the <cite>sourceId</cite> property of the <cite>Source</cite>.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.source_info_keys">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.</span></span><span class="sig-name descname"><span class="pre">source_info_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/format_sources.html#source_info_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.source_info_keys" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a function that retrieves the value of the first matching key
-from the metadata of a given source.</p>
+<dd><p>Generates a function that retrieves the value of the first matching key from
+the metadata of a given source.</p>
 <p>This function factory takes a list of keys and creates a function that, when
 provided with a source object, searches through the source’s metadata for those
 keys. If a key is found, it returns the associated value. If none of the keys
@@ -597,8 +587,7 @@ metadata.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.source_info_template">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.</span></span><span class="sig-name descname"><span class="pre">source_info_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Template</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/format_sources.html#source_info_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.format_sources.source_info_template" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a function to apply a string template to the metadata of a
-source.</p>
+<dd><p>Generates a function to apply a string template to the metadata of a source.</p>
 <p>This function takes a template, which can be either a string or an instance of
 the Template class, and produces a function that formats a source’s metadata
 according to that template. If the provided template is a string, it will be
@@ -624,22 +613,22 @@ using the provided template.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.populate_statement_strs.PopulateStatementStrs">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.populate_statement_strs.</span></span><span class="sig-name descname"><span class="pre">PopulateStatementStrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/populate_statement_strs.html#PopulateStatementStrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.populate_statement_strs.PopulateStatementStrs" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>This class extends ProcessorBase to process search results by populating detailed
-statement strings for each topic within the results.</p>
-<p>The PopulateStatementStrs class is designed to enhance the topics in a collection of search
-results. It processes topics by adding more information into their statement strings, derived
-from associated facts and details. This results in enriched search results with statements
-that better represent the underlying topics.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> – Configuration arguments required for the processor.</p></li>
-<li><p><strong>filter_config</strong> – Configuration specific to the filtering logic for the processor.</p></li>
-</ul>
+<p>Processes search results by populating their associated topics with detailed
+statement strings.</p>
+<p>This class extends the functionality of the <cite>ProcessorBase</cite> to enhance topics
+within search results by appending more descriptive details to their respective
+statements. These enhanced statements include additional context from associated
+facts and details, improving their informativeness and clarity.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>args (ProcessorArgs): Configuration arguments for the processor.
+filter_config (FilterConfig): Configuration to control filtering during</p>
+<blockquote>
+<div><p>processing.</p>
+</div></blockquote>
 </dd>
 </dl>
-<p>Initializes the instance of the class with the provided
-ProcessorArgs and FilterConfig.</p>
+<p>Initializes the instance of the class with the provided ProcessorArgs and
+FilterConfig.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>args (ProcessorArgs): The set of arguments that configure the processor.
 filter_config (FilterConfig): The configuration settings for the filter.</p>
@@ -654,43 +643,78 @@ filter_config (FilterConfig): The configuration settings for the filter.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.</span></span><span class="sig-name descname"><span class="pre">ProcessorArgs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/processor_args.html#ProcessorArgs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A container class for managing and configuring arguments used in a
-processing pipeline.</p>
-<p>This class serves as a flexible structure for holding and managing configuration settings
-and parameters required for processing tasks. It provides default values for various options
-while allowing customization through keyword arguments. Users can interact with its attributes
-directly or convert its state into a dictionary for easier manipulation and transport.</p>
+<p>ProcessorArgs is a configuration class for managing various options and
+parameters used by a processing system or pipeline.</p>
+<p>The class provides an interface to define, store, and retrieve a wide range
+of settings, including options for query expansion, subquery derivation,
+fact inclusion, reranking strategies, thresholds, and limits for processing.
+The settings are initialized through keyword arguments, allowing for
+customizable configurations. This class ensures efficient handling and
+retrieval of these parameters during runtime.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>expand_entities (bool): Controls whether entity expansion is enabled</dt><dd><p>during processing.</p>
+</dd>
+</dl>
+<p>include_facts (bool): Indicates whether to include facts in the output.
+derive_subqueries (bool): Specifies if subqueries should be derived</p>
+<blockquote>
+<div><p>from the main query.</p>
+</div></blockquote>
+<p>debug_results (list): A list for storing intermediate debug results.
+reranker (str): Defines the reranking strategy to be employed.
+max_statements (int): The maximum number of statements to process.
+max_search_results (int): The maximum number of search results to</p>
+<blockquote>
+<div><p>retrieve.</p>
+</div></blockquote>
 <dl class="simple">
-<dt>Attributes:</dt><dd><p>expand_entities (bool): Specifies whether to expand entities during processing.
-include_facts (bool): Determines whether facts are included in the output.
-derive_subqueries (bool): Enables deriving subqueries during processing.
-debug_results (list): A collection of debug information or results.
-reranker (str): Strategy for ranking or reranking results, default is ‘tfidf’.
-max_statements (int): Maximum number of statements allowed during processing.
-max_search_results (int): Maximum number of search results to retrieve.
-max_statements_per_topic (int): Limit on the number of statements allowed per topic.
-max_keywords (int): Maximum number of keywords considered in processing.
-max_subqueries (int): Maximum number of subqueries to generate.
-intermediate_limit (int): Interim limit for restricting processing steps.
-query_limit (int): Maximum number of queries to execute.
-vss_top_k (int): Top-k value for vector-space search ranking.
-vss_diversity_factor (int): Factor for introducing diversity in vector search results.
-statement_pruning_threshold (float): Threshold for pruning statements during processing.
-results_pruning_threshold (float): Threshold for pruning search results during processing.
-num_workers (int): Number of worker threads or processes for parallel tasks.
-reranking_source_metadata_fn (Optional[Callable]): A function for reranking based on source metadata.
-source_formatter (Optional[Callable]): A formatter function for handling source data representation.
-ecs_max_score_factor (float): Maximum score factor for entity-context scoring.
-ecs_min_score_factor (float): Minimum score factor for entity-context scoring.
-ecs_max_contexts (int): Limit on the number of entity contexts considered.
-ecs_max_entities_per_context (int): Maximum number of entities allowed per context.</p>
+<dt>max_statements_per_topic (int): The cap on statements related to a</dt><dd><p>single topic.</p>
+</dd>
+<dt>max_keywords (int): The upper limit on the number of keywords used</dt><dd><p>in processing.</p>
+</dd>
+</dl>
+<p>max_subqueries (int): The maximum number of subqueries to generate.
+intermediate_limit (int): The threshold for intermediate results during</p>
+<blockquote>
+<div><p>processing.</p>
+</div></blockquote>
+<p>query_limit (int): The maximum number of queries to handle at once.
+vss_top_k (int): Determines the top K results to include from a</p>
+<blockquote>
+<div><p>vector search system.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>vss_diversity_factor (int): Factor for ensuring diversity in vector</dt><dd><p>search results.</p>
+</dd>
+<dt>statement_pruning_threshold (float): Minimum threshold for pruning</dt><dd><p>irrelevant statements.</p>
+</dd>
+</dl>
+<p>results_pruning_threshold (float): Threshold for pruning processed results.
+num_workers (int): Specifies the number of worker threads to utilize.
+reranking_source_metadata_fn (Optional[Callable]): Function for managing</p>
+<blockquote>
+<div><p>source metadata during reranking.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>source_formatter (Optional[Callable]): Function for formatting the</dt><dd><p>source in the output.</p>
+</dd>
+<dt>ecs_max_score_factor (int): Maximum score factor for entity context</dt><dd><p>scaling.</p>
+</dd>
+<dt>ecs_min_score_factor (float): Minimum score factor for entity context</dt><dd><p>scaling.</p>
+</dd>
+</dl>
+<p>ecs_max_contexts (int): Limit on the number of entity contexts to handle.
+ecs_max_entities_per_context (int): Restriction on how many entities</p>
+<blockquote>
+<div><p>are considered per context.</p>
+</div></blockquote>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs.to_dict">
 <span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/processor_args.html#ProcessorArgs.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs.to_dict" title="Link to this definition">¶</a></dt>
-<dd><p>Transforms the instance attributes and additional arguments into a
-single dictionary.</p>
+<dd><p>Transforms the instance attributes and additional arguments into a single dictionary.</p>
 <p>This method combines the instance’s <cite>__dict__</cite> attributes, representing the object’s
 current state, with any additional dictionary of arguments provided.</p>
 <dl class="simple">
@@ -739,8 +763,7 @@ configuration.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase.process_results">
 <span class="sig-name descname"><span class="pre">process_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection"><span class="pre">SearchResultCollection</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retriever_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection" title="graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection"><span class="pre">SearchResultCollection</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/processor_base.html#ProcessorBase.process_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase.process_results" title="Link to this definition">¶</a></dt>
-<dd><p>Processes search results by applying specific modifications and
-logging before and after states.</p>
+<dd><p>Processes search results by applying specific modifications and logging before and after states.</p>
 <p>This function modifies a collection of search results based on a given query bundle. It also logs
 the counts and detailed information of search results before and after processing, tagging them
 appropriately with the retriever name and state.</p>
@@ -763,26 +786,27 @@ retriever_name: A string representing the name of the retriever used for generat
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.prune_results.PruneResults">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.prune_results.</span></span><span class="sig-name descname"><span class="pre">PruneResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/prune_results.html#PruneResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.prune_results.PruneResults" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>Handles processing tasks by pruning search results based on scores relative
-to a predefined pruning threshold. This class is used as a base for
-processing search results to filter out less relevant items.</p>
-<p>The purpose of this class is to efficiently manage and refine search
-results by applying a pruning mechanism. It uses a score threshold to
-exclude search results that do not meet the relevance criteria. Users can
-configure the threshold through the associated arguments.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> – The arguments required for processing tasks, including the pruning threshold.</p></li>
-<li><p><strong>filter_config</strong> – Configuration settings for filtering during processing.</p></li>
-</ul>
+<p>Represents a processor that prunes search results based on a score threshold.</p>
+<p>This class inherits from ProcessorBase and processes search results by applying a pruning function.
+The pruning removes results that do not meet a predefined score threshold. It is designed for use
+cases where it is necessary to filter out low-scoring results from a search result collection.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>args (ProcessorArgs): Arguments containing configuration and settings for the pruning process,</dt><dd><p>including the results pruning threshold.</p>
+</dd>
+<dt>filter_config (FilterConfig): Configuration for filtering, providing additional parameters</dt><dd><p>or constraints that may influence the pruning logic.</p>
 </dd>
 </dl>
-<p>Initializes the base class for processing tasks with specified
-arguments and filter configuration.</p>
-<dl class="simple">
+</dd>
+</dl>
+<p>Initializes the base class for processing tasks with specified arguments and
+filter configuration.</p>
+<dl>
 <dt>Args:</dt><dd><p>args (ProcessorArgs): The arguments required for processing tasks.
-filter_config (FilterConfig): Configuration settings for filtering during processing.</p>
+filter_config (FilterConfig): Configuration settings for filtering during</p>
+<blockquote>
+<div><p>processing.</p>
+</div></blockquote>
 </dd>
 </dl>
 </dd></dl>
@@ -794,8 +818,8 @@ filter_config (FilterConfig): Configuration settings for filtering during proces
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.prune_statements.PruneStatements">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.prune_statements.</span></span><span class="sig-name descname"><span class="pre">PruneStatements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/prune_statements.html#PruneStatements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.prune_statements.PruneStatements" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>PruneStatements is responsible for processing search results by pruning
-statements below a specified score threshold.</p>
+<p>PruneStatements is responsible for processing search results by pruning statements
+below a specified score threshold.</p>
 <p>This class performs statement pruning based on a score threshold defined in the
 provided configuration. The pruning process is applied to all statements in the
 topics of the search results, ensuring only those statements meeting or exceeding
@@ -810,8 +834,8 @@ infrastructure to perform operations on the given search results.</p>
 </dl>
 </dd>
 </dl>
-<p>Initializes the class instance and sets up the filter configuration
-and processing logic by leveraging the provided arguments.</p>
+<p>Initializes the class instance and sets up the filter configuration and processing
+logic by leveraging the provided arguments.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>args (ProcessorArgs): The processing arguments that configure the behavior</dt><dd><p>and parameters of the processing tasks.</p>
@@ -848,12 +872,11 @@ configuration.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.rerank_statements.default_reranking_source_metadata_fn">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.rerank_statements.</span></span><span class="sig-name descname"><span class="pre">default_reranking_source_metadata_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.Source" title="graphrag_toolkit.lexical_graph.retrieval.model.Source"><span class="pre">Source</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/rerank_statements.html#default_reranking_source_metadata_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.rerank_statements.default_reranking_source_metadata_fn" title="Link to this definition">¶</a></dt>
-<dd><p>Formats metadata values of a source into a readable string for reranking
-purposes. Each metadata value is processed to check if it can be parsed as
-a date or if it starts with an HTTP URL. Dates are formatted to a “Month
-Day, Year” format, while valid URLs are ignored. If the metadata value is
-neither a date nor a URL, it is included unchanged in the output. The
-formatted values are joined together as a comma-separated string.</p>
+<dd><p>Formats metadata values of a source into a readable string for reranking purposes. Each metadata value
+is processed to check if it can be parsed as a date or if it starts with an HTTP URL. Dates are formatted
+to a “Month Day, Year” format, while valid URLs are ignored. If the metadata value is neither a date
+nor a URL, it is included unchanged in the output. The formatted values are joined together as a
+comma-separated string.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>source (Source): An object containing metadata as a dictionary with string keys and values.</p>
 </dd>
@@ -869,10 +892,9 @@ formatted values are joined together as a comma-separated string.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.rescore_results.RescoreResults">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.rescore_results.</span></span><span class="sig-name descname"><span class="pre">RescoreResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/rescore_results.html#RescoreResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.rescore_results.RescoreResults" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>Represents a processor for rescoring search results by recalculating
-scores based on topic-level analysis. This class adjusts the overall score
-of each search result by averaging the highest statement scores within its
-associated topics.</p>
+<p>Represents a processor for rescoring search results by recalculating scores based on
+topic-level analysis. This class adjusts the overall score of each search result
+by averaging the highest statement scores within its associated topics.</p>
 <p>This class is designed to refine search result rankings by promoting results with
 higher relevance as indicated by topic-level scoring. It leverages an internal
 rescoring logic to compute adjusted scores efficiently.</p>
@@ -881,8 +903,8 @@ rescoring logic to compute adjusted scores efficiently.</p>
 filter_config (FilterConfig): Configuration for filtering criteria applied during result processing.</p>
 </dd>
 </dl>
-<p>Initializes the class with provided arguments and configuration for
-processing and filtering tasks.</p>
+<p>Initializes the class with provided arguments and configuration for processing
+and filtering tasks.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>args: ProcessorArgs</dt><dd><p>The arguments required for processing tasks.</p>
@@ -901,8 +923,7 @@ processing and filtering tasks.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.simplify_single_topic_results.SimplifySingleTopicResults">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.simplify_single_topic_results.</span></span><span class="sig-name descname"><span class="pre">SimplifySingleTopicResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/simplify_single_topic_results.html#SimplifySingleTopicResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.simplify_single_topic_results.SimplifySingleTopicResults" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>Processor that simplifies search results by condensing single-topic
-results.</p>
+<p>Processor that simplifies search results by condensing single-topic results.</p>
 <p>This processor is designed to analyze search results and simplify cases
 where a search result contains only one topic. It modifies the search
 result structure by transferring the topic and its statements to the
@@ -918,9 +939,9 @@ is a need to normalize them for easier processing.</p>
 </dl>
 </dd>
 </dl>
-<p>Initializes an instance of the processor class, setting up the base
-class with the provided arguments and configuration. This constructor
-ensures necessary setup for the processing pipeline.</p>
+<p>Initializes an instance of the processor class, setting up the base class with the provided
+arguments and configuration. This constructor ensures necessary setup for the processing
+pipeline.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>args: The processor arguments providing configuration details required for setting</dt><dd><p>up the processor instance.</p>
@@ -955,8 +976,7 @@ sorted result data.</p>
 </dl>
 </dd>
 </dl>
-<p>Initializes a processor with the provided arguments and filter
-configuration.</p>
+<p>Initializes a processor with the provided arguments and filter configuration.</p>
 <p>This constructor sets up the necessary parameters by accepting processor
 arguments and a filter configuration object. It ensures that the processor
 is initialized correctly with all required settings.</p>
@@ -1013,32 +1033,25 @@ or further downstream processing where raw statements should be converted to str
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.truncate_results.TruncateResults">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.truncate_results.</span></span><span class="sig-name descname"><span class="pre">TruncateResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/truncate_results.html#TruncateResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.truncate_results.TruncateResults" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>Represents a processor that truncates search results to a specified maximum.</p>
-<p>This class is responsible for handling and processing a collection of search
-results by shortening the list to conform to a predefined maximum number of
-results. It leverages the configuration provided during initialization and
-enables efficient handling of search results.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> – Arguments used to configure the processor, including settings
-like the maximum number of results.</p></li>
-<li><p><strong>filter_config</strong> – Configuration details defining the filters or additional
-specifications for processing the results.</p></li>
-</ul>
+<p>TruncateResults processes search results by limiting the number of results.</p>
+<p>This class extends the ProcessorBase and is used to truncate the
+number of search results to a defined maximum limit specified
+in the configuration. It modifies the search results inline
+by only keeping the top results up to the configured limit.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>args (ProcessorArgs): Configuration and settings for processing.
+filter_config (FilterConfig): Configuration for the filtering process.</p>
 </dd>
 </dl>
-<p>Initializes the main processor class with provided arguments and filter configurations.
-This class is a subclass of a base processor class, and its purpose is to handle specific
-processing tasks based on the arguments and filter configurations supplied during initialization.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> – Processor arguments used for configuring behavior and execution flow
-:type args: ProcessorArgs</p></li>
-<li><p><strong>filter_config</strong> – Configuration of the filter settings for processing
-:type filter_config: FilterConfig</p></li>
-</ul>
+<p>Initializes an instance of the Processor class. This constructor provides
+initial setup and configuration using the specified arguments and filter
+configuration.</p>
+<dl>
+<dt>Args:</dt><dd><p>args (ProcessorArgs): Arguments for configuring the processor.
+filter_config (FilterConfig): Filter configuration details used during</p>
+<blockquote>
+<div><p>initialization.</p>
+</div></blockquote>
 </dd>
 </dl>
 </dd></dl>
@@ -1050,8 +1063,8 @@ processing tasks based on the arguments and filter configurations supplied durin
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.truncate_statements.TruncateStatements">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.truncate_statements.</span></span><span class="sig-name descname"><span class="pre">TruncateStatements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/truncate_statements.html#TruncateStatements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.truncate_statements.TruncateStatements" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>TruncateStatements is a processor for truncating the number of
-statements in topics contained within search results.</p>
+<p>TruncateStatements is a processor for truncating the number of statements in topics
+contained within search results.</p>
 <p>This class provides functionality for processing search results and limiting the number
 of statements associated with topics to a specified maximum threshold. It modifies
 topics within search results by truncating their statements based on the configured
@@ -1088,26 +1101,22 @@ filtering mechanisms and criteria.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.processors.zero_scores.ZeroScores">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.processors.zero_scores.</span></span><span class="sig-name descname"><span class="pre">ZeroScores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/processors/zero_scores.html#ZeroScores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.processors.zero_scores.ZeroScores" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessorBase</span></code></a></p>
-<p>A processor class designed to reset scores associated with search results
-and their related topics.</p>
-<p>This class is used to process <cite>SearchResultCollection</cite> objects by setting
-their scores, as well as the scores within associated topics, to zero.
-It inherits from <cite>ProcessorBase</cite> and extends its functionality to provide
-score-resetting mechanisms. The class ensures uniform score values, which
-helps facilitate predefined filtering or ranking operations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> – The arguments required for processing tasks. This includes
-necessary configurations and settings to perform the processing jobs.</p></li>
-<li><p><strong>filter_config</strong> – Configuration used to apply filtering mechanisms during
-processing. This object contains the criteria and settings used for data
-filtering.</p></li>
-</ul>
+<p>Processes and zeroes out the scores of search results and topics.</p>
+<p>This class is responsible for setting all scores in a given search result
+collection to zero, including scores associated with individual topics and
+statements. It subclasses ProcessorBase and leverages its methods to apply
+the transformations across the search results and topics. This is used in cases
+where scoring is reset or standardized as part of the processing pipeline.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>args (ProcessorArgs): Configuration arguments for the processor.
+filter_config (FilterConfig): Specific filter configuration applied during</p>
+<blockquote>
+<div><p>the processing of results.</p>
+</div></blockquote>
 </dd>
 </dl>
-<p>Initializes the class inheriting from the parent class and sets up
-processor arguments and filter configuration.</p>
+<p>Initializes the class inheriting from the parent class and sets up processor
+arguments and filter configuration.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>args (ProcessorArgs): The arguments required for processing tasks. This</dt><dd><p>includes necessary configurations and settings to perform the

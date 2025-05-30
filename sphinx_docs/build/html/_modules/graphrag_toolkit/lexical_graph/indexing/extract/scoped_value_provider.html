@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -346,65 +349,64 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="default_scope_fn">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.default_scope_fn">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">default_scope_fn</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Determines and returns the default scope for a given node.</span>
+<span class="sd">    Determines the default scope for the given node.</span>
 
-<span class="sd">    This function takes a node as input and returns the default scope</span>
-<span class="sd">    associated with it. It uses a predefined constant, DEFAULT_SCOPE,</span>
-<span class="sd">    to provide a consistent scope value.</span>
+<span class="sd">    This function evaluates the provided node and determines the default scope</span>
+<span class="sd">    associated with it. The returned scope is typically defined as a constant</span>
+<span class="sd">    value within the system.</span>
 
-<span class="sd">    :param node: The input node for which the default scope is being determined.</span>
-<span class="sd">    :return: A constant representing the default scope of the given node.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        node: The node for which the default scope is being determined. The exact</span>
+<span class="sd">            format and type of this node depend on the implementation details of</span>
+<span class="sd">            the system utilizing this function.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: A constant string representing the default scope associated with</span>
+<span class="sd">        the provided node.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">DEFAULT_SCOPE</span></div>
-
 
 
 <div class="viewcode-block" id="ScopedValueStore">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ScopedValueStore</span><span class="p">(</span><span class="n">BaseComponent</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Defines the ScopedValueStore as an abstract base class.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages the scoped storage and retrieval of labeled values.</span>
 
-<span class="sd">    This class provides method signatures for managing values categorized by</span>
-<span class="sd">    specific labels and scopes. It serves as a blueprint for subclasses that</span>
-<span class="sd">    will handle operations like fetching and saving scoped values.</span>
+<span class="sd">    This class provides an abstract interface for handling scoped values, identified</span>
+<span class="sd">    by a label and scope, across different implementations. It facilitates storing</span>
+<span class="sd">    and retrieving lists of string values within a specific labeled and scoped</span>
+<span class="sd">    context, suitable for use in modular or scalable systems requiring such</span>
+<span class="sd">    functionality.</span>
 
-<span class="sd">    :ivar scoped_values: A dictionary or similar data structure to store values</span>
-<span class="sd">        categorized by labels and scopes. It acts as a central repository for</span>
-<span class="sd">        managing scoped values in derived implementations.</span>
-<span class="sd">    :type scoped_values: Dict[str, Dict[str, List[str]]]</span>
-<span class="sd">    :ivar label_validator: A callable or utility function for validating labels</span>
-<span class="sd">        before performing any operation, ensuring data consistency and integrity.</span>
-<span class="sd">    :type label_validator: Callable[[str], bool]</span>
-<span class="sd">    :ivar scope_validator: A callable or utility function for validating scopes</span>
-<span class="sd">        before performing any operation, ensuring the scope conforms to expected</span>
-<span class="sd">        formats or rules.</span>
-<span class="sd">    :type scope_validator: Callable[[str], bool]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="ScopedValueStore.get_scoped_values">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore.get_scoped_values">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves a list of values associated with a given label, filtered by a specific scope.</span>
+<span class="sd">        Defines an abstract method that must be implemented by subclasses to fetch scoped values</span>
+<span class="sd">        based on a specified label and scope. This method enables retrieving values</span>
+<span class="sd">        restricted or categorized by a particular context or scope.</span>
 
-<span class="sd">        This abstract method is intended to be implemented by subclasses to provide</span>
-<span class="sd">        custom logic for retrieving scoped values. The returned values are expected to</span>
-<span class="sd">        represent data relevant to the specified label and scope.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            label: A string representing the identifier or key for the desired values.</span>
+<span class="sd">            scope: A string indicating the context or boundary within which</span>
+<span class="sd">                the values should be retrieved.</span>
 
-<span class="sd">        :param label: The identifier for the group of values to retrieve.</span>
-<span class="sd">        :type label: str</span>
-<span class="sd">        :param scope: The scope to filter the values by, such as a specific context</span>
-<span class="sd">            or condition.</span>
-<span class="sd">        :type scope: str</span>
-<span class="sd">        :return: A list of values that correspond to the given label and scope.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List[str]: A list of strings containing the values matching the provided label</span>
+<span class="sd">                and restricted by the specified scope.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method must be implemented by any subclass of the</span>
+<span class="sd">                abstract class; invoking this method directly without implementation</span>
+<span class="sd">                will raise this error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -412,217 +414,207 @@
 <div class="viewcode-block" id="ScopedValueStore.save_scoped_values">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueStore.save_scoped_values">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Save a set of scoped values associated with a specific label and scope.</span>
-<span class="sd">        This abstract method should be implemented to handle the saving</span>
-<span class="sd">        of specific values within a defined scope, referenced by a unique label.</span>
+<span class="sd">        Saves values under a given label and scope.</span>
 
-<span class="sd">        :param label: A string representing the unique label to identify the scoped values.</span>
-<span class="sd">        :type label: str</span>
-<span class="sd">        :param scope: A string indicating the scope under which the values are categorized.</span>
-<span class="sd">        :type scope: str</span>
-<span class="sd">        :param values: A list of strings representing the specific values</span>
-<span class="sd">            to be saved within the given scope and identified by the label.</span>
-<span class="sd">        :type values: List[str]</span>
-<span class="sd">        :return: This method does not return any value.</span>
-<span class="sd">        :rtype: None</span>
+<span class="sd">        This method is an abstract method, meant to be implemented by subclasses. It</span>
+<span class="sd">        allows values to be saved in association with a specific label and scope. The</span>
+<span class="sd">        implementation should define the behavior for persisting these scoped values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            label (str): The label associated with the values to be saved.</span>
+<span class="sd">            scope (str): The scope under which the values are categorized.</span>
+<span class="sd">            values (List[str]): A list of string values to be saved under the given</span>
+<span class="sd">                label and scope.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 </div>
-
 
 
 <div class="viewcode-block" id="FixedScopedValueStore">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueStore">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FixedScopedValueStore</span><span class="p">(</span><span class="n">ScopedValueStore</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A class for managing scoped values with fixed storage mechanisms.</span>
+<span class="sd">    A fixed scoped value store for managing and retrieving scoped values.</span>
 
-<span class="sd">    This class provides methods for storing and retrieving values associated</span>
-<span class="sd">    with specific scopes and labels. The values are organized in a way that</span>
-<span class="sd">    allows context-based categorization. It is designed to handle structured</span>
-<span class="sd">    data efficiently, enabling easy access and updates within a predefined</span>
-<span class="sd">    data structure.</span>
+<span class="sd">    This class extends the ScopedValueStore and provides functionality for</span>
+<span class="sd">    storing and retrieving values associated with specific labels and scopes.</span>
+<span class="sd">    It stores the values in a fixed format based on scopes and supports operations</span>
+<span class="sd">    to retrieve or save values within given scopes.</span>
 
-<span class="sd">    :ivar scoped_values: A dictionary mapping scope keys to lists of string</span>
-<span class="sd">        values. This is the main internal storage structure used for</span>
-<span class="sd">        organizing and retrieving data.</span>
-<span class="sd">    :type scoped_values: Dict[str, List[str]]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        scoped_values (Dict[str, List[str]]): A dictionary where the keys are scopes</span>
+<span class="sd">            (as strings) and the values are lists of strings associated with the</span>
+<span class="sd">            corresponding scope.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">scoped_values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">{})</span>
+    <span class="n">scoped_values</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">{})</span>
 
 <div class="viewcode-block" id="FixedScopedValueStore.get_scoped_values">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueStore.get_scoped_values">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieve scoped values based on the given label and scope.</span>
+<span class="sd">        Retrieves a list of values corresponding to a specific scope and label.</span>
 
-<span class="sd">        This method fetches a list of values associated with a specified</span>
-<span class="sd">        scope from the internal `scoped_values` mapping. The `label` parameter</span>
-<span class="sd">        does not influence the retrieval process but might provide contextual</span>
-<span class="sd">        information for the lookup.</span>
+<span class="sd">        This method fetches the stored values associated with the provided scope from the</span>
+<span class="sd">        internal data structure. If the scope does not exist in the storage, it returns</span>
+<span class="sd">        an empty list. The label is used to indicate the context or category for the</span>
+<span class="sd">        retrieved values.</span>
 
-<span class="sd">        :param label: A descriptive label, potentially used to provide</span>
-<span class="sd">            additional context for the scoped value retrieval. It</span>
-<span class="sd">            does not directly affect the returned results.</span>
-<span class="sd">        :param scope: Specifies the scope for which the values are retrieved.</span>
-<span class="sd">            This is used as a key to query the `scoped_values` mapping.</span>
-<span class="sd">        :return: A list of values associated with the given scope. If the scope</span>
-<span class="sd">            key is not found, an empty list is returned.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            label (str): A descriptive identifier providing context for the retrieval</span>
+<span class="sd">                operation.</span>
+<span class="sd">            scope (str): The key within the internal data structure to look up for</span>
+<span class="sd">                associated values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[str]: A list of strings containing the values associated with the</span>
+<span class="sd">                specified scope, or an empty list if no match is found.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scoped_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">scope</span><span class="p">,</span> <span class="p">[])</span></div>
 
 
 <div class="viewcode-block" id="FixedScopedValueStore.save_scoped_values">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueStore.save_scoped_values">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Saves the provided values associated with a specific label and scope.</span>
+<span class="sd">        Saves a set of values under a specific label and scope for future retrieval.</span>
 
-<span class="sd">        The function is intended to store a collection of `values` related</span>
-<span class="sd">        to a particular `label` within a specific `scope`. The implementation</span>
-<span class="sd">        details for the storage mechanism are omitted here.</span>
+<span class="sd">        This method allows storage of a list of values associated with a specific label</span>
+<span class="sd">        and scope. It is useful for organizing related data under logical groupings.</span>
 
-<span class="sd">        :param label: A string that serves as the identifier for categorizing</span>
-<span class="sd">            the provided `values`.</span>
-<span class="sd">        :param scope: A string indicating the domain or context within which</span>
-<span class="sd">            the `label` is applicable.</span>
-<span class="sd">        :param values: A list of strings representing the values to be saved</span>
-<span class="sd">            under the given `label` and `scope`.</span>
-
-<span class="sd">        :return: None. This function does not return any value.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            label (str): The label under which the values will be stored, representing</span>
+<span class="sd">                the category or identifier of the data.</span>
+<span class="sd">            scope (str): The scope representing the context or domain in which the</span>
+<span class="sd">                values belong, which is utilized for structured organization.</span>
+<span class="sd">            values (List[str]): A list of string values to be stored, representing</span>
+<span class="sd">                the actual data entries associated with the label and scope.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 </div>
-
 
 
 <div class="viewcode-block" id="ScopedValueProvider">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ScopedValueProvider</span><span class="p">(</span><span class="n">BaseComponent</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a scoped value provider for managing scoped values linked to nodes,</span>
-<span class="sd">    facilitating the retrieval and updating of these values based on defined</span>
-<span class="sd">    scoping logic.</span>
+<span class="sd">    Provides a scoped value management system for handling and storing values</span>
+<span class="sd">    specific to a particular scope, identified using a scope function.</span>
 
-<span class="sd">    This class is designed to manage scoped value mappings by leveraging a provided</span>
-<span class="sd">    scope function and scoped value store. It supports an initializer for initial</span>
-<span class="sd">    value setup, value retrieval for specific nodes, and updates to scoped values</span>
-<span class="sd">    based on scope and changes.</span>
+<span class="sd">    This class facilitates the management of values that are tied to a specific</span>
+<span class="sd">    context or scope, determined dynamically through a user-defined function.</span>
+<span class="sd">    It uses a scoped value store for persisting and retrieving values within the</span>
+<span class="sd">    defined scope. Additionally, it supports initialization with predefined scoped</span>
+<span class="sd">    values and provides functionalities for retrieving and updating scoped values.</span>
 
-<span class="sd">    :ivar label: The identifier for the scoped value provider instance.</span>
-<span class="sd">    :type label: str</span>
-<span class="sd">    :ivar scope_func: The function determining scope from an input node.</span>
-<span class="sd">    :type scope_func: Callable[[BaseNode], str]</span>
-<span class="sd">    :ivar scoped_value_store: The store managing scoped values.</span>
-<span class="sd">    :type scoped_value_store: ScopedValueStore</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        label (str): Label to identify the scoped value provider.</span>
+<span class="sd">        scope_func (Callable[[BaseNode], str]): Function used to determine the scope</span>
+<span class="sd">            given an input node.</span>
+<span class="sd">        scoped_value_store (ScopedValueStore): Storage system for managing scoped</span>
+<span class="sd">            values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">label</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Scoped value label&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Scoped value label&#39;</span><span class="p">)</span>
-
-    <span class="n">scope_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+    <span class="n">scope_func</span><span class="p">:</span><span class="n">Callable</span><span class="p">[[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Function for determining scope given an input node&#39;</span>
     <span class="p">)</span>
 
-    <span class="n">scoped_value_store</span><span class="p">:</span> <span class="n">ScopedValueStore</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Scoped value store&#39;</span><span class="p">)</span>
+    <span class="n">scoped_value_store</span><span class="p">:</span><span class="n">ScopedValueStore</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Scoped value store&#39;</span>
+    <span class="p">)</span>
 
 <div class="viewcode-block" id="ScopedValueProvider.class_name">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.class_name">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">class_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provides the name of the class as a string.</span>
+<span class="sd">        Provides a class method to return the name of the class.</span>
 
-<span class="sd">        This class method is used to return the name of the class in which the</span>
-<span class="sd">        method is defined. It provides a scoped and consistent way to retrieve</span>
-<span class="sd">        the class name dynamically at runtime.</span>
+<span class="sd">        This method is used to retrieve the properly formatted name of the class as</span>
+<span class="sd">        a string. It is intended to be used in contexts where the class&#39;s name is</span>
+<span class="sd">        required programmatically.</span>
 
-<span class="sd">        :return: The name of the class as a string.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The name of the class, &#39;ScopedValueProvider&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;ScopedValueProvider&#39;</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">scoped_value_store</span><span class="p">:</span> <span class="n">ScopedValueStore</span><span class="p">,</span>
-        <span class="n">scope_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">initial_scoped_values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{},</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">label</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
+                 <span class="n">scoped_value_store</span><span class="p">:</span> <span class="n">ScopedValueStore</span><span class="p">,</span>
+                 <span class="n">scope_func</span><span class="p">:</span><span class="n">Callable</span><span class="p">[[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">initial_scoped_values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes an instance of a custom class with specific scoped value storage and</span>
-<span class="sd">        initial scoped values.</span>
+<span class="sd">        Represents the initialization of a class instance managing scoped values with an optional scope function and</span>
+<span class="sd">        predefined initial scoped values.</span>
 
-<span class="sd">        This constructor sets up scoped values into a scoped value store associated with</span>
-<span class="sd">        the given label and initializes the parent class with the provided label, scoped</span>
-<span class="sd">        value store, and scope function. If a scope function is not provided, a default</span>
-<span class="sd">        scope function is used.</span>
+<span class="sd">        The initializer ensures scoped values are stored at the point of creation based on the provided initial scoped</span>
+<span class="sd">        values. It also delegates initialization of parameters like label, scope function, and the scoped value store</span>
+<span class="sd">        to its superclass, enabling powerful and customizable scope-based value management.</span>
 
-<span class="sd">        :param label: A unique identifier for the instance.</span>
-<span class="sd">        :param scoped_value_store: An instance of ScopedValueStore that handles the</span>
-<span class="sd">            storage of scoped attribute values.</span>
-<span class="sd">        :param scope_func: A callable function used to determine the scope for a</span>
-<span class="sd">            given BaseNode. If not provided, a default scope function is applied.</span>
-<span class="sd">        :param initial_scoped_values: A dictionary mapping scope keys to lists of</span>
-<span class="sd">            string values. These values are added to the scoped value store during</span>
-<span class="sd">            initialization.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            label: A string used to identify the instance.</span>
+<span class="sd">            scoped_value_store: An instance of ScopedValueStore, facilitating saving and retrieval of scoped values.</span>
+<span class="sd">            scope_func: A callable which, given a BaseNode, returns a scope string. Defaults to None, in which case the</span>
+<span class="sd">                default_scope_fn is used.</span>
+<span class="sd">            initial_scoped_values: A dictionary that maps scope names to lists of values. These values are saved upon</span>
+<span class="sd">                initialization.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">initial_scoped_values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">initial_scoped_values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">scoped_value_store</span><span class="o">.</span><span class="n">save_scoped_values</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-
+        
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
             <span class="n">scope_func</span><span class="o">=</span><span class="n">scope_func</span> <span class="ow">or</span> <span class="n">default_scope_fn</span><span class="p">,</span>
-            <span class="n">scoped_value_store</span><span class="o">=</span><span class="n">scoped_value_store</span><span class="p">,</span>
+            <span class="n">scoped_value_store</span><span class="o">=</span><span class="n">scoped_value_store</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="ScopedValueProvider.get_current_values">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.get_current_values">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">BaseNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span><span class="n">BaseNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the current scoped values for a given node.</span>
+<span class="sd">        Retrieves the current scope and associated values for a specific node.</span>
 
-<span class="sd">        This method determines the appropriate scope for the given node, retrieves</span>
-<span class="sd">        the list of values associated with the determined scope and label, and</span>
-<span class="sd">        returns both the scope and the associated values.</span>
+<span class="sd">        This method fetches the scope derived from the given node and retrieves the</span>
+<span class="sd">        corresponding values stored in the scoped value store. It combines this</span>
+<span class="sd">        scope and the associated values into a tuple.</span>
 
-<span class="sd">        :param node: The node object for which the scoped values are being retrieved.</span>
-<span class="sd">        :type node: BaseNode</span>
+<span class="sd">        Args:</span>
+<span class="sd">            node (BaseNode): A node used to determine the scope for retrieving</span>
+<span class="sd">                associated values.</span>
 
-<span class="sd">        :return: A tuple containing the scope string and the list of current scoped</span>
-<span class="sd">                 values associated with the given node and label.</span>
-<span class="sd">        :rtype: Tuple[str, List[str]]</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[str, List[str]]: A tuple containing the scope as a string and</span>
+<span class="sd">                a list of strings representing the current scoped values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scope_func</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="n">current_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scoped_value_store</span><span class="o">.</span><span class="n">get_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">scope</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">scope</span><span class="p">,</span> <span class="n">current_values</span><span class="p">)</span></div>
 
-
+    
 <div class="viewcode-block" id="ScopedValueProvider.update_values">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.update_values">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">old_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">new_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">old_values</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">new_values</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Updates the scoped values by comparing the old values with the new values and</span>
-<span class="sd">        adding only the ones that are different. If there are new values to add, these</span>
-<span class="sd">        are persisted into the scoped value store.</span>
+<span class="sd">        Updates the scoped values in the store by calculating the difference between</span>
+<span class="sd">        old and new values. If there are any new values to add, they are saved to the</span>
+<span class="sd">        scoped value store and logged.</span>
 
-<span class="sd">        :param scope: A string representing the scope under which the values</span>
-<span class="sd">            are categorized.</span>
-<span class="sd">        :param old_values: A list of strings representing previously existing</span>
-<span class="sd">            scoped values.</span>
-<span class="sd">        :param new_values: A list of strings representing the updated set of</span>
-<span class="sd">            scoped values.</span>
-<span class="sd">        :return: None</span>
+<span class="sd">        Args:</span>
+<span class="sd">            scope (str): The scope under which the values will be updated.</span>
+<span class="sd">            old_values (List[str]): The list of existing values to compare against.</span>
+<span class="sd">            new_values (List[str]): The list of new values to be added.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">new_values</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">old_values</span><span class="p">)))</span>
         <span class="k">if</span> <span class="n">values</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Adding scoped values: [label: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s1">, scope: </span><span class="si">{</span><span class="n">scope</span><span class="si">}</span><span class="s1">, values: </span><span class="si">{</span><span class="n">values</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Adding scoped values: [label: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s1">, scope: </span><span class="si">{</span><span class="n">scope</span><span class="si">}</span><span class="s1">, values: </span><span class="si">{</span><span class="n">values</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">scoped_value_store</span><span class="o">.</span><span class="n">save_scoped_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">scope</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div>
 </div>
 
@@ -632,36 +624,35 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.FixedScopedValueProvider">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FixedScopedValueProvider</span><span class="p">(</span><span class="n">ScopedValueProvider</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Provides a fixed set of scoped values tied to a specific label. The class</span>
-<span class="sd">    allows initialization with a pre-defined dictionary of scoped values,</span>
-<span class="sd">    where each scope is mapped to a list of values. It inherits functionality</span>
-<span class="sd">    from ScopedValueProvider and is suited for use cases requiring static or</span>
-<span class="sd">    predefined scoped data.</span>
+<span class="sd">    Provides a fixed set of scoped values for context-specific operations.</span>
 
-<span class="sd">    :ivar label: A fixed label used to identify this provider.</span>
-<span class="sd">    :type label: str</span>
-<span class="sd">    :ivar scoped_value_store: Stores and manages the predefined set of scoped</span>
-<span class="sd">        values.</span>
-<span class="sd">    :type scoped_value_store: FixedScopedValueStore</span>
+<span class="sd">    This class is a specialized implementation of `ScopedValueProvider` that</span>
+<span class="sd">    supplies pre-defined, fixed scoped values for use in contexts where needed.</span>
+<span class="sd">    Its purpose is to provide a deterministic and consistent set of scoped values</span>
+<span class="sd">    that do not change dynamically, ensuring stability and predictability in its</span>
+<span class="sd">    behavior. Typically used when static scoped values must be provided within</span>
+<span class="sd">    a defined scope.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        label (str): A fixed label identifying this provider as &#39;__FIXED__&#39;.</span>
+<span class="sd">        scoped_value_store (FixedScopedValueStore): The store containing the</span>
+<span class="sd">            fixed set of scoped values provided.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scoped_values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scoped_values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the object with a fixed scoped value store and assigns a default label.</span>
+<span class="sd">        Initializes an object with a pre-defined label and a fixed scoped value store.</span>
 
-<span class="sd">        The constructor accepts a dictionary of scoped values and uses it to initialize a</span>
-<span class="sd">        FixedScopedValueStore. The created scoped value store is then utilized in the parent</span>
-<span class="sd">        class initialization. Also, a fixed label &#39;__FIXED__&#39; is assigned to the instance.</span>
-
-<span class="sd">        :param scoped_values: A dictionary of scoped values where the keys are strings</span>
-<span class="sd">            representing scope names and the values are lists of strings representing</span>
-<span class="sd">            the corresponding scoped values.</span>
-<span class="sd">        :type scoped_values: Dict[str, List[str]]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            scoped_values (Dict[str, List[str]]): A dictionary where the key is a string representing</span>
+<span class="sd">                the scope, and the value is a list of strings representing scoped values. This</span>
+<span class="sd">                parameter is optional and defaults to an empty dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;__FIXED__&#39;</span><span class="p">,</span>
-            <span class="n">scoped_value_store</span><span class="o">=</span><span class="n">FixedScopedValueStore</span><span class="p">(</span><span class="n">scoped_values</span><span class="o">=</span><span class="n">scoped_values</span><span class="p">),</span>
+            <span class="n">scoped_value_store</span><span class="o">=</span><span class="n">FixedScopedValueStore</span><span class="p">(</span><span class="n">scoped_values</span><span class="o">=</span><span class="n">scoped_values</span><span class="p">)</span>
         <span class="p">)</span></div>
+
+
 
 </pre></div>
         </article>
@@ -710,11 +701,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

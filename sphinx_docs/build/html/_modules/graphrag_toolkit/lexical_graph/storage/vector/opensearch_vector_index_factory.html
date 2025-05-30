@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -338,17 +341,12 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">VectorIndex</span><span class="p">,</span>
-    <span class="n">VectorIndexFactoryMethod</span><span class="p">,</span>
-    <span class="n">to_embedded_query</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorIndex</span><span class="p">,</span> <span class="n">VectorIndexFactoryMethod</span><span class="p">,</span> <span class="n">to_embedded_query</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">OPENSEARCH_SERVERLESS</span> <span class="o">=</span> <span class="s1">&#39;aoss://&#39;</span>
 <span class="n">OPENSEARCH_SERVERLESS_DNS</span> <span class="o">=</span> <span class="s1">&#39;aoss.amazonaws.com&#39;</span>
-
 
 <div class="viewcode-block" id="OpenSearchVectorIndexFactory">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_index_factory.OpenSearchVectorIndexFactory">[docs]</a>
@@ -366,49 +364,38 @@
 <span class="sd">        relies on the methods and details passed during the instantiation and</span>
 <span class="sd">        method calls.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="OpenSearchVectorIndexFactory.try_create">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_index_factory.OpenSearchVectorIndexFactory.try_create">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">index_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">vector_index_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorIndex</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attempts to create a list of vector indexes using the provided index</span>
-<span class="sd">        names and vector index information. This method checks if a supported</span>
-<span class="sd">        endpoint configuration is provided and uses it to initialize</span>
-<span class="sd">        appropriate vector indexes. Raises ImportError if the required module</span>
-<span class="sd">        is not available.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_names</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">vector_index_info</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorIndex</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to create a list of vector indexes using the provided index names and vector</span>
+<span class="sd">        index information. This method checks if a supported endpoint configuration is</span>
+<span class="sd">        provided and uses it to initialize appropriate vector indexes. Raises ImportError</span>
+<span class="sd">        if the required module is not available.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            index_names (List[str]): List of index names to create vector indexes for.</span>
-<span class="sd">            vector_index_info (str): Information defining the type and endpoint of the vector index, such as an OpenSearch Serverless endpoint.</span>
-<span class="sd">            \\*\\*kwargs: Additional keyword arguments passed when creating the vector indexes.</span>
+<span class="sd">            vector_index_info (str): Information defining the type and endpoint of the vector</span>
+<span class="sd">                index, such as an OpenSearch Serverless endpoint.</span>
+<span class="sd">            **kwargs: Additional keyword arguments passed when creating the vector indexes.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            List[VectorIndex]: A list of vector index objects created for the provided index names and endpoint configuration, or None if no suitable endpoint is found.</span>
+<span class="sd">            List[VectorIndex]: A list of vector index objects created for the provided index</span>
+<span class="sd">                names and endpoint configuration, or None if no suitable endpoint is found.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">endpoint</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">OPENSEARCH_SERVERLESS</span><span class="p">):</span>
-            <span class="n">endpoint</span> <span class="o">=</span> <span class="n">vector_index_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">OPENSEARCH_SERVERLESS</span><span class="p">)</span> <span class="p">:]</span>
-        <span class="k">elif</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;https://&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span>
-            <span class="n">OPENSEARCH_SERVERLESS_DNS</span>
-        <span class="p">):</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="n">vector_index_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">OPENSEARCH_SERVERLESS</span><span class="p">):]</span>
+        <span class="k">elif</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;https://&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">OPENSEARCH_SERVERLESS_DNS</span><span class="p">):</span>
             <span class="n">endpoint</span> <span class="o">=</span> <span class="n">vector_index_info</span>
         <span class="k">if</span> <span class="n">endpoint</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-                    <span class="n">OpenSearchIndex</span><span class="p">,</span>
-                <span class="p">)</span>
-
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;Opening OpenSearch vector indexes [index_names: </span><span class="si">{</span><span class="n">index_names</span><span class="si">}</span><span class="s1">, endpoint: </span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s1">]&#39;</span>
-                <span class="p">)</span>
-                <span class="k">return</span> <span class="p">[</span>
-                    <span class="n">OpenSearchIndex</span><span class="o">.</span><span class="n">for_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">index_name</span> <span class="ow">in</span> <span class="n">index_names</span>
-                <span class="p">]</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenSearchIndex</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Opening OpenSearch vector indexes [index_names: </span><span class="si">{</span><span class="n">index_names</span><span class="si">}</span><span class="s1">, endpoint: </span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">OpenSearchIndex</span><span class="o">.</span><span class="n">for_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">index_name</span> <span class="ow">in</span> <span class="n">index_names</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">e</span>
-
+                  
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 </div>

@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -338,27 +341,21 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">VectorIndex</span><span class="p">,</span>
-    <span class="n">VectorIndexFactoryMethod</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorIndex</span><span class="p">,</span> <span class="n">VectorIndexFactoryMethod</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">POSTGRES</span> <span class="o">=</span> <span class="s1">&#39;postgres://&#39;</span>
 <span class="n">POSTGRESQL</span> <span class="o">=</span> <span class="s1">&#39;postgresql://&#39;</span>
 
-
 <div class="viewcode-block" id="PGVectorIndexFactory">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_index_factory.PGVectorIndexFactory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PGVectorIndexFactory</span><span class="p">(</span><span class="n">VectorIndexFactoryMethod</span><span class="p">):</span>
 <div class="viewcode-block" id="PGVectorIndexFactory.try_create">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_index_factory.PGVectorIndexFactory.try_create">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">index_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">vector_index_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorIndex</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Tries to create and return a list of vector indexes using the given</span>
-<span class="sd">        parameters.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_names</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">vector_index_info</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorIndex</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tries to create and return a list of vector indexes using the given parameters.</span>
 
 <span class="sd">        Depending on the connection information provided in `vector_index_info`, this method</span>
 <span class="sd">        attempts to open PostgreSQL vector indexes or returns None if the connection string</span>
@@ -369,7 +366,7 @@
 <span class="sd">            index_names (List[str]): A list of index names to be used when creating vector indexes.</span>
 <span class="sd">            vector_index_info (str): A string containing information about the vector index</span>
 <span class="sd">            connection, such as a PostgreSQL connection string.</span>
-<span class="sd">            \\*\\*kwargs: Additional arguments that might be passed to the underlying index creation</span>
+<span class="sd">            \*\*kwargs: Additional arguments that might be passed to the underlying index creation</span>
 <span class="sd">            utility.</span>
 
 <span class="sd">        Returns:</span>
@@ -381,25 +378,15 @@
 <span class="sd">            cannot be imported.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">connection_string</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">POSTGRES</span><span class="p">)</span> <span class="ow">or</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
-            <span class="n">POSTGRESQL</span>
-        <span class="p">):</span>
+        <span class="k">if</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">POSTGRES</span><span class="p">)</span> <span class="ow">or</span> <span class="n">vector_index_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">POSTGRESQL</span><span class="p">):</span>
             <span class="n">connection_string</span> <span class="o">=</span> <span class="n">vector_index_info</span>
         <span class="k">if</span> <span class="n">connection_string</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Opening PostgreSQL vector indexes [index_names: </span><span class="si">{</span><span class="n">index_names</span><span class="si">}</span><span class="s1">, connection_string: </span><span class="si">{</span><span class="n">connection_string</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Opening PostgreSQL vector indexes [index_names: </span><span class="si">{</span><span class="n">index_names</span><span class="si">}</span><span class="s1">, connection_string: </span><span class="si">{</span><span class="n">connection_string</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-                    <span class="n">PGIndex</span><span class="p">,</span>
-                <span class="p">)</span>
-
-                <span class="k">return</span> <span class="p">[</span>
-                    <span class="n">PGIndex</span><span class="o">.</span><span class="n">for_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">,</span> <span class="n">connection_string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">index_name</span> <span class="ow">in</span> <span class="n">index_names</span>
-                <span class="p">]</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes</span><span class="w"> </span><span class="kn">import</span> <span class="n">PGIndex</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">PGIndex</span><span class="o">.</span><span class="n">for_index</span><span class="p">(</span><span class="n">index_name</span><span class="p">,</span> <span class="n">connection_string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">index_name</span> <span class="ow">in</span> <span class="n">index_names</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">e</span>
+                <span class="k">raise</span> <span class="n">e</span>           
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 </div>

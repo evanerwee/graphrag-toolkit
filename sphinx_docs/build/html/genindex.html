@@ -272,10 +272,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -381,8 +384,6 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint.add_writer">add_writer() (graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint method)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.aextract">aextract() (graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor method)</a>
 
         <ul>
@@ -395,6 +396,8 @@
           <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor.TopicExtractor.aextract">(graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor.TopicExtractor method)</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore.all_indexes">all_indexes() (graphrag_toolkit.lexical_graph.storage.vector.multi_tenant_vector_store.MultiTenantVectorStore method)</a>
 
         <ul>
@@ -431,6 +434,12 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.average_llm_tokens">average_llm_tokens (graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats property)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig.aws_profile">aws_profile (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig attribute)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig.aws_region">aws_region (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig attribute)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig">AWSConfig (class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_config)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -439,6 +448,8 @@
   <h2>B</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.FilePromptProviderConfig.base_path">base_path (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.FilePromptProviderConfig attribute)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.batch_config">batch_config (graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor attribute)</a>
 
         <ul>
@@ -481,14 +492,30 @@
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search.SemanticBeamGraphSearch.beam_search">(graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search.SemanticBeamGraphSearch method)</a>
 </li>
         </ul></li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig.bedrock">bedrock (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig property)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format.BedrockContextFormat">BedrockContextFormat (class in graphrag_toolkit.lexical_graph.retrieval.post_processors.bedrock_context_format)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.BedrockEnabledTokenCountingHandler">BedrockEnabledTokenCountingHandler (class in graphrag_toolkit.lexical_graph.utils.fm_observability)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.load.html#graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base.BedrockKnowledgeBaseExport">BedrockKnowledgeBaseExport (class in graphrag_toolkit.lexical_graph.indexing.load.bedrock_knowledge_base)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider.BedrockPromptProvider">BedrockPromptProvider (class in graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig">BedrockPromptProviderConfig (class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_config)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.BedrockPromptProviderConfig">(class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base)</a>
+</li>
+        </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker">BGEReranker (class in graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig.bucket">bucket (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig attribute)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.S3PromptProviderConfig.bucket">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.S3PromptProviderConfig attribute)</a>
+</li>
+        </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig.bucket_name">bucket_name (graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig attribute)</a>
 
         <ul>
@@ -521,6 +548,16 @@
           <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.topic_graph_builder.TopicGraphBuilder.build">(graphrag_toolkit.lexical_graph.indexing.build.topic_graph_builder.TopicGraphBuilder method)</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.lexical_graph_index.LexicalGraphIndex.build">(graphrag_toolkit.lexical_graph.lexical_graph_index.LexicalGraphIndex method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig.build">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.FilePromptProviderConfig.build">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.FilePromptProviderConfig method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.ProviderConfig.build">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.ProviderConfig method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig.build">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.StaticPromptProviderConfig.build">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.StaticPromptProviderConfig static method)</a>
 </li>
         </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder.build_filters">build_filters (graphrag_toolkit.lexical_graph.indexing.build.node_builder.NodeBuilder attribute)</a>
@@ -605,11 +642,9 @@
         </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.load.html#graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks.FileBasedChunks.chunks_directory">chunks_directory (graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks.FileBasedChunks attribute)</a>
 </li>
-        <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes.class_name">class_name() (graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes class method)</a>
+        <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.class_name">class_name() (graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders class method)</a>
 
         <ul>
-          <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.class_name">(graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders class method)</a>
-</li>
           <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.class_name">(graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor class method)</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.class_name">(graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor class method)</a>
@@ -637,12 +672,12 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.infer_classifications.InferClassifications.classification_scope">classification_scope (graphrag_toolkit.lexical_graph.indexing.extract.infer_classifications.InferClassifications attribute)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.infer_classifications.InferClassifications.classification_store">classification_store (graphrag_toolkit.lexical_graph.indexing.extract.infer_classifications.InferClassifications attribute)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.utils.html#graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.clean">clean() (in module graphrag_toolkit.lexical_graph.indexing.utils.topic_utils)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.clear_chunks.ClearChunks">ClearChunks (class in graphrag_toolkit.lexical_graph.retrieval.processors.clear_chunks)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.clear_scores.ClearScores">ClearScores (class in graphrag_toolkit.lexical_graph.retrieval.processors.clear_scores)</a>
@@ -703,9 +738,13 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever.create_cypher_query">create_cypher_query() (graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever.TraversalBasedBaseRetriever method)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.retrieval.summary.html#graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary.GraphSummary.create_graph_summary">create_graph_summary() (graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary.GraphSummary method)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.utils.html#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.create_inference_inputs">create_inference_inputs() (in module graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.utils.html#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.create_inference_inputs_for_messages">create_inference_inputs_for_messages() (in module graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.protocols.html#graphrag_toolkit.lexical_graph.protocols.mcp_server.create_mcp_server">create_mcp_server() (in module graphrag_toolkit.lexical_graph.protocols.mcp_server)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator.create_node_id">create_node_id() (graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator method)</a>
 </li>
@@ -739,11 +778,9 @@
           <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.build_filters.DEFAULT_BUILD_FILTER">(in module graphrag_toolkit.lexical_graph.indexing.build.build_filters)</a>
 </li>
         </ul></li>
-        <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes.default_builders">default_builders() (graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes method)</a>
+        <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.default_builders">default_builders() (graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders method)</a>
 
         <ul>
-          <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.default_builders">(graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders method)</a>
-</li>
           <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.default_builders">(in module graphrag_toolkit.lexical_graph.indexing.build.graph_construction)</a>
 </li>
         </ul></li>
@@ -949,19 +986,18 @@
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.Statement.facts">(graphrag_toolkit.lexical_graph.retrieval.model.Statement attribute)</a>
 </li>
         </ul></li>
-        <li>
-    falkordb.falkordb_graph_store_factory
-
-        <ul>
-          <li><a href="falkordb/falkordb.html#module-falkordb.falkordb_graph_store_factory">module</a>
-</li>
-        </ul></li>
-        <li><a href="falkordb/falkordb.html#falkordb.falkordb_graph_store_factory.FalkorDBGraphStoreFactory">FalkorDBGraphStoreFactory (class in falkordb.falkordb_graph_store_factory)</a>
-</li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.load.html#graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks.FileBasedChunks">FileBasedChunks (class in graphrag_toolkit.lexical_graph.indexing.load.file_based_chunks)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.load.html#graphrag_toolkit.lexical_graph.indexing.load.file_based_docs.FileBasedDocs">FileBasedDocs (class in graphrag_toolkit.lexical_graph.indexing.load.file_based_docs)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.file_prompt_provider.FilePromptProvider">FilePromptProvider (class in graphrag_toolkit.lexical_graph.prompts.file_prompt_provider)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.FilePromptProviderConfig">FilePromptProviderConfig (class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_config)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.FilePromptProviderConfig">(class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base)</a>
+</li>
+        </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.file_system_tap.FileSystemTap">FileSystemTap (class in graphrag_toolkit.lexical_graph.indexing.extract.file_system_tap)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.logging.ModuleFilter.filter">filter() (graphrag_toolkit.lexical_graph.logging.ModuleFilter method)</a>
@@ -1084,11 +1120,19 @@
   <h2>G</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry.PromptProviderRegistry.get">get() (graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry.PromptProviderRegistry class method)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.PromptProviderRegistry.get">(graphrag_toolkit.lexical_graph.prompts.PromptProviderRegistry class method)</a>
+</li>
+        </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex.get_all_embeddings">get_all_embeddings() (graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.OpenSearchIndex method)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.get_current_values">get_current_values() (graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider method)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.get_diverse_vss_elements">get_diverse_vss_elements() (in module graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.retrieval.summary.html#graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary.get_domain">get_domain() (in module graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache.get_embeddings">get_embeddings() (graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache method)</a>
 
@@ -1126,17 +1170,15 @@
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search.SemanticBeamGraphSearch.get_neighbors">(graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search.SemanticBeamGraphSearch method)</a>
 </li>
         </ul></li>
-        <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes.get_nodes_from_metadata">get_nodes_from_metadata() (graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes method)</a>
-
-        <ul>
-          <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.get_nodes_from_metadata">(graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders method)</a>
+        <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders.get_nodes_from_metadata">get_nodes_from_metadata() (graphrag_toolkit.lexical_graph.indexing.build.node_builders.NodeBuilders method)</a>
 </li>
-        </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.utils.html#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.get_parse_output_text_fn">get_parse_output_text_fn() (in module graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.get_patched_llm_token_counts">get_patched_llm_token_counts() (in module graphrag_toolkit.lexical_graph.utils.fm_observability)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.utils.html#graphrag_toolkit.lexical_graph.indexing.utils.metadata_utils.get_properties_str">get_properties_str() (in module graphrag_toolkit.lexical_graph.indexing.utils.metadata_utils)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_factory.PromptProviderFactory.get_provider">get_provider() (graphrag_toolkit.lexical_graph.prompts.prompt_provider_factory.PromptProviderFactory static method)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.utils.html#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.get_request_body">get_request_body() (in module graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils)</a>
 </li>
@@ -1168,12 +1210,42 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.get_stats">get_stats() (graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber method)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider.BedrockPromptProvider.get_system_prompt">get_system_prompt() (graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider.BedrockPromptProvider method)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.file_prompt_provider.FilePromptProvider.get_system_prompt">(graphrag_toolkit.lexical_graph.prompts.file_prompt_provider.FilePromptProvider method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_base.PromptProvider.get_system_prompt">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_base.PromptProvider method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.PromptProvider.get_system_prompt">(graphrag_toolkit.lexical_graph.prompts.PromptProvider method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider.S3PromptProvider.get_system_prompt">(graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider.S3PromptProvider method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.static_prompt_provider.StaticPromptProvider.get_system_prompt">(graphrag_toolkit.lexical_graph.prompts.static_prompt_provider.StaticPromptProvider method)</a>
+</li>
+        </ul></li>
+        <li><a href="graphrag_toolkit.lexical_graph.protocols.html#graphrag_toolkit.lexical_graph.protocols.mcp_server.get_tenant_ids">get_tenant_ids() (in module graphrag_toolkit.lexical_graph.protocols.mcp_server)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_free_gpus">get_top_free_gpus() (in module graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_k">get_top_k() (in module graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.lexical_graph_index.get_topic_scope">get_topic_scope() (in module graphrag_toolkit.lexical_graph.lexical_graph_index)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider.BedrockPromptProvider.get_user_prompt">get_user_prompt() (graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider.BedrockPromptProvider method)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.file_prompt_provider.FilePromptProvider.get_user_prompt">(graphrag_toolkit.lexical_graph.prompts.file_prompt_provider.FilePromptProvider method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_base.PromptProvider.get_user_prompt">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_base.PromptProvider method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.PromptProvider.get_user_prompt">(graphrag_toolkit.lexical_graph.prompts.PromptProvider method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider.S3PromptProvider.get_user_prompt">(graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider.S3PromptProvider method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.static_prompt_provider.StaticPromptProvider.get_user_prompt">(graphrag_toolkit.lexical_graph.prompts.static_prompt_provider.StaticPromptProvider method)</a>
+</li>
+        </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.gpu_id">gpu_id (graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker attribute)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction.graph_client">graph_client (graphrag_toolkit.lexical_graph.indexing.build.graph_construction.GraphConstruction attribute)</a>
@@ -1323,13 +1395,6 @@
 
         <ul>
           <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#module-graphrag_toolkit.lexical_graph.indexing.build.graph_summary_builder">module</a>
-</li>
-        </ul></li>
-        <li>
-    graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes
-
-        <ul>
-          <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#module-graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes">module</a>
 </li>
         </ul></li>
         <li>
@@ -1633,8 +1698,6 @@
           <li><a href="graphrag_toolkit.lexical_graph.indexing.utils.html#module-graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     graphrag_toolkit.lexical_graph.indexing.utils.metadata_utils
 
@@ -1663,6 +1726,8 @@
           <li><a href="graphrag_toolkit.lexical_graph.html#module-graphrag_toolkit.lexical_graph.lexical_graph_index">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     graphrag_toolkit.lexical_graph.lexical_graph_query_engine
 
@@ -1682,6 +1747,90 @@
 
         <ul>
           <li><a href="graphrag_toolkit.lexical_graph.html#module-graphrag_toolkit.lexical_graph.metadata">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.prompts
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.prompts.file_prompt_provider
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.file_prompt_provider">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.prompts.prompt_provider_base
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.prompt_provider_base">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.prompts.prompt_provider_config
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.prompt_provider_config">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.prompts.prompt_provider_factory
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.prompt_provider_factory">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.prompts.static_prompt_provider
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.static_prompt_provider">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.protocols
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.protocols.html#module-graphrag_toolkit.lexical_graph.protocols">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.protocols.mcp_server
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.protocols.html#module-graphrag_toolkit.lexical_graph.protocols.mcp_server">module</a>
 </li>
         </ul></li>
         <li>
@@ -2000,6 +2149,20 @@
 </li>
         </ul></li>
         <li>
+    graphrag_toolkit.lexical_graph.retrieval.summary
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.retrieval.summary.html#module-graphrag_toolkit.lexical_graph.retrieval.summary">module</a>
+</li>
+        </ul></li>
+        <li>
+    graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.retrieval.summary.html#module-graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary">module</a>
+</li>
+        </ul></li>
+        <li>
     graphrag_toolkit.lexical_graph.retrieval.utils
 
         <ul>
@@ -2238,6 +2401,8 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod">GraphStoreFactoryMethod (class in graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.retrieval.summary.html#graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary.GraphSummary">GraphSummary (class in graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_summary_builder.GraphSummaryBuilder">GraphSummaryBuilder (class in graphrag_toolkit.lexical_graph.indexing.build.graph_summary_builder)</a>
 </li>
     </ul></td>
@@ -2386,8 +2551,12 @@
   <h2>K</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId.key">key (graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId attribute)</a>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.S3PromptProviderConfig.key">key (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.S3PromptProviderConfig attribute)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId.key">(graphrag_toolkit.lexical_graph.storage.graph.graph_store.NodeId attribute)</a>
 </li>
+        </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig.key_prefix">key_prefix (graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig attribute)</a>
 
         <ul>
@@ -2426,6 +2595,12 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.lexical_graph_query_engine.LexicalGraphQueryEngine">LexicalGraphQueryEngine (class in graphrag_toolkit.lexical_graph.lexical_graph_query_engine)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry.PromptProviderRegistry.list_registered">list_registered() (graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry.PromptProviderRegistry class method)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.PromptProviderRegistry.list_registered">(graphrag_toolkit.lexical_graph.prompts.PromptProviderRegistry class method)</a>
+</li>
+        </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.llm">llm (graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor attribute)</a>
 
         <ul>
@@ -2497,8 +2672,6 @@
 </li>
         </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.load.html#graphrag_toolkit.lexical_graph.indexing.load.json_array_reader.MetadataExtractorFunction">MetadataExtractorFunction (class in graphrag_toolkit.lexical_graph.indexing.load.json_array_reader)</a>
-</li>
-        <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes">MetadataToNodes (class in graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache.model">model (graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache property)</a>
 </li>
@@ -2609,6 +2782,12 @@
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter.model_config">(graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter attribute)</a>
 </li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.BedrockPromptProviderConfig.model_config">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.BedrockPromptProviderConfig attribute)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.FilePromptProviderConfig.model_config">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.FilePromptProviderConfig attribute)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.S3PromptProviderConfig.model_config">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.S3PromptProviderConfig attribute)</a>
+</li>
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.Chunk.model_config">(graphrag_toolkit.lexical_graph.retrieval.model.Chunk attribute)</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.Entity.model_config">(graphrag_toolkit.lexical_graph.retrieval.model.Entity attribute)</a>
@@ -2694,8 +2873,6 @@
     module
 
         <ul>
-          <li><a href="falkordb/falkordb.html#module-falkordb.falkordb_graph_store_factory">falkordb.falkordb_graph_store_factory</a>
-</li>
           <li><a href="graphrag_toolkit.html#module-graphrag_toolkit">graphrag_toolkit</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.html#module-graphrag_toolkit.lexical_graph">graphrag_toolkit.lexical_graph</a>
@@ -2733,8 +2910,6 @@
           <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#module-graphrag_toolkit.lexical_graph.indexing.build.graph_construction">graphrag_toolkit.lexical_graph.indexing.build.graph_construction</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#module-graphrag_toolkit.lexical_graph.indexing.build.graph_summary_builder">graphrag_toolkit.lexical_graph.indexing.build.graph_summary_builder</a>
-</li>
-          <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#module-graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes">graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#module-graphrag_toolkit.lexical_graph.indexing.build.node_builder">graphrag_toolkit.lexical_graph.indexing.build.node_builder</a>
 </li>
@@ -2836,6 +3011,30 @@
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.html#module-graphrag_toolkit.lexical_graph.metadata">graphrag_toolkit.lexical_graph.metadata</a>
 </li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts">graphrag_toolkit.lexical_graph.prompts</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider">graphrag_toolkit.lexical_graph.prompts.bedrock_prompt_provider</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.file_prompt_provider">graphrag_toolkit.lexical_graph.prompts.file_prompt_provider</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.prompt_provider_base">graphrag_toolkit.lexical_graph.prompts.prompt_provider_base</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.prompt_provider_config">graphrag_toolkit.lexical_graph.prompts.prompt_provider_config</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base">graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.prompt_provider_factory">graphrag_toolkit.lexical_graph.prompts.prompt_provider_factory</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry">graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider">graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#module-graphrag_toolkit.lexical_graph.prompts.static_prompt_provider">graphrag_toolkit.lexical_graph.prompts.static_prompt_provider</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.protocols.html#module-graphrag_toolkit.lexical_graph.protocols">graphrag_toolkit.lexical_graph.protocols</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.protocols.html#module-graphrag_toolkit.lexical_graph.protocols.mcp_server">graphrag_toolkit.lexical_graph.protocols.mcp_server</a>
+</li>
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.html#module-graphrag_toolkit.lexical_graph.retrieval">graphrag_toolkit.lexical_graph.retrieval</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.html#module-graphrag_toolkit.lexical_graph.retrieval.model">graphrag_toolkit.lexical_graph.retrieval.model</a>
@@ -2925,6 +3124,10 @@
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search">graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#module-graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever">graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.retrieval.summary.html#module-graphrag_toolkit.lexical_graph.retrieval.summary">graphrag_toolkit.lexical_graph.retrieval.summary</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.retrieval.summary.html#module-graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary">graphrag_toolkit.lexical_graph.retrieval.summary.graph_summary</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.utils.html#module-graphrag_toolkit.lexical_graph.retrieval.utils">graphrag_toolkit.lexical_graph.retrieval.utils</a>
 </li>
@@ -3167,6 +3370,8 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache.predict">predict() (graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache method)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig.prefix">prefix (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig attribute)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint.prepare_output_directories">prepare_output_directories() (graphrag_toolkit.lexical_graph.indexing.build.checkpoint.Checkpoint method)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.StatementDiversityPostProcessor.preprocess_texts">preprocess_texts() (graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_diversity.StatementDiversityPostProcessor method)</a>
@@ -3181,12 +3386,14 @@
           <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor.process_single_batch">(graphrag_toolkit.lexical_graph.indexing.extract.batch_topic_extractor.BatchTopicExtractor method)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs">ProcessorArgs (class in graphrag_toolkit.lexical_graph.retrieval.processors.processor_args)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_base.ProcessorBase">ProcessorBase (class in graphrag_toolkit.lexical_graph.retrieval.processors.processor_base)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.BedrockPromptProviderConfig.prompt_arn">prompt_arn (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.BedrockPromptProviderConfig attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor.prompt_template">prompt_template (graphrag_toolkit.lexical_graph.indexing.extract.batch_llm_proposition_extractor.BatchLLMPropositionExtractor attribute)</a>
 
         <ul>
@@ -3199,6 +3406,20 @@
           <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.LLMPropositionExtractor.prompt_template">(graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.LLMPropositionExtractor attribute)</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor.TopicExtractor.prompt_template">(graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor.TopicExtractor attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.PromptProvider">PromptProvider (class in graphrag_toolkit.lexical_graph.prompts)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_base.PromptProvider">(class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_base)</a>
+</li>
+        </ul></li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_factory.PromptProviderFactory">PromptProviderFactory (class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_factory)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.PromptProviderRegistry">PromptProviderRegistry (class in graphrag_toolkit.lexical_graph.prompts)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry.PromptProviderRegistry">(class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry)</a>
 </li>
         </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient.property_assigment_fn">property_assigment_fn() (graphrag_toolkit.lexical_graph.indexing.build.graph_batch_client.GraphBatchClient method)</a>
@@ -3225,6 +3446,8 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.Propositions.propositions">propositions (graphrag_toolkit.lexical_graph.indexing.model.Propositions attribute)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.ProviderConfig">ProviderConfig (class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_config)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.prune_results.PruneResults">PruneResults (class in graphrag_toolkit.lexical_graph.retrieval.processors.prune_results)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.prune_statements.PruneStatements">PruneStatements (class in graphrag_toolkit.lexical_graph.retrieval.processors.prune_statements)</a>
@@ -3246,6 +3469,8 @@
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters.query_ref">query_ref (graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphQueryLogEntryParameters attribute)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.protocols.html#graphrag_toolkit.lexical_graph.protocols.mcp_server.query_tenant_graph">query_tenant_graph() (in module graphrag_toolkit.lexical_graph.protocols.mcp_server)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition">QueryDecomposition (class in graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition)</a>
 </li>
@@ -3276,10 +3501,16 @@
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.indexing.load.html#graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs.region">(graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs attribute)</a>
 </li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.S3PromptProviderConfig.region">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.S3PromptProviderConfig attribute)</a>
+</li>
         </ul></li>
-        <li><a href="graphrag_toolkit.lexical_graph.storage.html#graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory.register">register() (graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory static method)</a>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry.PromptProviderRegistry.register">register() (graphrag_toolkit.lexical_graph.prompts.prompt_provider_registry.PromptProviderRegistry class method)</a>
 
         <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.PromptProviderRegistry.register">(graphrag_toolkit.lexical_graph.prompts.PromptProviderRegistry class method)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.storage.html#graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory.register">(graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory static method)</a>
+</li>
           <li><a href="graphrag_toolkit.lexical_graph.storage.html#graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory.register">(graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory static method)</a>
 </li>
         </ul></li>
@@ -3297,10 +3528,10 @@
           <li><a href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker.rerank_pairs">(graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker method)</a>
 </li>
         </ul></li>
-        <li><a href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search.RerankingBeamGraphSearch.rerank_statements">rerank_statements() (graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search.RerankingBeamGraphSearch method)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search.RerankingBeamGraphSearch.rerank_statements">rerank_statements() (graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search.RerankingBeamGraphSearch method)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker.reranker">reranker (graphrag_toolkit.lexical_graph.retrieval.post_processors.bge_reranker.BGEReranker attribute)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin.RerankerMixin">RerankerMixin (class in graphrag_toolkit.lexical_graph.retrieval.post_processors.reranker_mixin)</a>
@@ -3312,6 +3543,10 @@
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.rescore_results.RescoreResults">RescoreResults (class in graphrag_toolkit.lexical_graph.retrieval.processors.rescore_results)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.reset_counts">reset_counts() (graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler method)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig.resolved_system_prompt_arn">resolved_system_prompt_arn (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig property)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig.resolved_user_prompt_arn">resolved_user_prompt_arn (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig property)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.html#graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection.results">results (graphrag_toolkit.lexical_graph.retrieval.model.SearchResultCollection attribute)</a>
 
@@ -3347,6 +3582,8 @@
   <h2>S</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig.s3">s3 (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig property)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig.s3_encryption_key_id">s3_encryption_key_id (graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig attribute)</a>
 
         <ul>
@@ -3363,6 +3600,14 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.load.html#graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs.S3BasedDocs">S3BasedDocs (class in graphrag_toolkit.lexical_graph.indexing.load.s3_based_docs)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider.S3PromptProvider">S3PromptProvider (class in graphrag_toolkit.lexical_graph.prompts.s3_prompt_provider)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig">S3PromptProviderConfig (class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_config)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.S3PromptProviderConfig">(class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base)</a>
+</li>
+        </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.graph_scoped_value_store.GraphScopedValueStore.save_scoped_values">save_scoped_values() (graphrag_toolkit.lexical_graph.indexing.extract.graph_scoped_value_store.GraphScopedValueStore method)</a>
 
         <ul>
@@ -3412,6 +3657,8 @@
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker.SentenceReranker">SentenceReranker (class in graphrag_toolkit.lexical_graph.retrieval.post_processors.sentence_reranker)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.DummyAuth.service">service (graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes.DummyAuth attribute)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig.session">session (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig property)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.logging.set_advanced_logging_config">set_advanced_logging_config() (in module graphrag_toolkit.lexical_graph.logging)</a>
 </li>
@@ -3533,6 +3780,10 @@
         </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.statements_to_strings.StatementsToStrings">StatementsToStrings (class in graphrag_toolkit.lexical_graph.retrieval.processors.statements_to_strings)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.static_prompt_provider.StaticPromptProvider">StaticPromptProvider (class in graphrag_toolkit.lexical_graph.prompts.static_prompt_provider)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.StaticPromptProviderConfig">StaticPromptProviderConfig (class in graphrag_toolkit.lexical_graph.prompts.prompt_provider_config)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber">StatPrintingSubscriber (class in graphrag_toolkit.lexical_graph.utils.fm_observability)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller.stop">stop() (graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller method)</a>
@@ -3543,11 +3794,25 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.utils.html#graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.strip_parentheses">strip_parentheses() (in module graphrag_toolkit.lexical_graph.indexing.utils.topic_utils)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig.sts">sts (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.AWSConfig property)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.Fact.subject">subject (graphrag_toolkit.lexical_graph.indexing.model.Fact attribute)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig.subnet_ids">subnet_ids (graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig attribute)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.system_prompt">system_prompt (graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor attribute)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig.system_prompt_arn">system_prompt_arn (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig attribute)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.FilePromptProviderConfig.system_prompt_file">system_prompt_file (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.FilePromptProviderConfig attribute)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig.system_prompt_file">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig attribute)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.FilePromptProviderConfig.system_prompt_file">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.FilePromptProviderConfig attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig.system_prompt_version">system_prompt_version (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -3591,6 +3856,8 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.tenant_id.to_tenant_id">to_tenant_id() (in module graphrag_toolkit.lexical_graph.tenant_id)</a>
 </li>
+        <li><a href="graphrag_toolkit.lexical_graph.protocols.html#graphrag_toolkit.lexical_graph.protocols.mcp_server.tool_search">tool_search() (in module graphrag_toolkit.lexical_graph.protocols.mcp_server)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndex.top_k">top_k() (graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index.DummyVectorIndex method)</a>
 
         <ul>
@@ -3627,10 +3894,10 @@
         </ul></li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search.TopicBasedSearch">TopicBasedSearch (class in graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search)</a>
 </li>
-        <li><a href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.TopicCollection">TopicCollection (class in graphrag_toolkit.lexical_graph.indexing.model)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.TopicCollection">TopicCollection (class in graphrag_toolkit.lexical_graph.indexing.model)</a>
+</li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor.TopicExtractor">TopicExtractor (class in graphrag_toolkit.lexical_graph.indexing.extract.topic_extractor)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.topic_graph_builder.TopicGraphBuilder">TopicGraphBuilder (class in graphrag_toolkit.lexical_graph.indexing.build.topic_graph_builder)</a>
@@ -3677,11 +3944,9 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.truncate_statements.TruncateStatements">TruncateStatements (class in graphrag_toolkit.lexical_graph.retrieval.processors.truncate_statements)</a>
 </li>
-        <li><a href="falkordb/falkordb.html#falkordb.falkordb_graph_store_factory.FalkorDBGraphStoreFactory.try_create">try_create() (falkordb.falkordb_graph_store_factory.FalkorDBGraphStoreFactory method)</a>
+        <li><a href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStoreFactory.try_create">try_create() (graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStoreFactory method)</a>
 
         <ul>
-          <li><a href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStoreFactory.try_create">(graphrag_toolkit.lexical_graph.storage.graph.dummy_graph_store.DummyGraphStoreFactory method)</a>
-</li>
           <li><a href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod.try_create">(graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod method)</a>
 </li>
           <li><a href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsGraphStoreFactory.try_create">(graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsGraphStoreFactory method)</a>
@@ -3713,11 +3978,23 @@
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.update">update() (graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats method)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider.update_values">update_values() (graphrag_toolkit.lexical_graph.indexing.extract.scoped_value_provider.ScopedValueProvider method)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html#graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor.user_prompt">user_prompt (graphrag_toolkit.lexical_graph.retrieval.post_processors.statement_enhancement.StatementEnhancementPostProcessor attribute)</a>
+</li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig.user_prompt_arn">user_prompt_arn (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.FilePromptProviderConfig.user_prompt_file">user_prompt_file (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.FilePromptProviderConfig attribute)</a>
+
+        <ul>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig.user_prompt_file">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.S3PromptProviderConfig attribute)</a>
+</li>
+          <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.FilePromptProviderConfig.user_prompt_file">(graphrag_toolkit.lexical_graph.prompts.prompt_provider_config_base.FilePromptProviderConfig attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig.user_prompt_version">user_prompt_version (graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig attribute)</a>
 </li>
         <li><a href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.PGIndex.username">username (graphrag_toolkit.lexical_graph.storage.vector.pg_vector_indexes.PGIndex attribute)</a>
 </li>

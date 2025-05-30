@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -671,30 +674,34 @@ instances.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory.for_graph_store">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">for_graph_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore"><span class="pre">GraphStore</span></a></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph_store_factory.html#GraphStoreFactory.for_graph_store"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory.for_graph_store" title="Link to this definition">¶</a></dt>
-<dd><p>Creates or retrieves a graph store instance based on the provided graph
-information or configuration. If an existing <cite>GraphStore</cite> instance is
-given, it is returned directly. Otherwise, iterates through registered
-graph store factories to attempt creating a <cite>GraphStore</cite> instance.
-Raises an error if no suitable factory can process the given graph store
-information.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>graph_info</strong> (<em>GraphStoreType</em>) – An existing <cite>GraphStore</cite> instance or configuration
-information for the graph store.</p></li>
-<li><p><strong>kwargs</strong> – Additional keyword arguments passed to factory methods
-when creating a <cite>GraphStore</cite> instance.</p></li>
-</ul>
+<dd><p>Creates and returns a GraphStore instance based on the provided connection
+information or factory methods.</p>
+<p>This method is responsible for initializing the GraphStore by either using
+the given <cite>graph_info</cite> directly (if it is an instance of <cite>GraphStore</cite>) or
+by utilizing the registered factory methods to create an appropriate
+GraphStore instance. If factory creation is not successful, it raises a
+<cite>ValueError</cite>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>graph_info (GraphStoreType, optional): Connection information or an</dt><dd><p>existing instance of <cite>GraphStore</cite>. If it’s an instance of <cite>GraphStore</cite>,
+it will be returned directly. Otherwise, it is used to create the
+GraphStore instance.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <cite>GraphStore</cite> instance that matches the provided information.</p>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments passed to factory methods during</dt><dd><p>GraphStore creation.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store.GraphStore">GraphStore</a></p>
+</dl>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the graph store information is invalid or no
-registered factory can process the given configuration.</p>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>GraphStore: An instance of <cite>GraphStore</cite> created using the provided</dt><dd><p>information.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><dl class="simple">
+<dt>ValueError: If the <cite>graph_info</cite> is unrecognized or the GraphStore</dt><dd><p>creation fails. Provides detailed information to ensure the
+graph store connection info is correctly formatted and a suitable
+factory method is registered.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -702,8 +709,7 @@ registered factory can process the given configuration.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory.register">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factory_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod"><span class="pre">GraphStoreFactoryMethod</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod" title="graphrag_toolkit.lexical_graph.storage.graph.graph_store_factory_method.GraphStoreFactoryMethod"><span class="pre">GraphStoreFactoryMethod</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/graph_store_factory.html#GraphStoreFactory.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.graph_store_factory.GraphStoreFactory.register" title="Link to this definition">¶</a></dt>
-<dd><p>Registers a factory type instance or class to the internal factory
-registry.</p>
+<dd><p>Registers a factory type instance or class to the internal factory registry.</p>
 <p>This method allows registration of classes inheriting from GraphStoreFactoryMethod
 or their instances. The input factory_type is checked for its validity as a subclass
 or instance of GraphStoreFactoryMethod. If this condition is met, the factory
@@ -732,8 +738,7 @@ nature of the issue.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.storage.vector_store_factory.</span></span><span class="sig-name descname"><span class="pre">VectorStoreFactory</span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector_store_factory.html#VectorStoreFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Manages the registration and creation of vector index factories and
-vector stores.</p>
+<p>Manages the registration and creation of vector index factories and vector stores.</p>
 <p>This class provides mechanisms for registering vector index factory methods, creating
 vector stores either directly or by using registered factories, and handling composite
 vector stores made up of multiple smaller stores. It is designed to streamline the
@@ -745,8 +750,7 @@ retrieval and management of vector store instances.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory.for_composite">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">for_composite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector_store_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector_store_factory.html#VectorStoreFactory.for_composite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory.for_composite" title="Link to this definition">¶</a></dt>
-<dd><p>Combines multiple VectorStore instances into a single instance by
-merging their indexes.</p>
+<dd><p>Combines multiple VectorStore instances into a single instance by merging their indexes.</p>
 <p>This static method takes a list of VectorStore instances and aggregates their indexes into a
 composite VectorStore. Each key-value pair in the indexes of the input VectorStores will be
 preserved in the resulting composite VectorStore. Keys in the indexes are considered unique
@@ -768,30 +772,26 @@ and will be directly added to the result.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory.for_vector_store">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">for_vector_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector_store_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['chunk',</span> <span class="pre">'statement']</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector_store_factory.html#VectorStoreFactory.for_vector_store"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory.for_vector_store" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a vector store instance using vector store information and index names. If the
-provided <cite>vector_store_info</cite> is already an instance of <cite>VectorStore</cite>, it is returned
-directly. Otherwise, it attempts to create vector indexes using registered factory
-methods.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This function raises a <cite>ValueError</cite> if the vector store information is unrecognized
-or misformatted.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>vector_store_info</strong> (<em>str</em><em> or </em><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><em>VectorStore</em></a>) – Optional; Information about the vector store. If it is already
-an instance of <cite>VectorStore</cite>, it will be returned as-is.</p></li>
-<li><p><strong>index_names</strong> (<em>list</em><em> or </em><em>str</em>) – A list or a single name (default: DEFAULT_EMBEDDING_INDEXES)
-identifying the vector indexes to use.</p></li>
-<li><p><strong>kwargs</strong> – Additional parameters passed to the vector index factory method.</p></li>
-</ul>
+<dd><p>Creates a vector store instance or retrieves an existing one based on the provided
+vector store information and index names. This method utilizes specified factories to
+attempt creating vector indexes, and finally constructs a <cite>VectorStore</cite> object if successful.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>vector_store_info (str | VectorStore, optional): The vector store connection information or an</dt><dd><p>existing <cite>VectorStore</cite> instance. If a string, it is used to identify or connect to a
+specific vector store.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <cite>VectorStore</cite> instance containing the created or resolved vector indexes.</p>
+<dt>index_names (list[str] | str, optional): The name(s) of indexes to create or retrieve. Defaults</dt><dd><p>to <cite>DEFAULT_EMBEDDING_INDEXES</cite> if not supplied. This should either be a single string or
+a list of strings.</p>
 </dd>
-<dt class="field-odd">Returntype<span class="colon">:</span></dt>
-<dd class="field-odd"><p>VectorStore</p>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional keyword arguments passed to the factory methods while creating</dt><dd><p>the vector indexes.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>VectorStore: A <cite>VectorStore</cite> instance containing the specified indexes or the supplied
+<cite>VectorStore</cite> if valid.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the provided <cite>vector_store_info</cite> is not recognized or improperly formatted, or if
+no suitable vector index factory successfully creates the necessary vector indexes.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -799,10 +799,9 @@ identifying the vector indexes to use.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory.register">
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factory_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_index_factory_method.VectorIndexFactoryMethod" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index_factory_method.VectorIndexFactoryMethod"><span class="pre">VectorIndexFactoryMethod</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_index_factory_method.VectorIndexFactoryMethod" title="graphrag_toolkit.lexical_graph.storage.vector.vector_index_factory_method.VectorIndexFactoryMethod"><span class="pre">VectorIndexFactoryMethod</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/storage/vector_store_factory.html#VectorStoreFactory.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory.register" title="Link to this definition">¶</a></dt>
-<dd><p>Registers a factory method for vector index creation. This method
-allows the addition of custom factory methods to the global registry,
-enabling dynamic instantiation of vector index objects based on the
-factory type.</p>
+<dd><p>Registers a factory method for vector index creation. This method allows
+the addition of custom factory methods to the global registry, enabling
+dynamic instantiation of vector index objects based on the factory type.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>factory_type: A factory method class or instance to register.</dt><dd><p>If a class is provided, it must inherit from

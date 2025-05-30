@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -361,7 +364,7 @@
 <div class="viewcode-block" id="NodeFilter">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.build_pipeline.NodeFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NodeFilter</span><span class="p">(</span><span class="n">TransformComponent</span><span class="p">):</span>
-
+      
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">nodes</span></div>
 
@@ -369,9 +372,10 @@
 <div class="viewcode-block" id="BuildPipeline">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.build_pipeline.BuildPipeline">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BuildPipeline</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a configurable build pipeline designed for efficiently</span>
-<span class="sd">    processing and transforming data into nodes through various components,</span>
-<span class="sd">    while supporting batching, parallelization, and customizations.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a configurable build pipeline designed for efficiently processing and transforming</span>
+<span class="sd">    data into nodes through various components, while supporting batching, parallelization,</span>
+<span class="sd">    and customizations.</span>
 
 <span class="sd">    The BuildPipeline class provides a mechanism to process collections of input data using a</span>
 <span class="sd">    series of transformation components. It supports batch processing, parallel execution with</span>
@@ -382,16 +386,18 @@
 <span class="sd">    to produce output nodes.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        inner_pipeline (IngestionPipeline): The internal ingestion pipeline used for processing the transformation components.</span>
-<span class="sd">        num_workers (int): Number of parallel workers for processing the data. Defaults to the system&#39;s CPU count if not provided.</span>
+<span class="sd">        inner_pipeline (IngestionPipeline): The internal ingestion pipeline used for processing</span>
+<span class="sd">        the transformation components.</span>
+<span class="sd">        num_workers (int): Number of parallel workers for processing the data. Defaults to the</span>
+<span class="sd">        system&#39;s CPU count if not provided.</span>
 <span class="sd">        batch_size (int): Size of batches for processing data. Defaults to a configured batch size.</span>
 <span class="sd">        batch_writes_enabled (bool): Flag indicating whether batch writes are enabled.</span>
 <span class="sd">        batch_write_size (int): Size of batches for processing writes. Defaults to a configured size.</span>
 <span class="sd">        include_domain_labels (bool): Flag indicating whether domain labels should be included.</span>
-<span class="sd">        node_builders (NodeBuilders): Object that encapsulates the logic for building nodes, applying filters, and formatting metadata.</span>
+<span class="sd">        node_builders (NodeBuilders): Object that encapsulates the logic for building nodes,</span>
+<span class="sd">        applying filters, and formatting metadata.</span>
 <span class="sd">        node_filter (NodeFilter): Filter used for excluding or including nodes based on certain conditions.</span>
 <span class="sd">        pipeline_kwargs (dict): Additional keyword arguments passed to the pipeline.</span>
-<span class="sd">        \\*\\*kwargs (Any): Additional keyword arguments for customization.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="BuildPipeline.create">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.build_pipeline.BuildPipeline.create">[docs]</a>
@@ -410,29 +416,42 @@
                <span class="n">tenant_id</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">TenantId</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="n">Any</span>
             <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates and initializes a Pipe object configured with the provided</span>
-<span class="sd">        parameters and components through the BuildPipeline. This method</span>
-<span class="sd">        facilitates seamless aggregation of processing components into a</span>
-<span class="sd">        pipeline, enabling execution with specific settings such as</span>
-<span class="sd">        concurrency, batching, filtering, and more.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates and initializes a `Pipe` object configured with the provided parameters and</span>
+<span class="sd">        components through the `BuildPipeline`. This method facilitates seamless aggregation</span>
+<span class="sd">        of processing components into a pipeline, enabling execution with specific settings</span>
+<span class="sd">        such as concurrency, batching, filtering, and more.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            components (List[TransformComponent]): List of transformation components to be included in the pipeline.</span>
-<span class="sd">            num_workers (Optional[int]): Number of worker threads or processes for parallel execution of the pipeline. Defaults to None.</span>
+<span class="sd">            components (List[TransformComponent]): List of transformation components to be</span>
+<span class="sd">            included in the pipeline.</span>
+<span class="sd">            num_workers (Optional[int]): Number of worker threads or processes for parallel</span>
+<span class="sd">            execution of the pipeline. Defaults to None.</span>
 <span class="sd">            batch_size (Optional[int]): Size of data batches to be processed. Defaults to None.</span>
-<span class="sd">            batch_writes_enabled (Optional[bool]): Toggles batching for writes during the processing. Defaults to None.</span>
-<span class="sd">            batch_write_size (Optional[int]): Size of data batches for write operations, applicable if batching is enabled. Defaults to None.</span>
-<span class="sd">            builders (Optional[List[NodeBuilder]]): Optional list of node builders if specific building structures are required. Defaults to an empty list.</span>
-<span class="sd">            show_progress (bool): Flag indicating whether to show progress during processing. Defaults to False.</span>
-<span class="sd">            checkpoint (Optional[Checkpoint]): Optional checkpoint configuration to enable resumption from a specific state. Defaults to None.</span>
-<span class="sd">            build_filters (Optional[BuildFilters]): Filters applied during the build process to refine data processing. Defaults to None.</span>
-<span class="sd">            source_metadata_formatter (Optional[SourceMetadataFormatter]): Formatter for source metadata to customize metadata configuration. Defaults to None.</span>
-<span class="sd">            include_domain_labels (Optional[bool]): Specifies whether domain labels should be incorporated in the output. Defaults to None.</span>
-<span class="sd">            tenant_id (Optional[TenantId]): Identifier for tenant-specific operations or segregations. Defaults to None.</span>
-<span class="sd">            \\*\\*kwargs (Any): Additional keyword arguments to customize further configuration of the pipeline.</span>
+<span class="sd">            batch_writes_enabled (Optional[bool]): Toggles batching for writes during the</span>
+<span class="sd">            processing. Defaults to None.</span>
+<span class="sd">            batch_write_size (Optional[int]): Size of data batches for write operations,</span>
+<span class="sd">            applicable if batching is enabled. Defaults to None.</span>
+<span class="sd">            builders (Optional[List[NodeBuilder]]): Optional list of node builders if specific</span>
+<span class="sd">            building structures are required. Defaults to an empty list.</span>
+<span class="sd">            show_progress (bool): Flag indicating whether to show progress during processing.</span>
+<span class="sd">            Defaults to False.</span>
+<span class="sd">            checkpoint (Optional[Checkpoint]): Optional checkpoint configuration to enable</span>
+<span class="sd">            resumption from a specific state. Defaults to None.</span>
+<span class="sd">            build_filters (Optional[BuildFilters]): Filters applied during the build process</span>
+<span class="sd">            to refine data processing. Defaults to None.</span>
+<span class="sd">            source_metadata_formatter (Optional[SourceMetadataFormatter]): Formatter for source</span>
+<span class="sd">            metadata to customize metadata configuration. Defaults to None.</span>
+<span class="sd">            include_domain_labels (Optional[bool]): Specifies whether domain labels should be</span>
+<span class="sd">            incorporated in the output. Defaults to None.</span>
+<span class="sd">            tenant_id (Optional[TenantId]): Identifier for tenant-specific operations or</span>
+<span class="sd">            segregations. Defaults to None.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments to customize further configuration</span>
+<span class="sd">                of the pipeline.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Pipe: A configured Pipe instance encapsulating the constructed pipeline for execution.</span>
+<span class="sd">            Pipe: A configured `Pipe` instance encapsulating the constructed pipeline for</span>
+<span class="sd">            execution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Pipe</span><span class="p">(</span>
             <span class="n">BuildPipeline</span><span class="p">(</span>
@@ -452,7 +471,7 @@
             <span class="p">)</span><span class="o">.</span><span class="n">build</span>
         <span class="p">)</span></div>
 
-
+    
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
                  <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransformComponent</span><span class="p">],</span> 
                  <span class="n">num_workers</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
@@ -468,26 +487,39 @@
                  <span class="n">tenant_id</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">TenantId</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="n">Any</span>
             <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of a class responsible for configuring and</span>
-<span class="sd">        managing a data processing pipeline. This pipeline processes input</span>
-<span class="sd">        through a customizable sequence of transformation components, while</span>
-<span class="sd">        optionally supporting checkpointing, multiprocessing, and domain-</span>
-<span class="sd">        specific metadata.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes an instance of a class responsible for configuring and managing a data</span>
+<span class="sd">        processing pipeline. This pipeline processes input through a customizable sequence</span>
+<span class="sd">        of transformation components, while optionally supporting checkpointing, multiprocessing,</span>
+<span class="sd">        and domain-specific metadata.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            components (List[TransformComponent]): A list of transformation components that collectively define the pipeline workflow. Defaults to an empty list if None.</span>
-<span class="sd">            num_workers (Optional[int]): The number of worker processes for parallel execution. Defaults to the system&#39;s processor count or a preconfigured value.</span>
-<span class="sd">            batch_size (Optional[int]): The size of data batches to process in each step of the pipeline. Defaults to a preconfigured value.</span>
-<span class="sd">            batch_writes_enabled (Optional[bool]): Indicates whether batch writes are enabled during processing. Defaults to a preconfigured value.</span>
-<span class="sd">            batch_write_size (Optional[int]): Specifies the number of items to include in each batch write operation. Defaults to a preconfigured value.</span>
-<span class="sd">            builders (Optional[List[NodeBuilder]]): A list of node builders used for node creation in the pipeline. Defaults to an empty list.</span>
-<span class="sd">            show_progress (bool): Whether to display progress updates during processing. Defaults to False.</span>
-<span class="sd">            checkpoint (Optional[Checkpoint]): An object for managing checkpoint operations, enabling the pipeline to resume from a specific state. Defaults to None.</span>
-<span class="sd">            build_filters (Optional[BuildFilters]): Filters applied during node building, restricting or modifying node creation. Defaults to None.</span>
-<span class="sd">            source_metadata_formatter (Optional[SourceMetadataFormatter]): A formatter for metadata associated with nodes, enabling customization or domain-specific adjustments. Defaults to a DefaultSourceMetadataFormatter instance.</span>
-<span class="sd">            include_domain_labels (Optional[bool]): Indicates whether domain labels should be included in the output during processing. Defaults to a preconfigured value.</span>
-<span class="sd">            tenant_id (Optional[TenantId]): An identifier for the tenant, used for scoping data. Defaults to None.</span>
-<span class="sd">            \\*\\*kwargs (Any): Additional keyword arguments to configure the pipeline behavior.</span>
+<span class="sd">            components (List[TransformComponent]): A list of transformation components that</span>
+<span class="sd">            collectively define the pipeline workflow. Defaults to an empty list if None.</span>
+<span class="sd">            num_workers (Optional[int]): The number of worker processes for parallel execution.</span>
+<span class="sd">            Defaults to the system&#39;s processor count or a preconfigured value.</span>
+<span class="sd">            batch_size (Optional[int]): The size of data batches to process in each step of the</span>
+<span class="sd">            pipeline. Defaults to a preconfigured value.</span>
+<span class="sd">            batch_writes_enabled (Optional[bool]): Indicates whether batch writes are enabled</span>
+<span class="sd">            during processing. Defaults to a preconfigured value.</span>
+<span class="sd">            batch_write_size (Optional[int]): Specifies the number of items to include in each</span>
+<span class="sd">            batch write operation. Defaults to a preconfigured value.</span>
+<span class="sd">            builders (Optional[List[NodeBuilder]]): A list of node builders used for node creation</span>
+<span class="sd">            in the pipeline. Defaults to an empty list.</span>
+<span class="sd">            show_progress (bool): Whether to display progress updates during processing.</span>
+<span class="sd">            Defaults to False.</span>
+<span class="sd">            checkpoint (Optional[Checkpoint]): An object for managing checkpoint operations,</span>
+<span class="sd">            enabling the pipeline to resume from a specific state. Defaults to None.</span>
+<span class="sd">            build_filters (Optional[BuildFilters]): Filters applied during node building,</span>
+<span class="sd">            restricting or modifying node creation. Defaults to None.</span>
+<span class="sd">            source_metadata_formatter (Optional[SourceMetadataFormatter]): A formatter for metadata</span>
+<span class="sd">            associated with nodes, enabling customization or domain-specific adjustments.</span>
+<span class="sd">            Defaults to a `DefaultSourceMetadataFormatter` instance.</span>
+<span class="sd">            include_domain_labels (Optional[bool]): Indicates whether domain labels should be</span>
+<span class="sd">            included in the output during processing. Defaults to a preconfigured value.</span>
+<span class="sd">            tenant_id (Optional[TenantId]): An identifier for the tenant, used for scoping data.</span>
+<span class="sd">            Defaults to None.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments to configure the pipeline behavior.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">components</span> <span class="o">=</span> <span class="n">components</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">build_num_workers</span>
@@ -496,7 +528,7 @@
         <span class="n">batch_write_size</span> <span class="o">=</span> <span class="n">batch_write_size</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">build_batch_write_size</span>
         <span class="n">include_domain_labels</span> <span class="o">=</span> <span class="n">include_domain_labels</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">include_domain_labels</span>
         <span class="n">source_metadata_formatter</span> <span class="o">=</span> <span class="n">source_metadata_formatter</span> <span class="ow">or</span> <span class="n">DefaultSourceMetadataFormatter</span><span class="p">()</span>
-
+        
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">NodeHandler</span><span class="p">):</span>
                 <span class="n">c</span><span class="o">.</span><span class="n">show_progress</span> <span class="o">=</span> <span class="n">show_progress</span>
@@ -506,7 +538,7 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Setting num_workers to CPU count [num_workers: </span><span class="si">{</span><span class="n">num_workers</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">checkpoint</span> <span class="ow">and</span> <span class="n">components</span><span class="p">:</span>
-
+            
             <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">components</span><span class="p">)):</span>
                 <span class="n">updated_component</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">add_writer</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
@@ -530,22 +562,26 @@
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">node_filter</span> <span class="o">=</span> <span class="n">NodeFilter</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">checkpoint</span> <span class="k">else</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">NodeFilter</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
-
+    
     <span class="k">def</span><span class="w"> </span><span class="nf">_to_node_batches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_doc_batches</span><span class="p">:</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">SourceDocument</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts batches of source documents into batches of nodes based on</span>
-<span class="sd">        filtering and builder processes. Each batch of source documents is</span>
-<span class="sd">        processed individually to form a batch of nodes.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts batches of source documents into batches of nodes based on filtering and</span>
+<span class="sd">        builder processes. Each batch of source documents is processed individually to form</span>
+<span class="sd">        a batch of nodes.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            source_doc_batches: A collection of collections, where each inner collection contains SourceDocument instances to be processed.</span>
+<span class="sd">            source_doc_batches: A collection of collections, where each inner collection</span>
+<span class="sd">            contains `SourceDocument` instances to be processed.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            A list of lists, where each inner list contains BaseNode objects that represent the processed and filtered nodes derived from the input source documents.</span>
+<span class="sd">            A list of lists, where each inner list contains `BaseNode` objects that</span>
+<span class="sd">            represent the processed and filtered nodes derived from the input source</span>
+<span class="sd">            documents.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-
+    
         <span class="k">for</span> <span class="n">source_documents</span> <span class="ow">in</span> <span class="n">source_doc_batches</span><span class="p">:</span>
-
+        
             <span class="n">chunk_node_batches</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">node_filter</span><span class="p">(</span><span class="n">source_document</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">source_document</span> <span class="ow">in</span> <span class="n">source_documents</span>
@@ -561,7 +597,7 @@
                 <span class="k">for</span> <span class="n">nodes</span> <span class="ow">in</span> <span class="n">node_batches</span>
                 <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span>
             <span class="p">]</span>   
-
+        
             <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">results</span>
@@ -569,17 +605,19 @@
 <div class="viewcode-block" id="BuildPipeline.build">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.build_pipeline.BuildPipeline.build">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SourceType</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Processes a set of input source types to generate and yield output</span>
-<span class="sd">        nodes through a configurable build pipeline. The method organizes</span>
-<span class="sd">        source documents into batches and processes them through a pipeline</span>
-<span class="sd">        with customizable settings for parallel execution, batching, and</span>
-<span class="sd">        additional pipeline-specific options.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes a set of input source types to generate and yield output nodes through a</span>
+<span class="sd">        configurable build pipeline. The method organizes source documents into batches</span>
+<span class="sd">        and processes them through a pipeline with customizable settings for parallel</span>
+<span class="sd">        execution, batching, and additional pipeline-specific options.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            inputs: An iterable of SourceType objects representing source data to be processed into nodes.</span>
+<span class="sd">            inputs: An iterable of SourceType objects representing source data to be</span>
+<span class="sd">            processed into nodes.</span>
 
 <span class="sd">        Yields:</span>
-<span class="sd">            BaseNode: Yields nodes as output from the processing pipeline, after being transformed and processed according to the pipeline steps.</span>
+<span class="sd">            BaseNode: Yields nodes as output from the processing pipeline, after being</span>
+<span class="sd">            transformed and processed according to the pipeline steps.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">input_source_documents</span> <span class="o">=</span> <span class="n">source_documents_from_source_types</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 
@@ -587,7 +625,7 @@
 
             <span class="n">num_source_docs_per_batch</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">source_documents</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">)</span>
             <span class="n">source_doc_batches</span> <span class="o">=</span> <span class="n">iter_batch</span><span class="p">(</span><span class="n">source_documents</span><span class="p">,</span> <span class="n">num_source_docs_per_batch</span><span class="p">)</span>
-
+            
             <span class="n">node_batches</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_node_batches</span><span class="p">(</span><span class="n">source_doc_batches</span><span class="p">)</span>
 
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Running build pipeline [batch_size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="si">}</span><span class="s1">, num_workers: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s1">, job_sizes: </span><span class="si">{</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">node_batches</span><span class="p">]</span><span class="si">}</span><span class="s1">, batch_writes_enabled: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_writes_enabled</span><span class="si">}</span><span class="s1">, batch_write_size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_write_size</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
@@ -606,6 +644,7 @@
             <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">output_nodes</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">node</span>       </div>
 </div>
+
 
 </pre></div>
         </article>

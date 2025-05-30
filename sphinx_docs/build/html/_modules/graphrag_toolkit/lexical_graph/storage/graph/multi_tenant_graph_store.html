@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -341,193 +344,166 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">LEXICAL_GRAPH_LABELS</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="n">NodeId</span>
 
-
 <div class="viewcode-block" id="MultiTenantGraphStore">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MultiTenantGraphStore</span><span class="p">(</span><span class="n">GraphStore</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a multi-tenant graph store that serves as a wrapper around a `GraphStore`</span>
-<span class="sd">    to add tenant-specific functionality. This class enables handling of graph data</span>
-<span class="sd">    segregation for multiple tenants by introducing tenant-specific labels, query rewriting,</span>
-<span class="sd">    and additional tenant context. It delegates underlying operations to the contained</span>
-<span class="sd">    `GraphStore` instance while applying tenant-awareness on top of it.</span>
+<span class="sd">    Represents a multi-tenant graph store.</span>
 
-<span class="sd">    This class is particularly useful in applications where multiple tenants share the same</span>
-<span class="sd">    underlying graph database infrastructure but need data isolation and customized operations</span>
-<span class="sd">    per tenant.</span>
+<span class="sd">    This class serves as a wrapper for a GraphStore to support multi-tenancy. It modifies</span>
+<span class="sd">    queries and operations to be specific to the tenant identified by a tenant ID. The</span>
+<span class="sd">    class ensures that graph operations are isolated and specific to the tenant, providing</span>
+<span class="sd">    effective multi-tenant handling for graph data.</span>
 
-<span class="sd">    :ivar inner: The underlying graph store instance being wrapped by this multi-tenant wrapper.</span>
-<span class="sd">    :type inner: GraphStore</span>
-<span class="sd">    :ivar labels: List of graph labels that are tenant-specific and used in query rewriting.</span>
-<span class="sd">    :type labels: List[str]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        inner (GraphStore): The underlying graph store being wrapped to enable multi-tenancy.</span>
+<span class="sd">        labels (List[str]): A list of graph labels that might be rewritten for the tenant.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="MultiTenantGraphStore.wrap">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.wrap">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">wrap</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span>
-        <span class="n">tenant_id</span><span class="p">:</span> <span class="n">TenantId</span><span class="p">,</span>
-        <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">LEXICAL_GRAPH_LABELS</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrap</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">graph_store</span><span class="p">:</span><span class="n">GraphStore</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">:</span><span class="n">TenantId</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="n">LEXICAL_GRAPH_LABELS</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Wraps a ``GraphStore`` instance into a ``MultiTenantGraphStore`` if necessary. This</span>
-<span class="sd">        method checks the type of the provided ``graph_store`` and the status of the</span>
-<span class="sd">        ``tenant_id`` to either return the given ``graph_store`` directly or wrap it</span>
-<span class="sd">        in a ``MultiTenantGraphStore``.</span>
+<span class="sd">        Creates and returns a GraphStore instance, which can appropriately handle multi-tenancy</span>
+<span class="sd">        based on the tenant information provided. If the tenant is a default tenant, the original</span>
+<span class="sd">        graph store instance is returned as is. Otherwise, ensures that a MultiTenantGraphStore</span>
+<span class="sd">        instance is created and returned.</span>
 
-<span class="sd">        :param graph_store: The graph store instance to potentially wrap, which may be a</span>
-<span class="sd">            subclass of ``GraphStore`` or already a ``MultiTenantGraphStore``.</span>
-<span class="sd">        :type graph_store: GraphStore</span>
-<span class="sd">        :param tenant_id: The identifier of the tenant information for the</span>
-<span class="sd">            graph store. Each tenant is identified uniquely.</span>
-<span class="sd">        :type tenant_id: TenantId</span>
-<span class="sd">        :param labels: A list of graph labels used for multi-tenancy context.</span>
-<span class="sd">            Defaults to ``LEXICAL_GRAPH_LABELS``.</span>
-<span class="sd">        :type labels: List[str]</span>
-<span class="sd">        :return: Returns the same instance if it&#39;s already a multi-tenant graph store or the</span>
-<span class="sd">            tenant is default. Otherwise, wraps the existing graph store in a</span>
-<span class="sd">            ``MultiTenantGraphStore`` and returns it.</span>
-<span class="sd">        :rtype: Union[GraphStore, MultiTenantGraphStore]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            graph_store (GraphStore): The graph store instance to be wrapped for multi-tenancy.</span>
+<span class="sd">            tenant_id (TenantId): The tenant identifier used to determine if multi-tenancy is</span>
+<span class="sd">                required.</span>
+<span class="sd">            labels (List[str]): A list of labels associated with the graph store. Defaults to</span>
+<span class="sd">                `LEXICAL_GRAPH_LABELS`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GraphStore: The resulting graph store instance, either as-is or wrapped as a</span>
+<span class="sd">                MultiTenantGraphStore depending on tenant information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">tenant_id</span><span class="o">.</span><span class="n">is_default_tenant</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">graph_store</span>
+        
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">graph_store</span><span class="p">,</span> <span class="n">MultiTenantGraphStore</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">graph_store</span>
-        <span class="k">return</span> <span class="n">MultiTenantGraphStore</span><span class="p">(</span>
-            <span class="n">inner</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span> <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">MultiTenantGraphStore</span><span class="p">(</span><span class="n">inner</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span> <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span></div>
 
-
-    <span class="n">inner</span><span class="p">:</span> <span class="n">GraphStore</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="n">inner</span><span class="p">:</span><span class="n">GraphStore</span>
+    <span class="n">labels</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>
 
 <div class="viewcode-block" id="MultiTenantGraphStore.execute_query_with_retry">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.execute_query_with_retry">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">execute_query_with_retry</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-        <span class="n">max_attempts</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-        <span class="n">max_wait</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_query_with_retry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">max_attempts</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_wait</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Executes a database query with retry capability. The method attempts to execute the</span>
-<span class="sd">        provided query using a specified maximum number of attempts and wait time between</span>
-<span class="sd">        each retry. It also allows additional parameters and arguments to modify the query</span>
-<span class="sd">        execution behavior. This function internally rewrites the query before execution and</span>
-<span class="sd">        delegates the retry mechanism to another method.</span>
+<span class="sd">        Executes a query with retry logic, ensuring the query is attempted multiple</span>
+<span class="sd">        times in case of failure. This method uses the `inner` object&#39;s</span>
+<span class="sd">        `execute_query_with_retry` method to perform the actual query, after rewriting</span>
+<span class="sd">        the provided query string if necessary.</span>
 
-<span class="sd">        :param query: The SQL query string to be executed.</span>
-<span class="sd">        :param parameters: Mapping of query parameters to their respective values.</span>
-<span class="sd">        :param max_attempts: The maximum number of retry attempts allowed in case of failure</span>
-<span class="sd">            (default is 3).</span>
-<span class="sd">        :param max_wait: The maximum wait time between retry attempts, in seconds (default is 5).</span>
-<span class="sd">        :param kwargs: Additional arguments to customize query execution as needed.</span>
-<span class="sd">        :return: None.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            query: A string representing the SQL query to be executed.</span>
+<span class="sd">            parameters: A dictionary containing the parameters to be bound to the query.</span>
+<span class="sd">            max_attempts: An optional integer specifying the maximum number of retry</span>
+<span class="sd">                attempts. Defaults to 3.</span>
+<span class="sd">            max_wait: An optional integer specifying the maximum wait time in seconds</span>
+<span class="sd">                between retries. Defaults to 5.</span>
+<span class="sd">            **kwargs: Additional optional keyword arguments to be passed to the</span>
+<span class="sd">                `execute_query_with_retry` method of the `inner` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span>
-            <span class="n">query</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_rewrite_query</span><span class="p">(</span><span class="n">query</span><span class="p">),</span>
-            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
-            <span class="n">max_attempts</span><span class="o">=</span><span class="n">max_attempts</span><span class="p">,</span>
-            <span class="n">max_wait</span><span class="o">=</span><span class="n">max_wait</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">execute_query_with_retry</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_rewrite_query</span><span class="p">(</span><span class="n">query</span><span class="p">),</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">max_attempts</span><span class="o">=</span><span class="n">max_attempts</span><span class="p">,</span> <span class="n">max_wait</span><span class="o">=</span><span class="n">max_wait</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_logging_prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_logging_prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_id</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates a logging prefix string based on the provided query ID and optional</span>
-<span class="sd">        correlation ID. The function utilizes an internal method to construct the</span>
-<span class="sd">        logging prefix for identifying specific queries and their related operations.</span>
+<span class="sd">        Generates a logging prefix based on given `query_id` and optional</span>
+<span class="sd">        `correlation_id`.</span>
 
-<span class="sd">        :param query_id: A unique identifier for the query.</span>
-<span class="sd">        :type query_id: str</span>
-<span class="sd">        :param correlation_id: An optional identifier used for correlating related queries</span>
-<span class="sd">            or operations. If not provided, the prefix is generated using only the query_id.</span>
-<span class="sd">        :type correlation_id: Optional[str]</span>
-<span class="sd">        :return: A string used as the logging prefix, constructed using the query_id and</span>
-<span class="sd">            optionally the correlation_id.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        This method delegates the functionality to the `inner` attribute&#39;s</span>
+<span class="sd">        `_logging_prefix` method. The prefix is typically used for logging</span>
+<span class="sd">        or debugging purposes to include contextual information.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query_id (str): A unique identifier for the query to include in</span>
+<span class="sd">                the logging prefix.</span>
+<span class="sd">            correlation_id (Optional[str]): An optional identifier that links</span>
+<span class="sd">                related queries or requests for additional context in log</span>
+<span class="sd">                messages.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The generated logging prefix containing the provided identifiers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span>
-            <span class="n">query_id</span><span class="o">=</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="o">=</span><span class="n">correlation_id</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="o">=</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="o">=</span><span class="n">correlation_id</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assigns a value to a property of an inner object and returns a callable function</span>
+<span class="sd">        to retrieve a property value as a string. This method delegates the assignment</span>
+<span class="sd">        to an inner object&#39;s function.</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            key: The name of the property to assign in the inner object.</span>
+<span class="sd">            value: The value to assign to the specified property.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A callable that takes a string parameter and returns a string representation</span>
+<span class="sd">            of the requested property&#39;s value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">property_assigment_fn</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    
 <div class="viewcode-block" id="MultiTenantGraphStore.property_assigment_fn">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.property_assigment_fn">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Assigns a property by using a key-value pair. This function acts as a wrapper</span>
-<span class="sd">        around an inner method and delegates execution to it.</span>
-
-<span class="sd">        :param key: The key identifying the property to be assigned.</span>
-<span class="sd">        :type key: str</span>
-<span class="sd">        :param value: The value to be assigned to the given key.</span>
-<span class="sd">        :type value: Any</span>
-<span class="sd">        :return: A callable function that accepts a key as a string and returns a string.</span>
-<span class="sd">        :rtype: Callable[[str], str</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">property_assigment_fn</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
-
+    
 <div class="viewcode-block" id="MultiTenantGraphStore.node_id">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.node_id">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeId</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeId</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves a NodeId corresponding to the provided node name.</span>
+<span class="sd">        Retrieves a unique node identifier (NodeId) based on the provided node name.</span>
 
-<span class="sd">        This method utilizes the `node_id` method from an underlying</span>
-<span class="sd">        implementation to fetch the unique identifier (NodeId) for the</span>
-<span class="sd">        given node name.</span>
+<span class="sd">        This function interacts with an internal structure to map the given node name</span>
+<span class="sd">        to its corresponding unique identifier.</span>
 
-<span class="sd">        :param id_name: The name of the node for which the unique identifier</span>
-<span class="sd">            (NodeId) is required.</span>
-<span class="sd">        :type id_name: str</span>
-<span class="sd">        :return: A NodeId instance corresponding to the provided node name.</span>
-<span class="sd">        :rtype: NodeId</span>
+<span class="sd">        Args:</span>
+<span class="sd">            id_name (str): The name of the node for which the identifier is being</span>
+<span class="sd">                retrieved.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            NodeId: The unique identifier associated with the specified node name.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="n">id_name</span><span class="o">=</span><span class="n">id_name</span><span class="p">)</span></div>
 
-
+    
 <div class="viewcode-block" id="MultiTenantGraphStore.execute_query">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.multi_tenant_graph_store.MultiTenantGraphStore.execute_query">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">execute_query</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span> <span class="n">correlation_id</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span> <span class="n">correlation_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Executes a query using the provided cypher string, parameters, and optional correlation ID.</span>
-<span class="sd">        This method interacts with an underlying reference to execute the final translated query.</span>
+<span class="sd">        Executes a database query with the given cypher query string, parameters,</span>
+<span class="sd">        and an optional correlation ID for tracking purposes.</span>
 
-<span class="sd">        :param cypher: The Cypher query string that specifies the operation to be executed.</span>
-<span class="sd">        :type cypher: str</span>
-<span class="sd">        :param parameters: Optional dictionary containing the parameters for the Cypher query.</span>
-<span class="sd">        :type parameters: dict</span>
-<span class="sd">        :param correlation_id: Optional identifier to correlate the execution of this query.</span>
-<span class="sd">        :type correlation_id: Any</span>
-<span class="sd">        :return: A dictionary containing the result of the query execution.</span>
-<span class="sd">        :rtype: Dict[str, Any]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cypher: The cypher query string to execute.</span>
+<span class="sd">            parameters: A dictionary containing the parameters for the query. Default</span>
+<span class="sd">                is an empty dictionary.</span>
+<span class="sd">            correlation_id: An optional identifier used for correlating and tracking</span>
+<span class="sd">                the query execution. Default is None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A dictionary containing the query results or metadata.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span>
-            <span class="n">cypher</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_rewrite_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">),</span>
-            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
-            <span class="n">correlation_id</span><span class="o">=</span><span class="n">correlation_id</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_rewrite_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">),</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">correlation_id</span><span class="o">=</span><span class="n">correlation_id</span><span class="p">)</span></div>
 
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_rewrite_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_rewrite_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Rewrites a Cypher query to ensure that all labels are formatted according</span>
-<span class="sd">        to the tenant&#39;s identifier. If the default tenant is active, the query</span>
-<span class="sd">        remains unchanged. Otherwise, it replaces each label in the query format</span>
-<span class="sd">        with the tenant-specific label.</span>
+<span class="sd">        Rewrites the given Cypher query to replace instance-specific labels with their tenant-specific</span>
+<span class="sd">        versions based on the tenant ID. The method processes all labels and updates the query accordingly.</span>
 
-<span class="sd">        :param cypher: The Cypher query string to be rewritten.</span>
-<span class="sd">        :type cypher: str</span>
-<span class="sd">        :return: The rewritten Cypher query string with tenant-specific labels, or</span>
-<span class="sd">            the original query if executed under the default tenant.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cypher (str): The original Cypher query to be rewritten.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The rewritten Cypher query with tenant-specific labels.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="o">.</span><span class="n">is_default_tenant</span><span class="p">():</span>
             <span class="k">return</span> <span class="n">cypher</span>
@@ -537,6 +513,7 @@
             <span class="n">cypher</span> <span class="o">=</span> <span class="n">cypher</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">original_label</span><span class="p">,</span> <span class="n">new_label</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cypher</span></div>
 
+    
 </pre></div>
         </article>
       </div>

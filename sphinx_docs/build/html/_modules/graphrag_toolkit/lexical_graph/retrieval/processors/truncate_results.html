@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -336,52 +339,42 @@
 <span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ProcessorBase</span><span class="p">,</span>
-    <span class="n">ProcessorArgs</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessorBase</span><span class="p">,</span> <span class="n">ProcessorArgs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchResultCollection</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span>
-
 
 <div class="viewcode-block" id="TruncateResults">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.truncate_results.TruncateResults">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TruncateResults</span><span class="p">(</span><span class="n">ProcessorBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a processor that truncates search results to a specified maximum.</span>
+<span class="sd">    TruncateResults processes search results by limiting the number of results.</span>
 
-<span class="sd">    This class is responsible for handling and processing a collection of search</span>
-<span class="sd">    results by shortening the list to conform to a predefined maximum number of</span>
-<span class="sd">    results. It leverages the configuration provided during initialization and</span>
-<span class="sd">    enables efficient handling of search results.</span>
+<span class="sd">    This class extends the ProcessorBase and is used to truncate the</span>
+<span class="sd">    number of search results to a defined maximum limit specified</span>
+<span class="sd">    in the configuration. It modifies the search results inline</span>
+<span class="sd">    by only keeping the top results up to the configured limit.</span>
 
-<span class="sd">    :ivar args: Arguments used to configure the processor, including settings</span>
-<span class="sd">        like the maximum number of results.</span>
-<span class="sd">    :type args: ProcessorArgs</span>
-<span class="sd">    :ivar filter_config: Configuration details defining the filters or additional</span>
-<span class="sd">        specifications for processing the results.</span>
-<span class="sd">    :type filter_config: FilterConfig</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        args (ProcessorArgs): Configuration and settings for processing.</span>
+<span class="sd">        filter_config (FilterConfig): Configuration for the filtering process.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">ProcessorArgs</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span> <span class="n">FilterConfig</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span><span class="n">ProcessorArgs</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">:</span><span class="n">FilterConfig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the main processor class with provided arguments and filter configurations.</span>
-<span class="sd">        This class is a subclass of a base processor class, and its purpose is to handle specific</span>
-<span class="sd">        processing tasks based on the arguments and filter configurations supplied during initialization.</span>
+<span class="sd">        Initializes an instance of the Processor class. This constructor provides</span>
+<span class="sd">        initial setup and configuration using the specified arguments and filter</span>
+<span class="sd">        configuration.</span>
 
-<span class="sd">        :param args: Processor arguments used for configuring behavior and execution flow</span>
-<span class="sd">         :type args: ProcessorArgs</span>
-<span class="sd">        :param filter_config: Configuration of the filter settings for processing</span>
-<span class="sd">         :type filter_config: FilterConfig</span>
+<span class="sd">        Args:</span>
+<span class="sd">            args (ProcessorArgs): Arguments for configuring the processor.</span>
+<span class="sd">            filter_config (FilterConfig): Filter configuration details used during</span>
+<span class="sd">                initialization.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_process_results</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">search_results</span><span class="p">:</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">QueryBundle</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Processes the search results by truncating the number of results to</span>
-<span class="sd">        a defined maximum.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_results</span><span class="p">:</span><span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span><span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes the search results by truncating the number of results to a defined maximum.</span>
 
 <span class="sd">        This method modifies a SearchResultCollection object by trimming its results</span>
 <span class="sd">        based on the `max_search_results` attribute specified in the `args`. It ensures</span>
@@ -394,9 +387,12 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            A SearchResultCollection object with the results truncated to the specified</span>
 <span class="sd">            maximum number.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">search_results</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">search_results</span><span class="o">.</span><span class="n">results</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">max_search_results</span><span class="p">]</span>
+        <span class="n">search_results</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">search_results</span><span class="o">.</span><span class="n">results</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">max_search_results</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">search_results</span></div>
+
+
 
 </pre></div>
         </article>

@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -346,121 +349,92 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SemanticGuidedBaseRetriever</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_ranking_search</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">KeywordRankingSearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.statement_cosine_seach</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">StatementCosineSimilaritySearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SemanticBeamGraphSearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">RerankingBeamGraphSearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">get_statements_query</span><span class="p">,</span>
-    <span class="n">SharedEmbeddingCache</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="n">SemanticGuidedBaseRetriever</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_ranking_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeywordRankingSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.statement_cosine_seach</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatementCosineSimilaritySearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_beam_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">SemanticBeamGraphSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.rerank_beam_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">RerankingBeamGraphSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_statements_query</span><span class="p">,</span> <span class="n">SharedEmbeddingCache</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">SemanticGuidedRetrieverType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">SemanticGuidedBaseRetriever</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">SemanticGuidedBaseRetriever</span><span class="p">]</span>
-<span class="p">]</span>
-
+<span class="n">SemanticGuidedRetrieverType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">SemanticGuidedBaseRetriever</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">SemanticGuidedBaseRetriever</span><span class="p">]]</span>
 
 <div class="viewcode-block" id="SemanticGuidedRetriever">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_retriever.SemanticGuidedRetriever">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SemanticGuidedRetriever</span><span class="p">(</span><span class="n">SemanticGuidedBaseRetriever</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Defines a semantic-guided retriever that integrates multiple retriever classes</span>
-<span class="sd">    for performing semantic and keyword-based searches. This composite system is</span>
-<span class="sd">    built upon shared embedding caches and supports vector and graph-based result</span>
-<span class="sd">    retrieval. The retriever is designed for flexibility, allowing dynamic</span>
-<span class="sd">    retriever initialization and advanced search capabilities.</span>
+<span class="sd">    Implementation of a retrieval class that combines semantic-guided search mechanisms to retrieve data</span>
+<span class="sd">    from multiple sources, such as vector and graph stores. The class integrates various retrievers for</span>
+<span class="sd">    initial search and graph-based expansion, offering a flexible and configurable retrieval system.</span>
 
-<span class="sd">    :ivar share_results: Indicates whether results from different retrievers</span>
-<span class="sd">        should be shared for additional processing.</span>
-<span class="sd">    :type share_results: bool</span>
-<span class="sd">    :ivar shared_embedding_cache: Shared embedding cache to store and reuse</span>
-<span class="sd">        precomputed embeddings across retrievers for improved efficiency.</span>
-<span class="sd">    :type shared_embedding_cache: SharedEmbeddingCache</span>
-<span class="sd">    :ivar initial_retrievers: List of initial retrievers for base-level</span>
-<span class="sd">        information retrieval.</span>
-<span class="sd">    :type initial_retrievers: List[Union[SemanticGuidedBaseRetriever, Type[SemanticGuidedBaseRetriever]]]</span>
-<span class="sd">    :ivar graph_retrievers: List of graph-based retrievers for expanding initial</span>
-<span class="sd">        retrieved results based on graph relationships.</span>
-<span class="sd">    :type graph_retrievers: List[SemanticGuidedBaseRetriever]</span>
+<span class="sd">    This class is designed for retrieving nodes relevant to a given query, applying semantic similarity,</span>
+<span class="sd">    keyword ranking, graph expansion, and filtering strategies. It ensures efficient and comprehensive</span>
+<span class="sd">    information retrieval, leveraging shared caches, metadata filtering, and source grouping to organize</span>
+<span class="sd">    the resulting nodes.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        share_results (bool): Indicates if results from initial retrieval should be shared and used for</span>
+<span class="sd">            graph-based expansion.</span>
+<span class="sd">        shared_embedding_cache (SharedEmbeddingCache): Caches embeddings to optimize retrieval performance</span>
+<span class="sd">            across multiple retriever instances.</span>
+<span class="sd">        initial_retrievers (list): Contains instances of retrievers used for the initial search phase.</span>
+<span class="sd">        graph_retrievers (list): Contains instances of graph-based retrievers for result expansion.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">,</span>
-        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span>
-        <span class="n">retrievers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
-            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">SemanticGuidedBaseRetriever</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">SemanticGuidedBaseRetriever</span><span class="p">]]]</span>
-        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">share_results</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">,</span>
+        <span class="n">graph_store</span><span class="p">:</span><span class="n">GraphStore</span><span class="p">,</span>
+        <span class="n">retrievers</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">SemanticGuidedBaseRetriever</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">SemanticGuidedBaseRetriever</span><span class="p">]]]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">share_results</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">filter_config</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes an instance of the class by configuring vector and graph stores, retrievers,</span>
-<span class="sd">        and shared embedding cache. Additionally, it sets up default retrievers and manages</span>
-<span class="sd">        retriever-specific configurations including graph retriever instantiation.</span>
+<span class="sd">        Initializes a composite retriever system that integrates multiple retriever classes for</span>
+<span class="sd">        semantic and keyword-based search using shared embedding caches and vector/graph</span>
+<span class="sd">        stores. The initialization process allows for custom retrievers or defaults to predefined</span>
+<span class="sd">        retrievers with specific configurations.</span>
 
-<span class="sd">        :param vector_store: The vector store instance used for managing embeddings and search.</span>
-<span class="sd">                             Must be of type `VectorStore`.</span>
-<span class="sd">        :type vector_store: VectorStore</span>
-<span class="sd">        :param graph_store: The graph store instance used for managing graph-like structures</span>
-<span class="sd">                            and connectivity. Must be of type `GraphStore`.</span>
-<span class="sd">        :type graph_store: GraphStore</span>
-<span class="sd">        :param retrievers: A list of retriever instances or their types. Retrievers may be</span>
-<span class="sd">                           constructed dynamically and include optional graph-based retrievers</span>
-<span class="sd">                           or semantic-guided retrievers. Default is None.</span>
-<span class="sd">        :type retrievers: Optional[List[Union[SemanticGuidedBaseRetriever, Type[SemanticGuidedBaseRetriever]]]]</span>
-<span class="sd">        :param share_results: A flag that indicates whether results should be shared across</span>
-<span class="sd">                              the retrievers. Defaults to True.</span>
-<span class="sd">        :type share_results: bool</span>
-<span class="sd">        :param filter_config: Optional filter configuration settings used for initializing the class.</span>
-<span class="sd">                              Default is None.</span>
-<span class="sd">        :type filter_config: Optional[FilterConfig]</span>
-<span class="sd">        :param kwargs: Additional keyword arguments that may be passed to the retriever instances</span>
-<span class="sd">                       during their initialization or other internal configuration settings.</span>
-<span class="sd">        :type kwargs: Any</span>
+<span class="sd">        Args:</span>
+<span class="sd">            vector_store: The vector storage backend used for embedding search.</span>
+<span class="sd">            graph_store: The graph storage backend used for retrieving graph-based results.</span>
+<span class="sd">            retrievers: Optional list of retriever instances or retriever classes. If classes</span>
+<span class="sd">                are provided, they will be initialized with the provided `vector_store`,</span>
+<span class="sd">                `graph_store`, and additional keyword arguments.</span>
+<span class="sd">            share_results: Boolean flag indicating whether the results from different retrievers</span>
+<span class="sd">                should be shared.</span>
+<span class="sd">            filter_config: Optional configuration used for filtering retriever results.</span>
+<span class="sd">            **kwargs: Additional keyword arguments used to initialize retrievers.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">vector_store</span><span class="p">,</span> <span class="n">graph_store</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">share_results</span> <span class="o">=</span> <span class="n">share_results</span>
-
+        
         <span class="c1"># Create shared embedding cache</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shared_embedding_cache</span> <span class="o">=</span> <span class="n">SharedEmbeddingCache</span><span class="p">(</span><span class="n">vector_store</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">initial_retrievers</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph_retrievers</span> <span class="o">=</span> <span class="p">[]</span>
-
+        
         <span class="c1"># initialize retrievers</span>
         <span class="k">if</span> <span class="n">retrievers</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">retriever</span> <span class="ow">in</span> <span class="n">retrievers</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">retriever</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
-                    <span class="n">instance</span> <span class="o">=</span> <span class="n">retriever</span><span class="p">(</span><span class="n">vector_store</span><span class="p">,</span> <span class="n">graph_store</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                    <span class="n">instance</span> <span class="o">=</span> <span class="n">retriever</span><span class="p">(</span>
+                        <span class="n">vector_store</span><span class="p">,</span> 
+                        <span class="n">graph_store</span><span class="p">,</span> 
+                        <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">instance</span> <span class="o">=</span> <span class="n">retriever</span>
-
+                
                 <span class="c1"># Inject shared cache if not already set</span>
-                <span class="k">if</span> <span class="p">(</span>
-                    <span class="nb">hasattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="s1">&#39;embedding_cache&#39;</span><span class="p">)</span>
-                    <span class="ow">and</span> <span class="n">instance</span><span class="o">.</span><span class="n">embedding_cache</span> <span class="ow">is</span> <span class="kc">None</span>
-                <span class="p">):</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="s1">&#39;embedding_cache&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">instance</span><span class="o">.</span><span class="n">embedding_cache</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">instance</span><span class="o">.</span><span class="n">embedding_cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_embedding_cache</span>
-
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">instance</span><span class="p">,</span> <span class="p">(</span><span class="n">SemanticBeamGraphSearch</span><span class="p">,</span> <span class="n">RerankingBeamGraphSearch</span><span class="p">)</span>
-                <span class="p">):</span>
+                
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="p">(</span><span class="n">SemanticBeamGraphSearch</span><span class="p">,</span> <span class="n">RerankingBeamGraphSearch</span><span class="p">)):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">graph_retrievers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">initial_retrievers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
@@ -471,39 +445,41 @@
                     <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
                     <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
                     <span class="n">embedding_cache</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shared_embedding_cache</span><span class="p">,</span>
-                    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
                 <span class="p">),</span>
                 <span class="n">KeywordRankingSearch</span><span class="p">(</span>
                     <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
                     <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
                     <span class="n">embedding_cache</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shared_embedding_cache</span><span class="p">,</span>
-                    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-                <span class="p">),</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
             <span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NodeWithScore</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves and processes nodes based on the initial retrieval from retrievers, applies filters, and orders them.</span>
-<span class="sd">        This method performs a multi-step process which involves retrieving initial results, applying graph-based expansions,</span>
-<span class="sd">        fetching and updating metadata for nodes, and applying specified filtering and ordering logic.</span>
+<span class="sd">        Retrieves and processes nodes based on a query, leveraging multiple retrievers and</span>
+<span class="sd">        optional graph expansion. The method executes in several stages, including initial</span>
+<span class="sd">        retrieval, deduplication of nodes, optional graph-based expansion, fetching detailed</span>
+<span class="sd">        statement data, filtering nodes based on metadata, and grouping nodes by their source</span>
+<span class="sd">        for final ordering. It returns an ordered list of nodes, maximizing relevance and</span>
+<span class="sd">        context.</span>
 
-<span class="sd">        :param query_bundle: The input query encapsulated as a QueryBundle instance.</span>
-<span class="sd">        :type query_bundle: QueryBundle</span>
-<span class="sd">        :return: A list of NodeWithScore objects containing ordered and filtered nodes.</span>
-<span class="sd">        :rtype: List[NodeWithScore]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            query_bundle (QueryBundle): The query bundle containing the necessary information</span>
+<span class="sd">                for performing the retrieval process.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[NodeWithScore]: A list of nodes ordered by score, with detailed metadata</span>
+<span class="sd">                included for contextual relevance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># 1. Get initial results in parallel</span>
-        <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span>
-            <span class="n">max_workers</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_retrievers</span><span class="p">)</span>
-        <span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
-            <span class="n">initial_results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-                <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
-                    <span class="k">lambda</span> <span class="n">r</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query</span><span class="p">),</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">initial_retrievers</span><span class="p">,</span>
-                    <span class="n">repeat</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">),</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
-
+        <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_retrievers</span><span class="p">))</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+            <span class="n">initial_results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">r</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query</span><span class="p">),</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">initial_retrievers</span><span class="p">,</span> 
+                <span class="n">repeat</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span>
+            <span class="p">))</span>
+        
         <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;initial_results: </span><span class="si">{</span><span class="n">initial_results</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -538,12 +514,10 @@
                             <span class="n">seen_statement_ids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">statement_id</span><span class="p">)</span>
                             <span class="n">all_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Error in graph retriever </span><span class="si">{</span><span class="n">retriever</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in graph retriever </span><span class="si">{</span><span class="n">retriever</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="k">continue</span>
 
-        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>            
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;all_nodes (after expansion): </span><span class="si">{</span><span class="n">all_nodes</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num all_nodes (after expansion): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -553,7 +527,8 @@
             <span class="k">return</span> <span class="p">[]</span>
 
         <span class="n">statement_ids</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">all_nodes</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span> 
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">all_nodes</span>
         <span class="p">]</span>
         <span class="n">statements</span> <span class="o">=</span> <span class="n">get_statements_query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span> <span class="n">statement_ids</span><span class="p">)</span>
 
@@ -561,13 +536,15 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;statements: </span><span class="si">{</span><span class="n">statements</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num statements: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">statements</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        
 
         <span class="c1"># 5. Create final nodes with full data</span>
         <span class="n">final_nodes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">statements_map</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">s</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">][</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]:</span> <span class="n">s</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">statements</span>
+            <span class="n">s</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">][</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]:</span> <span class="n">s</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> 
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">statements</span>
         <span class="p">}</span>
-
+        
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">all_nodes</span><span class="p">:</span>
             <span class="n">statement_id</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">statement_id</span> <span class="ow">in</span> <span class="n">statements_map</span><span class="p">:</span>
@@ -578,26 +555,27 @@
                         <span class="o">**</span><span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>  <span class="c1"># Preserve retriever metadata</span>
                         <span class="s1">&#39;statement&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">],</span>
                         <span class="s1">&#39;chunk&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;chunk&#39;</span><span class="p">],</span>
-                        <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span>
-                    <span class="p">},</span>
+                        <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span>                     
+                    <span class="p">}</span>
                 <span class="p">)</span>
-                <span class="n">final_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NodeWithScore</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">new_node</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">score</span><span class="p">))</span>
+                <span class="n">final_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NodeWithScore</span><span class="p">(</span>
+                    <span class="n">node</span><span class="o">=</span><span class="n">new_node</span><span class="p">,</span>
+                    <span class="n">score</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">score</span>
+                <span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>       
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;final_nodes: </span><span class="si">{</span><span class="n">final_nodes</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num final_nodes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">final_nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="c1"># 6. Apply metadata filters</span>
         <span class="n">filtered_nodes</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">node</span>
-            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">final_nodes</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="o">.</span><span class="n">filter_source_metadata_dictionary</span><span class="p">(</span>
-                <span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">][</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span>
-            <span class="p">)</span>
+            <span class="n">node</span> 
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">final_nodes</span> 
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="o">.</span><span class="n">filter_source_metadata_dictionary</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">][</span><span class="s1">&#39;metadata&#39;</span><span class="p">])</span>    
         <span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>       
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;filter_nodes: </span><span class="si">{</span><span class="n">filtered_nodes</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num filter_nodes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered_nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -614,7 +592,7 @@
             <span class="n">nodes</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">score</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">ordered_nodes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>    
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ordered_nodes: </span><span class="si">{</span><span class="n">ordered_nodes</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num ordered_nodes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ordered_nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>

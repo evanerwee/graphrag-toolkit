@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -354,33 +357,34 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="LLMPropositionExtractor">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.LLMPropositionExtractor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LLMPropositionExtractor</span><span class="p">(</span><span class="n">BaseExtractor</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles the extraction of logical or semantic propositions from textual data</span>
-<span class="sd">    using a language model backend.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handles proposition extraction using a language model (LLM).</span>
 
-<span class="sd">    The `LLMPropositionExtractor` class is designed to process a sequence of nodes,</span>
-<span class="sd">    extract propositions from their textual content, and return results in a structured</span>
-<span class="sd">    format. It leverages an external language model configured with a prompt template</span>
-<span class="sd">    to perform extraction tasks. The class supports asynchronous workflows, parallel</span>
-<span class="sd">    processing, and customizable configurations. It is particularly suited for working</span>
-<span class="sd">    with graph-based systems and metadata where organized extraction is required.</span>
+<span class="sd">    This class implements functionality to extract propositions from input</span>
+<span class="sd">    text using a specified language model (LLM). It can process nodes</span>
+<span class="sd">    individually or in batches and extracts propositions based on a prompt</span>
+<span class="sd">    template and optional metadata fields. The extraction process utilizes</span>
+<span class="sd">    asynchronous methods to achieve efficient parallel processing.</span>
 
-<span class="sd">    :ivar llm: The LLM cache or configuration used for proposition extraction.</span>
-<span class="sd">    :type llm: Optional[LLMCache]</span>
-<span class="sd">    :ivar prompt_template: Template used to guide the LLM&#39;s response during proposition extraction.</span>
-<span class="sd">    :type prompt_template: str</span>
-<span class="sd">    :ivar source_metadata_field: Key in the node&#39;s metadata to retrieve text for extraction, if available.</span>
-<span class="sd">    :type source_metadata_field: Optional[str]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        llm (Optional[LLMCache]): The LLM instance used for proposition</span>
+<span class="sd">            extraction. If not provided, a default LLM configuration is used.</span>
+<span class="sd">        prompt_template (str): The template used to construct prompts for</span>
+<span class="sd">            proposition extraction.</span>
+<span class="sd">        source_metadata_field (Optional[str]): The metadata field in the input</span>
+<span class="sd">            nodes from which propositions are extracted. If not specified,</span>
+<span class="sd">            the node text is used instead.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMCache</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;The LLM to use for extraction&#39;</span><span class="p">)</span>
-
-    <span class="n">prompt_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Prompt template&#39;</span><span class="p">)</span>
-
+    <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMCache</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The LLM to use for extraction&#39;</span>
+    <span class="p">)</span>
+        
+    <span class="n">prompt_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Prompt template&#39;</span>
+    <span class="p">)</span>
+        
     <span class="n">source_metadata_field</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Metadata field from which to extract propositions&#39;</span>
     <span class="p">)</span>
@@ -390,56 +394,41 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">class_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provides a class-level method to return the name of the class.</span>
+<span class="sd">        Extracts and provides the class name of the given class.</span>
 
-<span class="sd">        The method does not take any additional parameters other than the</span>
-<span class="sd">        mandatory `cls` parameter for the class itself. It returns a string</span>
-<span class="sd">        representation of the class name and can be used universally across</span>
-<span class="sd">        different instances or contexts of the class to get a consistent human-</span>
-<span class="sd">        readable identifier for the class.</span>
-
-<span class="sd">        :returns: A string that represents the name of the class.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A string representing the name of the class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;LLMPropositionExtractor&#39;</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">llm</span><span class="p">:</span> <span class="n">LLMCacheType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">prompt_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">source_metadata_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">num_workers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">llm</span><span class="p">:</span><span class="n">LLMCacheType</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">prompt_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">source_metadata_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">num_workers</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes an instance with the specified parameters and configurations. This constructor</span>
-<span class="sd">        sets up the instance by initializing inherited properties and configuring the prompt template,</span>
-<span class="sd">        the source metadata field, and the number of workers. If not explicitly provided, default</span>
-<span class="sd">        values are utilized.</span>
+<span class="sd">        Initializes the class with configuration options for processing language model outputs.</span>
 
-<span class="sd">        :param llm: An instance of LLMCacheType used for extraction. Defaults to None, which results</span>
-<span class="sd">           in the usage of GraphRAGConfig.extraction_llm. If `enable_cache` is configured, caching</span>
-<span class="sd">           behaviors will also be activated.</span>
-<span class="sd">        :param prompt_template: The template to be used for extracting propositions. If not</span>
-<span class="sd">           provided, defaults to `EXTRACT_PROPOSITIONS_PROMPT`.</span>
-<span class="sd">        :param source_metadata_field: The field from which source metadata will be extracted. If not</span>
-<span class="sd">           provided, its value remains None.</span>
-<span class="sd">        :param num_workers: The number of threads to be used for extraction. If not specified, it</span>
-<span class="sd">           defaults to the value defined in `GraphRAGConfig.extraction_num_threads_per_worker`.</span>
+<span class="sd">        This constructor allows setting of the language model, prompt template, source metadata</span>
+<span class="sd">        field, and the number of workers to perform parallel processing.</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            llm: Language model cache or configuration for language model interaction.</span>
+<span class="sd">            prompt_template: Template for the prompt to guide the language model&#39;s response</span>
+<span class="sd">                generation.</span>
+<span class="sd">            source_metadata_field: Field name key to store or retrieve associated metadata</span>
+<span class="sd">                from source data.</span>
+<span class="sd">            num_workers: Number of worker threads to use for processing tasks.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">llm</span><span class="o">=</span><span class="p">(</span>
-                <span class="n">llm</span>
-                <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span>
-                <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
-                    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_llm</span><span class="p">,</span>
-                    <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span><span class="p">,</span>
-                <span class="p">)</span>
+            <span class="n">llm</span> <span class="o">=</span> <span class="n">llm</span> <span class="k">if</span> <span class="n">llm</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">LLMCache</span><span class="p">)</span> <span class="k">else</span> <span class="n">LLMCache</span><span class="p">(</span>
+                <span class="n">llm</span><span class="o">=</span><span class="n">llm</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_llm</span><span class="p">,</span>
+                <span class="n">enable_cache</span><span class="o">=</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">enable_cache</span>
             <span class="p">),</span>
-            <span class="n">prompt_template</span><span class="o">=</span><span class="n">prompt_template</span> <span class="ow">or</span> <span class="n">EXTRACT_PROPOSITIONS_PROMPT</span><span class="p">,</span>
+            <span class="n">prompt_template</span><span class="o">=</span><span class="n">prompt_template</span> <span class="ow">or</span> <span class="n">EXTRACT_PROPOSITIONS_PROMPT</span><span class="p">,</span> 
             <span class="n">source_metadata_field</span><span class="o">=</span><span class="n">source_metadata_field</span><span class="p">,</span>
-            <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_num_threads_per_worker</span><span class="p">,</span>
+            <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span> <span class="ow">or</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">extraction_num_threads_per_worker</span>
         <span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Prompt template: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -448,59 +437,68 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.llm_proposition_extractor.LLMPropositionExtractor.aextract">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">aextract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Asynchronously extracts propositions for a given list of nodes by processing</span>
-<span class="sd">        them through an internal method. This method retrieves propositions specific</span>
-<span class="sd">        to each node and compiles them into a list of dictionaries.</span>
+<span class="sd">        Asynchronously extracts proposition entries from the given nodes.</span>
 
-<span class="sd">        :param nodes: A sequence of BaseNode objects for which propositions need to</span>
-<span class="sd">            be extracted.</span>
-<span class="sd">        :return: A list of dictionaries, where each dictionary represents the</span>
-<span class="sd">            proposition entries extracted for the nodes.</span>
+<span class="sd">        This method processes a sequence of nodes to extract propositions associated</span>
+<span class="sd">        with each node. The result is a list of dictionaries, where each dictionary</span>
+<span class="sd">        represents the proposition data for a specific node.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nodes: Sequence of nodes from which propositions should be extracted.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of dictionaries containing proposition data for the given nodes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">proposition_entries</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_propositions_for_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">proposition_entry</span> <span class="k">for</span> <span class="n">proposition_entry</span> <span class="ow">in</span> <span class="n">proposition_entries</span><span class="p">]</span></div>
 
-
+    
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_extract_propositions_for_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Asynchronously extracts propositions for the provided nodes.</span>
+<span class="sd">        Asynchronously extracts propositions for multiple nodes.</span>
 
-<span class="sd">        This method orchestrates the extraction of propositions for multiple nodes in parallel</span>
-<span class="sd">        by creating and managing asynchronous jobs. The number of workers and whether a progress</span>
-<span class="sd">        indicator is shown are configurable.</span>
+<span class="sd">        This method schedules asynchronous jobs for extracting propositions for</span>
+<span class="sd">        each node in the given list of nodes and executes them concurrently. The</span>
+<span class="sd">        number of workers and whether to show progress are parameters that control</span>
+<span class="sd">        the execution behavior. A progress description is displayed when jobs</span>
+<span class="sd">        are being processed.</span>
 
-<span class="sd">        :param nodes: A list of nodes for which propositions are to be extracted.</span>
-<span class="sd">        :type nodes: list</span>
-<span class="sd">        :return: A list of results from the proposition extraction process for each node.</span>
-<span class="sd">        :rtype: list</span>
+<span class="sd">        Args:</span>
+<span class="sd">            nodes: A list of nodes for which propositions need to be extracted.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of results from the processed jobs. Results correspond to the</span>
+<span class="sd">            propositions extracted for each node in the input list.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">jobs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_extract_propositions_for_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
+        <span class="n">jobs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_extract_propositions_for_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span>
+        <span class="p">]</span>
         <span class="k">return</span> <span class="k">await</span> <span class="n">run_jobs</span><span class="p">(</span>
-            <span class="n">jobs</span><span class="p">,</span>
-            <span class="n">show_progress</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">show_progress</span><span class="p">,</span>
-            <span class="n">workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
-            <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Extracting propositions [nodes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">, num_workers: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">,</span>
+            <span class="n">jobs</span><span class="p">,</span> 
+            <span class="n">show_progress</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">show_progress</span><span class="p">,</span> 
+            <span class="n">workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span> 
+            <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Extracting propositions [nodes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">, num_workers: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s1">]&#39;</span>
         <span class="p">)</span>
-
+        
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_extract_propositions_for_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Extracts propositions for a given node by processing its metadata or text content.</span>
+<span class="sd">        Extracts propositions for a given node by analyzing its associated text. The text</span>
+<span class="sd">        is determined based on whether the `source_metadata_field` attribute is set. If</span>
+<span class="sd">        set, the metadata value of the specified field is used; otherwise, the node&#39;s text</span>
+<span class="sd">        is used. The method delegates the actual extraction of propositions to the</span>
+<span class="sd">        `_extract_propositions` method and logs debug information if logging is enabled.</span>
+<span class="sd">        The extracted propositions are returned in a dictionary with a predefined key.</span>
 
-<span class="sd">        This function uses the node&#39;s metadata or text to extract propositions.</span>
-<span class="sd">        It utilizes an asynchronous process to fetch the proposition collection.</span>
-<span class="sd">        Debug logging includes the input text and the resulting propositions.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            node (Node): The node object for which propositions will be extracted. The</span>
+<span class="sd">                node must include metadata and text attributes.</span>
 
-<span class="sd">        :param node: The node for which propositions need to be extracted.</span>
-<span class="sd">        :type node: Node</span>
-<span class="sd">        :return: A dictionary containing the extracted propositions.</span>
-<span class="sd">        :rtype: dict</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing extracted propositions under the key</span>
+<span class="sd">                `PROPOSITIONS_KEY`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Extracting propositions for node </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span>
-            <span class="k">else</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span>
-        <span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_field</span> <span class="k">else</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span>
         <span class="n">proposition_collection</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_propositions</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
             <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;====================================</span>
@@ -509,56 +507,45 @@
 <span class="s2">propositions: </span><span class="si">{</span><span class="n">proposition_collection</span><span class="si">}</span>
 <span class="s2">&quot;&quot;&quot;</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="p">{</span><span class="n">PROPOSITIONS_KEY</span><span class="p">:</span> <span class="n">proposition_collection</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()[</span><span class="s1">&#39;propositions&#39;</span><span class="p">]}</span>
-
+            
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">PROPOSITIONS_KEY</span><span class="p">:</span> <span class="n">proposition_collection</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()[</span><span class="s1">&#39;propositions&#39;</span><span class="p">]</span>
+        <span class="p">}</span>
+            
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_extract_propositions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Extracts and processes propositions from the provided text using an LLM call.</span>
+<span class="sd">        Extracts unique propositions from the given text asynchronously.</span>
 
-<span class="sd">        This method makes an async call to a blocking function that interacts with the LLM.</span>
-<span class="sd">        The response is processed to extract individual propositions, remove duplicates,</span>
-<span class="sd">        and return them in a structured format.</span>
+<span class="sd">        This method interacts with a large language model (LLM) to extract a list of</span>
+<span class="sd">        unique propositions based on a provided text input. The process involves</span>
+<span class="sd">        executing a blocking LLM call in an asynchronous-friendly manner through the</span>
+<span class="sd">        use of asyncio&#39;s to_thread. The resulting LLM response is then split into</span>
+<span class="sd">        lines, and duplicate propositions are filtered out to ensure uniqueness.</span>
 
-<span class="sd">        :param text: The input text for extracting propositions.</span>
-<span class="sd">        :type text: str</span>
-<span class="sd">        :return: A Propositions object containing a list of unique propositions extracted</span>
-<span class="sd">                 from the input text.</span>
-<span class="sd">        :rtype: Propositions</span>
+<span class="sd">        Args:</span>
+<span class="sd">            text: The input string for which propositions need to be extracted.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Propositions: An object containing a list of unique propositions extracted</span>
+<span class="sd">            from the text.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">def</span><span class="w"> </span><span class="nf">blocking_llm_call</span><span class="p">():</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            LLMPropositionExtractor is a custom extractor leveraging an LLM (Language Model)</span>
-<span class="sd">            to asynchronously extract propositions based on a provided prompt template.</span>
-<span class="sd">            It utilizes an underlying base LLM component to perform predictions</span>
-<span class="sd">            and parses textual input to generate the relevant propositions.</span>
-
-<span class="sd">            .. note::</span>
-<span class="sd">                This class is designed to integrate with a base extractor and extend</span>
-<span class="sd">                its capabilities with LLM-based proposition extraction mechanisms.</span>
-
-<span class="sd">            Attributes:</span>
-<span class="sd">                llm (BaseLLM): An instance of the base LLM to process predictions.</span>
-<span class="sd">                prompt_template (str): The template guiding the prompt for the LLM.</span>
-
-<span class="sd">            Methods:</span>
-<span class="sd">                _extract_propositions: Extracts propositions, applying the prompt and LLM model.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
-                <span class="n">PromptTemplate</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span>
+                <span class="n">PromptTemplate</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_template</span><span class="p">),</span>
+                <span class="n">text</span><span class="o">=</span><span class="n">text</span>
             <span class="p">)</span>
-
+        
         <span class="n">coro</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">blocking_llm_call</span><span class="p">)</span>
-
+        
         <span class="n">raw_response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">coro</span>
 
         <span class="n">propositions</span> <span class="o">=</span> <span class="n">raw_response</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
-        <span class="n">unique_propositions</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">propositions</span> <span class="k">if</span> <span class="n">p</span><span class="p">}</span>
+        <span class="n">unique_propositions</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span> <span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">propositions</span> <span class="k">if</span> <span class="n">p</span><span class="p">}</span>
 
         <span class="k">return</span> <span class="n">Propositions</span><span class="p">(</span><span class="n">propositions</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">unique_propositions</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span></div>
 
+    
 </pre></div>
         </article>
       </div>
@@ -606,11 +593,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

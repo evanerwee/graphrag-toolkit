@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -339,47 +342,28 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SearchResultCollection</span><span class="p">,</span>
-    <span class="n">ScoredEntity</span><span class="p">,</span>
-    <span class="n">Entity</span><span class="p">,</span>
-    <span class="n">SearchResult</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchResultCollection</span><span class="p">,</span> <span class="n">ScoredEntity</span><span class="p">,</span> <span class="n">Entity</span><span class="p">,</span> <span class="n">SearchResult</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.vector_store</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_entity_search</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">KeywordEntitySearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ChunkBasedSearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">TopicBasedSearch</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ProcessorBase</span><span class="p">,</span>
-    <span class="n">ProcessorArgs</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">TraversalBasedBaseRetriever</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.keyword_entity_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeywordEntitySearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.chunk_based_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChunkBasedSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.topic_based_search</span><span class="w"> </span><span class="kn">import</span> <span class="n">TopicBasedSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessorBase</span><span class="p">,</span> <span class="n">ProcessorArgs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.traversal_based_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="n">TraversalBasedBaseRetriever</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryBundle</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">SubRetrieverType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">ChunkBasedSearch</span><span class="p">,</span> <span class="n">TopicBasedSearch</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">ChunkBasedSearch</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">TopicBasedSearch</span><span class="p">]</span>
-<span class="p">]</span>
-
+<span class="n">SubRetrieverType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">ChunkBasedSearch</span><span class="p">,</span> <span class="n">TopicBasedSearch</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">ChunkBasedSearch</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">TopicBasedSearch</span><span class="p">]]</span>
 
 <div class="viewcode-block" id="EntityContextSearch">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_context_search.EntityContextSearch">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EntityContextSearch</span><span class="p">(</span><span class="n">TraversalBasedBaseRetriever</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A retriever implementation designed to perform entity-context-based</span>
-<span class="sd">    search within a graph database. It retrieves relevant nodes and their</span>
-<span class="sd">    contexts based on the input query and employs advanced filtering and</span>
-<span class="sd">    scoring mechanisms to refine results.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A retriever implementation designed to perform entity-context-based search within a graph database.</span>
+<span class="sd">    It retrieves relevant nodes and their contexts based on the input query and employs advanced filtering</span>
+<span class="sd">    and scoring mechanisms to refine results.</span>
 
 <span class="sd">    The EntityContextSearch class inherits from TraversalBasedBaseRetriever and combines graph traversal</span>
 <span class="sd">    and vector search for efficient entity context retrieval. It is optimized for use in systems</span>
@@ -388,23 +372,20 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        sub_retriever (Optional[SubRetrieverType]): An optional sub-retriever instance or class used for</span>
 <span class="sd">            deeper result retrieval during the search process.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span>
-        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">,</span>
-        <span class="n">processor_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProcessorArgs</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">processors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ProcessorBase</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">sub_retriever</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SubRetrieverType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of the class with specified parameters. This</span>
-<span class="sd">        constructor sets up graph and vector stores, optional processing</span>
-<span class="sd">        arguments, a list of processors, a sub-retriever, and filter</span>
-<span class="sd">        configuration to create a specific retrieval or searching mechanism.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">graph_store</span><span class="p">:</span><span class="n">GraphStore</span><span class="p">,</span>
+                 <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">,</span>
+                 <span class="n">processor_args</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">ProcessorArgs</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">processors</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ProcessorBase</span><span class="p">]]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">sub_retriever</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">SubRetrieverType</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">filter_config</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes an instance of the class with specified parameters. This constructor</span>
+<span class="sd">        sets up graph and vector stores, optional processing arguments, a list of</span>
+<span class="sd">        processors, a sub-retriever, and filter configuration to create a specific</span>
+<span class="sd">        retrieval or searching mechanism.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            graph_store: The graph store to be used for managing graph-based data</span>
@@ -423,20 +404,21 @@
 <span class="sd">                customization or parameterization.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sub_retriever</span> <span class="o">=</span> <span class="n">sub_retriever</span> <span class="ow">or</span> <span class="n">ChunkBasedSearch</span>
-
+        
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span> 
             <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
             <span class="n">processor_args</span><span class="o">=</span><span class="n">processor_args</span><span class="p">,</span>
             <span class="n">processors</span><span class="o">=</span><span class="n">processors</span><span class="p">,</span>
             <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="EntityContextSearch.get_start_node_ids">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_context_search.EntityContextSearch.get_start_node_ids">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_start_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the starting node IDs for an entity context search.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the starting node IDs for an entity context search.</span>
 
 <span class="sd">        This method processes a given `QueryBundle` by performing an entity search</span>
 <span class="sd">        using the `KeywordEntitySearch` utility. The search results are used to</span>
@@ -451,30 +433,30 @@
 <span class="sd">            List[str]: A list of entity IDs that serve as the starting nodes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Getting start node ids for entity context search...&#39;</span><span class="p">)</span>
-
+        
         <span class="n">keyword_entity_search</span> <span class="o">=</span> <span class="n">KeywordEntitySearch</span><span class="p">(</span>
-            <span class="n">graph_store</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span>
+            <span class="n">graph_store</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span> 
             <span class="n">max_keywords</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">max_keywords</span><span class="p">,</span>
             <span class="n">expand_entities</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="p">,</span>
+            <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span>
         <span class="p">)</span>
 
         <span class="n">entity_search_results</span> <span class="o">=</span> <span class="n">keyword_entity_search</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query_bundle</span><span class="p">)</span>
 
         <span class="n">entities</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">ScoredEntity</span><span class="p">(</span>
-                <span class="n">entity</span><span class="o">=</span><span class="n">Entity</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">text</span><span class="p">),</span>
-                <span class="n">score</span><span class="o">=</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
+                <span class="n">entity</span><span class="o">=</span><span class="n">Entity</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> 
+                <span class="n">score</span><span class="o">=</span><span class="n">entity_search_result</span><span class="o">.</span><span class="n">score</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">entity_search_result</span> <span class="ow">in</span> <span class="n">entity_search_results</span>
         <span class="p">]</span>
 
-        <span class="k">return</span> <span class="p">[</span><span class="n">entity</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">entityId</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">entity</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">entityId</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">]</span>   </div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_entity_contexts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetches and processes the context of entities based on relationships</span>
-<span class="sd">        and scoring criteria.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_entity_contexts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches and processes the context of entities based on relationships and scoring criteria.</span>
 
 <span class="sd">        This method retrieves entity relationship data from a graph database, computes scores for</span>
 <span class="sd">        the relationships, and organizes the entities into contexts based on configurable thresholds</span>
@@ -499,44 +481,43 @@
 <span class="s1">        AND NOT </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;c.entityId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> in $entityIds</span>
 <span class="s1">        RETURN </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;s.entityId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> as s, collect(distinct </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;c.entityId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">) as c LIMIT $limit</span>
 <span class="s1">        &#39;&#39;&#39;</span>
-
+        
         <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;entityIds&#39;</span><span class="p">:</span> <span class="n">start_node_ids</span><span class="p">,</span>
-            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">intermediate_limit</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">intermediate_limit</span>
         <span class="p">}</span>
-
+        
         <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
-
+        
         <span class="n">all_entity_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">entity_map</span> <span class="o">=</span> <span class="p">{}</span>
-
+        
         <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
             <span class="n">all_entity_ids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">])</span>
             <span class="n">all_entity_ids</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">])</span>
             <span class="n">entity_map</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
-
+            
         <span class="n">cypher</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        // get entity context scores</span>
 <span class="s1">        MATCH (s:`__Entity__`)-[r:`__RELATION__`]-()</span>
 <span class="s1">        WHERE </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;s.entityId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> in $entityIds</span>
 <span class="s1">        RETURN </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">node_id</span><span class="p">(</span><span class="s2">&quot;s.entityId&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> as s_id, s.value AS value, sum(r.count) AS score</span>
 <span class="s1">        &#39;&#39;&#39;</span>
-
-        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;entityIds&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">all_entity_ids</span><span class="p">)}</span>
-
+        
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;entityIds&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">all_entity_ids</span><span class="p">)</span>
+        <span class="p">}</span>
+        
         <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
-
+        
         <span class="n">entity_score_map</span> <span class="o">=</span> <span class="p">{}</span>
-
+        
         <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
-            <span class="n">entity_score_map</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;s_id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">],</span>
-            <span class="p">}</span>
-
+            <span class="n">entity_score_map</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;s_id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]}</span>
+            
         <span class="n">scored_entity_contexts</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">prime_context</span> <span class="o">=</span> <span class="p">[]</span>
-
+        
         <span class="k">for</span> <span class="n">parent</span><span class="p">,</span> <span class="n">children</span> <span class="ow">in</span> <span class="n">entity_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 
             <span class="n">parent_entity</span> <span class="o">=</span> <span class="n">entity_score_map</span><span class="p">[</span><span class="n">parent</span><span class="p">]</span>
@@ -554,24 +535,16 @@
 
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;child : </span><span class="si">{</span><span class="n">child_entity</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="n">child_score</span> <span class="o">&lt;=</span> <span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">ecs_max_score_factor</span> <span class="o">*</span> <span class="n">parent_score</span>
-                <span class="p">)</span> <span class="ow">and</span> <span class="n">child_score</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">ecs_min_score_factor</span> <span class="o">*</span> <span class="n">parent_score</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">child_score</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">ecs_max_score_factor</span> <span class="o">*</span> <span class="n">parent_score</span><span class="p">)</span> <span class="ow">and</span> <span class="n">child_score</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">ecs_min_score_factor</span> <span class="o">*</span> <span class="n">parent_score</span><span class="p">):</span>
                     <span class="n">context_entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_entity</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">context_entities</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">scored_entity_contexts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">{</span>
-                        <span class="s1">&#39;entities&#39;</span><span class="p">:</span> <span class="n">context_entities</span><span class="p">[</span>
-                            <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">ecs_max_entities_per_context</span>
-                        <span class="p">],</span>
-                        <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="n">parent_score</span><span class="p">,</span>
-                    <span class="p">}</span>
-                <span class="p">)</span>
+                <span class="n">scored_entity_contexts</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s1">&#39;entities&#39;</span><span class="p">:</span> <span class="n">context_entities</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">ecs_max_entities_per_context</span><span class="p">],</span>
+                    <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="n">parent_score</span>
+                <span class="p">})</span>
 
-        <span class="n">scored_entity_contexts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
-            <span class="n">scored_entity_contexts</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ec</span><span class="p">:</span> <span class="n">ec</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
+        <span class="n">scored_entity_contexts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">scored_entity_contexts</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ec</span><span class="p">:</span> <span class="n">ec</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;scored_entity_contexts: </span><span class="si">{</span><span class="n">scored_entity_contexts</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
@@ -579,22 +552,23 @@
 
         <span class="k">for</span> <span class="n">scored_entity_context</span> <span class="ow">in</span> <span class="n">scored_entity_contexts</span><span class="p">:</span>
             <span class="n">entities</span> <span class="o">=</span> <span class="n">scored_entity_context</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span>
-            <span class="n">all_entity_contexts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">entities</span><span class="p">[</span><span class="n">x</span> <span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))]</span>
-            <span class="p">)</span>
+            <span class="n">all_entity_contexts</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+                <span class="n">entities</span><span class="p">[</span><span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> 
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="p">])</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;all_entity_contexts: </span><span class="si">{</span><span class="n">all_entity_contexts</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-        <span class="n">entity_contexts</span> <span class="o">=</span> <span class="n">all_entity_contexts</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">ecs_max_contexts</span><span class="p">]</span>
-
+        <span class="n">entity_contexts</span> <span class="o">=</span> <span class="n">all_entity_contexts</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">ecs_max_contexts</span><span class="p">]</span>
+                 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;entity_contexts: </span><span class="si">{</span><span class="n">entity_contexts</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
+        
         <span class="k">return</span> <span class="n">entity_contexts</span>
-
+    
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_sub_retriever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves or constructs a sub-retriever based on the type of the</span>
-<span class="sd">        existing sub-retriever or initializes a new one with the provided</span>
-<span class="sd">        configuration.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves or constructs a sub-retriever based on the type of the existing sub-retriever</span>
+<span class="sd">        or initializes a new one with the provided configuration.</span>
 
 <span class="sd">        This private method either returns an already initialized sub-retriever instance</span>
 <span class="sd">        if it adheres to a specific type or initializes a new sub-retriever object with</span>
@@ -604,29 +578,24 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            TraversalBasedBaseRetriever: An instance of a sub-retriever ready for use.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">sub_retriever</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sub_retriever</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_retriever</span><span class="p">,</span> <span class="n">TraversalBasedBaseRetriever</span><span class="p">)</span>
-            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_retriever</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span><span class="p">,</span>
-                <span class="n">vss_top_k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                <span class="n">max_search_results</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                <span class="n">vss_diversity_factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">vss_diversity_factor</span><span class="p">,</span>
-                <span class="n">include_facts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">include_facts</span><span class="p">,</span>
-                <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">sub_retriever</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_retriever</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_retriever</span><span class="p">,</span> <span class="n">TraversalBasedBaseRetriever</span><span class="p">)</span>
+                         <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_retriever</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="p">,</span> 
+                            <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span><span class="p">,</span> 
+                            <span class="n">vss_top_k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                            <span class="n">max_search_results</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                            <span class="n">vss_diversity_factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">vss_diversity_factor</span><span class="p">,</span>
+                            <span class="n">include_facts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">include_facts</span><span class="p">,</span>
+                            <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span>
+                        <span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sub_retriever: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">sub_retriever</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sub_retriever</span>
-
+    
 <div class="viewcode-block" id="EntityContextSearch.do_graph_search">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.entity_context_search.EntityContextSearch.do_graph_search">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Executes a graph-based search query starting from provided node IDs</span>
-<span class="sd">        and processes the results.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_graph_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_bundle</span><span class="p">:</span><span class="n">QueryBundle</span><span class="p">,</span> <span class="n">start_node_ids</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SearchResultCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes a graph-based search query starting from provided node IDs and processes the results.</span>
 
 <span class="sd">        This method performs an entity-context-based search using given starting node IDs, constructs</span>
 <span class="sd">        entity contexts, retrieves associated search results, and aggregates those results into a</span>
@@ -648,29 +617,24 @@
 
         <span class="k">for</span> <span class="n">entity_context</span> <span class="ow">in</span> <span class="n">entity_contexts</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">entity_context</span><span class="p">:</span>
-                <span class="n">results</span> <span class="o">=</span> <span class="n">sub_retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
-                    <span class="n">QueryBundle</span><span class="p">(</span><span class="n">query_str</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">entity_context</span><span class="p">))</span>
-                <span class="p">)</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">sub_retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">QueryBundle</span><span class="p">(</span><span class="n">query_str</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">entity_context</span><span class="p">)))</span>
                 <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
                     <span class="n">search_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SearchResult</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">))</span>
-
-        <span class="n">search_results_collection</span> <span class="o">=</span> <span class="n">SearchResultCollection</span><span class="p">(</span><span class="n">results</span><span class="o">=</span><span class="n">search_results</span><span class="p">)</span>
-
+                    
+                
+        <span class="n">search_results_collection</span> <span class="o">=</span> <span class="n">SearchResultCollection</span><span class="p">(</span><span class="n">results</span><span class="o">=</span><span class="n">search_results</span><span class="p">)</span> 
+        
         <span class="n">retriever_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-
-        <span class="k">if</span> <span class="n">retriever_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">debug_results</span> <span class="ow">and</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
-        <span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;&#39;&#39;Entity context results: </span><span class="si">{</span><span class="n">search_results_collection</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span>
+        
+        <span class="k">if</span> <span class="n">retriever_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">debug_results</span> <span class="ow">and</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;Entity context results: </span><span class="si">{</span><span class="n">search_results_collection</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">exclude_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                    </span><span class="n">warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="w">                </span><span class="si">}</span><span class="s1">&#39;&#39;&#39;</span>
-            <span class="p">)</span>
-
+<span class="w">                </span><span class="si">}</span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+        
         <span class="k">return</span> <span class="n">search_results_collection</span></div>
 </div>
 

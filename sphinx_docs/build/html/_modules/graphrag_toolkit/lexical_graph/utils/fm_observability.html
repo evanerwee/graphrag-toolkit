@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -356,54 +359,52 @@
 
 <span class="n">_fm_observability_queue</span> <span class="o">=</span> <span class="kc">None</span>
 
-
 <div class="viewcode-block" id="FMObservabilityQueuePoller">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FMObservabilityQueuePoller</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Manages a thread-based queue poller for processing observability events.</span>
+<span class="sd">    FMObservabilityQueuePoller is a thread-based queue polling class.</span>
 
-<span class="sd">    This class runs in a separate thread to process events from a queue. It interacts</span>
-<span class="sd">    with an observability statistics tracker and can be safely started and stopped</span>
-<span class="sd">    to manage the lifecycle of event processing.</span>
+<span class="sd">    This class is used to continuously poll a queue for events and process them</span>
+<span class="sd">    using the FMObservabilityStats instance. It utilises threading to perform</span>
+<span class="sd">    polling in a separate thread and provides methods to start and gracefully</span>
+<span class="sd">    stop the polling operation.</span>
 
-<span class="sd">    :ivar _discontinue: A threading event used to signal and manage the stop state</span>
-<span class="sd">        of the thread. It enables controlled termination of the thread loop.</span>
-<span class="sd">    :type _discontinue: threading.Event</span>
-<span class="sd">    :ivar fm_observability: Tracks and manages observability-related statistics,</span>
-<span class="sd">        providing functionality to handle processed events.</span>
-<span class="sd">    :type fm_observability: FMObservabilityStats</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        _discontinue (threading.Event): An event object to signal and manage</span>
+<span class="sd">            the termination of the thread&#39;s execution.</span>
+<span class="sd">        fm_observability (FMObservabilityStats): An instance of the</span>
+<span class="sd">            FMObservabilityStats class used to handle the events being processed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Represents the initialization of an instance for handling internal</span>
-<span class="sd">        state and observability statistics.</span>
+<span class="sd">        Handles initialization of the class, setting up attributes and dependencies needed for</span>
+<span class="sd">        observability and thread event management.</span>
 
-<span class="sd">        :ivar _discontinue: A threading event object used to signal when</span>
-<span class="sd">            the operation should be discontinued.</span>
-<span class="sd">        :type _discontinue: threading.Event</span>
-
-<span class="sd">        :ivar fm_observability: An instance of FMObservabilityStats utilized</span>
-<span class="sd">            for managing and tracking observability-related statistics.</span>
-<span class="sd">        :type fm_observability: FMObservabilityStats</span>
+<span class="sd">        Attributes:</span>
+<span class="sd">            _discontinue (threading.Event): Threading event used to signal and manage thread</span>
+<span class="sd">                lifecycle or operations that need coordination.</span>
+<span class="sd">            fm_observability (FMObservabilityStats): Instance of FMObservabilityStats that</span>
+<span class="sd">                handles observability-related statistics and functionality.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_discontinue</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fm_observability</span> <span class="o">=</span> <span class="n">FMObservabilityStats</span><span class="p">()</span>
+   
 
 <div class="viewcode-block" id="FMObservabilityQueuePoller.run">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Process events from the queue and handle them utilizing the observability framework.</span>
+<span class="sd">        Runs the queue polling process to process events as they become available in the</span>
+<span class="sd">        observability queue. It continuously checks for events unless interrupted by</span>
+<span class="sd">        setting the `self._discontinue` event.</span>
 
-<span class="sd">        This method continuously polls the `_fm_observability_queue` for events. If an event is retrieved,</span>
-<span class="sd">        it invokes the `on_event` method of the `fm_observability` instance to handle the event. Should</span>
-<span class="sd">        the `_discontinue` flag be set, the method ceases its operation. If the queue remains empty</span>
-<span class="sd">        for a specified timeout interval, the method continues its loop without handling an event.</span>
+<span class="sd">        The method polls the `_fm_observability_queue` at a regular interval and processes</span>
+<span class="sd">        each event by invoking the `fm_observability.on_event` method.</span>
 
-<span class="sd">        :raises queue.Empty: Raised when attempting to get an item from an empty queue and the timeout expires.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            queue.Empty: If the queue is empty during a poll attempt.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Starting queue poller&#39;</span><span class="p">)</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discontinue</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
@@ -419,13 +420,17 @@
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityQueuePoller.stop">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Stops the queue polling process by setting the internal flag that signals</span>
-<span class="sd">        polling discontinuation. This method is intended to halt any ongoing</span>
-<span class="sd">        polling activities cleanly and efficiently. It logs the stopping operation</span>
-<span class="sd">        and provides access to relevant observability metrics upon completion.</span>
+<span class="sd">        Stops the queue polling process by signaling a discontinuation event and returns</span>
+<span class="sd">        the observability object for further monitoring or assessment.</span>
 
-<span class="sd">        :return: Observability metrics related to the queue polling process.</span>
-<span class="sd">        :rtype: Any</span>
+<span class="sd">        This method is intended to halt the queue polling process initiated or operated</span>
+<span class="sd">        by the current instance. By setting the discontinuation flag, the polling loop</span>
+<span class="sd">        will cease operation. The method also provides access to the observability instance</span>
+<span class="sd">        used during the process.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The observability object associated with the current process, which</span>
+<span class="sd">            can be used for tracking or further evaluation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Stopping queue poller&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_discontinue</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
@@ -433,44 +438,30 @@
 </div>
 
 
-
 <div class="viewcode-block" id="FMObservabilityStats">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FMObservabilityStats</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents statistics for tracking aggregated performance metrics for</span>
-<span class="sd">    language model (LLM) operations and embedding operations.</span>
+<span class="sd">    Tracks and updates observability statistics for LLM (Large Language Model) and embedding</span>
+<span class="sd">    operations.</span>
 
-<span class="sd">    This class is designed for the purpose of collecting and maintaining</span>
-<span class="sd">    performance metrics such as execution durations, counts, and token usage</span>
-<span class="sd">    for language model operations and embeddings. It provides methods for</span>
-<span class="sd">    updating the statistics based on incoming data and properties to</span>
-<span class="sd">    calculate derived statistics such as averages. This can be useful for</span>
-<span class="sd">    monitoring and analyzing the behavior and resource utilization of large</span>
-<span class="sd">    language models and embedding processes.</span>
+<span class="sd">    This class monitors various metrics associated with LLM and embedding events, such as</span>
+<span class="sd">    durations and token counts. It allows updating of the statistics using external data or</span>
+<span class="sd">    events and provides convenient methods for accessing average values. The statistics tracked</span>
+<span class="sd">    include both prompt and completion tokens for LLMs and tokens for embeddings.</span>
 
-<span class="sd">    :ivar total_llm_duration_millis: Cumulative total duration in milliseconds</span>
-<span class="sd">        of all LLM operations.</span>
-<span class="sd">    :type total_llm_duration_millis: float</span>
-<span class="sd">    :ivar total_llm_count: Total number of LLM operations executed.</span>
-<span class="sd">    :type total_llm_count: int</span>
-<span class="sd">    :ivar total_llm_prompt_tokens: Total number of tokens used in prompts</span>
-<span class="sd">        across all LLM operations.</span>
-<span class="sd">    :type total_llm_prompt_tokens: float</span>
-<span class="sd">    :ivar total_llm_completion_tokens: Total number of tokens used in</span>
-<span class="sd">        completions across all LLM operations.</span>
-<span class="sd">    :type total_llm_completion_tokens: float</span>
-<span class="sd">    :ivar total_embedding_duration_millis: Cumulative total duration in</span>
-<span class="sd">        milliseconds of all embedding operations.</span>
-<span class="sd">    :type total_embedding_duration_millis: float</span>
-<span class="sd">    :ivar total_embedding_count: Total number of embedding operations executed.</span>
-<span class="sd">    :type total_embedding_count: int</span>
-<span class="sd">    :ivar total_embedding_tokens: Total number of tokens used in all embedding</span>
-<span class="sd">        operations.</span>
-<span class="sd">    :type total_embedding_tokens: float</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        total_llm_duration_millis (float): Total duration of all LLM calls in milliseconds.</span>
+<span class="sd">        total_llm_count (int): Total count of LLM calls.</span>
+<span class="sd">        total_llm_prompt_tokens (float): Total prompt tokens used in all LLM calls.</span>
+<span class="sd">        total_llm_completion_tokens (float): Total completion tokens returned in all LLM calls.</span>
+<span class="sd">        total_embedding_duration_millis (float): Total duration of all embedding calls in</span>
+<span class="sd">            milliseconds.</span>
+<span class="sd">        total_embedding_count (int): Total count of embedding calls.</span>
+<span class="sd">        total_embedding_tokens (float): Total number of embedding tokens across all embedding</span>
+<span class="sd">            calls.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">total_llm_duration_millis</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">total_llm_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">total_llm_prompt_tokens</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
@@ -483,16 +474,27 @@
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.update">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Updates the current object&#39;s cumulative statistics based on another statistics object</span>
-<span class="sd">        and determines if there are any recorded LLM or embedding operations.</span>
+<span class="sd">        Updates the current object&#39;s statistical attributes with the values from the provided stats object and</span>
+<span class="sd">        determines whether the sum of total_llm_count and total_embedding_count is greater than zero.</span>
 
-<span class="sd">        This method aggregates various metrics related to LLM (Large Language Model) operations</span>
-<span class="sd">        and embeddings, including their respective durations, counts, and token usage.</span>
+<span class="sd">        This method is used to aggregate statistical data from another object into the current instance and</span>
+<span class="sd">        helps analyze whether any meaningful statistical contributions are made by checking if the combined</span>
+<span class="sd">        counts of LLM and embedding operations are non-zero.</span>
 
-<span class="sd">        :param stats: The statistics object containing the metrics to be added to the current object.</span>
-<span class="sd">        :type stats: Any</span>
-<span class="sd">        :return: A boolean indicating whether there was at least one recorded LLM or embedding operation.</span>
-<span class="sd">        :rtype: bool</span>
+<span class="sd">        Args:</span>
+<span class="sd">            stats (Any): An object containing the statistical data to update. The provided stats object must</span>
+<span class="sd">                         have the attributes:</span>
+<span class="sd">                         - total_llm_duration_millis (int)</span>
+<span class="sd">                         - total_llm_count (int)</span>
+<span class="sd">                         - total_llm_prompt_tokens (int)</span>
+<span class="sd">                         - total_llm_completion_tokens (int)</span>
+<span class="sd">                         - total_embedding_duration_millis (int)</span>
+<span class="sd">                         - total_embedding_count (int)</span>
+<span class="sd">                         - total_embedding_tokens (int)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the combined total_llm_count and total_embedding_count from the stats object is</span>
+<span class="sd">                  greater than zero; otherwise, False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_duration_millis</span> <span class="o">+=</span> <span class="n">stats</span><span class="o">.</span><span class="n">total_llm_duration_millis</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_count</span> <span class="o">+=</span> <span class="n">stats</span><span class="o">.</span><span class="n">total_llm_count</span>
@@ -508,16 +510,12 @@
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityStats.on_event">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">CBEvent</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Handles the processing of events with different types, updating various counters</span>
-<span class="sd">        and accumulators based on the event payload. The function is invoked whenever an</span>
-<span class="sd">        event occurs, and modifies the object&#39;s state based on the event type and its</span>
-<span class="sd">        associated payload data.</span>
+<span class="sd">        Handles the processing of different types of events and updates related statistics</span>
+<span class="sd">        based on the event type and payload data. Supports events of type LLM and EMBEDDING.</span>
 
-<span class="sd">        :param event: A CBEvent instance representing the event to handle. It contains</span>
-<span class="sd">            details including the event type and a payload dict that holds related information.</span>
-<span class="sd">        :type event: CBEvent</span>
-
-<span class="sd">        :return: None</span>
+<span class="sd">        Args:</span>
+<span class="sd">            event (CBEvent): The event object containing the event type and associated</span>
+<span class="sd">                payload data used to update relevant statistics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">LLM</span><span class="p">:</span>
             <span class="k">if</span> <span class="s1">&#39;model&#39;</span> <span class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">:</span>
@@ -525,9 +523,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_count</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">elif</span> <span class="s1">&#39;llm_prompt_token_count&#39;</span> <span class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_prompt_tokens</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="s1">&#39;llm_prompt_token_count&#39;</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_completion_tokens</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span>
-                    <span class="s1">&#39;llm_completion_token_count&#39;</span>
-                <span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_completion_tokens</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="s1">&#39;llm_completion_token_count&#39;</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">EMBEDDING</span><span class="p">:</span>
             <span class="k">if</span> <span class="s1">&#39;model&#39;</span> <span class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">total_embedding_duration_millis</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="s1">&#39;duration_millis&#39;</span><span class="p">]</span>
@@ -535,262 +531,237 @@
             <span class="k">elif</span> <span class="s1">&#39;embedding_token_count&#39;</span> <span class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">total_embedding_tokens</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="s1">&#39;embedding_token_count&#39;</span><span class="p">]</span></div>
 
-
+    
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">average_llm_duration_millis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provides the average duration of LLM operations in milliseconds.</span>
+<span class="sd">        Gets the average duration of LLM operations in milliseconds.</span>
 
-<span class="sd">        This property calculates the average duration based on the total LLM</span>
-<span class="sd">        duration and count. If there have been no LLM operations recorded</span>
-<span class="sd">        (total_llm_count is 0), it returns 0 to avoid division by zero.</span>
+<span class="sd">        This property calculates the average duration of LLM operations by dividing the</span>
+<span class="sd">        total duration spent in LLM operations by the total number of LLM operations</span>
+<span class="sd">        performed. If no LLM operations were performed, the average duration is set to 0.</span>
 
-<span class="sd">        :return: The average LLM duration in milliseconds. If there are</span>
-<span class="sd">            no LLM operations recorded, it returns 0.</span>
-<span class="sd">        :rtype: int</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The average duration of LLM operations in milliseconds.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_duration_millis</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_count</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
-
+        
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">total_llm_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the total number of tokens used in an LLM operation.</span>
+<span class="sd">        Calculates the total number of LLM tokens used, combining prompt and completion tokens.</span>
 
-<span class="sd">        The total includes both the prompt tokens and the completion tokens, which</span>
-<span class="sd">        are summed to determine the overall usage.</span>
+<span class="sd">        This property method calculates the total number of tokens used by summing up</span>
+<span class="sd">        the number of tokens used in the prompt and completion phases by the LLM. It</span>
+<span class="sd">        provides a convenient way to access the aggregate token usage.</span>
 
-<span class="sd">        :return: Total number of tokens used in an LLM operation.</span>
-<span class="sd">        :rtype: int</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Total number of LLM tokens, including both prompt and completion tokens.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_prompt_tokens</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_completion_tokens</span>
-
+    
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">average_llm_prompt_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes the average number of tokens in LLM (Large Language Model) prompts.</span>
+<span class="sd">        Calculates the average number of LLM prompt tokens used per LLM call.</span>
 
-<span class="sd">        This property calculates the average by dividing the total number of tokens in</span>
-<span class="sd">        LLM prompts (`total_llm_prompt_tokens`) by the total count of LLMs (`total_llm_count`).</span>
-<span class="sd">        If the total count of LLMs is zero, the result will be zero to avoid division</span>
-<span class="sd">        errors and maintain a sensible return value. This property ensures easy and</span>
-<span class="sd">        efficient access to the token average used across LLM prompts.</span>
+<span class="sd">        This method determines an average value by dividing the total LLM prompt tokens by</span>
+<span class="sd">        the total number of LLM calls. If no LLM calls have been made, it will return 0 to</span>
+<span class="sd">        avoid division by zero.</span>
 
-<span class="sd">        :return: The average number of tokens in LLM prompts as an integer. Defaults</span>
-<span class="sd">                 to zero if no LLM data is available.</span>
-<span class="sd">        :rtype: int</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The average number of LLM prompt tokens per LLM call. If no LLM calls have</span>
+<span class="sd">            been made, it returns 0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_prompt_tokens</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_count</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
-
+        
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">average_llm_completion_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes the average number of tokens used in the completion phase of</span>
-<span class="sd">        LLM (Large Language Model) interactions. This metric is calculated by dividing</span>
-<span class="sd">        the total completion tokens by the total count of LLM interactions. If no LLM</span>
-<span class="sd">        interactions have occurred, the function returns 0 to avoid division by zero.</span>
+<span class="sd">        Calculates the average number of completion tokens generated by a language</span>
+<span class="sd">        model (LLM) across multiple requests. If there are no LLM requests, it</span>
+<span class="sd">        returns 0.</span>
 
-<span class="sd">        :return: The average number of completion tokens per LLM interaction.</span>
-<span class="sd">        :rtype: int</span>
+<span class="sd">        The calculation is based on dividing the total number of LLM completion</span>
+<span class="sd">        tokens by the total count of LLM requests. Acts as a property getter.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The average number of LLM completion tokens per request. If no</span>
+<span class="sd">            LLM requests exist, returns 0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_completion_tokens</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_count</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
-
+        
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">average_llm_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the average number of Large Language Model (LLM) tokens per</span>
-<span class="sd">        count. If the total count of LLM instances is greater than zero, the method</span>
-<span class="sd">        returns the total tokens divided by the total count. Otherwise, it returns zero.</span>
+<span class="sd">        Gets the average number of LLM tokens. The property calculates the average by dividing</span>
+<span class="sd">        the total number of LLM tokens by the total count of LLM instances. If no LLM instances</span>
+<span class="sd">        exist, returns zero.</span>
 
-<span class="sd">        :return: The average number of LLM tokens as an integer.</span>
-<span class="sd">        :rtype: int</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The average number of LLM tokens. If the total LLM count is zero, returns 0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_tokens</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_llm_count</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
-
+    
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">average_embedding_duration_millis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates and returns the average embedding duration in milliseconds.</span>
+<span class="sd">        Calculates the average duration of embedding in milliseconds.</span>
 
-<span class="sd">        The calculation is based on the total embedding duration and the total number</span>
-<span class="sd">        of embeddings. If there are no embeddings, the value returned is 0. This</span>
-<span class="sd">        property provides a convenient way to access the average embedding duration</span>
-<span class="sd">        directly.</span>
+<span class="sd">        The average duration is computed by dividing the total embedding</span>
+<span class="sd">        duration in milliseconds by the total count of embeddings. If the</span>
+<span class="sd">        embedding count is zero, it returns 0 to avoid division by zero.</span>
 
-<span class="sd">        :return: The average embedding duration in milliseconds. Returns 0 if there</span>
-<span class="sd">            are no embeddings.</span>
-<span class="sd">        :rtype: int</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The average embedding duration in milliseconds. Returns 0</span>
+<span class="sd">            if there are no embeddings.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_embedding_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_embedding_duration_millis</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_embedding_count</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
-
+        
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">average_embedding_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates and returns the average number of embedding tokens. The average</span>
-<span class="sd">        is computed by dividing the total number of embedding tokens by the total</span>
-<span class="sd">        embedding count. If the total embedding count is zero, the method returns</span>
-<span class="sd">        zero to prevent division by zero.</span>
+<span class="sd">        Calculates the average number of embedding tokens per embedding.</span>
 
-<span class="sd">        :return: Integer value representing the average number of embedding tokens.</span>
-<span class="sd">                 Returns 0 if the total embedding count is zero.</span>
-<span class="sd">        :rtype: int</span>
+<span class="sd">        The `average_embedding_tokens` property retrieves the average of</span>
+<span class="sd">        embedding tokens by dividing the total number of embedding tokens</span>
+<span class="sd">        by the total count of embeddings. If the total embedding count is</span>
+<span class="sd">        zero, it safely returns zero to avoid division errors.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            total_embedding_tokens (int): The total number of embedding tokens.</span>
+<span class="sd">            total_embedding_count (int): The total number of embeddings.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The average number of embedding tokens per embedding. If the</span>
+<span class="sd">            `total_embedding_count` is zero, returns 0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_embedding_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_embedding_tokens</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_embedding_count</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span></div>
 
-
-
+        
 <div class="viewcode-block" id="FMObservabilitySubscriber">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FMObservabilitySubscriber</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Interface defining an observability subscriber mechanism.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Defines an interface for subscribers to receive observability statistics.</span>
 
-<span class="sd">    The FMObservabilitySubscriber class is an abstract base class intended to be</span>
-<span class="sd">    used as a blueprint for creating subscribers that respond to updates in</span>
-<span class="sd">    observability data. Concrete implementations are expected to define the behavior</span>
-<span class="sd">    required for processing newly received statistics. This class enforces the</span>
-<span class="sd">    implementation of the `on_new_stats` method, ensuring that it processes</span>
-<span class="sd">    instances of FMObservabilityStats.</span>
+<span class="sd">    FMObservabilitySubscriber serves as an abstract base class that establishes</span>
+<span class="sd">    a contract for implementing classes to handle new statistics from</span>
+<span class="sd">    FMObservability. It ensures any subscriber provides a concrete implementation</span>
+<span class="sd">    for the `on_new_stats` method, enabling consistent behavior across different</span>
+<span class="sd">    subscriber implementations.</span>
 
+<span class="sd">    Methods:</span>
+<span class="sd">        on_new_stats(stats): Abstract method to handle new observability statistics.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="FMObservabilitySubscriber.on_new_stats">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilitySubscriber.on_new_stats">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_new_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">:</span> <span class="n">FMObservabilityStats</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Abstract function that must be implemented by a derived class to process and</span>
-<span class="sd">        handle new FMObservabilityStats statistics. This method is expected to define</span>
-<span class="sd">        specific actions to be performed whenever a new instance of FMObservabilityStats</span>
-<span class="sd">        is received.</span>
+<span class="sd">        An abstract base class that defines a callback method to be invoked upon</span>
+<span class="sd">        receiving new statistics related to observability.</span>
 
-<span class="sd">        :param stats: The new FMObservabilityStats object containing the statistics data</span>
-<span class="sd">                      to be handled. The exact nature of the data will depend on the</span>
-<span class="sd">                      implementation and definition of FMObservabilityStats.</span>
-
+<span class="sd">        Methods:</span>
+<span class="sd">            on_new_stats: Abstract method to handle new observability statistics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 </div>
-
 
 
 <div class="viewcode-block" id="ConsoleFMObservabilitySubscriber">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.ConsoleFMObservabilitySubscriber">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ConsoleFMObservabilitySubscriber</span><span class="p">(</span><span class="n">FMObservabilitySubscriber</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Subscriber for managing and observing statistics within a console-based environment.</span>
+<span class="sd">    A subscriber class for observing FM (Foundation Model) observability statistics.</span>
 
-<span class="sd">    This class implements methods for handling and updating observability statistics</span>
-<span class="sd">    for foundational models (FM). The `ConsoleFMObservabilitySubscriber` maintains</span>
-<span class="sd">    an aggregated view of statistics and provides a mechanism to output these</span>
-<span class="sd">    statistics directly to the console for real-time monitoring.</span>
+<span class="sd">    This class is a concrete implementation of FMObservabilitySubscriber, designed to collect</span>
+<span class="sd">    and print observability statistics in real time. It maintains cumulative statistics and</span>
+<span class="sd">    prints detailed data on occurrences of LLM (Large Language Model) events and Embedding</span>
+<span class="sd">    events whenever new statistics are received.</span>
 
-<span class="sd">    :ivar all_stats: Instance of `FMObservabilityStats` that aggregates and manages</span>
-<span class="sd">        all statistics related to observability.</span>
-<span class="sd">    :type all_stats: FMObservabilityStats</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        all_stats (FMObservabilityStats): An instance of FMObservabilityStats that aggregates</span>
+<span class="sd">        and maintains cumulative statistics for LLM and Embedding events.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The class is responsible for managing and tracking the statistics of observability data, specifically focusing</span>
-<span class="sd">        on FM (fault management) metrics. It provides a central location for storing and accessing aggregated statistical</span>
-<span class="sd">        information within the context of monitoring systems. This class initializes with an instance of</span>
-<span class="sd">        FMObservabilityStats.</span>
-
-<span class="sd">        Attributes</span>
-<span class="sd">        ----------</span>
-<span class="sd">        all_stats : FMObservabilityStats</span>
-<span class="sd">            An object responsible for collecting and maintaining fault management observability metrics.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span> <span class="o">=</span> <span class="n">FMObservabilityStats</span><span class="p">()</span>
 
 <div class="viewcode-block" id="ConsoleFMObservabilitySubscriber.on_new_stats">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.ConsoleFMObservabilitySubscriber.on_new_stats">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_new_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">:</span> <span class="n">FMObservabilityStats</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Updates the current statistics with new observations and logs detailed information</span>
-<span class="sd">        about LLM-related and embeddings-related counts and tokens if the statistics are</span>
-<span class="sd">        updated successfully.</span>
+<span class="sd">        Processes and updates the current statistics with new incoming statistics data.</span>
 
-<span class="sd">        :param stats: The new set of statistics to be merged into the existing stats.</span>
-<span class="sd">        :type stats: FMObservabilityStats</span>
-<span class="sd">        :return: None</span>
+<span class="sd">        This method takes in an `FMObservabilityStats` instance containing new</span>
+<span class="sd">        observability statistics and updates the aggregated statistics stored</span>
+<span class="sd">        in `self.all_stats`. If the update is successful, a summary of the updated</span>
+<span class="sd">        statistics is printed, including information about LLM (Large Language Model)</span>
+<span class="sd">        usage and Embedding usage.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            stats (FMObservabilityStats): The new observability statistics to be</span>
+<span class="sd">                processed and integrated into the existing set of aggregated statistics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">updated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">updated</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;LLM: count: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_count</span><span class="si">}</span><span class="s1">, total_prompt_tokens: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_prompt_tokens</span><span class="si">}</span><span class="s1">, total_completion_tokens: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_completion_tokens</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Embeddings: count: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_embedding_count</span><span class="si">}</span><span class="s1">, total_tokens: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_embedding_tokens</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="p">)</span></div>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;LLM: count: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_count</span><span class="si">}</span><span class="s1">, total_prompt_tokens: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_prompt_tokens</span><span class="si">}</span><span class="s1">, total_completion_tokens: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_completion_tokens</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Embeddings: count: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_embedding_count</span><span class="si">}</span><span class="s1">, total_tokens: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_embedding_tokens</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 </div>
-
 
 
 <div class="viewcode-block" id="StatPrintingSubscriber">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StatPrintingSubscriber</span><span class="p">(</span><span class="n">FMObservabilitySubscriber</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Manages, tracks, and reports observability-related cost statistics for a foundation model.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a subscriber that collects and processes observability statistics</span>
+<span class="sd">    and estimates costs associated with language model usage.</span>
 
-<span class="sd">    The class records cost metrics for processing tokens (input, output, and embedding)</span>
-<span class="sd">    and aggregates usage statistics. It provides methods to estimate costs, retrieve detailed</span>
-<span class="sd">    statistics, and update the internal state with new data. This class helps monitor and</span>
-<span class="sd">    analyze the token and duration-based usages and compute associated costs dynamically.</span>
+<span class="sd">    This class is designed for subscribing to observability events, aggregating statistics,</span>
+<span class="sd">    and calculating costs associated with specific observability data such as input tokens,</span>
+<span class="sd">    output tokens, and embeddings. It provides utility methods for updating, retrieving,</span>
+<span class="sd">    and summarizing observability stats in a structured format.</span>
 
-<span class="sd">    :ivar cost_per_thousand_input_tokens_llm: Cost associated with processing one thousand input tokens by the language model.</span>
-<span class="sd">    :type cost_per_thousand_input_tokens_llm: float</span>
-<span class="sd">    :ivar cost_per_thousand_output_tokens_llm: Cost associated with processing one thousand output tokens by the language model.</span>
-<span class="sd">    :type cost_per_thousand_output_tokens_llm: float</span>
-<span class="sd">    :ivar cost_per_thousand_embedding_tokens: Cost associated with processing one thousand embedding tokens.</span>
-<span class="sd">    :type cost_per_thousand_embedding_tokens: float</span>
-<span class="sd">    :ivar all_stats: Aggregated statistics tracking object for tokens, durations, and usage metrics.</span>
-<span class="sd">    :type all_stats: FMObservabilityStats</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        cost_per_thousand_input_tokens_llm (float): Cost per thousand input tokens for the</span>
+<span class="sd">            language model.</span>
+<span class="sd">        cost_per_thousand_output_tokens_llm (float): Cost per thousand output tokens for the</span>
+<span class="sd">            language model.</span>
+<span class="sd">        cost_per_thousand_embedding_tokens (float): Cost per thousand tokens for embeddings.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">cost_per_thousand_input_tokens_llm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">cost_per_thousand_output_tokens_llm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">cost_per_thousand_embedding_tokens</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">cost_per_thousand_input_tokens_llm</span><span class="p">,</span>
-        <span class="n">cost_per_thousand_output_tokens_llm</span><span class="p">,</span>
-        <span class="n">cost_per_thousand_embedding_tokens</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cost_per_thousand_input_tokens_llm</span><span class="p">,</span> <span class="n">cost_per_thousand_output_tokens_llm</span><span class="p">,</span> <span class="n">cost_per_thousand_embedding_tokens</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes an instance to manage and track observability-related cost statistics for a</span>
-<span class="sd">        foundation model including costs for input tokens, output tokens, and embedding tokens.</span>
-<span class="sd">        The class encapsulates these parameters as input cost metrics and initializes an</span>
-<span class="sd">        aggregated statistics tracking object.</span>
+<span class="sd">        Initializes the object with the provided costs for input tokens, output tokens,</span>
+<span class="sd">        and embedding tokens. This class is designed to allow tracking and managing</span>
+<span class="sd">        factors related to these costs for specified parameters.</span>
 
-<span class="sd">        :param cost_per_thousand_input_tokens_llm:</span>
-<span class="sd">            Cost associated with processing one thousand input tokens by the language model.</span>
-<span class="sd">        :type cost_per_thousand_input_tokens_llm: float</span>
-<span class="sd">        :param cost_per_thousand_output_tokens_llm:</span>
-<span class="sd">            Cost associated with processing one thousand output tokens by the language model.</span>
-<span class="sd">        :type cost_per_thousand_output_tokens_llm: float</span>
-<span class="sd">        :param cost_per_thousand_embedding_tokens:</span>
-<span class="sd">            Cost associated with processing one thousand embedding tokens.</span>
-<span class="sd">        :type cost_per_thousand_embedding_tokens: float</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cost_per_thousand_input_tokens_llm: The cost per thousand input tokens</span>
+<span class="sd">                used by the language model.</span>
+<span class="sd">            cost_per_thousand_output_tokens_llm: The cost per thousand output tokens</span>
+<span class="sd">                generated by the language model.</span>
+<span class="sd">            cost_per_thousand_embedding_tokens: The cost per thousand embedding tokens</span>
+<span class="sd">                used in the process.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span> <span class="o">=</span> <span class="n">FMObservabilityStats</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cost_per_thousand_input_tokens_llm</span> <span class="o">=</span> <span class="n">cost_per_thousand_input_tokens_llm</span>
@@ -801,140 +772,132 @@
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.on_new_stats">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_new_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">:</span> <span class="n">FMObservabilityStats</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Processes and updates internal statistics with the provided new data.</span>
+<span class="sd">        Updates the current statistics with new observation data. This method takes in a new set of</span>
+<span class="sd">        observability statistics and merges them into the existing aggregation of statistics.</span>
 
-<span class="sd">        This method takes an instance of `FMObservabilityStats` containing new</span>
-<span class="sd">        observability statistics and integrates it into the current set of</span>
-<span class="sd">        stored statistics by updating the internal state of `all_stats`.</span>
-
-<span class="sd">        :param stats: New observation statistics to integrate.</span>
-<span class="sd">        :type stats: FMObservabilityStats</span>
-
+<span class="sd">        Args:</span>
+<span class="sd">            stats: New FMObservabilityStats object containing the observation data to be processed and</span>
+<span class="sd">                merged into the aggregated statistics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span></div>
 
-
+ 
 <div class="viewcode-block" id="StatPrintingSubscriber.get_stats">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.get_stats">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provides a method to retrieve statistical data stored in the instance.</span>
+<span class="sd">        Retrieves all statistical data recorded and stored in the object.</span>
 
-<span class="sd">        This method is used to access the `all_stats` attribute, which contains</span>
-<span class="sd">        the aggregated statistical data collected and managed within the instance.</span>
+<span class="sd">        This method provides access to the collection of all statistics that</span>
+<span class="sd">        have been aggregated or computed. It is intended to be used when the</span>
+<span class="sd">        caller needs a comprehensive view of the stored statistical data.</span>
 
-<span class="sd">        :return: The aggregated statistical data.</span>
-<span class="sd">        :rtype: Any</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list containing all statistical data stored within the</span>
+<span class="sd">            object. The actual structure and content of the data may vary</span>
+<span class="sd">            depending on the implementation details.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span></div>
 
-
+    
 <div class="viewcode-block" id="StatPrintingSubscriber.estimate_costs">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.estimate_costs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">estimate_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Estimate the total cost based on token usage and predefined costs per thousand tokens.</span>
-<span class="sd">        The function calculates the cost using prompt tokens, completion tokens,</span>
-<span class="sd">        and embedding tokens, each scaled by their respective costs.</span>
+<span class="sd">        Estimates the total cost based on token usage statistics and predefined costs per</span>
+<span class="sd">        thousand tokens for input, output, and embeddings.</span>
 
-<span class="sd">        :return: Total calculated cost as a float.</span>
-<span class="sd">        :rtype: float</span>
+<span class="sd">        The method calculates the total cost by aggregating the costs associated with</span>
+<span class="sd">        the total number of input prompt tokens, output completion tokens, and embedding</span>
+<span class="sd">        tokens. Each cost component is determined by dividing the respective token count</span>
+<span class="sd">        by 1000 and multiplying it with the respective cost per thousand tokens.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The total estimated cost calculated from token usage statistics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">total_cost</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_prompt_tokens</span>
-            <span class="o">/</span> <span class="mf">1000.0</span>
-            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_per_thousand_input_tokens_llm</span>
-            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_completion_tokens</span>
-            <span class="o">/</span> <span class="mf">1000.0</span>
-            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_per_thousand_output_tokens_llm</span>
-            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_embedding_tokens</span>
-            <span class="o">/</span> <span class="mf">1000.0</span>
-            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_per_thousand_embedding_tokens</span>
-        <span class="p">)</span>
+        <span class="n">total_cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_prompt_tokens</span> <span class="o">/</span> <span class="mf">1000.0</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">cost_per_thousand_input_tokens_llm</span> \
+        <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_completion_tokens</span> <span class="o">/</span> <span class="mf">1000.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_per_thousand_output_tokens_llm</span> \
+        <span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_embedding_tokens</span> <span class="o">/</span> <span class="mf">1000.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_per_thousand_embedding_tokens</span>
         <span class="k">return</span> <span class="n">total_cost</span></div>
 
-
+        
 <div class="viewcode-block" id="StatPrintingSubscriber.return_stats_dict">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.StatPrintingSubscriber.return_stats_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">return_stats_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates and returns a dictionary containing various statistical data, including</span>
-<span class="sd">        counts, tokens, durations, and estimated costs. The data is aggregated from a</span>
-<span class="sd">        set of statistics managed within the class instance.</span>
+<span class="sd">        Compiles and returns a dictionary containing various statistics and metrics related to LLM</span>
+<span class="sd">        usage and embeddings. This includes information about token counts, duration, and associated</span>
+<span class="sd">        costs.</span>
 
-<span class="sd">        :return: A dictionary containing statistical information.</span>
-<span class="sd">        :rtype: Dict[str, Any]</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Dictionary containing the following keys and their associated values:</span>
+<span class="sd">                - &#39;total_llm_count&#39;: The total count of LLM calls.</span>
+<span class="sd">                - &#39;total_prompt_tokens&#39;: Total number of prompt tokens for all LLM calls.</span>
+<span class="sd">                - &#39;total_completion_tokens&#39;: Total number of completion tokens for all LLM calls.</span>
+<span class="sd">                - &#39;total_embedding_count&#39;: The total count of embedding operations performed.</span>
+<span class="sd">                - &#39;total_embedding_tokens&#39;: Total number of tokens processed during embeddings.</span>
+<span class="sd">                - &#39;total_llm_duration_millis&#39;: Total LLM execution duration in milliseconds.</span>
+<span class="sd">                - &#39;total_embedding_duration_millis&#39;: Total embedding operation duration in milliseconds.</span>
+<span class="sd">                - &#39;average_llm_duration_millis&#39;: Average duration of LLM executions in milliseconds.</span>
+<span class="sd">                - &#39;average_embedding_duration_millis&#39;: Average duration of embedding operations in</span>
+<span class="sd">                  milliseconds.</span>
+<span class="sd">                - &#39;total_llm_cost&#39;: Estimated total monetary cost associated with LLM usage.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">stats_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">stats_dict</span><span class="p">[</span><span class="s1">&#39;total_llm_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_count</span>
         <span class="n">stats_dict</span><span class="p">[</span><span class="s1">&#39;total_prompt_tokens&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_prompt_tokens</span>
-        <span class="n">stats_dict</span><span class="p">[</span><span class="s1">&#39;total_completion_tokens&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_completion_tokens</span>
-        <span class="p">)</span>
+        <span class="n">stats_dict</span><span class="p">[</span><span class="s1">&#39;total_completion_tokens&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_completion_tokens</span>
         <span class="c1"># Now embeddings count and total embedding tokens</span>
         <span class="n">stats_dict</span><span class="p">[</span><span class="s1">&#39;total_embedding_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_embedding_count</span>
         <span class="n">stats_dict</span><span class="p">[</span><span class="s1">&#39;total_embedding_tokens&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_embedding_tokens</span>
         <span class="c1"># Now duration data</span>
-        <span class="n">stats_dict</span><span class="p">[</span><span class="s2">&quot;total_llm_duration_millis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_duration_millis</span>
-        <span class="p">)</span>
-        <span class="n">stats_dict</span><span class="p">[</span><span class="s2">&quot;total_embedding_duration_millis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_embedding_duration_millis</span>
-        <span class="p">)</span>
-        <span class="n">stats_dict</span><span class="p">[</span><span class="s2">&quot;average_llm_duration_millis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">average_llm_duration_millis</span>
-        <span class="p">)</span>
-        <span class="n">stats_dict</span><span class="p">[</span><span class="s2">&quot;average_embedding_duration_millis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">average_embedding_duration_millis</span>
-        <span class="p">)</span>
+        <span class="n">stats_dict</span><span class="p">[</span><span class="s2">&quot;total_llm_duration_millis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_llm_duration_millis</span>
+        <span class="n">stats_dict</span><span class="p">[</span><span class="s2">&quot;total_embedding_duration_millis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">total_embedding_duration_millis</span>
+        <span class="n">stats_dict</span><span class="p">[</span><span class="s2">&quot;average_llm_duration_millis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">average_llm_duration_millis</span>
+        <span class="n">stats_dict</span><span class="p">[</span><span class="s2">&quot;average_embedding_duration_millis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_stats</span><span class="o">.</span><span class="n">average_embedding_duration_millis</span>
         <span class="c1"># Now  costs</span>
         <span class="n">stats_dict</span><span class="p">[</span><span class="s1">&#39;total_llm_cost&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_costs</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">stats_dict</span></div>
 </div>
 
-
+        
 
 <div class="viewcode-block" id="FMObservabilityPublisher">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityPublisher">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">FMObservabilityPublisher</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FMObservabilityPublisher</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Manages a list of subscribers to periodically publish collected statistics</span>
-<span class="sd">    using a polling mechanism, and provides lifecycle management capabilities.</span>
+<span class="sd">    Manages publishing of observability statistics at regular intervals to subscribed</span>
+<span class="sd">    observers.</span>
 
-<span class="sd">    This class encapsulates the functionality needed for subscribing to</span>
-<span class="sd">    observability events, collecting related statistics periodically, and handling</span>
-<span class="sd">    publishing these statistics to the subscribers. It also supports integration</span>
-<span class="sd">    with context management for automated resource cleanup.</span>
+<span class="sd">    The FMObservabilityPublisher is designed to poll a queue for observability statistics</span>
+<span class="sd">    and notify registered subscribers. It uses a background thread to periodically invoke</span>
+<span class="sd">    the publishing mechanism. The class also implements context manager capabilities for</span>
+<span class="sd">    automatic resource management.</span>
 
-<span class="sd">    :ivar subscribers: List of subscribers to receive published statistics.</span>
-<span class="sd">        Subscribers must implement the FMObservabilitySubscriber interface.</span>
-<span class="sd">    :type subscribers: List[FMObservabilitySubscriber]</span>
-<span class="sd">    :ivar interval_seconds: Configurable time interval (in seconds) for publishing</span>
-<span class="sd">        statistics periodically.</span>
-<span class="sd">    :type interval_seconds: float</span>
-<span class="sd">    :ivar allow_continue: Flag to indicate if the continuous publishing process</span>
-<span class="sd">        is allowed or should be halted.</span>
-<span class="sd">    :type allow_continue: bool</span>
-<span class="sd">    :ivar poller: Instance of FMObservabilityQueuePoller that is responsible for</span>
-<span class="sd">        gathering statistical data.</span>
-<span class="sd">    :type poller: FMObservabilityQueuePoller</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        subscribers (List[FMObservabilitySubscriber]): A list of subscribers to be notified</span>
+<span class="sd">            when new observability statistics are available.</span>
+<span class="sd">        interval_seconds (float): The time interval, in seconds, between publishing</span>
+<span class="sd">            observability statistics.</span>
+<span class="sd">        allow_continue (bool): A flag indicating whether the publishing process should</span>
+<span class="sd">            continue. If set to False, the process will stop.</span>
+<span class="sd">        poller (FMObservabilityQueuePoller): The polling mechanism that retrieves data</span>
+<span class="sd">            from the observability queue.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">subscribers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FMObservabilitySubscriber</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">interval_seconds</span><span class="o">=</span><span class="mf">15.0</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscribers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FMObservabilitySubscriber</span><span class="p">]</span><span class="o">=</span><span class="p">[],</span> <span class="n">interval_seconds</span><span class="o">=</span><span class="mf">15.0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes FMObservability, a system for managing observability with subscribers</span>
-<span class="sd">        and periodic publishing of statistics.</span>
+<span class="sd">        Initializes the FMObservabilityQueuePublisher class.</span>
 
-<span class="sd">        The constructor sets up a global observability queue, binds necessary handlers</span>
-<span class="sd">        to the callback manager, initializes subscribers, the publishing interval, and</span>
-<span class="sd">        a poller. It also starts a timer for periodic publishing of metrics or statistics.</span>
+<span class="sd">        This class is responsible for managing observability subscribers, configuring the</span>
+<span class="sd">        poller to process observability queue data, and periodically publishing statistics</span>
+<span class="sd">        to the registered subscribers. It also sets up handlers for token counting and</span>
+<span class="sd">        observability events.</span>
 
-<span class="sd">        :param subscribers: List of FMObservabilitySubscriber objects that will handle</span>
-<span class="sd">            observability data.</span>
-<span class="sd">        :param interval_seconds: The interval in seconds at which stats will be published.</span>
-<span class="sd">        :type interval_seconds: float</span>
+<span class="sd">        Args:</span>
+<span class="sd">            subscribers (List[FMObservabilitySubscriber], optional): A list of subscribers to</span>
+<span class="sd">                receive the observability data. Defaults to an empty list.</span>
+<span class="sd">            interval_seconds (float, optional): The interval in seconds for publishing</span>
+<span class="sd">                statistics to the subscribers. Defaults to 15.0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">global</span> <span class="n">_fm_observability_queue</span>
         <span class="n">_fm_observability_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
@@ -954,56 +917,52 @@
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityPublisher.close">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Disables the continuation state of the instance by setting the `allow_continue`</span>
-<span class="sd">        attribute to False. This method typically halts processes or terminates</span>
-<span class="sd">        iterations controlled by the `allow_continue` flag.</span>
+<span class="sd">        Disables the continuation functionality by updating the internal flag.</span>
 
-<span class="sd">        :return: None</span>
+<span class="sd">        This method prevents further continuation of a process by setting the</span>
+<span class="sd">        `allow_continue` attribute to `False`. Once invoked, the attribute will</span>
+<span class="sd">        indicate that continuation should not occur.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            allow_continue (bool): Indicates whether continuation is permitted or not.</span>
+<span class="sd">                Set to `False` to disable continuation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">allow_continue</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provides functionality for managing initialization of a context in a</span>
-<span class="sd">        with-statement block. This method is invoked upon entering the runtime</span>
-<span class="sd">        context.</span>
+<span class="sd">        Allows the use of the object with the context manager (with statement). Ensures</span>
+<span class="sd">        the proper setup and teardown of resources handled by the object.</span>
 
-<span class="sd">        :return: The instance of the object itself that implements the context</span>
-<span class="sd">                 manager protocol.</span>
-<span class="sd">        :rtype: self</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Self:</span>
+<span class="sd">                Returns the instance of the object, allowing its methods/attributes</span>
+<span class="sd">                to be accessible within the context.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Handles the context manager exit functionality for a resource by ensuring</span>
-<span class="sd">        that it gets properly closed. This method is invoked when exiting the</span>
-<span class="sd">        runtime context related to the resource managed by the context manager.</span>
-
-<span class="sd">        :param exc_type: The exception type, if an exception occurred while</span>
-<span class="sd">            using the resource. Otherwise, it will be None.</span>
-<span class="sd">        :param exc_value: The exception instance, if an exception occurred while</span>
-<span class="sd">            using the resource. Otherwise, it will be None.</span>
-<span class="sd">        :param exc_traceback: The traceback object, if an exception occurred while</span>
-<span class="sd">            using the resource. Otherwise, it will be None.</span>
-<span class="sd">        :return: Always returns None to indicate that any exception</span>
-<span class="sd">            should be re-raised after cleanup.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 <div class="viewcode-block" id="FMObservabilityPublisher.publish_stats">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityPublisher.publish_stats">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">publish_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Stop the current statistics polling, restart the poller, and dispatch new statistics</span>
-<span class="sd">        to all subscribers. The method schedules another polling cycle if allowed.</span>
+<span class="sd">        Handles the collection, restart, and publishing of statistics through a polling mechanism.</span>
 
-<span class="sd">        :raises: None</span>
+<span class="sd">        Starts a polling process to collect current statistics and ensures the continuity of the</span>
+<span class="sd">        polling cycle based on the specified interval if allowed. Independently notifies all</span>
+<span class="sd">        subscribers with the new statistics collected after each polling cycle.</span>
 
-<span class="sd">        :param None</span>
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
 
-<span class="sd">        :return: None</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poller</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poller</span> <span class="o">=</span> <span class="n">FMObservabilityQueuePoller</span><span class="p">()</span>
@@ -1025,25 +984,27 @@
     <span class="n">token_counter</span><span class="p">:</span> <span class="n">TokenCounter</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">event_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TokenCountingEvent</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates and returns token counts for a given payload using a provided token counter.</span>
-<span class="sd">    It processes payloads that contain either a prompt and completion, or messages and a</span>
-<span class="sd">    response. Additionally, it attempts to retrieve token counts from pre-attached metadata</span>
-<span class="sd">    or computes the counts if metadata is unavailable or invalid.</span>
+<span class="sd">    Calculates and returns token counts for LLM inputs and outputs, properly handling</span>
+<span class="sd">    different types of event payloads and ensuring accurate token usage tracking.</span>
 
-<span class="sd">    :param token_counter: A utility for counting tokens in text or message objects.</span>
-<span class="sd">    :type token_counter: TokenCounter</span>
-<span class="sd">    :param payload: A dictionary containing the details of the LLM request/response. The</span>
-<span class="sd">        payload is expected to have either a `PROMPT` and `COMPLETION` or</span>
-<span class="sd">        `MESSAGES` and `RESPONSE` key.</span>
-<span class="sd">    :type payload: Dict[str, Any]</span>
-<span class="sd">    :param event_id: An optional unique identifier for the token counting event. Defaults</span>
-<span class="sd">        to an empty string if not provided.</span>
-<span class="sd">    :type event_id: str</span>
-<span class="sd">    :raises ValueError: If the payload does not contain required keys or contains invalid</span>
-<span class="sd">        token counts.</span>
-<span class="sd">    :return: A TokenCountingEvent containing details about the token counts for prompt</span>
-<span class="sd">        and completion strings/messages.</span>
-<span class="sd">    :rtype: TokenCountingEvent</span>
+<span class="sd">    This function examines the event payload to determine whether it contains a prompt and</span>
+<span class="sd">    completion or a list of messages and a response. It calculates token counts for these</span>
+<span class="sd">    inputs and outputs using the provided TokenCounter utility, either directly from the</span>
+<span class="sd">    payload or by estimating them.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        token_counter: An object or utility used to count tokens in strings or messages.</span>
+<span class="sd">        payload: A dictionary containing event-related data, such as prompts, completions,</span>
+<span class="sd">            messages, and responses.</span>
+<span class="sd">        event_id: A unique identifier for the current event. Defaults to an empty string.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        TokenCountingEvent: An object encapsulating token count information for both prompt</span>
+<span class="sd">            and completion or messages and response.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Raised if the payload is invalid or does not contain the required</span>
+<span class="sd">            attributes for token counting.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMessage</span>
 
@@ -1077,12 +1038,8 @@
                 <span class="k">if</span> <span class="n">usage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">usage</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
                         <span class="n">usage</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">usage</span><span class="p">)</span>
-                    <span class="n">messages_tokens</span> <span class="o">=</span> <span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                        <span class="s2">&quot;prompt_tokens&quot;</span><span class="p">,</span> <span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;input_tokens&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                    <span class="p">)</span>
-                    <span class="n">response_tokens</span> <span class="o">=</span> <span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                        <span class="s2">&quot;completion_tokens&quot;</span><span class="p">,</span> <span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_tokens&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                    <span class="p">)</span>
+                    <span class="n">messages_tokens</span> <span class="o">=</span> <span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prompt_tokens&quot;</span><span class="p">,</span> <span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;input_tokens&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                    <span class="n">response_tokens</span> <span class="o">=</span> <span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;completion_tokens&quot;</span><span class="p">,</span> <span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_tokens&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
                 <span class="k">if</span> <span class="n">messages_tokens</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">response_tokens</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid token counts!&quot;</span><span class="p">)</span>
@@ -1115,41 +1072,29 @@
             <span class="s2">&quot;Invalid payload! Need prompt and completion or messages and response.&quot;</span>
         <span class="p">)</span></div>
 
-
-
+    
 <div class="viewcode-block" id="BedrockEnabledTokenCountingHandler">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.BedrockEnabledTokenCountingHandler">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BedrockEnabledTokenCountingHandler</span><span class="p">(</span><span class="n">TokenCountingHandler</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles token counting and observability queue management in the context of</span>
-<span class="sd">    callbacks for specific events. It extends the TokenCountingHandler to provide</span>
-<span class="sd">    additional functionality tailored for use cases requiring direct association</span>
-<span class="sd">    with Bedrock-enabling mechanisms.</span>
+<span class="sd">    Handles token counting for systems utilizing Bedrock, extending functionality for</span>
+<span class="sd">    event-based processing.</span>
 
-<span class="sd">    The class manages token counting for specific event types (e.g., LLM and</span>
-<span class="sd">    Embedding events), allows the exclusion of certain events from processing, and</span>
-<span class="sd">    ensures that token count lists are cleared when they exceed a threshold. It</span>
-<span class="sd">    also integrates with an observability queue for structured monitoring and</span>
-<span class="sd">    debugging purposes.</span>
+<span class="sd">    Provides mechanisms to accurately count tokens used in language model (LLM) prompts</span>
+<span class="sd">    and completions, or for embeddings processing. Additionally ensures integration</span>
+<span class="sd">    with the observability queue to facilitate tracking and debugging.</span>
 
-<span class="sd">    :ivar tokenizer: Callable function responsible for tokenizing input strings</span>
-<span class="sd">        into a list of tokens. Defaults to None if not explicitly set.</span>
-<span class="sd">    :type tokenizer: Optional[Callable[[str], List]]</span>
-<span class="sd">    :ivar event_starts_to_ignore: List of event types to be ignored during</span>
-<span class="sd">        start event operations. This allows for filtering out unneeded</span>
-<span class="sd">        processing. Defaults to None if not explicitly set.</span>
-<span class="sd">    :type event_starts_to_ignore: Optional[List[CBEventType]]</span>
-<span class="sd">    :ivar event_ends_to_ignore: List of event types to be ignored during</span>
-<span class="sd">        end event operations. This provides a mechanism for tailoring token</span>
-<span class="sd">        counting behavior. Defaults to None if not explicitly set.</span>
-<span class="sd">    :type event_ends_to_ignore: Optional[List[CBEventType]]</span>
-<span class="sd">    :ivar verbose: A boolean flag determining whether verbose output is enabled.</span>
-<span class="sd">        This helps in logging and debugging by providing more detailed system</span>
-<span class="sd">        behavior information.</span>
-<span class="sd">    :type verbose: bool</span>
-<span class="sd">    :ivar logger: Logging instance for capturing debug, info, or error logs</span>
-<span class="sd">        during operation. If not provided, logging will be disabled.</span>
-<span class="sd">    :type logger: Optional[logging.Logger]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        event_starts_to_ignore (Optional[List[CBEventType]]): List of event types to</span>
+<span class="sd">            be ignored at the start of events.</span>
+<span class="sd">        event_ends_to_ignore (Optional[List[CBEventType]]): List of event types to</span>
+<span class="sd">            be ignored at the end of events.</span>
+<span class="sd">        tokenizer (Optional[Callable[[str], List]]): Tokenizer function used</span>
+<span class="sd">            to split input into tokens.</span>
+<span class="sd">        verbose (bool): Flag indicating whether detailed information should</span>
+<span class="sd">            be logged.</span>
+<span class="sd">        logger (Optional[logging.Logger]): Logger instance for logging events</span>
+<span class="sd">            and information.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -1161,30 +1106,32 @@
         <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the class with the specified parameters to customize behavior,</span>
-<span class="sd">        particularly for handling tokenization and event filtering during execution.</span>
+<span class="sd">        Initializes the class with specified parameters. The provided parameters will</span>
+<span class="sd">        control the behavior of the callback system for token counting. This includes</span>
+<span class="sd">        the tokenizer to be used, events to be ignored during start and end operations,</span>
+<span class="sd">        verbosity level, and an optional logger for logging purposes.</span>
 
-<span class="sd">        :param tokenizer: A callable that takes a string input and tokenizes it into a list.</span>
-<span class="sd">            Default is None.</span>
-<span class="sd">        :param event_starts_to_ignore: A list of event start types (`CBEventType`) to ignore.</span>
-<span class="sd">            Default is None.</span>
-<span class="sd">        :param event_ends_to_ignore: A list of event end types (`CBEventType`) to ignore.</span>
-<span class="sd">            Default is None.</span>
-<span class="sd">        :param verbose: A boolean flag to enable or disable verbose output. Default is False.</span>
-<span class="sd">        :param logger: An optional logger instance for logging messages. Default is None.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            tokenizer: Optional callable responsible for tokenizing input strings into</span>
+<span class="sd">                a list of tokens.</span>
+<span class="sd">            event_starts_to_ignore: Optional list of CBEventType items representing</span>
+<span class="sd">                event types to ignore when a start event occurs.</span>
+<span class="sd">            event_ends_to_ignore: Optional list of CBEventType items representing event</span>
+<span class="sd">                types to ignore when an end event occurs.</span>
+<span class="sd">            verbose: Boolean indicating whether to enable verbose output.</span>
+<span class="sd">            logger: Optional logging.Logger instance for logging callback-related</span>
+<span class="sd">                information.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">llama_index.core.callbacks.token_counting</span>
-
-        <span class="n">llama_index</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">token_counting</span><span class="o">.</span><span class="n">get_llm_token_counts</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">get_patched_llm_token_counts</span>
-        <span class="p">)</span>
+        <span class="n">llama_index</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">token_counting</span><span class="o">.</span><span class="n">get_llm_token_counts</span> <span class="o">=</span> <span class="n">get_patched_llm_token_counts</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
-            <span class="n">event_starts_to_ignore</span><span class="o">=</span><span class="n">event_starts_to_ignore</span><span class="p">,</span>
-            <span class="n">event_ends_to_ignore</span><span class="o">=</span><span class="n">event_ends_to_ignore</span><span class="p">,</span>
-            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
-            <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">,</span>
+            <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span> 
+            <span class="n">event_starts_to_ignore</span><span class="o">=</span><span class="n">event_starts_to_ignore</span><span class="p">,</span> 
+            <span class="n">event_ends_to_ignore</span><span class="o">=</span><span class="n">event_ends_to_ignore</span><span class="p">,</span> 
+            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> 
+            <span class="n">logger</span><span class="o">=</span><span class="n">logger</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="BedrockEnabledTokenCountingHandler.on_event_end">
@@ -1197,23 +1144,26 @@
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Handles the ending of an event, processes event payloads, and updates observability</span>
-<span class="sd">        queues if necessary. This method primarily processes LLM and EMBEDDING event types,</span>
-<span class="sd">        extracts relevant token count information, and dispatches them to the observability</span>
-<span class="sd">        queue. It also ensures that token count tracking is reset if their sizes exceed</span>
-<span class="sd">        the threshold limit.</span>
+<span class="sd">        Handles the conclusion of specified events by processing token counts if applicable</span>
+<span class="sd">        and updating the observability queue with event data. This method tracks token</span>
+<span class="sd">        counts for LLM and Embedding events, ensuring that their respective token usages</span>
+<span class="sd">        are appropriately logged. When certain thresholds for token count storage are exceeded,</span>
+<span class="sd">        the method will reset those counts.</span>
 
-<span class="sd">        :param event_type: The type of the event being ended (e.g., LLM, EMBEDDING).</span>
-<span class="sd">        :param payload: The payload data associated with the event, including tokens</span>
-<span class="sd">                        or other metadata. If None, no payload will be processed.</span>
-<span class="sd">        :param event_id: The unique identifier for the event. Useful for tracking specific</span>
-<span class="sd">                         events across the system.</span>
-<span class="sd">        :param kwargs: Any additional named parameters required for custom handling.</span>
-<span class="sd">        :return: None</span>
+<span class="sd">        Args:</span>
+<span class="sd">            event_type (CBEventType): Type of the event being concluded, such as LLM or</span>
+<span class="sd">                EMBEDDING.</span>
+<span class="sd">            payload (Optional[Dict[str, Any]]): Additional event-specific data payload. Can</span>
+<span class="sd">                be None if no payload accompanies the event.</span>
+<span class="sd">            event_id (str): Identifier of the event. Defaults to an empty string if not</span>
+<span class="sd">                provided.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments for extensibility. These are not</span>
+<span class="sd">                directly utilized in this method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">on_event_end</span><span class="p">(</span><span class="n">event_type</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">event_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
+        
         <span class="n">event_payload</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Count the LLM or Embedding tokens as needed.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">LLM</span>
@@ -1222,25 +1172,25 @@
         <span class="p">):</span>
             <span class="n">event_payload</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s1">&#39;llm_prompt_token_count&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_token_counts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">prompt_token_count</span><span class="p">,</span>
-                <span class="s1">&#39;llm_completion_token_count&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_token_counts</span><span class="p">[</span>
-                    <span class="o">-</span><span class="mi">1</span>
-                <span class="p">]</span><span class="o">.</span><span class="n">completion_token_count</span><span class="p">,</span>
+                <span class="s1">&#39;llm_completion_token_count&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_token_counts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">completion_token_count</span>
             <span class="p">}</span>
         <span class="k">elif</span> <span class="p">(</span>
             <span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">EMBEDDING</span>
             <span class="ow">and</span> <span class="n">event_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_ends_to_ignore</span>
             <span class="ow">and</span> <span class="n">payload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="p">):</span>
+        <span class="p">):</span>  
             <span class="n">event_payload</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s1">&#39;embedding_token_count&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_token_counts</span><span class="p">[</span>
-                    <span class="o">-</span><span class="mi">1</span>
-                <span class="p">]</span><span class="o">.</span><span class="n">total_token_count</span>
+                <span class="s1">&#39;embedding_token_count&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_token_counts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">total_token_count</span>
             <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">event_payload</span><span class="p">:</span>
-
-            <span class="n">event</span> <span class="o">=</span> <span class="n">CBEvent</span><span class="p">(</span><span class="n">event_type</span><span class="o">=</span><span class="n">event_type</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">event_payload</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="n">event_id</span><span class="p">)</span>
-
+            
+            <span class="n">event</span> <span class="o">=</span> <span class="n">CBEvent</span><span class="p">(</span>
+                <span class="n">event_type</span> <span class="o">=</span> <span class="n">event_type</span><span class="p">,</span> 
+                <span class="n">payload</span> <span class="o">=</span> <span class="n">event_payload</span><span class="p">,</span> 
+                <span class="n">id_</span> <span class="o">=</span> <span class="n">event_id</span>
+            <span class="p">)</span>
+            
             <span class="n">_fm_observability_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_token_counts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_token_counts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">:</span>
@@ -1248,43 +1198,35 @@
 </div>
 
 
-
 <div class="viewcode-block" id="FMObservabilityHandler">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FMObservabilityHandler</span><span class="p">(</span><span class="n">BaseCallbackHandler</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles observability for monitored events by managing in-flight event tracking and</span>
-<span class="sd">    trace sessions.</span>
+<span class="sd">    Handler for managing and tracking observability events.</span>
 
-<span class="sd">    This class extends the functionality of BaseCallbackHandler to provide specific</span>
-<span class="sd">    observability features for handling events. It keeps track of in-flight events, computes</span>
-<span class="sd">    metrics such as duration for completed events, and integrates with a queuing mechanism</span>
-<span class="sd">    for further processing. Additionally, it enables tracing sessions to facilitate monitoring</span>
-<span class="sd">    and debugging in distributed systems.</span>
+<span class="sd">    This class is a specialized callback handler used to monitor and manage events within a</span>
+<span class="sd">    workflow. It tracks the start and end of specific events, records event metadata,</span>
+<span class="sd">    and calculates the duration of event processing. The class provides methods to handle</span>
+<span class="sd">    event-start and event-end logic, ensuring accurate observability data while ignoring</span>
+<span class="sd">    specific event types based on configuration.</span>
 
-<span class="sd">    :ivar in_flight_events: Dictionary for tracking ongoing events with event info.</span>
-<span class="sd">    :type in_flight_events: dict</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        in_flight_events (dict): Stores events that are currently in progress. Each event is</span>
+<span class="sd">            tracked by its ID and contains associated metadata.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_starts_to_ignore</span><span class="o">=</span><span class="p">[],</span> <span class="n">event_ends_to_ignore</span><span class="o">=</span><span class="p">[]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Represents an event tracker used to handle in-flight events and manage ignored</span>
-<span class="sd">        start and end events. This class is designed to store and track details</span>
-<span class="sd">        of ongoing events and contains the logic for keeping a record of events</span>
-<span class="sd">        specified under the categories of ignored starts or ends.</span>
+<span class="sd">        Initializes the object of the class with the given parameters, sets up the</span>
+<span class="sd">        container for in-flight events, and calls the parent class initializer.</span>
 
-<span class="sd">        This class initializes in-flight events and allows for the management</span>
-<span class="sd">        or extension of event tracking mechanisms.</span>
-
-<span class="sd">        :param event_starts_to_ignore: A list of event names or identifiers to be</span>
-<span class="sd">            ignored during the event start tracking. Defaults to an empty list.</span>
-<span class="sd">        :type event_starts_to_ignore: list</span>
-<span class="sd">        :param event_ends_to_ignore: A list of event names or identifiers to be</span>
-<span class="sd">            ignored during the event end tracking. Defaults to an empty list.</span>
-<span class="sd">        :type event_ends_to_ignore: list</span>
+<span class="sd">        Args:</span>
+<span class="sd">            event_starts_to_ignore (list, optional): A list of event start identifiers</span>
+<span class="sd">                that should be ignored. Defaults to an empty list.</span>
+<span class="sd">            event_ends_to_ignore (list, optional): A list of event end identifiers that</span>
+<span class="sd">                should be ignored. Defaults to an empty list.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">event_starts_to_ignore</span><span class="p">,</span> <span class="n">event_ends_to_ignore</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">in_flight_events</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_flight_events</span> <span class="o">=</span> <span class="p">{}</span> 
 
 <div class="viewcode-block" id="FMObservabilityHandler.on_event_start">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.on_event_start">[docs]</a>
@@ -1297,45 +1239,45 @@
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Handles the initiation of a start event by processing its associated payload</span>
-<span class="sd">        and capturing relevant details for in-flight tracking. It checks the event</span>
-<span class="sd">        type and payload, processes specific event data based on type, and stores the</span>
-<span class="sd">        event in a tracking dictionary.</span>
+<span class="sd">        Handles the start of an event by processing the given event type and payload and</span>
+<span class="sd">        storing event data if necessary. Returns the event identifier for the started</span>
+<span class="sd">        event.</span>
 
-<span class="sd">        :param event_type: The type of event being started.</span>
-<span class="sd">        :type event_type: CBEventType</span>
-<span class="sd">        :param payload: Optional dictionary containing additional details about the</span>
-<span class="sd">            event, may hold serialized data for specific event types.</span>
-<span class="sd">        :type payload: Optional[Dict[str, Any]]</span>
-<span class="sd">        :param event_id: A unique identifier for the event.</span>
-<span class="sd">        :type event_id: str</span>
-<span class="sd">        :param parent_id: An identifier indicating the parent event, if applicable.</span>
-<span class="sd">        :type parent_id: str</span>
-<span class="sd">        :param kwargs: Additional arbitrary keyword arguments for flexibility.</span>
-<span class="sd">        :type kwargs: Any</span>
-<span class="sd">        :return: The event ID of the initiated event.</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        Args:</span>
+<span class="sd">            event_type (CBEventType): The type of the event being started, used to</span>
+<span class="sd">                determine processing and logging behavior.</span>
+<span class="sd">            payload (Optional[Dict[str, Any]]): The optional payload containing event</span>
+<span class="sd">                data. Specific processing is done if the payload includes certain keys</span>
+<span class="sd">                like &#39;MESSAGES&#39; or a serialized model.</span>
+<span class="sd">            event_id (str): The unique identifier for the event being started.</span>
+<span class="sd">            parent_id (str): The unique identifier of the parent event, if any. This</span>
+<span class="sd">                allows for hierarchical event tracking.</span>
+<span class="sd">            **kwargs (Any): Additional optional key-value pairs that might be required</span>
+<span class="sd">                for specific event handling.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The event identifier for the started event.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">event_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_ends_to_ignore</span> <span class="ow">and</span> <span class="n">payload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">LLM</span> <span class="ow">and</span> <span class="n">EventPayload</span><span class="o">.</span><span class="n">MESSAGES</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
-                <span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">EMBEDDING</span>
-                <span class="ow">and</span> <span class="n">EventPayload</span><span class="o">.</span><span class="n">SERIALIZED</span> <span class="ow">in</span> <span class="n">payload</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">LLM</span> <span class="ow">and</span> <span class="n">EventPayload</span><span class="o">.</span><span class="n">MESSAGES</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">)</span> <span class="ow">or</span> 
+                <span class="p">(</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">EMBEDDING</span> <span class="ow">and</span> <span class="n">EventPayload</span><span class="o">.</span><span class="n">SERIALIZED</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">)</span>
             <span class="p">):</span>
                 <span class="n">serialized</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">EventPayload</span><span class="o">.</span><span class="n">SERIALIZED</span><span class="p">,</span> <span class="p">{})</span>
                 <span class="n">ms</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time_ns</span><span class="p">()</span> <span class="o">//</span> <span class="mi">1_000_000</span>
                 <span class="n">event_payload</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">serialized</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                        <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">serialized</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;model_name&#39;</span><span class="p">,</span> <span class="s1">&#39;unknown&#39;</span><span class="p">)</span>
-                    <span class="p">),</span>
-                    <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">ms</span><span class="p">,</span>
+                    <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">serialized</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">serialized</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;model_name&#39;</span><span class="p">,</span> <span class="s1">&#39;unknown&#39;</span><span class="p">)),</span>
+                    <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">ms</span>
                 <span class="p">}</span>
-
+                
                 <span class="bp">self</span><span class="o">.</span><span class="n">in_flight_events</span><span class="p">[</span><span class="n">event_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">CBEvent</span><span class="p">(</span>
-                    <span class="n">event_type</span><span class="o">=</span><span class="n">event_type</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">event_payload</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="n">event_id</span>
+                    <span class="n">event_type</span> <span class="o">=</span> <span class="n">event_type</span><span class="p">,</span> 
+                    <span class="n">payload</span> <span class="o">=</span> <span class="n">event_payload</span><span class="p">,</span> 
+                    <span class="n">id_</span> <span class="o">=</span> <span class="n">event_id</span>
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">event_id</span></div>
 
-
+    
 <div class="viewcode-block" id="FMObservabilityHandler.on_event_end">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.on_event_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_event_end</span><span class="p">(</span>
@@ -1346,32 +1288,30 @@
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Handles the termination of an event and updates its metrics such as duration.</span>
-<span class="sd">        The function processes the event by checking whether it should be ignored and</span>
-<span class="sd">        ensures the appropriate payload keys are present based on the event type. If</span>
-<span class="sd">        the event is valid, its duration is calculated in milliseconds and the event</span>
-<span class="sd">        is staged for further processing by adding it to the observability queue.</span>
+<span class="sd">        Handles the end of an event and manages its corresponding operations, such as</span>
+<span class="sd">        removing it from the in-flight events, calculating its duration, and enqueuing</span>
+<span class="sd">        the completed event for further processing. This is done only for specific event</span>
+<span class="sd">        types and under certain conditions.</span>
 
-<span class="sd">        :param event_type: The type of the event. Must be of type CBEventType.</span>
-<span class="sd">        :param payload: The dictionary containing additional data about the event.</span>
-<span class="sd">            It is optional and defaults to None.</span>
-<span class="sd">        :param event_id: A unique identifier for the event. Defaults to an empty</span>
-<span class="sd">            string if not provided.</span>
-<span class="sd">        :param kwargs: Additional optional keyword arguments.</span>
-<span class="sd">        :return: None</span>
+<span class="sd">        Args:</span>
+<span class="sd">            event_type: The type of the event being processed.</span>
+<span class="sd">            payload: The detailed payload of the event, typically containing its data.</span>
+<span class="sd">            event_id: A unique identifier for the event being processed.</span>
+<span class="sd">            **kwargs: Additional optional parameters that may be passed for event handling.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">event_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_ends_to_ignore</span> <span class="ow">and</span> <span class="n">payload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">LLM</span> <span class="ow">and</span> <span class="n">EventPayload</span><span class="o">.</span><span class="n">MESSAGES</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
-                <span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">EMBEDDING</span>
-                <span class="ow">and</span> <span class="n">EventPayload</span><span class="o">.</span><span class="n">EMBEDDINGS</span> <span class="ow">in</span> <span class="n">payload</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">LLM</span> <span class="ow">and</span> <span class="n">EventPayload</span><span class="o">.</span><span class="n">MESSAGES</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">)</span> <span class="ow">or</span> 
+                <span class="p">(</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">CBEventType</span><span class="o">.</span><span class="n">EMBEDDING</span> <span class="ow">and</span> <span class="n">EventPayload</span><span class="o">.</span><span class="n">EMBEDDINGS</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">)</span>
             <span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_flight_events</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">event_id</span><span class="p">)</span>
-
+                    
                     <span class="n">start_ms</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span>
                     <span class="n">end_ms</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time_ns</span><span class="p">()</span> <span class="o">//</span> <span class="mi">1_000_000</span>
                     <span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="s1">&#39;duration_millis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_ms</span> <span class="o">-</span> <span class="n">start_ms</span>
-
+                    
                     <span class="n">_fm_observability_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">pass</span></div>
@@ -1381,29 +1321,35 @@
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.reset_counts">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Resets the in-flight events dictionary to an empty state.</span>
+<span class="sd">        Resets the in-flight events counter.</span>
 
-<span class="sd">        This method clears the `in_flight_events` attribute, which keeps track of</span>
-<span class="sd">        the events currently being processed. It resets it back to an empty dictionary,</span>
-<span class="sd">        effectively clearing all tracked in-flight events.</span>
+<span class="sd">        This method clears the `in_flight_events` dictionary, effectively resetting</span>
+<span class="sd">        any tracked events or counts. It is used to reinitialize or clear current</span>
+<span class="sd">        state information for tracking events in progress.</span>
 
-<span class="sd">        :return: None. The method does not return any value.</span>
+<span class="sd">        Attributes:</span>
+<span class="sd">            in_flight_events (dict): A dictionary that holds the current in-flight</span>
+<span class="sd">                events being tracked.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">in_flight_events</span> <span class="o">=</span> <span class="p">{}</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_flight_events</span> <span class="o">=</span> <span class="p">{}</span> </div>
 
-
+        
 <div class="viewcode-block" id="FMObservabilityHandler.start_trace">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.fm_observability.FMObservabilityHandler.start_trace">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Starts a trace session, initializing it with the provided trace ID or generating</span>
-<span class="sd">        a new one if none is supplied. This is typically used to track operations or</span>
-<span class="sd">        activities across a distributed system or within an application for debugging</span>
-<span class="sd">        and monitoring purposes.</span>
+<span class="sd">        Starts a new trace with the given trace ID. If no trace ID is provided, a default or</span>
+<span class="sd">        system-generated trace identifier is used. This function facilitates the beginning</span>
+<span class="sd">        of tracking specific operations or sequences for logging and troubleshooting</span>
+<span class="sd">        purposes.</span>
 
-<span class="sd">        :param trace_id: Optional; The trace ID to be used for this trace session. If</span>
-<span class="sd">            omitted, the system will generate a new trace ID.</span>
-<span class="sd">        :return: None</span>
+<span class="sd">        Args:</span>
+<span class="sd">            trace_id (Optional[str]): The unique identifier for the trace. If None, a default</span>
+<span class="sd">                or system-generated trace identifier will be applied.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -1416,20 +1362,23 @@
         <span class="n">trace_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Ends the trace with the provided `trace_id` and cleans up the related</span>
-<span class="sd">        mapping from `trace_map`, if applicable. Used to signify the completion</span>
-<span class="sd">        of a trace session and optionally to maintain the integrity of a</span>
-<span class="sd">        trace-tracking system.</span>
+<span class="sd">        Ends an ongoing trace based on the provided trace identifier and updates the</span>
+<span class="sd">        trace map accordingly.</span>
 
-<span class="sd">        :param trace_id: An optional identifier for the trace to be ended. If not provided,</span>
-<span class="sd">            it assumes no specific trace ID is targeted.</span>
-<span class="sd">        :param trace_map: An optional dictionary of trace mappings where the trace ID</span>
-<span class="sd">            could be associated with one or multiple session identifiers. This structure</span>
-<span class="sd">            helps maintain a reference and cleanup of related associations.</span>
-<span class="sd">        :return: Nothing</span>
+<span class="sd">        This function allows marking the completion of a trace identified by `trace_id`.</span>
+<span class="sd">        It optionally accepts a trace mapping structure (`trace_map`) for updating its</span>
+<span class="sd">        state after ending the trace. If `trace_map` is provided, this function modifies</span>
+<span class="sd">        it to reflect the end of the specified trace.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            trace_id: The unique identifier of the trace to be ended. If not provided,</span>
+<span class="sd">                no specific trace is targeted.</span>
+<span class="sd">            trace_map: A dictionary mapping trace identifiers to lists of related trace</span>
+<span class="sd">                details. If specified, this will be updated to reflect the ended trace.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 </div>
+
 
 </pre></div>
         </article>

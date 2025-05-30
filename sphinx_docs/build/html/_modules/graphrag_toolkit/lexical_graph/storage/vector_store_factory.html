@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -336,46 +339,23 @@
 <span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">VectorStore</span><span class="p">,</span>
-    <span class="n">VectorIndexFactoryMethod</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_index_factory</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">OpenSearchVectorIndexFactory</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">NeptuneAnalyticsVectorIndexFactory</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.pg_vector_index_factory</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">PGVectorIndexFactory</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DummyVectorIndexFactory</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span><span class="p">,</span> <span class="n">VectorIndexFactoryMethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_index_factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenSearchVectorIndexFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.neptune_vector_indexes</span><span class="w"> </span><span class="kn">import</span> <span class="n">NeptuneAnalyticsVectorIndexFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.pg_vector_index_factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">PGVectorIndexFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector.dummy_vector_index</span><span class="w"> </span><span class="kn">import</span> <span class="n">DummyVectorIndexFactory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_EMBEDDING_INDEXES</span>
 
 
 <span class="n">VectorStoreType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">VectorStore</span><span class="p">]</span>
-<span class="n">VectorIndexFactoryMethodType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">VectorIndexFactoryMethod</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">VectorIndexFactoryMethod</span><span class="p">]</span>
-<span class="p">]</span>
+<span class="n">VectorIndexFactoryMethodType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">VectorIndexFactoryMethod</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">VectorIndexFactoryMethod</span><span class="p">]]</span>
 
-<span class="n">_vector_index_factories</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">VectorIndexFactoryMethod</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">c</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span> <span class="n">c</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span>
-        <span class="n">OpenSearchVectorIndexFactory</span><span class="p">,</span>
-        <span class="n">PGVectorIndexFactory</span><span class="p">,</span>
-        <span class="n">NeptuneAnalyticsVectorIndexFactory</span><span class="p">,</span>
-        <span class="n">DummyVectorIndexFactory</span><span class="p">,</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-
+<span class="n">_vector_index_factories</span><span class="p">:</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">VectorIndexFactoryMethod</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">c</span><span class="o">.</span><span class="vm">__name__</span> <span class="p">:</span> <span class="n">c</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="n">OpenSearchVectorIndexFactory</span><span class="p">,</span> <span class="n">PGVectorIndexFactory</span><span class="p">,</span> <span class="n">NeptuneAnalyticsVectorIndexFactory</span><span class="p">,</span> <span class="n">DummyVectorIndexFactory</span><span class="p">]</span> <span class="p">}</span>
 
 <div class="viewcode-block" id="VectorStoreFactory">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.storage.html#graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">VectorStoreFactory</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages the registration and creation of vector index factories and</span>
-<span class="sd">    vector stores.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">VectorStoreFactory</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages the registration and creation of vector index factories and vector stores.</span>
 
 <span class="sd">    This class provides mechanisms for registering vector index factory methods, creating</span>
 <span class="sd">    vector stores either directly or by using registered factories, and handling composite</span>
@@ -385,15 +365,14 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="VectorStoreFactory.register">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.storage.html#graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory.register">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="n">factory_type</span><span class="p">:</span> <span class="n">VectorIndexFactoryMethodType</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Registers a factory method for vector index creation. This method</span>
-<span class="sd">        allows the addition of custom factory methods to the global registry,</span>
-<span class="sd">        enabling dynamic instantiation of vector index objects based on the</span>
-<span class="sd">        factory type.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="n">factory_type</span><span class="p">:</span><span class="n">VectorIndexFactoryMethodType</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers a factory method for vector index creation. This method allows</span>
+<span class="sd">        the addition of custom factory methods to the global registry, enabling</span>
+<span class="sd">        dynamic instantiation of vector index objects based on the factory type.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            factory_type: A factory method class or instance to register.</span>
@@ -407,67 +386,60 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factory_type</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">factory_type</span><span class="p">,</span> <span class="n">VectorIndexFactoryMethod</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;Invalid factory_type argument: </span><span class="si">{</span><span class="n">factory_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> must inherit from VectorIndexFactoryMethod.&#39;</span>
-                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid factory_type argument: </span><span class="si">{</span><span class="n">factory_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> must inherit from VectorIndexFactoryMethod.&#39;</span><span class="p">)</span>
             <span class="n">_vector_index_factories</span><span class="p">[</span><span class="n">factory_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">factory_type</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">factory_type_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">factory_type</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factory_type</span><span class="p">,</span> <span class="n">VectorIndexFactoryMethod</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;Invalid factory_type argument: </span><span class="si">{</span><span class="n">factory_type_name</span><span class="si">}</span><span class="s1"> must inherit from VectorIndexFactoryMethod.&#39;</span>
-                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid factory_type argument: </span><span class="si">{</span><span class="n">factory_type_name</span><span class="si">}</span><span class="s1"> must inherit from VectorIndexFactoryMethod.&#39;</span><span class="p">)</span>
             <span class="n">_vector_index_factories</span><span class="p">[</span><span class="n">factory_type_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">factory_type</span></div>
 
 
 <div class="viewcode-block" id="VectorStoreFactory.for_vector_store">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.storage.html#graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory.for_vector_store">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">for_vector_store</span><span class="p">(</span>
-        <span class="n">vector_store_info</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">index_names</span><span class="o">=</span><span class="n">DEFAULT_EMBEDDING_INDEXES</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">for_vector_store</span><span class="p">(</span><span class="n">vector_store_info</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_names</span><span class="o">=</span><span class="n">DEFAULT_EMBEDDING_INDEXES</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a vector store instance using vector store information and index names. If the</span>
-<span class="sd">        provided `vector_store_info` is already an instance of `VectorStore`, it is returned</span>
-<span class="sd">        directly. Otherwise, it attempts to create vector indexes using registered factory</span>
-<span class="sd">        methods.</span>
+<span class="sd">        Creates a vector store instance or retrieves an existing one based on the provided</span>
+<span class="sd">        vector store information and index names. This method utilizes specified factories to</span>
+<span class="sd">        attempt creating vector indexes, and finally constructs a `VectorStore` object if successful.</span>
 
-<span class="sd">        .. note::</span>
-<span class="sd">            This function raises a `ValueError` if the vector store information is unrecognized</span>
-<span class="sd">            or misformatted.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            vector_store_info (str | VectorStore, optional): The vector store connection information or an</span>
+<span class="sd">                existing `VectorStore` instance. If a string, it is used to identify or connect to a</span>
+<span class="sd">                specific vector store.</span>
+<span class="sd">            index_names (list[str] | str, optional): The name(s) of indexes to create or retrieve. Defaults</span>
+<span class="sd">                to `DEFAULT_EMBEDDING_INDEXES` if not supplied. This should either be a single string or</span>
+<span class="sd">                a list of strings.</span>
+<span class="sd">            **kwargs: Additional keyword arguments passed to the factory methods while creating</span>
+<span class="sd">                the vector indexes.</span>
 
-<span class="sd">        :param vector_store_info: Optional; Information about the vector store. If it is already</span>
-<span class="sd">            an instance of `VectorStore`, it will be returned as-is.</span>
-<span class="sd">        :type vector_store_info: str or VectorStore</span>
-<span class="sd">        :param index_names: A list or a single name (default: DEFAULT_EMBEDDING_INDEXES)</span>
-<span class="sd">            identifying the vector indexes to use.</span>
-<span class="sd">        :type index_names: list or str</span>
-<span class="sd">        :param kwargs: Additional parameters passed to the vector index factory method.</span>
-<span class="sd">        :return: A `VectorStore` instance containing the created or resolved vector indexes.</span>
-<span class="sd">        :returntype: VectorStore</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            VectorStore: A `VectorStore` instance containing the specified indexes or the supplied</span>
+<span class="sd">            `VectorStore` if valid.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the provided `vector_store_info` is not recognized or improperly formatted, or if</span>
+<span class="sd">            no suitable vector index factory successfully creates the necessary vector indexes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">vector_store_info</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vector_store_info</span><span class="p">,</span> <span class="n">VectorStore</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">vector_store_info</span>
         <span class="n">index_names</span> <span class="o">=</span> <span class="n">index_names</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index_names</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">index_names</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="n">_vector_index_factories</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="n">vector_indexes</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">try_create</span><span class="p">(</span>
-                <span class="n">index_names</span><span class="p">,</span> <span class="n">vector_store_info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-            <span class="p">)</span>
+            <span class="n">vector_indexes</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">try_create</span><span class="p">(</span><span class="n">index_names</span><span class="p">,</span> <span class="n">vector_store_info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">vector_indexes</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">VectorStore</span><span class="p">(</span><span class="n">indexes</span><span class="o">=</span><span class="p">{</span><span class="n">i</span><span class="o">.</span><span class="n">index_name</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">vector_indexes</span><span class="p">})</span>
+            
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unrecognized vector store info: </span><span class="si">{</span><span class="n">vector_store_info</span><span class="si">}</span><span class="s1">. Check that the vector store connection info is formatted correctly, and that an appropriate vector index factory method is registered with VectorStoreFactory.&#39;</span><span class="p">)</span></div>
 
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;Unrecognized vector store info: </span><span class="si">{</span><span class="n">vector_store_info</span><span class="si">}</span><span class="s1">. Check that the vector store connection info is formatted correctly, and that an appropriate vector index factory method is registered with VectorStoreFactory.&#39;</span>
-        <span class="p">)</span></div>
-
-
+    
 <div class="viewcode-block" id="VectorStoreFactory.for_composite">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.storage.html#graphrag_toolkit.lexical_graph.storage.vector_store_factory.VectorStoreFactory.for_composite">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">for_composite</span><span class="p">(</span><span class="n">vector_store_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VectorStore</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Combines multiple VectorStore instances into a single instance by</span>
-<span class="sd">        merging their indexes.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">for_composite</span><span class="p">(</span><span class="n">vector_store_list</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">VectorStore</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Combines multiple VectorStore instances into a single instance by merging their indexes.</span>
 
 <span class="sd">        This static method takes a list of VectorStore instances and aggregates their indexes into a</span>
 <span class="sd">        composite VectorStore. Each key-value pair in the indexes of the input VectorStores will be</span>
@@ -486,7 +458,7 @@
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vector_store_list</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">indexes</span><span class="p">:</span>
                 <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-
+                      
         <span class="k">return</span> <span class="n">VectorStore</span><span class="p">(</span><span class="n">indexes</span><span class="o">=</span><span class="n">indexes</span><span class="p">)</span></div>
 </div>
 

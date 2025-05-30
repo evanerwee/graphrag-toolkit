@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -341,24 +344,18 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">get_top_k</span><span class="p">,</span>
-    <span class="n">SharedEmbeddingCache</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">SemanticGuidedBaseRetriever</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_top_k</span><span class="p">,</span> <span class="n">SharedEmbeddingCache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.retrieval.retrievers.semantic_guided_base_retriever</span><span class="w"> </span><span class="kn">import</span> <span class="n">SemanticGuidedBaseRetriever</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">NodeWithScore</span><span class="p">,</span> <span class="n">QueryBundle</span><span class="p">,</span> <span class="n">TextNode</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="StatementCosineSimilaritySearch">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html#graphrag_toolkit.lexical_graph.retrieval.retrievers.statement_cosine_seach.StatementCosineSimilaritySearch">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">StatementCosineSimilaritySearch</span><span class="p">(</span><span class="n">SemanticGuidedBaseRetriever</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implements a semantic-guided retriever using cosine similarity for</span>
-<span class="sd">    statement search.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a semantic-guided retriever using cosine similarity for statement search.</span>
 
 <span class="sd">    This class performs semantic-guided retrieval of statements utilizing cosine similarity as the</span>
 <span class="sd">    metric for ranking. It integrates with vector and graph stores for candidate selection, employs</span>
@@ -370,20 +367,20 @@
 <span class="sd">        embedding_cache (Optional[SharedEmbeddingCache]): Shared cache for efficiently retrieving</span>
 <span class="sd">            statement embeddings.</span>
 <span class="sd">        top_k (int): Number of top statements to retrieve based on cosine similarity.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">,</span>
-        <span class="n">graph_store</span><span class="p">:</span> <span class="n">GraphStore</span><span class="p">,</span>
-        <span class="n">embedding_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SharedEmbeddingCache</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="n">filter_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">,</span>
+        <span class="n">graph_store</span><span class="p">:</span><span class="n">GraphStore</span><span class="p">,</span>
+        <span class="n">embedding_cache</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">SharedEmbeddingCache</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">top_k</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">filter_config</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="n">FilterConfig</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes a class instance with the given parameters and sets up</span>
-<span class="sd">        the required stores, configurations, and cache for processing tasks.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a class instance with the given parameters and sets up the required</span>
+<span class="sd">        stores, configurations, and cache for processing tasks.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            vector_store: VectorStore instance responsible for handling vector-related</span>
@@ -396,7 +393,7 @@
 <span class="sd">                specific computations or querying.</span>
 <span class="sd">            filter_config: Optional FilterConfig instance to define the filtering</span>
 <span class="sd">                criteria or configuration for data processing.</span>
-<span class="sd">            kwargs: Additional keyword arguments for further custom configuration</span>
+<span class="sd">            **kwargs: Additional keyword arguments for further custom configuration</span>
 <span class="sd">                or initialization.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">vector_store</span><span class="p">,</span> <span class="n">graph_store</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -414,27 +411,32 @@
 <span class="sd">            query_bundle (QueryBundle): Input query bundle containing the query and its embedding.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            List[NodeWithScore]: List of nodes paired with their respective similarity scores. The nodes are initialized with minimal data, primarily serving metadata about the retrieval process.</span>
+<span class="sd">            List[NodeWithScore]: List of nodes paired with their respective similarity scores. The nodes</span>
+<span class="sd">            are initialized with minimal data, primarily serving metadata about the retrieval process.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># 1. Get initial candidates from vector store via L2 Norm</span>
         <span class="n">statement_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span><span class="o">.</span><span class="n">get_index</span><span class="p">(</span><span class="s1">&#39;statement&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">top_k</span><span class="p">(</span>
-            <span class="n">query_bundle</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span>
+            <span class="n">query_bundle</span><span class="p">,</span> 
+            <span class="n">top_k</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+            <span class="n">filter_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_config</span>
         <span class="p">)</span>
-
+        
         <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;statement_results: </span><span class="si">{</span><span class="n">statement_results</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num statement_results: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">statement_results</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
+        
         <span class="c1"># 2. Get statement IDs and embeddings using shared cache</span>
         <span class="n">statement_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">statement_results</span><span class="p">]</span>
         <span class="n">statement_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_cache</span><span class="o">.</span><span class="n">get_embeddings</span><span class="p">(</span><span class="n">statement_ids</span><span class="p">)</span>
 
         <span class="c1"># 3. Get top-k statements by cosine similarity</span>
         <span class="n">top_k_statements</span> <span class="o">=</span> <span class="n">get_top_k</span><span class="p">(</span>
-            <span class="n">query_bundle</span><span class="o">.</span><span class="n">embedding</span><span class="p">,</span> <span class="n">statement_embeddings</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span>
+            <span class="n">query_bundle</span><span class="o">.</span><span class="n">embedding</span><span class="p">,</span>
+            <span class="n">statement_embeddings</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span>
         <span class="p">)</span>
-
+        
         <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;top_k_statements: </span><span class="si">{</span><span class="n">top_k_statements</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -447,12 +449,12 @@
                 <span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># Placeholder - will be populated by StatementGraphRetriever</span>
                 <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
                     <span class="s1">&#39;statement&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;statementId&#39;</span><span class="p">:</span> <span class="n">statement_id</span><span class="p">},</span>
-                    <span class="s1">&#39;search_type&#39;</span><span class="p">:</span> <span class="s1">&#39;cosine_similarity&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
+                    <span class="s1">&#39;search_type&#39;</span><span class="p">:</span> <span class="s1">&#39;cosine_similarity&#39;</span>
+                <span class="p">}</span>
             <span class="p">)</span>
             <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NodeWithScore</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">score</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_results</span><span class="p">:</span> 
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;nodes: </span><span class="si">{</span><span class="n">nodes</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num nodes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>

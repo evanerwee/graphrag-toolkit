@@ -108,14 +108,6 @@ graphrag\_toolkit.lexical\_graph.indexing.build.graph\_summary\_builder module
    :show-inheritance:
    :undoc-members:
 
-graphrag\_toolkit.lexical\_graph.indexing.build.metadata\_to\_nodes module
---------------------------------------------------------------------------
-
-.. automodule:: graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 graphrag\_toolkit.lexical\_graph.indexing.build.node\_builder module
 --------------------------------------------------------------------
 

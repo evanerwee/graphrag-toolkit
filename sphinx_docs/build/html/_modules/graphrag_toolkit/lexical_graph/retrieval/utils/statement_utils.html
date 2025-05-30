@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -339,24 +342,19 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tenacity</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">retry</span><span class="p">,</span>
-    <span class="n">stop_after_attempt</span><span class="p">,</span>
-    <span class="n">wait_exponential</span><span class="p">,</span>
-    <span class="n">retry_if_exception_type</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tenacity</span><span class="w"> </span><span class="kn">import</span> <span class="n">retry</span><span class="p">,</span> <span class="n">stop_after_attempt</span><span class="p">,</span> <span class="n">wait_exponential</span><span class="p">,</span> <span class="n">retry_if_exception_type</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph.graph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">node_result</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="cosine_similarity">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.cosine_similarity">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cosine_similarity</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="n">statement_embeddings</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the cosine similarity between a query embedding and a set of</span>
-<span class="sd">    statement embeddings.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the cosine similarity between a query embedding and a set of statement</span>
+<span class="sd">    embeddings.</span>
 
 <span class="sd">    This function calculates the cosine similarity between a provided query</span>
 <span class="sd">    embedding and a list of statement embeddings. The function returns a tuple</span>
@@ -392,45 +390,42 @@
     <span class="n">statement_embeddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">statement_embeddings</span><span class="p">)</span>
 
     <span class="n">dot_product</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">statement_embeddings</span><span class="p">,</span> <span class="n">query_embedding</span><span class="p">)</span>
-    <span class="n">norms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">statement_embeddings</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
-        <span class="n">query_embedding</span>
-    <span class="p">)</span>
-
+    <span class="n">norms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">statement_embeddings</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">)</span>
+    
     <span class="n">similarities</span> <span class="o">=</span> <span class="n">dot_product</span> <span class="o">/</span> <span class="n">norms</span>
     <span class="k">return</span> <span class="n">similarities</span><span class="p">,</span> <span class="n">statement_ids</span></div>
-
 
 
 <div class="viewcode-block" id="get_top_k">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_k">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_top_k</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="n">statement_embeddings</span><span class="p">,</span> <span class="n">top_k</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Fetches the top K most similar statement embeddings based on the</span>
-<span class="sd">    cosine similarity between a query embedding and a list of statement</span>
-<span class="sd">    embeddings. This function computes the similarity of the query embedding</span>
-<span class="sd">    to each statement embedding and returns the top K highest scoring</span>
-<span class="sd">    similarities and their respective statement IDs.</span>
+<span class="sd">    Fetches the top_k most similar statements to the given query embedding based on</span>
+<span class="sd">    cosine similarity.</span>
 
-<span class="sd">    :param query_embedding: A 1-dimensional array-like object representing</span>
-<span class="sd">        the embedding vector of the query.</span>
-<span class="sd">    :param statement_embeddings: A 2-dimensional array-like object where each</span>
-<span class="sd">        row represents the embedding vector of a statement.</span>
-<span class="sd">    :param top_k: An integer representing the number of top similarities to return.</span>
-<span class="sd">    :return: A list of tuples where each tuple contains:</span>
-<span class="sd">        - A float indicating the similarity score.</span>
-<span class="sd">        - The ID of the statement corresponding to the similarity score.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        query_embedding: A vector that represents the query to compare against</span>
+<span class="sd">            statement embeddings.</span>
+<span class="sd">        statement_embeddings: A list of vectors where each vector represents a</span>
+<span class="sd">            statement for similarity comparison. If an empty list is provided,</span>
+<span class="sd">            the function returns an empty result.</span>
+<span class="sd">        top_k: The number of top statements to retrieve based on cosine similarity.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of tuples where each tuple contains the similarity score and the</span>
+<span class="sd">        corresponding statement ID. The list is sorted in descending order of</span>
+<span class="sd">        similarity scores. An empty list is returned if no similarities are</span>
+<span class="sd">        calculated or if statement_embeddings is empty.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;statement_embeddings: </span><span class="si">{</span><span class="n">statement_embeddings</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">statement_embeddings</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-
-    <span class="n">similarities</span><span class="p">,</span> <span class="n">statement_ids</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span>
-        <span class="n">query_embedding</span><span class="p">,</span> <span class="n">statement_embeddings</span>
-    <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[]</span>  
+    
+    <span class="n">similarities</span><span class="p">,</span> <span class="n">statement_ids</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="n">statement_embeddings</span><span class="p">)</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;similarities: </span><span class="si">{</span><span class="n">similarities</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
+    
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">similarities</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
@@ -442,13 +437,12 @@
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">top_similarities</span><span class="p">,</span> <span class="n">top_statement_ids</span><span class="p">))</span></div>
 
 
-
 <div class="viewcode-block" id="get_statements_query">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_statements_query">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_statements_query</span><span class="p">(</span><span class="n">graph_store</span><span class="p">,</span> <span class="n">statement_ids</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates and executes a Cypher query to fetch detailed information</span>
-<span class="sd">    about statements and their associated chunks and sources from the graph</span>
-<span class="sd">    database.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates and executes a Cypher query to fetch detailed information about</span>
+<span class="sd">    statements and their associated chunks and sources from the graph database.</span>
 
 <span class="sd">    The function retrieves data such as statement IDs, chunk details, and source</span>
 <span class="sd">    metadata for a list of given statement IDs. It ensures that the results are</span>
@@ -479,19 +473,19 @@
     <span class="n">statements</span> <span class="o">=</span> <span class="n">graph_store</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span><span class="n">cypher</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
     <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">statement_id</span> <span class="ow">in</span> <span class="n">statement_ids</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">statement</span> <span class="ow">in</span> <span class="n">statements</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">statement</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">][</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">statement_id</span><span class="p">:</span>
-                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">statement</span> <span class="ow">in</span> <span class="n">statements</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">statement</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">][</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">statement_id</span><span class="p">:</span>
+                        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">results</span></div>
-
 
 
 <div class="viewcode-block" id="get_free_memory">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_free_memory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_free_memory</span><span class="p">(</span><span class="n">gpu_index</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieves the amount of free memory on a specific GPU device in</span>
-<span class="sd">    megabytes (MB). This function uses the NVIDIA Management Library (NVML) to</span>
-<span class="sd">    query the memory information of the GPU specified by its index.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieves the amount of free memory on a specific GPU device in megabytes (MB).</span>
+<span class="sd">    This function uses the NVIDIA Management Library (NVML) to query the memory</span>
+<span class="sd">    information of the GPU specified by its index.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        gpu_index (int): The index of the GPU device for which the free memory</span>
@@ -506,23 +500,21 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">pynvml</span>
-
         <span class="n">pynvml</span><span class="o">.</span><span class="n">nvmlInit</span><span class="p">()</span>
         <span class="n">handle</span> <span class="o">=</span> <span class="n">pynvml</span><span class="o">.</span><span class="n">nvmlDeviceGetHandleByIndex</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">gpu_index</span><span class="p">))</span>
         <span class="n">mem_info</span> <span class="o">=</span> <span class="n">pynvml</span><span class="o">.</span><span class="n">nvmlDeviceGetMemoryInfo</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">mem_info</span><span class="o">.</span><span class="n">free</span> <span class="o">//</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span>
+        <span class="k">return</span> <span class="n">mem_info</span><span class="o">.</span><span class="n">free</span> <span class="o">//</span> <span class="mi">1024</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-            <span class="s2">&quot;pynvml package not found, install with &#39;pip install pynvml&#39;&quot;</span>
-        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
-
+                <span class="s2">&quot;pynvml package not found, install with &#39;pip install pynvml&#39;&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <div class="viewcode-block" id="get_top_free_gpus">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_free_gpus">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_top_free_gpus</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets indices of the top `n` GPUs based on free memory in descending</span>
-<span class="sd">    order.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets indices of the top `n` GPUs based on free memory in descending order.</span>
 
 <span class="sd">    This function utilizes the PyTorch library to check the amount of free memory</span>
 <span class="sd">    available on each GPU. It returns the indices of the GPUs with the highest</span>
@@ -542,27 +534,24 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-
         <span class="n">free_memory</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()):</span>
             <span class="n">free_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_free_memory</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-        <span class="n">top_indices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
-            <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">free_memory</span><span class="p">)),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">free_memory</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)[:</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">top_indices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">free_memory</span><span class="p">)),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">free_memory</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">n</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">top_indices</span>
     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-            <span class="s2">&quot;torch package not found, install with &#39;pip install torch&#39;&quot;</span>
-        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
-
+                <span class="s2">&quot;torch package not found, install with &#39;pip install torch&#39;&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <div class="viewcode-block" id="SharedEmbeddingCache">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SharedEmbeddingCache</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;SharedEmbeddingCache manages a cache for embeddings, which are fetched</span>
-<span class="sd">    from a vector store with retry logic. It ensures efficient retrieval of</span>
-<span class="sd">    embeddings, minimizing repeated calls to the external data source.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SharedEmbeddingCache manages a cache for embeddings, which are fetched from a</span>
+<span class="sd">    vector store with retry logic. It ensures efficient retrieval of embeddings,</span>
+<span class="sd">    minimizing repeated calls to the external data source.</span>
 
 <span class="sd">    This class is designed to store and manage embeddings in a thread-safe manner.</span>
 <span class="sd">    It keeps track of requested embeddings in cache, and when requested embeddings</span>
@@ -577,20 +566,15 @@
 <span class="sd">        _lock (threading.Lock): A lock to ensure thread-safe access to the cache or</span>
 <span class="sd">            updates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector_store</span><span class="p">:</span> <span class="n">VectorStore</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector_store</span><span class="p">:</span><span class="n">VectorStore</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span> <span class="o">=</span> <span class="n">vector_store</span>
 
-    <span class="nd">@retry</span><span class="p">(</span>
-        <span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
-        <span class="n">wait</span><span class="o">=</span><span class="n">wait_exponential</span><span class="p">(</span><span class="n">multiplier</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
-        <span class="n">retry</span><span class="o">=</span><span class="n">retry_if_exception_type</span><span class="p">(</span><span class="ne">Exception</span><span class="p">),</span>
-    <span class="p">)</span>
+    <span class="nd">@retry</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">wait</span><span class="o">=</span><span class="n">wait_exponential</span><span class="p">(</span><span class="n">multiplier</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span><span class="n">retry</span><span class="o">=</span><span class="n">retry_if_exception_type</span><span class="p">(</span><span class="ne">Exception</span><span class="p">))</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetches embeddings for the specified statement IDs from the vector</span>
-<span class="sd">        store.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches embeddings for the specified statement IDs from the vector store.</span>
 
 <span class="sd">        Utilizes an exponential backoff retry mechanism to handle transient errors.</span>
 <span class="sd">        This method interacts with a vector store backend to retrieve embeddings</span>
@@ -606,21 +590,20 @@
 <span class="sd">            Dict[str, np.ndarray]: A dictionary where keys are statement IDs and</span>
 <span class="sd">                values are NumPy arrays of the corresponding embeddings.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span><span class="o">.</span><span class="n">get_index</span><span class="p">(</span><span class="s1">&#39;statement&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_embeddings</span><span class="p">(</span>
-            <span class="n">statement_ids</span>
-        <span class="p">)</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span><span class="o">.</span><span class="n">get_index</span><span class="p">(</span><span class="s1">&#39;statement&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_embeddings</span><span class="p">(</span><span class="n">statement_ids</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="n">e</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;embedding&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">embeddings</span>
+            <span class="n">e</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">][</span><span class="s1">&#39;statementId&#39;</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;embedding&#39;</span><span class="p">])</span> 
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">embeddings</span>
         <span class="p">}</span>
 
 <div class="viewcode-block" id="SharedEmbeddingCache.get_embeddings">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache.get_embeddings">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the embeddings for the provided statement identifiers. The</span>
-<span class="sd">        method first attempts to fetch embeddings from the internal cache. If</span>
-<span class="sd">        any requested embeddings are not found in the cache, it tries to fetch</span>
-<span class="sd">        them using an external method, updates the cache, and returns all the</span>
-<span class="sd">        collected embeddings. If fetching new embeddings fails, the method</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the embeddings for the provided statement identifiers. The method first attempts</span>
+<span class="sd">        to fetch embeddings from the internal cache. If any requested embeddings are not found in</span>
+<span class="sd">        the cache, it tries to fetch them using an external method, updates the cache, and</span>
+<span class="sd">        returns all the collected embeddings. If fetching new embeddings fails, the method</span>
 <span class="sd">        returns only the embeddings retrieved from the cache.</span>
 
 <span class="sd">        Args:</span>
@@ -654,9 +637,7 @@
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to fetch embeddings after retries: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="c1"># Return what we have from cache</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Returning </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cached_embeddings</span><span class="p">)</span><span class="si">}</span><span class="s2"> cached embeddings out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">statement_ids</span><span class="p">)</span><span class="si">}</span><span class="s2"> requested&quot;</span>
-                <span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Returning </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cached_embeddings</span><span class="p">)</span><span class="si">}</span><span class="s2"> cached embeddings out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">statement_ids</span><span class="p">)</span><span class="si">}</span><span class="s2"> requested&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cached_embeddings</span></div>
 </div>

@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -490,15 +493,6 @@
 <li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_summary_builder.GraphSummaryBuilder.build"><code class="docutils literal notranslate"><span class="pre">GraphSummaryBuilder.build()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_summary_builder.GraphSummaryBuilder.index_key"><code class="docutils literal notranslate"><span class="pre">GraphSummaryBuilder.index_key()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.graph_summary_builder.GraphSummaryBuilder.model_config"><code class="docutils literal notranslate"><span class="pre">GraphSummaryBuilder.model_config</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#module-graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes">graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes"><code class="docutils literal notranslate"><span class="pre">MetadataToNodes</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes.class_name"><code class="docutils literal notranslate"><span class="pre">MetadataToNodes.class_name()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes.default_builders"><code class="docutils literal notranslate"><span class="pre">MetadataToNodes.default_builders()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.build.html#graphrag_toolkit.lexical_graph.indexing.build.metadata_to_nodes.MetadataToNodes.get_nodes_from_metadata"><code class="docutils literal notranslate"><span class="pre">MetadataToNodes.get_nodes_from_metadata()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -974,44 +968,34 @@
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.id_generator.</span></span><span class="sig-name descname"><span class="pre">IdGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.tenant_id.TenantId" title="graphrag_toolkit.lexical_graph.tenant_id.TenantId"><span class="pre">TenantId</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/id_generator.html#IdGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>This class provides functionality to generate various unique identifiers,
-tailored for tenant-specific operations. It centralizes the creation of hash-based
-identifiers, node identifiers, and tenant-specific rewrites of IDs.</p>
-<p>The class incorporates methods for creating source and chunk identifiers using
-text and metadata inputs, as well as methods for tenant-specific operations
-like rewriting IDs or generating node identifiers. It heavily relies on hashing
-mechanisms to ensure uniqueness and compactness of the generated identifiers.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>tenant_id</strong> – Represents the unique tenant identifier associated with
-the object. It determines tenant-specific ID formatting and rewriting.</p>
+<p>A class responsible for generating unique and tenant-specific identifiers.</p>
+<p>The <cite>IdGenerator</cite> class is designed to create various types of identifiers,
+such as source IDs, chunk IDs, node IDs, and tenant-specific rewritten IDs.
+It uses hashing techniques for creating compact and unique representations
+of input values. The class also integrates with a tenant system to ensure
+that identifiers are applied in the context of a particular tenant.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>tenant_id (TenantId): The tenant context that is used for generating</dt><dd><p>tenant-specific IDs and rewriting ID values.</p>
 </dd>
 </dl>
-<p>Initializes a new instance of the class with a given tenant ID.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>tenant_id</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.tenant_id.TenantId" title="graphrag_toolkit.lexical_graph.tenant_id.TenantId"><em>TenantId</em></a>) – Identifies the tenant. Defaults to a new instance
-of the TenantId class if not provided.</p>
 </dd>
 </dl>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator.create_chunk_id">
 <span class="sig-name descname"><span class="pre">create_chunk_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/id_generator.html#IdGenerator.create_chunk_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator.create_chunk_id" title="Link to this definition">¶</a></dt>
-<dd><p>Generate a unique chunk identifier based on the provided source identifier, text, and metadata string.</p>
-<p>This method generates a unique identifier for a chunk by combining the given
-source ID, the concatenated content of <cite>text</cite> and <cite>metadata_str</cite>, and hashing
-their combination. The resulting identifier ensures uniqueness while preserving
-a consistent format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source_id</strong> – A string representing the identifier of the source.</p></li>
-<li><p><strong>text</strong> – The chunk’s text content, used as part of the identifier.</p></li>
-<li><p><strong>metadata_str</strong> – Metadata related to the chunk, included in the hash.</p></li>
-</ul>
+<dd><p>Generates a unique chunk identifier by combining a source ID, a hash of the given text,
+and associated metadata.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>source_id (str): The identifier of the source content.
+text (str): The primary content or text that needs to be identified.
+metadata_str (str): The metadata string used for constructing the identifier.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A string representing the unique chunk identifier.</p>
+<dt>Returns:</dt><dd><p>str: A uniquely generated chunk identifier based on the given inputs.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1019,21 +1003,20 @@ a consistent format.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator.create_node_id">
 <span class="sig-name descname"><span class="pre">create_node_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/id_generator.html#IdGenerator.create_node_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator.create_node_id" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a unique identifier for a node based on its type and associated values.
-The method creates a formatted string that combines the provided <cite>node_type</cite>,
-<cite>v1</cite>, and optionally <cite>v2</cite>, lowercase and spaces replaced by underscores.
-It then computes a hash of the formatted string using tenant-specific hashing logic.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>node_type</strong> – Represents the type of the node, case insensitive.</p></li>
-<li><p><strong>v1</strong> – Primary identifier or component for the node.</p></li>
-<li><p><strong>v2</strong> – Optional secondary identifier or component for the node, which adds
-specificity to the generated node ID if provided.</p></li>
-</ul>
+<dd><p>Creates a unique identifier for a specific node based on the provided parameters.</p>
+<p>The function generates a hashable string using the <cite>node_type</cite>, <cite>v1</cite>, and
+optionally <cite>v2</cite> parameters. The parameters are formatted to lower case and
+spaces are replaced with underscores for consistency. If <cite>v2</cite> is provided,
+it is included in the resulting identifier; otherwise, it is excluded.</p>
+<dl>
+<dt>Args:</dt><dd><p>node_type: A string representing the type of the node.
+v1: A string specifying the first variable or identifier in the node’s identity.
+v2: An optional string specifying the second variable or identifier</p>
+<blockquote>
+<div><p>in the node’s identity.</p>
+</div></blockquote>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A hash string representing the unique node identifier.</p>
+<dt>Returns:</dt><dd><p>A string containing a unique hash-based identifier for the node.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1041,23 +1024,18 @@ specificity to the generated node ID if provided.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator.create_source_id">
 <span class="sig-name descname"><span class="pre">create_source_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/id_generator.html#IdGenerator.create_source_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator.create_source_id" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a unique source identifier based on the hashes of the given text
-and metadata strings. This method combines portions of the hashed values
-from the provided input strings to create the source ID in a specific format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<em>str</em>) – The main text input to be used as part of the source ID.</p></li>
-<li><p><strong>metadata_str</strong> (<em>str</em>) – Additional metadata to be included in the source ID
-generation.</p></li>
-</ul>
+<dd><p>Generates a unique source identifier by combining hashed representations of a text
+and its associated metadata.</p>
+<p>This function is part of an identifier creation mechanism that hashes input strings
+and formats the resulting substrings into a specific pattern for source identification.
+The creation of the source ID involves truncating the hashed values to predefined lengths
+for compactness and uniqueness.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>text: The primary content or body for which the source identifier is generated.
+metadata_str: Additional metadata or descriptive information related to the primary content.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A formatted string representing the unique source identifier
-generated from the text and metadata inputs.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dt>Returns:</dt><dd><p>str: A formatted string representing the unique source identifier, combining
+hashed substrings derived from the input text and metadata.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1071,17 +1049,13 @@ generated from the text and metadata inputs.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator.rewrite_id_for_tenant">
 <span class="sig-name descname"><span class="pre">rewrite_id_for_tenant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/id_generator.html#IdGenerator.rewrite_id_for_tenant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.id_generator.IdGenerator.rewrite_id_for_tenant" title="Link to this definition">¶</a></dt>
-<dd><p>Rewrites the given ID for the tenant associated with the current instance. This method
-utilizes the tenant’s rewrite_id functionality to return the adjusted ID.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id_value</strong> (<em>str</em>) – The original ID string that needs to be rewritten for the tenant.</p>
+<dd><p>Rewrites the provided ID with the tenant-specific ID format.</p>
+<p>This method utilizes the tenant’s specific implementation of ID
+rewriting to convert the given ID to a tenant-specific format.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>id_value: The original ID to be rewritten.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The rewritten ID string adjusted for the tenant.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dt>Returns:</dt><dd><p>str: The tenant-specific rewritten ID.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1100,18 +1074,19 @@ utilizes the tenant’s rewrite_id functionality to return the adjusted ID.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.model.Entity">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.model.</span></span><span class="sig-name descname"><span class="pre">Entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">entityId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classification</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/model.html#Entity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.model.Entity" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents an entity model for managing data with optional strict configuration.</p>
-<p>This class is designed to represent an entity with specific attributes such as
-entity ID, value, and classification. It inherits from <cite>BaseModel</cite> and allows
-for optional strict configuration using <cite>ConfigDict(strict=True)</cite>. The entity ID
-and classification are optional attributes, while the value is required.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>entityId</strong> – An optional unique identifier for the entity.</p></li>
-<li><p><strong>value</strong> – A required value representing the main data of the entity.</p></li>
-<li><p><strong>classification</strong> – An optional classification associated with the entity.</p></li>
-</ul>
+<p>Represents an entity with its value and optional classification.</p>
+<p>The Entity class serves to model an object with an identifier, a specific
+value, and an optional classification. It is designed to provide structure
+for representing and managing entities in various contexts.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>entityId (Optional[str]): The unique identifier for the entity. If not</dt><dd><p>provided, it defaults to None.</p>
+</dd>
+<dt>value (str): The specific value of the entity. This is a required</dt><dd><p>attribute.</p>
+</dd>
+<dt>classification (Optional[str]): Optional classification or category of</dt><dd><p>the entity. Defaults to None.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1145,21 +1120,30 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.model.Fact">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.model.</span></span><span class="sig-name descname"><span class="pre">Fact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">factId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statementId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.model.Entity" title="graphrag_toolkit.lexical_graph.indexing.model.Entity"><span class="pre">Entity</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.model.Relation" title="graphrag_toolkit.lexical_graph.indexing.model.Relation"><span class="pre">Relation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.model.Entity" title="graphrag_toolkit.lexical_graph.indexing.model.Entity"><span class="pre">Entity</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/model.html#Fact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.model.Fact" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a structured fact consisting of a subject, predicate, and object,
-typically to model relationships or assertions in data. This class uses strict
-configuration to enforce data validation rules.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>factId</strong> – Identifier for the fact, which is optional.</p></li>
-<li><p><strong>statementId</strong> – Identifier for the statement associated with the fact, which
-is optional.</p></li>
-<li><p><strong>subject</strong> – The entity representing the subject in the fact.</p></li>
-<li><p><strong>predicate</strong> – The relationship or action linking the subject to the object.</p></li>
-<li><p><strong>object</strong> – The entity representing the object in the fact, which is optional.</p></li>
-<li><p><strong>complement</strong> – Additional information or context about the fact,
-which is optional.</p></li>
-</ul>
+<p>Represents a fact entity with associated properties describing relationships
+between subject, predicate, object, and an optional complement.</p>
+<p>This class is used to model facts in a structured format, where each fact is
+essentially a subject-predicate-object triplet, often supplemented with an
+optional complement. The relation between the subject and object is defined
+by the predicate. The fact is also associated with unique identifiers for
+fact tracking and external references.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>factId (Optional[str]): Unique identifier for the fact. Defaults to None.
+statementId (Optional[str]): Identifier referencing the statement this</p>
+<blockquote>
+<div><p>fact is derived from. Defaults to None.</p>
+</div></blockquote>
+<p>subject (Entity): The subject entity involved in the fact.
+predicate (Relation): The relationship or action linking subject and</p>
+<blockquote>
+<div><p>object.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>object (Optional[Entity]): The object entity involved in the fact.</dt><dd><p>Defaults to None.</p>
+</dd>
+<dt>complement (Optional[str]): Additional information or modification</dt><dd><p>related to the fact. Defaults to None.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1208,15 +1192,13 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.model.Propositions">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.model.</span></span><span class="sig-name descname"><span class="pre">Propositions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">propositions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/model.html#Propositions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.model.Propositions" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a data model for handling a list of propositions.</p>
-<p>This class serves as a model to store and manage a collection of propositions
-and provides strict validation on its attributes via the associated configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model_config</strong> – Configuration for the model, allowing strict type validation.</p></li>
-<li><p><strong>propositions</strong> – List of propositions represented as strings.</p></li>
-</ul>
+<p>Represents a collection of propositions with configuration for strict validation.</p>
+<p>This class stores a list of propositions and enforces strict validation of its data.
+It is used to model structured collections of propositional data, ensuring that
+the input adheres to the defined constraints and types.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>model_config (ConfigDict): Configuration dict to enforce strict validation.
+propositions (List[str]): A list of propositions represented as strings.</p>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1240,13 +1222,16 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.model.Relation">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.model.</span></span><span class="sig-name descname"><span class="pre">Relation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/model.html#Relation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.model.Relation" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a relation model with a strict configuration.</p>
-<p>This class is designed to represent a relation with a specific configuration. The
-configuration ensures strict validation for the model attributes. It inherits from
-BaseModel to provide model validation and management capabilities.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> – Represents the value of the relation.</p>
+<p>Represents a relation with specific configuration attributes.</p>
+<p>This class is used to define and manage a relation with a strict configuration
+model. It encapsulates attributes relevant to a given relation and ensures
+that the specified configuration is enforced.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>model_config (ConfigDict): Configuration dictionary enforcing a strict</dt><dd><p>model behavior.</p>
+</dd>
+</dl>
+<p>value (str): The value representing the relation.</p>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1270,17 +1255,19 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.model.</span></span><span class="sig-name descname"><span class="pre">SourceDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">refNode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseNode</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/model.html#SourceDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a source document comprising a collection of nodes and an optional reference
-node.</p>
-<p>This class is designed to store and manage a list of nodes, along with an optional
-reference node, within a strict configuration environment. It provides functionality
-to retrieve information about the source node if present.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>refNode</strong> – An optional reference node associated with the document.</p></li>
-<li><p><strong>nodes</strong> – A list of nodes associated with the source document.</p></li>
-</ul>
+<p>Represents a source document model used for managing and organizing nodes
+with relationships, providing methods to operate on these nodes.</p>
+<p>This class defines a structure to handle a collection of nodes (<cite>refNode</cite> and
+<cite>nodes</cite>) associated with a source document. It includes functionality to
+retrieve the source identifier of the document based on the defined node
+relationships.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>refNode (Optional[BaseNode]): A reference node that can optionally</dt><dd><p>associate with the document.</p>
+</dd>
+<dt>nodes (List[BaseNode]): A list of nodes associated with the source</dt><dd><p>document. Defaults to an empty list.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1306,17 +1293,13 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument.source_id">
 <span class="sig-name descname"><span class="pre">source_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/model.html#SourceDocument.source_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument.source_id" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves the source ID of the first node in the <cite>nodes</cite> list.</p>
-<p>The source ID is determined by accessing the <cite>relationships</cite> attribute of the
-first node and returning the <cite>node_id</cite> associated with the
-<cite>NodeRelationship.SOURCE</cite> relationship type. If the <cite>nodes</cite> list is empty,
-this method returns <cite>None</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The source ID of the first node, or <cite>None</cite> if no nodes are present.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int or None</p>
+<dd><p>Retrieves the source node ID from the list of nodes if it exists.</p>
+<p>This method accesses the first node in the <cite>nodes</cite> list and retrieves
+the ID of the node it is related to via the <cite>SOURCE</cite> relationship.
+If no nodes are present in the list, the method returns <cite>None</cite>.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Optional[int]: The node ID of the source node if it exists.
+Returns <cite>None</cite> if the <cite>nodes</cite> list is empty.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1327,22 +1310,29 @@ this method returns <cite>None</cite>.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.model.Statement">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.model.</span></span><span class="sig-name descname"><span class="pre">Statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">statementId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topicId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunkId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">details</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.model.Fact" title="graphrag_toolkit.lexical_graph.indexing.model.Fact"><span class="pre">Fact</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/model.html#Statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.model.Statement" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a statement with associated attributes such as its unique identifier,
-related topic and chunk IDs, and accompanying details and facts.</p>
-<p>The Statement class provides a structured way to manage and organize information
-related to a specific statement, including its value, additional details, and
-factual data. Instances of this class can be used to encapsulate and manipulate
-information relevant to a statement for a variety of use cases.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>statementId</strong> – Unique identifier of the statement.</p></li>
-<li><p><strong>topicId</strong> – Identifier for the topic associated with the statement.</p></li>
-<li><p><strong>chunkId</strong> – Identifier for the chunk of content the statement belongs to.</p></li>
-<li><p><strong>value</strong> – The textual content of the statement.</p></li>
-<li><p><strong>details</strong> – A list of additional details or clarifications about the statement.</p></li>
-<li><p><strong>facts</strong> – A collection of factual information associated with the statement.</p></li>
-</ul>
+<p>Represents a statement with associated details, facts, and identifiers.</p>
+<p>This class captures the concept of a statement, which is associated with specific
+identifiers such as topic, chunk, and statement IDs. It also holds the statement
+value, related details, and a list of associated facts. It ensures a strict configuration
+model for its behavior.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>statementId (Optional[str]): Identifier for the statement. It is optional and</dt><dd><p>can be None.</p>
+</dd>
+<dt>topicId (Optional[str]): Identifier for the topic to which the statement belongs.</dt><dd><p>It is optional and can be None.</p>
+</dd>
+<dt>chunkId (Optional[str]): Identifier for the chunk related to the statement. It</dt><dd><p>is optional and can be None.</p>
+</dd>
+</dl>
+<p>value (str): The textual content or main value of the statement.
+details (List[str]): A list of additional details or elaborations related to the</p>
+<blockquote>
+<div><p>statement. Defaults to an empty list.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>facts (List[Fact]): A list of Fact objects associated with the statement. Defaults</dt><dd><p>to an empty list.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1391,21 +1381,17 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.model.Topic">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.model.</span></span><span class="sig-name descname"><span class="pre">Topic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">topicId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunkIds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.model.Entity" title="graphrag_toolkit.lexical_graph.indexing.model.Entity"><span class="pre">Entity</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.model.Statement" title="graphrag_toolkit.lexical_graph.indexing.model.Statement"><span class="pre">Statement</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/model.html#Topic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.model.Topic" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a Topic with related metadata such as <cite>value</cite>, <cite>entities</cite>,
-and <cite>statements</cite>, as well as identifiers including <cite>topicId</cite> and <cite>chunkIds</cite>.</p>
-<p>This class serves as a data model for organizing and managing topic-related
-information. It is constructed with a strict configuration to ensure valid
-data input. It binds additional metadata such as associated entities and
-statements for comprehensive information tracking.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>topicId</strong> – The unique identifier for the topic (if available). Defaults to None.</p></li>
-<li><p><strong>chunkIds</strong> – A list of chunk identifiers associated with the topic. Defaults to an empty list.</p></li>
-<li><p><strong>value</strong> – The main textual value or description of the topic.</p></li>
-<li><p><strong>entities</strong> – A list of entities related to the topic. Defaults to an empty list.</p></li>
-<li><p><strong>statements</strong> – A list of statements associated with the topic. Defaults to an empty list.</p></li>
-</ul>
+<p>Represents a Topic with associated details, related chunks, entities, and statements.</p>
+<p>This class encapsulates information about a specific topic, including its unique
+identifier, related chunk identifiers, the topic’s textual value, a list of entities
+associated with the topic, and any relevant statements. The configuration ensures
+strict model validation rules when handling Topic instances.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>topicId (Optional[str]): A unique identifier for the topic. Defaults to None if not provided.
+chunkIds (List[str]): List of chunk identifiers related to the topic. Defaults to an empty list.
+value (str): The textual value or name of the topic.
+entities (List[Entity]): List of entities relevant to the topic. Defaults to an empty list.
+statements (List[Statement]): List of statements associated with the topic. Defaults to an empty list.</p>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1449,19 +1435,16 @@ validated to form a valid model.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.model.TopicCollection">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.model.</span></span><span class="sig-name descname"><span class="pre">TopicCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">topics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.model.Topic" title="graphrag_toolkit.lexical_graph.indexing.model.Topic"><span class="pre">Topic</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/model.html#TopicCollection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.model.TopicCollection" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a collection of topics.</p>
-<p>This class is designed to manage and store multiple topics efficiently. It
-inherits from the BaseModel class and provides strict configuration and data
-validation. The primary purpose of this class is to hold a list of topics,
-which can be easily accessed and utilized in applications where grouped topics
-need to be managed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model_config</strong> – Configuration settings for the model, enforcing strict
-validation rules and behavior.</p></li>
-<li><p><strong>topics</strong> – A list of topics managed by this collection.</p></li>
-</ul>
+<p>Represents a collection of topics with strict model configuration.</p>
+<p>This class serves as a data model for managing a collection of <cite>Topic</cite> objects.
+It ensures strict validation and typing enforcement, making it suitable for use
+in scenarios where structured and validated data representation is critical.</p>
+<dl>
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>model_config (ConfigDict): Specifies the configuration for the model,</dt><dd><p>enforcing strict validation rules.</p>
+</dd>
+</dl>
+<p>topics (List[Topic]): A list that contains instances of <cite>Topic</cite> objects.</p>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1484,20 +1467,24 @@ validated to form a valid model.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.model.source_documents_from_source_types">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.model.</span></span><span class="sig-name descname"><span class="pre">source_documents_from_source_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#graphrag_toolkit.lexical_graph.indexing.model.SourceDocument" title="graphrag_toolkit.lexical_graph.indexing.model.SourceDocument"><span class="pre">SourceDocument</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/model.html#source_documents_from_source_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.model.source_documents_from_source_types" title="Link to this definition">¶</a></dt>
-<dd><p>Transforms and yields SourceDocument objects from provided input data of various types.</p>
-<p>The function processes a sequence of inputs, which can include multiple types:
-SourceDocument, Document, and TextNode. Based on the type of each input, it
-either yields the input as-is or constructs new SourceDocument objects by
-aggregating related nodes. The function organizes nodes based on their source
-information when they are of type TextNode.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>inputs</strong> – An iterable collection of SourceType objects, including
-SourceDocument, Document, or TextNode.</p>
+<dd><p>Generates <cite>SourceDocument</cite> objects from a collection of input types, processing
+each input object based on its type.</p>
+<p>This function iterates through a collection of <cite>SourceType</cite> inputs and converts
+them into <cite>SourceDocument</cite> objects while maintaining contextual relationships
+between the input nodes. It handles three primary types: <cite>SourceDocument</cite>,
+<cite>Document</cite>, and <cite>TextNode</cite>. All <cite>TextNode</cite> inputs are grouped into their parent
+<cite>SourceDocument</cite> based on their source relationships. If the input type does
+not match one of the specified types, a <cite>ValueError</cite> is raised.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>inputs (Iterable[SourceType]): An iterable collection of input objects</dt><dd><p>which can include <cite>SourceDocument</cite>, <cite>Document</cite>, or <cite>TextNode</cite> instances.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A generator yielding instances of SourceDocument created or processed
-from the input data.</p>
+</dl>
+</dd>
+<dt>Yields:</dt><dd><dl class="simple">
+<dt>Generator[SourceDocument, None, None]: A generator of <cite>SourceDocument</cite></dt><dd><p>objects created from the input data set.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1509,17 +1496,15 @@ from the input data.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.node_handler.</span></span><span class="sig-name descname"><span class="pre">NodeHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/node_handler.html#NodeHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TransformComponent</span></code></p>
-<p>Represents a component for processing and filtering nodes. The class serves as
-a base for handling <cite>BaseNode</cite> objects by applying specific logic defined in
-a concrete implementation. It provides an abstract method <cite>accept</cite> that must
-be implemented by subclasses to define the node processing behavior.</p>
-<p>This class includes functionality to process a list of <cite>BaseNode</cite> objects and
-demonstrates flexible handling through additional keyword arguments, enabling
-various processing needs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>show_progress</strong> – Indicates whether progress should be displayed during
-processing.</p>
+<p>Handles the processing and transformation of node data.</p>
+<p>This class is designed to process a collection of nodes with optional
+parameters. It serves as a base class for customizable node handling
+operations, requiring the implementation of the <cite>accept</cite> method to
+define specific processing logic. The <cite>__call__</cite> method is provided
+for use as a callable, enabling straightforward invocation of the
+processing logic.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>show_progress (bool): Whether to show progress during processing.</p>
 </dd>
 </dl>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
@@ -1529,24 +1514,21 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler.accept">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/node_handler.html#NodeHandler.accept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.node_handler.NodeHandler.accept" title="Link to this definition">¶</a></dt>
-<dd><p>Processes a list of nodes and applies specific logic as defined by
-the implementing method. This abstract method must be implemented
-by subclasses, defining the exact behavior for processing nodes.
-This method is expected to yield instances of <cite>BaseNode</cite> as it processes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> (<em>List</em><em>[</em><em>BaseNode</em><em>]</em>) – A list of <cite>BaseNode</cite> instances to be processed.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Additional keyword arguments to support extensions
-or optional processing behaviors. May vary depending on
-subclass implementation.</p></li>
-</ul>
+<dd><p>Abstract base class for implementing a visitor pattern that can process
+a collection of nodes. This requires subclasses to implement the <cite>accept</cite>
+method to define their processing logic.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>nodes: A list of nodes derived from the BaseNode class that are to</dt><dd><p>be processed by the visitor pattern.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A generator yielding processed <cite>BaseNode</cite> instances.</p>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments that can be passed during the</dt><dd><p>processing of the nodes.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Generator[BaseNode, None, None]</p>
+</dl>
+</dd>
+<dt>Yields:</dt><dd><dl class="simple">
+<dt>BaseNode: Processed node instances derived from BaseNode, one at</dt><dd><p>a time as the generator progresses.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>

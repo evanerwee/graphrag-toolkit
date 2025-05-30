@@ -5,7 +5,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="graphrag_toolkit.lexical_graph.storage package" href="graphrag_toolkit.lexical_graph.storage.html" /><link rel="prev" title="graphrag_toolkit.lexical_graph.retrieval.retrievers package" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="graphrag_toolkit.lexical_graph.storage package" href="graphrag_toolkit.lexical_graph.storage.html" /><link rel="prev" title="graphrag_toolkit.lexical_graph.retrieval.summary package" href="graphrag_toolkit.lexical_graph.retrieval.summary.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.retrieval.utils package - graphrag-toolkit 3.6.1 documentation</title>
@@ -274,10 +274,13 @@
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 current has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5 current current-page"><a class="current reference internal" href="#">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -345,8 +348,7 @@
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.</span></span><span class="sig-name descname"><span class="pre">QueryDecomposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LLM</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><span class="pre">LLMCache</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identify_multipart_question_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\nCan</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">question</span> <span class="pre">potentially</span> <span class="pre">be</span> <span class="pre">answered</span> <span class="pre">with</span> <span class="pre">details</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">entity?</span> <span class="pre">Answer</span> <span class="pre">YES</span> <span class="pre">if,</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">simplest</span> <span class="pre">case,</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">entity</span> <span class="pre">might</span> <span class="pre">suffice.</span> <span class="pre">Otherwise,</span> <span class="pre">answer</span> <span class="pre">NO.\n\nHere</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">question:\n\n{question}\n\nDo</span> <span class="pre">not</span> <span class="pre">provide</span> <span class="pre">any</span> <span class="pre">other</span> <span class="pre">explanatory</span> <span class="pre">text.\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_subqueries_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\nDecompose</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">question</span> <span class="pre">into</span> <span class="pre">at</span> <span class="pre">most</span> <span class="pre">{max_subqueries}</span> <span class="pre">simpler,</span> <span class="pre">standalone</span> <span class="pre">questions</span> <span class="pre">-</span> <span class="pre">fewer,</span> <span class="pre">if</span> <span class="pre">possible.</span> <span class="pre">Each</span> <span class="pre">question</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">self-contained,</span> <span class="pre">and</span> <span class="pre">MUST</span> <span class="pre">NOT</span> <span class="pre">depend</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">answer</span> <span class="pre">to</span> <span class="pre">any</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">other</span> <span class="pre">questions.</span> <span class="pre">Avoid</span> <span class="pre">generalized</span> <span class="pre">questions</span> <span class="pre">that</span> <span class="pre">do</span> <span class="pre">not</span> <span class="pre">preserve</span> <span class="pre">relevant</span> <span class="pre">details</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">original</span> <span class="pre">question.</span> <span class="pre">If</span> <span class="pre">the</span> <span class="pre">original</span> <span class="pre">question</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">broken</span> <span class="pre">down</span> <span class="pre">into</span> <span class="pre">anything</span> <span class="pre">simpler,</span> <span class="pre">simply</span> <span class="pre">respond</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">original</span> <span class="pre">question:\n\nHere</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">question:\n\n{question}\n\nPut</span> <span class="pre">the</span> <span class="pre">questions</span> <span class="pre">on</span> <span class="pre">separate</span> <span class="pre">lines.</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">provide</span> <span class="pre">any</span> <span class="pre">other</span> <span class="pre">explanatory</span> <span class="pre">text.</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">surround</span> <span class="pre">the</span> <span class="pre">output</span> <span class="pre">with</span> <span class="pre">tags.\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_subqueries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/query_decomposition.html#QueryDecomposition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Handles query decomposition for identifying and extracting subqueries
-from a primary query.</p>
+<p>Handles query decomposition for identifying and extracting subqueries from a primary query.</p>
 <p>This class is responsible for breaking down a complex query into simpler subqueries using
 a language model (LLM). It aims to identify multipart questions and decompose them when necessary.
 This process enables better handling and response generation for large or intricate queries.</p>
@@ -367,8 +369,7 @@ This process enables better handling and response generation for large or intric
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition.decompose_query">
 <span class="sig-name descname"><span class="pre">decompose_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">QueryBundle</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/query_decomposition.html#QueryDecomposition.decompose_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.query_decomposition.QueryDecomposition.decompose_query" title="Link to this definition">¶</a></dt>
-<dd><p>Decomposes a query into subqueries if it is identified as a
-multipart question.</p>
+<dd><p>Decomposes a query into subqueries if it is identified as a multipart question.</p>
 <p>This method takes a query encapsulated in a QueryBundle object and decomposes
 it into smaller subqueries if the original query exceeds the single question
 threshold and is determined to be a multipart question. If not, the original
@@ -399,9 +400,9 @@ query bundle is returned as a single-element list.</p>
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">SharedEmbeddingCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#SharedEmbeddingCache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>SharedEmbeddingCache manages a cache for embeddings, which are fetched
-from a vector store with retry logic. It ensures efficient retrieval of
-embeddings, minimizing repeated calls to the external data source.</p>
+<p>SharedEmbeddingCache manages a cache for embeddings, which are fetched from a
+vector store with retry logic. It ensures efficient retrieval of embeddings,
+minimizing repeated calls to the external data source.</p>
 <p>This class is designed to store and manage embeddings in a thread-safe manner.
 It keeps track of requested embeddings in cache, and when requested embeddings
 are missing, these are fetched and cached for future use. The class includes
@@ -420,11 +421,10 @@ retry logic to handle transient failures during fetching operations.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache.get_embeddings">
 <span class="sig-name descname"><span class="pre">get_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#SharedEmbeddingCache.get_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.SharedEmbeddingCache.get_embeddings" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves the embeddings for the provided statement identifiers. The
-method first attempts to fetch embeddings from the internal cache. If
-any requested embeddings are not found in the cache, it tries to fetch
-them using an external method, updates the cache, and returns all the
-collected embeddings. If fetching new embeddings fails, the method
+<dd><p>Retrieves the embeddings for the provided statement identifiers. The method first attempts
+to fetch embeddings from the internal cache. If any requested embeddings are not found in
+the cache, it tries to fetch them using an external method, updates the cache, and
+returns all the collected embeddings. If fetching new embeddings fails, the method
 returns only the embeddings retrieved from the cache.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>statement_ids (List[str]): A list of statement identifiers for which embeddings are needed.</p>
@@ -440,8 +440,8 @@ corresponding embedding as a NumPy array.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.cosine_similarity">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">cosine_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_embedding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_embeddings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#cosine_similarity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.cosine_similarity" title="Link to this definition">¶</a></dt>
-<dd><p>Compute the cosine similarity between a query embedding and a set of
-statement embeddings.</p>
+<dd><p>Compute the cosine similarity between a query embedding and a set of statement
+embeddings.</p>
 <p>This function calculates the cosine similarity between a provided query
 embedding and a list of statement embeddings. The function returns a tuple
 consisting of similarity scores and the corresponding statement IDs. If the
@@ -479,9 +479,9 @@ of the corresponding statements.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_free_memory">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">get_free_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gpu_index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#get_free_memory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_free_memory" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves the amount of free memory on a specific GPU device in
-megabytes (MB). This function uses the NVIDIA Management Library (NVML) to
-query the memory information of the GPU specified by its index.</p>
+<dd><p>Retrieves the amount of free memory on a specific GPU device in megabytes (MB).
+This function uses the NVIDIA Management Library (NVML) to query the memory
+information of the GPU specified by its index.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><dl class="simple">
 <dt>gpu_index (int): The index of the GPU device for which the free memory</dt><dd><p>needs to be retrieved.</p>
@@ -501,9 +501,8 @@ query the memory information of the GPU specified by its index.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_statements_query">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">get_statements_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_store</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#get_statements_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_statements_query" title="Link to this definition">¶</a></dt>
-<dd><p>Generates and executes a Cypher query to fetch detailed information
-about statements and their associated chunks and sources from the graph
-database.</p>
+<dd><p>Generates and executes a Cypher query to fetch detailed information about
+statements and their associated chunks and sources from the graph database.</p>
 <p>The function retrieves data such as statement IDs, chunk details, and source
 metadata for a list of given statement IDs. It ensures that the results are
 aligned with the requested statement IDs for accuracy.</p>
@@ -526,8 +525,7 @@ aligned with the requested statement IDs for accuracy.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_free_gpus">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">get_top_free_gpus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#get_top_free_gpus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_free_gpus" title="Link to this definition">¶</a></dt>
-<dd><p>Gets indices of the top <cite>n</cite> GPUs based on free memory in descending
-order.</p>
+<dd><p>Gets indices of the top <cite>n</cite> GPUs based on free memory in descending order.</p>
 <p>This function utilizes the PyTorch library to check the amount of free memory
 available on each GPU. It returns the indices of the GPUs with the highest
 free memory. If the PyTorch library is not installed, an ImportError will
@@ -551,25 +549,22 @@ be raised, providing guidance on how to install it.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_k">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.</span></span><span class="sig-name descname"><span class="pre">get_top_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_embedding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_embeddings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/statement_utils.html#get_top_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.statement_utils.get_top_k" title="Link to this definition">¶</a></dt>
-<dd><p>Fetches the top K most similar statement embeddings based on the
-cosine similarity between a query embedding and a list of statement
-embeddings. This function computes the similarity of the query embedding
-to each statement embedding and returns the top K highest scoring
-similarities and their respective statement IDs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query_embedding</strong> – A 1-dimensional array-like object representing
-the embedding vector of the query.</p></li>
-<li><p><strong>statement_embeddings</strong> – A 2-dimensional array-like object where each
-row represents the embedding vector of a statement.</p></li>
-<li><p><strong>top_k</strong> – An integer representing the number of top similarities to return.</p></li>
-</ul>
+<dd><p>Fetches the top_k most similar statements to the given query embedding based on
+cosine similarity.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>query_embedding: A vector that represents the query to compare against</dt><dd><p>statement embeddings.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of tuples where each tuple contains:
-- A float indicating the similarity score.
-- The ID of the statement corresponding to the similarity score.</p>
+<dt>statement_embeddings: A list of vectors where each vector represents a</dt><dd><p>statement for similarity comparison. If an empty list is provided,
+the function returns an empty result.</p>
+</dd>
+</dl>
+<p>top_k: The number of top statements to retrieve based on cosine similarity.</p>
+</dd>
+<dt>Returns:</dt><dd><p>A list of tuples where each tuple contains the similarity score and the
+corresponding statement ID. The list is sorted in descending order of
+similarity scores. An empty list is returned if no similarities are
+calculated or if statement_embeddings is empty.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -580,24 +575,28 @@ row represents the embedding vector of a statement.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.get_diverse_vss_elements">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.</span></span><span class="sig-name descname"><span class="pre">get_diverse_vss_elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QueryBundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_store</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><span class="pre">VectorStore</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><span class="pre">ProcessorArgs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><span class="pre">FilterConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/retrieval/utils/vector_utils.html#get_diverse_vss_elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.retrieval.utils.vector_utils.get_diverse_vss_elements" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieve a diverse set of elements from a vector search store (VSS) based on the specified top-k
-and diversity factor. This function ensures that elements are sampled from different sources
-based on their diversity.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>index_name</strong> (<em>str</em>) – The name of the index to query.</p></li>
-<li><p><strong>query_bundle</strong> (<em>QueryBundle</em>) – The query information used to fetch results from the vector store.</p></li>
-<li><p><strong>vector_store</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.storage.vector.html#graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore" title="graphrag_toolkit.lexical_graph.storage.vector.vector_store.VectorStore"><em>VectorStore</em></a>) – The vector store to query for elements.</p></li>
-<li><p><strong>args</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html#graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs" title="graphrag_toolkit.lexical_graph.retrieval.processors.processor_args.ProcessorArgs"><em>ProcessorArgs</em></a>) – Arguments containing settings for the query, including top-k and diversity factor.</p></li>
-<li><p><strong>filter_config</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig" title="graphrag_toolkit.lexical_graph.metadata.FilterConfig"><em>FilterConfig</em></a><em>]</em>) – Optional filter configuration to apply additional constraints on the query.</p></li>
-</ul>
+<dd><p>Retrieve diverse elements from a vector search system (VSS) by applying a diversity
+factor to limit redundancy among results.</p>
+<p>This function queries a vector store using the provided query, index, and filter
+configuration, then applies a diversity mechanism to return results with more
+heterogeneity. The diversity factor determines the level of diversification among
+the results.</p>
+<dl>
+<dt>Args:</dt><dd><p>index_name (str): Name of the index to search in the vector store.
+query_bundle (QueryBundle): Query object containing the necessary details for</p>
+<blockquote>
+<div><p>executing the search.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>vector_store (VectorStore): Vector store instance to query for retrieving the</dt><dd><p>elements.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of diverse elements retrieved from the vector search store.</p>
+<dt>args (ProcessorArgs): Arguments object containing configurations for top-k</dt><dd><p>results and the diversity factor.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[dict]</p>
+<dt>filter_config (Optional[FilterConfig]): Optional filter configuration to</dt><dd><p>refine the query results.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>list: A list of diverse elements from the vector store result set.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -622,14 +621,14 @@ based on their diversity.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">
+          <a class="prev-page" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">graphrag_toolkit.lexical_graph.retrieval.retrievers package</div>
+                <div class="title">graphrag_toolkit.lexical_graph.retrieval.summary package</div>
                 
               </div>
             </a>

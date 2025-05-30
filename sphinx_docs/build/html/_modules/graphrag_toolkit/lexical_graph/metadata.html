@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -343,12 +346,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">FilterCondition</span><span class="p">,</span>
-    <span class="n">FilterOperator</span><span class="p">,</span>
-    <span class="n">MetadataFilter</span><span class="p">,</span>
-    <span class="n">MetadataFilters</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.vector_stores.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterCondition</span><span class="p">,</span> <span class="n">FilterOperator</span><span class="p">,</span> <span class="n">MetadataFilter</span><span class="p">,</span> <span class="n">MetadataFilters</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.bridge.pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -359,17 +357,17 @@
 <div class="viewcode-block" id="is_datetime_key">
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.is_datetime_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_datetime_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Determines if the provided key ends with any of the suffixes specified</span>
-<span class="sd">    in the metadata datetime suffixes. This function is typically used</span>
-<span class="sd">    to validate if a key corresponds to a datetime field based on the</span>
-<span class="sd">    configuration.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determines if the given key corresponds to a datetime metadata field.</span>
 
-<span class="sd">    :param key: A string representing the key to check.</span>
-<span class="sd">    :type key: str</span>
-<span class="sd">    :return: A boolean indicating whether the key matches any configured</span>
-<span class="sd">        metadata datetime suffix.</span>
-<span class="sd">    :rtype: bool</span>
+<span class="sd">    This function checks if the provided key ends with any of the predefined suffixes</span>
+<span class="sd">    indicating that it represents a datetime metadata field. It utilizes the</span>
+<span class="sd">    `GraphRAGConfig.metadata_datetime_suffixes` tuple to recognize potential matches.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        key (str): The key to check for a datetime-related suffix.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the key ends with a predefined datetime suffix, False otherwise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">metadata_datetime_suffixes</span><span class="p">))</span></div>
 
@@ -379,20 +377,19 @@
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.format_datetime">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">format_datetime</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Formats a given input into an ISO 8601 formatted datetime string. The function</span>
-<span class="sd">    accepts input of type `datetime`, `date`, or a parsable string that represents</span>
-<span class="sd">    a date and time. If the input is `datetime` or `date`, the ISO 8601 format is</span>
-<span class="sd">    produced directly from the object. If the input is a string, it parses the string</span>
-<span class="sd">    to create a corresponding datetime object, which is then formatted to ISO 8601.</span>
+<span class="sd">    Formats a date or datetime object or parses a string into an ISO 8601 formatted string.</span>
 
-<span class="sd">    The function is designed to provide a reliable and standard way to convert</span>
-<span class="sd">    various date/time representations into a uniform string format.</span>
+<span class="sd">    This function takes a datetime or date object and formats it into an ISO 8601</span>
+<span class="sd">    string. If provided with a string, it attempts to parse the string into a</span>
+<span class="sd">    datetime object and then formats it as an ISO 8601 string. The function ensures</span>
+<span class="sd">    strict parsing for string inputs.</span>
 
-<span class="sd">    :param s: The input to be formatted, which can be of type `datetime`, `date`,</span>
-<span class="sd">        or a string representing a date and time.</span>
-<span class="sd">    :type s: Any</span>
-<span class="sd">    :return: A string representing the provided input in ISO 8601 format.</span>
-<span class="sd">    :rtype: str</span>
+<span class="sd">    Args:</span>
+<span class="sd">        s: A datetime object, date object, or a string representing a date or</span>
+<span class="sd">           datetime.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: An ISO 8601 formatted string representation of the date or datetime.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">datetime</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
@@ -405,28 +402,21 @@
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.type_name_for_key_value">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">type_name_for_key_value</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Determines the type name for a given key-value pair based on the value&#39;s type and</span>
-<span class="sd">    other contextual information.</span>
+<span class="sd">    Determines the type name for a given key-value pair based on the value&#39;s type or certain key-specific logic.</span>
 
-<span class="sd">    This function analyzes the type of the provided value and returns a string</span>
-<span class="sd">    representing the type. If the value is a list, dictionary, or set, an exception</span>
-<span class="sd">    is raised indicating the unsupported type. For other value types, it maps</span>
-<span class="sd">    supported types to corresponding string identifiers. Additionally, it applies</span>
-<span class="sd">    specific logic to determine if a value is a timestamp based on the key and value</span>
-<span class="sd">    combination.</span>
+<span class="sd">    The function evaluates the type of the `value` associated with a given `key` and returns a string representing the</span>
+<span class="sd">    type. For specific cases like datetime-related keys or datetime-like values, additional logic is applied. Unsupported</span>
+<span class="sd">    value types such as lists, dictionaries, or sets will lead to an exception.</span>
 
-<span class="sd">    :param key: The key of the key-value pair used for determining additional context,</span>
-<span class="sd">        such as whether the value might correspond to a timestamp.</span>
-<span class="sd">    :type key: str</span>
-<span class="sd">    :param value: The value of the key-value pair whose type is to be determined.</span>
-<span class="sd">    :type value: Any</span>
-<span class="sd">    :return: A string representing the value type, which can be one of the following:</span>
-<span class="sd">        - &#39;int&#39;</span>
-<span class="sd">        - &#39;float&#39;</span>
-<span class="sd">        - &#39;timestamp&#39;</span>
-<span class="sd">        - &#39;text&#39;</span>
-<span class="sd">    :rtype: str</span>
-<span class="sd">    :raises ValueError: If the value is of type list, dict, or set, which are unsupported.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        key (str): The key associated with the value, which may influence the type determination for certain cases.</span>
+<span class="sd">        value (Any): The value whose type needs to be determined.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The inferred type name for the given value. Possible values are &#39;int&#39;, &#39;float&#39;, &#39;timestamp&#39;, or &#39;text&#39;.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the `value` is of an unsupported type, including lists, dictionaries, or sets.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported value type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -453,15 +443,25 @@
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.formatter_for_type">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">formatter_for_type</span><span class="p">(</span><span class="n">type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a formatter function for the specified type name. The formatter function</span>
-<span class="sd">    is a callable that processes the input value according to the rules of the</span>
-<span class="sd">    specified type.</span>
+<span class="sd">    Determines and returns a specific formatter function based on the input type name. This formatter function is used</span>
+<span class="sd">    to convert or format an input value into the desired type or representation according to the type specified.</span>
 
-<span class="sd">    :param type_name: The name of the type for which a formatter function is</span>
-<span class="sd">        required. Supported types are &#39;text&#39;, &#39;timestamp&#39;, &#39;int&#39;, and &#39;float&#39;.</span>
-<span class="sd">    :raises ValueError: If the given type name is unsupported.</span>
-<span class="sd">    :return: A callable that formats the input data according to the specified</span>
-<span class="sd">        type.</span>
+<span class="sd">    If the type name is not recognized or supported, an exception will be raised.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        type_name: A string specifying the type of formatter function to return.</span>
+<span class="sd">            Supported type names include:</span>
+<span class="sd">            - &#39;text&#39;: Returns the input value as-is.</span>
+<span class="sd">            - &#39;timestamp&#39;: Returns the formatted value using `format_datetime`.</span>
+<span class="sd">            - &#39;int&#39;: Converts the input to an integer.</span>
+<span class="sd">            - &#39;float&#39;: Converts the input to a floating-point number.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable[[Any], str]: A function that takes an input value and formats</span>
+<span class="sd">        it according to the specified type name.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the type_name is not supported.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
@@ -480,26 +480,17 @@
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SourceMetadataFormatter</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Provides an abstract base class for formatting source metadata.</span>
+<span class="sd">    Abstract base class responsible for formatting metadata.</span>
 
-<span class="sd">    This class is designed to define a common interface for formatting</span>
-<span class="sd">    metadata related to various sources. Subclasses must implement the</span>
-<span class="sd">    abstract method `format` to provide custom formatting logic. The</span>
-<span class="sd">    purpose of this class is to ensure a consistent structure and</span>
-<span class="sd">    behavior across implementations that handle the transformation</span>
-<span class="sd">    of source metadata.</span>
+<span class="sd">    This class provides a blueprint for implementing custom metadata formatters.</span>
+<span class="sd">    Its purpose is to ensure the consistent transformation or formatting of</span>
+<span class="sd">    metadata dictionaries into desired formats. Users of this class are required</span>
+<span class="sd">    to implement the `format` method in a subclass, where the specific logic</span>
+<span class="sd">    for formatting metadata is defined.</span>
 
-<span class="sd">    :ivar __abstractmethods__: Set of abstract methods that must</span>
-<span class="sd">        be implemented by subclasses.</span>
-<span class="sd">    :type __abstractmethods__: frozenset</span>
-<span class="sd">    :ivar __validators__: Validators applied to the model&#39;s fields.</span>
-<span class="sd">    :type __validators__: dict</span>
-<span class="sd">    :ivar __fields_set__: Fields explicitly set during initialization.</span>
-<span class="sd">    :type __fields_set__: set</span>
-<span class="sd">    :ivar __config__: Configuration class for model behavior.</span>
-<span class="sd">    :type __config__: Type[BaseConfig]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="SourceMetadataFormatter.format">
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.SourceMetadataFormatter.format">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
@@ -513,34 +504,16 @@
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.DefaultSourceMetadataFormatter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DefaultSourceMetadataFormatter</span><span class="p">(</span><span class="n">SourceMetadataFormatter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    DefaultSourceMetadataFormatter provides a default implementation for</span>
-<span class="sd">    formatting metadata by processing each key-value pair using a formatter</span>
-<span class="sd">    determined by the type of the values.</span>
+<span class="sd">    Formats source metadata into a standardized dictionary format.</span>
 
-<span class="sd">    This class inherits from SourceMetadataFormatter and overrides its</span>
-<span class="sd">    functionality to customize metadata formatting.</span>
-
-<span class="sd">    :ivar SomeAttribute: Description of SomeAttribute.</span>
-<span class="sd">    :type SomeAttribute: type_of_attribute</span>
+<span class="sd">    This class implements a formatting utility for source metadata, transforming</span>
+<span class="sd">    input metadata into a standardized form. It maps the metadata keys and values</span>
+<span class="sd">    to their respective types and applies appropriate formatting functions. If a</span>
+<span class="sd">    metadata value cannot be formatted, it retains its original value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="DefaultSourceMetadataFormatter.format">
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.DefaultSourceMetadataFormatter.format">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Formats the given metadata dictionary by applying appropriate formatting</span>
-<span class="sd">        based on the type of each value. The function determines the type name for</span>
-<span class="sd">        each key-value pair in the metadata, retrieves the relevant formatter for</span>
-<span class="sd">        each type, and applies the formatter to the value. If formatting fails for</span>
-<span class="sd">        any reason, the original value is retained in the resulting dictionary.</span>
-
-<span class="sd">        :param metadata: Dictionary containing key-value pairs to be formatted.</span>
-<span class="sd">            Each value is subjected to type-based formatting.</span>
-<span class="sd">        :type metadata: Dict[str, Any]</span>
-<span class="sd">        :return: A new dictionary containing formatted values for the given</span>
-<span class="sd">            metadata, where formatting is applied based on each value&#39;s type.</span>
-<span class="sd">        :rtype: Dict[str, Any]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">formatted_metadata</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
@@ -559,43 +532,31 @@
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FilterConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a configuration for filtering metadata dictionaries. This class is built</span>
-<span class="sd">    to handle filtering logic determined by source filters and a custom dictionary filter</span>
-<span class="sd">    function. It is designed to initialize with or without user-provided metadata filters</span>
-<span class="sd">    and applies those specified filters during operations.</span>
+<span class="sd">    Configuration class for filter settings.</span>
 
-<span class="sd">    This class ensures appropriate handling and validation of filter inputs during</span>
-<span class="sd">    initialization. It applies user-defined filtering logic to metadata dictionaries</span>
-<span class="sd">    to decide whether they meet the desired criteria.</span>
+<span class="sd">    This class handles the configuration of filters related to metadata and provides</span>
+<span class="sd">    functionality to filter source metadata dictionaries. It supports various types</span>
+<span class="sd">    of metadata filter inputs and ensures proper initialization and usage of filters.</span>
 
-<span class="sd">    :ivar source_filters: Metadata filters applied to configure filtering behavior, which</span>
-<span class="sd">        defines what criteria the metadata should meet. Can be None if no filters are provided.</span>
-<span class="sd">    :type source_filters: Optional[MetadataFilters]</span>
-<span class="sd">    :ivar source_metadata_dictionary_filter_fn: A callable filter function that determines</span>
-<span class="sd">        whether a metadata dictionary passes the filtering criteria. Used internally to apply</span>
-<span class="sd">        the filter logic at runtime.</span>
-<span class="sd">    :type source_metadata_dictionary_filter_fn: Callable[[Dict[str, Any]], bool]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        source_filters (Optional[MetadataFilters]): A collection of filters for source</span>
+<span class="sd">            metadata, initialized based on the provided input type.</span>
+<span class="sd">        source_metadata_dictionary_filter_fn (Callable[[Dict[str, Any]], bool]): A function</span>
+<span class="sd">            that determines whether a source metadata dictionary passes the filtering condition.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">source_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MetadataFilters</span><span class="p">]</span>
     <span class="n">source_metadata_dictionary_filter_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="nb">bool</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MetadataFiltersType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the object with optional source filters, which can configure how</span>
-<span class="sd">        data or metadata is filtered. The inputs are validated and transformed into</span>
-<span class="sd">        the appropriate format based on the provided type. Raises a ValueError if the</span>
-<span class="sd">        type of source_filters does not match any recognized types.</span>
+<span class="sd">        Initializes an instance of the class, allowing for the configuration of source filters.</span>
 
-<span class="sd">        :param source_filters: Optional metadata filters to configure the object&#39;s</span>
-<span class="sd">            filtering behavior. Acceptable types include:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            source_filters (Optional[MetadataFiltersType]): Optional parameter to specify the source</span>
+<span class="sd">                filters. Can be of type `MetadataFilters`, `MetadataFilter`, a list of filters, or `None`.</span>
 
-<span class="sd">              - MetadataFilters: A collection of metadata filters.</span>
-<span class="sd">              - MetadataFilter: A single metadata filter.</span>
-<span class="sd">              - list: A list of `MetadataFilter` objects.</span>
-
-<span class="sd">            If no filters are provided, it defaults to None.</span>
-<span class="sd">        :type source_filters: Optional[MetadataFiltersType]</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If `source_filters` is not of an acceptable type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">source_filters</span><span class="p">:</span>
             <span class="n">source_filters</span> <span class="o">=</span> <span class="kc">None</span>
@@ -610,25 +571,24 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">source_filters</span><span class="o">=</span><span class="n">source_filters</span><span class="p">,</span>
-            <span class="n">source_metadata_dictionary_filter_fn</span><span class="o">=</span><span class="p">(</span>
-                <span class="n">DictionaryFilter</span><span class="p">(</span><span class="n">source_filters</span><span class="p">)</span> <span class="k">if</span> <span class="n">source_filters</span> <span class="k">else</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span>
-            <span class="p">),</span>
+            <span class="n">source_metadata_dictionary_filter_fn</span><span class="o">=</span><span class="n">DictionaryFilter</span><span class="p">(</span><span class="n">source_filters</span><span class="p">)</span> <span class="k">if</span> <span class="n">source_filters</span> <span class="k">else</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="FilterConfig.filter_source_metadata_dictionary">
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.FilterConfig.filter_source_metadata_dictionary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">filter_source_metadata_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Filters the provided metadata dictionary using a user-defined filter function</span>
-<span class="sd">        and logs the result. The filtering function is expected to be a callable stored</span>
-<span class="sd">        in the attribute `source_metadata_dictionary_filter_fn`. The filtering decision</span>
-<span class="sd">        (True/False) is based on the output of this function for the input metadata.</span>
+<span class="sd">        Filters the given metadata dictionary using a filter function.</span>
 
-<span class="sd">        :param d: The input metadata dictionary that needs to be filtered.</span>
-<span class="sd">        :type d: Dict[str, Any]</span>
-<span class="sd">        :return: A boolean indicating whether the dictionary passes the filter</span>
-<span class="sd">                 (True if it passes, False otherwise).</span>
-<span class="sd">        :rtype: bool</span>
+<span class="sd">        This method applies a filter function to the input dictionary and logs</span>
+<span class="sd">        the result of the filter operation. The result is a boolean indicating</span>
+<span class="sd">        whether the dictionary passed the filter condition.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            d (Dict[str, Any]): The metadata dictionary to be filtered.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the dictionary passes the filter; otherwise, False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_metadata_dictionary_filter_fn</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;filter result: [</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
@@ -641,51 +601,52 @@
 <a class="viewcode-back" href="../../../graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.metadata.DictionaryFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DictionaryFilter</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Filters a dictionary of metadata using specified filter conditions.</span>
+<span class="sd">    Filters metadata dictionaries based on specified filter criteria.</span>
 
-<span class="sd">    This class is designed to validate and evaluate metadata provided as a dictionary</span>
-<span class="sd">    against a set of defined rules. The filtering can be based on logical conditions such</span>
-<span class="sd">    as AND, OR, and NOT. It also supports filter operators like equality, containment,</span>
-<span class="sd">    text matching, and more, allowing for flexible and recursive filtering mechanisms.</span>
+<span class="sd">    This class provides mechanisms to apply a series of hierarchical metadata</span>
+<span class="sd">    filters through recursive logic. It utilizes different filter operators</span>
+<span class="sd">    such as equality, inequality, text matching, and value checking across</span>
+<span class="sd">    nested metadata structures. The class is intended to be called as a function</span>
+<span class="sd">    to determine whether the supplied metadata satisfies the provided filters.</span>
 
-<span class="sd">    :ivar metadata_filters: MetadataFilters object defining rules and conditions to filter</span>
-<span class="sd">        the provided metadata.</span>
-<span class="sd">    :type metadata_filters: MetadataFilters</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        metadata_filters (MetadataFilters): The set of filters and conditions</span>
+<span class="sd">            to be applied on the metadata.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">metadata_filters</span><span class="p">:</span> <span class="n">MetadataFilters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata_filters</span><span class="p">:</span> <span class="n">MetadataFilters</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes an instance of the class with the given metadata filters.</span>
+<span class="sd">        Initializes an instance with metadata filters to process or filter specific</span>
+<span class="sd">        metadata as per the provided configuration.</span>
 
-<span class="sd">        This constructor initializes the class by setting up the metadata filters</span>
-<span class="sd">        that determine how the underlying resources or actions are filtered or</span>
-<span class="sd">        processed. It is crucial for implementing context-specific logic or rules</span>
-<span class="sd">        applicable to metadata.</span>
-
-<span class="sd">        :param metadata_filters: Filters used to process or evaluate metadata.</span>
-<span class="sd">        :type metadata_filters: MetadataFilters</span>
+<span class="sd">        Args:</span>
+<span class="sd">            metadata_filters: MetadataFilters object responsible for defining the</span>
+<span class="sd">                filtering rules or conditions for the associated metadata.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">metadata_filters</span><span class="o">=</span><span class="n">metadata_filters</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_filter_operator</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">FilterOperator</span><span class="p">,</span> <span class="n">metadata_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_filter_operator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">FilterOperator</span><span class="p">,</span> <span class="n">metadata_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Evaluates whether a given filter operator, when applied to metadata and a user-provided value,</span>
-<span class="sd">        results in a match (True) or not (False). This internal function is utilized for filtering</span>
-<span class="sd">        based on specific criteria dictated by the provided operator and values.</span>
+<span class="sd">        Applies a filter operator to a metadata value and a given value to evaluate a condition.</span>
 
-<span class="sd">        :param operator: The operator to apply for comparison.</span>
-<span class="sd">        :type operator: FilterOperator</span>
-<span class="sd">        :param metadata_value: The value from the metadata to compare.</span>
-<span class="sd">        :type metadata_value: Any</span>
-<span class="sd">        :param value: The value to compare against the `metadata_value` using the specified operator.</span>
-<span class="sd">        :type value: Any</span>
-<span class="sd">        :return: A boolean indicating whether the applied operator results in a match or not.</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        :raises ValueError: If the provided `operator` is unsupported or invalid.</span>
+<span class="sd">        This method takes a filter operator, a metadata value, and a comparison value,</span>
+<span class="sd">        and applies the operator to determine if the condition holds true. It supports</span>
+<span class="sd">        various operators such as equality, inequality, greater than, containment,</span>
+<span class="sd">        text matching, and more. If the metadata value is `None` or the operator is unsupported,</span>
+<span class="sd">        the method handles these cases appropriately by returning `False` or raising an exception,</span>
+<span class="sd">        respectively.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            operator (FilterOperator): The filter operator to evaluate the condition.</span>
+<span class="sd">            metadata_value (Any): The metadata value to be compared against.</span>
+<span class="sd">            value (Any): The value to compare with the metadata value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: The result of applying the filter operator to the metadata value and comparison value.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the provided filter operator is unsupported.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">metadata_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
@@ -715,53 +676,48 @@
             <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">val</span> <span class="ow">in</span> <span class="n">metadata_value</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported filter operator: </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_metadata_filters_recursive</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">metadata_filters</span><span class="p">:</span> <span class="n">MetadataFilters</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_metadata_filters_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata_filters</span><span class="p">:</span> <span class="n">MetadataFilters</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Determines the applicability of metadata filters recursively. This method processes</span>
-<span class="sd">        a collection of metadata filters against a provided metadata dictionary and evaluates</span>
-<span class="sd">        their conditions based on the logical operations associated with the filters.</span>
+<span class="sd">        Applies a set of metadata filters recursively to determine whether the metadata</span>
+<span class="sd">        satisfies the specified filter conditions. This function evaluates each filter</span>
+<span class="sd">        based on its operator and compares the metadata values to determine whether</span>
+<span class="sd">        the condition (AND, OR, NOT) is satisfied. Custom formatting and type handling</span>
+<span class="sd">        are applied to ensure proper evaluation of metadata values.</span>
 
-<span class="sd">        :param metadata_filters: The collection of metadata filter conditions to</span>
-<span class="sd">            evaluate. This can include nested filters or a combination of filters.</span>
-<span class="sd">        :type metadata_filters: MetadataFilters</span>
-<span class="sd">        :param metadata: The dictionary-like metadata structure containing key-value</span>
-<span class="sd">            pairs to be validated against the filters.</span>
-<span class="sd">        :type metadata: Dict[str, Any]</span>
-<span class="sd">        :return: A boolean indicating whether the metadata satisfies the applied filters</span>
-<span class="sd">            and their conditions.</span>
-<span class="sd">        :rtype: bool</span>
+<span class="sd">        Args:</span>
+<span class="sd">            metadata_filters (MetadataFilters): A container of metadata filters and</span>
+<span class="sd">                a filtering condition (AND, OR, or NOT) to evaluate.</span>
+<span class="sd">            metadata (Dict[str, Any]): A dictionary of metadata to compare against the</span>
+<span class="sd">                provided filters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the metadata satisfies the specified filter conditions, or</span>
+<span class="sd">                False otherwise.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If a metadata filter condition is specified incorrectly, or if</span>
+<span class="sd">                the metadata filter type is invalid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">get_filter_result</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">MetadataFilter</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Represents a filtering mechanism that applies metadata filters to a dictionary</span>
-<span class="sd">            of metadata recursively.</span>
+<span class="sd">            Represents a filter mechanism for applying metadata filters recursively</span>
+<span class="sd">            on a dictionary-like metadata structure. This class primarily focuses on</span>
+<span class="sd">            validating metadata against specified filtering criteria using recursive</span>
+<span class="sd">            approaches and type-based transformations.</span>
 
-<span class="sd">            This class provides functionality to evaluate metadata filters against a set</span>
-<span class="sd">            of metadata values using recursive operations. The filters are applied based</span>
-<span class="sd">            on specific operators, such as checking if a metadata field is empty or</span>
-<span class="sd">            evaluating other conditions depending on the operator, metadata type, and</span>
-<span class="sd">            value.</span>
+<span class="sd">            Attributes:</span>
+<span class="sd">                No attributes are defined explicitly for this class. It functions</span>
+<span class="sd">                through its methods for processing metadata.</span>
 
-<span class="sd">            :param metadata_filters: A collection of metadata filter rules to be applied</span>
-<span class="sd">                                     recursively on the metadata.</span>
-<span class="sd">            :type metadata_filters: MetadataFilters</span>
-<span class="sd">            :param metadata: A dictionary containing metadata key-value pairs to be</span>
-<span class="sd">                             evaluated against the provided filters.</span>
-<span class="sd">            :type metadata: Dict[str, Any]</span>
-<span class="sd">            :return: True if all specified filters are satisfied by the metadata,</span>
-<span class="sd">                     False otherwise.</span>
-<span class="sd">            :rtype: bool</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">metadata_value</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">operator</span> <span class="o">==</span> <span class="n">FilterOperator</span><span class="o">.</span><span class="n">IS_EMPTY</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">(</span>
-                    <span class="n">metadata_value</span> <span class="ow">is</span> <span class="kc">None</span>
-                    <span class="ow">or</span> <span class="n">metadata_value</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span>
-                    <span class="ow">or</span> <span class="n">metadata_value</span> <span class="o">==</span> <span class="p">[]</span>
+                        <span class="n">metadata_value</span> <span class="ow">is</span> <span class="kc">None</span>
+                        <span class="ow">or</span> <span class="n">metadata_value</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span>
+                        <span class="ow">or</span> <span class="n">metadata_value</span> <span class="o">==</span> <span class="p">[]</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">type_name</span> <span class="o">=</span> <span class="n">type_name_for_key_value</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
@@ -769,25 +725,21 @@
                 <span class="n">value</span> <span class="o">=</span> <span class="n">formatter</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
                 <span class="n">metadata_value</span> <span class="o">=</span> <span class="n">formatter</span><span class="p">(</span><span class="n">metadata_value</span><span class="p">)</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_filter_operator</span><span class="p">(</span>
-                    <span class="n">operator</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">operator</span><span class="p">,</span> <span class="n">metadata_value</span><span class="o">=</span><span class="n">metadata_value</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span>
+                    <span class="n">operator</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">operator</span><span class="p">,</span>
+                    <span class="n">metadata_value</span><span class="o">=</span><span class="n">metadata_value</span><span class="p">,</span>
+                    <span class="n">value</span><span class="o">=</span><span class="n">value</span>  
                 <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">metadata_filter</span> <span class="ow">in</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">,</span> <span class="n">MetadataFilter</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">NOT</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s1">&#39;Expected MetadataFilters for FilterCondition.NOT, but found MetadataFilter&#39;</span>
-                    <span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Expected MetadataFilters for FilterCondition.NOT, but found MetadataFilter&#39;</span><span class="p">)</span>
                 <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_filter_result</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">,</span> <span class="n">metadata</span><span class="p">))</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">,</span> <span class="n">MetadataFilters</span><span class="p">):</span>
-                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_apply_metadata_filters_recursive</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_apply_metadata_filters_recursive</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">,</span> <span class="n">metadata</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;Invalid metadata filter type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
-                <span class="p">)</span>
-
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid metadata filter type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            
         <span class="k">if</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">NOT</span><span class="p">:</span>
             <span class="k">return</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">AND</span><span class="p">:</span>
@@ -795,21 +747,22 @@
         <span class="k">elif</span> <span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span> <span class="o">==</span> <span class="n">FilterCondition</span><span class="o">.</span><span class="n">OR</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Unsupported filters condition: </span><span class="si">{</span><span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported filters condition: </span><span class="si">{</span><span class="n">metadata_filters</span><span class="o">.</span><span class="n">condition</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Executes the metadata filters recursively and determines if the given metadata satisfies</span>
-<span class="sd">        the specified filter conditions.</span>
+<span class="sd">        Executes the metadata filters on the provided metadata.</span>
 
-<span class="sd">        :param metadata: A dictionary containing metadata key-value pairs to be tested</span>
-<span class="sd">            against the defined metadata filters.</span>
-<span class="sd">        :type metadata: Dict[str, Any]</span>
+<span class="sd">        The method applies the set of predefined metadata filters recursively</span>
+<span class="sd">        to determine if the provided metadata satisfies all conditions.</span>
 
-<span class="sd">        :return: A boolean indicating whether the metadata passes the filter conditions.</span>
-<span class="sd">        :rtype: bool</span>
+<span class="sd">        Args:</span>
+<span class="sd">            metadata (Dict[str, Any]): The metadata to be filtered and evaluated against</span>
+<span class="sd">                the predefined metadata filters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: Returns True if the metadata satisfies all the filter conditions;</span>
+<span class="sd">            otherwise, returns False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_metadata_filters_recursive</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_filters</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span></div>
 

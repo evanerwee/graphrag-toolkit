@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores - graphrag-toolkit 3.6.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
@@ -273,10 +273,13 @@
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.indexing.utils.html">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../../../graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -345,12 +348,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span><span class="p">,</span> <span class="n">PackageNotFoundError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dateutil.parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">GraphStoreFactoryMethod</span><span class="p">,</span>
-    <span class="n">GraphStore</span><span class="p">,</span>
-    <span class="n">NodeId</span><span class="p">,</span>
-    <span class="n">get_log_formatting</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.storage.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphStoreFactoryMethod</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="n">NodeId</span><span class="p">,</span> <span class="n">get_log_formatting</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_datetime</span><span class="p">,</span> <span class="n">is_datetime_key</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_toolkit.lexical_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphRAGConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.bridge.pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateAttr</span>
@@ -361,23 +359,25 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="format_id_for_neptune">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.format_id_for_neptune">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">format_id_for_neptune</span><span class="p">(</span><span class="n">id_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">format_id_for_neptune</span><span class="p">(</span><span class="n">id_name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Formats an identifier string into an instance of `NodeId`, tailoring</span>
-<span class="sd">    the format based on the input string structure. The input can</span>
-<span class="sd">    contain a single segment or segments separated by a period,</span>
-<span class="sd">    and the function processes these segments to construct and</span>
-<span class="sd">    return a corresponding `NodeId` object.</span>
+<span class="sd">    Formats an identifier string into a structured format suitable for Neptune.</span>
 
-<span class="sd">    :param id_name: The identifier string to format, which can be a</span>
-<span class="sd">        single word or composed of segments separated by periods.</span>
-<span class="sd">    :type id_name: str</span>
-<span class="sd">    :return: A `NodeId` instance where the segments of the `id_name`</span>
-<span class="sd">        are appropriately structured into the `NodeId` fields.</span>
-<span class="sd">    :rtype: NodeId</span>
+<span class="sd">    This function accepts an identifier string, splits it into parts based on the</span>
+<span class="sd">    presence of a dot (&#39;.&#39;), and returns a `NodeId` object with appropriately</span>
+<span class="sd">    formatted values based on these parts. If the identifier does not contain a</span>
+<span class="sd">    dot, it uses the entire string as the identifier&#39;s base name and assigns a</span>
+<span class="sd">    fixed format for the resulting instance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id_name (str): The identifier string to format, which can contain a dot</span>
+<span class="sd">            separating different parts.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        NodeId: An object that encapsulates the formatted identifier, including its</span>
+<span class="sd">        base name, formatted string, and a fixed boolean flag.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parts</span> <span class="o">=</span> <span class="n">id_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -385,25 +385,26 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">NodeId</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;id(</span><span class="si">{</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
-
-
+        
 <div class="viewcode-block" id="create_config">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.create_config">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_config</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_config</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates and returns a configuration object for the system.</span>
+<span class="sd">    Creates a configuration object for the application, including retries, timeouts, and</span>
+<span class="sd">    optional user-specified arguments in JSON format.</span>
 
-<span class="sd">    This function attempts to determine the version of the</span>
-<span class="sd">    `graphrag-toolkit-lexical-graph` package. If the package is not available,</span>
-<span class="sd">    the version falls back to &#39;unknown&#39;. An optional configuration string in JSON</span>
-<span class="sd">    format can be provided, which is parsed and merged with the default</span>
-<span class="sd">    configuration.</span>
+<span class="sd">    This function initializes a configuration with default settings, such as retry policies,</span>
+<span class="sd">    read timeouts, and user agent identifiers. If a configuration string in JSON format is</span>
+<span class="sd">    provided, it will be parsed and applied to augment or override default settings. The</span>
+<span class="sd">    toolkit version is dynamically fetched if available.</span>
 
-<span class="sd">    :param config: A JSON-formatted string containing configuration values</span>
-<span class="sd">        (optional).</span>
-<span class="sd">    :type config: Optional[str]</span>
-<span class="sd">    :return: A populated `Config` object with merged configuration values.</span>
-<span class="sd">    :rtype: Config</span>
+<span class="sd">    Args:</span>
+<span class="sd">        config: A JSON-formatted string containing additional configuration settings. If not</span>
+<span class="sd">            provided, only default settings will be used.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Config: An initialized configuration object containing properties such as retry</span>
+<span class="sd">        settings, timeouts, and user agent details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">toolkit_version</span> <span class="o">=</span> <span class="s1">&#39;unknown&#39;</span>
 
@@ -416,31 +417,32 @@
     <span class="k">if</span> <span class="n">config</span><span class="p">:</span>
         <span class="n">config_args</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Config</span><span class="p">(</span>
-        <span class="n">retries</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;total_max_attempts&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;standard&#39;</span><span class="p">},</span>
+        <span class="n">retries</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;total_max_attempts&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> 
+            <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;standard&#39;</span>
+        <span class="p">},</span> 
         <span class="n">read_timeout</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
         <span class="n">user_agent_appid</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;graphrag-toolkit-lexical-graph-</span><span class="si">{</span><span class="n">toolkit_version</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">config_args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">config_args</span>
     <span class="p">)</span></div>
-
 
 
 <div class="viewcode-block" id="create_property_assigment_fn_for_neptune">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.create_property_assigment_fn_for_neptune">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_property_assigment_fn_for_neptune</span><span class="p">(</span>
-    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_property_assigment_fn_for_neptune</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates a property assignment function for Neptune based on the given key and value. The function</span>
-<span class="sd">    generated will determine how the property is formatted or transformed when assigned,</span>
-<span class="sd">    depending on whether the key corresponds to a datetime or a generic property.</span>
+<span class="sd">    Creates a property assignment function for Neptune keys and values, enabling specialized handling for</span>
+<span class="sd">    datetime keys to format their associated values while leaving other keys untouched.</span>
 
-<span class="sd">    :param key: The key name of the property.</span>
-<span class="sd">    :type key: str</span>
-<span class="sd">    :param value: The value associated with the property, which may be validated or transformed.</span>
-<span class="sd">    :type value: Any</span>
-<span class="sd">    :return: A callable function that accepts a string representing the property identifier</span>
-<span class="sd">        and returns a formatted string for property assignment.</span>
-<span class="sd">    :rtype: Callable[[str], str]</span>
+<span class="sd">    Args:</span>
+<span class="sd">        key (str): The key associated with the property, which can affect the behavior based on its type.</span>
+<span class="sd">        value (Any): The value to be assigned, specifically checked and formatted if the key indicates</span>
+<span class="sd">            datetime.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable[[str], str]: A function that takes a single string argument and returns a string. This</span>
+<span class="sd">            function formats the input value depending on whether the key is determined to represent</span>
+<span class="sd">            datetime.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">is_datetime_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -452,99 +454,93 @@
         <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span></div>
 
 
-
 <div class="viewcode-block" id="NeptuneAnalyticsGraphStoreFactory">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsGraphStoreFactory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NeptuneAnalyticsGraphStoreFactory</span><span class="p">(</span><span class="n">GraphStoreFactoryMethod</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Factory class for creating instances of NeptuneAnalyticsClient based on specific graph</span>
-<span class="sd">    information.</span>
+<span class="sd">    Factory class to create instances of NeptuneAnalyticsClient.</span>
 
-<span class="sd">    This class provides a factory method for initializing a graph connection</span>
-<span class="sd">    to `NeptuneAnalytics`. It evaluates the given graph information and decides whether</span>
-<span class="sd">    to create and return a `NeptuneAnalyticsClient` instance based on predefined matching</span>
-<span class="sd">    criteria.</span>
+<span class="sd">    This class serves as a factory for creating instances of a NeptuneAnalyticsClient</span>
+<span class="sd">    using the factory method pattern. It provides a mechanism to conditionally create</span>
+<span class="sd">    the graph store depending on the provided identifier and configuration parameters.</span>
 
-<span class="sd">    :ivar NEPTUNE_ANALYTICS: A prefix used for checking whether the provided</span>
-<span class="sd">        graph information corresponds to a Neptune Analytics graph.</span>
-<span class="sd">    :type NEPTUNE_ANALYTICS: str</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="NeptuneAnalyticsGraphStoreFactory.try_create">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsGraphStoreFactory.try_create">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphStore</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_info</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphStore</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Attempts to create a `GraphStore` instance based on the provided graph information</span>
-<span class="sd">        string. If the `graph_info` string starts with the predefined `NEPTUNE_ANALYTICS`</span>
-<span class="sd">        prefix, this function initializes a `NeptuneAnalyticsClient` using the deriving</span>
-<span class="sd">        specific details and configuration provided in `kwargs`. Otherwise, it returns None.</span>
+<span class="sd">        Attempts to create and return an instance of `NeptuneAnalyticsClient` if the provided</span>
+<span class="sd">        graph information matches the expected format. If the graph information does not match,</span>
+<span class="sd">        `None` is returned. The function is used for initializing a graph connection based</span>
+<span class="sd">        on specific criteria.</span>
 
-<span class="sd">        :param graph_info: A string containing the information about the graph. It is</span>
-<span class="sd">            expected to possibly contain the `NEPTUNE_ANALYTICS` prefix.</span>
-<span class="sd">        :type graph_info: str</span>
-<span class="sd">        :param kwargs: Additional keyword arguments that may include optional configuration</span>
-<span class="sd">            parameters, such as &#39;config&#39;, which defines specific setup details for the</span>
-<span class="sd">            client.</span>
-<span class="sd">        :type kwargs: dict</span>
-<span class="sd">        :return: A `NeptuneAnalyticsClient` instance if the graph information matches</span>
-<span class="sd">            the `NEPTUNE_ANALYTICS` criteria. Returns None otherwise.</span>
-<span class="sd">        :rtype: GraphStore or None</span>
+<span class="sd">        Args:</span>
+<span class="sd">            graph_info (str): Information about the graph, expected to start with the</span>
+<span class="sd">                `NEPTUNE_ANALYTICS` prefix to successfully create a client instance.</span>
+<span class="sd">            **kwargs: Additional optional parameters, such as configuration settings.</span>
+<span class="sd">                The `config` parameter, if provided, will be used to customize</span>
+<span class="sd">                the initialization of the `NeptuneAnalyticsClient`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GraphStore: An instance of `NeptuneAnalyticsClient` if the graph info matches the</span>
+<span class="sd">                expected conditions. Otherwise, `None` is returned.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">graph_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">NEPTUNE_ANALYTICS</span><span class="p">):</span>
 
-            <span class="n">graph_id</span> <span class="o">=</span> <span class="n">graph_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">NEPTUNE_ANALYTICS</span><span class="p">)</span> <span class="p">:]</span>
+            <span class="n">graph_id</span> <span class="o">=</span> <span class="n">graph_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">NEPTUNE_ANALYTICS</span><span class="p">):]</span>
             <span class="n">config</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="p">{})</span>
 
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Opening Neptune Analytics graph [graph_id: </span><span class="si">{</span><span class="n">graph_id</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">NeptuneAnalyticsClient</span><span class="p">(</span>
-                <span class="n">graph_id</span><span class="o">=</span><span class="n">graph_id</span><span class="p">,</span>
-                <span class="n">log_formatting</span><span class="o">=</span><span class="n">get_log_formatting</span><span class="p">(</span><span class="n">kwargs</span><span class="p">),</span>
-                <span class="n">config</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">config</span><span class="p">),</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">NeptuneAnalyticsClient</span><span class="p">(</span><span class="n">graph_id</span><span class="o">=</span><span class="n">graph_id</span><span class="p">,</span> <span class="n">log_formatting</span><span class="o">=</span><span class="n">get_log_formatting</span><span class="p">(</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">config</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 </div>
 
-
-
+            
 <div class="viewcode-block" id="NeptuneDatabaseGraphStoreFactory">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseGraphStoreFactory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NeptuneDatabaseGraphStoreFactory</span><span class="p">(</span><span class="n">GraphStoreFactoryMethod</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Factory class responsible for creating instances of GraphStore configured specifically</span>
-<span class="sd">    for Neptune database connections. This class interprets provided graph database</span>
-<span class="sd">    identifiers or URLs, optionally processes configuration arguments, and initializes</span>
-<span class="sd">    a Neptune database client if the connection information is valid.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for creating Neptune database graph store instances.</span>
 
-<span class="sd">    Designed to handle multiple ways of identifying Neptune database instances</span>
-<span class="sd">    and allows for flexible customization of connection parameters.</span>
+<span class="sd">    Provides the implementation for creating instances of NeptuneDatabaseClient based</span>
+<span class="sd">    on the provided graph information and additional configurations. This factory parses</span>
+<span class="sd">    the graph endpoint from the given graph information and constructs the client accordingly.</span>
 
-<span class="sd">    :ivar graph_endpoint: The resolved or processed endpoint URL of the Neptune database.</span>
-<span class="sd">    :type graph_endpoint: str or None</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="NeptuneDatabaseGraphStoreFactory.try_create">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseGraphStoreFactory.try_create">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphStore</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">try_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_info</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphStore</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Attempts to create and return a NeptuneDatabaseClient instance based on the given</span>
-<span class="sd">        graph_info string. Determines the appropriate endpoint and configuration details</span>
-<span class="sd">        for the Neptune database, and initializes the client if a valid endpoint can</span>
-<span class="sd">        be identified. If the input graph_info does not match expected patterns or no</span>
-<span class="sd">        valid endpoint is found, returns None without any instantiation.</span>
+<span class="sd">        Attempts to create a GraphStore instance for a Neptune database based on the provided</span>
+<span class="sd">        graph information. It extracts or processes the graph endpoint from the given</span>
+<span class="sd">        `graph_info` and optionally leverages additional configurations provided through</span>
+<span class="sd">        keyword arguments.</span>
 
-<span class="sd">        :param graph_info: The string containing information about the graph database,</span>
-<span class="sd">            including the possible endpoint or DNS details.</span>
-<span class="sd">        :param kwargs: Keyword arguments that can include additional configurations,</span>
-<span class="sd">            such as &#39;endpoint_url&#39;, &#39;port&#39;, and &#39;config&#39;.</span>
-<span class="sd">        :return: An instance of NeptuneDatabaseClient if a valid database endpoint</span>
-<span class="sd">            is determined, otherwise None.</span>
-<span class="sd">        :rtype: GraphStore or None</span>
+<span class="sd">        Args:</span>
+<span class="sd">            graph_info (str): Information or identifier for the graph database. This could</span>
+<span class="sd">                be a URL or a string containing elements allowing identification of a</span>
+<span class="sd">                Neptune database endpoint.</span>
+<span class="sd">            **kwargs: Additional arguments to customize the connection and configuration</span>
+<span class="sd">                for the generated Neptune database client. Supported arguments include:</span>
+<span class="sd">                - endpoint_url: Explicit endpoint URL to use for the database connection.</span>
+<span class="sd">                - port: Port number to use for the connection if not embedded in the</span>
+<span class="sd">                  `graph_endpoint`. Defaults to 8182.</span>
+<span class="sd">                - config: A dictionary of configuration key-value pairs to control specifics</span>
+<span class="sd">                  of the database client&#39;s behavior.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GraphStore: A NeptuneDatabaseClient instance configured for the provided</span>
+<span class="sd">            `graph_info` and `**kwargs`, or `None` if the `graph_info` does not lead to a</span>
+<span class="sd">            valid endpoint.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">graph_endpoint</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="n">graph_info</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">NEPTUNE_DATABASE</span><span class="p">):</span>
-            <span class="n">graph_endpoint</span> <span class="o">=</span> <span class="n">graph_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">NEPTUNE_DATABASE</span><span class="p">)</span> <span class="p">:]</span>
+            <span class="n">graph_endpoint</span> <span class="o">=</span> <span class="n">graph_info</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">NEPTUNE_DATABASE</span><span class="p">):]</span>
         <span class="k">elif</span> <span class="n">graph_info</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">NEPTUNE_DB_DNS</span><span class="p">):</span>
             <span class="n">graph_endpoint</span> <span class="o">=</span> <span class="n">graph_info</span>
         <span class="k">elif</span> <span class="n">NEPTUNE_DB_DNS</span> <span class="ow">in</span> <span class="n">graph_info</span><span class="p">:</span>
@@ -555,46 +551,34 @@
             <span class="n">endpoint_url</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;endpoint_url&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="n">port</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">,</span> <span class="mi">8182</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">endpoint_url</span><span class="p">:</span>
-                <span class="n">endpoint_url</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="n">graph_endpoint</span><span class="si">}</span><span class="s1">&#39;</span>
-                    <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">graph_endpoint</span>
-                    <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="n">graph_endpoint</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1">&#39;</span>
-                <span class="p">)</span>
+                <span class="n">endpoint_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="n">graph_endpoint</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">graph_endpoint</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;https://</span><span class="si">{</span><span class="n">graph_endpoint</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="n">config</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="p">{})</span>
-            <span class="k">return</span> <span class="n">NeptuneDatabaseClient</span><span class="p">(</span>
-                <span class="n">endpoint_url</span><span class="o">=</span><span class="n">endpoint_url</span><span class="p">,</span>
-                <span class="n">log_formatting</span><span class="o">=</span><span class="n">get_log_formatting</span><span class="p">(</span><span class="n">kwargs</span><span class="p">),</span>
-                <span class="n">config</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">config</span><span class="p">),</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">NeptuneDatabaseClient</span><span class="p">(</span><span class="n">endpoint_url</span><span class="o">=</span><span class="n">endpoint_url</span><span class="p">,</span> <span class="n">log_formatting</span><span class="o">=</span><span class="n">get_log_formatting</span><span class="p">(</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">config</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 </div>
 
-
-
+            
 <div class="viewcode-block" id="NeptuneAnalyticsClient">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NeptuneAnalyticsClient</span><span class="p">(</span><span class="n">GraphStore</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a client for interacting with a Neptune Graph database system.</span>
+<span class="sd">    Represents a client for interacting with an Amazon Neptune graph database.</span>
 
-<span class="sd">    This class provides an interface for managing and interacting with Neptune-powered</span>
-<span class="sd">    graph databases. It supports features such as client initialization, node ID</span>
-<span class="sd">    formatting, property assignment functions, and Cypher query executions, while</span>
-<span class="sd">    abstracting away implementation-specific details for easier use.</span>
+<span class="sd">    Provides functionality to execute queries and handle operations specific to</span>
+<span class="sd">    Neptune&#39;s OpenCypher API. It also offers utility methods for node ID formatting</span>
+<span class="sd">    and property assignment customization.</span>
 
-<span class="sd">    :ivar graph_id: The unique identifier of the Neptune graph instance.</span>
-<span class="sd">    :type graph_id: str</span>
-<span class="sd">    :ivar config: Optional configuration settings for the Neptune graph client.</span>
-<span class="sd">    :type config: Optional[str]</span>
-<span class="sd">    :ivar _client: Internal storage for the initialized Neptune Graph API client.</span>
-<span class="sd">    :type _client: Optional[Any]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        graph_id (str): The identifier for the graph being accessed.</span>
+<span class="sd">        config (Optional[str]): Optional configuration details for the client.</span>
+<span class="sd">        _client (Optional[Any]): Internal attribute to manage the Neptune client</span>
+<span class="sd">            instance. Initialized lazily when accessed via the `client` property.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">graph_id</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">config</span> <span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
+        
     <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">()</span>
@@ -602,95 +586,99 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the Neptune graph client. If the client is not previously initialized,</span>
-<span class="sd">        it creates a new client instance using the defined session and configuration.</span>
+<span class="sd">        The `client` property provides access to the Neptune Graph API client. It initializes</span>
+<span class="sd">        the client lazily upon the first request, ensuring that the session and configuration</span>
+<span class="sd">        are properly set up. This encapsulation allows deferred initialization and prevents</span>
+<span class="sd">        unnecessary setup unless the client is required.</span>
 
-<span class="sd">        :raises AttributeError: If the session or configuration is improperly defined.</span>
+<span class="sd">        Attributes:</span>
+<span class="sd">            _client (Optional[Any]): Stores the initialized Neptune Graph API client.</span>
 
-<span class="sd">        :return: The initialized or existing client instance.</span>
-<span class="sd">        :rtype: typing.Any</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The initialized Neptune Graph API client object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">session</span> <span class="o">=</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">session</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
-                <span class="s1">&#39;neptune-graph&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">create_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;neptune-graph&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">create_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
-
+    
 <div class="viewcode-block" id="NeptuneAnalyticsClient.node_id">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.node_id">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeId</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeId</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Formats the given node identifier for compatibility with Neptune&#39;s expected format.</span>
+<span class="sd">        Formats an identifier for compatibility with Neptune.</span>
 
-<span class="sd">        :param id_name: The identifier of the node that needs to be formatted.</span>
-<span class="sd">        :type id_name: str</span>
-<span class="sd">        :return: A `NodeId` object representing the formatted node identifier.</span>
-<span class="sd">        :rtype: NodeId</span>
+<span class="sd">        This function processes the provided identifier into the format required</span>
+<span class="sd">        by Neptune, enabling smooth handling and identification of nodes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            id_name: The identifier string to be formatted.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            NodeId: The formatted identifier as a NodeId type, ready for use with</span>
+<span class="sd">            Neptune.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">format_id_for_neptune</span><span class="p">(</span><span class="n">id_name</span><span class="p">)</span></div>
 
-
+    
 <div class="viewcode-block" id="NeptuneAnalyticsClient.property_assigment_fn">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.property_assigment_fn">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a function that assigns a specific property to a Neptune object.</span>
+<span class="sd">        Assigns a property value for a Neptune property system using the provided key and value.</span>
 
-<span class="sd">        This function generates a callable that associates a given key-value pair with</span>
-<span class="sd">        a Neptune property. It facilitates creating dynamic property assignment</span>
-<span class="sd">        functions for Neptune objects.</span>
+<span class="sd">        This function creates a callable function that assigns a property value in a Neptune-based</span>
+<span class="sd">        system by leveraging the given key and value. The result of the function is intended to</span>
+<span class="sd">        help simplify interactions with Neptune’s property system by wrapping the implementation</span>
+<span class="sd">        details into a callable template.</span>
 
-<span class="sd">        :param key: The key of the property to be assigned.</span>
-<span class="sd">        :type key: str</span>
-<span class="sd">        :param value: The value of the property to be assigned.</span>
-<span class="sd">        :type value: Any</span>
-<span class="sd">        :return: A callable function that accepts a string input and applies the key-value</span>
-<span class="sd">                 property assignment for the Neptune object.</span>
-<span class="sd">        :rtype: Callable[[str], str]</span>
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The property key to assign the value to. Must be provided as a string.</span>
+<span class="sd">            value (Any): The value to be assigned to the key, where the type depends on the specific</span>
+<span class="sd">                requirements of the Neptune system.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Callable[[str], str]: A callable function that implements the specified property</span>
+<span class="sd">            assignment operation based on the provided key and value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">create_property_assigment_fn_for_neptune</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
-
+ 
 <div class="viewcode-block" id="NeptuneAnalyticsClient.execute_query">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneAnalyticsClient.execute_query">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span> <span class="n">correlation_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Executes a Cypher query against a database and returns the results. The function logs the query</span>
-<span class="sd">        and execution details, including the time taken to process the query. If debug logging is enabled,</span>
-<span class="sd">        it logs more detailed information about the response.</span>
+<span class="sd">        Executes a Cypher query against the database, with the ability to log the request and response,</span>
+<span class="sd">        including the execution time. This method is a wrapper over the database client execution,</span>
+<span class="sd">        providing additional formatting and debug logging for traceability.</span>
 
-<span class="sd">        :param cypher: The Cypher query to be executed, as a string.</span>
-<span class="sd">        :type cypher: str</span>
-<span class="sd">        :param parameters: A dictionary of parameters to bind to the Cypher query. Defaults to an empty</span>
-<span class="sd">            dictionary.</span>
-<span class="sd">        :type parameters: dict, optional</span>
-<span class="sd">        :param correlation_id: Optional identifier used to correlate the request in logs. If not provided,</span>
-<span class="sd">            this is set to None.</span>
-<span class="sd">        :type correlation_id: str, optional</span>
-<span class="sd">        :return: The results of the query execution, parsed as a JSON object.</span>
-<span class="sd">        :rtype: dict</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cypher (str): The Cypher query string to be executed.</span>
+<span class="sd">            parameters (dict, optional): The parameters to pass along with the Cypher query. Defaults to an empty dictionary.</span>
+<span class="sd">            correlation_id (str, optional): An identifier to associate the request with a specific operation or context. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of results obtained by executing the query. Each result is parsed as a JSON object.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">query_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
 
         <span class="n">request_log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span> 
+            <span class="n">cypher</span><span class="p">,</span> 
+            <span class="n">parameters</span>
         <span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] Query: [query: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s1">, parameters: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s1">]&#39;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] Query: [query: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s1">, parameters: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span>
+        
+        <span class="n">response</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">execute_query</span><span class="p">(</span>
             <span class="n">graphIdentifier</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_id</span><span class="p">,</span>
-            <span class="n">queryString</span><span class="o">=</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">format_query_with_query_ref</span><span class="p">(</span>
-                <span class="n">cypher</span>
-            <span class="p">),</span>
+            <span class="n">queryString</span><span class="o">=</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">format_query_with_query_ref</span><span class="p">(</span><span class="n">cypher</span><span class="p">),</span>
             <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
             <span class="n">language</span><span class="o">=</span><span class="s1">&#39;OPEN_CYPHER&#39;</span><span class="p">,</span>
-            <span class="n">planCache</span><span class="o">=</span><span class="s1">&#39;DISABLED&#39;</span><span class="p">,</span>
+            <span class="n">planCache</span><span class="o">=</span><span class="s1">&#39;DISABLED&#39;</span>
         <span class="p">)</span>
 
         <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -699,44 +687,41 @@
 
         <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
             <span class="n">response_log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span>
-                <span class="n">cypher</span><span class="p">,</span>
-                <span class="n">parameters</span><span class="p">,</span>
-                <span class="n">results</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span> 
+                <span class="n">cypher</span><span class="p">,</span> 
+                <span class="n">parameters</span><span class="p">,</span> 
+                <span class="n">results</span>
             <span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s1">ms Results: [</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">results</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
-
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s1">ms Results: [</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">results</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+    
         <span class="k">return</span> <span class="n">results</span></div>
 </div>
 
-
-
+    
 <div class="viewcode-block" id="NeptuneDatabaseClient">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NeptuneDatabaseClient</span><span class="p">(</span><span class="n">GraphStore</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A client for interacting with the Neptune Data service using openCypher queries.</span>
+<span class="sd">    A client implementation for interacting with an Amazon Neptune graph database.</span>
 
-<span class="sd">    This class provides methods for formatting identifiers, creating property assignment</span>
-<span class="sd">    functions, and executing openCypher queries. It manages client initialization lazily,</span>
-<span class="sd">    ensuring efficient access to the Neptune Data service. The class is designed to handle</span>
-<span class="sd">    dynamic endpoint URLs and configurations, allowing for flexible integration.</span>
+<span class="sd">    This class provides functionalities to interact with an Amazon Neptune graph</span>
+<span class="sd">    database in a structured way. It allows executing queries using OpenCypher,</span>
+<span class="sd">    managing nodes and their properties, and more. The client handles setting up</span>
+<span class="sd">    connections and formatting requests, making it easier to perform graph database</span>
+<span class="sd">    operations. It also includes functionality for detailed logging of queries and</span>
+<span class="sd">    their responses.</span>
 
-<span class="sd">    :ivar endpoint_url: The endpoint URL for the `neptunedata` service.</span>
-<span class="sd">    :type endpoint_url: str</span>
-<span class="sd">    :ivar config: Optional configuration for the client setup. Defaults to None.</span>
-<span class="sd">    :type config: Optional[str]</span>
-<span class="sd">    :ivar _client: The internal client instance for interacting with the `neptunedata` service.</span>
-<span class="sd">        Initialized lazily when accessed.</span>
-<span class="sd">    :type _client: Optional[Any]</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        endpoint_url (str): The endpoint URL of the Neptune database to connect to.</span>
+<span class="sd">        config (Optional[str]): Configuration settings for the Neptune client</span>
+<span class="sd">            session, if needed.</span>
+<span class="sd">        _client (Optional[Any]): Internal attribute, managed privately, used to</span>
+<span class="sd">            hold the initialized Neptune client session.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">endpoint_url</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">config</span> <span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
+        
     <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">()</span>
@@ -744,48 +729,59 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Provides the AWS Neptune data client associated with the current object. This property</span>
-<span class="sd">        initializes the client if it does not already exist, leveraging configuration details</span>
-<span class="sd">        such as the endpoint URL and session settings.</span>
+<span class="sd">        Provides a property to access the `_client` attribute, initializing it if</span>
+<span class="sd">        necessary. The `_client` is created using the `neptunedata` service, where</span>
+<span class="sd">        the `endpoint_url` and configuration are supplied dynamically.</span>
 
-<span class="sd">        :return: The initialized or previously existing AWS Neptune data client</span>
-<span class="sd">        :rtype: boto3.client</span>
+<span class="sd">        Attributes:</span>
+<span class="sd">            _client (Any): The underlying client instance for interacting with the</span>
+<span class="sd">                `neptunedata` service. It is initialized lazily when the property</span>
+<span class="sd">                is accessed.</span>
+<span class="sd">            endpoint_url (str): The endpoint URL for the `neptunedata` service.</span>
+<span class="sd">            config (dict): Configuration options required for creating the client.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: A client object set up to interact with the Neptune Data service.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">session</span> <span class="o">=</span> <span class="n">GraphRAGConfig</span><span class="o">.</span><span class="n">session</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
                 <span class="s1">&#39;neptunedata&#39;</span><span class="p">,</span>
                 <span class="n">endpoint_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint_url</span><span class="p">,</span>
-                <span class="n">config</span><span class="o">=</span><span class="n">create_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">),</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">create_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
 
 <div class="viewcode-block" id="NeptuneDatabaseClient.node_id">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.node_id">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeId</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NodeId</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Formats the provided identifier to match the required format for Neptune.</span>
+<span class="sd">        Formats the given identifier into a NodeId compatible format for Neptune.</span>
 
-<span class="sd">        :param id_name: The identifier that needs to be formatted for Neptune.</span>
-<span class="sd">        :type id_name: str</span>
-<span class="sd">        :return: A properly formatted NodeId object, adhering to the format expected</span>
-<span class="sd">            by Neptune.</span>
-<span class="sd">        :rtype: NodeId</span>
+<span class="sd">        Args:</span>
+<span class="sd">            id_name (str): The identifier string to format.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            NodeId: The formatted NodeId object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">format_id_for_neptune</span><span class="p">(</span><span class="n">id_name</span><span class="p">)</span></div>
 
-
+    
 <div class="viewcode-block" id="NeptuneDatabaseClient.property_assigment_fn">
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.property_assigment_fn">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">property_assigment_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a property assignment function for Neptune API usage. The generated</span>
-<span class="sd">        function can be used to set properties associated with a Neptune object.</span>
+<span class="sd">        Creates and returns a property assignment function which assigns a given value</span>
+<span class="sd">        to a specific key. The returned function will perform the assignment when</span>
+<span class="sd">        invoked.</span>
 
-<span class="sd">        :param key: A string representing the key of the property to assign.</span>
-<span class="sd">        :param value: The value of any type to be associated with the provided key.</span>
-<span class="sd">        :return: A callable function that takes a single string parameter and returns</span>
-<span class="sd">            a string representing the outcome of the property assignment.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The key to which the value would be assigned.</span>
+<span class="sd">            value (Any): The value to assign to the provided key.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Callable[[str], str]: A function that takes a single string argument and</span>
+<span class="sd">            performs the assignment with respect to the specified key and value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">create_property_assigment_fn_for_neptune</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
@@ -794,40 +790,37 @@
 <a class="viewcode-back" href="../../../../../graphrag_toolkit.lexical_graph.storage.graph.html#graphrag_toolkit.lexical_graph.storage.graph.neptune_graph_stores.NeptuneDatabaseClient.execute_query">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span> <span class="n">correlation_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Executes a cypher query with the provided parameters and logs the request and response</span>
-<span class="sd">        details for debugging purposes. It uses a unique query identifier for each execution</span>
-<span class="sd">        and measures the execution time. The results of the query are returned after execution.</span>
+<span class="sd">        Executes an openCypher query using the provided query string and parameters,</span>
+<span class="sd">        logs the query and its results for debugging purposes, and measures the</span>
+<span class="sd">        execution time in milliseconds.</span>
 
-<span class="sd">        :param cypher: The cypher query to execute.</span>
-<span class="sd">        :type cypher: str</span>
-<span class="sd">        :param parameters: A dictionary of parameters to be used within the cypher query.</span>
-<span class="sd">            Defaults to an empty dictionary.</span>
-<span class="sd">        :type parameters: dict, optional</span>
-<span class="sd">        :param correlation_id: An optional identifier used to correlate log entries</span>
-<span class="sd">            with specific requests. Defaults to None.</span>
-<span class="sd">        :type correlation_id: str, optional</span>
-<span class="sd">        :return: The results of the executed cypher query.</span>
-<span class="sd">        :rtype: dict</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cypher (str): The openCypher query string to be executed.</span>
+<span class="sd">            parameters (dict, optional): A dictionary of parameters to bind to the</span>
+<span class="sd">                query. Defaults to an empty dictionary.</span>
+<span class="sd">            correlation_id (str, optional): An optional correlation ID for tracking</span>
+<span class="sd">                queries across services. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: The results of the executed query as returned by the query response.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">query_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
-
+        
         <span class="n">params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
 
         <span class="n">request_log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span> <span class="n">cypher</span><span class="p">,</span> <span class="n">params</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span> 
+            <span class="n">cypher</span><span class="p">,</span> 
+            <span class="n">params</span>
         <span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] Query: [query: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s1">, parameters: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s1">]&#39;</span>
-        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] Query: [query: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">query</span><span class="si">}</span><span class="s1">, parameters: </span><span class="si">{</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
 
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">execute_open_cypher_query</span><span class="p">(</span>
-            <span class="n">openCypherQuery</span><span class="o">=</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">format_query_with_query_ref</span><span class="p">(</span>
-                <span class="n">cypher</span>
-            <span class="p">),</span>
-            <span class="n">parameters</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+        <span class="n">response</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">execute_open_cypher_query</span><span class="p">(</span>
+            <span class="n">openCypherQuery</span><span class="o">=</span><span class="n">request_log_entry_parameters</span><span class="o">.</span><span class="n">format_query_with_query_ref</span><span class="p">(</span><span class="n">cypher</span><span class="p">),</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">params</span>
         <span class="p">)</span>
 
         <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -836,15 +829,13 @@
 
         <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
             <span class="n">response_log_entry_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_formatting</span><span class="o">.</span><span class="n">format_log_entry</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span>
-                <span class="n">cypher</span><span class="p">,</span>
-                <span class="n">parameters</span><span class="p">,</span>
-                <span class="n">results</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logging_prefix</span><span class="p">(</span><span class="n">query_id</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">),</span> 
+                <span class="n">cypher</span><span class="p">,</span> 
+                <span class="n">parameters</span><span class="p">,</span> 
+                <span class="n">results</span>
             <span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s1">ms Results: [</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">results</span><span class="si">}</span><span class="s1">]&#39;</span>
-            <span class="p">)</span>
-
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">query_ref</span><span class="si">}</span><span class="s1">] </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s1">ms Results: [</span><span class="si">{</span><span class="n">response_log_entry_parameters</span><span class="o">.</span><span class="n">results</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+        
         <span class="k">return</span> <span class="n">results</span></div>
 </div>
 
@@ -895,11 +886,11 @@
     </aside>
   </div>
 </div><script src="../../../../../_static/documentation_options.js?v=f731707b"></script>
-    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../../../../_static/copybutton.js?v=5eb1bb1e"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../../_static/js/custom.js?v=3ea019ec"></script>
     </body>
 </html>

@@ -5,7 +5,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="graphrag_toolkit.lexical_graph.retrieval package" href="graphrag_toolkit.lexical_graph.retrieval.html" /><link rel="prev" title="graphrag_toolkit.lexical_graph.indexing.load package" href="graphrag_toolkit.lexical_graph.indexing.load.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="graphrag_toolkit.lexical_graph.prompts package" href="graphrag_toolkit.lexical_graph.prompts.html" /><link rel="prev" title="graphrag_toolkit.lexical_graph.indexing.load package" href="graphrag_toolkit.lexical_graph.indexing.load.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>graphrag_toolkit.lexical_graph.indexing.utils package - graphrag-toolkit 3.6.1 documentation</title>
@@ -274,10 +274,13 @@
 <li class="toctree-l5 current current-page"><a class="current reference internal" href="#">graphrag_toolkit.lexical_graph.indexing.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.prompts.html">graphrag_toolkit.lexical_graph.prompts package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphrag_toolkit.lexical_graph.protocols.html">graphrag_toolkit.lexical_graph.protocols package</a></li>
 <li class="toctree-l4 has-children"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.html">graphrag_toolkit.lexical_graph.retrieval package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of graphrag_toolkit.lexical_graph.retrieval package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.post_processors.html">graphrag_toolkit.lexical_graph.retrieval.post_processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.processors.html">graphrag_toolkit.lexical_graph.retrieval.processors package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.retrievers.html">graphrag_toolkit.lexical_graph.retrieval.retrievers package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.summary.html">graphrag_toolkit.lexical_graph.retrieval.summary package</a></li>
 <li class="toctree-l5"><a class="reference internal" href="graphrag_toolkit.lexical_graph.retrieval.utils.html">graphrag_toolkit.lexical_graph.retrieval.utils package</a></li>
 </ul>
 </li>
@@ -344,248 +347,50 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.create_and_run_batch_job">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.</span></span><span class="sig-name descname"><span class="pre">create_and_run_batch_job</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_name_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bedrock_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.extract.html#graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig" title="graphrag_toolkit.lexical_graph.indexing.extract.batch_config.BatchConfig"><span class="pre">BatchConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/batch_inference_utils.html#create_and_run_batch_job"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.create_and_run_batch_job" title="Link to this definition">¶</a></dt>
-<dd><p>Creates and runs a batch job using the Bedrock client. This function constructs the
-necessary input and output data configurations and optionally includes VPC configuration
-details if specified. It also handles job creation, logging the job’s ARN, and waiting
-for its completion. Any errors encountered during execution are logged and raised.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>job_name_prefix</strong> – Prefix string used for naming the batch job.</p></li>
-<li><p><strong>bedrock_client</strong> – Instance of the Bedrock service client to interact with.</p></li>
-<li><p><strong>timestamp</strong> – Unique identifier appended to the job name for timestamping purposes.</p></li>
-<li><p><strong>batch_index</strong> – Index number used in naming the batch job to distinguish between
-multiple batches.</p></li>
-<li><p><strong>batch_config</strong> – Configuration object containing details such as the bucket name,
-role ARN, encryption key, VPC settings, etc.</p></li>
-<li><p><strong>input_key</strong> – Key of the input file in the S3 bucket to be processed in the batch job.</p></li>
-<li><p><strong>output_path</strong> – Destination path in the S3 bucket where the output will be stored.</p></li>
-<li><p><strong>model_id</strong> – Identifier of the model to be used for invocation in the batch job.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
+<dd><p>Create and run a Bedrock batch inference job.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.create_inference_inputs">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.</span></span><span class="sig-name descname"><span class="pre">create_inference_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BedrockConverse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TextNode</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/batch_inference_utils.html#create_inference_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.create_inference_inputs" title="Link to this definition">¶</a></dt>
-<dd><p>Generates inference input data required for processing by the LLM service.</p>
-<p>This function accepts a list of text nodes, corresponding prompts, and additional
-keyword arguments to generate a structured input format compatible with the LLM
-provider’s API. For each node-prompt pair, the function processes the input,
-constructs the necessary payload using the LLM provider’s methods, and aggregates
-the results in a list of dictionaries for further consumption.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>llm</strong> – The <cite>BedrockConverse</cite> object representing the language model
-implementation that provides methods to handle requests and
-associated configurations.</p></li>
-<li><p><strong>nodes</strong> – A list of <cite>TextNode</cite> objects, where each node represents a
-unit of textual information with a unique identifier.</p></li>
-<li><p><strong>prompts</strong> – A list of string prompts corresponding to each text node,
-used as input to the language model for generating inferences.</p></li>
-<li><p><strong>kwargs</strong> – Additional keyword arguments passed to the LLM instance for
-configuration or tuning during request generation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of dictionaries, where each dictionary contains the
-<cite>recordId</cite> (derived from the node’s unique identifier) and
-<cite>modelInput</cite> (structured input for the LLM provider’s API).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Dict[str, Any]]</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.create_inference_inputs_for_messages">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.</span></span><span class="sig-name descname"><span class="pre">create_inference_inputs_for_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BedrockConverse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TextNode</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">messages_batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ChatMessage</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/batch_inference_utils.html#create_inference_inputs_for_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.create_inference_inputs_for_messages" title="Link to this definition">¶</a></dt>
-<dd><p>Creates inference inputs for a batch of messages, associating each message batch with a corresponding node.
-Generates a list of dictionaries containing the input structure needed for inference.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>llm</strong> (<em>BedrockConverse</em>) – Instance of BedrockConverse used to derive inference parameters and generate request bodies.</p></li>
-<li><p><strong>nodes</strong> (<em>List</em><em>[</em><em>TextNode</em><em>]</em>) – List of TextNode objects, with each node representing a unique record.</p></li>
-<li><p><strong>messages_batch</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>ChatMessage</em><em>]</em><em>]</em>) – Nested list of ChatMessage objects, where each inner list corresponds to
-a batch of messages linked to a node.</p></li>
-<li><p><strong>kwargs</strong> (<em>dict</em>) – Additional keyword arguments for customizing inference parameters.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of dictionaries containing ‘recordId’ keys linked to node IDs and ‘modelInput’
-keys containing the generated model inputs.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Dict[str, Any]]</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.download_output_files">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.</span></span><span class="sig-name descname"><span class="pre">download_output_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s3_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/batch_inference_utils.html#download_output_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.download_output_files" title="Link to this definition">¶</a></dt>
-<dd><p>Downloads files from an S3 bucket directory matching a specific prefix and saves them to
-a local directory. This function uses a paginator to iterate through S3 objects, identifies
-a folder containing files matching the given <cite>input_filename</cite>, and then downloads all files
-from that folder into the specified local directory.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s3_client</strong> – An S3 client instance used to interact with Amazon S3.</p></li>
-<li><p><strong>bucket_name</strong> – The name of the S3 bucket containing the files.</p></li>
-<li><p><strong>output_path</strong> – The prefix path in the S3 bucket where the files are located.</p></li>
-<li><p><strong>input_filename</strong> – The filename prefix to search for within the output path in S3.</p></li>
-<li><p><strong>local_directory</strong> – The local directory where the downloaded files will be saved.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
+<dd><p>Download output files from S3 by searching for a folder containing a file matching the input filename.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.get_parse_output_text_fn">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.</span></span><span class="sig-name descname"><span class="pre">get_parse_output_text_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/batch_inference_utils.html#get_parse_output_text_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.get_parse_output_text_fn" title="Link to this definition">¶</a></dt>
-<dd><p>Returns a function to parse the output text from JSON data based on the specified
-model ID. The returned function differs depending on the specific model identified
-by the <cite>model_id</cite>. This function streamlines the extraction of the text content
-from various structured outputs used by different models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>model_id</strong> – Identifier for the model whose output format determines the parsing
-logic.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A function that accepts JSON data and extracts output text as per the
-specified model’s format.</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – If the provided <cite>model_id</cite> does not match any of the
-supported models.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.get_request_body">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.</span></span><span class="sig-name descname"><span class="pre">get_request_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BedrockConverse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">messages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ChatMessage</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inference_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/batch_inference_utils.html#get_request_body"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.get_request_body" title="Link to this definition">¶</a></dt>
-<dd><p>Constructs the request body for the given LLM (Language Model) and input parameters.
-Depending on the model identified by <cite>model_id</cite>, this function adapts the request format
-and the message structure to match the expected input for that specific model. The request
-body is structured to include the required messages, and optionally, a system prompt, if applicable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>llm</strong> (<em>BedrockConverse</em>) – An instance of the <cite>BedrockConverse</cite> representing the LLM and its details
-such as model_id.</p></li>
-<li><p><strong>messages</strong> (<em>List</em><em>[</em><em>ChatMessage</em><em>]</em>) – A list of <cite>ChatMessage</cite> objects representing the input dialogue context
-to the LLM.</p></li>
-<li><p><strong>inference_parameters</strong> (<em>dict</em>) – A dictionary containing the inference-specific parameters
-such as ‘max_tokens’ and ‘temperature’. These parameters control the behavior of
-the model’s generation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary representing the request body formatted appropriately based on the
-model type.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.process_batch_output">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.</span></span><span class="sig-name descname"><span class="pre">process_batch_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_output_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><span class="pre">LLMCache</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/batch_inference_utils.html#process_batch_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.process_batch_output" title="Link to this definition">¶</a></dt>
-<dd><p>Processes the output of a batch of records, attempting to parse or reprocess failed
-records using a language model.</p>
-<p>This function handles reading records from a specified output directory and input
-filename. Each record is processed to extract meaningful data. Records that fail
-to process are re-attempted sequentially using a provided language model via
-asynchronous calls. Final results, both from the initial parsing and any retries,
-are returned.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>local_output_directory</strong> (<em>str</em>) – Path to the directory containing the output files
-to process.</p></li>
-<li><p><strong>input_filename</strong> (<em>str</em>) – Common prefix of the filenames to process in the specified
-directory.</p></li>
-<li><p><strong>llm</strong> (<a class="reference internal" href="graphrag_toolkit.lexical_graph.utils.html#graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache" title="graphrag_toolkit.lexical_graph.utils.llm_cache.LLMCache"><em>LLMCache</em></a>) – Language model interface used for reprocessing failed records.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary mapping record IDs to their processed outputs.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[str, str]</p>
-</dd>
-</dl>
+<dd><p>Process batch output files and return results.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.split_nodes">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.</span></span><span class="sig-name descname"><span class="pre">split_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/batch_inference_utils.html#split_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.split_nodes" title="Link to this definition">¶</a></dt>
-<dd><p>Split a list of nodes into batches based on the specified batch size.</p>
-<p>The function divides the given list of nodes into smaller batches, ensuring that
-the batch size adheres to pre-defined minimum and maximum constraints. If the
-batch size is smaller or larger than specified constraints, an appropriate error
-is raised. Similarly, if the input list of nodes is empty or its size falls below
-the minimum allowable batch size, an error is also raised. The last batch will
-include any remaining elements, provided that the size of this batch meets the
-minimum batch size requirement.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – List of nodes to be split into batches</p></li>
-<li><p><strong>batch_size</strong> (<em>int</em>) – Size of each batch</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of batches where each batch is a sublist of nodes</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[List[Any]]</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.wait_for_job_completion">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.</span></span><span class="sig-name descname"><span class="pre">wait_for_job_completion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bedrock_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_arn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/batch_inference_utils.html#wait_for_job_completion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.batch_inference_utils.wait_for_job_completion" title="Link to this definition">¶</a></dt>
-<dd><p>Waits for a batch job to complete by checking the job’s status periodically.</p>
-<p>This function monitors the status of a batch job by repeatedly querying the
-<cite>get_model_invocation_job</cite> method of the given client. It logs the progress
-and raises an error if the job does not complete successfully.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>bedrock_client</strong> (<em>Any</em>) – The client instance used to interact with the service API.
-It must provide the <cite>get_model_invocation_job</cite> method to query the job status.</p></li>
-<li><p><strong>job_arn</strong> (<em>str</em>) – The ARN (Amazon Resource Name) of the batch job to be monitored.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>This function does not return a value. It will raise an exception if the
-batch job fails.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="graphrag_toolkit.lexical_graph.html#graphrag_toolkit.lexical_graph.errors.BatchJobError" title="graphrag_toolkit.lexical_graph.errors.BatchJobError"><strong>BatchJobError</strong></a> – If the batch job fails, an exception is raised with the
-failure status and related message from the service response.</p>
-</dd>
-</dl>
+<dd><p>Wait for a Bedrock batch job to complete.</p>
 </dd></dl>
 
 </section>
@@ -594,49 +399,12 @@ failure status and related message from the service response.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.metadata_utils.get_properties_str">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.metadata_utils.</span></span><span class="sig-name descname"><span class="pre">get_properties_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/metadata_utils.html#get_properties_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.metadata_utils.get_properties_str" title="Link to this definition">¶</a></dt>
-<dd><p>Generates a string representation of the specified properties dictionary.</p>
-<p>This function takes a dictionary of properties, converts it into a sorted list
-of key-value pairs formatted as “key:value”, and joins these pairs into a
-single string separated by semicolons. If the provided properties dictionary
-is empty or None, the function returns the specified default string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>properties</strong> – Dictionary where keys and values represent property names and
-their corresponding values. Can be None.</p></li>
-<li><p><strong>default</strong> – Default string to return if the properties dictionary is empty
-or None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A semicolon-separated string representing the properties if they
-exist, or the default string if the properties dictionary is
-empty or None.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.metadata_utils.last_accessed_date">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.metadata_utils.</span></span><span class="sig-name descname"><span class="pre">last_accessed_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/metadata_utils.html#last_accessed_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.metadata_utils.last_accessed_date" title="Link to this definition">¶</a></dt>
-<dd><p>Calculates and returns the current date formatted as a string in ‘YYYY-MM-DD’
-format and associates it with the key ‘last_accessed_date’ in the returned
-dictionary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>args</strong> (<em>Any</em>) – Optional arguments that are not utilized in the function.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary containing the current date under the key ‘last_accessed_date’.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </section>
 <section id="module-graphrag_toolkit.lexical_graph.indexing.utils.pipeline_utils">
@@ -644,35 +412,7 @@ dictionary.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.pipeline_utils.run_pipeline">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.pipeline_utils.</span></span><span class="sig-name descname"><span class="pre">run_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IngestionPipeline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_batches</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_collection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseNode</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/pipeline_utils.html#run_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.pipeline_utils.run_pipeline" title="Link to this definition">¶</a></dt>
-<dd><p>Executes a pipeline to process batches of nodes by applying the transformations
-specified in the pipeline. This function uses a process pool to parallelize
-the execution of the transformations across multiple workers.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pipeline</strong> (<em>IngestionPipeline</em>) – The ingestion pipeline containing the transformations to
-be applied to the nodes and optional caching configuration.</p></li>
-<li><p><strong>node_batches</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>BaseNode</em><em>]</em><em>]</em>) – List of batches of nodes to be processed. Each batch is
-a list of BaseNode objects.</p></li>
-<li><p><strong>cache_collection</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Name of the cache collection to use, or None if no
-cache collection is specified.</p></li>
-<li><p><strong>in_place</strong> (<em>bool</em>) – Flag to specify whether transformations should be applied
-in-place on the nodes. Defaults to True.</p></li>
-<li><p><strong>num_workers</strong> (<em>int</em>) – Number of parallel worker processes to use for
-transformations. Defaults to 1.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Additional arguments to be passed to the transformation
-functions.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A sequence of processed nodes obtained after applying the
-transformations.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence[BaseNode]</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </section>
 <section id="module-graphrag_toolkit.lexical_graph.indexing.utils.topic_utils">
@@ -680,163 +420,42 @@ transformations.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.clean">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.</span></span><span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/topic_utils.html#clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.clean" title="Link to this definition">¶</a></dt>
-<dd><p>Cleans a given string by formatting its value and removing any surrounding
-parentheses.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – The string to be cleaned.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A string that has been formatted and stripped of parentheses.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.format_classification">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.</span></span><span class="sig-name descname"><span class="pre">format_classification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/topic_utils.html#format_classification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.format_classification" title="Link to this definition">¶</a></dt>
-<dd><p>Formats a given string to title case.</p>
-<p>This function takes a string and converts it to title case using the string
-method <cite>.title()</cite>. If the input string is empty or None, it returns an empty
-string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>str</em><em> or </em><em>None</em>) – The input string to be formatted. It can be None.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The formatted string in title case or an empty string if the input
-is None or empty.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.format_list">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.</span></span><span class="sig-name descname"><span class="pre">format_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/topic_utils.html#format_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.format_list" title="Link to this definition">¶</a></dt>
-<dd><p>Formats a list of strings into a single string with each element prefixed by a dash
-and indented with spaces. Each entry in the list will appear on a new line.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>values</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – The list of strings to be formatted.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A string with each element in the list formatted as an indented list item.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.format_text">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.</span></span><span class="sig-name descname"><span class="pre">format_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/topic_utils.html#format_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.format_text" title="Link to this definition">¶</a></dt>
-<dd><p>Formats the input text into a string. If the input is a list of strings, it
-joins the elements with newline characters. If the input is already a string,
-it simply returns it without modification.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>text</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>str</em>) – Input text, which can either be a list of strings or a single
-string.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Formatted string. If <cite>text</cite> is a list, the elements are joined into
-a single string separated by newlines. Otherwise, returns the input string
-unchanged.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.format_value">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.</span></span><span class="sig-name descname"><span class="pre">format_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/topic_utils.html#format_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.format_value" title="Link to this definition">¶</a></dt>
-<dd><p>Formats the input string by replacing underscores with spaces. If the input is
-None or an empty string, it returns the input as it is.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>str</em><em> or </em><em>None</em>) – The input string to be formatted</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The formatted string with underscores replaced by spaces, or the
-input itself if it is None or empty</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.parse_extracted_topics">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.</span></span><span class="sig-name descname"><span class="pre">parse_extracted_topics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.TopicCollection" title="graphrag_toolkit.lexical_graph.indexing.model.TopicCollection"><span class="pre">TopicCollection</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/topic_utils.html#parse_extracted_topics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.parse_extracted_topics" title="Link to this definition">¶</a></dt>
-<dd><p>Parses a raw text input to extract structured topics, propositions, entities,
-and their relationships. This function interprets specific formatted strings
-such as topics, propositions, entities, and their relationships to
-construct a collection of topics and supplemental unstructured data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>raw_text</strong> (<em>str</em>) – The raw text input to be parsed, containing topics,
-propositions, entities, and relationships in a predefined format.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple containing the parsed topic collection and a list of
-unstructured or unparseable information from the input.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[<a class="reference internal" href="graphrag_toolkit.lexical_graph.indexing.html#graphrag_toolkit.lexical_graph.indexing.model.TopicCollection" title="graphrag_toolkit.lexical_graph.indexing.model.TopicCollection">TopicCollection</a>, List[str]]</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.strip_full_stop">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.</span></span><span class="sig-name descname"><span class="pre">strip_full_stop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/topic_utils.html#strip_full_stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.strip_full_stop" title="Link to this definition">¶</a></dt>
-<dd><p>Removes the trailing full stop (period) from a string, if it exists. If the
-input string is empty or does not end with a full stop, the string is returned
-as-is without modifications.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – The input string that may or may not end with a full stop.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The modified string without the trailing full stop, or the original
-string if no modifications were required.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.strip_parentheses">
 <span class="sig-prename descclassname"><span class="pre">graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.</span></span><span class="sig-name descname"><span class="pre">strip_parentheses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphrag_toolkit/lexical_graph/indexing/utils/topic_utils.html#strip_parentheses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graphrag_toolkit.lexical_graph.indexing.utils.topic_utils.strip_parentheses" title="Link to this definition">¶</a></dt>
-<dd><p>Removes text enclosed in parentheses along with the parentheses themselves
-from the given string. Extra spaces resulting from this removal are reduced,
-and leading/trailing spaces are stripped.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – The string from which the parentheses and enclosed text are to
-be removed.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A new string with parentheses and their contents removed, extra
-spaces reduced, and leading/trailing spaces stripped.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </section>
 <section id="module-graphrag_toolkit.lexical_graph.indexing.utils">
@@ -849,12 +468,12 @@ spaces reduced, and leading/trailing spaces stripped.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="graphrag_toolkit.lexical_graph.retrieval.html">
+          <a class="next-page" href="graphrag_toolkit.lexical_graph.prompts.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">graphrag_toolkit.lexical_graph.retrieval package</div>
+                <div class="title">graphrag_toolkit.lexical_graph.prompts package</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
