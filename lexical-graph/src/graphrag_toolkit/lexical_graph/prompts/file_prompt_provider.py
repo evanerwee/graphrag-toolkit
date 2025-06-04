@@ -1,4 +1,5 @@
 import os
+import jsop
 from graphrag_toolkit.lexical_graph.prompts.prompt_provider_base import PromptProvider
 from graphrag_toolkit.lexical_graph.prompts.prompt_provider_config import FilePromptProviderConfig
 from graphrag_toolkit.lexical_graph.logging import logging
@@ -32,6 +33,7 @@ class FilePromptProvider(PromptProvider):
         logger.info(f"[Prompt Debug] Base path: {self.config.base_path}")
         logger.info(f"[Prompt Debug] System prompt file: {self.system_prompt_file}")
         logger.info(f"[Prompt Debug] User prompt file: {self.user_prompt_file}")
+        logger.info(f"[Prompt Debug] Format: {self.config.format}")
 
     def _load_prompt(self, filename: str) -> str:
         """
@@ -52,11 +54,14 @@ class FilePromptProvider(PromptProvider):
             raise FileNotFoundError(f"Prompt file not found: {path}")
         try:
             with open(path, "r", encoding="utf-8") as f:
-                return f.read().rstrip()
-        except OSError as e:
-            raise OSError(f"Failed to read prompt file {path}: {str(e)}") from e
+                content = f.read()
+                if self.config.format == "json":
+                    return json.loads(content)
+                return content.strip()
+        except Exception as e:
+            raise OSError(f"Failed to load prompt file {path}: {e}") from e
 
-    def get_system_prompt(self) -> str:
+    def get_system_prompt(self) -> str | dict:
         """
         Returns the contents of the system prompt file.
 
@@ -65,7 +70,7 @@ class FilePromptProvider(PromptProvider):
         """
         return self._load_prompt(self.system_prompt_file)
 
-    def get_user_prompt(self) -> str:
+    def get_user_prompt(self) -> str | dict:
         """
         Returns the contents of the user prompt file.
 
