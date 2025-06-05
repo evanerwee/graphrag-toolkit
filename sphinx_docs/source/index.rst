@@ -119,7 +119,16 @@ Hybrid Deployment
    :maxdepth: 1
    :caption: Batch Extraction
 
-   md/lexical-graph/hybrid-deployment.md
+   md/lexical-graph/hybrid-deployment
+
+Prompting
+-----------------
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Prompt Selection
+
+   md/lexical-graph/prompts
 
 FAQ
 ---

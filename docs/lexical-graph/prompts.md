@@ -80,6 +80,3 @@ prompt_provider = BedrockPromptProvider(
 
 This provider resolves prompt ARNs dynamically using STS and can fall back to environment variables if needed.
 
----
-
-Would you like this formatted into a Markdown file or added directly into your Sphinx docs structure (`index.md` or a separate `prompts.md`)?
