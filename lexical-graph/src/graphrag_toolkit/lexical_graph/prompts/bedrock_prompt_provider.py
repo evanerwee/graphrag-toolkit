@@ -39,19 +39,21 @@ class BedrockPromptProvider(PromptProvider):
 
             template_config = variants[0].get("templateConfiguration", {}).get("text", {})
 
-            # Support both text and json formats
-            if self.config.format == "json":
-                json_payload = template_config.get("json")
-                if not json_payload:
+            # Fallback format logic if config.format is not set
+            if self.config.format == "json" or (
+                    self.config.format is None and "json" in template_config
+            ):
+                if json_payload := template_config.get("json"):
+                    return json_payload
+
+                else:
                     raise RuntimeError(f"JSON prompt not found for: {prompt_arn}")
-                return json_payload
-            else:
-                text = template_config.get("text")
-                if not text:
-                    raise RuntimeError(f"Text prompt not found for: {prompt_arn}")
+            if text := template_config.get("text"):
                 return text.strip()
 
-        except Exception as e:
+            else:
+                raise RuntimeError(f"Text prompt not found for: {prompt_arn}")
+        except (Exception, Exception) as e:
             logger.error(f"Failed to load prompt for {prompt_arn}: {str(e)}")
             raise RuntimeError(f"Could not load prompt from Bedrock: {prompt_arn}") from e
 

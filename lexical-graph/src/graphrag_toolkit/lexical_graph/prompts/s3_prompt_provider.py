@@ -43,10 +43,10 @@ class S3PromptProvider(PromptProvider):
             response = s3_client.get_object(Bucket=self.config.bucket, Key=key)
             body = response["Body"].read().decode("utf-8")
 
-            if self.config.format == "json":
-                return json.loads(body)
-            return body.strip()
+            # Determine format: config takes priority, fallback to extension
+            fmt = self.config.format or ("json" if filename.endswith(".json") else "text")
 
+            return json.loads(body) if fmt == "json" else body.strip()
         except Exception as e:
             logger.error(f"Failed to load prompt from S3: s3://{self.config.bucket}/{key} - {e}")
             raise RuntimeError(f"Could not load prompt file from S3: {key}") from e
