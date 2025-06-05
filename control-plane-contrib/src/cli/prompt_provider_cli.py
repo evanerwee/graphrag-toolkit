@@ -20,7 +20,7 @@ def bootstrap_providers():
 
 @app.command("env")
 def show_env():
-    """Show current PROMPT_PROVIDER environment setting."""
+    """Show the current PROMPT_PROVIDER environment setting."""
     provider = os.getenv("PROMPT_PROVIDER", "static")
     print(f"[bold green]PROMPT_PROVIDER[/]: {provider}")
 
