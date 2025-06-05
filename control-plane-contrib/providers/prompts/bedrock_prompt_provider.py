@@ -26,41 +26,38 @@ class BedrockPromptProvider(PromptProvider):
             f"  region={config.aws_region}, profile={config.aws_profile}"
         )
 
-    def _load_prompt(self, prompt_arn: str, version: str = None) -> str:
-        """Loads a prompt template from AWS Bedrock using the given ARN and version.
-
-        Args:
-            prompt_arn: The ARN of the prompt to load.
-            version: The version of the prompt to load (optional).
-
-        Returns:
-            The text of the loaded prompt template.
-
-        Raises:
-            RuntimeError: If the prompt or its text cannot be found or loaded.
-        """
+    def _load_prompt(self, prompt_arn: str, version: str = None) -> str | dict:
         try:
             kwargs = {"promptIdentifier": prompt_arn}
             if version:
                 kwargs["promptVersion"] = version
 
             response = self.config.bedrock.get_prompt(**kwargs)
-
             variants = response.get("variants", [])
             if not variants:
                 raise RuntimeError(f"No variants found for prompt: {prompt_arn}")
 
-            text = variants[0].get("templateConfiguration", {}).get("text", {}).get("text")
-            if not text:
-                raise RuntimeError(f"Prompt text not found for: {prompt_arn}")
+            template_config = variants[0].get("templateConfiguration", {}).get("text", {})
 
-            return text.strip()
+            # Fallback format logic if config.format is not set
+            if self.config.format == "json" or (
+                    self.config.format is None and "json" in template_config
+            ):
+                if json_payload := template_config.get("json"):
+                    return json_payload
 
-        except Exception as e:
+                else:
+                    raise RuntimeError(f"JSON prompt not found for: {prompt_arn}")
+            if text := template_config.get("text"):
+                return text.strip()
+
+            else:
+                raise RuntimeError(f"Text prompt not found for: {prompt_arn}")
+        except (Exception, Exception) as e:
             logger.error(f"Failed to load prompt for {prompt_arn}: {str(e)}")
             raise RuntimeError(f"Could not load prompt from Bedrock: {prompt_arn}") from e
 
-    def get_system_prompt(self) -> str:
+    def get_system_prompt(self) -> str | dict:
         """Retrieves the system prompt template from AWS Bedrock.
 
         Returns:
@@ -71,7 +68,7 @@ class BedrockPromptProvider(PromptProvider):
             self.config.system_prompt_version,
         )
 
-    def get_user_prompt(self) -> str:
+    def get_user_prompt(self) -> str | dict:
         """Retrieves the user prompt template from AWS Bedrock.
 
         Returns:

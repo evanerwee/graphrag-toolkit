@@ -7,95 +7,63 @@ from graphrag_toolkit.lexical_graph.logging import logging
 
 logger = logging.getLogger(__name__)
 
-
 class PromptProviderRegistry:
     """
     Global registry for managing and retrieving named PromptProvider instances.
-
-    Supports:
-    - Named registration of multiple providers (e.g., "aws-prod", "local-dev")
-    - A default provider fallback
+    Supports multiple sources (e.g., Bedrock, S3, File) and default fallback.
     """
 
     _registry: Dict[str, PromptProvider] = {}
     _default_provider_name: Optional[str] = None
 
-    # ─────────────────────────────────────────────
-    # Registration
-    # ─────────────────────────────────────────────
     @classmethod
     def register(cls, name: str, provider: PromptProvider, default: bool = False) -> None:
         """
-        Register a provider under a unique name. Optionally set it as default.
+        Register a prompt provider under a unique name.
+        Optionally, set it as the default provider.
 
-        Args:
-            name: Unique name for the provider (e.g., "aws-prod", "local-dev").
-            provider: The PromptProvider instance.
-            default: If True, set this as the default provider.
+        Parameters
+        ----------
+        name : str
+            The unique name for the provider (e.g., "aws-prod", "local-dev").
+        provider : PromptProvider
+            The provider instance to register.
+        default : bool
+            Whether to make this the default provider.
         """
         cls._registry[name] = provider
-        logger.info(f"[PromptProviderRegistry] Registered provider '{name}'")
-
         if default or cls._default_provider_name is None:
             cls._default_provider_name = name
-            logger.info(f"[PromptProviderRegistry] Set default provider to '{name}'")
 
     @classmethod
-    def force_default(cls, name: str) -> None:
+    def get(cls, name: Optional[str] = None) -> Optional[PromptProvider]:
         """
-        Forcefully sets the default provider (if it was already registered).
+        Retrieve a prompt provider by name, or return the default if no name is specified.
 
-        Args:
-            name: Name of the provider to mark as default.
+        Parameters
+        ----------
+        name : Optional[str]
+            The name of the provider to retrieve.
+
+        Returns
+        -------
+        Optional[PromptProvider]
+            The matching provider instance or None.
         """
-        if name not in cls._registry:
-            raise ValueError(f"Cannot set default: provider '{name}' is not registered.")
-        cls._default_provider_name = name
-        logger.info(f"[PromptProviderRegistry] Forced default provider to '{name}'")
+        if name:
+            return cls._registry.get(name)
+        if cls._default_provider_name:
+            return cls._registry.get(cls._default_provider_name)
+        return None
 
-    # ─────────────────────────────────────────────
-    # Retrieval
-    # ─────────────────────────────────────────────
-    @classmethod
-    def get(cls, name: Optional[str] = None) -> PromptProvider:
-        """
-        Get a provider by name, or return the default.
-
-        Args:
-            name: Optional name of the registered provider.
-
-        Returns:
-            The PromptProvider instance.
-
-        Raises:
-            ValueError: If no provider is found and no default is set.
-        """
-        provider = cls._registry.get(name) if name else cls._registry.get(cls._default_provider_name)
-
-        if provider is None:
-            raise ValueError(f"PromptProvider not found: '{name or cls._default_provider_name}'")
-
-        return provider
-
-    # ─────────────────────────────────────────────
-    # Listing & Debug
-    # ─────────────────────────────────────────────
     @classmethod
     def list_registered(cls) -> Dict[str, PromptProvider]:
         """
-        Returns a copy of the provider registry.
+        List all registered prompt providers.
 
-        Returns:
-            Dict of provider names and their instances.
+        Returns
+        -------
+        Dict[str, PromptProvider]
+            A dictionary of provider names and their instances.
         """
         return cls._registry.copy()
-
-    @classmethod
-    def get_default_name(cls) -> Optional[str]:
-        """
-        Returns the name of the currently set default provider.
-
-        Returns:
-            The default provider name, if any.
-        """
-        return cls._default_provider_name

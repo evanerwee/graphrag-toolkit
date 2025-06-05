@@ -210,6 +210,24 @@ class FilePromptProviderConfig(ProviderConfig):
             user_prompt_file=self.user_prompt_file
         )
 
+# ------------------------------------------------------------------------------
+# DynamoDBPromptProviderConfig
+# ------------------------------------------------------------------------------
+@dataclass(kw_only=True)
+class DynamoDBPromptProviderConfig(ProviderConfig):
+    """
+    Configuration class for DynamoDB-based prompt providers.
+
+    Loads prompt entries from a DynamoDB table keyed by tenant and prompt type.
+    """
+    table_name: str = field(default_factory=lambda: os.environ["PROMPT_DDB_TABLE"])
+    tenant_id: str = field(default_factory=lambda: os.environ["PROMPT_TENANT_ID"])
+    system_prompt_key: str = "system"
+    user_prompt_key: str = "user"
+
+    def build(self) -> PromptProvider:
+        from graphrag_toolkit.lexical_graph.prompts.dynamodb_prompt_provider import DynamoDBPromptProvider
+        return DynamoDBPromptProvider(config=self)
 
 # ------------------------------------------------------------------------------
 # StaticPromptProviderConfig

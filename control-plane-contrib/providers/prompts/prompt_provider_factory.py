@@ -7,6 +7,7 @@ from graphrag_toolkit.lexical_graph.prompts.prompt_provider_config import (
     S3PromptProviderConfig,
     FilePromptProviderConfig,
     StaticPromptProviderConfig,
+    DynamoDBPromptProviderConfig
 )
 from graphrag_toolkit.lexical_graph.logging import logging
 
@@ -37,6 +38,25 @@ class PromptProviderFactory:
             return S3PromptProviderConfig().build()
         elif provider_type == "file":
             return FilePromptProviderConfig().build()
+        elif provider_type == "dynamodb":
+            return DynamoDBPromptProviderConfig().build()
         else:
             # Final fallback to static default prompts
             return StaticPromptProviderConfig().build()
+
+    @staticmethod
+    def from_dict(config: dict) -> PromptProvider:
+        provider_type = config.pop("provider_type", "static").lower()
+
+        if provider_type == "bedrock":
+            return BedrockPromptProviderConfig(**config).build()
+        elif provider_type == "s3":
+            return S3PromptProviderConfig(**config).build()
+        elif provider_type == "file":
+            return FilePromptProviderConfig(**config).build()
+        elif provider_type == "dynamodb":
+            return DynamoDBPromptProviderConfig(**config).build()
+        elif provider_type == "static":
+            return StaticPromptProviderConfig.build()
+        else:
+            raise ValueError(f"Unsupported provider_type: {provider_type}")
