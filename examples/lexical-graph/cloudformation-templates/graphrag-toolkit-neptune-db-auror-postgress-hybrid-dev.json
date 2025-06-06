@@ -131,11 +131,6 @@
 			"Type": "String",
 			"Description": "URL of a zip file containing example notebooks to be installed on SageMaker instance (optional)",
 			"Default": "https://github.com/awslabs/graphrag-toolkit/releases/latest/download/lexical-graph-examples.zip"
-		},
-		"ExampleNotebooksHybridDevURL": {
-			"Type": "String",
-			"Description": "URL of a zip file containing example hybrid development notebooks to be installed on SageMaker instance (optional)",
-			"Default": "https://github.com/awslabs/graphrag-toolkit/releases/download/v3.8.1/lexical-graph-hybrid-dev-examples.zip"
 		}
 	},
 	"Metadata": {
@@ -189,7 +184,6 @@
 					"Parameters": [
 						"NotebookInstanceType",
 						"ExampleNotebooksURL",
-						"ExampleNotebooksHybridDevURL",
 						"IamPolicyArn"
 					]
 				}
@@ -207,36 +201,6 @@
 						""
 					]
 				}
-			]
-		},
-		"ExampleNotebooksHybridDevURLIsNotBlank": {
-			"Fn::Not": [
-				{
-					"Fn::Equals": [
-						{
-							"Ref": "ExampleNotebooksHybridDevURL"
-						},
-						""
-					]
-				}
-			]
-		},
-		"IsS3ExampleNotebooksURL": {
-			"Fn::Equals": [
-				{
-					"Fn::Select": [
-						0,
-						{
-							"Fn::Split": [
-								":",
-								{
-									"Ref": "ExampleNotebooksURL"
-								}
-							]
-						}
-					]
-				},
-				"s3"
 			]
 		},
 		"IsIadRegion": {
@@ -1680,28 +1644,6 @@
 															"\" -o lexical-graph-examples.zip\n",
 															"  unzip lexical-graph-examples.zip -d graphrag-toolkit\n",
 															"  rm -rf lexical-graph-examples.zip\n"
-														]
-													]
-												},
-												{
-													"Ref": "AWS::NoValue"
-												}
-											]
-										},
-										{
-											"Fn::If": [
-												"ExampleNotebooksHybridDevURLIsNotBlank",
-												{
-													"Fn::Join": [
-														"",
-														[
-															"  curl -LO \"",
-															{
-																"Ref": "ExampleNotebooksHybridDevURL"
-															},
-															"\" -o lexical-graph-hybrid-dev-examples.zip\n",
-															"  unzip lexical-graph-hybrid-dev-examples.zip -d graphrag-toolkit-hybrid\n",
-															"  rm -rf lexical-graph-hybrid-dev-examples.zip\n"
 														]
 													]
 												},
