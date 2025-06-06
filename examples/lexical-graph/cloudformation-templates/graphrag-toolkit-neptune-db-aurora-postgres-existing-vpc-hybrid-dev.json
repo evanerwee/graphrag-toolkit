@@ -1700,8 +1700,8 @@
 																"Ref": "ExampleNotebooksURL"
 															},
 															"\" -o lexical-graph-hybrid-dev-examples.zip\n",
-															"  unzip lexical-graph-hybrid-dev-examples -d graphrag-toolkit-hybrid\n",
-															"  rm -rf lexical-graph-hybrid-dev-examples\n"
+															"  unzip lexical-graph-hybrid-dev-examples.zip -d graphrag-toolkit-hybrid\n",
+															"  rm -rf lexical-graph-hybrid-dev-examples.zip\n"
 														]
 													]
 												},
