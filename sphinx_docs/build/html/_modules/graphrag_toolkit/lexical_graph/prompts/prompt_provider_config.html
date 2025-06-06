@@ -496,10 +496,17 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_prompt_arn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_prompt_arn</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_prompt_arn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">identifier</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;arn:aws:bedrock:&quot;</span><span class="p">):</span>
+        <span class="c1"># If it&#39;s already a full ARN, return it</span>
+        <span class="k">if</span> <span class="n">identifier</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;arn:&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">identifier</span>
+
+        <span class="c1"># Get caller identity and extract the partition from the ARN</span>
+        <span class="n">caller_arn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sts</span><span class="o">.</span><span class="n">get_caller_identity</span><span class="p">()[</span><span class="s2">&quot;Arn&quot;</span><span class="p">]</span>
+        <span class="c1"># Example ARN: arn:aws-us-gov:sts::123456789012:assumed-role/...</span>
+        <span class="n">partition</span> <span class="o">=</span> <span class="n">caller_arn</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">account_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sts</span><span class="o">.</span><span class="n">get_caller_identity</span><span class="p">()[</span><span class="s2">&quot;Account&quot;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;arn:aws:bedrock:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">aws_region</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">account_id</span><span class="si">}</span><span class="s2">:prompt/</span><span class="si">{</span><span class="n">identifier</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;arn:</span><span class="si">{</span><span class="n">partition</span><span class="si">}</span><span class="s2">:bedrock:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">aws_region</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">account_id</span><span class="si">}</span><span class="s2">:prompt/</span><span class="si">{</span><span class="n">identifier</span><span class="si">}</span><span class="s2">&quot;</span>
 
 <div class="viewcode-block" id="BedrockPromptProviderConfig.build">
 <a class="viewcode-back" href="../../../../graphrag_toolkit.lexical_graph.prompts.html#graphrag_toolkit.lexical_graph.prompts.prompt_provider_config.BedrockPromptProviderConfig.build">[docs]</a>
