@@ -1,37 +1,41 @@
-# Using Custom Extract Providers
 
-The GraphRAG Toolkit supports pluggable **extract providers** to allow structured ingestion of content from multiple source types such as S3, web, PDFs, GitHub, and more.
+# Using Custom Reader Providers
 
-Each provider implements the `ExtractProvider` interface and can be dynamically loaded via the control plane or instantiated directly in code.
+The GraphRAG Toolkit supports pluggable **reader providers** to allow structured ingestion of content from multiple source types such as local directories, S3 buckets, web pages, PDFs, GitHub repos, and more.
+
+Each provider implements the `ReaderProvider` interface and can be dynamically loaded via the control plane or instantiated directly in code.
 
 ---
 
 ## Provider Categories
 
-Extract providers are grouped into two categories:
+Reader providers are currently grouped into one category:
 
-* **Llama Providers** – Based on LlamaIndex readers (e.g., PDF, web, docx)
+* **Llama Reader Providers** – wrappers around LlamaIndex readers (e.g. PDF, web, docx, directory, etc.)
 
 ---
 
-## Llama Providers
+## Llama Reader Providers
+
+> All of these live under  
+> `graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers`
+
+---
 
 ### 1. DirectoryReaderProvider
 
-Use this provider to extract from a local directory with mixed file types (`.pdf`, `.docx`, `.html`, etc.).
+Use this to read a local directory containing mixed file types (`.pdf`, `.docx`, `.html`, etc.).
 
 ```python
-from graphrag_toolkit.lexical_graph.extract.llama_providers.directory_reader_provider import DirectoryReaderProvider
+from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers.directory_reader_provider import DirectoryReaderProvider
 
-# Directory input path
-directory_path = "soup/"  # This folder should contain mixed .pdf, .pptx, .docx, etc.
+# Point at your local folder...
+provider = DirectoryReaderProvider(data_dir="data/mixed-files/")
+docs = provider.read()
 
-# Extract and build
-provider = DirectoryReaderProvider(data_dir=directory_path)
-docs = provider.extract()
-
+# Then feed into your graph index
 graph_index.extract_and_build(docs, show_progress=True)
-```
+````
 
 ---
 
@@ -40,16 +44,13 @@ graph_index.extract_and_build(docs, show_progress=True)
 ```python
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers.web_reader_provider import WebReaderProvider
 
-doc_urls = [
-    'https://docs.aws.amazon.com/neptune/latest/userguide/intro.html',
-    'https://docs.aws.amazon.com/neptune-analytics/latest/userguide/what-is-neptune-analytics.html',
-    'https://docs.aws.amazon.com/neptune-analytics/latest/userguide/neptune-analytics-features.html',
-    'https://docs.aws.amazon.com/neptune-analytics/latest/userguide/neptune-analytics-vs-neptune-database.html'
+urls = [
+    "https://aws.amazon.com/neptune/",
+    "https://aws.amazon.com/neptune-analytics/"
 ]
 
 provider = WebReaderProvider()
-docs = provider.read(doc_urls)
-
+docs = provider.read(urls)
 graph_index.extract_and_build(docs, show_progress=True)
 ```
 
@@ -60,12 +61,8 @@ graph_index.extract_and_build(docs, show_progress=True)
 ```python
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers.pdf_reader_provider import PDFReaderProvider
 
-# PDF Input
-pdf_path = "pdf/sample.pdf"
-
-# Extract and build
 provider = PDFReaderProvider()
-docs = provider.read(pdf_path)
+docs = provider.read("docs/sample.pdf")
 ```
 
 ---
@@ -75,12 +72,8 @@ docs = provider.read(pdf_path)
 ```python
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers.youtube_reader_provider import YouTubeReaderProvider
 
-# YouTube URL
-youtube_url = "https://www.youtube.com/watch?v=YmR2_zlQO5w"
-
-# Extract and build
 provider = YouTubeReaderProvider()
-docs = provider.read(youtube_url)
+docs = provider.read("https://www.youtube.com/watch?v=YmR2_zlQO5w")
 ```
 
 ---
@@ -89,17 +82,16 @@ docs = provider.read(youtube_url)
 
 ```python
 from graphrag_toolkit.lexical_graph.indexing.load.readers.reader_provider_config import S3DirectoryReaderConfig
+from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers.s3_directory_reader_provider import S3DirectoryReaderProvider
 
-# S3 configuration
-s3_config = S3DirectoryReaderConfig(
-    bucket="rag-extract-188967239867",  # Replace it with your actual bucket
-    prefix="soup/",                          # Folder inside the bucket
-    region="us-east-1",                      # Optional, defaults to us-east-1
-    profile=None                             # Optional, use None to rely on default credentials
+config = S3DirectoryReaderConfig(
+    bucket="my-bucket",
+    prefix="documents/",
+    region="us-east-1",
+    profile=None       # or your AWS profile name
 )
 
-# Extract and build
-provider = S3DirectoryReaderProvider(config=s3_config)
+provider = S3DirectoryReaderProvider(config=config)
 docs = provider.read()
 ```
 
@@ -109,18 +101,14 @@ docs = provider.read()
 
 ```python
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers.github_repo_provider import GitHubReaderProvider
+import os
 
-# GitHub repo (public)
-github_repo = "https://github.com/awslabs/graphrag-toolkit"
-branch = "main"
-
-# Load optional GitHub token
+repo_url    = "https://github.com/aws/graphrag-toolkit"
+branch      = "main"
 github_token = os.getenv("GITHUB_TOKEN")
 
-if github_token:
-    print("Using authenticated GitHub access with token.")
-else:
-    print("No GITHUB_TOKEN found — using unauthenticated access. You may be rate-limited.")
+provider = GitHubReaderProvider(repo_url=repo_url, branch=branch, token=github_token)
+docs = provider.read()
 ```
 
 ---
@@ -130,102 +118,80 @@ else:
 ```python
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers.docx_reader_provider import DocxReaderProvider
 
-# DOCX input path
-docx_path = "docs/story.docx"
-
-# Extract and build
 provider = DocxReaderProvider()
-docs = provider.read(docx_path)
+docs = provider.read("docs/story.docx")
 ```
 
 ---
 
-## 8. PPTXReaderProvider
+### 8. PPTXReaderProvider
 
 ```python
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers.pptx_reader_provider import PPTXReaderProvider
 
-# PPTX input path
-pptx_path = "pptx/sample.pptx"
-
-# Extract and build
 provider = PPTXReaderProvider()
-docs = provider.read(pptx_path)
+docs = provider.read("presentations/sample.pptx")
 ```
 
 ---
 
 ## Configuration-Driven Instantiation
 
+You can also wire readers up via your control-plane config:
+
 ```python
-from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers.web_reader_provider import WebReaderProvider
+from graphrag_toolkit.lexical_graph.indexing.load.readers.reader_provider_config import ReaderProviderConfig
+from graphrag_toolkit.lexical_graph.indexing.load.readers.reader_provider_factory import get_reader_provider
 
-doc_urls = [
-    'https://docs.aws.amazon.com/neptune/latest/userguide/intro.html',
-    'https://docs.aws.amazon.com/neptune-analytics/latest/userguide/what-is-neptune-analytics.html',
-    'https://docs.aws.amazon.com/neptune-analytics/latest/userguide/neptune-analytics-features.html',
-    'https://docs.aws.amazon.com/neptune-analytics/latest/userguide/neptune-analytics-vs-neptune-database.html'
-]
-
-provider = WebReaderProvider()
-docs = provider.read(doc_urls)
+config = ReaderProviderConfig(type="web", params={})
+provider = get_reader_provider(config)
+docs = provider.read(["https://example.com"])
 ```
 
 ---
 
-## Available Extract Provider Types
+## Available Reader Provider Types
 
-| Type             | Class                     |
-|------------------| ------------------------- |
-| `directory`      | DirectoryReaderProvider   |
-| `s3_directory`   | S3DirectoryReaderProvider |
-| `pdf`            | PDFReaderProvider         |
-| `web`            | WebReaderProvider         |
-| `youtube`        | YouTubeReaderProvider     |
-| `github`         | GitHubRepoReaderProvider  |
-| `docx`           | DocxReaderProvider        |
-| `pptx`           | PPTXReaderProvider        |
-
+| Provider Type  | Class                       |
+| -------------- | --------------------------- |
+| `directory`    | `DirectoryReaderProvider`   |
+| `s3_directory` | `S3DirectoryReaderProvider` |
+| `pdf`          | `PDFReaderProvider`         |
+| `web`          | `WebReaderProvider`         |
+| `youtube`      | `YouTubeReaderProvider`     |
+| `github`       | `GitHubReaderProvider`      |
+| `docx`         | `DocxReaderProvider`        |
+| `pptx`         | `PPTXReaderProvider`        |
 
 ---
 
-## Full Example: Web Extraction + GraphRAG Indexing
+## Full Example: Web → GraphRAG Indexing
 
 ```python
-%reload_ext dotenv
-%dotenv
-
 import os
-
 from graphrag_toolkit.lexical_graph import LexicalGraphIndex, set_logging_config
-from graphrag_toolkit.lexical_graph.storage import VectorStoreFactory
-from graphrag_toolkit.lexical_graph.storage import GraphStoreFactory
+from graphrag_toolkit.lexical_graph.storage import GraphStoreFactory, VectorStoreFactory
 from graphrag_toolkit.lexical_graph.storage.graph.falkordb import FalkorDBGraphStoreFactory
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_providers.web_reader_provider import WebReaderProvider
 
+# register your graph store
 GraphStoreFactory.register(FalkorDBGraphStoreFactory)
 
+graph_store  = GraphStoreFactory.for_graph_store(os.environ["GRAPH_STORE"])
+vector_store = VectorStoreFactory.for_vector_store(os.environ["VECTOR_STORE"])
+graph_index  = LexicalGraphIndex(graph_store, vector_store)
 
-
-graph_store = GraphStoreFactory.for_graph_store(os.environ['GRAPH_STORE'])
-vector_store = VectorStoreFactory.for_vector_store(os.environ['VECTOR_STORE'])
-
-graph_index = LexicalGraphIndex(
-    graph_store,
-    vector_store
-)
-
-doc_urls = [
-    'https://docs.aws.amazon.com/neptune/latest/userguide/intro.html',
-    'https://docs.aws.amazon.com/neptune-analytics/latest/userguide/what-is-neptune-analytics.html',
-    'https://docs.aws.amazon.com/neptune-analytics/latest/userguide/neptune-analytics-features.html',
-    'https://docs.aws.amazon.com/neptune-analytics/latest/userguide/neptune-analytics-vs-neptune-database.html'
-]
-
+# read some URLs
 provider = WebReaderProvider()
-docs = provider.read(doc_urls)
+docs     = provider.read([
+    "https://aws.amazon.com/neptune/",
+    "https://aws.amazon.com/neptune-analytics/"
+])
 
+# extract and build your RAG index
 graph_index.extract_and_build(docs, show_progress=True)
+print("Indexing complete!")
+```
 
-print('Complete')
+```
 ```
