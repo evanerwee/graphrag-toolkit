@@ -53,15 +53,15 @@ class S3PromptProvider(PromptProvider):
         Returns:
             JSON string of the AWS template, or empty string if not found.
         """
+        if not self.config.aws_template_file:
+            return ""
+            
         try:
-            # Try to load aws_remediation_template.json from templates/ subdirectory
-            template_key = f"{self.config.prefix.rstrip('/')}/templates/aws_remediation_template.json"
+            template_key = f"{self.config.prefix.rstrip('/')}/{self.config.aws_template_file}"
             logger.info(f"[Template Debug] Loading AWS template from S3: s3://{self.config.bucket}/{template_key}")
             s3_client = self.config.s3
             response = s3_client.get_object(Bucket=self.config.bucket, Key=template_key)
             template_content = response["Body"].read().decode("utf-8")
-            # Validate it's valid JSON
-            json.loads(template_content)
             return template_content
         except Exception as e:
             logger.warning(f"[Template Debug] Could not load AWS template: {e}")
@@ -75,19 +75,21 @@ class S3PromptProvider(PromptProvider):
             The contents of the user prompt file with template substitutions applied.
         """
         user_prompt = self._load_prompt(self.config.user_prompt_file)
+        logger.info(f"[Template Debug] Original user prompt length: {len(user_prompt)}")
+        logger.info(f"[Template Debug] Contains aws_template_structure placeholder: {'{aws_template_structure}' in user_prompt}")
         
         # Handle AWS template substitution
         if '{aws_template_structure}' in user_prompt:
             aws_template = self._load_aws_template()
             if aws_template:
-                # Pretty format the JSON template
-                template_obj = json.loads(aws_template)
-                formatted_template = json.dumps(template_obj, indent=2)
-                user_prompt = user_prompt.replace('{aws_template_structure}', formatted_template)
+                user_prompt = user_prompt.replace('{aws_template_structure}', aws_template)
                 logger.info("[Template Debug] AWS template substituted in user prompt")
+                logger.info(f"[Template Debug] Final user prompt length: {len(user_prompt)}")
             else:
                 # Remove the placeholder if template not found
                 user_prompt = user_prompt.replace('{aws_template_structure}', 'AWS remediation template (template file not found)')
                 logger.warning("[Template Debug] AWS template placeholder removed - template not found")
+        else:
+            logger.info("[Template Debug] No AWS template placeholder found in user prompt")
         
         return user_prompt

@@ -73,9 +73,11 @@ class FilePromptProvider(PromptProvider):
         Returns:
             JSON string of the AWS template, or empty string if not found.
         """
+        if not self.config.aws_template_file:
+            return ""
+            
         try:
-            # Try to load aws_remediation_template.json from templates/ subdirectory
-            template_path = os.path.join(self.config.base_path, "templates", "aws_remediation_template.json")
+            template_path = os.path.join(self.config.base_path, self.config.aws_template_file)
             logger.info(f"[Template Debug] Loading AWS template from file: {template_path}")
             
             if not os.path.exists(template_path):

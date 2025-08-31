@@ -79,21 +79,14 @@ class BedrockPromptProvider(PromptProvider):
         Returns:
             JSON string of the AWS template, or empty string if not found.
         """
+        if not self.config.aws_template_s3_bucket or not self.config.aws_template_s3_key:
+            return ""
+            
         try:
-            # Use the same S3 client from config to load template
-            template_key = "wiz_prompts/templates/aws_remediation_template.json"
-            logger.info(f"[Template Debug] Loading AWS template from S3: s3://{self.config.s3_bucket}/{template_key}")
+            logger.info(f"[Template Debug] Loading AWS template from S3: s3://{self.config.aws_template_s3_bucket}/{self.config.aws_template_s3_key}")
             
-            # Get S3 client from config (assuming it has one)
-            s3_client = getattr(self.config, 's3', None)
-            if not s3_client:
-                # Fallback: create S3 client using same session as Bedrock
-                import boto3
-                session = boto3.Session(profile_name=self.config.aws_profile, region_name=self.config.aws_region)
-                s3_client = session.client('s3')
-            
-            bucket = getattr(self.config, 's3_bucket', 'wiz-remediation-factory')
-            response = s3_client.get_object(Bucket=bucket, Key=template_key)
+            s3_client = self.config.s3
+            response = s3_client.get_object(Bucket=self.config.aws_template_s3_bucket, Key=self.config.aws_template_s3_key)
             template_content = response["Body"].read().decode("utf-8")
             # Validate it's valid JSON
             json.loads(template_content)
