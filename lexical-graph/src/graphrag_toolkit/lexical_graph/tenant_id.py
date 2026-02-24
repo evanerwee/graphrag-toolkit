@@ -15,7 +15,7 @@ class TenantId(BaseModel):
     with optional formatting methods that adapt the given label, index name,
     hashable string, or ID based on whether the tenant is default or custom.
     Tenant IDs are validated to ensure they are alphanumeric, lowercase,
-    and between 1 to 10 characters in length.
+    and between 1 to 12 characters in length.
 
     Attributes:
         value (Optional[str]): The tenant identifier. None indicates the default tenant.
@@ -26,12 +26,12 @@ class TenantId(BaseModel):
         """ Initializes an instance of the class with a specified value.
 
         Validates the input value to ensure it meets specific criteria. The value must be
-        a string containing between 1 and 25 characters and restricted to lowercase letters,
+        a string containing between 1 and 12 characters and restricted to lowercase letters,
         numbers, and periods (but not at the start or end). If the value is invalid, a ValueError is raised.
 
         Args:
             value (str): Optional. A string value for initialization. The string must be
-                between 1 and 25 characters, alphanumeric with optional periods (not at start/end),
+                between 1 and 12 characters, alphanumeric with optional periods (not at start/end),
                 entirely in lowercase, and must not contain uppercase letters. Defaults to None.
         """
         if value is not None:
@@ -39,14 +39,14 @@ class TenantId(BaseModel):
                 value = None
             elif not self._is_valid_tenant_id(value):
                 raise ValueError(
-                    f"Invalid TenantId: '{value}'. TenantId must be between 1-25 lowercase letters, numbers, and periods (not at start or end).")
+                    f"Invalid TenantId: '{value}'. TenantId must be between 1-12 lowercase letters, numbers, and periods (not at start or end).")
         super().__init__(value=value)
 
     def _is_valid_tenant_id(self, value: str) -> bool:
         """ Validates a tenant ID format with backwards compatibility."""
         if (
             not value
-            or len(value) > 25
+            or len(value) > 12
             or any(letter.isupper() for letter in value)
         ):
             return False

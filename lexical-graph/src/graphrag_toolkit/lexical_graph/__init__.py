@@ -40,6 +40,7 @@ except RuntimeError as e:
 
 from .tenant_id import TenantId, DEFAULT_TENANT_ID, DEFAULT_TENANT_NAME, TenantIdType, to_tenant_id
 from .config import GraphRAGConfig as GraphRAGConfig, LLMType, EmbeddingType
+from .bedrock_llm import DirectBedrockLLM
 from .errors import ModelError, BatchJobError, IndexError, GraphQueryError
 from .logging import set_logging_config, set_advanced_logging_config
 from .lexical_graph_query_engine import LexicalGraphQueryEngine

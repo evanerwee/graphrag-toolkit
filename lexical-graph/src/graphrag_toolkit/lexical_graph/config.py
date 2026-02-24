@@ -29,6 +29,23 @@ LLMType = Union[LLM, str]
 EmbeddingType = Union[BaseEmbedding, str]
 logger = logging.getLogger(__name__)
 
+# Nova 2 series models that require DirectBedrockLLM
+# Includes both model IDs and inference profile formats
+NOVA_2_MODELS = [
+    # Model IDs
+    'amazon.nova-2-lite-v1:0',
+    'amazon.nova-2-micro-v1:0',
+    'amazon.nova-2-pro-v1:0',
+    'amazon.nova-2-premier-v1:0',
+    'amazon.nova-2-pro-preview-20251202-v1:0',
+    # Inference profile formats (required for on-demand throughput)
+    'us.amazon.nova-2-lite-v1:0',
+    'us.amazon.nova-2-micro-v1:0',
+    'us.amazon.nova-2-pro-v1:0',
+    'us.amazon.nova-2-premier-v1:0',
+    'us.amazon.nova-2-pro-preview-20251202-v1:0',
+]
+
 DEFAULT_EXTRACTION_MODEL = 'us.anthropic.claude-3-7-sonnet-20250219-v1:0'
 DEFAULT_RESPONSE_MODEL = 'us.anthropic.claude-3-7-sonnet-20250219-v1:0'
 DEFAULT_EMBEDDINGS_MODEL = 'cohere.embed-english-v3'
@@ -850,13 +867,13 @@ class _GraphRAGConfig:
         Converts the given LLMType into an instance of LLM or BedrockConverse.
 
         The method accepts an LLM or a string representation of configuration,
-        and converts it to an appropriate instance of BedrockConverse based
-        on the provided details. If `llm` is already an instance of LLM, it
+        and converts it to an appropriate instance of BedrockConverse or DirectBedrockLLM
+        based on the provided details. If `llm` is already an instance of LLM, it
         is returned directly. When `llm` is a valid JSON string, a
         BedrockConverse instance is initialized with the extracted
-        configuration. Otherwise, a default BedrockConverse instance
-        is created using specified attributes such as AWS profile and
-        region.
+        configuration. For Nova 2 series models, DirectBedrockLLM is used
+        to bypass LlamaIndex's model validation. Otherwise, a default BedrockConverse
+        instance is created using specified attributes such as AWS profile and region.
 
         Args:
             llm: An instance of LLMType which could be an LLM instance,
@@ -864,7 +881,7 @@ class _GraphRAGConfig:
                 string representing the model.
 
         Returns:
-            LLM: The processed LLM instance or an instance of BedrockConverse
+            LLM: The processed LLM instance or an instance of BedrockConverse/DirectBedrockLLM
             initialized based on the provided parameters.
 
         Raises:
@@ -885,8 +902,20 @@ class _GraphRAGConfig:
 
             if _is_json_string(llm):
                 config = json.loads(llm)
+                model_id = config['model']
+                
+                # Check if this is a Nova 2 model
+                if model_id in NOVA_2_MODELS:
+                    from graphrag_toolkit.lexical_graph.bedrock_llm import DirectBedrockLLM
+                    logger.info(f"[GraphRAGConfig] Using DirectBedrockLLM for Nova 2 model: {model_id}")
+                    return DirectBedrockLLM(
+                        model=model_id,
+                        temperature=config.get('temperature', 0.0),
+                        max_tokens=config.get('max_tokens', 4096)
+                    )
+                
                 return BedrockConverse(
-                    model=config['model'],
+                    model=model_id,
                     temperature=config.get('temperature', 0.0),
                     max_tokens=config.get('max_tokens', 4096),
                     botocore_session=botocore_session,
@@ -896,6 +925,16 @@ class _GraphRAGConfig:
                 )
 
             else:
+                # Check if this is a Nova 2 model
+                if llm in NOVA_2_MODELS:
+                    from graphrag_toolkit.lexical_graph.bedrock_llm import DirectBedrockLLM
+                    logger.info(f"[GraphRAGConfig] Using DirectBedrockLLM for Nova 2 model: {llm}")
+                    return DirectBedrockLLM(
+                        model=llm,
+                        temperature=0.0,
+                        max_tokens=4096
+                    )
+                
                 return BedrockConverse(
                     model=llm,
                     temperature=0.0,
@@ -907,7 +946,7 @@ class _GraphRAGConfig:
                 )
 
         except Exception as e:
-            raise ValueError(f'Failed to initialize BedrockConverse: {str(e)}') from e
+            raise ValueError(f'Failed to initialize LLM: {str(e)}') from e
 
     @property
     def extraction_llm(self) -> LLM:
