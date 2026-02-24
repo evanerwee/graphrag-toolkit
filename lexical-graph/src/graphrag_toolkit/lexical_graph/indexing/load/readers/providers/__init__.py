@@ -23,10 +23,9 @@ _PROVIDER_MODULES = {
     # Code readers
     "GitHubReaderProvider": ".github_reader_provider",
     "DirectoryReaderProvider": ".directory_reader_provider",
+    "UniversalDirectoryReaderProvider": ".universal_directory_reader_provider",
     # Cloud storage readers
     "S3DirectoryReaderProvider": ".s3_directory_reader_provider",
-
-
     # Database readers
     "DatabaseReaderProvider": ".database_reader_provider",
 }

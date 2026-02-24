@@ -158,3 +158,20 @@ class OutlookReaderConfig(ReaderProviderConfig):
     client_id: str = ""
     client_secret: str = ""
     tenant_id: str = ""
+
+
+@dataclass
+class UniversalDirectoryReaderConfig(ReaderProviderConfig):
+    """Config for UniversalDirectoryReaderProvider - reads from local or S3."""
+    input_dir: Optional[str] = None
+    input_files: Optional[List[str]] = None
+    exclude_hidden: bool = True
+    recursive: bool = False
+    required_exts: Optional[List[str]] = None
+    file_extractor: Optional[Dict[str, Any]] = None
+    metadata_fn: Optional[Callable[[str], Dict[str, Any]]] = None
+    # S3BasedDocs params
+    region: Optional[str] = None
+    bucket_name: Optional[str] = None
+    key_prefix: Optional[str] = None
+    collection_id: Optional[str] = None
