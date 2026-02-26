@@ -1225,11 +1225,11 @@
                               "Fn::Join": [
                                 "",
                                 [
-                                  "  curl -LO \"",
+                                  "  curl -L \"",
                                   {
                                     "Ref": "ExampleNotebooksURL"
                                   },
-                                  "\" -o lexical-graph-examples.zip\n",
+                                  "\" -o \"lexical-graph-examples.zip\"\n",
                                   "  unzip lexical-graph-examples.zip -d graphrag-toolkit\n",
                                   "  rm -rf lexical-graph-examples.zip\n"
                                 ]
