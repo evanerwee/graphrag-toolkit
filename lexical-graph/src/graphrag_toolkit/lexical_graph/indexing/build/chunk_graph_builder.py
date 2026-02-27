@@ -50,9 +50,9 @@ class ChunkGraphBuilder(GraphBuilder):
             graph_client: The graph client interface to interact with the graph database.
             **kwargs: Additional optional parameters for configuring the operation.
         """
-        chunk_metadata = node.metadata.get('chunk', {})
-        chunk_id = chunk_metadata.get('chunkId', None)
-
+        chunk_id = node.metadata.get('chunk', {}).get('chunkId', None)
+        chunk_metadata = node.metadata.get('chunk', {}).get('metadata', {})
+        
         if chunk_id:
 
             logger.debug(f'Inserting chunk [chunk_id: {chunk_id}]')

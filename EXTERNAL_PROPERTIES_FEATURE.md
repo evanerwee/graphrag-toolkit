@@ -13,12 +13,14 @@ Added a flexible external properties feature that allows adding any business-spe
 - Default: `None` (feature disabled)
 
 ### 2. Chunk Node Builder (`lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/build/chunk_node_builder.py`)
-- Extracts multiple properties from source metadata when configured
+- Extracts multiple properties from validated source metadata when configured
 - Iterates through property mapping and adds each available property
-- Adds to chunk metadata: `metadata['chunk'][property_name]`
+- Adds to chunk metadata: `metadata['chunk']['metadata'][property_name]` (nested structure matching source metadata)
+- Uses `_get_source_info_metadata()` to ensure only valid (non-collection-based) metadata is used
 
 ### 3. Chunk Graph Builder (`lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/build/chunk_graph_builder.py`)
 - Stores all external properties as properties on chunk nodes
+- Reads from nested `metadata['chunk']['metadata']` dictionary
 - Dynamically generates SET statements for each property
 - Uses: `SET chunk.property_name = params.property_name`
 
@@ -66,24 +68,11 @@ WHERE chunk.document_type = 'research'
 RETURN chunk
 ```
 
-## Files
+## Files Modified
 
-**Modified:**
 - `lexical-graph/src/graphrag_toolkit/lexical_graph/config.py`
 - `lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/build/chunk_node_builder.py`
 - `lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/build/chunk_graph_builder.py`
-
-**Created:**
-- `lexical-graph/tests/test_chunk_external_properties.py` - Unit tests
-- `lexical-graph/docs/chunk-external-properties.md` - Full documentation
-- `examples/lexical-graph/notebooks/06-Chunk-External-Properties-Example.ipynb` - Examples with 7 use cases
-
-## Testing
-
-```bash
-# Run tests (requires pytest)
-python3 -m pytest lexical-graph/tests/test_chunk_external_properties.py -v
-```
 
 ## Key Features
 
@@ -91,10 +80,4 @@ python3 -m pytest lexical-graph/tests/test_chunk_external_properties.py -v
 - **Configurable**: Dictionary-based mapping
 - **Graceful**: Handles missing metadata keys
 - **Backward Compatible**: No breaking changes
-- **Well Tested**: Comprehensive unit tests
-
-## Documentation
-
-- **Full Guide**: `lexical-graph/docs/chunk-external-properties.md`
-- **Examples**: `examples/lexical-graph/notebooks/06-Chunk-External-Properties-Example.ipynb`
-- **Tests**: `lexical-graph/tests/test_chunk_external_properties.py`
+- **Safe**: Uses validated source metadata to avoid write failures
