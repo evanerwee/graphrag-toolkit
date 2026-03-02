@@ -27,10 +27,6 @@ The `LexicalGraphIndex` allows you to run the extract and build pipelines togeth
 
 Indexing supports [multi-tenancy](multi-tenancy.md), whereby you can store separate lexical graphs in the same backend graph and vector stores.
 
-#### Code examples
-
-The code examples here are formatted to run in a Jupyter notebook. If you’re building an application with a main entry point, put your application logic inside a method, and add an [`if __name__ == '__main__'` block](./faq.md#runtimeerror-please-use-nest_asyncioapply-to-allow-nested-event-loops).
-
 #### Extract
 
 The extraction stage is, by default, a three-step process: 
@@ -256,9 +252,10 @@ The `IndexingConfig` object has the following parameters:
 
 | Parameter  | Description | Default Value |
 | ------------- | ------------- | ------------- |
-| `chunking` | A list of node parsers (e.g. LlamaIndex `SentenceSplitter`) to be used for chunking source documents. Set `chunking` to `None` to skip chunking. | `SentenceSplitter` with `chunk_size=256` and `chunk_overlap=20` |
+| `chunking` | A list of node parsers (e.g. LlamaIndex `SentenceSplitter`) to be used for chunking source documents. Set `chunking` to `None` to skip chunking. | `SentenceSplitter` with `chunk_size=256` and `chunk_overlap=25` |
 | `extraction` | An `ExtractionConfig` object specifying extraction options | `ExtractionConfig` with default values |
-| `batch_config` | Batch configuration to be used if performing [batch extraction](./batch-extraction.md). If `batch_config` is `None`, the toolkit will perform chunk-by-chunk extraction.  | `None` |
+| `build` | A `BuildConfig` object specifying build options | `BuildConfig` with default values |
+| `batch_config` | Batch configuration to be used if performing [batch extraction](./batch-extraction.md). If `batch_config` is `None`, the toolkit will perform chunk-by-chunk extraction. | `None` |
 
 The `ExtractionConfig` object has the following parameters:
 
@@ -266,10 +263,21 @@ The `ExtractionConfig` object has the following parameters:
 | ------------- | ------------- | ------------- |
 | `enable_proposition_extraction` | Perform proposition extraction before extracting topics, statements, facts and entities | `True` |
 | `preferred_entity_classifications` | Comma-separated list of preferred entity classifications used to seed the entity extraction | `DEFAULT_ENTITY_CLASSIFICATIONS` |
-| `infer_entity_classifications` | Determines whether to pre-process documents to identify significant domain entity classifications. Supply either `True` or `False`, or an `InferClassificationsConfig` object. | `False` |
+| `preferred_topics` | List of preferred topic names (or a callable that returns them) supplied to the LLM to seed topic extraction. Accepts the same type as `preferred_entity_classifications`. | `[]` |
+| `infer_entity_classifications` | Determines whether to pre-process documents to identify significant domain entity classifications. Supply either `True` or `False`, or an `InferClassificationsConfig` object. When `True`, an `InferClassifications` step runs as a **pre-processor** before the main extraction loop — one extra LLM round-trip per batch, not per document. | `False` |
 | `extract_propositions_prompt_template` | Prompt used to extract propositions from chunks. If `None`, the [default extract propositions template](https://github.com/awslabs/graphrag-toolkit/blob/main/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/prompts.py#L29-L72) is used. See [Custom prompts](#custom-prompts) below. | `None` |
 | `extract_topics_prompt_template` | Prompt used to extract topics, statements and entities from chunks. If `None`, the [default extract topics template](https://github.com/awslabs/graphrag-toolkit/blob/main/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/prompts.py#L74-L191) is used. See [Custom prompts](#custom-prompts) below. | `None` |
 
+
+The `BuildConfig` object has the following parameters:
+
+| Parameter | Description | Default Value |
+| ------------- | ------------- | ------------- |
+| `build_filters` | A `BuildFilters` object to include or exclude specific node types during the build stage | `BuildFilters()` |
+| `include_domain_labels` | Whether to add a domain-specific label (e.g. `Company`) to entity nodes in addition to `__Entity__` | `None` (falls back to `GraphRAGConfig.include_domain_labels`) |
+| `include_local_entities` | Whether to include local-context entities in the graph | `None` (falls back to `GraphRAGConfig.include_local_entities`) |
+| `source_metadata_formatter` | A `SourceMetadataFormatter` instance for customising source metadata written to the graph | `DefaultSourceMetadataFormatter()` |
+| `enable_versioning` | Whether to enable versioned updates. Overrides `GraphRAGConfig.enable_versioning` when set. | `None` |
 
 The `InferClassificationsConfig` object has the following parameters:
 
@@ -352,6 +360,21 @@ topic: topic
 #### Batch extraction
 
 You can use [Amazon Bedrock batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference.html) with the extract stage of the indexing process. See [Batch Extraction](./batch-extraction.md) for more details.
+
+`BatchConfig` ([`indexing/extract/batch_config.py`](https://github.com/awslabs/graphrag-toolkit/blob/main/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/extract/batch_config.py)) accepts the following parameters:
+
+| Parameter | Description | Required |
+| ------------- | ------------- | ------------- |
+| `role_arn` | ARN of the IAM role Bedrock will assume to run batch jobs | Yes |
+| `region` | AWS region where batch jobs will run | Yes |
+| `bucket_name` | S3 bucket for batch job input/output | Yes |
+| `key_prefix` | S3 key prefix for job files | No |
+| `s3_encryption_key_id` | KMS key ID for S3 object encryption | No |
+| `subnet_ids` | VPC subnet IDs for the batch job network configuration | No |
+| `security_group_ids` | VPC security group IDs | No |
+| `max_batch_size` | Maximum records per batch job (Bedrock limit: 50,000; jobs under 100 records are skipped and processed inline) | `25000` |
+| `max_num_concurrent_batches` | Maximum concurrent batch jobs per worker | `3` |
+| `delete_on_success` | Whether to delete S3 job files after a successful run | `True` |
 
 #### Metadata filtering
 

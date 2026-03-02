@@ -71,7 +71,7 @@
     "ExampleNotebooksURL": {
       "Type": "String",
       "Description": "URL of a zip file containing example notebooks to be installed on SageMaker instance (optional)",
-      "Default": "https://github.com/awslabs/graphrag-toolkit/releases/latest/download/lexical-graph-examples.zip"
+      "Default": "https://github.com/awslabs/graphrag-toolkit/releases/latest/download/lexical-graph-examples-latest.zip"
     }
   },
   "Metadata": {
@@ -679,11 +679,11 @@
         "Path": "/graphrag-toolkit/"
       }
     },
-    "NeptuneDBDataAccessReadPolicy": {
+    "NeptuneDBDataAccessQueryingPolicy": {
       "Type": "AWS::IAM::ManagedPolicy",
       "Properties": {
         "ManagedPolicyName": {
-          "Fn::Sub": "${ApplicationId}-neptune-db-read-policy"
+          "Fn::Sub": "${ApplicationId}-neptune-db-querying-policy"
         },
         "PolicyDocument": {
           "Version": "2012-10-17",
@@ -734,11 +734,11 @@
         "Path": "/graphrag-toolkit/"
       }
     },
-    "NeptuneDBDataAccessWritePolicy": {
+    "NeptuneDBDataAccessIndexingPolicy": {
       "Type": "AWS::IAM::ManagedPolicy",
       "Properties": {
         "ManagedPolicyName": {
-          "Fn::Sub": "${ApplicationId}-neptune-db-write-policy"
+          "Fn::Sub": "${ApplicationId}-neptune-db-indexing-policy"
         },
         "PolicyDocument": {
           "Version": "2012-10-17",
@@ -747,7 +747,8 @@
               "Effect": "Allow",
               "Action": [
                 "neptune-db:WriteDataViaQuery",
-                "neptune-db:DeleteDataViaQuery"
+                "neptune-db:DeleteDataViaQuery",
+                "neptune-db:ReadDataViaQuery"
               ],
               "Resource": {
                 "Fn::Join": [
@@ -1415,7 +1416,7 @@
                                   {
                                     "Ref": "ExampleNotebooksURL"
                                   },
-                                  "\" .\n",
+                                  "\" lexical-graph-examples.zip\n",
                                   "  unzip lexical-graph-examples.zip -d graphrag-toolkit\n",
                                   "  rm -rf lexical-graph-examples.zip\n"
                                 ]
@@ -1425,11 +1426,11 @@
                               "Fn::Join": [
                                 "",
                                 [
-                                  "  curl -LO \"",
+                                  "  curl -L \"",
                                   {
                                     "Ref": "ExampleNotebooksURL"
                                   },
-                                  "\" -o lexical-graph-examples.zip\n",
+                                  "\" -o \"lexical-graph-examples.zip\"\n",
                                   "  unzip lexical-graph-examples.zip -d graphrag-toolkit\n",
                                   "  rm -rf lexical-graph-examples.zip\n"
                                 ]

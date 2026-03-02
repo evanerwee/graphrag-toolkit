@@ -561,7 +561,7 @@ class LexicalGraphQueryEngine(BaseQueryEngine):
             raise
 
     async def _aquery(self, query_bundle: QueryBundle) -> RESPONSE_TYPE:
-        pass
+        raise NotImplementedError("Async querying is not supported. Use query() instead.")
 
     def _get_prompts(self) -> PromptDictType:
         pass

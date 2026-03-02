@@ -1,25 +1,32 @@
 ## Lexical Graph
 
-The lexical-graph package provides a framework for automating the construction of a [hierarchical lexical graph](../docs/lexical-graph/graph-model.md) from unstructured data, and composing question-answering strategies that query this graph when answering user questions. 
+The lexical-graph package provides a framework for automating the construction of a [hierarchical lexical graph](../docs/lexical-graph/graph-model.md) from unstructured data, and composing question-answering strategies that query this graph when answering user questions.
 
 ### Features
 
   - Built-in graph store support for [Amazon Neptune Analytics](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/what-is-neptune-analytics.html), [Amazon Neptune Database](https://docs.aws.amazon.com/neptune/latest/userguide/intro.html), and [Neo4j](https://neo4j.com/docs/).
-  - Built-in vector store support for Neptune Analytics, [Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless.html) and Postgres with the pgvector extension.
+  - Built-in vector store support for Neptune Analytics, [Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless.html), [Amazon S3 Vectors](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors.html) and Postgres with the pgvector extension.
   - Built-in support for foundation models (LLMs and embedding models) on [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/).
   - Easily extended to support additional graph and vector stores and model backends.
-  - [Multi-tenancy](../docs/lexical-graph/multi-tenancy.md) – multiple separate lexical graphs in the same underlying graph and vector stores.
+  - [Multi-tenancy](../docs/lexical-graph/multi-tenancy.md) – multiple separate lexical graphs in the same underlying graph and vector stores.
   - Continuous ingest and [batch extraction](../docs/lexical-graph/batch-extraction.md) (using [Bedrock batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference.html)) modes.
-  - [Versioned updates](../docs/lexical-graph/versioned-updates.md) for updating source documents and querying the state of the graph and vector stores at a
-point in time.
+  - [Versioned updates](../docs/lexical-graph/versioned-updates.md) for updating source documents and querying the state of the graph and vector stores at a point in time.
   - Quickstart [AWS CloudFormation templates](../examples/lexical-graph/cloudformation-templates/) for Neptune Database, OpenSearch Serverless, and Amazon Aurora Postgres.
 
 ## Installation
 
-The lexical-graph requires Python and [pip](http://www.pip-installer.org/en/latest/) to install. You can install the lexical-graph using pip:
+The lexical-graph requires Python 3.10 or greater and [pip](http://www.pip-installer.org/en/latest/).
+
+Install from the latest release tag:
 
 ```
-$ pip install https://github.com/awslabs/graphrag-toolkit/archive/refs/tags/v3.15.2.zip#subdirectory=lexical-graph
+$ pip install https://github.com/awslabs/graphrag-toolkit/archive/refs/tags/v3.16.2.zip#subdirectory=lexical-graph
+```
+
+Or install from the `main` branch to get the latest changes:
+
+```
+$ pip install https://github.com/awslabs/graphrag-toolkit/archive/refs/heads/main.zip#subdirectory=lexical-graph
 ```
 
 If you're running on AWS, you must run your application in an AWS region containing the Amazon Bedrock foundation models used by the lexical graph (see the [configuration](../docs/lexical-graph/configuration.md#graphragconfig) section in the documentation for details on the default models used), and must [enable access](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) to these models before running any part of the solution.
@@ -30,25 +37,36 @@ You will need to install additional dependencies for specific graph and vector s
 
 #### Amazon OpenSearch Serverless
 
-```
+```bash
 $ pip install opensearch-py llama-index-vector-stores-opensearch
 ```
 
 #### Postgres with pgvector
 
-```
+```bash
 $ pip install psycopg2-binary pgvector
 ```
 
 #### Neo4j
 
-```
+``` bash
 $ pip install neo4j
 ```
 
-### Supported Python versions
+### Connection strings
 
-The lexical-graph requires Python 3.10 or greater.
+Pass a connection string to `GraphStoreFactory.for_graph_store()` or `VectorStoreFactory.for_vector_store()` to select a backend:
+
+| Store | Connection string |
+| --- | --- |
+| Neptune Analytics (graph) | `neptune-graph://<graph-id>` |
+| Neptune Database (graph) | `neptune-db://<hostname>` or any hostname ending `.neptune.amazonaws.com` |
+| Neo4j (graph) | `bolt://`, `bolt+ssc://`, `bolt+s://`, `neo4j://`, `neo4j+ssc://`, or `neo4j+s://` URLs |
+| OpenSearch Serverless (vector) | `aoss://<url>` |
+| Neptune Analytics (vector) | `neptune-graph://<graph-id>` |
+| pgvector (vector) | constructed via `PGVectorIndexFactory` |
+| S3 Vectors (vector) | constructed via `S3VectorIndexFactory` |
+| Dummy / no-op | `None` or any unrecognised string — falls back to `DummyGraphStore` / `DummyVectorIndex` |
 
 ## Example of use
 
@@ -74,7 +92,7 @@ def run_extract_and_build():
     ):
 
         graph_index = LexicalGraphIndex(
-            graph_store, 
+            graph_store,
             vector_store
         )
 
@@ -105,24 +123,25 @@ from graphrag_toolkit.lexical_graph.storage import VectorStoreFactory
 
 def run_query():
 
-  graph_store = GraphStoreFactory.for_graph_store(
-      'neptune-db://my-graph.cluster-abcdefghijkl.us-east-1.neptune.amazonaws.com'
-  )
-  
-  vector_store = VectorStoreFactory.for_vector_store(
-      'aoss://https://abcdefghijkl.us-east-1.aoss.amazonaws.com'
-  )
-  
-  query_engine = LexicalGraphQueryEngine.for_traversal_based_search(
-      graph_store, 
-      vector_store
-  )
-  
-  response = query_engine.query('''What are the differences between Neptune Database 
-                                   and Neptune Analytics?''')
-  
-  print(response.response)
-  
+    with (
+        GraphStoreFactory.for_graph_store(
+            'neptune-db://my-graph.cluster-abcdefghijkl.us-east-1.neptune.amazonaws.com'
+        ) as graph_store,
+        VectorStoreFactory.for_vector_store(
+            'aoss://https://abcdefghijkl.us-east-1.aoss.amazonaws.com'
+        ) as vector_store
+    ):
+
+        query_engine = LexicalGraphQueryEngine.for_traversal_based_search(
+            graph_store,
+            vector_store
+        )
+
+        response = query_engine.query('''What are the differences between Neptune Database
+                                         and Neptune Analytics?''')
+
+        print(response.response)
+
 if __name__ == '__main__':
     run_query()
 ```
@@ -131,15 +150,15 @@ if __name__ == '__main__':
 
   - [Overview](../docs/lexical-graph/overview.md)
   - [Graph Model](../docs/lexical-graph/graph-model.md)
-  - [Storage Model](../docs/lexical-graph/storage-model.md) 
-  - [Indexing](../docs/lexical-graph/indexing.md) 
-    - [Batch Extraction](../docs/lexical-graph/batch-extraction.md) 
+  - [Storage Model](../docs/lexical-graph/storage-model.md)
+  - [Indexing](../docs/lexical-graph/indexing.md)
+    - [Batch Extraction](../docs/lexical-graph/batch-extraction.md)
     - [Configuring Batch Extraction](../docs/lexical-graph/configuring-batch-extraction.md)
     - [Versioned Updates](../docs/lexical-graph/versioned-updates.md)
-  - [Querying](../docs/lexical-graph/querying.md) 
+  - [Querying](../docs/lexical-graph/querying.md)
     - [Traversal-Based Search](../docs/lexical-graph/traversal-based-search.md)
     - [Traversal-Based Search Configuration](../docs/lexical-graph/traversal-based-search-configuration.md)
-  - [Configuration](../docs/lexical-graph/configuration.md)   
+  - [Configuration](../docs/lexical-graph/configuration.md)
   - [Security](../docs/lexical-graph/security.md)
   - [FAQ](../docs/lexical-graph/faq.md)
 
@@ -147,4 +166,3 @@ if __name__ == '__main__':
 ## License
 
 This project is licensed under the Apache-2.0 License.
-
