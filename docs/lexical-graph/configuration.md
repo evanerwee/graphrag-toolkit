@@ -5,7 +5,7 @@
 ### Topics
 
   - [Overview](#overview)
-  - [GraphRAGConfig](#graphragconfig)
+  - [ooo](#graphragconfig)
     - [LLM configuration](#llm-configuration)
     - [Embedding model configuration](#embedding-model-configuration)
     - [Batch writes](#batch-writes)
@@ -21,7 +21,7 @@ The lexical-graph also allows you to set the logging level and apply logging fil
 
 ### GraphRAGConfig
 
-`GraphRAGConfig` is a module-level singleton (not a class to instantiate). It is created once at import time ([`config.py`](../../lexical-graph/src/graphrag_toolkit/lexical_graph/config.py#L1171)) and shared across the process. Set attributes directly on the imported object:
+`GraphRAGConfig` is a module-level singleton (not a class to instantiate). It is created once at import time ([`config.py`](../../lexical-graph/src/graphrag_toolkit/lexical_graph/config.py)) and shared across the process. Set attributes directly on the imported object:
 
 ```python
 from graphrag_toolkit.lexical_graph import GraphRAGConfig
@@ -54,6 +54,7 @@ The configuration includes the following parameters:
 | `include_classification_in_entity_id` | Whether to include an entity's classification in its graph node id | `True` | `INCLUDE_CLASSIFICATION_IN_ENTITY_ID` |
 | `enable_versioning` | Whether to enable versioned updates (see [Versioned Updates](./versioned-updates.md)) | `False` | `ENABLE_VERSIONING` |
 | `enable_cache` | Determines whether the results of LLM calls to models on Amazon Bedrock are cached to the local filesystem (see [Caching Amazon Bedrock LLM responses](#caching-amazon-bedrock-llm-responses)) | `False` | `ENABLE_CACHE` |
+| `chunk_external_properties` | Mapping of external property names to source metadata keys for chunk nodes (see [Chunk External Properties](#chunk-external-properties)) | `None` | `CHUNK_EXTERNAL_PROPERTIES` |
 | `aws_profile` | AWS CLI named profile used to authenticate requests to Bedrock and other services | *None* | `AWS_PROFILE` |
 | `aws_region` | AWS region used to scope Bedrock service calls | *Default boto3 session region* | `AWS_REGION` |
 
@@ -68,7 +69,7 @@ The following parameter applies only when using Amazon OpenSearch Serverless as 
 
 | Parameter | Description | Default | Environment Variable |
 | ------------- | ------------- | ------------- | ------------- |
-| `opensearch_engine` | OpenSearch kNN engine | `nmslib` | `OPENSEARCH_ENGINE` |
+| `opensearch_engine` | OpenSearch kNN engine (`nmslib` or `faiss`) | `nmslib` | `OPENSEARCH_ENGINE` |
 
 To set a configuration parameter in your application code:
 
@@ -117,6 +118,74 @@ When configuring an embedding model, you must also set the `embed_dimensions` co
 GraphRAGConfig.embed_model = '{"model_name": "amazon.titan-embed-text-v2:0"}'
 GraphRAGConfig.embed_dimensions = 512
 ```
+
+##### Nova 2 Multimodal Embeddings
+
+To use Amazon Nova 2 multimodal embeddings, explicitly import and use the `Nova2MultimodalEmbedding` class from `bedrock_utils`:
+
+```python
+from graphrag_toolkit.lexical_graph import GraphRAGConfig
+from graphrag_toolkit.lexical_graph.utils.bedrock_utils import Nova2MultimodalEmbedding
+
+GraphRAGConfig.embed_model = Nova2MultimodalEmbedding('amazon.nova-2-multimodal-embeddings-v1:0')
+GraphRAGConfig.embed_dimensions = 3072
+```
+
+You can customize the embedding purpose and truncation mode:
+
+```python
+GraphRAGConfig.embed_model = Nova2MultimodalEmbedding(
+    model_name='amazon.nova-2-multimodal-embeddings-v1:0',
+    embed_dimensions=3072,
+    embed_purpose='TEXT_RETRIEVAL',  # or GENERIC_RETRIEVAL, DOCUMENT_RETRIEVAL, CLASSIFICATION, CLUSTERING
+    truncation_mode='END'  # or NONE
+)
+GraphRAGConfig.embed_dimensions = 3072
+```
+
+**API Format:**
+
+Nova 2 multimodal embeddings use a different API format than standard Bedrock models. The `Nova2MultimodalEmbedding` class handles this automatically:
+
+```json
+{
+  "taskType": "SINGLE_EMBEDDING",
+  "singleEmbeddingParams": {
+    "embeddingDimension": 3072,
+    "embeddingPurpose": "TEXT_RETRIEVAL",
+    "text": {
+      "truncationMode": "END",
+      "value": "text to embed"
+    }
+  }
+}
+```
+
+**Supported Dimensions:** `1024` or `3072`
+
+**Multiprocessing Support:** The class includes custom pickle support for use in the build pipeline's multiprocessing scenarios.
+
+#### Chunk External Properties
+
+You can configure which metadata fields from source documents should be extracted and added as properties on chunk nodes in the graph database:
+
+```python
+from graphrag_toolkit.lexical_graph import GraphRAGConfig
+
+GraphRAGConfig.chunk_external_properties = {
+    'article_code': 'article_id',
+    'document_type': 'doc_type',
+    'department': 'dept_code'
+}
+```
+
+This enables querying and filtering chunks by business-specific identifiers. The mapping is a dictionary where:
+- **Key**: The property name to use on the chunk node (e.g., `article_code`)
+- **Value**: The metadata key to extract from source document (e.g., `article_id`)
+
+**Reserved Keys:** You cannot use `text` or `chunkId` as property names (these are reserved).
+
+**Environment Variable:** You can also set this via the `CHUNK_EXTERNAL_PROPERTIES` environment variable as a JSON string.
 
 #### Batch writes
 
