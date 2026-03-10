@@ -52,9 +52,10 @@ def format_datetime(s: Any):
         str: An ISO 8601 formatted string representation of the date or datetime.
     """
     if isinstance(s, datetime) or isinstance(s, date):
-        return s.isoformat()
+        return s.replace(microsecond=0).isoformat()
     else:
-        return parse(s, fuzzy=False).isoformat()
+        return parse(s, fuzzy=False).replace(microsecond=0).isoformat()
+    
 
 
 def type_name_for_key_value(key: str, value: Any) -> str:
