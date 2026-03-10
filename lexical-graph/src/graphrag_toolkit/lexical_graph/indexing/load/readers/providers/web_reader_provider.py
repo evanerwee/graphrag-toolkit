@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_index_reader_provider_base import LlamaIndexReaderProviderBase
 from graphrag_toolkit.lexical_graph.indexing.load.readers.reader_provider_config import WebReaderConfig
@@ -16,8 +20,7 @@ class WebReaderProvider(LlamaIndexReaderProviderBase):
         except ImportError as e:
             logger.error("Failed to import SimpleWebPageReader: missing dependencies")
             raise ImportError(
-                "SimpleWebPageReader requires 'requests' and 'beautifulsoup4'. "
-                "Install with: pip install requests beautifulsoup4"
+                "llama-index-readers-web package not found, install with 'pip install llama-index-readers-web'"
             ) from e
 
         reader_kwargs = {"html_to_text": config.html_to_text}

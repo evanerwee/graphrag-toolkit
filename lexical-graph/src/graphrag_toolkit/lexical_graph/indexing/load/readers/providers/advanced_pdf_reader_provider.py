@@ -1,5 +1,8 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List
-import fitz  # pymupdf
 import base64
 from llama_index.core.schema import Document
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_index_reader_provider_base import LlamaIndexReaderProviderBase
@@ -13,6 +16,15 @@ class AdvancedPDFReaderProvider(LlamaIndexReaderProviderBase, S3FileMixin):
     """Advanced PDF reader with image and table extraction."""
 
     def __init__(self, config: PDFReaderConfig):
+
+        try:
+            import fitz  # pymupdf
+        except ImportError as e:
+            raise ImportError(
+                "pymupdf package not found, install with 'pip install pymupdf'"
+            ) from e
+
+
         self.config = config
         self.metadata_fn = config.metadata_fn
         logger.debug("Initialized AdvancedPDFReaderProvider")

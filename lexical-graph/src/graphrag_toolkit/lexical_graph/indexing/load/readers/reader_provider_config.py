@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from dataclasses import dataclass
 from typing import Optional, List, Dict, Any, Callable
 from graphrag_toolkit.lexical_graph.indexing.load.readers.reader_provider_config_base import ReaderProviderConfig, AWSReaderConfigBase

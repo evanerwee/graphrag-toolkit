@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 import os
 from typing import List
 from ..llama_index_reader_provider_base import LlamaIndexReaderProviderBase
@@ -18,7 +22,7 @@ class S3DirectoryReaderProvider(LlamaIndexReaderProviderBase):
         except ImportError as e:
             logger.error("Failed to import S3Reader: missing boto3")
             raise ImportError(
-                "S3Reader requires 'boto3'. Install with: pip install boto3"
+                "llama-index-readers-s3 package not found, install with 'pip install llama-index-readers-s3'"
             ) from e
 
         if not config.key and not config.prefix:

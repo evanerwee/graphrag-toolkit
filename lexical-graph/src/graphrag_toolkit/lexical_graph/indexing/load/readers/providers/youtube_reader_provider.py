@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List, Union
 import re
 from llama_index.core.schema import Document
@@ -10,6 +14,16 @@ class YouTubeReaderProvider:
     """Direct YouTube transcript reader using youtube-transcript-api."""
 
     def __init__(self, config: YouTubeReaderConfig):
+
+        try:
+            from youtube_transcript_api import YouTubeTranscriptApi
+        except ImportError as e:
+            logger.error("Failed to import YouTubeTranscriptApi: missing youtube-transcript-api")
+            raise ImportError(
+                "youtube-transcript-api package not found, install with 'pip install youtube-transcript-api'"
+            ) from e
+        
+
         self.language = config.language
         self.metadata_fn = config.metadata_fn
         logger.debug(f"Initialized YouTubeReaderProvider with language={config.language}")
@@ -36,14 +50,6 @@ class YouTubeReaderProvider:
             logger.error("No input source provided to YouTubeReaderProvider")
             raise ValueError("input_source cannot be None or empty")
         
-        try:
-            from youtube_transcript_api import YouTubeTranscriptApi
-        except ImportError as e:
-            logger.error("Failed to import YouTubeTranscriptApi: missing youtube-transcript-api")
-            raise ImportError(
-                "YouTubeTranscriptApi requires 'youtube-transcript-api'. "
-                "Install with: pip install youtube-transcript-api"
-            ) from e
 
         urls = [input_source] if isinstance(input_source, str) else input_source
         logger.info(f"Reading transcripts from {len(urls)} YouTube video(s)")

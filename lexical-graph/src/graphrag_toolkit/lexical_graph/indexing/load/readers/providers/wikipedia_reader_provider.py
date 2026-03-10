@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List, Union
 from llama_index.core.schema import Document
 from graphrag_toolkit.lexical_graph.indexing.load.readers.reader_provider_config import WikipediaReaderConfig
@@ -9,6 +13,15 @@ class WikipediaReaderProvider:
     """Reader provider for Wikipedia articles using LlamaIndex's WikipediaReader."""
 
     def __init__(self, config: WikipediaReaderConfig):
+
+        try:
+            from llama_index.readers.wikipedia import WikipediaReader
+        except ImportError as e:
+            logger.error("Failed to import WikipediaReader: missing wikipedia package")
+            raise ImportError(
+                "llama-index-readers-wikipedia package not found, install with 'pip install llama-index-readers-wikipedia'"
+            ) from e
+        
         self.config = config
         self.lang = config.lang
         self.metadata_fn = config.metadata_fn
@@ -18,13 +31,7 @@ class WikipediaReaderProvider:
     def _init_reader(self):
         """Lazily initialize WikipediaReader if not already created."""
         if self._reader is None:
-            try:
-                from llama_index.readers.wikipedia import WikipediaReader
-            except ImportError as e:
-                logger.error("Failed to import WikipediaReader: missing wikipedia package")
-                raise ImportError(
-                    "WikipediaReader requires the 'wikipedia' package. Install with: pip install wikipedia"
-                ) from e
+            
             self._reader = WikipediaReader()
 
     def read(self, input_source: Union[str, List[str]]) -> List[Document]:

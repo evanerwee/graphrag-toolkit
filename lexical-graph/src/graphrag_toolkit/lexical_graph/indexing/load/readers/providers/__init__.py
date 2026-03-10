@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 """
 Core reader providers following AWS Ask requirements.
 All providers inherit from LlamaIndexReaderProviderBase and use config-based initialization.

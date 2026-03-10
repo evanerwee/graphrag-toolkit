@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_index_reader_provider_base import LlamaIndexReaderProviderBase
 from graphrag_toolkit.lexical_graph.indexing.load.readers.reader_provider_config import DocxReaderConfig
@@ -17,7 +21,7 @@ class DocxReaderProvider(LlamaIndexReaderProviderBase, S3FileMixin):
         except ImportError as e:
             logger.error("Failed to import DocxReader: missing python-docx")
             raise ImportError(
-                "DocxReader requires 'python-docx'. Install with: pip install python-docx"
+                "python-docx package not found, install with 'pip install python-docx'"
             ) from e
 
         super().__init__(config=config, reader_cls=DocxReader)

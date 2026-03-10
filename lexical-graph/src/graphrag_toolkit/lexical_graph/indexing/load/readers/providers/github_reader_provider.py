@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List
 from graphrag_toolkit.lexical_graph.indexing.load.readers.reader_provider_config import GitHubReaderConfig
 from graphrag_toolkit.lexical_graph.logging import logging
@@ -10,19 +14,23 @@ class GitHubReaderProvider:
 
     def __init__(self, config: GitHubReaderConfig):
         """Initialize with GitHubReaderConfig."""
+
+        try:
+            from llama_index.readers.github import GithubRepositoryReader, GithubClient
+        except ImportError as e:
+            logger.error("Failed to import GithubRepositoryReader: missing PyGithub")
+            raise ImportError(
+                "PyGithub package not found, install with 'pip install PyGithub'"
+            ) from e
+        
+
         self.github_config = config
         self.metadata_fn = config.metadata_fn
         logger.debug(f"Initialized GitHubReaderProvider with verbose={config.verbose}")
 
     def read(self, input_source) -> List[Document]:
         """Read GitHub repository documents with metadata handling."""
-        try:
-            from llama_index.readers.github import GithubRepositoryReader, GithubClient
-        except ImportError as e:
-            logger.error("Failed to import GithubRepositoryReader: missing PyGithub")
-            raise ImportError(
-                "GithubRepositoryReader requires 'PyGithub'. Install with: pip install PyGithub"
-            ) from e
+        
 
         if not input_source:
             logger.error("No input source provided to GitHubReaderProvider")

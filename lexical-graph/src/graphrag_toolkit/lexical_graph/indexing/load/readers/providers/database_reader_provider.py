@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List
 from sqlalchemy import create_engine
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_index_reader_provider_base import LlamaIndexReaderProviderBase
@@ -12,13 +16,12 @@ class DatabaseReaderProvider(LlamaIndexReaderProviderBase):
 
     def __init__(self, config: DatabaseReaderConfig):
         try:
+            
             from llama_index.readers.database.base import DatabaseReader, SQLDatabase
         except ImportError as e:
             logger.error("Failed to import DatabaseReader: missing dependencies")
             raise ImportError(
-                "DatabaseReader requires LlamaIndex's database tools and 'sqlalchemy'.\n"
-                "Install with:\n"
-                "  pip install llama-index-readers-database sqlalchemy"
+                "llama-index-readers-database package not found, install with 'pip install llama-index-readers-database'"
             ) from e
 
         try:

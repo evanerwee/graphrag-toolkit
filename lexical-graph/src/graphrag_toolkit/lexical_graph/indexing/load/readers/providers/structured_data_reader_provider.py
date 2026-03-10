@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List, Union
 from llama_index.core.schema import Document
 from ..reader_provider_config import StructuredDataReaderConfig

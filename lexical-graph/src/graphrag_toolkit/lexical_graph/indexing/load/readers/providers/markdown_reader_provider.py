@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List
 from ..llama_index_reader_provider_base import LlamaIndexReaderProviderBase
 from ..reader_provider_config import MarkdownReaderConfig
@@ -17,7 +21,7 @@ class MarkdownReaderProvider(LlamaIndexReaderProviderBase, S3FileMixin):
         except ImportError as e:
             logger.error("Failed to import MarkdownReader")
             raise ImportError(
-                "MarkdownReader requires 'llama-index'. Install with: pip install llama-index"
+                "llama-index-readers-file package not found, install with 'pip install llama-index-readers-file'"
             ) from e
 
         reader_kwargs = {

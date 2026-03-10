@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_index_reader_provider_base import LlamaIndexReaderProviderBase
 from graphrag_toolkit.lexical_graph.indexing.load.readers.reader_provider_config import PDFReaderConfig
@@ -17,7 +21,7 @@ class PDFReaderProvider(LlamaIndexReaderProviderBase, S3FileMixin):
         except ImportError as e:
             logger.error("Failed to import PyMuPDFReader: missing pymupdf")
             raise ImportError(
-                "PyMuPDFReader requires 'pymupdf'. Install with: pip install pymupdf"
+                "pymupdf package not found, install with 'pip install pymupdf'"
             ) from e
 
         super().__init__(config=config, reader_cls=PyMuPDFReader)

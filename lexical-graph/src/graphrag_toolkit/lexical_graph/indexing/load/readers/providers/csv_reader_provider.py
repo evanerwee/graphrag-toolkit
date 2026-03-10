@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List
 from graphrag_toolkit.lexical_graph.indexing.load.readers.llama_index_reader_provider_base import LlamaIndexReaderProviderBase
 from graphrag_toolkit.lexical_graph.indexing.load.readers.reader_provider_config import CSVReaderConfig
@@ -17,7 +21,7 @@ class CSVReaderProvider(LlamaIndexReaderProviderBase, S3FileMixin):
         except ImportError as e:
             logger.error("Failed to import PandasCSVReader: missing pandas")
             raise ImportError(
-                "PandasCSVReader requires 'pandas'. Install with: pip install pandas"
+                "pandas package not found, install with 'pip install pandas'"
             ) from e
 
         reader_kwargs = {"concat_rows": config.concat_rows}

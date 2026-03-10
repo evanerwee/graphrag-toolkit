@@ -1,3 +1,7 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+
 from typing import List
 from ..llama_index_reader_provider_base import LlamaIndexReaderProviderBase
 from ..reader_provider_config import PPTXReaderConfig
@@ -17,7 +21,7 @@ class PPTXReaderProvider(LlamaIndexReaderProviderBase, S3FileMixin):
         except ImportError as e:
             logger.error("Failed to import PptxReader: missing python-pptx")
             raise ImportError(
-                "PptxReader requires 'python-pptx'. Install with: pip install python-pptx"
+                "python-pptx package not found, install with 'pip install python-pptx'"
             ) from e
 
         super().__init__(config=config, reader_cls=PptxReader)
