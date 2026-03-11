@@ -52,7 +52,7 @@
     "NeptuneEngineVersion": {
       "Description": "Neptune DB engine version",
       "Type": "String",
-      "Default": "1.4.6.2"
+      "Default": "1.4.7.0"
     },
     "MinNCU": {
       "Description": "Min number of NCUs (default 2.5, relevant only when instance type is db.serverless).",
