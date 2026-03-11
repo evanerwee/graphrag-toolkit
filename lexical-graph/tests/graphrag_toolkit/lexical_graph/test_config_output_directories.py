@@ -58,32 +58,6 @@ class TestConfigOutputDirectories:
         # Reset for other tests
         GraphRAGConfig._log_output_dir = None
 
-    def test_youtube_proxy_url_default(self):
-        """Test youtube_proxy_url returns default value (None)."""
-        # Reset the config
-        GraphRAGConfig._youtube_proxy_url = None
-        
-        with patch.dict(os.environ, {}, clear=True):
-            assert GraphRAGConfig.youtube_proxy_url is None
-
-    def test_youtube_proxy_url_from_env(self):
-        """Test youtube_proxy_url reads from environment variable."""
-        # Reset the config
-        GraphRAGConfig._youtube_proxy_url = None
-        
-        proxy_url = 'http://user:pass@proxy.example.com:8080'
-        with patch.dict(os.environ, {'YOUTUBE_PROXY_URL': proxy_url}, clear=True):
-            assert GraphRAGConfig.youtube_proxy_url == proxy_url
-
-    def test_youtube_proxy_url_setter(self):
-        """Test youtube_proxy_url can be set programmatically."""
-        proxy_url = 'http://user:pass@proxy.example.com:8080'
-        GraphRAGConfig.youtube_proxy_url = proxy_url
-        assert GraphRAGConfig.youtube_proxy_url == proxy_url
-        
-        # Reset for other tests
-        GraphRAGConfig._youtube_proxy_url = None
-
     def test_config_persistence(self):
         """Test that config values persist across multiple accesses."""
         GraphRAGConfig.local_output_dir = '/persistent/path'

@@ -54,7 +54,6 @@ DEFAULT_ENABLE_VERSIONING = False
 DEFAULT_CHUNK_EXTERNAL_PROPERTIES = None
 DEFAULT_LOCAL_OUTPUT_DIR = 'output'  # Local staging directory for batch files (use /tmp for EKS)
 DEFAULT_LOG_OUTPUT_DIR = None  # Log file directory (None = use filename as-is, set to /tmp for EKS)
-DEFAULT_YOUTUBE_PROXY_URL = None  # Proxy URL for YouTube transcript API (bypasses cloud IP bans)
 
 def _is_json_string(s):
     """
@@ -296,7 +295,6 @@ class _GraphRAGConfig:
     _chunk_external_properties: Optional[Dict[str, str]] = None
     _local_output_dir: Optional[str] = None
     _log_output_dir: Optional[str] = None
-    _youtube_proxy_url: Optional[str] = None
 
     @contextlib.contextmanager
     def _validate_sso_token(self, profile):
@@ -1292,30 +1290,6 @@ class _GraphRAGConfig:
     @log_output_dir.setter
     def log_output_dir(self, log_output_dir: str) -> None:
         self._log_output_dir = log_output_dir
-
-    @property
-    def youtube_proxy_url(self) -> Optional[str]:
-        """
-        Gets the proxy URL for YouTube transcript API requests.
-        
-        YouTube blocks requests from cloud provider IPs (AWS, GCP, Azure).
-        Configure a proxy to bypass this limitation.
-        
-        Format: "http://username:password@proxy.host:port"
-        
-        Can be set via environment variable YOUTUBE_PROXY_URL or
-        programmatically via GraphRAGConfig.youtube_proxy_url = '...'
-        
-        Returns:
-            Optional[str]: The proxy URL, or None if not configured.
-        """
-        if self._youtube_proxy_url is None:
-            self._youtube_proxy_url = os.environ.get('YOUTUBE_PROXY_URL', DEFAULT_YOUTUBE_PROXY_URL)
-        return self._youtube_proxy_url
-
-    @youtube_proxy_url.setter
-    def youtube_proxy_url(self, proxy_url: str) -> None:
-        self._youtube_proxy_url = proxy_url
 
 
 GraphRAGConfig = _GraphRAGConfig()

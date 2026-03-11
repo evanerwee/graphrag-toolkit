@@ -4,11 +4,10 @@ This document describes the output directory configuration options available in 
 
 ## Overview
 
-The GraphRAG Toolkit provides three new configuration options to control where files are written during processing:
+The GraphRAG Toolkit provides two new configuration options to control where files are written during processing:
 
 - `local_output_dir`: Local staging directory for batch files
-- `log_output_dir`: Directory for log files  
-- `youtube_proxy_url`: Proxy URL for YouTube transcript API
+- `log_output_dir`: Directory for log files
 
 These configurations are particularly useful for containerized deployments (EKS/Kubernetes) where the working directory may be read-only.
 
@@ -67,29 +66,6 @@ GraphRAGConfig.log_output_dir = '/tmp'
 # This will create log file at /tmp/extraction.log
 set_logging_config('INFO', filename='extraction.log')
 ```
-
-### youtube_proxy_url
-
-**Purpose**: Proxy URL for YouTube transcript API requests.
-
-**Default**: `None`
-
-**Description**: YouTube blocks requests from cloud provider IPs (AWS, GCP, Azure). Configure a proxy to bypass this limitation when using the YouTube reader provider.
-
-**Format**: `"http://username:password@proxy.host:port"`
-
-**Configuration Methods**:
-
-1. **Environment Variable**:
-   ```bash
-   export YOUTUBE_PROXY_URL="http://user:pass@proxy.example.com:8080"
-   ```
-
-2. **Programmatic**:
-   ```python
-   from graphrag_toolkit.lexical_graph import GraphRAGConfig
-   GraphRAGConfig.youtube_proxy_url = 'http://user:pass@proxy.example.com:8080'
-   ```
 
 ## EKS/Kubernetes Deployment
 
