@@ -4,17 +4,21 @@ import json
 import logging
 
 from botocore.exceptions import ClientError
-from typing import List, Dict, Any
 from tqdm import tqdm
-from typing import List, Dict, Any, Callable
+from typing import List, Dict, Any, Callable, Optional, Sequence
 
 from graphrag_toolkit.lexical_graph.metadata import FilterConfig, type_name_for_key_value, format_datetime
 from graphrag_toolkit.lexical_graph.versioning import VALID_FROM, VALID_TO, TIMESTAMP_LOWER_BOUND, TIMESTAMP_UPPER_BOUND
-from graphrag_toolkit.lexical_graph.config import GraphRAGConfig
+from graphrag_toolkit.lexical_graph.storage.constants import INDEX_KEY
+from graphrag_toolkit.lexical_graph.storage.vector import VectorIndex, to_embedded_query
 from graphrag_toolkit.lexical_graph.storage.vector import VectorIndex
+from graphrag_toolkit.lexical_graph.config import GraphRAGConfig
 from graphrag_toolkit.lexical_graph.utils.arg_utils import coalesce
 
 from llama_index.core.schema import TextNode
+from llama_index.core.schema import BaseNode, QueryBundle
+from llama_index.core.indices.utils import embed_nodes
+from llama_index.core.bridge.pydantic import PrivateAttr
 from llama_index.core.vector_stores.types import FilterCondition, FilterOperator, MetadataFilter, MetadataFilters
 
 DISTANCE_METRIC = 'cosine'
@@ -197,34 +201,33 @@ def validate_metadata_limits(metadata: Dict[str, Any], max_tags: int, vector_id:
             raise ValueError(f"Key must not exceed {MAX_KEY_LENGTH - len(SOURCE_METADATA_PREFIX)} characters: {k}")
         
 
-def create_vector_bucket(s3_vectors_client, bucket_name:str, writeable:bool=False) -> str:
+def check_vector_bucket(s3_vectors_client, bucket_name:str) -> bool:
 
     try:
         # Check if vector bucket already exists using S3 Vectors API
         s3_vectors_client.get_vector_bucket(vectorBucketName=bucket_name)
         logger.debug(f'Using existing vector bucket: {bucket_name}')
-        return bucket_name
+        return True
     except ClientError as e:
         if e.response['Error']['Code'] != 'NotFoundException':
             logger.error(f"Error while getting vector bucket: {str(e)}")
             raise
 
-    if not writeable:
-        raise IndexError(f"Vector bucket '{bucket_name}' does not exist, but vector store is not writeable")
+    raise IndexError(f"Vector bucket '{bucket_name}' does not exist, but vector store is not writeable")
     
     # Create vector bucket using S3 Vectors API
-    try:
-        s3_vectors_client.create_vector_bucket(
-            vectorBucketName=bucket_name
-        )
-        logger.debug(f'Created new bucket: {bucket_name}')
-    except ClientError as create_error:
-        if create_error.response['Error']['Code'] == 'ConflictException':
-            logger.debug(f'Using existing bucket: {bucket_name}')
-        else:
-            raise
+    # try:
+    #     s3_vectors_client.create_vector_bucket(
+    #         vectorBucketName=bucket_name
+    #     )
+    #     logger.debug(f'Created new bucket: {bucket_name}')
+    # except ClientError as create_error:
+    #     if create_error.response['Error']['Code'] == 'ConflictException':
+    #         logger.debug(f'Using existing bucket: {bucket_name}')
+    #     else:
+    #         raise
     
-    return bucket_name
+    # return bucket_name
 
 
 def create_vector_index(s3_vectors_client, bucket_name:str, index_name:str, dimension:int, distance_metric:str=None, writeable:bool=False) -> str:
@@ -416,7 +419,7 @@ class S3VectorIndex(VectorIndex):
     def for_index(index_name, bucket_name, prefix=None, embed_model=None, dimensions=None, **kwargs):
 
         embed_model = embed_model or GraphRAGConfig.embed_model
-        dimensions = coalesce((dimensions, GraphRAGConfig.embed_dimensions)
+        dimensions = coalesce(dimensions, GraphRAGConfig.embed_dimensions)
 
         return S3VectorIndex(
             index_name=index_name, 
@@ -454,9 +457,9 @@ class S3VectorIndex(VectorIndex):
         
     def _init_index(self, client):
         if not self.initialized:
-            create_vector_bucket(client, self.bucket_name, writeable=self.writeable)
-            create_vector_index(client, self.bucket_name, self.underlying_index_name(), dimension=self.dimensions, writeable=self.writeable)
-            self.initialized = True
+            if check_vector_bucket(client, self.bucket_name):
+                create_vector_index(client, self.bucket_name, self.underlying_index_name(), dimension=self.dimensions, writeable=self.writeable)
+                self.initialized = True
 
     def add_embeddings(self, nodes:Sequence[BaseNode]) -> Sequence[BaseNode]:
 

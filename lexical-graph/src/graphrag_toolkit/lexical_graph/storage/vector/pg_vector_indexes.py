@@ -5,7 +5,6 @@ import json
 import logging
 import numpy as np
 
-from pgvector.psycopg2 import register_vector
 from typing import List, Sequence, Dict, Any, Optional, Callable
 from urllib.parse import urlparse
 
@@ -309,6 +308,9 @@ class PGIndex(VectorIndex):
     embed_model:EmbeddingType
     enable_iam_db_auth:bool=False
     initialized:bool=False
+
+    def underlying_index_name(self) -> str:
+        return ''.join([ c if c.isalnum() else '_' for c in super().underlying_index_name() ])
 
     def _get_connection(self):
         """
