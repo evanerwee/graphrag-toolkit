@@ -61,6 +61,7 @@ config = PDFReaderConfig(
 | `MarkdownReaderProvider` | `MarkdownReaderConfig` | Markdown files | Built-in |
 | `CSVReaderProvider` | `CSVReaderConfig` | CSV files | Built-in |
 | `JSONReaderProvider` | `JSONReaderConfig` | JSON/JSONL files | Built-in |
+| `StreamingJSONLReaderProvider` | `StreamingJSONLReaderConfig` | Memory-efficient JSONL streaming | Built-in |
 | `StructuredDataReaderProvider` | `StructuredDataReaderConfig` | CSV/Excel files with streaming | `pandas`, `openpyxl`, `llama-index-readers-structured-data` |
 
 ### Web and Knowledge Base Readers
@@ -250,6 +251,38 @@ config = DatabaseReaderConfig(
 )
 reader = DatabaseReaderProvider(config)
 docs = reader.read(config.query)
+```
+
+### Streaming JSONL Reader (Memory-Efficient)
+```python
+from graphrag_toolkit.lexical_graph.indexing.load.readers import StreamingJSONLReaderProvider, StreamingJSONLReaderConfig
+
+# Basic configuration - uses full JSON as text
+config = StreamingJSONLReaderConfig(
+    batch_size=1000,  # Process 1000 documents at a time
+    strict_mode=False,  # Skip malformed lines instead of failing
+    metadata_fn=lambda path: {'source': 'streaming_jsonl', 'file': path}
+)
+reader = StreamingJSONLReaderProvider(config)
+docs = reader.load_data('large_file.jsonl')  # Memory-efficient loading
+
+# Advanced configuration - extract specific text field
+config = StreamingJSONLReaderConfig(
+    batch_size=500,
+    text_field="content",  # Extract text from 'content' field
+    strict_mode=True,  # Fail on malformed JSON
+    log_interval=5000,  # Log progress every 5000 lines
+    metadata_fn=lambda path: {'source': 'streaming_jsonl', 'file': path}
+)
+reader = StreamingJSONLReaderProvider(config)
+
+# Process in batches for very large files
+for batch in reader.lazy_load_data('huge_file.jsonl'):
+    # Process each batch of documents
+    process_batch(batch)
+
+# Works with S3 files too
+docs = reader.load_data('s3://my-bucket/large-data.jsonl')
 ```
 
 ## Installation Requirements
