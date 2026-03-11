@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/retrievers/traversal_based_base_retriever.py
+# hypothesis_version: 6.151.9
+
+[1000, 'entity_contexts', 'facts', 'graph', 'limit', 'llm', 'nlp', 'passthru', 'properties(c)', 'result', 'score', 'source', 'statementId', 'statementIds', 'statementLimit', 'statements', 'topics', 'vss', '{}']

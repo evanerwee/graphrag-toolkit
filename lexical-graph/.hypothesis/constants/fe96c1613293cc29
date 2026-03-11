@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/constants.py
+# hypothesis_version: 6.151.9
+
+['Company', 'Creative Work', 'Event', 'Financial Instrument', 'Location', 'Person', 'Product', 'Role', 'Service', 'Software', 'Sports Team', '__Local_Entity__', 'aws::graph::topics', 'context', 'unknown']

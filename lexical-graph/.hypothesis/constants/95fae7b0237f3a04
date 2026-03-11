@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/post_processors/bedrock_context_format.py
+# hypothesis_version: 6.151.9
+
+[', ', 'BedrockContextFormat', 'No relevant context', 'details', 'metadata', 'source', 'sourceId', 'statement']

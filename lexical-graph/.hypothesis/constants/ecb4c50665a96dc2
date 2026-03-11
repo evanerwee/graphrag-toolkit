@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/retrievers/composite_traversal_based_retriever.py
+# hypothesis_version: 6.151.9
+
+[1.0, 'enrich_query', 'max_search_results', 'reranker', 'tfidf']

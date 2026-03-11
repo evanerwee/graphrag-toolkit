@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/storage/graph/neptune_graph_stores.py
+# hypothesis_version: 6.151.9
+
+[200, 500, 600, 8182, '.', ':', 'Code', 'DISABLED', 'Error', 'Message', 'OPEN_CYPHER', '`~id`', 'body', 'code', 'config', 'endpoint_url', 'https://', 'message', 'mode', 'neptune-db://', 'neptune-graph', 'neptune-graph://', 'neptunedata', 'payload', 'port', 'results', 'standard', 'status_code', 'total_max_attempts', 'unknown', 'us-east-1', 'utf-8', '{"results":[]}']

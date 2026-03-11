@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/retrievers/statement_cosine_seach.py
+# hypothesis_version: 6.151.9
+
+[100, 'cosine_similarity', 'search_type', 'statement', 'statementId']

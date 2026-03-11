@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/lexical_graph_query_engine.py
+# hypothesis_version: 6.151.9
+
+[100, 1000, 'answer_ms', 'bedrock_xml', 'concisely', 'context', 'context_format', 'entity_contexts', 'fully', 'json', 'no_cache', 'num_source_nodes', 'postprocessing_ms', 'postprocessors', 'prompt_provider', 'query', 'retrieve_ms', 'retriever', 'source', 'statements', 'text', 'topics', 'total_ms', 'verbose', 'xml', 'yaml']

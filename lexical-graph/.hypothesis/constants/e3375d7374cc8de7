@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/processors/rerank_statements.py
+# hypothesis_version: 6.151.9
+
+[0.0, 1000, '\n--------------\n', '%B %-d, %Y', ', ', 'INLINE', 'Reranking with tfidf', 'Scored values:\n', 'TEXT', 'bedrock', 'http', 'index', 'inlineDocumentSource', 'model', 'modelArn', 'modelConfiguration', 'none', 'numberOfResults', 'relevanceScore', 'results', 'text', 'textDocument', 'textQuery', 'tfidf', 'type']

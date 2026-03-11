@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/extract/batch_extractor_base.py
+# hypothesis_version: 6.151.9
+
+['%Y%m%d-%H%M%S', 'BatchExtractorBase', 'Description', 'Prompt template', 'inputs', 'output', 'outputs', 'outputs/', 'temp', 'w']

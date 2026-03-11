@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/build/version_manager.py
+# hypothesis_version: 6.151.9
+
+[100, 'chunk', 'extract_timestamp', 'id_fields', 'index', 'metadata', 'nodeIds', 'prev_versions', 'result', 'source', 'sourceId', 'sourceIds', 'source_id', 'statement', 'topic', 'valid_from', 'valid_to', 'versioning', 'versioningTimestamp']

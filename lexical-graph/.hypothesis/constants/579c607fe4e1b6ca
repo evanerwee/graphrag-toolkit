@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/build/graph_summary_builder.py
+# hypothesis_version: 6.151.9
+
+['fact', 'oc', 'oc_id', 'p', 'sc', 'sc_id', 'sys_class']

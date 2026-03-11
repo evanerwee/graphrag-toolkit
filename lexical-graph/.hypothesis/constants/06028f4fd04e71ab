@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/load/s3_based_docs.py
+# hypothesis_version: 6.151.9
+
+[1.0, 60.0, 100, 1000, '%Y%m%d-%H%M%S', '/', 'AES256', 'CommonPrefixes', 'Contents', 'Key', 'Prefix', 'Starting upload...', 'UTF-8', 'application/json', 'aws:kms', 'list_objects_v2', 'queue', 'source_documents', 'text/plain']

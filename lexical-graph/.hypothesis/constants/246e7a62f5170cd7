@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/build/delete_sources.py
+# hypothesis_version: 6.151.9
+
+[1000, 'aws::graph::index', 'batchSize', 'chunk', 'chunkId', 'chunkIds', 'chunks', 'entities', 'entityId', 'entityIds', 'factId', 'factIds', 'facts', 'index', 'metadata', 'prev_versions', 'source', 'sourceId', 'statement', 'statementId', 'statementIds', 'statements', 'topic', 'topicId', 'topicIds', 'topics', 'versioning']

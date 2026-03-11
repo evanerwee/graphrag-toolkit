@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/processors/processor_args.py
+# hypothesis_version: 6.151.9
+
+[0.05, 0.08, 0.1, 200, 'chunk_beam_max_depth', 'chunk_beam_width', 'chunk_cosine_top_k', 'debug_results', 'derive_subqueries', 'disaggregate_results', 'ec_entity_provider', 'ec_keyword_provider', 'ec_max_contexts', 'ec_max_depth', 'ec_max_entities', 'ec_max_score_factor', 'ec_min_score_factor', 'expand_entities', 'include_facts', 'intermediate_limit', 'max_keywords', 'max_search_results', 'max_statements', 'max_subqueries', 'no_cache', 'num_workers', 'query_limit', 'reranker', 'source_formatter', 'tfidf', 'vss', 'vss_diversity_factor', 'vss_top_k']

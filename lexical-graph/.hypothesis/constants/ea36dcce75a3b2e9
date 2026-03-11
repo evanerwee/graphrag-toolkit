@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/post_processors/enrich_source_details.py
+# hypothesis_version: 6.151.9
+
+['$', 'EnrichSourceDetails', 'metadata', 'source']

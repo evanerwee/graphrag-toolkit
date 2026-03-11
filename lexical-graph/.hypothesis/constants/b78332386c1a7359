@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/storage/constants.py
+# hypothesis_version: 6.151.9
+
+['__Chunk__', '__Entity__', '__Fact__', '__SYS_Class__', '__Source__', '__Statement__', '__Topic__', 'aws::graph::index', 'chunk', 'statement', 'topic']

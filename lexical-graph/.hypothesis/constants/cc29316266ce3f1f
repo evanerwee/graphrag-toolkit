@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/load/readers/reader_provider_config.py
+# hypothesis_version: 6.151.9
+
+[100, 1000, 10000, 27017, ', ', 'en', 'localhost']

@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/post_processors/statement_diversity.py
+# hypothesis_version: 6.151.9
+
+[0.975, '\\d+\\.\\d+', 'en_core_web_sm', 'ner', 'parser', 'sentencizer']

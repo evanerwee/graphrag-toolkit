@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/query_context/entity_context_provider.py
+# hypothesis_version: 6.151.9
+
+[1000, ',', ':', 'entity', 'entityId', 'entityIds', 'excludeEntityIds', 'numNeighbours', 'others', 'result']

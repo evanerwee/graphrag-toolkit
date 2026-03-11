@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/load/readers/providers/structured_data_reader_provider.py
+# hypothesis_version: 6.151.9
+
+['.csv', '.json', '.jsonl', '.xls', '.xlsx', 'content_category', 'csv', 'delimiter', 'document_type', 'excel', 'file_path', 'file_type', 'json', 'jsonl', 'lines', 'sep', 'source', 'structured_data', 'tabular_data', 'utf-8']

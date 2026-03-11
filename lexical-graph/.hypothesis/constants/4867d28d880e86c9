@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/utils/batch_inference_utils.py
+# hypothesis_version: 6.151.9
+
+[100, 1024, 50000, '/', 'Completed', 'Contents', 'Expired', 'Failed', 'Key', 'PartiallyCompleted', 'Started', 'Stopped', 'amazon.nova', 'anthropic.claude', 'anthropic_version', 'bedrock-2023-05-31', 'content', 'error', 'generation', 'inferenceConfig', 'jobArn', 'list_objects_v2', 'maxTokens', 'max_new_tokens', 'max_tokens', 'message', 'messages', 'meta.llama', 'modelInput', 'modelOutput', 'output', 'parameters', 'r', 'recordId', 'role', 's3EncryptionKeyId', 's3InputDataConfig', 's3OutputDataConfig', 's3Uri', 'securityGroupIds', 'status', 'subnetIds', 'system', 'system"', 'temperature', 'text', 'utf-8']

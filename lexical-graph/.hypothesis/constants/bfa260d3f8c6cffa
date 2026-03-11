@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/lexical_graph_index.py
+# hypothesis_version: 6.151.9
+
+[256, 'Chunk', 'Entity', 'Fact', 'Source', 'Statement', 'Topic', 'connectingNumChunks', 'count', 'enable_versioning', 'fact', 'globalConnectivity', 'localConnectivity', 'metadata', 'numChunksPerTopic', 'numFacts', 'numStatementsPerFact', 'numTopics', 'output', 'result', 'sourceId', 'sourceIds', 'topic']

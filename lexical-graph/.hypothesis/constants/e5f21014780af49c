@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/load/readers/providers/universal_directory_reader_provider.py
+# hypothesis_version: 6.151.9
+
+['bucket_name', 'collection_id', 'exclude_hidden', 'file_extractor', 'input_dir', 'input_files', 'key_prefix', 'recursive', 'region', 'required_exts']

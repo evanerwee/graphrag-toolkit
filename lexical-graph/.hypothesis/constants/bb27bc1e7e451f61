@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/retrievers/semantic_guided_retriever.py
+# hypothesis_version: 6.151.9
+
+[0.0, 'chunk', 'embedding_cache', 'metadata', 'result', 'source', 'sourceId', 'statement', 'statementId', 'value']

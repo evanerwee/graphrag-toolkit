@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/build/chunk_graph_builder.py
+# hypothesis_version: 6.151.9
+
+['// insert chunks', 'child', 'chunk', 'chunkId', 'chunk_id', 'metadata', 'next', 'parent', 'previous', 'source_id', 'target_id', 'text']

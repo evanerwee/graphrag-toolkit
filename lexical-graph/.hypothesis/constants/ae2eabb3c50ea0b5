@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/utils/bedrock_utils.py
+# hypothesis_version: 6.151.9
+
+[0.1, 1.0, 30.0, 3072, 'END', 'Embedding purpose', 'ModelErrorException', 'SINGLE_EMBEDDING', 'ServiceException', 'TEXT_RETRIEVAL', 'ThrottlingException', '__pydantic_private__', '_client', 'application/json', 'bedrock-runtime', 'body', 'embedding', 'embeddingDimension', 'embeddingPurpose', 'embeddings', 'service unavailable', 'taskType', 'text', 'throttl', 'truncationMode', 'unexpected error', 'value']

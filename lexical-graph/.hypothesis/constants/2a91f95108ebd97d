@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/utils/llm_cache.py
+# hypothesis_version: 6.151.9
+
+[60.0, '\x1b[0m', '\x1b[31m', '\x1b[92m', '\x1b[94m', '\x1b[96m', '%s%s%s', '_client', 'bedrock-runtime', 'exclude_cache_keys', 'max_attempts', 'mode', 'r', 'standard', 'utf-8', 'w']

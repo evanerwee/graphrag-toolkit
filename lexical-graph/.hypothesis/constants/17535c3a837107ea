@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/build/source_node_builder.py
+# hypothesis_version: 6.151.9
+
+['SourceNodeBuilder', 'id_fields', 'index', 'invalid_metadata', 'key', 'source', 'sourceId', 'versioning']

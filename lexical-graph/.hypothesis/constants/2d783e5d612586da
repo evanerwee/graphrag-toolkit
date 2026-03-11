@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/retrieval/retrievers/keyword_ranking_search.py
+# hypothesis_version: 6.151.9
+
+[0.0, 100, '^', 'keyword_matches', 'keyword_ranking', 'keywords', 'matched_keywords', 'num_keyword_matches', 'result', 'search_type', 'statement', 'statementId']

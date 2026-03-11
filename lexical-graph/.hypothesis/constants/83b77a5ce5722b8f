@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/build/statement_graph_builder.py
+# hypothesis_version: 6.151.9
+
+['// insert statements', 'chunk_id', 'details', 'prev_statement_id', 'statement', 'statement_id', 'topic_id', 'value']

@@ -1,0 +1,4 @@
+# file: /Users/evanerwee/EERepo/graphrag-toolkit/lexical-graph/src/graphrag_toolkit/lexical_graph/logging.py
+# hypothesis_version: 6.151.9
+
+['%Y-%m-%d %H:%M:%S', '()', '*', '.', 'a', 'boto', 'class', 'datefmt', 'default', 'excluded_messages', 'excluded_modules', 'ext://sys.stdout', 'file_handler', 'filename', 'filters', 'fmt', 'formatter', 'formatters', 'graphrag_toolkit', 'handlers', 'included_messages', 'included_modules', 'level', 'loggers', 'logging.FileHandler', 'mode', 'moduleFilter', 'opensearch', 'output.log', 'stdout', 'stream', 'urllib', 'version']
