@@ -130,6 +130,7 @@ class WikipediaReaderConfig(ReaderProviderConfig):
 @dataclass
 class YouTubeReaderConfig(ReaderProviderConfig):
     language: str = "en"
+    proxy_url: Optional[str] = None  # Proxy URL for bypassing cloud provider IP blocks
     metadata_fn: Optional[Callable[[str], Dict[str, Any]]] = None
 
 @dataclass
