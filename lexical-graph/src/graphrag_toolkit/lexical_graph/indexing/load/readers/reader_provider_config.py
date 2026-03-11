@@ -42,6 +42,15 @@ class JSONReaderConfig(ReaderProviderConfig):
     metadata_fn: Optional[Callable[[str], Dict[str, Any]]] = None
 
 @dataclass
+class StreamingJSONLReaderConfig(ReaderProviderConfig):
+    """Configuration for memory-efficient streaming JSONL processing."""
+    batch_size: int = 1000
+    text_field: Optional[str] = None  # None = use full JSON as text
+    strict_mode: bool = False
+    log_interval: int = 10000
+    metadata_fn: Optional[Callable[[str], Dict[str, Any]]] = None
+
+@dataclass
 class XMLReaderConfig(ReaderProviderConfig):
     tree_level_split: int = 0
 
