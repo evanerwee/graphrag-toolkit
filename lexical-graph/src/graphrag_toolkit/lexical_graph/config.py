@@ -52,6 +52,9 @@ DEFAULT_METADATA_DATETIME_SUFFIXES = ['_date', '_datetime']
 DEFAULT_OPENSEARCH_ENGINE = 'nmslib'
 DEFAULT_ENABLE_VERSIONING = False
 DEFAULT_CHUNK_EXTERNAL_PROPERTIES = None
+DEFAULT_LOCAL_OUTPUT_DIR = 'output'  # Local staging directory for batch files (use /tmp for EKS)
+DEFAULT_LOG_OUTPUT_DIR = None  # Log file directory (None = use filename as-is, set to /tmp for EKS)
+DEFAULT_YOUTUBE_PROXY_URL = None  # Proxy URL for YouTube transcript API (bypasses cloud IP bans)
 
 def _is_json_string(s):
     """
@@ -291,6 +294,9 @@ class _GraphRAGConfig:
     _opensearch_engine: Optional[str] = None
     _enable_versioning = None
     _chunk_external_properties: Optional[Dict[str, str]] = None
+    _local_output_dir: Optional[str] = None
+    _log_output_dir: Optional[str] = None
+    _youtube_proxy_url: Optional[str] = None
 
     @contextlib.contextmanager
     def _validate_sso_token(self, profile):
@@ -887,6 +893,18 @@ class _GraphRAGConfig:
             profile = self.aws_profile
             region = self.aws_region
 
+            # Configure botocore with longer timeouts for long-running extraction
+            # SSL errors like "UNEXPECTED_EOF_WHILE_READING" can occur when:
+            # 1. Connection times out during long LLM operations
+            # 2. Istio sidecar interferes with long-running connections
+            # 3. Network interruptions during multi-hour extraction jobs
+            # See: https://repost.aws/knowledge-center/bedrock-large-model-read-timeouts
+            botocore_config = Config(
+                retries={"total_max_attempts": 10, "mode": "adaptive"},
+                connect_timeout=120.0,  # 2 minutes to establish connection
+                read_timeout=600.0,     # 10 minutes per request (extraction can be slow)
+            )
+
             if _is_json_string(llm):
                 config = json.loads(llm)
                 return BedrockConverse(
@@ -896,7 +914,8 @@ class _GraphRAGConfig:
                     botocore_session=botocore_session,
                     region_name=config.get('region_name', region),
                     profile_name=config.get('profile_name', profile),
-                    max_retries=50
+                    max_retries=50,
+                    botocore_config=botocore_config,
                 )
 
             else:
@@ -907,7 +926,8 @@ class _GraphRAGConfig:
                     botocore_session=botocore_session,
                     region_name=region,
                     profile_name=profile,
-                    max_retries=50
+                    max_retries=50,
+                    botocore_config=botocore_config,
                 )
 
         except Exception as e:
@@ -1048,10 +1068,12 @@ class _GraphRAGConfig:
             profile = self.aws_profile
             region = self.aws_region
 
+            # Configure botocore with longer timeouts for embedding operations
+            # Consistent with LLM config to handle long-running extraction jobs
             botocore_config = Config(
                 retries={"total_max_attempts": 10, "mode": "adaptive"},
-                connect_timeout=60.0,
-                read_timeout=60.0,
+                connect_timeout=120.0,  # 2 minutes to establish connection
+                read_timeout=300.0,     # 5 minutes per request (embeddings are faster than LLM)
             )
             
             if _is_json_string(embed_model):
@@ -1226,6 +1248,74 @@ class _GraphRAGConfig:
             if 'chunkId' in chunk_external_properties:
                 raise ConfigurationError("chunk_external_properties cannot contain a 'chunkId' key")
         self._chunk_external_properties = chunk_external_properties
+
+    @property
+    def local_output_dir(self) -> str:
+        """
+        Local output directory for batch staging files.
+        
+        This directory is used by batch extractors to stage JSONL files before
+        uploading to S3. Default is 'output' for local development.
+        
+        For EKS/Kubernetes deployments, set to '/tmp' via environment variable
+        LOCAL_OUTPUT_DIR or programmatically via GraphRAGConfig.local_output_dir = '/tmp'
+        
+        Returns:
+            str: The local output directory path.
+        """
+        if self._local_output_dir is None:
+            self._local_output_dir = os.environ.get('LOCAL_OUTPUT_DIR', DEFAULT_LOCAL_OUTPUT_DIR)
+        return self._local_output_dir
+
+    @local_output_dir.setter
+    def local_output_dir(self, local_output_dir: str) -> None:
+        self._local_output_dir = local_output_dir
+
+    @property
+    def log_output_dir(self) -> Optional[str]:
+        """
+        Directory for log files.
+        
+        When set, log filenames passed to set_logging_config() will be prefixed
+        with this directory. Default is None (use filename as-is).
+        
+        For EKS/Kubernetes deployments, set to '/tmp' via environment variable
+        LOG_OUTPUT_DIR or programmatically via GraphRAGConfig.log_output_dir = '/tmp'
+        
+        Returns:
+            Optional[str]: The log output directory path, or None.
+        """
+        if self._log_output_dir is None:
+            self._log_output_dir = os.environ.get('LOG_OUTPUT_DIR', DEFAULT_LOG_OUTPUT_DIR)
+        return self._log_output_dir
+
+    @log_output_dir.setter
+    def log_output_dir(self, log_output_dir: str) -> None:
+        self._log_output_dir = log_output_dir
+
+    @property
+    def youtube_proxy_url(self) -> Optional[str]:
+        """
+        Gets the proxy URL for YouTube transcript API requests.
+        
+        YouTube blocks requests from cloud provider IPs (AWS, GCP, Azure).
+        Configure a proxy to bypass this limitation.
+        
+        Format: "http://username:password@proxy.host:port"
+        
+        Can be set via environment variable YOUTUBE_PROXY_URL or
+        programmatically via GraphRAGConfig.youtube_proxy_url = '...'
+        
+        Returns:
+            Optional[str]: The proxy URL, or None if not configured.
+        """
+        if self._youtube_proxy_url is None:
+            self._youtube_proxy_url = os.environ.get('YOUTUBE_PROXY_URL', DEFAULT_YOUTUBE_PROXY_URL)
+        return self._youtube_proxy_url
+
+    @youtube_proxy_url.setter
+    def youtube_proxy_url(self, proxy_url: str) -> None:
+        self._youtube_proxy_url = proxy_url
 
 
 GraphRAGConfig = _GraphRAGConfig()

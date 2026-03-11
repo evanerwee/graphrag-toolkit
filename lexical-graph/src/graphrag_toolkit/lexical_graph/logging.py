@@ -1,6 +1,7 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
+import os
 import logging
 import logging.config
 import warnings
@@ -183,13 +184,9 @@ BASE_LOGGING_CONFIG = {
             'filters': ['moduleFilter'],
             'formatter': 'default'
         },
-        'file_handler': {
-            'formatter': 'default',
-            'class': 'logging.FileHandler',
-            'filename': 'output.log',
-            'filters': ['moduleFilter'],
-            'mode': 'a',
-        }
+        # NOTE: file_handler is NOT defined here by default to avoid errors
+        # in container environments where the working directory may be read-only.
+        # It is added dynamically in set_advanced_logging_config() when filename is provided.
     },
     'loggers': {'': {'handlers': ['stdout'], 'level': logging.INFO}},
 }
@@ -277,7 +274,21 @@ def set_advanced_logging_config(
     config['filters']['moduleFilter']['excluded_messages'].update(excluded_messages or dict())
     
     if filename:
-        config['handlers']['file_handler']['filename'] = filename
+        # Import GraphRAGConfig to check log_output_dir setting
+        from graphrag_toolkit.lexical_graph import GraphRAGConfig
+        
+        # If log_output_dir is set and filename is not absolute, prefix it
+        if GraphRAGConfig.log_output_dir and not os.path.isabs(filename):
+            filename = os.path.join(GraphRAGConfig.log_output_dir, filename)
+        
+        # Add file_handler dynamically only when filename is provided
+        config['handlers']['file_handler'] = {
+            'formatter': 'default',
+            'class': 'logging.FileHandler',
+            'filename': filename,
+            'filters': ['moduleFilter'],
+            'mode': 'a',
+        }
         config['loggers']['']['handlers'].append('file_handler')
     
     logging.config.dictConfig(config)

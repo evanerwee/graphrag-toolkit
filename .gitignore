@@ -25,4 +25,4 @@ __pycache__/
 .coverage
 
 # kiro config
-.config.kiro
+.config.kirolexical-graph/.hypothesis/
