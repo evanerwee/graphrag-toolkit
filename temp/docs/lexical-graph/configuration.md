@@ -127,7 +127,17 @@ GraphRAGConfig.embed_dimensions = 512
 
 ##### Nova 2 Multimodal Embeddings
 
-Amazon Nova 2 multimodal embedding models (`amazon.nova-2-multimodal-embeddings-v1:0`) use a different API format than standard Bedrock embedding models. The lexical-graph automatically detects Nova 2 multimodal models and uses the correct API format via the `Nova2MultimodalEmbedding` class ([`bedrock_embedding.py`](../../lexical-graph/src/graphrag_toolkit/lexical_graph/bedrock_embedding.py)).
+Amazon Nova 2 multimodal embedding models (`amazon.nova-2-multimodal-embeddings-v1:0`) use a different API format than standard Bedrock embedding models. To use Nova 2 models, you must explicitly import and instantiate the `Nova2MultimodalEmbedding` class.
+
+**Usage:**
+
+```python
+from graphrag_toolkit.lexical_graph import GraphRAGConfig
+from graphrag_toolkit.lexical_graph.utils.bedrock_utils import Nova2MultimodalEmbedding
+
+GraphRAGConfig.embed_model = Nova2MultimodalEmbedding('amazon.nova-2-multimodal-embeddings-v1:0')
+GraphRAGConfig.embed_dimensions = 3072
+```
 
 **API Format Differences:**
 
@@ -159,31 +169,30 @@ Nova 2 multimodal embeddings require:
 | `embed_purpose` | Embedding optimization purpose | `TEXT_RETRIEVAL` | `TEXT_RETRIEVAL`, `GENERIC_RETRIEVAL`, `DOCUMENT_RETRIEVAL`, `CLASSIFICATION`, `CLUSTERING` |
 | `truncation_mode` | How to handle text exceeding max length | `END` | `END`, `NONE` |
 
-**Usage:**
+**Advanced Configuration:**
 
-To configure Nova 2 multimodal embeddings with custom parameters, use a JSON string:
-
-```python
-GraphRAGConfig.embed_model = '{"model_name": "amazon.nova-2-multimodal-embeddings-v1:0", "embed_dimensions": 3072, "embed_purpose": "TEXT_RETRIEVAL"}'
-```
-
-Or simply pass the model name for default settings:
+To configure Nova 2 multimodal embeddings with custom parameters:
 
 ```python
-# Important: Set embed_dimensions BEFORE embed_model
+from graphrag_toolkit.lexical_graph import GraphRAGConfig
+from graphrag_toolkit.lexical_graph.utils.bedrock_utils import Nova2MultimodalEmbedding
+
+embedding = Nova2MultimodalEmbedding(
+    model_name='amazon.nova-2-multimodal-embeddings-v1:0',
+    embed_dimensions=3072,
+    embed_purpose='TEXT_RETRIEVAL',
+    truncation_mode='END'
+)
+
+GraphRAGConfig.embed_model = embedding
 GraphRAGConfig.embed_dimensions = 3072
-GraphRAGConfig.embed_model = 'amazon.nova-2-multimodal-embeddings-v1:0'
 ```
 
-**Important:** When using the simple model name format, `embed_dimensions` must be set *before* `embed_model` because the setter uses the current dimensions value when creating the embedding instance.
-
-**Auto-Detection:**
-
-Nova 2 multimodal embeddings are automatically detected by model name. Any model containing "nova", "multimodal", and "embedding" (case-insensitive) in its name will use the Nova 2 API format. The detection is handled by the `is_nova_multimodal_embedding()` function.
-
-**Multiprocessing Support:**
-
-The `Nova2MultimodalEmbedding` class includes custom pickle support (`__getstate__`/`__setstate__`) to handle serialization in multiprocessing scenarios used by the build pipeline.
+**Features:**
+- Handles Nova 2's unique API format automatically
+- Includes retry logic for transient Bedrock errors
+- Custom pickle support for multiprocessing scenarios
+- Lazy client initialization using GraphRAGConfig.session
 
 #### Batch writes
 

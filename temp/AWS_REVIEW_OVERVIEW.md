@@ -14,8 +14,8 @@ We've completed significant enhancements to the GraphRAG toolkit that add new ca
 ### 🤖 **Nova 2 Embedding Support**
 - **What**: Custom implementation for Amazon Nova 2 multimodal embedding models
 - **Why**: Nova 2 models use a different API format than standard Bedrock embeddings
-- **Impact**: Automatic model detection - users just change the model name, no code changes needed
-- **File**: `src/graphrag_toolkit/lexical_graph/bedrock_embedding.py` (247 lines, new)
+- **Impact**: Explicit import required - users must import and instantiate the class
+- **File**: `src/graphrag_toolkit/lexical_graph/utils/bedrock_utils.py` (Nova2MultimodalEmbedding class added)
 
 ### 🐳 **Container Deployment Support** 
 - **What**: Configurable output directories for EKS/Kubernetes deployments
@@ -49,7 +49,7 @@ We've completed significant enhancements to the GraphRAG toolkit that add new ca
 ### 1. **Core Implementation Files** (Priority: High)
 ```
 📁 temp/lexical-graph/src/graphrag_toolkit/lexical_graph/
-├── bedrock_embedding.py          # Nova 2 embedding implementation
+├── utils/bedrock_utils.py        # Nova 2 embedding implementation
 ├── config.py                     # Configuration enhancements
 └── indexing/load/readers/providers/
     └── streaming_jsonl_reader_provider.py  # Memory-efficient JSONL processing
@@ -83,10 +83,10 @@ We've completed significant enhancements to the GraphRAG toolkit that add new ca
 
 ## Discussion Points
 
-### 1. **Nova 2 Model Detection**
-- **Question**: Is the automatic model detection approach (checking for 'nova', 'multimodal', 'embedding' in model name) robust enough?
-- **Alternative**: Could use a whitelist of specific model IDs
-- **Current Implementation**: `is_nova_multimodal_embedding()` function in config.py
+### 1. **Nova 2 Model Usage**
+- **Approach**: Explicit import and instantiation (per AWS preference)
+- **Implementation**: Nova2MultimodalEmbedding class in utils/bedrock_utils.py
+- **Usage**: Users must explicitly import and instantiate the class
 
 ### 2. **Container Configuration**
 - **Question**: Are the new environment variables (`LOCAL_OUTPUT_DIR`, `LOG_OUTPUT_DIR`) appropriately named?
@@ -131,7 +131,7 @@ We've completed significant enhancements to the GraphRAG toolkit that add new ca
 cat temp/LEXICAL_GRAPH_CHANGES_ANALYSIS.md
 
 # 2. Check the new implementations
-ls -la temp/lexical-graph/src/graphrag_toolkit/lexical_graph/bedrock_embedding.py
+ls -la temp/lexical-graph/src/graphrag_toolkit/lexical_graph/utils/bedrock_utils.py
 ls -la temp/lexical-graph/src/graphrag_toolkit/lexical_graph/indexing/load/readers/providers/streaming_jsonl_reader_provider.py
 
 # 3. Compare config changes

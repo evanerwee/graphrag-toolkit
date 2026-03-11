@@ -1071,48 +1071,26 @@ class _GraphRAGConfig:
                 connect_timeout=120.0,  # 2 minutes to establish connection
                 read_timeout=300.0,     # 5 minutes per request (embeddings are faster than LLM)
             )
-
-            # Import Nova 2 embedding class
-            from graphrag_toolkit.lexical_graph.bedrock_embedding import (
-                Nova2MultimodalEmbedding, 
-                is_nova_multimodal_embedding
-            )
             
             if _is_json_string(embed_model):
                 config = json.loads(embed_model)
                 model_name = config['model_name']
                 
-                # Use Nova2MultimodalEmbedding for Nova 2 multimodal models
-                if is_nova_multimodal_embedding(model_name):
-                    self._embed_model = Nova2MultimodalEmbedding(
-                        model_name=model_name,
-                        embed_dimensions=config.get('embed_dimensions', self.embed_dimensions or DEFAULT_EMBEDDINGS_DIMENSIONS),
-                        embed_purpose=config.get('embed_purpose', 'RETRIEVAL'),
-                        truncation_mode=config.get('truncation_mode', 'END'),
-                    )
-                else:
-                    self._embed_model = BedrockEmbedding(
-                        model_name=model_name,
-                        botocore_session=botocore_session,
-                        region_name=config.get('region_name', region),
-                        profile_name=config.get('profile_name', profile),
-                        botocore_config=botocore_config
-                    )
+                self._embed_model = BedrockEmbedding(
+                    model_name=model_name,
+                    botocore_session=botocore_session,
+                    region_name=config.get('region_name', region),
+                    profile_name=config.get('profile_name', profile),
+                    botocore_config=botocore_config
+                )
             else:
-                # Use Nova2MultimodalEmbedding for Nova 2 multimodal models
-                if is_nova_multimodal_embedding(embed_model):
-                    self._embed_model = Nova2MultimodalEmbedding(
-                        model_name=embed_model,
-                        embed_dimensions=self.embed_dimensions or DEFAULT_EMBEDDINGS_DIMENSIONS,
-                    )
-                else:
-                    self._embed_model = BedrockEmbedding(
-                        model_name=embed_model,
-                        botocore_session=botocore_session,
-                        region_name=region,
-                        profile_name=profile,
-                        botocore_config=botocore_config
-                    )
+                self._embed_model = BedrockEmbedding(
+                    model_name=embed_model,
+                    botocore_session=botocore_session,
+                    region_name=region,
+                    profile_name=profile,
+                    botocore_config=botocore_config
+                )
         else:
             self._embed_model = embed_model
 

@@ -163,44 +163,33 @@ def _to_llm(self, llm: LLMType):
 
 ## Usage
 
-### Environment Variables
+### Explicit Import and Instantiation
 
-Set the extraction model to use Nova 2:
-
-```bash
-export EXTRACTION_MODEL="us.amazon.nova-2-lite-v1:0"
-```
-
-Or use any other Nova 2 model:
-
-```bash
-export EXTRACTION_MODEL="us.amazon.nova-2-pro-v1:0"
-export EXTRACTION_MODEL="amazon.nova-2-micro-v1:0"
-```
-
-### Python Code
+To use Nova 2 multimodal embeddings, you must explicitly import and instantiate the class:
 
 ```python
-from graphrag_toolkit.lexical_graph.config import GraphRAGConfig
+from graphrag_toolkit.lexical_graph import GraphRAGConfig
+from graphrag_toolkit.lexical_graph.utils.bedrock_utils import Nova2MultimodalEmbedding
 
-# Configure to use Nova 2 Lite
-config = GraphRAGConfig()
-config.extraction_llm = "us.amazon.nova-2-lite-v1:0"
-
-# The config will automatically use DirectBedrockLLM for Nova 2 models
-# and BedrockConverse for other models
+GraphRAGConfig.embed_model = Nova2MultimodalEmbedding('amazon.nova-2-multimodal-embeddings-v1:0')
+GraphRAGConfig.embed_dimensions = 3072
 ```
 
-### Argo Workflows
+### Advanced Configuration
 
-In workflow templates, specify the Nova 2 model:
+```python
+from graphrag_toolkit.lexical_graph import GraphRAGConfig
+from graphrag_toolkit.lexical_graph.utils.bedrock_utils import Nova2MultimodalEmbedding
 
-```yaml
-env:
-  - name: EXTRACTION_MODEL
-    value: "us.amazon.nova-2-lite-v1:0"
-  - name: EMBEDDINGS_MODEL
-    value: "cohere.embed-english-v3"
+embedding = Nova2MultimodalEmbedding(
+    model_name='amazon.nova-2-multimodal-embeddings-v1:0',
+    embed_dimensions=3072,
+    embed_purpose='TEXT_RETRIEVAL',
+    truncation_mode='END'
+)
+
+GraphRAGConfig.embed_model = embedding
+GraphRAGConfig.embed_dimensions = 3072
 ```
 
 ## IAM Permissions

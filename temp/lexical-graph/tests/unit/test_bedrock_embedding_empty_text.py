@@ -35,7 +35,7 @@ class TestBugConditionExploration:
     @pytest.fixture
     def embedding_instance(self):
         """Create a Nova2MultimodalEmbedding instance with mocked client."""
-        from graphrag_toolkit.lexical_graph.bedrock_embedding import Nova2MultimodalEmbedding
+        from graphrag_toolkit.lexical_graph.utils.bedrock_utils import Nova2MultimodalEmbedding
         
         with patch.object(Nova2MultimodalEmbedding, 'client', new_callable=lambda: MagicMock()):
             instance = Nova2MultimodalEmbedding(
@@ -117,7 +117,7 @@ class TestPreservationProperty:
     @pytest.fixture
     def embedding_with_mock_client(self):
         """Create embedding instance with fully mocked Bedrock client."""
-        from graphrag_toolkit.lexical_graph.bedrock_embedding import Nova2MultimodalEmbedding
+        from graphrag_toolkit.lexical_graph.utils.bedrock_utils import Nova2MultimodalEmbedding
         
         mock_client = MagicMock()
         # Mock successful response
@@ -127,7 +127,7 @@ class TestPreservationProperty:
         ))
         mock_client.invoke_model.return_value = mock_response
         
-        with patch('graphrag_toolkit.lexical_graph.bedrock_embedding.Nova2MultimodalEmbedding.client', 
+        with patch('graphrag_toolkit.lexical_graph.utils.bedrock_utils.Nova2MultimodalEmbedding.client', 
                    new_callable=lambda: mock_client):
             instance = Nova2MultimodalEmbedding(
                 model_name="amazon.nova-embed-multimodal-v2:0",

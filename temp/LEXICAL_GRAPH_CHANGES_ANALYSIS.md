@@ -11,8 +11,8 @@ This document provides a comprehensive technical analysis of all code changes be
 
 ## Change Statistics
 
-- **New Files**: 2 core implementations + test files
-- **Modified Files**: 1 configuration file (config.py)
+- **New Files**: 1 core implementation + 1 streaming reader + test files
+- **Modified Files**: 2 configuration files (config.py, bedrock_utils.py)
 - **Backwards Compatibility**: ✅ No breaking changes
 - **Test Coverage**: New unit tests added
 - **Documentation**: 5 new documentation files
@@ -22,8 +22,8 @@ This document provides a comprehensive technical analysis of all code changes be
 ## 🆕 NEW FILES ADDED
 
 ### 1. Nova 2 Multimodal Embedding Implementation
-**File**: `src/graphrag_toolkit/lexical_graph/bedrock_embedding.py`  
-**Lines of Code**: 247 lines  
+**File**: `src/graphrag_toolkit/lexical_graph/utils/bedrock_utils.py`  
+**Lines of Code**: 247 lines added to existing file  
 **Purpose**: Custom Bedrock embedding wrapper for Nova 2 multimodal embeddings
 
 #### Technical Implementation Details:
@@ -640,8 +640,8 @@ def test_strict_mode_error_handling():
 - **Zero downtime**: All changes are additive, not replacements
 
 ### Files Modified
-- **New**: 2 implementation files + test files + documentation
-- **Modified**: 1 configuration file (config.py)
+- **New**: 1 implementation file (streaming reader) + test files + documentation
+- **Modified**: 2 files (config.py, bedrock_utils.py)
 - **Affected**: ~9 files updated to use configurable output directories
 
 **Recommendation**: These changes can be safely integrated as they maintain full backwards compatibility while adding significant new capabilities for Nova 2 models, container deployments, and large-scale data processing.
