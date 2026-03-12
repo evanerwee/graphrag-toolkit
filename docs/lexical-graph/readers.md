@@ -198,6 +198,29 @@ reader = YouTubeReaderProvider(config)
 docs = reader.read('https://www.youtube.com/watch?v=VIDEO_ID')
 ```
 
+#### Proxy Support
+
+For environments requiring HTTP/HTTPS proxies (corporate networks, containerized deployments):
+
+```python
+# Option 1: Configure via YouTubeReaderConfig
+config = YouTubeReaderConfig(
+    language="en",
+    proxy_url="http://proxy.example.com:8080",  # HTTP/HTTPS proxy
+    metadata_fn=lambda url: {'source': 'youtube', 'url': url}
+)
+reader = YouTubeReaderProvider(config)
+docs = reader.read('https://www.youtube.com/watch?v=VIDEO_ID')
+
+# Option 2: Configure via environment variable
+# export YOUTUBE_PROXY_URL=http://proxy.example.com:8080
+config = YouTubeReaderConfig(language="en")
+reader = YouTubeReaderProvider(config)  # Automatically uses YOUTUBE_PROXY_URL
+docs = reader.read('https://www.youtube.com/watch?v=VIDEO_ID')
+```
+
+The proxy URL should be in the format `http://proxy.example.com:port` or `https://proxy.example.com:port`. The same proxy is used for both HTTP and HTTPS requests.
+
 ### Structured Data Reader (CSV/Excel)
 ```python
 from graphrag_toolkit.lexical_graph.indexing.load.readers import StructuredDataReaderProvider, StructuredDataReaderConfig
