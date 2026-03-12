@@ -118,6 +118,76 @@ GraphRAGConfig.embed_model = '{"model_name": "amazon.titan-embed-text-v2:0"}'
 GraphRAGConfig.embed_dimensions = 512
 ```
 
+##### Nova 2 Multimodal Embeddings
+
+Amazon Nova 2 multimodal embedding models (`amazon.nova-2-multimodal-embeddings-v1:0`) use a different API format than standard Bedrock embedding models. To use Nova 2 models, you must explicitly import and instantiate the `Nova2MultimodalEmbedding` class.
+
+**Usage:**
+
+```python
+from graphrag_toolkit.lexical_graph import GraphRAGConfig
+from graphrag_toolkit.lexical_graph.utils.bedrock_utils import Nova2MultimodalEmbedding
+
+GraphRAGConfig.embed_model = Nova2MultimodalEmbedding('amazon.nova-2-multimodal-embeddings-v1:0')
+GraphRAGConfig.embed_dimensions = 3072
+```
+
+**API Format Differences:**
+
+Standard Bedrock embeddings (Titan, Cohere) use:
+```json
+{"inputText": "text to embed"}
+```
+
+Nova 2 multimodal embeddings require:
+```json
+{
+  "taskType": "SINGLE_EMBEDDING",
+  "singleEmbeddingParams": {
+    "embeddingDimension": 3072,
+    "embeddingPurpose": "TEXT_RETRIEVAL",
+    "text": {
+      "truncationMode": "END",
+      "value": "text to embed"
+    }
+  }
+}
+```
+
+**Configuration Parameters:**
+
+| Parameter | Description | Default | Valid Values |
+| --------- | ----------- | ------- | ------------ |
+| `embed_dimensions` | Vector dimensions | `3072` | `1024`, `3072` |
+| `embed_purpose` | Embedding optimization purpose | `TEXT_RETRIEVAL` | `TEXT_RETRIEVAL`, `GENERIC_RETRIEVAL`, `DOCUMENT_RETRIEVAL`, `CLASSIFICATION`, `CLUSTERING` |
+| `truncation_mode` | How to handle text exceeding max length | `END` | `END`, `NONE` |
+
+**Advanced Configuration:**
+
+To configure Nova 2 multimodal embeddings with custom parameters:
+
+```python
+from graphrag_toolkit.lexical_graph import GraphRAGConfig
+from graphrag_toolkit.lexical_graph.utils.bedrock_utils import Nova2MultimodalEmbedding
+
+embedding = Nova2MultimodalEmbedding(
+    model_name='amazon.nova-2-multimodal-embeddings-v1:0',
+    embed_dimensions=3072,
+    embed_purpose='TEXT_RETRIEVAL',
+    truncation_mode='END'
+)
+
+GraphRAGConfig.embed_model = embedding
+GraphRAGConfig.embed_dimensions = 3072
+```
+
+**Features:**
+- Handles Nova 2's unique API format automatically
+- Includes retry logic for transient Bedrock errors
+- Custom pickle support for multiprocessing scenarios
+- Lazy client initialization using GraphRAGConfig.session
+- Empty text validation to prevent API errors
+
 #### Batch writes
 
 The lexical-graph uses microbatching to progress source data through the extract and build stages.
