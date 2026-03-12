@@ -70,6 +70,13 @@ The following parameter applies only when using Amazon OpenSearch Serverless as 
 | ------------- | ------------- | ------------- | ------------- |
 | `opensearch_engine` | OpenSearch kNN engine | `nmslib` | `OPENSEARCH_ENGINE` |
 
+The following parameters configure local filesystem paths for container/EKS deployments:
+
+| Parameter | Description | Default | Environment Variable |
+| ------------- | ------------- | ------------- | ------------- |
+| `local_output_dir` | Local staging directory for batch files and temporary extraction outputs | `output` | `LOCAL_OUTPUT_DIR` |
+| `log_output_dir` | Directory prefix for log files (when filename is relative) | *None* | `LOG_OUTPUT_DIR` |
+
 To set a configuration parameter in your application code:
 
 ```python
