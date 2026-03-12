@@ -26,3 +26,5 @@ __pycache__/
 
 # kiro config
 .config.kiro
+/temp/
+/temp/
