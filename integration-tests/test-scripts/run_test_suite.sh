@@ -52,10 +52,10 @@ if [[ "$DO_SETUP" = true ]]; then
     if [[ "$BYOKG_RAG_INSTALL_URI" ]]; then
         echo "Installing byokg_rag from $BYOKG_RAG_INSTALL_URI"
         pip install $BYOKG_RAG_INSTALL_URI
-    else
-        echo "Installing byokg_rag from local install"
-        pip install -r graphrag_toolkit/byokg_rag/requirements.txt
     fi
+
+    echo "Installing byokg_rag dependencies"
+    pip install -r graphrag_toolkit/byokg_rag/requirements.txt
 
     if [[ "$LEXICAL_GRAPH_INSTALL_URI" ]]; then
         echo "Installing lexical graph from $LEXICAL_GRAPH_INSTALL_URI"
