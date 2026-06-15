@@ -93,7 +93,7 @@
       "Default": ""
     },
     "ExistingSubnetIds": {
-      "Description": "Optional comma-separated list of existing subnet IDs (minimum 2, spanning at least 2 AZs). If provided, ExistingVpcId must also be provided. Leave empty to create new subnets.",
+      "Description": "Optional comma-separated list of existing subnet IDs (minimum 2, spanning at least 2 AZs). The first subnet must have outbound internet access (e.g. public subnet with IGW or private subnet with NAT) as it is used for the SageMaker notebook. If provided, ExistingVpcId must also be provided. Leave empty to create new subnets.",
       "Type": "CommaDelimitedList",
       "Default": ""
     }
