@@ -4,7 +4,6 @@ import os
 import unittest
 from contextlib import nullcontext
 from typing import Dict, Any, Optional
-<<<<<<< HEAD
 import logging
 
 from graphrag_toolkit_tests.integration_test_base import IntegrationTestBase
@@ -13,24 +12,14 @@ from graphrag_toolkit_tests.benchmark_utils.s3_utils import sync_benchmark_data_
 
 from graphrag_toolkit.lexical_graph import LexicalGraphIndex
 from graphrag_toolkit.lexical_graph import GraphRAGConfig
-=======
-
-from graphrag_toolkit_tests.integration_test_base import IntegrationTestBase
-from graphrag_toolkit_tests.integration_test_handler import IntegrationTestHandler
-
-from graphrag_toolkit.lexical_graph import LexicalGraphIndex
->>>>>>> main
 from graphrag_toolkit.lexical_graph.storage import GraphStoreFactory
 from graphrag_toolkit.lexical_graph.storage import VectorStoreFactory
 from graphrag_toolkit.lexical_graph.storage.graph import NonRedactedGraphQueryLogFormatting
 from graphrag_toolkit.lexical_graph.indexing.load import FileBasedDocs
 
-<<<<<<< HEAD
 logger = logging.getLogger(__name__)
 
 
-=======
->>>>>>> main
 DATASET_CONFIG = {
     'cuad-prototype': {
         'num_docs': 2,
@@ -45,7 +34,6 @@ DATASET_CONFIG = {
     },
     'concurrentqa': {
         'num_docs': 13501,
-<<<<<<< HEAD
         'extracted_dir': 'extracted',
         'collection_id': '20260513-174224',
     },
@@ -55,17 +43,12 @@ DATASET_CONFIG = {
     },
     'wikihow': {
         'num_docs': 5000,
-=======
->>>>>>> main
     },
 }
 
 BENCHMARK_DATA_DIR = 'source-data'
 
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 def run_benchmark_build(handler: IntegrationTestHandler, 
                         dataset: str, 
                         data_dir: str,
@@ -87,7 +70,6 @@ def run_benchmark_build(handler: IntegrationTestHandler,
             'neptune-graph://<graph-id>').
         vector_store_conn: Optional vector store connection string (e.g. 'aoss://...').
     """
-<<<<<<< HEAD
     sync_benchmark_data_from_s3(dataset, data_dir)
 
     config = DATASET_CONFIG.get(dataset, {})
@@ -103,16 +85,6 @@ def run_benchmark_build(handler: IntegrationTestHandler,
     docs = FileBasedDocs(
         docs_directory=docs_directory,
         collection_id=collection_id
-=======
-    config = DATASET_CONFIG.get(dataset, {})
-
-    extracted_subdir = config.get('extracted_dir', 'extracted')
-    docs_directory = os.path.join(data_dir, dataset, extracted_subdir)
-
-    docs = FileBasedDocs(
-        docs_directory=docs_directory,
-        collection_id=dataset
->>>>>>> main
     )
 
     graph_ctx = GraphStoreFactory.for_graph_store(
@@ -165,7 +137,6 @@ class CuadBenchmarkBuild(IntegrationTestBase):
             dataset_name = 'cuad'
 
         run_benchmark_build(handler, dataset_name, BENCHMARK_DATA_DIR, graph_store_conn, vector_store_conn)
-<<<<<<< HEAD
 
 
 class ConcurrentQaBenchmarkBuild(IntegrationTestBase):
@@ -210,5 +181,3 @@ class PgaBenchmarkBuild(IntegrationTestBase):
         vector_store_conn = os.environ.get('VECTOR_STORE')
 
         run_benchmark_build(handler, 'pga', BENCHMARK_DATA_DIR, graph_store_conn, vector_store_conn)
-=======
->>>>>>> main
