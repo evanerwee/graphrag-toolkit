@@ -1,0 +1,82 @@
+# Runs codeproperty-graph unit tests on push/PR to main.
+name: Code Property Graph Unit Tests
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "codeproperty-graph/**"
+      - ".github/workflows/codeproperty-graph-tests.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "codeproperty-graph/**"
+      - ".github/workflows/codeproperty-graph-tests.yml"
+
+jobs:
+  license-header-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check license headers
+        run: |
+          MISSING=0
+          HEADER_LINE1="# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved."
+          HEADER_LINE2="# SPDX-License-Identifier: Apache-2.0"
+          while IFS= read -r -d '' file; do
+            HEAD=$(head -5 "$file")
+            if ! echo "$HEAD" | grep -qF "$HEADER_LINE1" || \
+               ! echo "$HEAD" | grep -qF "$HEADER_LINE2"; then
+              echo "MISSING: $file"
+              MISSING=$((MISSING + 1))
+            fi
+          done < <(find codeproperty-graph/src -name '*.py' -print0)
+          if [ "$MISSING" -gt 0 ]; then
+            echo ""
+            echo "ERROR: $MISSING file(s) missing the license header."
+            exit 1
+          fi
+          echo "All .py files have the required license header."
+
+  test:
+    needs: license-header-check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    defaults:
+      run:
+        working-directory: codeproperty-graph
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Create virtual environment
+        run: uv venv .venv
+
+      - name: Install dependencies
+        run: |
+          uv pip install --python .venv/bin/python \
+            -e ".[dev]"
+
+      - name: Run tests
+        run: |
+          PYTHONPATH=src .venv/bin/python -m pytest \
+            -v --tb=short --maxfail=3 \
+            tests/

@@ -201,4 +201,5 @@ pytest tests/ -q  # 59 tests
 
 ## License
 
-Copyright © 2024-2026 Evan Erwee. All rights reserved.
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0

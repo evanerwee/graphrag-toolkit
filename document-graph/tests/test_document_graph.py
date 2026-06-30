@@ -1,9 +1,9 @@
 """Tests for document-graph v3."""
 
 import pytest
-from document_graph import NodeModel, EdgeModel, Node, Edge
-from document_graph.graph_build import node_to_cypher, edge_to_cypher, batch_nodes_to_cypher
-from document_graph.query import DocumentGraphQueryEngine
+from graphrag_toolkit.document_graph import NodeModel, EdgeModel, Node, Edge
+from graphrag_toolkit.document_graph.graph_build import node_to_cypher, edge_to_cypher, batch_nodes_to_cypher
+from graphrag_toolkit.document_graph.query import DocumentGraphQueryEngine
 
 
 class TestModel:
@@ -100,28 +100,28 @@ import uuid
 from pathlib import Path
 from pydantic import ValidationError
 
-from document_graph.graph_build import node_to_cypher, edge_to_cypher, batch_nodes_to_cypher
-from document_graph.schema.providers.schema_provider_config import SchemaProviderConfig
-from document_graph.schema.providers.csv_schema_provider import CSVSchemaProvider
-from document_graph.schema.providers.json_schema_provider import JSONSchemaProvider
-from document_graph.schema.static_schema_provider import StaticSchemaProvider
-from document_graph.schema.providers.schema_provider_factory import SchemaProviderFactory
-from document_graph.schema.etl_schema_model import (
+from graphrag_toolkit.document_graph.graph_build import node_to_cypher, edge_to_cypher, batch_nodes_to_cypher
+from graphrag_toolkit.document_graph.schema.providers.schema_provider_config import SchemaProviderConfig
+from graphrag_toolkit.document_graph.schema.providers.csv_schema_provider import CSVSchemaProvider
+from graphrag_toolkit.document_graph.schema.providers.json_schema_provider import JSONSchemaProvider
+from graphrag_toolkit.document_graph.schema.static_schema_provider import StaticSchemaProvider
+from graphrag_toolkit.document_graph.schema.providers.schema_provider_factory import SchemaProviderFactory
+from graphrag_toolkit.document_graph.schema.etl_schema_model import (
     ETLSchema, ExtractConfig, TransformConfig, LoadConfig,
     ChunkingConfig, NormalizeConfig, EntityExtractionConfig,
     MetadataMapping, NodeDefinition, RelationshipDefinition,
 )
-from document_graph.transform.transformer_provider_config import TransformerProviderConfig
-from document_graph.transform.normalizers.normalize_whitespace_provider import NormalizeWhitespaceProvider
-from document_graph.transform.normalizers.normalize_nulls_provider import NormalizeNullsProvider
-from document_graph.transform.normalizers.normalize_case_provider import NormalizeCaseProvider
-from document_graph.transform.field_transformers.json_flattener import JSONFlattenerProvider
-from document_graph.transform.field_transformers.uuid_generator import UuidGeneratorTransformer
-from document_graph.transform.graph_transformers.row_to_node import RowToNodeTransformer
-from document_graph.transform.graph_transformers.infer_edges import EdgeInferencer
-from document_graph.transform.filter_transformers.row_filter import RowFilterProvider
-from document_graph.transform.truncators.length_truncator import LengthTruncator
-from document_graph.schema.discovery.csv_discovery_provider import CSVSchemaDiscoveryProvider
+from graphrag_toolkit.document_graph.transform.transformer_provider_config import TransformerProviderConfig
+from graphrag_toolkit.document_graph.transform.normalizers.normalize_whitespace_provider import NormalizeWhitespaceProvider
+from graphrag_toolkit.document_graph.transform.normalizers.normalize_nulls_provider import NormalizeNullsProvider
+from graphrag_toolkit.document_graph.transform.normalizers.normalize_case_provider import NormalizeCaseProvider
+from graphrag_toolkit.document_graph.transform.field_transformers.json_flattener import JSONFlattenerProvider
+from graphrag_toolkit.document_graph.transform.field_transformers.uuid_generator import UuidGeneratorTransformer
+from graphrag_toolkit.document_graph.transform.graph_transformers.row_to_node import RowToNodeTransformer
+from graphrag_toolkit.document_graph.transform.graph_transformers.infer_edges import EdgeInferencer
+from graphrag_toolkit.document_graph.transform.filter_transformers.row_filter import RowFilterProvider
+from graphrag_toolkit.document_graph.transform.truncators.length_truncator import LengthTruncator
+from graphrag_toolkit.document_graph.schema.discovery.csv_discovery_provider import CSVSchemaDiscoveryProvider
 
 
 # ─── Fixtures ────────────────────────────────────────────────────────────────

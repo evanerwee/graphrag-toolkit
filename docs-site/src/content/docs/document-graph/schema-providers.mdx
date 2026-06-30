@@ -1,0 +1,93 @@
+---
+title: Schema Providers
+---
+
+Schema providers discover or load the schema definition that drives document-graph's pipeline. The schema defines what nodes and edges to create from your source data.
+
+## Provider Types
+
+| Provider | Source | Use Case |
+|----------|--------|----------|
+| CSV | `.csv` file headers | Quick start with tabular data |
+| JSON | `.json` structure | Nested document ingestion |
+| Parquet | `.parquet` column metadata | Data lake integration |
+| Excel | `.xlsx` sheet structure | Spreadsheet-based workflows |
+| YAML | `.yaml` schema definition | Declarative schema-first approach |
+| XML | `.xml` document structure | Legacy data integration |
+| Glue | AWS Glue Data Catalog | Enterprise data catalog integration |
+| S3 | Schema file on S3 | Remote schema storage |
+| File | Local file system | Development and testing |
+| Static | Programmatic definition | Code-first schema declaration |
+
+## Schema Discovery
+
+For tabular sources (CSV, Parquet, Excel), document-graph can **discover** the schema automatically from the data:
+
+```python
+from graphrag_toolkit.document_graph.schema.providers import SchemaProviderFactory
+
+provider = SchemaProviderFactory.create("csv", path="data/accounts.csv")
+schema = provider.discover()
+# Returns an ETLSchema with inferred node types, properties, and relationships
+```
+
+## Declarative Schema
+
+For production use, declare your schema explicitly:
+
+```json
+{
+  "extract": {
+    "source": "data/accounts.csv",
+    "format": "csv"
+  },
+  "transform": {
+    "nodes": [
+      {
+        "label": "Account",
+        "id_field": "account_id",
+        "properties": ["name", "type", "created_date"]
+      },
+      {
+        "label": "Owner",
+        "id_field": "owner_id",
+        "properties": ["owner_name", "email"]
+      }
+    ],
+    "relationships": [
+      {
+        "type": "OWNED_BY",
+        "source": "Account",
+        "target": "Owner",
+        "source_field": "owner_id",
+        "target_field": "owner_id"
+      }
+    ]
+  }
+}
+```
+
+## Static Schema Provider
+
+For maximum control, define schemas programmatically:
+
+```python
+from graphrag_toolkit.document_graph.schema.static_schema_provider import StaticSchemaProvider
+from graphrag_toolkit.document_graph.schema.etl_schema_model import (
+    ETLSchema, ExtractConfig, TransformConfig, NodeDefinition, RelationshipDefinition
+)
+
+schema = ETLSchema(
+    extract=ExtractConfig(source="data/accounts.csv", format="csv"),
+    transform=TransformConfig(
+        nodes=[
+            NodeDefinition(label="Account", id_field="account_id", properties=["name", "type"]),
+        ],
+        relationships=[
+            RelationshipDefinition(type="OWNED_BY", source="Account", target="Owner"),
+        ]
+    )
+)
+
+provider = StaticSchemaProvider(schema)
+```

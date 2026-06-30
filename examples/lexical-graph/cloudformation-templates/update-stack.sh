@@ -7,10 +7,10 @@
 # Configuration variables
 STACK_NAME="AWS-GraphRAG-01"  # Replace with your stack name
 TEMPLATE_FILE="graphrag-toolkit-neptune-db-aurora-postgres-existing-vpc.json"  # Path to your updated template file
-S3_BUCKET_ARN="arn:aws:s3:::ccms-rag-extract-188967239867"  # Replace with your S3 bucket ARN
+S3_BUCKET_ARN="arn:aws:s3:::<your-s3-bucket-name>"  # Replace with your S3 bucket ARN
 REGION="us-east-1"  # Replace with your AWS region
 PARAMETERS_FILE="parameters.json"  # Temporary parameters file
-AWS_PROFILE="master"  # Will be set if --profile is provided
+AWS_PROFILE=""  # Will be set if --profile is provided
 
 # Parse command-line arguments
 while [[ "$#" -gt 0 ]]; do

@@ -1,0 +1,68 @@
+---
+title: Hybrid Graph
+---
+
+document-graph and lexical-graph can share a single Neptune cluster, creating a **hybrid graph** that combines structured records with unstructured text entities in a unified queryable knowledge graph.
+
+## Architecture
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                    Amazon Neptune                          │
+├──────────────────────┬───────────────────────────────────┤
+│  lexical-graph       │  document-graph                    │
+│  (unstructured)      │  (structured)                     │
+│                      │                                    │
+│  Document ──→ Chunk  │  CSV Row ──→ Person               │
+│  Chunk ──→ Entity    │  Person ──→ Organization          │
+│  Entity ──→ Entity   │  Organization ──→ Location        │
+├──────────────────────┴───────────────────────────────────┤
+│  Shared edges (hybrid path)                               │
+│  Entity ←──→ Person (same real-world entity)             │
+└──────────────────────────────────────────────────────────┘
+```
+
+## Tenant Compatibility
+
+Both packages use the same tenant label format. document-graph imports lexical-graph's `TenantId.format_label()` when the `[graphrag]` extra is installed:
+
+```python
+# Both produce identical label format:
+# Default tenant: `Person`
+# Custom tenant:  `Personacme__`
+
+# This means nodes from both packages coexist cleanly
+# and can be queried across in a single Cypher traversal.
+```
+
+## Setup
+
+```bash
+# Install both packages:
+pip install graphrag-toolkit-lexical-graph
+pip install graphrag-toolkit-document-graph[graphrag]
+```
+
+## Building a Hybrid Graph
+
+1. **Index unstructured content** with lexical-graph (documents, PDFs)
+2. **Ingest structured data** with document-graph (CSV, JSON, databases)
+3. **Link entities** across both graphs using shared identifiers or entity resolution
+
+See the example notebooks:
+- `07a-Lexical-Integration-Data-Processing.ipynb`
+- `07b-Lexical-Integration-Lexical-Setup.ipynb`
+- `08a-Nelson-Mandela-Hybrid-Build.ipynb`
+- `08b-Nelson-Mandela-Hybrid-Query.ipynb`
+
+## Multi-Tenant Coexistence
+
+Multiple tenants can share a single Neptune cluster. Both document-graph and lexical-graph scope their labels identically, so tenant isolation works across both graph types:
+
+```python
+# Tenant "research" sees only its own nodes from both packages:
+# lexical-graph:   `Chunkresearch__`, `Entityresearch__`
+# document-graph:  `Personresearch__`, `Organizationresearch__`
+```
+
+See `09-Multi-Tenant-Coexistence-Demo.ipynb` for a working example.

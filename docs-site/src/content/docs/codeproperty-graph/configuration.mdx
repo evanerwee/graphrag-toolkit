@@ -1,0 +1,140 @@
+---
+title: Configuration
+---
+
+## Installation
+
+```bash
+pip install codeproperty-graph
+```
+
+## Dependencies
+
+codeproperty-graph depends on document-graph for typed graph primitives and optionally on lexical-graph for the graph store:
+
+| Package | Purpose |
+|---------|---------|
+| `document-graph` | CPGNode/CPGEdge → Node/Edge mapping, batch Cypher |
+| `graphrag-toolkit-lexical-graph` (optional) | GraphStore, Neptune connection |
+| `boto3` | S3 manifest storage |
+
+## S3 Configuration
+
+The ManifestManager stores and retrieves manifests from S3:
+
+```python
+from codeproperty_graph import DeltaIngestor
+
+# Manifests stored at: s3://{bucket}/cpg-manifests/{repo}/manifest.json
+ingestor = DeltaIngestor(bucket="my-artifacts-bucket")
+```
+
+Required IAM permissions:
+- `s3:GetObject` on `cpg-manifests/*`
+- `s3:PutObject` on `cpg-manifests/*`
+
+## Neptune Configuration
+
+Uses the same GraphStore as document-graph and lexical-graph:
+
+```python
+from graphrag_toolkit.lexical_graph import GraphStoreFactory
+
+graph_store = GraphStoreFactory.for_graph_store(
+    "neptune-analytics://my-graph-id"
+)
+```
+
+## Tenant ID Format
+
+Tenant IDs must match lexical-graph's TenantId validation:
+- 1–25 characters
+- Lowercase letters, numbers, periods (not at start/end)
+
+```python
+# Good:
+tenant_id = "abc12345678901234567890"
+tenant_id = "build.123"
+
+# Bad:
+tenant_id = "ABC"           # uppercase
+tenant_id = ".leading-dot"  # starts with period
+tenant_id = "way-too-long-tenant-id-string-exceeds-limit"  # >25 chars
+```
+
+## Joern Export Format
+
+codeproperty-graph expects Joern's JSON export format:
+
+### Generating the Export
+
+```bash
+# Install Joern: https://joern.io/docs/installation/
+# Supports: Java, JavaScript/TypeScript, Python, C/C++, Go, PHP, Ruby, Kotlin, Swift
+
+# Export CPG as JSON (auto-detects language)
+joern-export --repr cpg14 --format json --out cpg-export/ /path/to/source
+
+# Or specify language explicitly
+joern-export --repr cpg14 --format json --out cpg-export/ --language java /path/to/source
+
+# Output:
+#   cpg-export/nodes.json  (all 20 node types)
+#   cpg-export/edges.json  (all edge types: AST, CFG, CDG, CALL, etc.)
+```
+
+### Programmatic Export Command
+
+```python
+from graphrag_toolkit.codeproperty_graph import joern_export_command
+
+cmd = joern_export_command("/src/my-service", output_dir="cpg-out", language="java")
+print(cmd)
+# joern-export --repr cpg14 --format json --out cpg-out --language java /src/my-service
+```
+
+### Node Format (nodes.json)
+
+```json
+[
+  {
+    "id": "1234",
+    "label": "METHOD",
+    "properties": {
+      "FULL_NAME": "com.example.Main.main",
+      "SIGNATURE": "void(String[])",
+      "HASH": "abc123def456",
+      "FILENAME": "src/Main.java",
+      "LINE_NUMBER": 10,
+      "LINE_NUMBER_END": 25,
+      "CODE": "public static void main(String[] args) {...}",
+      "IS_EXTERNAL": false
+    }
+  }
+]
+```
+
+### Edge Format (edges.json)
+
+```json
+[
+  {"src": "1234", "dst": "5678", "label": "AST", "properties": {"ORDER": 1}},
+  {"src": "1234", "dst": "9012", "label": "CFG", "properties": {}},
+  {"src": "1234", "dst": "3456", "label": "CALL", "properties": {}}
+]
+```
+
+### Parsing with from_joern()
+
+```python
+import json
+from graphrag_toolkit.codeproperty_graph import CPGNode, CPGEdge
+
+with open("cpg-export/nodes.json") as f:
+    nodes = [CPGNode.from_joern(raw) for raw in json.load(f)]
+
+with open("cpg-export/edges.json") as f:
+    edges = [CPGEdge.from_joern(raw) for raw in json.load(f)]
+
+print(f"Loaded {len(nodes)} nodes, {len(edges)} edges")
+```

@@ -26,6 +26,22 @@ The [lexical-graph](https://github.com/awslabs/graphrag-toolkit/tree/main/lexica
 
 [BYOKG-RAG](https://github.com/awslabs/graphrag-toolkit/tree/main/byokg-rag) is a novel approach to Knowledge Graph Question Answering (KGQA) that combines the power of Large Language Models (LLMs) with structured knowledge graphs. The system allows users to bring their own knowledge graph and perform complex question answering over it.
 
+### Document Graph
+
+[Document Graph](https://github.com/awslabs/graphrag-toolkit/tree/main/document-graph) provides structured data ingestion into Neptune — a second ingestion route that complements lexical-graph. It transforms CSV, JSON, Parquet, Excel, XML, and YAML into typed property graphs with schema-driven construction, multi-tenancy, and batch-optimized Neptune writes.
+
+- **Domain Graph** in the [GraphRAG taxonomy](https://graphrag.com/) — schema-first, typed nodes, deterministic construction
+- Shares tenant format with lexical-graph — both coexist in the same Neptune cluster
+- Hybrid queries span structured (document-graph) and semantic (lexical-graph) layers
+
+### Code Property Graph
+
+[Code Property Graph](https://github.com/awslabs/graphrag-toolkit/tree/main/codeproperty-graph) provides delta-aware code analysis ingestion. It takes Joern CPG exports (20 node types, 14+ edge types, 9 languages) and writes them to Neptune with manifest-based change detection — skipping Neptune writes entirely when code hasn't changed.
+
+- Built on document-graph (DRY — ~200 lines of domain code, zero duplicated infrastructure)
+- Delta logic: compare method signatures between builds, skip if unchanged (zero-cost for no-change commits)
+- Full Joern schema support: Java, JavaScript/TypeScript, Python, C/C++, Go, PHP, Ruby, Kotlin, Swift
+
 ## Security
 
 See [CONTRIBUTING](https://github.com/awslabs/graphrag-toolkit/tree/main/CONTRIBUTING.md#security-issue-notifications) for more information.

@@ -97,6 +97,24 @@ export default defineConfig({
             { label: 'FAQ', slug: 'byokg-rag/faq' },
           ],
         },
+        {
+          label: 'Document Graph',
+          items: [
+            { label: 'Overview', slug: 'document-graph/overview' },
+            { label: 'Pipeline', slug: 'document-graph/pipeline' },
+            { label: 'Schema Providers', slug: 'document-graph/schema-providers' },
+            { label: 'Hybrid Graph', slug: 'document-graph/hybrid-graph' },
+            { label: 'Configuration', slug: 'document-graph/configuration' },
+          ],
+        },
+        {
+          label: 'Code Property Graph',
+          items: [
+            { label: 'Overview', slug: 'codeproperty-graph/overview' },
+            { label: 'Delta Ingestion', slug: 'codeproperty-graph/delta-ingestion' },
+            { label: 'Configuration', slug: 'codeproperty-graph/configuration' },
+          ],
+        },
       ],
     }),
   ],

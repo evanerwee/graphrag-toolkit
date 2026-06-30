@@ -1,0 +1,93 @@
+---
+title: Overview
+---
+
+The graphrag-toolkit [codeproperty-graph](https://github.com/awslabs/graphrag-toolkit/blob/main/codeproperty-graph/) library provides code-analysis-specific graph ingestion with delta detection. It sits on top of document-graph and lexical-graph, adding Joern-based code property graph (CPG) semantics, manifest-driven change detection, and incremental ingestion.
+
+- [Architecture](#architecture)
+- [Core concepts](#core-concepts)
+- [Delta logic](#delta-logic)
+- [Getting started](#getting-started)
+
+### Architecture
+
+codeproperty-graph is the top layer in the graphrag-toolkit stack for code analysis:
+
+```
+┌─────────────────────────────────────────────────────┐
+│            codeproperty-graph (domain)               │
+│  CPGNode, CPGEdge, GraphDiff, DeltaIngestor         │
+│  ManifestManager, tenant lifecycle                  │
+├─────────────────────────────────────────────────────┤
+│            document-graph (infra)                    │
+│  Node, Edge, batch_nodes_unwind, batch_edges_unwind │
+│  CypherBuilder, PipelineExecutor, multi-tenancy     │
+├─────────────────────────────────────────────────────┤
+│       graphrag-toolkit / lexical-graph (foundation)  │
+│  GraphStore, Neptune writer, AOSS writer            │
+│  Lexical indexing, entity resolution, retrieval     │
+└─────────────────────────────────────────────────────┘
+```
+
+### Core concepts
+
+**CPG Schema** — Complete Joern type system: 20 node types, 14+ edge types, multi-language support. See `schema.py` for enums and property specs.
+
+```
+Node Types (20):  METHOD, CALL, IDENTIFIER, LITERAL, BLOCK, COMMENT,
+                  FILE, LOCAL, MEMBER, META_DATA, METHOD_REF,
+                  METHOD_RETURN, MODIFIER, NAMESPACE, NAMESPACE_BLOCK,
+                  PARAMETER, RETURN, TAG, TYPE_DECL, TYPE
+
+Edge Types (14+): AST, CFG, CDG, REACHING_DEF, CALL, ARGUMENT,
+                  DOMINATE, POST_DOMINATE, CONTAINS, BINDS_TO,
+                  REF, INHERITS_FROM, CONDITION, TAGGED_BY
+
+Languages:        Java, JavaScript/TypeScript, Python, C/C++,
+                  Go, PHP, Ruby, Kotlin, Swift (via Joern frontends)
+```
+
+**CPG Models** — Typed representations with `from_joern()` factory methods that parse Joern's JSON export format directly. All 20 node types flow through — the model is schema-flexible.
+
+**GraphDiff** — Compare two CPG states by method signature (`full_name → hash`). Returns adds, removes, modifications, and unchanged counts.
+
+**ManifestManager** — S3-backed state tracking per repository. Stores the method signature fingerprint so subsequent exports can be compared.
+
+**DeltaIngestor** — Orchestrates the skip-or-replace decision: if the CPG hasn't changed, skip Neptune writes entirely. If changed, ingest the full graph under a new tenant and purge the old one.
+
+**Tenant lifecycle** — Clean tenant management with `delete_tenant()` for atomic graph replacement.
+
+### Delta logic
+
+```
+1. Joern exports CPG → nodes.json + edges.json
+2. Extract METHOD node signatures: {full_name: hash}
+3. Compare against previous manifest in S3
+4. If identical → SKIP (no Neptune writes, no cost)
+5. If changed → INGEST full graph under new tenant,
+                 purge old tenant, update manifest
+```
+
+This ensures Neptune only receives writes when code actually changes — critical for CI/CD pipelines that run on every commit.
+
+### Getting started
+
+```bash
+pip install codeproperty-graph
+```
+
+```python
+from codeproperty_graph import DeltaIngestor
+
+ingestor = DeltaIngestor(bucket="my-artifacts-bucket")
+result = await ingestor.ingest(
+    repo="my-service",
+    job_id="build-123",
+    tenant_id="abc123",
+    nodes_data=nodes,
+    edges_data=edges,
+    graph_store=neptune,
+    write_fn=my_write_function,
+)
+print(result["status"])  # "SKIPPED" or "INGESTED"
+```

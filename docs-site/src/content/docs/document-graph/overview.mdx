@@ -1,0 +1,65 @@
+---
+title: Overview
+---
+
+The graphrag-toolkit [document-graph](https://github.com/awslabs/graphrag-toolkit/blob/main/document-graph/) library provides a structured data ingestion route into Neptune that complements lexical-graph. While lexical-graph handles unstructured text (documents, PDFs, web pages), document-graph handles structured and semi-structured data (CSV, JSON, Parquet, Excel, XML, YAML) — transforming tabular and hierarchical records into typed property graphs.
+
+- [Architecture](#architecture)
+- [Relationship to lexical-graph](#relationship-to-lexical-graph)
+- [Core concepts](#core-concepts)
+- [Getting started](#getting-started)
+
+### Architecture
+
+document-graph is a second ingestion route into the same Neptune store, not a replacement for lexical-graph. It declares lexical-graph as an optional dependency, enabling hybrid graphs that combine structured records with unstructured text in a single queryable knowledge graph.
+
+```
+┌─────────────────┐     ┌─────────────────┐
+│  Unstructured   │     │   Structured    │
+│  (PDFs, docs)   │     │  (CSV, JSON)    │
+└────────┬────────┘     └────────┬────────┘
+         │                       │
+   lexical-graph          document-graph
+         │                       │
+         └───────────┬───────────┘
+                     │
+              Amazon Neptune
+              (shared graph)
+```
+
+### Relationship to lexical-graph
+
+| Concern | lexical-graph | document-graph |
+|---------|---------------|----------------|
+| Input data | Unstructured text | Structured/semi-structured records |
+| Schema | Inferred from extraction | Declared or discovered from source |
+| Graph construction | LLM-extracted entities + relationships | Schema-driven node/edge mapping |
+| Tenant model | `TenantId.format_label()` | Same (shared via optional import) |
+| Neptune target | Same cluster | Same cluster |
+| Install | `graphrag-toolkit-lexical-graph` | `graphrag-toolkit-document-graph` |
+
+### Core concepts
+
+**Pipeline:** Extract → Transform → Load → Build. Each stage is pluggable with provider registries.
+
+**Schema providers:** Discover or declare the schema of your source data (CSV headers, JSON keys, Parquet columns, Glue catalog).
+
+**Transformers:** Field-level (JSON flattening, UUID generation), document-level (chunking, PII redaction), and graph-level (row-to-node, edge inference).
+
+**Constructors:** Typed graph construction patterns — 1:N, N:M, schema-driven, batch-optimized with Neptune's native `~id` index.
+
+**Multi-tenancy:** Shared Neptune cluster with tenant-scoped labels, compatible with lexical-graph's tenant format.
+
+### Getting started
+
+```bash
+pip install graphrag-toolkit-document-graph
+```
+
+For hybrid graphs with lexical-graph:
+
+```bash
+pip install graphrag-toolkit-document-graph[graphrag]
+```
+
+See the [examples](https://github.com/awslabs/graphrag-toolkit/blob/main/examples/document-graph/) for notebooks demonstrating end-to-end pipelines.

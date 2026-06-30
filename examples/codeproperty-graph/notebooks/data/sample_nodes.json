@@ -1,0 +1,21 @@
+[
+  {"id": "1001", "label": "METHOD", "properties": {"FULL_NAME": "com.example.Main.main", "SIGNATURE": "void(String[])", "HASH": "a1b2c3d4e5", "FILENAME": "src/Main.java", "LINE_NUMBER": 5, "LINE_NUMBER_END": 12, "CODE": "public static void main(String[] args) { Parser.parse(args[0]); }", "IS_EXTERNAL": false}},
+  {"id": "1002", "label": "METHOD", "properties": {"FULL_NAME": "com.example.Parser.parse", "SIGNATURE": "Document(String)", "HASH": "f6g7h8i9j0", "FILENAME": "src/Parser.java", "LINE_NUMBER": 12, "LINE_NUMBER_END": 18, "CODE": "public Document parse(String input) { return new Document(input); }", "IS_EXTERNAL": false}},
+  {"id": "1003", "label": "METHOD", "properties": {"FULL_NAME": "com.example.Validator.validate", "SIGNATURE": "boolean(Document)", "HASH": "k1l2m3n4o5", "FILENAME": "src/Validator.java", "LINE_NUMBER": 8, "LINE_NUMBER_END": 11, "CODE": "public boolean validate(Document doc) { return doc != null; }", "IS_EXTERNAL": false}},
+  {"id": "2001", "label": "CALL", "properties": {"NAME": "parse", "FULL_NAME": "com.example.Parser.parse", "CODE": "Parser.parse(args[0])", "LINE_NUMBER": 6, "DISPATCH_TYPE": "STATIC_DISPATCH"}},
+  {"id": "2002", "label": "CALL", "properties": {"NAME": "validate", "FULL_NAME": "com.example.Validator.validate", "CODE": "validator.validate(doc)", "LINE_NUMBER": 7, "DISPATCH_TYPE": "DYNAMIC_DISPATCH"}},
+  {"id": "3001", "label": "IDENTIFIER", "properties": {"NAME": "args", "CODE": "args", "LINE_NUMBER": 6, "ORDER": 1}},
+  {"id": "3002", "label": "LITERAL", "properties": {"CODE": "0", "LINE_NUMBER": 6, "ORDER": 2}},
+  {"id": "3003", "label": "IDENTIFIER", "properties": {"NAME": "doc", "CODE": "doc", "LINE_NUMBER": 7, "ORDER": 1}},
+  {"id": "4001", "label": "TYPE_DECL", "properties": {"FULL_NAME": "com.example.Main", "NAME": "Main", "IS_EXTERNAL": false, "ORDER": 1}},
+  {"id": "4002", "label": "TYPE_DECL", "properties": {"FULL_NAME": "com.example.Parser", "NAME": "Parser", "IS_EXTERNAL": false, "ORDER": 2}},
+  {"id": "4003", "label": "TYPE_DECL", "properties": {"FULL_NAME": "com.example.Validator", "NAME": "Validator", "IS_EXTERNAL": false, "ORDER": 3}},
+  {"id": "5001", "label": "FILE", "properties": {"NAME": "src/Main.java", "ORDER": 1}},
+  {"id": "5002", "label": "FILE", "properties": {"NAME": "src/Parser.java", "ORDER": 2}},
+  {"id": "5003", "label": "FILE", "properties": {"NAME": "src/Validator.java", "ORDER": 3}},
+  {"id": "6001", "label": "PARAMETER", "properties": {"NAME": "args", "CODE": "String[] args", "LINE_NUMBER": 5, "ORDER": 1, "TYPE_FULL_NAME": "java.lang.String[]"}},
+  {"id": "6002", "label": "PARAMETER", "properties": {"NAME": "input", "CODE": "String input", "LINE_NUMBER": 12, "ORDER": 1, "TYPE_FULL_NAME": "java.lang.String"}},
+  {"id": "6003", "label": "PARAMETER", "properties": {"NAME": "doc", "CODE": "Document doc", "LINE_NUMBER": 8, "ORDER": 1, "TYPE_FULL_NAME": "com.example.Document"}},
+  {"id": "7001", "label": "NAMESPACE", "properties": {"NAME": "com.example", "ORDER": 1}},
+  {"id": "8001", "label": "META_DATA", "properties": {"LANGUAGE": "java", "VERSION": "1.0"}}
+]

@@ -1,0 +1,88 @@
+---
+title: Delta Ingestion
+---
+
+The delta ingestion pipeline avoids unnecessary Neptune writes by comparing method signatures between exports.
+
+## How It Works
+
+```
+Previous Manifest (S3)          Current Export (Joern)
+─────────────────────           ─────────────────────
+full_name → hash                full_name → hash
+main()    → abc123              main()    → abc123  (unchanged)
+parse()   → def456              parse()   → xyz789  (MODIFIED)
+validate()→ ghi012              -                   (REMOVED)
+-                               check()   → jkl345  (ADDED)
+```
+
+**GraphDiff** compares these two dictionaries and produces:
+
+```python
+DiffResult(
+    added={"check()": "jkl345"},
+    removed={"validate()": "ghi012"},
+    modified={"parse()": "xyz789"},
+    unchanged=1  # main()
+)
+```
+
+## Decision Logic
+
+```python
+if not diff.has_changes:
+    return {"status": "SKIPPED"}  # Zero Neptune cost
+else:
+    # Full graph replacement under new tenant
+    new_tenant = generate_tenant_id()
+    await write_graph(nodes, edges, tenant_id=new_tenant)
+    await delete_tenant(old_tenant, graph_store)
+    await update_manifest(repo, new_signatures, new_tenant)
+    return {"status": "INGESTED", "delta": diff.summary}
+```
+
+## Why Full Replacement?
+
+CPG edges depend on node positions in the AST. A single method body change can cascade through AST, CFG, and CDG edges. Rather than computing fine-grained edge diffs (expensive and error-prone), codeproperty-graph replaces the entire graph when any change is detected and relies on the skip optimization for unchanged code.
+
+This is safe because:
+- Tenant isolation means the new graph doesn't conflict with the old
+- Old tenant is purged atomically after new graph is confirmed
+- Manifest ensures the next run compares against the latest state
+
+## Manifest Structure
+
+```json
+{
+  "repo": "my-service",
+  "signature": "sha256:...",
+  "job_id": "build-123",
+  "tenant_id": "abc123",
+  "exported_at": "2026-06-30T07:00:00Z",
+  "nodes_path": "s3://bucket/cpg-exports/my-service/build-123/nodes.json",
+  "edges_path": "s3://bucket/cpg-exports/my-service/build-123/edges.json",
+  "method_signatures": {
+    "com.example.Main.main": "abc123def456",
+    "com.example.Parser.parse": "789xyz012abc"
+  }
+}
+```
+
+## CI/CD Integration
+
+In a typical pipeline:
+
+```yaml
+# GitHub Actions / CodePipeline step:
+- name: CPG Delta Ingest
+  run: |
+    joern-export --out nodes.json edges.json
+    python -c "
+    from codeproperty_graph import DeltaIngestor
+    ingestor = DeltaIngestor(bucket='$ARTIFACTS_BUCKET')
+    result = asyncio.run(ingestor.ingest(...))
+    print(result['status'])
+    "
+```
+
+On most commits (no code change to method bodies), this completes in <1 second with zero Neptune writes.

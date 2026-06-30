@@ -1,0 +1,78 @@
+---
+title: Pipeline
+---
+
+document-graph uses a four-stage pipeline to transform structured data into a typed property graph in Neptune.
+
+## Stages
+
+```
+Extract → Transform → Load → Build
+```
+
+### Extract
+
+Reads source data and produces a normalized DataFrame. Supports multiple formats via pluggable extract providers:
+
+| Provider | Input | Description |
+|----------|-------|-------------|
+| CSV | `.csv` files | Column-oriented tabular data |
+| JSON | `.json` files | Nested or flat JSON documents |
+| Parquet | `.parquet` files | Columnar binary format |
+| Excel | `.xlsx` files | Spreadsheet data |
+| CPG | Code property graph | Code analysis output (from codeproperty-graph) |
+
+### Transform
+
+Applies transformations to the extracted data. Transformers are composable and ordered:
+
+**Field transformers:** Operate on individual columns
+- JSON flattening, array expansion, regex cleaning
+- UUID generation, timestamp normalization
+- Comma splitting, enum standardization
+
+**Document transformers:** Operate on entire records
+- Text chunking, PII redaction, JSON-to-rows
+
+**Normalizers:** Data quality
+- Whitespace, null handling, case normalization, spelling
+
+**Filter transformers:** Row/column selection
+- Row filtering, column pruning
+
+**Graph transformers:** Structure mapping
+- Row-to-node conversion, edge inference
+
+### Load
+
+Writes the transformed data to the graph store. Uses batched UNWIND queries with Neptune's native `~id` for O(1) vertex lookups.
+
+### Build
+
+Constructs the typed property graph using constructors:
+
+| Constructor | Pattern | Description |
+|-------------|---------|-------------|
+| Node | 1:1 | One row → one node |
+| Edge | 1:1 | One relationship per matched pair |
+| Schema-driven | N/A | Graph structure from declared schema |
+| One-to-many | 1:N | One parent → N children |
+| Many-to-many | N:M | Junction table → edges |
+| Batch | Bulk | Optimized bulk write |
+| Deduplication | Merge | Merge duplicate nodes |
+
+## Configuration
+
+Pipelines are configured via schema files (JSON or YAML) or programmatically:
+
+```python
+from graphrag_toolkit.document_graph import PipelineExecutor
+
+executor = PipelineExecutor(
+    source_path="data/accounts.csv",
+    schema_path="schemas/accounts.json",
+    graph_store=graph_store,
+    tenant_id="my_tenant"
+)
+result = executor.run()
+```
